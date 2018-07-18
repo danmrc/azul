@@ -11,7 +11,6 @@ tags:
   - Monte Carlo
   - Tutoriais
 authors: []
-draft: true
 ---
 
 Simulações são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: mínimos quadrados é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las. Nos próximos posts, irei usar simulações frequentemente.
@@ -36,5 +35,23 @@ Aqui vai um passo a passo de como fazer simulações:
 
 #Um exemplo
 
-Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. 
+Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando `rnorm`, mas isso não é estritamente necessário. Eis o código:
 
+```{r}
+
+set.seed(985)
+
+bet <- rep(0,1000)
+
+for(i in 1:1000){
+  x <- rnorm(100)
+  y <- 2+x+rnorm(100)
+  modelo <- lm(y ~ x)
+  bet[i] <- coef(modelo)[2]
+}
+
+mean(bet)
+
+```
+
+Veja que a média foi bem próxima do valor verdadeiro do parâmetro. 

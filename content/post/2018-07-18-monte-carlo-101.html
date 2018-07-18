@@ -11,7 +11,6 @@ tags:
   - Monte Carlo
   - Tutoriais
 authors: []
-draft: true
 ---
 
 
@@ -30,5 +29,19 @@ draft: true
 </ul>
 <div id="um-exemplo" class="section level1">
 <h1>Um exemplo</h1>
-<p>Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método.</p>
+<p>Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando <code>rnorm</code>, mas isso não é estritamente necessário. Eis o código:</p>
+<pre class="r"><code>set.seed(985)
+
+bet &lt;- rep(0,1000)
+
+for(i in 1:1000){
+  x &lt;- rnorm(100)
+  y &lt;- 2+x+rnorm(100)
+  modelo &lt;- lm(y ~ x)
+  bet[i] &lt;- coef(modelo)[2]
+}
+
+mean(bet)</code></pre>
+<pre><code>## [1] 1.00705</code></pre>
+<p>Veja que a média foi bem próxima do valor verdadeiro do parâmetro.</p>
 </div>
