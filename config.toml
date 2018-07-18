@@ -37,14 +37,14 @@ enableRobotsTXT = true # generate robots.txt
 pygmentsCodefences = true
 
 # Missing translations will default to this content language
-defaultContentLanguage = "en"
+defaultContentLanguage = "pt-br"
 
 [params.info]
-description = "Minimalist theme for Hugo"
+description = "Economia, Estatística, Programação"
 title404 = "Nothing's here!"
 
 [params.assets]
-favicon = "favicon.ico"
+favicon = ""
 customCSS = ["css/custom.css"]
 customJS = ["js/custom.js"]
 gopher = "" # used in 404 template ( Generator: https://gopherize.me )
@@ -116,7 +116,7 @@ weight = 1
     MathJaxVersion = "2.7.1"
 
     [params.logo]
-    url = "logo.png"
+    url = ""
     width = 50
     height = 50
     alt = "Logo"

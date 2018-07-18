@@ -16,6 +16,25 @@ draft: true
 
 Simulações são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: mínimos quadrados é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las. Nos próximos posts, irei usar simulações frequentemente.
 
+Simulações, no nosso contexto, dependem de repetir a mesma operação várias vezes: fazemos vários sorteios de variáveis aleatórias no computador e usamos essas variáveis para testar ou ilustrar ou entender ou medir alguma coisa. A descrição anterior é vaga porque o método é muito amplo: podemos testar coisas relativamente triviais - por exemplo, que MQO é realmente não viesado - até medir as características de estimadores de ponta: a quantidade de artigos publicados que contam com uma seção de experimento Monte Carlo é notável.
+
+Uma boa pergunta é por que isso deveria funcionar? Isso é, como de fato nós sabemos que, fazendo alguns milhares de simulações obtemos um resultado final interessante? A ideia é intuitiva: o que aconteceria se eu pegasse um milhão de bases de dados e aplicasse esse método proposto para estimar o paramêtro de um modelo? A justificativa mais formal é incrivelmente simples: a lei dos grandes números. Sabemos que, sobre condições bem gerais, para a variável aleatória $x$ com média $\mu$:
+
+$$plim_{n \rightarrow \infty} \bar{X} = \mu$$ 
+
+Onde $\bar{X}$ é a média amostral e $plim$ é o limite em probabilidade. Então se repetirmos o mesmo experimento milhares de vezes (e, apesar de não ser infinito, milhares de vezes tende a ser o suficiente), devemos recuperar o valor aproximado do paramêtro de interesse.
+
 Aqui vai um passo a passo de como fazer simulações:
 
-* 
+* Temos que criar um objeto que vai receber as estimativas. Este objeto pode ser de diferentes formatos dependendo do que nós queremos: um vetor se é um único paramêtro, uma matriz se são vários vetores, ou até mesmo uma lista!
+
+* Escrever um for ou while para repetir a mesma tarefa milhares de vezes
+
+* Dentro do for (ou while), a operação que queremos repetir alguns milhares de vezes
+
+* Alguma maneira de vizualizar o que nós estimamos
+
+#Um exemplo
+
+Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. 
+
