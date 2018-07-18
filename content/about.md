@@ -3,4 +3,10 @@ title: "About"
 date: "2016-05-05T21:48:51-07:00"
 ---
 
-This is a "hello world" example website for the [**blogdown**](https://github.com/rstudio/blogdown) package. The theme was forked from [@jrutheiser/hugo-lithium-theme](https://github.com/jrutheiser/hugo-lithium-theme) and modified by [Yihui Xie](https://github.com/yihui/hugo-lithium).
+Este é um blog mantido por Daniel Coutinho e Pedro "Cava" Cavalcante. Sem mais delongas, eis os dois autores:
+
+**Daniel Coutinho** é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
+
+**Pedro "Cava" Cavalcante**
+
+Neste blog, iremos
