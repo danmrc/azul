@@ -3,65 +3,71 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.org/post/print-hello-world/</loc>
+    <loc>/post/print-hello-world/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/post/2015-07-23-r-rmarkdown/</loc>
+    <loc>/post/2015-07-23-r-rmarkdown/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/geral/</loc>
+    <loc>/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/</loc>
+    <loc>/tags/apresenta%C3%A7%C3%A3o/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/plot/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/</loc>
+    <loc>/categories/geral/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/r/</loc>
+    <loc>/tags/plot/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/r-markdown/</loc>
+    <loc>/post/</loc>
+    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/regression/</loc>
+    <loc>/tags/r-markdown/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>/tags/regression/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
