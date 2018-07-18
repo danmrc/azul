@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>My New Hugo Site</title>
+    <link>http://example.org/</link>
+    <description>Recent content on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>print(&#34;Hello,world!&#34;)</title>
+      <link>http://example.org/post/print-hello-world/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/print-hello-world/</guid>
+      <description>Bem vindos ao AZUL. Este é um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante:
+Daniel Coutinho é formado em economia pela PUC-Rio (2018), e atualmente é aluno de mestrado em economia na mesma instituição. Ele é louco o suficiente para de fato gostar de econometria e ter feito monografia sobre isso. Ele também gosta de escrever sobre si mesmo na terceira pessoa.
+Pedro “Cava” Cavalcante é
+Aqui vamos escrever sobre economia, estatística e programação.</description>
+    </item>
+    
+    <item>
+      <title>Hello R Markdown</title>
+      <link>http://example.org/post/2015-07-23-r-rmarkdown/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>http://example.org/post/2015-07-23-r-rmarkdown/</guid>
+      <description>R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars)## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+    </item>
+    
+  </channel>
+</rss>
