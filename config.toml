@@ -1,3 +1,15 @@
 baseURL = "https://azul.netlify.com/"
 languageCode = "pt-br"
 title = "AZUL"
+
+[[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+
+[[menu.main]]
+    name = "Categories"
+    url = "/categories/"
+
+[[menu.main]]
+    name = "About"
+    url = "/about/"
