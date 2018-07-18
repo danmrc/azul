@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tutorial on AZUL</title>
-    <link>/post/categories/tutorial/</link>
+    <link>/categories/tutorial/</link>
     <description>Recent content in Tutorial on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/post/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Monte Carlo 101</title>
-      <link>/post/2018/07/18/monte-carlo-101/</link>
+      <link>/2018/07/18/monte-carlo-101/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/2018/07/18/monte-carlo-101/</guid>
+      <guid>/2018/07/18/monte-carlo-101/</guid>
       <description>Simulações são, em geral, uma excelente maneira de</description>
     </item>
     

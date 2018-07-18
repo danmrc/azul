@@ -3,18 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/post/2018/07/18/monte-carlo-101/</loc>
+    <loc>/2018/07/18/monte-carlo-101/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2018/07/18/print-hello-world/</loc>
+    <loc>/2018/07/18/print-hello-world/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2016-05-05T21:48:51-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/apresenta%C3%A7%C3%A3o/</loc>
+    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/geral/</loc>
+    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/monte-carlo/</loc>
+    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -24,60 +53,31 @@
   </url>
   
   <url>
-    <loc>/post/tags/apresenta%C3%A7%C3%A3o/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/categories/geral/</loc>
+    <loc>/tags/simula%C3%A7%C3%A3o/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/tags/monte-carlo/</loc>
+    <loc>/tags/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/post/</loc>
+    <loc>/tags/tutoriais/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/categories/r/</loc>
-    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/tags/simula%C3%A7%C3%A3o/</loc>
-    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/tags/</loc>
-    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/tags/tutoriais/</loc>
-    <lastmod>2018-07-18T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/categories/tutorial/</loc>
+    <loc>/categories/tutorial/</loc>
     <lastmod>2018-07-18T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
