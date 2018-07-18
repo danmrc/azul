@@ -17,7 +17,7 @@
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/07/18/monte-carlo-101/</guid>
-      <description>Simulações são, em geral, uma excelente maneira de</description>
+      <description>Simulações são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: mínimos quadrados é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
     
     <item>
