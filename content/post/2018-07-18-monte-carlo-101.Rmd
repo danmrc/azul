@@ -41,7 +41,7 @@ Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o e
 
 set.seed(985)
 
-bet <- rep(0,1000)
+bet <- rep(0,1000) #Vetor cheio de zeros para ser preenchido com as estimativas
 
 for(i in 1:1000){
   x <- rnorm(100)
@@ -54,4 +54,42 @@ mean(bet)
 
 ```
 
-Veja que a média foi bem próxima do valor verdadeiro do parâmetro. 
+Veja que a média foi bem próxima do valor verdadeiro do parâmetro, mesmo com uma amostra relativamente pequena. Vamos levar isso além: vamos escrever uma função que nos permite alterar o tamanho da amostra do problema e vamos ver como a coisa evolui para cada tamanho de amostra:
+
+```{r}
+
+library(knitr)
+
+simu <- function(n, k =1000){ # n é o tamanho da amostra e k é o número de replicações
+  bet <- rep(0,k) #Vetor cheio de zeros para ser preenchido com as estimativas
+
+  for(i in 1:k){
+    x <- rnorm(n)
+    y <- 2+x+rnorm(n)
+    modelo <- lm(y ~ x)
+    bet[i] <- coef(modelo)[2]
+  }
+  return(bet)
+}
+
+n0 <- simu(10)
+n1 <- simu(25)
+n2 <- simu(50)
+n3 <- simu(100)
+n4 <- simu(125)
+n5 <- simu(150)
+
+medias <- c(mean(n0),mean(n1),mean(n2),mean(n3),mean(n4),mean(n5))
+dp <- c(sd(n0),sd(n1),sd(n2),sd(n3),sd(n4),sd(n5)) #por que não computar o erro padrão também?
+
+tabela <- rbind(medias,dp)
+rownames(tabela) <- c("Média", "Desvio Padrão")
+colnames(tabela) <- c("n = 10","n = 25","n = 50","n = 100","n = 125","n = 150")
+
+kable(tabela,caption = "Viés do estimador de MQO com diferentes tamanhos de amostra (n). Valor verdadeiro = 1")
+
+```
+
+Veja que, na tabela acima, o desvio padrão é o desvio padrão "verdadeiro", i.e., calculado usando os betas estimados na simulação. Veja que a estimativa do erro padrão dada pelo R não deve ser muito fora deste valor. 
+
+Essa foi uma rápida introdução a como fazer simulações usando o R. Obviamente, é possível fazer simulações muito mais complicadas. Mas a ideia está bem representada no exemplo acima. Nos próximos posts, eu irei usar simulações para explorar propriedades de estimadores e ilustrar vários conceitos (não só em estatística). 
