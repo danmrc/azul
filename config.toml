@@ -9,6 +9,12 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 [permalinks]
     post = "/:year/:month/:day/:slug/"
 
+[frontmatter]
+date = ["date","publishDate", "lastmod"]
+lastmod = [":git", "lastmod", "date","publishDate"]
+publishDate = ["publishDate", "date"]
+expiryDate = ["expiryDate"]
+
 [[menu.main]]
   name = "Home"
   url = "/post"
