@@ -17,7 +17,7 @@
       <pubDate>Wed, 18 Jul 2018 21:48:51 -0700</pubDate>
       
       <guid>/about/</guid>
-      <description>Os Autores Este é um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Neste blog, iremos escrever posts sobre economia, estatística e programação, frequentemente misturando os três. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts deste blog serão acompanhados do código. Sem mais delongas, eis os dois autores:
+      <description>Os AutoresEste é um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Neste blog, iremos escrever posts sobre economia, estatística e programação, frequentemente misturando os três. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts deste blog serão acompanhados do código. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
     </item>
     
@@ -28,7 +28,7 @@ Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em eco
       
       <guid>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
       <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais.
-Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai sanear as suas dúvidas): suponha que você tem o modelo \(y =x\beta+u\) e você sabe que \(E(ux) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai sanear as suas dúvidas): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
     </item>
     
     <item>
