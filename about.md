@@ -3,7 +3,7 @@ title: "About"
 date: "2016-05-05T21:48:51-07:00"
 ---
 
-#Os Autores
+##Os Autores
 
 Este é um blog mantido por Daniel Coutinho e Pedro "Cava" Cavalcante. Neste blog, iremos escrever posts sobre economia, estatística e programação, frequentemente misturando os três. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts deste blog serão acompanhados do código. Sem mais delongas, eis os dois autores:
 
@@ -12,6 +12,6 @@ Este é um blog mantido por Daniel Coutinho e Pedro "Cava" Cavalcante. Neste blo
 **Pedro "Cava" Cavalcante**
 
 
-#O nome
+##O nome
 
 Traduza para o inglês... 
