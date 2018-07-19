@@ -6,10 +6,20 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Jul 2018 21:48:51 -0700</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Wed, 18 Jul 2018 21:48:51 -0700</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Os Autores Este é um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Neste blog, iremos escrever posts sobre economia, estatística e programação, frequentemente misturando os três. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts deste blog serão acompanhados do código. Sem mais delongas, eis os dois autores:
+Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
+    </item>
     
     <item>
       <title>Monte Carlo 101</title>
@@ -29,16 +39,6 @@
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>/about/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/about/</guid>
-      <description>Os Autores Este é um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Neste blog, iremos escrever posts sobre economia, estatística e programação, frequentemente misturando os três. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts deste blog serão acompanhados do código. Sem mais delongas, eis os dois autores:
-Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
     </item>
     
   </channel>
