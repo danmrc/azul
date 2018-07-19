@@ -22,6 +22,16 @@ Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em eco
     </item>
     
     <item>
+      <title>Viés de variáveis instrumentais</title>
+      <link>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
+      <pubDate>Thu, 19 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
+      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais.
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai sanear as suas dúvidas): suponha que você tem o modelo \(y =x\beta+u\) e você sabe que \(E(ux) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+    </item>
+    
+    <item>
       <title>Monte Carlo 101</title>
       <link>/2018/07/18/monte-carlo-101/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>

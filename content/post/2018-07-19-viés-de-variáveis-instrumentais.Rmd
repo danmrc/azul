@@ -1,0 +1,24 @@
+---
+title: Viés de variáveis instrumentais
+author: Daniel Coutinho
+date: '2018-07-19'
+slug: viés-de-variáveis-instrumentais
+categories:
+  - R
+  - Econometria
+tags:
+  - Simulação
+  - Econometria
+  - R
+  - Monte Carlo
+authors: []
+draft: true
+---
+
+Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais.
+
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai sanear as suas dúvidas): suponha que você tem o modelo $y =x\beta+u$ e você sabe que $E(ux) \neq 0$ - ou seja, temos um problema de endogenidade. Suponha ainda que temos uma variável, $z$, que é tal que $E(xz) \neq 0$ e $E(uz) = 0$ - a variável é dita relevante e exógena, respectivamente. Então, podemos usar mínimos quadrados em dois estágios para obter uma estimativa do efeito de x sobre y. 
+
+Podemos ter mais instrumentos do que variáveis instrumentais - temos um problema sobreidentificado - e parece razoável que queiramos usar todos os instrumentos para estimar o efeito de x sobre y. Afinal, estaríamos jogando fora informação se não usassemos todos os instrumentos, e definitivamente não queremos isso. O mínimos quadrados em dois estágios permite isso. 
+
+Entretanto, variáveis instrumentais sofrem de um sério problema de viés quando se tem muitos instrumentos. Vamos ilustrar isso no caso que temos uma única variável endógena e ela é a única variável do problema.  

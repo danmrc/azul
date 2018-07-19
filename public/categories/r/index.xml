@@ -6,10 +6,20 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 19 Jul 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Viés de variáveis instrumentais</title>
+      <link>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
+      <pubDate>Thu, 19 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
+      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais.
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai sanear as suas dúvidas): suponha que você tem o modelo \(y =x\beta+u\) e você sabe que \(E(ux) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+    </item>
     
     <item>
       <title>Monte Carlo 101</title>
