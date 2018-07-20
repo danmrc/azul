@@ -11,8 +11,8 @@ tags:
   - Econometria
   - R
   - Monte Carlo
+  - Variáveis Instrumentais
 authors: []
-draft: true
 ---
 
 
@@ -45,13 +45,13 @@ for(j in 1:ncol(z)){
 lb &lt;- min(min(cf),mqo,1)
 up &lt;- max(max(cf),mqo,1)
 
-plot(cf, ylim = c(lb,up))
+plot(1:ncol(z),cf, ylim = c(lb,up))
 lines(1:length(cf),rep(mqo,length(cf)),col = 2)
 lines(1:length(cf),rep(1,length(cf)),col = 3)</code></pre>
 <p><img src="/post/2018-07-19-viés-de-variáveis-instrumentais_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Veja que o <code>lb</code> e <code>up</code> só acertam o tamanho do plot para a linha vermelha aparecer: o viés de MQO é o pior, como fica bem claro.</p>
-<p>Obviamente, com só uma simulação é muito difícil afirmar qualquer coisa - é literalmente fazer inferência com uma observação. O código abaixo cria uma função que repete a simulação acima mil vezes. Como se pode imaginar, essa simulação é lenta, então eu deixo o código paralelizado na hora de estimar o <span class="math inline">\(\beta\)</span> com diferentes quantidades de instrumento. Isso exige que você registre um <em>cluster</em> no R.</p>
-<pre class="r"><code>vies &lt;- function(n,k){
+<p>Obviamente, com só uma simulação é muito difícil afirmar qualquer coisa - é literalmente fazer inferência com uma observação. O código abaixo cria uma função que repete a simulação acima mil vezes. Como se pode imaginar, essa simulação é lenta, então eu deixo o código paralelizado na hora de estimar o <span class="math inline">\(\beta\)</span> com diferentes quantidades de instrumento. Isso exige que você registre um <em>cluster</em> no R e use o pacote <code>foreach</code>.</p>
+<pre class="r"><code>vies &lt;- function(n,k,peso=1){
   
   cf &lt;- matrix(0,ncol = k, nrow = 1000)
   mqo &lt;- rep(0,1000)
@@ -60,7 +60,7 @@ lines(1:length(cf),rep(1,length(cf)),col = 3)</code></pre>
     z &lt;- matrix(rnorm(n*k),ncol = k)
     u &lt;- rnorm(n)
     
-    x &lt;- u + z%*%rep(1,k) + rnorm(n)
+    x &lt;- peso*u + z%*%rep(1,k) + rnorm(n) #esse peso vai ficar claro mais embaixo
     
     y &lt;- u + x + rnorm(n)
     
@@ -76,3 +76,13 @@ lines(1:length(cf),rep(1,length(cf)),col = 3)</code></pre>
   resposta &lt;- list(&quot;mqo&quot; = mqo,&quot;iv&quot; = cf)
     return(resposta)
 }</code></pre>
+<p>O <code>foreach</code> funciona como o for, mas cria <em>um</em> objeto com o resultado do loop, o que pode dificultar as coisas em alguns casos. Vamos começar testando com 100 observações e no máximo 50 instrumentos. Obteremos o seguinte plot quando tirarmos a média:</p>
+<div class="figure">
+<img src="vies-iv/simu_1.png" title="Primeira simulação" alt="1" />
+<p class="caption">1</p>
+</div>
+<p>Veja que o caso com um único instrumento gera um valor do coeficiente tão grande - muito maior que o viés do estimador de MQO - que o gráfico basicamente “esconde” o que acontece depois. Vamos tirar o primeiro ponto e ver o que acontece:</p>
+<div class="figure">
+<img src="vies-iv/simu_1_detalhe.png" title="Eliminando o primeiro coeficiente" alt="2" />
+<p class="caption">2</p>
+</div>

@@ -11,8 +11,8 @@ tags:
   - Econometria
   - R
   - Monte Carlo
+  - Variáveis Instrumentais
 authors: []
-draft: true
 ---
 
 ```{r echo=FALSE, message=FALSE}
@@ -67,7 +67,7 @@ mqo <- coef(lm(y ~ x))[2]
 lb <- min(min(cf),mqo,1)
 up <- max(max(cf),mqo,1)
 
-plot(cf, ylim = c(lb,up))
+plot(1:ncol(z),cf, ylim = c(lb,up))
 lines(1:length(cf),rep(mqo,length(cf)),col = 2)
 lines(1:length(cf),rep(1,length(cf)),col = 3)
 
@@ -75,12 +75,12 @@ lines(1:length(cf),rep(1,length(cf)),col = 3)
 
 Veja que o `lb` e `up` só acertam o tamanho do plot para a linha vermelha aparecer: o viés de MQO é o pior, como fica bem claro. 
 
-Obviamente, com só uma simulação é muito difícil afirmar qualquer coisa - é literalmente fazer inferência com uma observação. O código abaixo cria uma função que repete a simulação acima mil vezes. Como se pode imaginar, essa simulação é lenta, então eu deixo o código paralelizado na hora de estimar o $\beta$ com diferentes quantidades de instrumento. Isso exige que você registre um *cluster* no R. 
+Obviamente, com só uma simulação é muito difícil afirmar qualquer coisa - é literalmente fazer inferência com uma observação. O código abaixo cria uma função que repete a simulação acima mil vezes. Como se pode imaginar, essa simulação é lenta, então eu deixo o código paralelizado na hora de estimar o $\beta$ com diferentes quantidades de instrumento. Isso exige que você registre um *cluster* no R e use o pacote `foreach`. 
 
 
 ```{r, eval=FALSE}
 
-vies <- function(n,k){
+vies <- function(n,k,peso=1){
   
   cf <- matrix(0,ncol = k, nrow = 1000)
   mqo <- rep(0,1000)
@@ -89,7 +89,7 @@ vies <- function(n,k){
     z <- matrix(rnorm(n*k),ncol = k)
     u <- rnorm(n)
     
-    x <- u + z%*%rep(1,k) + rnorm(n)
+    x <- peso*u + z%*%rep(1,k) + rnorm(n) #esse peso vai ficar claro mais embaixo
     
     y <- u + x + rnorm(n)
     
@@ -107,3 +107,15 @@ vies <- function(n,k){
 }
 
 ```
+
+O `foreach` funciona como o for, mas cria *um* objeto com o resultado do loop, o que pode dificultar as coisas em alguns casos. Vamos começar testando com 100 observações e no máximo 50 instrumentos. Obteremos o seguinte plot quando tirarmos a média:
+
+![1]
+
+Veja que o caso com um único instrumento gera um valor do coeficiente tão grande - muito maior que o viés do estimador de MQO - que o gráfico basicamente "esconde" o que acontece depois. Vamos tirar o primeiro ponto e ver o que acontece:
+
+![2]
+
+[1]:vies-iv/simu_1.png "Primeira simulação"
+
+[2]:vies-iv/simu_1_detalhe.png "Eliminando o primeiro coeficiente"
