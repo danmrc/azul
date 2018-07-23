@@ -174,7 +174,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-4 mins read
+5 mins read
 </span>
 
 
@@ -249,14 +249,20 @@ lines(1:length(cf),rep(1,length(cf)),col = 3)</code></pre>
 }</code></pre>
 <p>O <code>foreach</code> funciona como o for, mas cria <em>um</em> objeto com o resultado do loop, o que pode dificultar as coisas em alguns casos. Vamos começar testando com 100 observações e no máximo 50 instrumentos. Obteremos o seguinte plot quando tirarmos a média:</p>
 <div class="figure">
-<img src="vies-iv/simu_1.png" title="Primeira simulação" alt="1" />
-<p class="caption">1</p>
+<img src="/post/vies-iv/simu_1.png" />
+
 </div>
 <p>Veja que o caso com um único instrumento gera um valor do coeficiente tão grande - muito maior que o viés do estimador de MQO - que o gráfico basicamente “esconde” o que acontece depois. Vamos tirar o primeiro ponto e ver o que acontece:</p>
 <div class="figure">
-<img src="vies-iv/simu_1_detalhe.png" title="Eliminando o primeiro coeficiente" alt="2" />
-<p class="caption">2</p>
+<img src="/post/vies-iv/simu_1_detalhe.png" />
+
 </div>
+<p>Lembre que o modelo verdadeiro tem 50 variáveis que podem ser usadas como instrumentos, mas usar qualquer coisa acima de 10 já gera um viés brutal. Por incrível que pareça, 2 ou 3 variáveis instrumentais minimizam o viés da estimação.</p>
+<p>Antes de contiuar, é necessário chamar atenção para alguns pontos:</p>
+<ol style="list-style-type: decimal">
+<li><p>O caso de um instrumento é um desastre porque temos 50 instrumentos possíveis. Se repetissimos a simulação com o caso de 1 ou dois instrumentos, usar variável instrumental seria muito melhor do que usar MQO</p></li>
+<li></li>
+</ol>
 
 </div>
 
