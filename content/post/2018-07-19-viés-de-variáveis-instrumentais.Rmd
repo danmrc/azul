@@ -13,6 +13,7 @@ tags:
   - Monte Carlo
   - Variáveis Instrumentais
 authors: []
+draft: true
 ---
 
 ```{r echo=FALSE, message=FALSE}
@@ -21,17 +22,21 @@ library(AER)
 
 ```
 
-Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais.
+Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente *Mostly Harmless Econometrics*, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de *Bias of 2SLS*.  
 
+<<<<<<< HEAD
 Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai sanear as suas dúvidas): suponha que você tem o modelo $y =x\beta+u$ e você sabe que $E(ux) \neq 0$ - ou seja, temos um problema de endogenidade. Suponha ainda que temos uma variável, $z$, que é tal que $E(xz) \neq 0$ e $E(uz) = 0$ - a variável é dita relevante e exógena, respectivamente. Então, podemos usar Mínimos Quadrados em Dois Estágios para obter uma estimativa do efeito de x sobre y. 
 
 Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai sanear as suas dúvidas): suponha que você tem o modelo $y =x\beta+e$ e você sabe que $E(ex) \neq 0$ - ou seja, temos um problema de endogenidade. Suponha ainda que temos uma variável, $z$, que é tal que $E(xz) \neq 0$ e $E(ez) = 0$ - a variável é dita relevante e exógena, respectivamente. Então, podemos usar Mínimos Quadrados em 2 Estágios (MQ2E) para obter uma estimativa do efeito de x sobre y. 
+=======
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo $y =x\beta+e$ e você sabe que $E(ex) \neq 0$ - ou seja, temos um problema de endogenidade. Suponha ainda que temos uma variável, $z$, que é tal que $E(xz) \neq 0$ e $E(ez) = 0$ - a variável é dita relevante e exógena, respectivamente. Então, podemos usar Mínimos Quadrados em 2 Estágios (MQ2E) para obter uma estimativa do efeito de x sobre y. 
+>>>>>>> a40febde439dfd4ec7edd6b65e890c5924373495
 
 Podemos ter mais instrumentos do que variáveis instrumentais - temos um problema sobreidentificado - e parece razoável que queiramos usar todos os instrumentos para estimar o efeito de x sobre y. Afinal, estaríamos jogando fora informação se não usassemos todos os instrumentos, e definitivamente não queremos isso. O mínimos Quadrados em Dois Estágios permite isso. 
 
 Entretanto, variáveis instrumentais sofrem de um sério problema de viés quando se tem muitos instrumentos. Vamos ilustrar isso no caso que temos uma única variável endógena e ela é a única variável do problema. Nosso modelo vai ter duas equações:
 
-$$y = u+X\beta+e \quad \quad (i)$$
+$$y = u+\beta{}x+e \quad \quad (i)$$
 $$x = u + Z\Pi + v$$
 
 Onde $e$ e $v$ são erros saídos de uma normal; $u$ é uma variável aleatória normal também e que vai ser uma variável omitida correlacionada com o $x$, por construção. No fim das contas, o erro da equação estrutural é $u + e$, e como u também está na equação de do $x$, a condição padrão de validade da estimativa de MQO é violada. Nosso interesse é no parâmetro $\beta$.
@@ -112,12 +117,21 @@ vies <- function(n,k,peso=1){
 
 O `foreach` funciona como o for, mas cria *um* objeto com o resultado do loop, o que pode dificultar as coisas em alguns casos. Vamos começar testando com 100 observações e no máximo 50 instrumentos. Obteremos o seguinte plot quando tirarmos a média:
 
-![1]
+![](/post/vies-iv/simu_1.png)
 
 Veja que o caso com um único instrumento gera um valor do coeficiente tão grande - muito maior que o viés do estimador de MQO - que o gráfico basicamente "esconde" o que acontece depois. Vamos tirar o primeiro ponto e ver o que acontece:
 
-![2]
+![](/post/vies-iv/simu_1_detalhe.png)
 
-[1]:vies-iv/simu_1.png "Primeira simulação"
+Lembre que o modelo verdadeiro tem 50 variáveis que podem ser usadas como instrumentos, mas usar qualquer coisa acima de 10 já gera um viés brutal. Por incrível que pareça, 2 ou 3 variáveis instrumentais minimizam o viés da estimação. 
 
-[2]:vies-iv/simu_1_detalhe.png "Eliminando o primeiro coeficiente"
+Antes de continuar, é necessário chamar atenção para alguns pontos:
+
+1. O caso de um instrumento é um desastre porque temos 50 instrumentos possíveis. Se repetissimos a simulação com o caso de 1 ou dois instrumentos, usar variável instrumental seria muito melhor do que usar MQO
+
+2. Veja que o viés de MQO não é tão grande assim: é maior que o viés de IV, mas não é tão grande assim. Dado a dificuldade de se encontrar um bom instrumento, por que então não viver com o viés? Veja que isso é uma característica de como o problema foi escrito: o fator que gera viés tem peso 1, enquanto os instrumentos tem um peso muito maior - afinal, temos cinquenta instrumentos. Peco pelo excesso, mas um exemplo pode ajudar: é a mesma coisa que tentar ouvir alguém falando em uma sala com barulho. Se o barulho é de um restaurante mais ou menos vazio, é relativamente fácil. Em uma boate, a conversa é indecifrável. Ter 50 instrumentos contra só uma variável que gera a correlação entre $x$ e $e$, que tem coeficiente 1, gera um viés pequeno. Por isso que existe a variável peso na função: se aumentarmos o peso de $u$, a estimativa de MQO vai ficar bem pior. O exemplo abaixo ilustra isso: colocamos peso 10 e apenas 100 observações.
+
+![](/post/vies-iv/caso_6.png)
+
+
+

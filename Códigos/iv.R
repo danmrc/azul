@@ -170,3 +170,29 @@ up <- max(max(cf),mqo,1)
 plot(1:length(cf),cf, ylim = c(lb,up), main = "100 observações", ylab = "Valor do coeficiente", xlab="Número de Instrumentos")
 points(mqo,pch = 3,col=2)
 points(1,pch=3,col = 3)
+
+caso_9 <- vies(1000,50,30)
+
+mqo <- mean(caso_9[[1]])
+
+cf <- colMeans(caso_9[[2]])
+
+lb <- min(min(cf),mqo,1)
+up <- max(max(cf),mqo,1)
+
+plot(1:length(cf),cf, ylim = c(lb,up), main = "1000 observações, peso = 30", ylab = "Valor do coeficiente", xlab="Número de Instrumentos")
+lines(2:length(cf),rep(mqo,(length(cf)-1)),col = 2)
+lines(2:length(cf),rep(1,(length(cf)-1)),col = 3)
+
+caso_9 <- vies(5000,50,50)
+
+mqo <- mean(caso_9[[1]])
+
+cf <- colMeans(caso_9[[2]])
+
+lb <- min(min(cf),mqo,1)
+up <- max(max(cf),mqo,1)
+
+plot(1:length(cf),cf, ylim = c(lb,up), main = "5000 observações, peso = 50", ylab = "Valor do coeficiente", xlab="Número de Instrumentos")
+lines(2:length(cf),rep(mqo,(length(cf)-1)),col = 2)
+lines(2:length(cf),rep(1,(length(cf)-1)),col = 3)
