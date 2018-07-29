@@ -12,6 +12,7 @@ tags:
   - Julia
   - Economia
 authors: []
+draft: true
 ---
 
 Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programção pesadamente - o que faz dele um carro chefe para a proposta desse blog: programção dinâmica. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos. Formalmente, o problema é:
@@ -22,6 +23,16 @@ Nesse caso, a variável $c$ é conhecida como variável de controle e a variáve
 
 $$k_{t+1} = (1-\delta)k_t+I_t$$
 
-Onde $\delta$ representa a taxa de depreciação e $I_t$ representa o investimento feito. Em um caso sem governo, toda a produção vai ser dividida entre investimento e consumo, então podemos rescrever a equação acima como:
+Onde $\delta$ representa a taxa de depreciação e $I_t$ representa o investimento feito. Em um caso sem governo, toda a produção - $y(k_t)$, uma função que depende do capital - vai ser dividida entre investimento e consumo, então podemos rescrever a equação acima como:
 
-$$k_{t+1} + c_t = (1-\delta)k_t+y_t$$
+$$k_{t+1} + c_t = (1-\delta)k_t+y(k_t)$$
+
+Existem várias maneiras de abordar o problema e o assunto pode ficar altamente matemático rapidamente. Uma maneira "padrão" de resolver é escrever o problema acima como um lagrangeano padrão e tirar a derivada em relação a variável de controle no tempo t, $k_t+1$. Nesse caso, vamos reescrever a restrição para isolar o $c_t$ e substituir no problema. Com isso, o problema fica:
+
+$$\sum_{t=1}^\infty u((1-\delta)k_t+y(k_t)-k_{t+1})$$
+
+Veja que o $k_{t+1}$ aparece duas vezes no somatório: no período $t$, subtraindo e no período $t+1$ nos termos $k_t$ (se você está achando confuso, abra o somatório para t e t+1 e ignore o resto dos termos). Podemos tirar a derivada com relação a $k_{t+1}$ obteríamos a condição de primeira ordem:
+
+$$-\beta^{t}u^{\prime}(c) + \beta^{t+1}u^{\prime}(c_{t+1})[(1-\delta)+y^{\prime}(k_{t+1})] = 0$$
+
+Para o problema ficar completo precisamos de mais uma condição, a condição de transversalidade. Mas a equação acima é o suficiente para alguns pacotes que resolvem modelos de macroeconomia resolverem o problema - como é o caso do Dynare. 
