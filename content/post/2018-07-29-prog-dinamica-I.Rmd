@@ -1,0 +1,27 @@
+---
+title: Programação Dinâmica I
+author: Daniel Coutinho
+date: '2018-07-29'
+slug: programacao-dinamica-I
+categories:
+  - Julia
+  - Programção Dinâmica
+  -Economia
+tags:
+  - Programção Dinâmica
+  - Julia
+  - Economia
+authors: []
+---
+
+Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programção pesadamente - o que faz dele um carro chefe para a proposta desse blog: programção dinâmica. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos. Formalmente, o problema é:
+
+$$ \max_{c} \sum_{t=1}^\infty \beta^{t}u(c_t) \text{sujeito a} c_t = f(k_t)$$
+
+Nesse caso, a variável $c$ é conhecida como variável de controle e a variável $k$ é a variável de estado. Ou seja, escolhemos um valor de $c$ (por isso controle) e isso define a variável $k$. Eu usei as letras $c$ e $k$ de propósito para sugerir que o agente escolhe o consumo e isso impacta em um valor do capital amanhã. Nesse caso, a restrição seria da forma:
+
+$$k_{t+1} = (1-\delta)k_t+I_t$$
+
+Onde $\delta$ representa a taxa de depreciação e $I_t$ representa o investimento feito. Em um caso sem governo, toda a produção vai ser dividida entre investimento e consumo, então podemos rescrever a equação acima como:
+
+$$k_{t+1} + c_t = (1-\delta)k_t+y_t$$
