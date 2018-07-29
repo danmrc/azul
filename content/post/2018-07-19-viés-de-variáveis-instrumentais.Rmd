@@ -33,9 +33,9 @@ Entretanto, variáveis instrumentais sofrem de um sério problema de viés quand
 $$y = u+\beta{}x+e \quad \quad (i)$$
 $$x = u + Z\Pi + v$$
 
-Onde $e$ e $v$ são erros saídos de uma normal; $u$ é uma variável aleatória normal também e que vai ser uma variável omitida correlacionada com o $x$, por construção. No fim das contas, o erro da equação estrutural é $u + e$, e como u também está na equação de do $x$, a condição padrão de validade da estimativa de MQO é violada. Nosso interesse é no parâmetro $\beta$.
+Onde $e$ e $v$ são erros saídos de uma normal; $u$ também é uma variável aleatória normal e que vai ser uma variável omitida correlacionada com o $x$, por construção. No fim das contas, o erro da equação estrutural é $u + e$, e como u também está na equação de do $x$, a condição padrão de validade da estimativa de MQO é violada. Nosso interesse é no parâmetro $\beta$.
 
-Para fazer a simulação, iremos usar o comando `ivreg` do pacote AER (que eu carreguei silenciosamente no começo deste post). Ele recebe uma fórmula em duas partes: y ~ x, a fórmula estrutural $(i)$ e |z, os instrumentos. Vamos colocar todos os instrumentos com o mesmo coeficiente 1, ou seja $\Pi$ vai ser uma coluna de 1. Vamos testar estimar o modelo com diferentes quantidades de instrumentos. Veja que, quando eu criar o modelo, *todos* os instrumentos vão ser relevantes, então o problema não é selecionar os instrumentos certos. Se fossemos fazer a coisa certa, teríamos que usar todos os instrumentos. Mas o MQ2E vai gerar estimativas viesadas.
+Para fazer a simulação, iremos usar o comando `ivreg` do pacote AER (que eu carreguei silenciosamente no começo deste post). Ele recebe uma fórmula em duas partes: y ~ x, a fórmula estrutural $(i)$ e |z, os instrumentos. Vamos colocar todos os instrumentos com o mesmo coeficiente 1, ou seja $\Pi$ vai ser uma coluna de 1. Vamos testar estimar o modelo com diferentes quantidades de instrumentos. Veja que, quando eu criar o modelo, *todos* os instrumentos vão ser relevantes, então o problema não é selecionar os instrumentos certos. Se fossemos fazer a coisa certa, teríamos que usar todos os instrumentos. Mas o MQ2E vai gerar estimativas viesadas quando colocarmos todos os instrumentos.
 
 Uma iteração da nossa simulação é da seguinte forma:
 
@@ -131,4 +131,4 @@ Mais um caso, em que colocamos peso 50(!) e temos 5000 observações, ilustrando
 
 ![](/post/vies-iv/caso_9.png)
 
-As simulações acima chamam atenção para o fato de que muitos instrumentos geram viés na estimação por MQ2E, apesar das muitas vantagens de usar muitos instrumentos (testes de sobreidentificação, por exemplo). As simulações mostram que, idealmente, dois instrumentos aproximam a estimação do valor verdadeiro. Mas é um estudo por simulação: não sabemos o quão geral são essas regras e quais características que colocamos na simulação podem ser relaxadas para gerar um resultado semelhante.
+As simulações acima chamam atenção para o fato de que muitos instrumentos geram viés na estimação por MQ2E, apesar das muitas vantagens de usar muitos instrumentos (testes de sobreidentificação, por exemplo). Idealmente, dois instrumentos aproximam a estimação do valor verdadeiro. Mas é um estudo por simulação: não sabemos o quão geral são essas regras e quais características que colocamos na simulação podem ser relaxadas para gerar um resultado semelhante.
