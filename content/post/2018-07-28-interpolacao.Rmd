@@ -1,0 +1,38 @@
+---
+title: Interpolação
+author: Daniel Coutinho
+date: '2018-07-28'
+slug: interpolacao
+categories:
+  - Curtas
+tags:
+  - Interpolação
+  - Julia
+  - R
+authors: []
+draft: true
+---
+
+Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Pelo contrário. Mas ele é necessário para posts futuros.
+
+A ideia de interpolação é literalmente "ligar os pontos": dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos. Eu não vou abordar a matemática por trás disso: vou tentar transmitir a ideia e como fazer interpolação em duas linguagens de programação: o Julia e o R.
+
+Uma primeira maneira de fazer interpolação é buscar um único polinômio que liga todos os pontos. O polinômio vai ser mais complicado - vai depender de mais graus - maior o número de pontos. Se tivermos dois pontos, podemos encontrar uma reta que liga os dois. Três pontos, precisamos de um polinômio de segundo grau. Etc. Essa estratégia se chama *polinômio de Lagrange*. Se temos n pontos, podemos usar Mínimos Quadrados com um polinômio de grau (n-1) para encontrar o polinômio de Lagrange. Vamos testar isso no Julia usando o pacote **polynomials**, que nos traz o comando `polyfit`.  Em um primeiro caso, vamos testar a função cosseno:
+
+```{julia}
+using Polynomials
+using Plots
+
+x2 = linspace(0,6,10)
+x_aux = linspace(0,6,100)
+
+y = cos.(x2)
+
+pol = polyfit(x2,y)
+
+scatter(x2,y)
+plot!(x_aux,polyval(pol,x_aux))
+
+```
+
+Veja que o polinomio se aproxima bastante bem do 
