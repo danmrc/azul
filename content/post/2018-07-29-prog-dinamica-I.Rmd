@@ -65,4 +65,39 @@ A boa notícia é que temos uma solução: compute $V_t$ para vários valores de
 * Comece do período $T$, compute o valor de $u()$ para todos os valores do grid.
 * Para um $t$, compute resolva o problema de $V_{t}$ para um dado valor de K. Lembre que isso vai depender do valor do problema no período seguinte, $V_{t+1}$, que já foi resolvido.
 
-Veja que isso também tem seus problemas: quando escolhermos o $c_t$ ótimo, nada impede que o $k_{t+1}$ implicado por ele *não* esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post.  
+Veja que isso também tem seus problemas: quando escolhermos o $c_t$ ótimo, nada impede que o $k_{t+1}$ implicado por ele *não* esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post. No Julia, o pacote `Dierckx` faz interpolação e usaremos ele.
+
+```{julia}
+
+using Optim
+using Dierckx
+using Plots
+
+T = 100
+alpha = 0.5
+bet = 0.98
+delt = 0.1
+dens = 100
+
+u(c) = log(c)
+f(k) = k^alpha
+K = linspace(0.1,5,dens)
+
+C = Array{Float64}(T,length(K))
+V = Array{Float64}(T,length(K))
+
+V[1,1:length(K)] = u.(K)
+C[1,1:length(K)] = K
+
+for j = 2:T
+    for i = 1:length(K)
+        valor=Spline1D(K,V[(j-1),1:length(K)],k=1,bc="extrapolate")
+        val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
+        otimo = optimize(val,0.1,K[i])
+        V[j,i] = -Optim.minimum(otimo)
+        C[j,i] = Optim.minimizer(otimo)
+    end
+end
+
+```
+Isso vai nos dar 
