@@ -21,10 +21,10 @@ draft: true
 <p><span class="math display">\[ \max_{c} \sum_{t=1}^\infty \beta^{t}u(c_t) \text{sujeito a} c_t = f(k_t)\]</span></p>
 <p>Onde <span class="math inline">\(u()\)</span> é uma função utilidade, <span class="math inline">\(\beta\)</span> é uma taxa de desconto. A variável <span class="math inline">\(c\)</span> é conhecida como variável de controle e a variável <span class="math inline">\(k\)</span> é a variável de estado. Ou seja, escolhemos um valor de <span class="math inline">\(c\)</span> (por isso controle) e isso define a variável <span class="math inline">\(k\)</span>. Eu usei as letras <span class="math inline">\(c\)</span> e <span class="math inline">\(k\)</span> de propósito para sugerir que o agente escolhe o consumo e isso impacta em um valor do capital amanhã. Nesse caso, a restrição seria da forma:</p>
 <p><span class="math display">\[k_{t+1} = (1-\delta)k_t+I_t\]</span></p>
-<p>Onde <span class="math inline">\(\delta\)</span> representa a taxa de depreciação e <span class="math inline">\(I_t\)</span> representa o investimento feito. Em um caso sem governo, toda a produção - <span class="math inline">\(y(k_t)\)</span>, uma função que depende do capital - vai ser dividida entre investimento e consumo, então podemos rescrever a equação acima como:</p>
+<p>Onde <span class="math inline">\(\delta\)</span> representa a taxa de depreciação e <span class="math inline">\(I_t\)</span> representa o investimento feito. Esta restrição é chama de <em>lei de movimento</em>, porque descreve como o capital se “movimenta” no tempo. Também temos uma função de produção <span class="math inline">\(y(k_t)\)</span>, que vamos supor que é Cobb Douglas com paramêtro <span class="math inline">\(\alpha\)</span>. Em um caso sem governo, toda a produção vai ser dividida entre investimento e consumo, então podemos rescrever a equação acima como:</p>
 <p><span class="math display">\[k_{t+1} + c_t = (1-\delta)k_t+y(k_t)\]</span></p>
 <p>Se você precisa de algum convencimento sobre por que aprender a resolver um problema que vai “para o infinito”, dado que nós temos uma vida finita, pense que isso pode ser uma boa aproximação da realidade por dois motivos: primeiro, porque para alguém entrando no mercado de trabalho agora e com uma expectativa de vida de 80 anos, mais 60 anos é “infinito”. Nós não sabemos quando vamos morrer exatamente, então colocar uma data T fixa parece um pouco arbitrário: o agente saberia exatamente quando a vida dele ia acabar, e isso parece mais irrealista que um problema “no infinito”. Essa também é uma maneira suja, mas simples, de introduzir altruísmo: o agente não otimiza com relação a si mesmo, mas sim pensando em todas as gerações futuras.</p>
-<p>Existem várias maneiras de abordar o problema de programação dinâmica, e o assunto pode ficar altamente matemático rapidamente. Uma maneira “padrão” de resolver é escrever o problema acima como um lagrangeano padrão e tirar a derivada em relação a variável de controle no tempo t, <span class="math inline">\(k_t+1\)</span>. Para este caso, podemos reescrever a restrição para isolar o <span class="math inline">\(c_t\)</span> e substituir no problema. Com isso, temos:</p>
+<p>Existem várias maneiras de abordar o problema de programação dinâmica, e o assunto pode ficar altamente matemático rapidamente. Uma maneira “padrão” de resolver é escrever o problema acima como um lagrangeano padrão e tirar a derivada em relação a variável de controle no tempo t, <span class="math inline">\(k_{t+1}\)</span>. Para este caso, podemos reescrever a restrição para isolar o <span class="math inline">\(c_t\)</span> e substituir no problema. Com isso, temos:</p>
 <p><span class="math display">\[\sum_{t=1}^\infty u((1-\delta)k_t+y(k_t)-k_{t+1})\]</span></p>
 <p>Veja que o <span class="math inline">\(k_{t+1}\)</span> aparece duas vezes no somatório: no período <span class="math inline">\(t\)</span>, subtraindo e no período <span class="math inline">\(t+1\)</span> nos termos <span class="math inline">\(k_t\)</span> (se você está achando confuso, abra o somatório para t e t+1 e ignore o resto dos termos). Podemos tirar a derivada com relação a <span class="math inline">\(k_{t+1}\)</span> obteríamos a condição de primeira ordem:</p>
 <p><span class="math display">\[-\beta^{t}u^{\prime}(c_{t}) + \beta^{t+1}u^{\prime}(c_{t+1})[(1-\delta)+y^{\prime}(k_{t+1})] = 0\]</span></p>
@@ -39,6 +39,7 @@ draft: true
 <p><span class="math display">\[ V_{T-2}(k_{T-2},c_{T-2}) = \max_{c_{T-2}} u(c_{T-2}) + \beta*V(k_{T-1},c_{T-1}) \]</span></p>
 <p>Se você ainda não entendeu para onde isso está indo, eu pretendo escrever o problema de maximização de uma data <span class="math inline">\(t\)</span> qualquer como um problema que depende de <span class="math inline">\(V_{t+1}(k_{t+1},c_{t+1})\)</span>. Para facilitar a nossa vida, vamos chamar <span class="math inline">\(V_t(k_t,c_t)\)</span> de função valor (por isso V): ela dá o valor do problema de otimização amanhã. Logo, o problema na data <span class="math inline">\(t\)</span> é:</p>
 <p><span class="math display">\[ V_t(k_t,c_t) = \max_{c_t} u(c_t) + \beta V_{t+1}(k_{t+1},c_{t+1}) \]</span></p>
+<p>Eu estou chamando a função de <span class="math inline">\(V\)</span> porque ela recebe o nome de função valor. Afinal, ela é o valor do problema de otimização.</p>
 <p>Toda a historia dos últimos paragráfos tem um problema claro: eu supus que eu sabia o valor do capital em todas as datas, que depende das escolhas de <span class="math inline">\(c_t\)</span> para cada data. De certa forma, eu estou dizendo que se eu soubesse a solução, eu saberia a solução. Não é exatamente animador.</p>
 <p>A boa notícia é que temos uma solução: compute <span class="math inline">\(V_t\)</span> para vários valores de <span class="math inline">\(k\)</span> em todos os períodos! Isso é trabalhoso para o computador, mas problema dele. Eis um pseudo código para resolver o problema:</p>
 <ul>
@@ -46,5 +47,67 @@ draft: true
 <li>Comece do período <span class="math inline">\(T\)</span>, compute o valor de <span class="math inline">\(u()\)</span> para todos os valores do grid.</li>
 <li>Para um <span class="math inline">\(t\)</span>, compute resolva o problema de <span class="math inline">\(V_{t}\)</span> para um dado valor de K. Lembre que isso vai depender do valor do problema no período seguinte, <span class="math inline">\(V_{t+1}\)</span>, que já foi resolvido.</li>
 </ul>
-<p>Veja que isso também tem seus problemas: quando escolhermos o <span class="math inline">\(c_t\)</span> ótimo, nada impede que o <span class="math inline">\(k_{t+1}\)</span> implicado por ele <em>não</em> esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post.</p>
+<p>Veja que isso também tem seus problemas: quando escolhermos o <span class="math inline">\(c_t\)</span> ótimo, nada impede que o <span class="math inline">\(k_{t+1}\)</span> implicado por ele <em>não</em> esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post. No Julia, o pacote <code>Dierckx</code> faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre <span class="math inline">\(0.1\)</span> e <span class="math inline">\(5\)</span> para o grid do capital.</p>
+<pre class="julia"><code>
+using Optim
+using Dierckx
+using Plots
+
+T = 100
+alpha = 0.5
+bet = 0.98
+delt = 0.1
+dens = 100
+
+u(c) = log(c)
+f(k) = k^alpha
+K = linspace(0.1,5,dens)
+
+C = Array{Float64}(T,length(K))
+V = Array{Float64}(T,length(K))
+
+V[1,1:length(K)] = u.(K)
+C[1,1:length(K)] = K
+
+for j = 2:T
+    for i = 1:length(K)
+        valor=Spline1D(K,V[(j-1),1:length(K)],k=1,bc=&quot;extrapolate&quot;)
+        val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
+        otimo = optimize(val,0.1,K[i])
+        V[j,i] = -Optim.minimum(otimo)
+        C[j,i] = Optim.minimizer(otimo)
+    end
+end
+</code></pre>
+<p>Isso vai nos dar a solução para os valores de K entre 0.1 e 5 para todas as 100 datas. A matriz V guarda o valor da função <span class="math inline">\(V\)</span> e a matriz C guarda o nível ótimo de consumo para cada nível de capital. Da maneira que eu organizei, cada linha recebe o valor de uma data e cada coluna é um ponto do <em>grid</em>. Não há nenhum impedimento para fazer o contrário. Observe que a primeira linha tem a função valor no <strong>último</strong> período, a segunda linha a função valor no penúltimo etc.</p>
+<p>Veja ainda que, como de praxe, o comando <code>optimize</code> só procura mínimos, então nós multiplicamos a função por <span class="math inline">\(-1\)</span> para transformar o máximo em mínimo. Como o que nos interessa é o valor verdadeiro da função - e não o valor na forma de “mínimo” - temos que multiplicar por <span class="math inline">\(-1\)</span> quando inserimos o valor na matriz <span class="math inline">\(V\)</span>.</p>
+<p>Mas nosso interesse é em saber, para um dado valor incial de <span class="math inline">\(k\)</span>, qual deve ser a trajetória ótima de consumo. Vamos escrever outro código, que pega um valor inicial de <span class="math inline">\(k\)</span>, procura o <span class="math inline">\(c\)</span> ótimo para aquele valor - usando a matriz C acima - e computa o capital do próximo período usando a lei de movimento <span class="math inline">\(k_{t+1} + c_t = (1-\delta)k_t+y(k_t)\)</span>.</p>
+<pre class="julia"><code>
+start_val = 2</code></pre>
+<pre><code>## 2</code></pre>
+<pre class="julia"><code>
+C_path = Array{Float64}(1,T)</code></pre>
+<pre><code>## 1×100 Array{Float64,2}:
+##  23380.6  24322.3  25056.5  25673.3  …  46806.5  46985.0  47163.4  47341.5</code></pre>
+<pre class="julia"><code>K_path = Array{Float64}(1,T)</code></pre>
+<pre><code>## 1×100 Array{Float64,2}:
+##  1.0  1.0  1.0  1.0  1.0  1.0  1.0  1.0  …  1.0  1.0  1.0  1.0  1.0  1.0  1.0</code></pre>
+<pre class="julia"><code>K_path[T] = start_val</code></pre>
+<pre><code>## 2</code></pre>
+<pre class="julia"><code>
+for j = T:-1:2
+    func_cons = Spline1D(K,C[j,1:length(K)],k=1,bc = &quot;extrapolate&quot;)
+    C_path[j] = func_cons(K_path[j])
+    K_path[j-1] = f(K_path[j]) - func_cons(K_path[j]) + (1-delt)*K_path[j]
+end
+
+C_path[1] = K_path[1]</code></pre>
+<pre><code>## 5.0800795491791675</code></pre>
+<pre class="julia"><code></code></pre>
+<p>Veja que o <code>for</code> não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de <span class="math inline">\(T-1\)</span> vai determinar o capital de <span class="math inline">\(T\)</span>, que é consumido em sua totalidade.</p>
+</div>
+<div id="referencias" class="section level2">
+<h2>Referências</h2>
+<p>As referências estão ordenadas em ordem das que eu achei mais útil. A primeira é o <a href="quantEcon">https://lectures.quantecon.org</a>, do Thomas Sargent e John Stachurski. Eles discutem programação dinâmica, fornecem códigos para Julia e Python e discutem um tanto da matemática por trás. Esse post deve muito ao quantEcon. Uma outra referência do Thomas Sargent é o famoso <em>Recursive Macroeconomic Theory</em>. Outra referência muito útil e que inspirou o tratamento desse post é o <em>Economic Dynamic in discrete time</em>, de Jianjun Miao.</p>
+<p>Para os leitores interessados na matemática por trás, o <em>Introduction to Modern Economic Growth</em>, do Acemoglu, discute a matemática por trás.</p>
 </div>

@@ -51,3 +51,15 @@ scatter(x4,y4)
 plot!(x_aux,pol4.(x_aux),lw = 2)
 plot!(x_aux,(x_aux.*sin.(1./x_aux)),lw= 2, linestyle = :dash)
 plot!(x_aux,h.(x_aux), lw = 2, linestyle = :dot)
+
+x5 = linspace(-5,5,15)
+y5 = x5.^2
+
+inter_1 = Spline1D(x5,y5,k=1,bc="nearest")
+inter_2 = Spline1D(x5,y5,k=1,bc="extrapolate")
+
+x_aux5 = linspace(-7,7,200)
+
+scatter(x5,y5)
+plot!(x_aux5,inter_1(x_aux5), lw = 2, lab = "Extrapolação constante")
+plot!(x_aux5,inter_2(x_aux5), lw = 2, lab = "Extrapolação usando última reta")

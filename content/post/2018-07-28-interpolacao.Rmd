@@ -125,3 +125,36 @@ plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdadeira")
 plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", lw = 2)
 
 ```
+Veja que podemos ter o caso em que o valor que queremos cai antes do primeiro ponto ou depois do último ponto. Nesse caso, não temos dois pontos para interpolar, e temos que *extrapolar* a função. Normalmente, existem várias formas de extrapolar: podemos repetir o valor do primeiro ponto para valores antes dele e do último ponto para valores depois dele; podemos continuar usando a função que liga os pontos mais da ponta; podemos fazer o programa cuspir um erro. Vamos ilustrar as duas primeiras opções usando o Dierck, e usar a função $x^2$ para ilustrar:
+
+```{julia}
+
+x5 = linspace(-5,5,15)
+y5 = x5.^2
+
+inter_1 = Spline1D(x5,y5,k=1,bc="nearest")
+inter_2 = Spline1D(x5,y5,k=1,bc="extrapolate")
+
+x_aux5 = linspace(-7,7,200)
+
+scatter(x5,y5)
+plot!(x_aux5,inter_1(x_aux5), lw = 2, lab = "Extrapolação constante")
+plot!(x_aux5,inter_2(x_aux5), lw = 2, lab = "Extrapolação usando última reta")
+
+```
+
+No R, a função `approx`, que já vem por padrão com o R, faz interpolação linear. Veja que, ao contrário do Dierckx, a função `approxfun` só permite extrapolar retornando NA ou um valor constante. Isto é escolhido via a opção `rule`, que é criptíca: `rule=1` retorna NA e `rule=2` retorna o valor do ponto mais próximo. Vamos repetir o exemplo do cosseno no R, usando `rule = 2`:
+
+```{r}
+
+x = seq(0,6, length.out = 10)
+y = cos(x)
+
+f <- approxfun(x,y, rule = 2)
+
+x_aux = seq(-1,7,by=0.01)
+
+plot(x,y, main = "Interpolação linear da função cosseno", xlim = c(-1,7))
+lines(x_aux,f(x_aux), col = 2)
+
+```
