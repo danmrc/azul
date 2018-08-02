@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Pelo contrário. Mas ele é necessário para posts futuros.
+A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Interpolação • AZUL'>
+<meta property='og:description' content='Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Pelo contrário. Mas ele é necessário para posts futuros.
+A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.'>
+<meta property='og:url' content='/2018/07/28/interpolacao/'>
+<meta property='og:site_name' content='AZUL'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Interpolação'><meta property='article:tag' content='Julia'><meta property='article:tag' content='R'><meta property='article:published_time' content='2018-07-28T00:00:00Z'/><meta property='article:modified_time' content='2018-07-28T00:00:00Z'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.44" />
+
+  <title>Interpolação • AZUL</title>
+  <link rel='canonical' href='/2018/07/28/interpolacao/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.809149b6.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+  
+
+</head>
+
+
+<body class='page type-post has-sidebar'>
+
+  <div class='site'>
+
+    <div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    AZUL
+    </h2>
+    <div class='desc'>
+    Economia, Estatística, Programação
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/apresenta%C3%A7%C3%A3o' style='font-size:1em'>Apresentação</a>
+      </li><li>
+        <a href='/tags/econometria' style='font-size:1em'>Econometria</a>
+      </li><li>
+        <a href='/tags/economia' style='font-size:1em'>Economia</a>
+      </li><li>
+        <a href='/tags/interpola%C3%A7%C3%A3o' style='font-size:1em'>Interpolação</a>
+      </li><li>
+        <a href='/tags/julia' style='font-size:2em'>Julia</a>
+      </li><li>
+        <a href='/tags/monte-carlo' style='font-size:2em'>Monte Carlo</a>
+      </li><li>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica' style='font-size:1em'>Programação Dinâmica</a>
+      </li><li>
+        <a href='/tags/r' style='font-size:2em'>R</a>
+      </li><li>
+        <a href='/tags/simula%C3%A7%C3%A3o' style='font-size:2em'>Simulação</a>
+      </li><li>
+        <a href='/tags/tutoriais' style='font-size:1em'>Tutoriais</a>
+      </li><li>
+        <a href='/tags/vari%C3%A1veis-instrumentais' style='font-size:1em'>Variáveis Instrumentais</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div>
+
+    <div class='main'>
+
+      <nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='/about/'>About</a>
+      </li><li class='item'>
+        <a href=''>GitHub</a>
+      </li><li class='item'>
+        <a href='/post'>Home</a>
+      </li><li class='item'>
+        <a href=''>Twitter</a>
+      </li></ul>
+  </div>
+</nav>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>AZUL</p><p class='desc site-desc'>Economia, Estatística, Programação</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Interpolação</h1>
+      
+
+    </div>
+    
+<div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2018-07-28T00:00:00Z'>2018, Jul 28</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+2 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Pelo contrário. Mas ele é necessário para posts futuros.</p>
+<p>A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos. Eu não vou abordar a matemática por trás disso: vou tentar transmitir a ideia e como fazer interpolação em duas linguagens de programação: o Julia e o R.</p>
+<p>Uma primeira maneira de fazer interpolação é buscar um único polinômio que liga todos os pontos. O polinômio vai ser mais complicado - vai depender de mais graus - maior o número de pontos. Se tivermos dois pontos, podemos encontrar uma reta que liga os dois. Três pontos, precisamos de um polinômio de segundo grau. Etc. Essa estratégia se chama <em>polinômio de Lagrange</em>. Se temos n pontos, podemos usar Mínimos Quadrados com um polinômio de grau (n-1) para encontrar o polinômio de Lagrange. Vamos testar isso no Julia usando o pacote <strong>polynomials</strong>, que nos traz o comando <code>polyfit</code>. Em um primeiro caso, vamos testar a função cosseno:</p>
+<pre class="julia"><code>using Polynomials
+using Plots
+
+x2 = linspace(0,6,10)</code></pre>
+<pre><code>## 0.0:0.6666666666666666:6.0</code></pre>
+<pre class="julia"><code>x_aux = linspace(0,6,100)</code></pre>
+<pre><code>## 0.0:0.06060606060606061:6.0</code></pre>
+<pre class="julia"><code>
+y = cos.(x2)</code></pre>
+<pre><code>## 10-element Array{Float64,1}:
+##   1.0      
+##   0.785887 
+##   0.235238 
+##  -0.416147 
+##  -0.889327 
+##  -0.981674 
+##  -0.653644 
+##  -0.0457064
+##   0.581803 
+##   0.96017</code></pre>
+<pre class="julia"><code>
+pol = polyfit(x2,y)</code></pre>
+<pre><code>## Poly(1.0 + 0.0020059146298094057*x - 0.5083915409214038*x^2 + 0.014063003704064358*x^3 + 0.029088037148735733*x^4 + 0.006649088505523032*x^5 - 0.0035247878111862745*x^6 + 0.0004009683757313935*x^7 - 1.1113481674042046e-5*x^8 - 3.2898277208929307e-7*x^9)</code></pre>
+<pre class="julia"><code>
+scatter(x2,y,lab=&quot;Pontos para interpolação&quot;)
+plot!(x_aux,polyval(pol,x_aux), lw=2,lab=&quot;Polinômio interpolador&quot;)</code></pre>
+<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-1-J1.png" /><!-- --></p>
+<pre class="julia"><code>plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)</code></pre>
+<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-1-J2.png" /><!-- --></p>
+<pre class="julia"><code></code></pre>
+<p>Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso. Mas desastres podem acontecer, como o exemplo a seguir ilustra: a função é <span class="math inline">\(\frac{1}{1+25x^2}\)</span> e o problema se chama <em>fenômeno de Runge</em>. Vamos fazer o mesmo experimento que com o cosseno:</p>
+<pre class="julia"><code>
+x3 = linspace(-1,1,10)</code></pre>
+<pre><code>## -1.0:0.2222222222222222:1.0</code></pre>
+<pre class="julia"><code>y3 = 1./(1+25*x3.^2)</code></pre>
+<pre><code>## 10-element Array{Float64,1}:
+##  0.0384615
+##  0.0620214
+##  0.114731 
+##  0.264706 
+##  0.764151 
+##  0.764151 
+##  0.264706 
+##  0.114731 
+##  0.0620214
+##  0.0384615</code></pre>
+<pre class="julia"><code>
+pol3 = polyfit(x3,y3)</code></pre>
+<pre><code>## Poly(0.8615381519658221 + 6.610033870354216e-15*x - 8.260923328347713*x^2 - 4.239465921175776e-14*x^3 + 30.72853004209621*x^4 + 1.756006054850649e-13*x^5 - 44.91545808089195*x^6 - 3.075411385516741e-13*x^7 + 21.62477475363917*x^8 + 1.6772515840801273e-13*x^9)</code></pre>
+<pre class="julia"><code>
+x_aux = linspace(-1,1,100)</code></pre>
+<pre><code>## -1.0:0.020202020202020204:1.0</code></pre>
+<pre class="julia"><code>
+scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)</code></pre>
+<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-2-J1.png" /><!-- --></p>
+<pre class="julia"><code>plot!(x_aux,polyval(pol3,x_aux),lab=&quot;Polinômio interpolador&quot;, lw = 2)</code></pre>
+<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-2-J2.png" /><!-- --></p>
+<pre class="julia"><code>plot!(x_aux,1./(1+25*x_aux.^2),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)</code></pre>
+<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-2-J3.png" /><!-- --></p>
+<pre class="julia"><code></code></pre>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'>
+  <div class='categories'>
+  <span class='taxonomy-icon'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+</span>
+  <span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/curtas'>Curtas</a></div>
+<div class='tags'>
+  <span class='taxonomy-icon'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+</span>
+  <span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/interpola%C3%A7%C3%A3o'>Interpolação</a>, <a class='tag' href='/tags/julia'>Julia</a>, <a class='tag' href='/tags/r'>R</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Viés de variáveis instrumentais</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/2018/07/29/programacao-dinamica-i/'>
+        <span class='screen-reader-text'>Next post: </span>Programação Dinâmica I<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p></p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.68cb493a.js'></script><script src='/js/custom.js'></script>
+
+
+
+</body>
+
+</html>
+

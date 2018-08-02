@@ -19,8 +19,8 @@ V[1,1:length(K)] = u.(K)
 C[1,1:length(K)] = K
 
 for j = 2:T
+    valor=Spline1D(K,V[(j-1),1:length(K)],k=1,bc="extrapolate")
     for i = 1:length(K)
-        valor=Spline1D(K,V[(j-1),1:length(K)],k=1,bc="extrapolate")
         val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
         otimo = optimize(val,0.1,K[i])
         V[j,i] = -Optim.minimum(otimo)

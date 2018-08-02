@@ -13,13 +13,16 @@ authors: []
 draft: true
 ---
 
-Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Pelo contrário. Mas ele é necessário para posts futuros.
+Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 
 A ideia de interpolação é literalmente "ligar os pontos": dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos. Eu não vou abordar a matemática por trás disso: vou tentar transmitir a ideia e como fazer interpolação em duas linguagens de programação: o Julia e o R.
 
-Uma primeira maneira de fazer interpolação é buscar um único polinômio que liga todos os pontos. O polinômio vai ser mais complicado - vai depender de mais graus - maior o número de pontos. Se tivermos dois pontos, podemos encontrar uma reta que liga os dois. Três pontos, precisamos de um polinômio de segundo grau. Etc. Essa estratégia se chama *polinômio de Lagrange*. Se temos n pontos, podemos usar Mínimos Quadrados com um polinômio de grau (n-1) para encontrar o polinômio de Lagrange. Vamos testar isso no Julia usando o pacote **polynomials**, que nos traz o comando `polyfit`.  Em um primeiro caso, vamos testar a função cosseno:
+Veja que interpolar é uma maneira de aproximar uma função desconhecida de alguma maneira: só sabemos o valor da função em alguns pontos e queremos ter alguma ideia do comportamento da função entre os pontos. Para isso, ligamos os pontos, e existem diversas maneiras de ligar os pontos.
+
+Uma primeira é buscar um único polinômio que liga todos os pontos. O polinômio vai ser mais complicado - vai depender de mais graus - maior o número de pontos. Se tivermos dois pontos, podemos encontrar uma reta que liga os dois. Três pontos, precisamos de um polinômio de segundo grau. Etc. Essa estratégia se chama *polinômio de Lagrange*. Se temos n pontos, podemos usar Mínimos Quadrados com um polinômio de grau (n-1) para encontrar o polinômio de Lagrange. Vamos testar isso no Julia usando o pacote **polynomials**, que nos traz o comando `polyfit`.  Em um primeiro caso, vamos testar a função cosseno:
 
 ```{julia}
+
 using Polynomials
 using Plots
 
@@ -30,9 +33,95 @@ y = cos.(x2)
 
 pol = polyfit(x2,y)
 
-scatter(x2,y)
-plot!(x_aux,polyval(pol,x_aux))
+scatter(x2,y,lab="Pontos para interpolação")
+plot!(x_aux,polyval(pol,x_aux), lw=2,lab="Polinômio interpolador")
+plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = "Função verdadeira")
 
 ```
 
-Veja que o polinomio se aproxima bastante bem do 
+Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso. Mas desastres podem acontecer, como o exemplo a seguir ilustra: a função é $ \frac{1}{1+25x^2} $ e o problema se chama *fenômeno de Runge*. Vamos fazer o mesmo experimento que com o cosseno:
+
+```{julia}
+
+x3 = linspace(-1,1,10)
+y3 = 1./(1+25*x3.^2)
+
+pol3 = polyfit(x3,y3)
+
+x_aux = linspace(-1,1,100)
+
+scatter(x3,y3,lab="Pontos para interpolação")
+plot!(x_aux,polyval(pol3,x_aux),lab="Polinômio interpolador", lw = 2)
+plot!(x_aux,1./(1+25*x_aux.^2),linestyle=:dash, lw=2, lab = "Função verdadeira")
+
+```
+
+Se você acha a oscilação pequena, talvez olhar para um intervalo maior te convença de que um único polinômio não é uma boa ideia algumas vezes:
+
+
+```{julia}
+
+x3 = linspace(-3,3,15)
+y3 = 1./(1+25*x3.^2)
+
+pol3 = polyfit(x3,y3)
+
+x_aux = linspace(-3,3,100)
+
+scatter(x3,y3,lab="Pontos para interpolação")
+plot!(x_aux,polyval(pol3,x_aux),lw=2,lab="Polinômio interpolador")
+plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdadeira")
+
+```
+
+As figuras acima deixam claro que usar um único polinômio para aproximar a função não funciona em alguns casos. O que fazer? Podemos tomar um caminho relativamente mais simples e ligar cada par de pontos consecutivos com uma função. No Julia, usaremos o pacote **Dierckx** para fazer isso. Ainda mais simples, vamos usar apenas retas. No casso do cosseno:
+
+```{julia}
+using Dierckx
+
+x2 = linspace(0,6,10)
+x_aux = linspace(0,6,100)
+
+y = cos.(x2)
+
+aprox_lin = Spline1D(x2,y,k=1)
+
+scatter(x2,y,lab="Pontos para interpolação")
+plot!(x_aux,polyval(pol,x_aux),lw = 2,lab="Polinômio interpolador")
+plot!(x_aux,cos.(x_aux),linestyle = :dot,lw = 2, lab = "Função verdadeira")
+plot!(x_aux,f.(x_aux), linestyle = :dash, lw = 2,lab =  "Aproximação linear")
+
+```
+Não é tão bom quanto a aproximação usando o polinômio de Lagrange, mas é razoável. Mais importante, como essa nova maneira performa no fenômeno de Runge?
+
+```{julia}
+
+x3 = linspace(-1,1,10)
+y3 = 1./(1+25*x3.^2)
+
+x_aux = linspace(-1,1,100)
+
+aprox_lin3 = Spline1D(x3,y3,k=1)
+
+scatter(x3,y3,lab="Pontos para interpolação")
+plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdadeira")
+plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", lw = 2)
+
+```
+
+Tirando ao redor do 0, esta interporlação se comporta bem melhor nas pontas, onde o polinômio de Lagrange fracassa. No caso extremo de termos um intervalo entre $[-3,3]$:
+
+```{julia}
+
+x3 = linspace(-3,3,10)
+y3 = 1./(1+25*x3.^2)
+
+x_aux = linspace(-3,3,100)
+
+aprox_lin3 = Spline1D(x3,y3,k=1)
+
+scatter(x3,y3,lab="Pontos para interpolação")
+plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdadeira")
+plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", lw = 2)
+
+```
