@@ -12,7 +12,6 @@ tags:
   - Julia
   - Economia
 authors: []
-draft: true
 ---
 
 Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos. Formalmente, o problema é:
