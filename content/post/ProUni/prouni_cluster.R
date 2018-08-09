@@ -87,8 +87,7 @@ clusplot(final, analise_kmeans$cluster,
                         main='Procurando por 2 agrupamentos',
                             color=TRUE,
                               shade=TRUE,
-                                labels=2,
-                                    lines=0)
+                                lines=0)
 
 
 #### O leitor mais atento percebeu que kmeans não lida bem com os dados do ProUni
@@ -108,19 +107,19 @@ wssplot(finalnormal,
 #### Observe que agora 3 parece ser um k melhor
 
 analise_kmeans_normal <- kmeans(finalnormal, 
-                            centers = 3)
+                                    centers = 3)
 
-table(finalnormal$prouni.Medicina, analise_kmeans_normal$cluster)
+table(finalnormal$prouni.Medicina, 
+          analise_kmeans_normal$cluster)
 
 plot(finalnormal, 
-     col = analise_kmeans_normal$cluster)
+        col = analise_kmeans_normal$cluster)
 
 clusplot(final, analise_kmeans_normal$cluster,
             main='Procurando por 3 agrupamentos',
               color=TRUE,
                 shade=TRUE,
-                  labels=2,
-                    lines=0)
+                  lines=0)
 
 
 #### Performance esmagadoramente superior :)
