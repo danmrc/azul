@@ -2,7 +2,7 @@ baseurl = "https://azul.netlify.com"
 languageCode = "pt-br"
 title = "AZUL"
 theme = "minimo"
-math = true
+mathjax = true
 googleAnalytics = ""
 disqusShortname = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
@@ -107,10 +107,13 @@ weight = 1
 [params]
 description = "A website built through Hugo and blogdown."
 
-highlightjsCDN = "//cdn.bootcss.com"    # options for highlight.js (version, additional languages, and theme)
-highlightjsVersion = "9.11.0"
-highlightjsLang = ["r", "yaml", "julia"]
-highlightjsTheme = "github"
+#highlightjsCDN = "//cdn.bootcss.com"    # options for highlight.js (version, additional languages, and theme)
+#highlightjsVersion = "9.11.0"
+#highlightjsLang = ["r", "yaml", "julia"]
+#highlightjsTheme = "github"
+
+MathJaxCDN = "//cdn.bootcss.com"
+MathJaxVersion = "2.7.1"
 
 [params.logo]
 url = ""
