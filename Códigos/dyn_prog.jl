@@ -5,7 +5,7 @@ using Plots
 T = 100
 alpha = 0.5
 bet = 0.98
-delt = 0.1
+delt = 1
 dens = 100
 
 u(c) = log(c)
@@ -28,19 +28,23 @@ for j = 2:T
     end
 end
 
-start_val = 2
+start_val = 10
 
-C_path = Array{Float64}(1,T)
-K_path = Array{Float64}(1,T)
+C_path = Array{Float64}(T)
+K_path = Array{Float64}(T)
 K_path[T] = start_val
+K_true = Array{Float64}(T)
+K_true[T]=start_val
 
 for j = T:-1:2
     func_cons = Spline1D(K,C[j,1:length(K)],k=1,bc = "extrapolate")
     C_path[j] = func_cons(K_path[j])
     K_path[j-1] = f(K_path[j]) - func_cons(K_path[j]) + (1-delt)*K_path[j]
+    K_true[j-1] = alpha*bet*(1 - (alpha*bet)^(T-(T-j)))/(1-*(alpha*bet)^(T-(T-j-1)))*f(K_true[j])
 end
 
 C_path[1] = K_path[1]
 
-plot(C_path[T:-1:1])
-plot!(K_path[T:-1:1])
+plot(C_path[T:-1:1], lab = "Consumo")
+plot!(K_path[T:-1:1], lab = "Trajetória estimada do Capital")
+plot!(K_true[T:-1:1], lab = "Trajetória verdadeira do Capital")
