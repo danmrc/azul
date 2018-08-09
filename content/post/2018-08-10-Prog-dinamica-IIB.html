@@ -20,10 +20,10 @@ draft: true
 <p>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:</p>
 <p><span class="math display">\[\sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</span></p>
 <p>A nossa estratégia no post passado era, para cada <span class="math inline">\(t\)</span>, resolver o problema:</p>
-<p><span class="math display">\[V_t(k_t)\max_{c_{t}} u(c_t) + \betaV_{t+1}((1-\delta)k_{t)+f(k_t)-c_t)\]</span></p>
+<p><span class="math display">\[ V_t(k_t)\max_{c_{t}} u(c_t) + \betaV_{t+1}((1-\delta)k_{t)+f(k_t)-c_t) \]</span></p>
 <p>Onde nós sabiamos que o <span class="math inline">\(V_T{k_T}\)</span> era igual a função utilidade avaliada em <span class="math inline">\(k_T\)</span>. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar <span class="math inline">\(V_{T-1}\)</span>, e dai <span class="math inline">\(V_{T-2}\)</span>…</p>
 <p>Mas agora, somos apresentados a um problema em que não temos um último período, então não podemos prosseguir <em>recursivamente</em>. Apesar disso parecer um grande problema, é uma grande vantagem: <em>o problema de hoje é idêntico ao problema de amanhã</em>. Como em qualquer período nós ainda temos infinitos períodos a frente, nós podemos escrever o problema do consumidor usando um único <span class="math inline">\(V(k_t)\)</span> - apesar do valor de <span class="math inline">\(k_t\)</span> depender do período, a função <span class="math inline">\(V(k_t)\)</span> não depende mais do período. Nosso novo problema é resolver:</p>
-<p><span class="math display">\[V(k_t) = \max_{c_t} u(c_t)+ \betaV((1-\delta)k_{t)+f(k_t)-c_t))\]</span></p>
+<p><span class="math display">\[ V(k_t) = \max_{c_t} u(c_t)+ \betaV((1-\delta)k_{t)+f(k_t)-c_t)) \]</span></p>
 <p>A beleza de resolver esse problema é que, apesar de não sabermos o valor de V, podemos iterar no computador e encontrar uma aproximação. Nosso pseudo-código seria:</p>
 <ul>
 <li>Dê algum chute inicial para <span class="math inline">\(V\)</span>. Vamos chamar de <span class="math inline">\(V_0\)</span>.</li>

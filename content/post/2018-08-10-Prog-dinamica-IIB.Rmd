@@ -21,13 +21,13 @@ $$\sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t 
 
 A nossa estratégia no post passado era, para cada $t$, resolver o problema:
 
-$$V_t(k_t)\max_{c_{t}} u(c_t) + \betaV_{t+1}((1-\delta)k_{t)+f(k_t)-c_t)$$
+$$ V_t(k_t)\max_{c_{t}} u(c_t) + \betaV_{t+1}((1-\delta)k_{t)+f(k_t)-c_t) $$
 
 Onde nós sabiamos que o $V_T{k_T}$ era igual a função utilidade avaliada em $k_T$. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar $V_{T-1}$, e dai $V_{T-2}$...
 
 Mas agora, somos apresentados a um problema em que não temos um último período, então não podemos prosseguir *recursivamente*. Apesar disso parecer um grande problema, é uma grande vantagem: *o problema de hoje é idêntico ao problema de amanhã*. Como em qualquer período nós ainda temos infinitos períodos a frente, nós podemos escrever o problema do consumidor usando um único $V(k_t)$ - apesar do valor de $k_t$ depender do período, a função $V(k_t)$ não depende mais do período. Nosso novo problema é resolver:
 
-$$V(k_t) = \max_{c_t} u(c_t)+ \betaV((1-\delta)k_{t)+f(k_t)-c_t))$$
+$$ V(k_t) = \max_{c_t} u(c_t)+ \betaV((1-\delta)k_{t)+f(k_t)-c_t)) $$
 
 A beleza de resolver esse problema é que, apesar de não sabermos o valor de V, podemos iterar no computador e encontrar uma aproximação. Nosso pseudo-código seria:
 
