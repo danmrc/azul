@@ -109,7 +109,7 @@ weight = 1
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.11.0"
     highlightjsCDN = "//cdn.bootcss.com"
-    highlightjsLang = ["r", "yaml"]
+    highlightjsLang = ["r", "yaml", "julia"]
     highlightjsTheme = "github"
 
     MathJaxCDN = "//cdn.bootcss.com"

@@ -158,3 +158,4 @@ plot(x,y, main = "Interpolação linear da função cosseno", xlim = c(-1,7))
 lines(x_aux,f(x_aux), col = 2)
 
 ```
+
