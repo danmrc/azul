@@ -105,10 +105,6 @@ weight = 1
 
 [params]
 description = "A website built through Hugo and blogdown."
-
-    # options for highlight.js (version, additional languages, and theme)
-highlightjsVersion = "9.11.0"
-highlightjsCDN = "//cdn.bootcss.com"
 highlightjsLang = ["r", "yaml", "julia"]
 highlightjsTheme = "github"
 
