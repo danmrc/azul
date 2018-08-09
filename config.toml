@@ -2,6 +2,7 @@ baseurl = "https://azul.netlify.com"
 languageCode = "pt-br"
 title = "AZUL"
 theme = "minimo"
+math = true
 googleAnalytics = ""
 disqusShortname = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
