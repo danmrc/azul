@@ -1,0 +1,39 @@
+---
+title: Programação Dinâmica IIB
+author: Daniel Coutinho
+date: '2018-08-10'
+slug: programacao-dinamica-II-B
+categories:
+  - Julia
+  - Programação Dinâmica
+  - Economia
+tags:
+  - Programação Dinâmica
+  - Julia
+  - Economia
+authors: []
+draft: true
+---
+
+No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+
+$$\sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t $$
+
+A nossa estratégia no post passado era, para cada $t$, resolver o problema:
+
+$$V_t(k_t)\max_{c_{t}} u(c_t) + \betaV_{t+1}((1-\delta)k_{t)+f(k_t)-c_t)$$
+
+Onde nós sabiamos que o $V_T{k_T}$ era igual a função utilidade avaliada em $k_T$. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar $V_{T-1}$, e dai $V_{T-2}$...
+
+Mas agora, somos apresentados a um problema em que não temos um último período, então não podemos prosseguir *recursivamente*. Apesar disso parecer um grande problema, é uma grande vantagem: *o problema de hoje é idêntico ao problema de amanhã*. Como em qualquer período nós ainda temos infinitos períodos a frente, nós podemos escrever o problema do consumidor usando um único $V(k_t)$ - apesar do valor de $k_t$ depender do período, a função $V(k_t)$ não depende mais do período. Nosso novo problema é resolver:
+
+$$V(k_t) = \max_{c_t} u(c_t)+ \betaV((1-\delta)k_{t)+f(k_t)-c_t))$$
+
+A beleza de resolver esse problema é que, apesar de não sabermos o valor de V, podemos iterar no computador e encontrar uma aproximação. Nosso pseudo-código seria:
+
+* Dê algum chute inicial para $V$. Vamos chamar de $V_0$.
+* Resolva $\max_c u(c) + \betaV_0((1-\delta)k_{t)+f(k_t)-c))$. Salve isso como V_1
+* Resolva $\max_c u(c) + \betaV_1((1-\delta)k_{t)+f(k_t)-c))$. Salve isso como V_2
+* Faça isso até $V$ ou $c$, i.e., até $V_{i}$ e $V_{i+1}$ ficarem próximos numericamente
+
+ Vamos continuar com o nosso exemplo de função utilidade log e função de produção Cobb-Douglas. Vamos dar, como chute inicial, 
