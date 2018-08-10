@@ -1,8 +1,8 @@
 ####################################################
 ####################################################
-########ANALISANDO O PROUNI COM CLUSTERING##########
+####### ANALISANDO O PROUNI COM CLUSTERING #########
 ######## PEDRO CAVALCANTE OLIVEIRA ################# 
-#################AZUL###############################
+################ AZUL ##############################
 
 ##### Carregar bibliotecas
 
@@ -36,11 +36,9 @@ summary(coercivo)
 ##### Algoritimos de clustering não lidam bem com NAs
 ##### Iremos retirar obs que não sejam completas
 
+final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
 coercivo$dropador <- complete.cases(coercivo)
 final <- coercivo[coercivo$dropador == TRUE,]
-
-##### Inserimos um vetor de texto para facilitar os gráficos
-final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
 
 ##### Agora retiramos o vetor residual que indica se a obs é completa
 final$dropador <- NULL
@@ -58,7 +56,6 @@ ggplot(aes(x=prouni.mensalidade)) +
   geom_vline(aes(xintercept=mean(prouni.mensalidade, na.rm=T)),   
              color="black", linetype="dashed", size=1)
 
-##### Completamente opcional, estou apenas salvando a imagem
 ggsave("\\Users\\e270860661\\Desktop\\prouni\\imagem1.png", 
        dpi = 2000, 
         device = "png")
@@ -75,6 +72,48 @@ final %>%
 ggsave("\\Users\\e270860661\\Desktop\\prouni\\imagem2.png", 
        dpi = 2000, 
        device = "png")
+
+
+final %>%
+  ggplot(aes(x=prouni.nota_integral_ampla)) + 
+  xlim(400,800) +
+  geom_histogram(aes(y=..density..), binwidth = 10) +
+  xlab("Nota de Corte de Ampla Concorrência do curso no ProUni") + 
+  ylab("") +
+  geom_density(colour =" medium blue", size = 1.5) +
+  scale_y_continuous(labels = percent) +
+  geom_vline(aes(xintercept=mean(prouni.nota_integral_ampla, na.rm=T)),   
+             color="black", linetype="dashed", size=1)
+
+ggsave("\\Users\\e270860661\\Desktop\\prouni\\imagem3.png", 
+       dpi = 2000, 
+       device = "png")
+
+final %>%
+  ggplot(aes(x=prouni.nota_integral_ampla)) + 
+  xlab("Nota de Corte de Ampla Concorrência do curso no ProUni") + 
+  ylab("") +
+  geom_histogram(aes(y=..density..), binwidth = 10) +
+  scale_y_continuous(labels = percent) +
+  facet_wrap(~label) +
+  geom_density(colour =" medium blue", size = 1)
+
+ggsave("\\Users\\e270860661\\Desktop\\prouni\\imagem4.png", 
+       dpi = 2000, 
+       device = "png")
+
+final %>%
+  ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
+             colour = prouni.Medicina, show.legend = FALSE)) +
+  geom_point()+
+  stat_density_2d()+
+  xlab("Mensalidade do curso no ProUni")+
+  ylab("Nota de Corte do curso no ProUni")
+
+ggsave("\\Users\\e270860661\\Desktop\\prouni\\imagem5.png", 
+       dpi = 2000, 
+       device = "png")
+
 
 
 ##### Definimos uma semente aleatória
@@ -97,21 +136,19 @@ wssplot <- function(data, nc=15, seed=1234){
   for (i in 2:nc){
     set.seed(seed)
     wss[i] <- sum(kmeans(data, centers=i)$withinss)}
-  
   plot(1:nc, wss, type="b", xlab="Number of Clusters",
        ylab="Within groups sum of squares")}
 
-wssplot(final, 
-          nc=6) 
+wssplot(final) 
 
 ##### Pelos criterios anteriores, 2 clusters parece o adequado
 
 analise_kmeans <- kmeans(final, 
-                          centers = 2)
+                          centers = 3)
 
 ##### Inspecione o objeto
 
-str(analise)
+str(analise_kmeans)
 
 ##### Visuailzação e avaliação
 
@@ -121,7 +158,7 @@ plot(final,
      col = analise_kmeans$cluster)
 
 clusplot(final, analise_kmeans$cluster,
-                        main='Procurando por 2 agrupamentos no ProUni',
+                        main='Procurando por 3 agrupamentos no ProUni',
                             color=TRUE,
                               shade=TRUE,
                                 lines=0)
@@ -130,7 +167,7 @@ clusplot(final, analise_kmeans$cluster,
 #### O leitor mais atento percebeu que kmeans não lida bem com os dados do ProUni
 #### Isso porque o algoritimo utiliza distância euclidiana
 #### Logo, não é adequado para lidar com ordens de grandezas muito díspares
-#### Para tanto, podemos normalizar as variáveis para terem média 0 e variância unitária
+#### Para tanto, podemos normalizar as variáveis
 
 
 finalnormal <- data.frame(apply( final, 2, scale))
@@ -157,9 +194,6 @@ clusplot(final, analise_kmeans_normal$cluster,
               color=TRUE,
                 shade=TRUE,
                   lines=0)
-
-
-#### Performance esmagadoramente superior :)
 
 
 ##### clustering por dbscan, abordagem por densidade
