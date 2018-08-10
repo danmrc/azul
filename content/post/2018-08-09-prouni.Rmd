@@ -1,5 +1,5 @@
 ---
-title: Usando clustering para identificar curso no Prouni
+title: Usando clustering para identificar cursos no Prouni
 author: Pedro Cavalcante
 date: '2018-08-09'
 slug: prouni-clustering
@@ -10,10 +10,37 @@ categories:
 tags:
   - Economia da Educação
   - R
-  - Economia
+  - Clustering
 authors: []
 draft: true
 ---
 
-Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame _cursinho_ pensando em uma aprovação numa graduação em Medicina. Pois, é esperado, são cursos estranhamente competitivos, com as maiores notas de corte. 
+Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame _cursinho_ pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
+
+Vou expor brevemente a matemática por trás do processo de _Clustering k-means_, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, _carrer choice_. 
+
+## O que é clustering?
+
+Clustering é uma classe de algoritimos não-supervisionados para classificação de observações. Existem vários tipos, cores e tamanho de técnicas de clustering, mas essa bonita variedade vai ficar para outro dia, o foco de hoje é a abordagem de distância centrada.
+
+
+```{r, echo=FALSE}
+url <- "https://i.imgur.com/S65Sk9c.jpg"
+```
+
+<center><img src="`r url`"></center>
+
+
+A visualização é razoavelmente clara, clusters são literalmente agrupamentos. Com base em alguns critérios dependentes do algoritimo a ser utilizado, você classifica uma observação em um _ou_ outro agrupamento (exceto nos modelos _fuzzy_, mas isso fica para outro dia).
+
+
+
+## Clustering k-means como um problema de otimização
+
+Um problema de otimização irrestrita tem, a grosso modo, dois _features_. A *função objetivo* a ser maximizada ou minimizada e o *instrumento* com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança. K-means, ao invés de minimizar quadrado dos resíduos, minimiza a soma do quadrado da distância dentro do cluster (WCSS, em inglês). Nossos instrumentos são $k$, o número de agrupamentos e $S_i$, os conjuntos que dão qual elemento está em qual agrupamento. Podem parecer instrumentos redundantes à primeira vista. Pense que para um mesmo número de agrupamentos, é possível ter combinações de conjuntos com WCSSs diferentes.
+
+Explicitando o que foi dito:
+
+inserir equação aqui*
+
 
