@@ -125,10 +125,18 @@ end
 C_path[1] = K_path[1]
 
 ```
-Veja que o `for` não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de $T-1$ vai determinar o capital de $T$, que é consumido em sua totalidade. 
+Veja que o `for` não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de $T-1$ vai determinar o capital de $T$, que é consumido em sua totalidade. Vamos plotar isso para ver a trajetória do consumo e do capital:
+
+```{julia}
+
+plot(c_path[T:-1:1], lab = "Consumo")
+plot!(k_path[T:-1:1], lab = "Capital")
+
+```
+
 
 ##Referências
 
 As referências estão ordenadas em ordem das que eu achei mais útil. A primeira é o [https://lectures.quantecon.org](quantEcon), do Thomas Sargent e John Stachurski. Eles discutem programação dinâmica, fornecem códigos para Julia e Python e discutem um tanto da matemática por trás. Esse post deve muito ao quantEcon. Uma outra referência do Thomas Sargent é o famoso *Recursive Macroeconomic Theory*. Outra referência muito útil e que inspirou o tratamento desse post é o *Economic Dynamic in discrete time*, de Jianjun Miao.
 
-Para os leitores interessados na matemática por trás, o *Introduction to Modern Economic Growth*, do Acemoglu, discute a matemática por trás.     
+Para os leitores interessados na matemática por trás, o *Introduction to Modern Economic Growth*, do Acemoglu. Outras referências úteis incluem o *Economic Dynamics: Theory and Computation*, de John Stachurski e *Elements of Dynamic Optimization* do Chiang.
