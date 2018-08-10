@@ -59,6 +59,17 @@ ggplot(aes(x=prouni.mensalidade)) +
 
 ![Histograma das Mensalidades](https://i.imgur.com/twn7b7n.png)
 
+```{r}
+final %>%
+  ggplot(aes(x=prouni.mensalidade)) + 
+  xlab("Mensalidade do curso no ProUni") + 
+  ylab("") +
+  geom_histogram(aes(y=..density..), binwidth = 300) +
+  scale_y_continuous(labels = percent) +
+  facet_wrap(~label) +
+  geom_density(colour =" medium blue", size = 1)
+````
+
 ![Histograma das Mensalidades diferenciando cursos de Medicina](https://i.imgur.com/14R87DN.png)
 
 
