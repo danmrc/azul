@@ -47,6 +47,18 @@ A amostra que temos é do ProUni de 2017 e conta com algo em torno de 32 mil obs
 
 ```{r}
 final %>%
+  ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
+             colour = prouni.Medicina, show.legend = FALSE)) +
+  geom_point()+
+  stat_density_2d()+
+  xlab("Mensalidade do curso no ProUni")+
+  ylab("Nota de Corte do curso no ProUni")
+````
+
+![Mapa de densidade de notas de corte, mensalidades. Observações em azul mais claro são de Medicina.](https://i.imgur.com/i5yfR5V.png)
+
+```{r}
+final %>%
 ggplot(aes(x=prouni.mensalidade)) + 
   xlim(0,2500) +
   geom_histogram(aes(y=..density..), binwidth = 50) +
