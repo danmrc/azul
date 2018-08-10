@@ -12,7 +12,7 @@ tags:
   - R
   - Clustering
 authors: []
-draft: true
+draft: false
 ---
 
 Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame _cursinho_ pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
@@ -26,7 +26,6 @@ Clustering é uma classe de algoritimos não-supervisionados para classificaçã
 !["Agrupamento de observações"](https://i.imgur.com/S65Sk9c.jpg)
 
 A visualização é razoavelmente clara, clusters são literalmente agrupamentos. Com base em alguns critérios dependentes do algoritimo a ser utilizado, você classifica uma observação em um _ou_ outro agrupamento (exceto nos modelos _fuzzy_, mas isso fica para outro dia).
-
 
 
 ## Clustering k-means como um problema de otimização
@@ -114,5 +113,32 @@ wssplot <- function(data, nc=15, seed=1234){
 ````
 
 ![Método do Cotovelo](https://i.imgur.com/nEBZbL3.png)
+
+Agora que escolhemos o número 3, podemos finalmente ver se o modelo classifica bem cursos de medicina.
+
+## Os finalmentes, rodando o modelo e resultados
+
+Tendo 3 como o número mágico, podemos finalmente rodar o modelo. ````kmeans```` é um comando nativo do R, mas visualização pode ser melhor - afinal, é interessante _ver_ os agrupamentos. Para isso, vamos usar ````cluster::clusplot```` vamos executar o seguinte comando:
+
+```{r}
+##### Inspecione o objeto
+
+str(analise_kmeans)
+
+##### Agora visualize os resultados
+
+clusplot(final, analise_kmeans$cluster,
+                        main='Procurando por 3 agrupamentos no ProUni',
+                            color=TRUE,
+                              shade=TRUE,
+                                lines=0)
+
+````
+![Resultados](https://i.imgur.com/DO5ZdtC.png)
+
+Se o leitor fizer o exercício de replicar esse post, vai poder ver que o algoritimo identificou todos os 122 cursos de medicina da amostra e inseriu por engano no mesmo cluster 44 cursos que não são de medicina. 
+
+A performance é aceitável?
+
 
 
