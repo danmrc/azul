@@ -39,6 +39,10 @@ Algumas definições antes. $k$ é o número de clusters, $S_i$ é conjunto de e
 
 $$ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i || ^2 $$
 
+## Os dados
+
+A amostra que temos é do ProUni de 2017 e conta com algo em torno de 32 mil observações. Já tive o trabalho de limpar a base para vossa apreciação e vou deixa-la disponível [aqui](https://github.com/danmrc/azul/tree/master/content/post/ProUni) e o código que contém tudo [aqui](https://github.com/danmrc/azul/blob/master/content/post/ProUni/prouni_cluster.R). Vamos primeiro explorar nossa amostra.
+
 
 
 
