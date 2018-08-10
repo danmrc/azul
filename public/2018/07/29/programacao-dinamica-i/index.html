@@ -7,7 +7,7 @@
 <meta name='description' content='Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='Programação Dinâmica I • AZUL'>
+<meta property='og:title' content='Programação Dinâmica I • Daniel Coutinho'>
 <meta property='og:description' content='Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.'>
 <meta property='og:url' content='/2018/07/29/programacao-dinamica-i/'>
 <meta property='og:site_name' content='AZUL'>
@@ -15,7 +15,7 @@
 
 <meta name="generator" content="Hugo 0.44" />
 
-  <title>Programação Dinâmica I • AZUL</title>
+  <title>Programação Dinâmica I • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/07/29/programacao-dinamica-i/'>
   
   
@@ -75,9 +75,11 @@
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/apresenta%C3%A7%C3%A3o' style='font-size:1em'>Apresentação</a>
       </li><li>
+        <a href='/tags/clustering' style='font-size:1em'>Clustering</a>
+      </li><li>
         <a href='/tags/econometria' style='font-size:1em'>Econometria</a>
       </li><li>
-        <a href='/tags/economia' style='font-size:2em'>Economia</a>
+        <a href='/tags/economia' style='font-size:1.5em'>Economia</a>
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
@@ -131,11 +133,11 @@
 </span>
 </button>
     <ul><li class='item'>
-        <a href='/about/'>About</a>
-      </li><li class='item'>
         <a href=''>GitHub</a>
       </li><li class='item'>
-        <a href='/post'>Home</a>
+        <a href='/post'>Posts</a>
+      </li><li class='item'>
+        <a href='/about/'>Sobre</a>
       </li><li class='item'>
         <a href=''>Twitter</a>
       </li></ul>
@@ -178,7 +180,13 @@
   <time class='entry-date' datetime='2018-07-29T00:00:00Z'>2018, Jul 29</time>
 </span>
 
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/danielc'>Daniel Coutinho</a></span>
   
 <span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
@@ -287,12 +295,16 @@ end
 C_path[1] = K_path[1]</code></pre>
 <pre><code>## 5.0800795491791675</code></pre>
 <pre class="julia"><code></code></pre>
-<p>Veja que o <code>for</code> não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de <span class="math inline">\(T-1\)</span> vai determinar o capital de <span class="math inline">\(T\)</span>, que é consumido em sua totalidade.</p>
+<p>Veja que o <code>for</code> não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de <span class="math inline">\(T-1\)</span> vai determinar o capital de <span class="math inline">\(T\)</span>, que é consumido em sua totalidade. Vamos plotar isso para ver a trajetória do consumo e do capital:</p>
+<pre class="julia"><code>
+plot(c_path[T:-1:1], lab = &quot;Consumo&quot;)
+plot!(k_path[T:-1:1], lab = &quot;Capital&quot;)
+</code></pre>
 </div>
 <div id="referencias" class="section level2">
 <h2>Referências</h2>
 <p>As referências estão ordenadas em ordem das que eu achei mais útil. A primeira é o <a href="quantEcon">https://lectures.quantecon.org</a>, do Thomas Sargent e John Stachurski. Eles discutem programação dinâmica, fornecem códigos para Julia e Python e discutem um tanto da matemática por trás. Esse post deve muito ao quantEcon. Uma outra referência do Thomas Sargent é o famoso <em>Recursive Macroeconomic Theory</em>. Outra referência muito útil e que inspirou o tratamento desse post é o <em>Economic Dynamic in discrete time</em>, de Jianjun Miao.</p>
-<p>Para os leitores interessados na matemática por trás, o <em>Introduction to Modern Economic Growth</em>, do Acemoglu, discute a matemática por trás.</p>
+<p>Para os leitores interessados na matemática por trás, o <em>Introduction to Modern Economic Growth</em>, do Acemoglu. Outras referências úteis incluem o <em>Economic Dynamics: Theory and Computation</em>, de John Stachurski e <em>Elements of Dynamic Optimization</em> do Chiang.</p>
 </div>
 
 </div>
@@ -337,7 +349,7 @@ C_path[1] = K_path[1]</code></pre>
         <span class='screen-reader-text'>Previous post: </span>Interpolação</a>
     </div><div class='next-entry sep-before'>
       <a href='/2018/08/09/prouni-clustering/'>
-        <span class='screen-reader-text'>Next post: </span>Usando clustering para identificar curso no Prouni<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+        <span class='screen-reader-text'>Next post: </span>Usando clustering para identificar cursos no Prouni<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="4" y1="12" x2="20" y2="12"/>
   <polyline points="14 6 20 12 14 18"/>

@@ -17,10 +17,10 @@ publishDate = ["publishDate", "date"]
 expiryDate = ["expiryDate"]
 
 [[menu.main]]
-  name = "Home"
+  name = "Posts"
   url = "/post"
 [[menu.main]]
-    name = "About"
+    name = "Sobre"
     url = "/about/"
 [[menu.main]]
     name = "GitHub"
@@ -75,7 +75,6 @@ titleSeparator = "•"
 
 [params.comments]
 enable = false
-
 
 [params.comments.staticman.github]
 username = ""

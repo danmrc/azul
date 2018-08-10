@@ -10,7 +10,7 @@ tags:
   - Simulação
   - Monte Carlo
   - Tutoriais
-authors: []
+authors: ["danielc"]
 ---
 
 Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las. Nos próximos posts, irei usar simulações frequentemente. Em uma nota histórica, os pais do método são von Neumann - conhecido pelos economistas devido aos axiomas de Neuman Morgenstern para utilidade esperada - Edward Teller e Stanislaw Ulam - pais da bomba de hidrogênio.

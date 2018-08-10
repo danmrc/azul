@@ -11,7 +11,7 @@ tags:
   - Programação Dinâmica
   - Julia
   - Economia
-authors: []
+authors: ["danielc"]
 draft: true
 ---
 
@@ -104,10 +104,14 @@ end
 C_path[1] = K_path[1]</code></pre>
 <pre><code>## 5.0800795491791675</code></pre>
 <pre class="julia"><code></code></pre>
-<p>Veja que o <code>for</code> não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de <span class="math inline">\(T-1\)</span> vai determinar o capital de <span class="math inline">\(T\)</span>, que é consumido em sua totalidade.</p>
+<p>Veja que o <code>for</code> não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de <span class="math inline">\(T-1\)</span> vai determinar o capital de <span class="math inline">\(T\)</span>, que é consumido em sua totalidade. Vamos plotar isso para ver a trajetória do consumo e do capital:</p>
+<pre class="julia"><code>
+plot(c_path[T:-1:1], lab = &quot;Consumo&quot;)
+plot!(k_path[T:-1:1], lab = &quot;Capital&quot;)
+</code></pre>
 </div>
 <div id="referencias" class="section level2">
 <h2>Referências</h2>
 <p>As referências estão ordenadas em ordem das que eu achei mais útil. A primeira é o <a href="quantEcon">https://lectures.quantecon.org</a>, do Thomas Sargent e John Stachurski. Eles discutem programação dinâmica, fornecem códigos para Julia e Python e discutem um tanto da matemática por trás. Esse post deve muito ao quantEcon. Uma outra referência do Thomas Sargent é o famoso <em>Recursive Macroeconomic Theory</em>. Outra referência muito útil e que inspirou o tratamento desse post é o <em>Economic Dynamic in discrete time</em>, de Jianjun Miao.</p>
-<p>Para os leitores interessados na matemática por trás, o <em>Introduction to Modern Economic Growth</em>, do Acemoglu, discute a matemática por trás.</p>
+<p>Para os leitores interessados na matemática por trás, o <em>Introduction to Modern Economic Growth</em>, do Acemoglu. Outras referências úteis incluem o <em>Economic Dynamics: Theory and Computation</em>, de John Stachurski e <em>Elements of Dynamic Optimization</em> do Chiang.</p>
 </div>

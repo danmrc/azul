@@ -4,18 +4,20 @@
 <head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois, é esperado, são cursos estranhamente competitivos, com as maiores notas de corte.'>
+<meta name='description' content='Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
+Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='Usando clustering para identificar curso no Prouni • AZUL'>
-<meta property='og:description' content='Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois, é esperado, são cursos estranhamente competitivos, com as maiores notas de corte.'>
+<meta property='og:title' content='Usando clustering para identificar cursos no Prouni • AZUL'>
+<meta property='og:description' content='Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
+Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.'>
 <meta property='og:url' content='/2018/08/09/prouni-clustering/'>
 <meta property='og:site_name' content='AZUL'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Economia da Educação'><meta property='article:tag' content='R'><meta property='article:tag' content='Economia'><meta property='article:published_time' content='2018-08-09T00:00:00Z'/><meta property='article:modified_time' content='2018-08-09T00:00:00Z'/><meta name='twitter:card' content='summary'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Economia da Educação'><meta property='article:tag' content='R'><meta property='article:tag' content='Clustering'><meta property='article:published_time' content='2018-08-09T00:00:00Z'/><meta property='article:modified_time' content='2018-08-09T00:00:00Z'/><meta name='twitter:card' content='summary'>
 
 <meta name="generator" content="Hugo 0.44" />
 
-  <title>Usando clustering para identificar curso no Prouni • AZUL</title>
+  <title>Usando clustering para identificar cursos no Prouni • AZUL</title>
   <link rel='canonical' href='/2018/08/09/prouni-clustering/'>
   
   
@@ -75,9 +77,11 @@
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/apresenta%C3%A7%C3%A3o' style='font-size:1em'>Apresentação</a>
       </li><li>
+        <a href='/tags/clustering' style='font-size:1em'>Clustering</a>
+      </li><li>
         <a href='/tags/econometria' style='font-size:1em'>Econometria</a>
       </li><li>
-        <a href='/tags/economia' style='font-size:2em'>Economia</a>
+        <a href='/tags/economia' style='font-size:1.5em'>Economia</a>
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
@@ -131,11 +135,11 @@
 </span>
 </button>
     <ul><li class='item'>
-        <a href='/about/'>About</a>
-      </li><li class='item'>
         <a href=''>GitHub</a>
       </li><li class='item'>
-        <a href='/post'>Home</a>
+        <a href='/post'>Posts</a>
+      </li><li class='item'>
+        <a href='/about/'>Sobre</a>
       </li><li class='item'>
         <a href=''>Twitter</a>
       </li></ul>
@@ -160,7 +164,7 @@
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>Usando clustering para identificar curso no Prouni</h1>
+      <h1 class='title'>Usando clustering para identificar cursos no Prouni</h1>
       
 
     </div>
@@ -186,7 +190,7 @@
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-One min read
+2 mins read
 </span>
 
 
@@ -200,7 +204,22 @@ One min read
   
 
   <div class='container entry-content'>
-  <p>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame <em>cursinho</em> pensando em uma aprovação numa graduação em Medicina. Pois, é esperado, são cursos estranhamente competitivos, com as maiores notas de corte.</p>
+  <p>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame <em>cursinho</em> pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.</p>
+<p>Vou expor brevemente a matemática por trás do processo de <em>Clustering k-means</em>, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, <em>carrer choice</em>.</p>
+<div id="o-que-e-clustering" class="section level2">
+<h2>O que é clustering?</h2>
+<p>Clustering é uma classe de algoritimos não-supervisionados para classificação de observações. Existem vários tipos, cores e tamanho de técnicas de clustering, mas essa bonita variedade vai ficar para outro dia, o foco de hoje é a abordagem de distância centrada.</p>
+<center>
+<img src="https://i.imgur.com/S65Sk9c.jpg">
+</center>
+<p>A visualização é razoavelmente clara, clusters são literalmente agrupamentos. Com base em alguns critérios dependentes do algoritimo a ser utilizado, você classifica uma observação em um <em>ou</em> outro agrupamento (exceto nos modelos <em>fuzzy</em>, mas isso fica para outro dia).</p>
+</div>
+<div id="clustering-k-means-como-um-problema-de-otimizacao" class="section level2">
+<h2>Clustering k-means como um problema de otimização</h2>
+<p>Um problema de otimização irrestrita tem, a grosso modo, dois <em>features</em>. A <em>função objetivo</em> a ser maximizada ou minimizada e o <em>instrumento</em> com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança. K-means, ao invés de minimizar quadrado dos resíduos, minimiza a soma do quadrado da distância dentro do cluster (WCSS, em inglês). Nossos instrumentos são <span class="math inline">\(k\)</span>, o número de agrupamentos e <span class="math inline">\(S_i\)</span>, os conjuntos que dão qual elemento está em qual agrupamento. Podem parecer instrumentos redundantes à primeira vista. Pense que para um mesmo número de agrupamentos, é possível ter combinações de conjuntos com WCSSs diferentes.</p>
+<p>Explicitando o que foi dito:</p>
+<p>inserir equação aqui*</p>
+</div>
 
 </div>
 
@@ -223,7 +242,7 @@ One min read
   
 </svg>
 </span>
-  <span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/economia-da-educa%C3%A7%C3%A3o'>Economia da Educação</a>, <a class='tag' href='/tags/r'>R</a>, <a class='tag' href='/tags/economia'>Economia</a></div>
+  <span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/economia-da-educa%C3%A7%C3%A3o'>Economia da Educação</a>, <a class='tag' href='/tags/r'>R</a>, <a class='tag' href='/tags/clustering'>Clustering</a></div>
 
   </div>
 </footer>
