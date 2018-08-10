@@ -6,11 +6,13 @@
 
 ##### Carregar bibliotecas
 
+library(dplyr)
 library(ggplot2)
 library(readxl)
 library(dbscan)
 library(mclust)
 library(cluster)
+library(scales)
 
 ##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
 
@@ -37,8 +39,43 @@ summary(coercivo)
 coercivo$dropador <- complete.cases(coercivo)
 final <- coercivo[coercivo$dropador == TRUE,]
 
+##### Inserimos um vetor de texto para facilitar os gráficos
+final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
+
 ##### Agora retiramos o vetor residual que indica se a obs é completa
 final$dropador <- NULL
+
+##### Análise Exploratória
+
+final %>%
+ggplot(aes(x=prouni.mensalidade)) + 
+  xlim(0,2500) +
+  geom_histogram(aes(y=..density..), binwidth = 50) +
+  xlab("Mensalidade do curso no ProUni") + 
+  ylab("") +
+  geom_density(colour =" medium blue", size = 1.5) +
+  scale_y_continuous(labels = percent) +
+  geom_vline(aes(xintercept=mean(prouni.mensalidade, na.rm=T)),   
+             color="black", linetype="dashed", size=1)
+
+##### Completamente opcional, estou apenas salvando a imagem
+ggsave("\\Users\\e270860661\\Desktop\\prouni\\imagem1.png", 
+       dpi = 2000, 
+        device = "png")
+
+final %>%
+  ggplot(aes(x=prouni.mensalidade)) + 
+  xlab("Mensalidade do curso no ProUni") + 
+  ylab("") +
+  geom_histogram(aes(y=..density..), binwidth = 300) +
+  scale_y_continuous(labels = percent) +
+  facet_wrap(~label) +
+  geom_density(colour =" medium blue", size = 1)
+
+ggsave("\\Users\\e270860661\\Desktop\\prouni\\imagem2.png", 
+       dpi = 2000, 
+       device = "png")
+
 
 ##### Definimos uma semente aleatória
 
@@ -84,7 +121,7 @@ plot(final,
      col = analise_kmeans$cluster)
 
 clusplot(final, analise_kmeans$cluster,
-                        main='Procurando por 2 agrupamentos',
+                        main='Procurando por 2 agrupamentos no ProUni',
                             color=TRUE,
                               shade=TRUE,
                                 lines=0)
@@ -116,7 +153,7 @@ plot(finalnormal,
         col = analise_kmeans_normal$cluster)
 
 clusplot(final, analise_kmeans_normal$cluster,
-            main='Procurando por 3 agrupamentos',
+            main='Procurando por 3 agrupamentos no ProUni',
               color=TRUE,
                 shade=TRUE,
                   lines=0)
@@ -135,6 +172,7 @@ hullplot(final,
 ##### mclustering
 analise3 <- Mclust(final)
 plot(analise3)
+
 
 
 
