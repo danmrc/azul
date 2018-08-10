@@ -37,5 +37,7 @@ A visualização é razoavelmente clara, clusters são literalmente agrupamentos
 
 ## Clustering k-means como um problema de otimização
 
+Um problema de otimização irrestrita tem, a grosso modo, dois _features_. A *função objetivo* a ser maximizada ou minimizada e o *instrumento* com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança. O algorítimo k-means, ao invés de minimizar quadrado dos resíduos, minimiza o quadrado da distância dentro do cluster (WCSS, em inglês). Nossos instrumentos são $k$ e $S_i$. 
+
 
 
