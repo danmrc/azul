@@ -118,7 +118,7 @@ Agora que escolhemos o número 3, podemos finalmente ver se o modelo classifica 
 
 ## Os finalmentes, rodando o modelo e resultados
 
-Tendo 3 como o número mágico, podemos finalmente rodar o modelo. ````kmeans```` é um comando nativo do R, mas visualização pode ser melhor - afinal, é interessante _ver_ os agrupamentos. Para isso, vamos usar ````cluster::clusplot```` vamos executar o seguinte comando:
+Tendo 3 como o número mágico, podemos finalmente rodar o modelo. ````kmeans```` é um comando nativo do R, mas visualização pode ser melhor - afinal, é interessante _ver_ os agrupamentos. Para isso, vamos usar ````cluster::clusplot````:
 
 ```{r}
 ##### Inspecione o objeto
