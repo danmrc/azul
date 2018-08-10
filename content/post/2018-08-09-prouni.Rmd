@@ -29,7 +29,7 @@ Clustering é uma classe de algoritimos não-supervisionados para classificaçã
 url <- "https://i.imgur.com/S65Sk9c.jpg"
 ```
 
-<center><img src="`r url`"></center>
+<center><img src="url"></center>
 
 A visualização é razoavelmente clara, clusters são literalmente agrupamentos. Com base em alguns critérios dependentes do algoritimo a ser utilizado, você classifica uma observação em um _ou_ outro agrupamento (exceto nos modelos _fuzzy_, mas isso fica para outro dia).
 
