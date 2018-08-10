@@ -35,6 +35,6 @@ Um problema de otimização irrestrita tem, a grosso modo, dois _features_. A *f
 
 Explicitando o que foi dito:
 
-$$ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i || ^2$$
+$$ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i || ^2 $$
 
 
