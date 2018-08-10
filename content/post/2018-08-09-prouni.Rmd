@@ -27,6 +27,8 @@ Clustering é uma classe de algoritimos não-supervisionados para classificaçã
 ```{r, echo=TRUE}
 # Define variable containing url
 url <- "https://i.imgur.com/S65Sk9c.jpg"
+![](`r url`)
+
 ```
 
 <center><img src="url"></center>
