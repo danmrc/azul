@@ -82,3 +82,25 @@ Aqui observamos três coisas muito interessantes. A primeira é que notas de cor
 
 ![Histograma das notas de corte diferenciando Medicina](https://i.imgur.com/VjfJH7K.png)
 
+## Como escolher k?
+
+Essa é a pergunta de um milhão de dólares, honestamente. Eu encontrei dois principais métodos, um é computacionalmente exigente e preciso, o outro é computacionalmente simples e depende mais de interpretação. 
+
+A primeira e mais complicada é a _Gap Statistic_ ([Tbishirani, Walther e Hastie (2001)](https://statweb.stanford.edu/~gwalther/gap)). O método envolve algumas computações com bootstrap, então exige uma máquina preparada. Só consegui rodar usando um servidor, então evite esse método se tiver um computador normal (ou até mesmo um pessoal de alta qualidade). Em qualquer caso, a implementação desse método é a função ````cluster::clusGap````. 
+
+O segundo método é o do "Cotovelo". Não é muito sofisticado, mas é potente. Plotamos o WCSS como uma função de $k$ e procuramos por uma inflexão na curva. Onde ela tiver um "cotovelo", é provavelmente o $k$ mais adequado. A função a seguir implementa o gráfico:
+
+```{r}
+wssplot <- function(data, nc=15, seed=1234){
+  wss <- (nrow(data)-1)*sum(apply(data,2,var))
+  for (i in 2:nc){
+    set.seed(seed)
+    wss[i] <- sum(kmeans(data, centers=i)$withinss)}
+  
+  plot(1:nc, wss, type="b", xlab="Number of Clusters",
+       ylab="Within groups sum of squares")}
+````
+
+![Método do Cotovelo](https://i.imgur.com/nEBZbL3.png)
+
+
