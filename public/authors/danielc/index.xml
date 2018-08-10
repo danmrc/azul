@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R on AZUL</title>
-    <link>/tags/r/</link>
-    <description>Recent content in R on AZUL</description>
+    <title>Danielc on AZUL</title>
+    <link>/authors/danielc/</link>
+    <description>Recent content in Danielc on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 09 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 29 Jul 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/authors/danielc/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Usando clustering para identificar cursos no Prouni</title>
-      <link>/2018/08/09/prouni-clustering/</link>
-      <pubDate>Thu, 09 Aug 2018 00:00:00 +0000</pubDate>
+      <title>Programação Dinâmica I</title>
+      <link>/2018/07/29/programacao-dinamica-i/</link>
+      <pubDate>Sun, 29 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/09/prouni-clustering/</guid>
-      <description>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
-Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</description>
+      <guid>/2018/07/29/programacao-dinamica-i/</guid>
+      <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
     </item>
     
     <item>
@@ -39,6 +38,15 @@ A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunt
       <guid>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
       <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
 Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+    </item>
+    
+    <item>
+      <title>Monte Carlo 101</title>
+      <link>/2018/07/18/monte-carlo-101/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/07/18/monte-carlo-101/</guid>
+      <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
     
   </channel>

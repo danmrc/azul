@@ -209,16 +209,18 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
 <div id="o-que-e-clustering" class="section level2">
 <h2>O que é clustering?</h2>
 <p>Clustering é uma classe de algoritimos não-supervisionados para classificação de observações. Existem vários tipos, cores e tamanho de técnicas de clustering, mas essa bonita variedade vai ficar para outro dia, o foco de hoje é a abordagem de distância centrada.</p>
-<center>
-<img src="https://i.imgur.com/S65Sk9c.jpg">
-</center>
+<div class="figure">
+<img src="https://i.imgur.com/S65Sk9c.jpg" alt="Agrupamento de observações" />
+<p class="caption">Agrupamento de observações</p>
+</div>
 <p>A visualização é razoavelmente clara, clusters são literalmente agrupamentos. Com base em alguns critérios dependentes do algoritimo a ser utilizado, você classifica uma observação em um <em>ou</em> outro agrupamento (exceto nos modelos <em>fuzzy</em>, mas isso fica para outro dia).</p>
 </div>
 <div id="clustering-k-means-como-um-problema-de-otimizacao" class="section level2">
 <h2>Clustering k-means como um problema de otimização</h2>
-<p>Um problema de otimização irrestrita tem, a grosso modo, dois <em>features</em>. A <em>função objetivo</em> a ser maximizada ou minimizada e o <em>instrumento</em> com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança. K-means, ao invés de minimizar quadrado dos resíduos, minimiza a soma do quadrado da distância dentro do cluster (WCSS, em inglês). Nossos instrumentos são <span class="math inline">\(k\)</span>, o número de agrupamentos e <span class="math inline">\(S_i\)</span>, os conjuntos que dão qual elemento está em qual agrupamento. Podem parecer instrumentos redundantes à primeira vista. Pense que para um mesmo número de agrupamentos, é possível ter combinações de conjuntos com WCSSs diferentes.</p>
-<p>Explicitando o que foi dito:</p>
-<p>inserir equação aqui*</p>
+<p>Um problema de otimização irrestrita tem, a grosso modo, dois <em>features</em>. A <em>função objetivo</em> a ser maximizada ou minimizada e o <em>instrumento</em> com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança.</p>
+<p>K-means, ao invés de minimizar quadrado dos resíduos, minimiza a soma do quadrado da distância dentro do cluster (WCSS, em inglês). Nossos instrumentos são <span class="math inline">\(k\)</span>, o número de agrupamentos e <span class="math inline">\(S_i\)</span>, os conjuntos que dão qual elemento está em qual agrupamento. Podem parecer instrumentos redundantes à primeira vista. Pense que para um mesmo número de agrupamentos, é possível ter combinações de conjuntos com WCSSs diferentes.</p>
+<p>Algumas definições antes. <span class="math inline">\(k\)</span> é o número de clusters, <span class="math inline">\(S_i\)</span> é conjunto de elementos do i-ésimo cluster, <span class="math inline">\(\mu_i\)</span> é a média do i-ésimo cluster.</p>
+<p><span class="math display">\[ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i || ^2 \]</span></p>
 </div>
 
 </div>
