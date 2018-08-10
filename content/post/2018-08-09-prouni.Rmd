@@ -24,12 +24,12 @@ Vou expor brevemente a matemática por trás do processo de _Clustering k-means_
 Clustering é uma classe de algoritimos não-supervisionados para classificação de observações. Existem vários tipos, cores e tamanho de técnicas de clustering, mas essa bonita variedade vai ficar para outro dia, o foco de hoje é a abordagem de distância centrada.
 
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 url <- "https://i.imgur.com/S65Sk9c.jpg"
 ```
 
-![](`r url`)
-<center><img src="url"></center>
+<center><img src="`r url`"></center>
+
 
 A visualização é razoavelmente clara, clusters são literalmente agrupamentos. Com base em alguns critérios dependentes do algoritimo a ser utilizado, você classifica uma observação em um _ou_ outro agrupamento (exceto nos modelos _fuzzy_, mas isso fica para outro dia).
 
