@@ -49,11 +49,11 @@ $$ V_{T-1}(k_{T-1},c_{T-1}) = \max_{c_{T-1}} u(c_{T-1}) + \beta u(k_T) $$
 
 Veja que o $k_{T-1}$ aparece implicitamente na função acima, já que precisamos dele para calcular $k_T$.
 
-E para $T-2$? Você vai ter que levar em conta o quanto o seu consumo impacta a utilidade em $T-2$ e a acumulação de capital - e por tabela a utilidade - em T-1 e T. Mas, convenientemente, a função $V_{T-1}(k_{T-1},c_{T-1})$ leva em conta o impacto do seu consumo em $T-2$ nos períodos seguintes, já que ao determinar $c_{T-2}$ determinamos $k_{T-1}$, que é essencial para definirmos $c_{T-1}$. Podemos escrever uma função, $V_{T-2}$:
+E para $T-2$? Você vai ter que levar em conta o quanto o seu consumo impacta a utilidade em $T-2$ e a acumulação de capital - e por tabela a utilidade - em $T-1$ e $T$. Mas, convenientemente, a função $V_{T-1}(k_{T-1},c_{T-1})$ leva em conta o impacto do seu consumo em $T-2$ nos períodos seguintes, já que ao determinar $c_{T-2}$ determinamos $k_{T-1}$, que é essencial para definirmos $c_{T-1}$. Podemos escrever uma função, $V_{T-2}$:
 
 $$ V_{T-2}(k_{T-2},c_{T-2}) = \max_{c_{T-2}} u(c_{T-2}) + \beta*V(k_{T-1},c_{T-1}) $$
 
-Se você ainda não entendeu para onde isso está indo, eu pretendo escrever o problema de maximização de uma data $t$ qualquer como um problema que depende de $V_{t+1}(k_{t+1},c_{t+1})$. Para facilitar a nossa vida, vamos chamar $V_t(k_t,c_t)$ de função valor (por isso V): ela dá o valor do problema de otimização amanhã. Logo, o problema na data $t$ é:
+Se você ainda não entendeu para onde isso está indo, eu pretendo escrever o problema de maximização de uma data $t$ qualquer como um problema que depende de $V_{t+1}(k_{t+1},c_{t+1})$. O problema na data $t$ é:
 
 $$ V_t(k_t,c_t) = \max_{c_t} u(c_t) + \beta V_{t+1}(k_{t+1},c_{t+1}) $$
 
@@ -125,7 +125,7 @@ end
 C_path[1] = K_path[1]
 
 ```
-Veja que o `for` não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de $T-1$ vai determinar o capital de $T$, que é consumido em sua totalidade.
+Veja que o `for` não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de $T-1$ vai determinar o capital de $T$, que é consumido em sua totalidade. 
 
 ##Referências
 
