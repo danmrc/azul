@@ -14,6 +14,45 @@ tags:
 authors: []
 ---
 
+```{r echo=FALSE, results='hide',message=FALSE}
+##### Carregar bibliotecas
+
+library(dplyr)
+library(ggplot2)
+library(readxl)
+library(dbscan)
+library(mclust)
+library(cluster)
+library(scales)
+
+##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
+
+prouni <- read_excel("C:\Users\pedro\Google Drive\Dados\Próprios\prouni.xlsx", 
+                     sheet = "Formatados_para_rodar")
+
+##### Aqui selecionamos as variáveis de interesse: 
+##### Dummy de Medicina
+##### Mensalidade
+##### Nota de Corte
+
+coercivo <- data.frame(prouni$mensalidade, 
+                        prouni$Medicina, 
+                          prouni$nota_integral_ampla)
+##### Inspecione a base
+summary(coercivo)
+
+##### Algoritimos de clustering não lidam bem com NAs
+##### Iremos retirar obs que não sejam completas
+
+final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
+coercivo$dropador <- complete.cases(coercivo)
+final <- coercivo[coercivo$dropador == TRUE,]
+
+##### Agora retiramos o vetor residual que indica se a obs é completa
+final$dropador <- NULL
+```
+
+
 Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame _cursinho_ pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
 
 Vou expor brevemente a matemática por trás do processo de _Clustering k-means_, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, _carrer choice_. 
