@@ -2,14 +2,16 @@
 title: "Usando clustering para identificar cursos no Prouni"
 author: "Pedro Cavalcante"
 date: '2018-08-09'
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 categories:
 - R
 - Clustering
 - Economia
 slug: prouni-clustering
 tags:
-- Economia da EducaÃ§Ã£o
+- Economia da EducaÃƒÂ§ÃƒÂ£o
 - R
 - Clustering
 authors: []
@@ -84,7 +86,7 @@ O leitor atento percebeu que $k$ não aparece aqui como um instrumento do proble
 
 A amostra que temos é do ProUni de 2017 e conta com algo em torno de 32 mil observações. Já tive o trabalho de limpar a base para vossa apreciação e vou deixa-la disponível [aqui](https://github.com/danmrc/azul/tree/master/content/post/ProUni) e o código que contém tudo [aqui](https://github.com/danmrc/azul/blob/master/content/post/ProUni/prouni_cluster.R). Vamos primeiro explorar nossa amostra com a ajuda do ````ggplot2````.
 
-```{r imagem1, echo=FALSE}
+```{r imagem1, echo=FALSE, message=FALSE, warning=FALSE}
 final %>%
   ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
              colour = prouni.Medicina, show.legend = FALSE)) +
@@ -96,7 +98,7 @@ final %>%
 
 ![Mapa de densidade de notas de corte, mensalidades. Observações em azul mais claro são de Medicina.](https://i.imgur.com/i5yfR5V.png)
 
-```{r imagem2, echo=FALSE}
+```{r imagem2, message=FALSE, warning=FALSE}
 
 final %>%
 ggplot(aes(x=prouni.mensalidade)) + 
@@ -111,7 +113,7 @@ ggplot(aes(x=prouni.mensalidade)) +
 ````
 !["Histograma das Mensalidades"](https://i.imgur.com/twn7b7n.png)
 
-```{r imagem3, echo=FALSE}
+```{r imagem3, message=FALSE, warning=FALSE}
 
 final %>%
   ggplot(aes(x=prouni.mensalidade)) + 
