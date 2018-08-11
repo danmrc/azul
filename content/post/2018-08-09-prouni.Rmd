@@ -14,7 +14,7 @@ tags:
 authors: []
 ---
 
-```{r echo=FALSE, results='hide',message=FALSE}
+```{r echo=FALSE}
 ##### Carregar bibliotecas
 
 library(dplyr)
