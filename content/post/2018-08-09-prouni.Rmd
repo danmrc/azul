@@ -14,7 +14,7 @@ tags:
 authors: []
 ---
 
-```{r echo=FALSE}
+```{r abertura, include=FALSE}
 ##### Carregar bibliotecas
 
 library(dplyr)
@@ -27,7 +27,7 @@ library(scales)
 
 ##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
 
-prouni <- read_excel("C:\Users\pedro\Google Drive\Dados\Próprios\prouni.xlsx", 
+prouni <- read_excel("C:/Users/pedro/Google Drive/Dados/Próprios/prouni.xlsx", 
                      sheet = "Formatados_para_rodar")
 
 ##### Aqui selecionamos as variáveis de interesse: 
@@ -44,8 +44,9 @@ summary(coercivo)
 ##### Algoritimos de clustering não lidam bem com NAs
 ##### Iremos retirar obs que não sejam completas
 
-final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
 coercivo$dropador <- complete.cases(coercivo)
+final <- coercivo[coercivo$dropador == TRUE,]
+final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
 final <- coercivo[coercivo$dropador == TRUE,]
 
 ##### Agora retiramos o vetor residual que indica se a obs é completa
@@ -82,7 +83,7 @@ O leitor atento percebeu que $k$ não aparece aqui como um instrumento do proble
 
 A amostra que temos é do ProUni de 2017 e conta com algo em torno de 32 mil observações. Já tive o trabalho de limpar a base para vossa apreciação e vou deixa-la disponível [aqui](https://github.com/danmrc/azul/tree/master/content/post/ProUni) e o código que contém tudo [aqui](https://github.com/danmrc/azul/blob/master/content/post/ProUni/prouni_cluster.R). Vamos primeiro explorar nossa amostra com a ajuda do ````ggplot2````.
 
-```{r}
+```{r imagem1, echo=TRUE}
 final %>%
   ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
              colour = prouni.Medicina, show.legend = FALSE)) +
@@ -94,7 +95,7 @@ final %>%
 
 ![Mapa de densidade de notas de corte, mensalidades. Observações em azul mais claro são de Medicina.](https://i.imgur.com/i5yfR5V.png)
 
-```{r}
+```{r imagem2, echo=TRUE}
 final %>%
 ggplot(aes(x=prouni.mensalidade)) + 
   xlim(0,2500) +
@@ -139,7 +140,7 @@ A primeira e mais complicada é a _Gap Statistic_ ([Tbishirani, Walther e Hastie
 
 O segundo método é o do "Cotovelo". Não é muito sofisticado, mas é potente. Plotamos o WCSS como uma função de $k$ e procuramos por uma inflexão na curva. Onde ela tiver um "cotovelo", é provavelmente o $k$ mais adequado. A função a seguir implementa o gráfico:
 
-```{r}
+```{r cotovelo, echo=TRUE}
 wssplot <- function(data, nc=15, seed=1234){
   wss <- (nrow(data)-1)*sum(apply(data,2,var))
   for (i in 2:nc){
@@ -148,6 +149,8 @@ wssplot <- function(data, nc=15, seed=1234){
   
   plot(1:nc, wss, type="b", xlab="Number of Clusters",
        ylab="Within groups sum of squares")}
+
+wssplot(final) 
 ````
 
 ![Método do Cotovelo](https://i.imgur.com/nEBZbL3.png)
@@ -158,10 +161,10 @@ Agora que escolhemos o número 3, podemos finalmente ver se o modelo classifica 
 
 Tendo 3 como o número mágico, podemos finalmente rodar o modelo. ````kmeans```` é um comando nativo do R, mas visualização pode ser melhor - afinal, é interessante _ver_ os agrupamentos. Para isso, vamos usar ````cluster::clusplot````:
 
-```{r}
-##### Inspecione o objeto
+```{r echo=TRUE}
 
-str(analise_kmeans)
+analise_kmeans <- kmeans(final, 
+                          centers = 3)
 
 ##### Agora visualize os resultados
 
@@ -170,7 +173,6 @@ clusplot(final, analise_kmeans$cluster,
                             color=TRUE,
                               shade=TRUE,
                                 lines=0)
-
 ````
 ![Resultados](https://i.imgur.com/DO5ZdtC.png)
 
