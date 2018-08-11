@@ -47,7 +47,7 @@ summary(coercivo)
 coercivo$dropador <- complete.cases(coercivo)
 final <- coercivo[coercivo$dropador == TRUE,]
 final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
-final <- coercivo[coercivo$dropador == TRUE,]
+final$dropador <- complete.cases(final)
 
 ##### Agora retiramos o vetor residual que indica se a obs é completa
 final$dropador <- NULL
@@ -96,6 +96,7 @@ final %>%
 ![Mapa de densidade de notas de corte, mensalidades. Observações em azul mais claro são de Medicina.](https://i.imgur.com/i5yfR5V.png)
 
 ```{r imagem2, echo=TRUE}
+
 final %>%
 ggplot(aes(x=prouni.mensalidade)) + 
   xlim(0,2500) +
@@ -107,11 +108,6 @@ ggplot(aes(x=prouni.mensalidade)) +
   geom_vline(aes(xintercept=mean(prouni.mensalidade, na.rm=T)),   
              color="black", linetype="dashed", size=1)
              
- ````
-
-!["Histograma das Mensalidades"](https://i.imgur.com/twn7b7n.png)
-
-```{r}
 final %>%
   ggplot(aes(x=prouni.mensalidade)) + 
   xlab("Mensalidade do curso no ProUni") + 
@@ -122,7 +118,6 @@ final %>%
   geom_density(colour =" medium blue", size = 1)
 ````
 
-!["Histograma das Mensalidades diferenciando cursos de Medicina"](https://i.imgur.com/14R87DN.png)
 
 Os próximos dois gráficos tem códigos análogos aos dois anteriores e estão disponíveis no script. 
 
@@ -141,6 +136,13 @@ A primeira e mais complicada é a _Gap Statistic_ ([Tbishirani, Walther e Hastie
 O segundo método é o do "Cotovelo". Não é muito sofisticado, mas é potente. Plotamos o WCSS como uma função de $k$ e procuramos por uma inflexão na curva. Onde ela tiver um "cotovelo", é provavelmente o $k$ mais adequado. A função a seguir implementa o gráfico:
 
 ```{r cotovelo, echo=TRUE}
+
+#### Limpar valores lógicos e de texto antes
+final$label <- NULL
+final$completo <- NULL
+
+#### Definir função para método do Cotovelo
+
 wssplot <- function(data, nc=15, seed=1234){
   wss <- (nrow(data)-1)*sum(apply(data,2,var))
   for (i in 2:nc){
@@ -150,7 +152,8 @@ wssplot <- function(data, nc=15, seed=1234){
   plot(1:nc, wss, type="b", xlab="Number of Clusters",
        ylab="Within groups sum of squares")}
 
-wssplot(final) 
+wssplot(final, 
+          nc = 6) 
 ````
 
 ![Método do Cotovelo](https://i.imgur.com/nEBZbL3.png)
