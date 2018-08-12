@@ -60,7 +60,7 @@ A beleza de resolver esse problema é que, apesar de não sabermos o valor de V,
  pol[1,1:length(y)] = y
 
  for i=1:149
-     V=Spline1D(y,vals[i,1:length(y)],k=1,bc="extrapolate")
+     V=Spline1D(y,vals[i,:],k=1,bc="extrapolate")
 
      for j = 1:length(y)
          That(c)=-(u(c)+bet*V(f(y[j]-c)))
@@ -86,8 +86,9 @@ A linha da solução computada parece muito próxima da solução verdadeira, ma
 
 ```{julia}
 
-dif = sol.(y) - y
+dif = sol.(y) - pol[150,:]
 
-plot(dif, legend = :none, lw = 2)
+plot(y,dif, legend = :none, lw = 2)
 
 ```
+O gráfico deixa bem claro que a solução difere mais no fim.
