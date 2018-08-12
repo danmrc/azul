@@ -94,7 +94,7 @@ final %>%
   stat_density_2d()+
   xlab("Mensalidade do curso no ProUni")+
   ylab("Nota de Corte do curso no ProUni")+
-  labs(col="Azul mais claro para Medicina")
+  labs(col="Medicina")
 ````
 
 ```{r imagem2, message=FALSE, warning=FALSE, dpi=700}
