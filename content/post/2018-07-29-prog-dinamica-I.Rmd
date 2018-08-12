@@ -57,7 +57,7 @@ Se você ainda não entendeu para onde isso está indo, eu pretendo escrever o p
 
 $$ V_t(k_t,c_t) = \max_{c_t} u(c_t) + \beta V_{t+1}(k_{t+1},c_{t+1}) $$
 
-Eu estou chamando a função de $V$ porque ela recebe o nome de função valor. Afinal, ela é o valor do problema de otimização.
+Eu estou chamando a função de $V$ porque ela recebe o nome de função valor. Afinal, ela é o valor do problema de otimização. Vale observar que o problema do período $t$ depende do valor do problema $t+1$, e por isso chamamos o porblema de *recursivo*. 
 
 Toda a historia dos últimos paragráfos tem um problema claro: eu supus que eu sabia o valor do capital em todas as datas, que depende das escolhas de $c_t$ para cada data. De certa forma, eu estou dizendo que se eu soubesse a solução, eu saberia a solução. Não é exatamente animador.
 
@@ -93,7 +93,7 @@ C[1,1:length(K)] = K
 
 for j = 2:T
     for i = 1:length(K)
-        valor=Spline1D(K,V[(j-1),1:length(K)],k=1,bc="extrapolate")
+        valor=Spline1D(K,V[(j-1),:],k=1,bc="extrapolate")
         val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
         otimo = optimize(val,0.1,K[i])
         V[j,i] = -Optim.minimum(otimo)
@@ -103,6 +103,8 @@ end
 
 ```
 Isso vai nos dar a solução para os valores de K entre 0.1 e 5 para todas as 100 datas. A matriz V guarda o valor da função $V$ e a matriz C guarda o nível ótimo de consumo para cada nível de capital. Da maneira que eu organizei, cada linha recebe o valor de uma data e cada coluna é um ponto do *grid*. Não há nenhum impedimento para fazer o contrário. Observe que a primeira linha tem a função valor no **último** período, a segunda linha  a função valor no penúltimo etc.
+
+(Uma nota para aqueles que não estão familiarizados com o Julia: `x[1,:]` pega todos os elementos da primeira linha da matriz x)
 
 Veja ainda que, como de praxe, o comando `optimize` só procura mínimos, então nós multiplicamos a função por $-1$ para transformar o máximo em mínimo. Como o que nos interessa é o valor verdadeiro da função - e não o valor na forma de "mínimo" - temos que multiplicar por $-1$ quando inserimos o valor na matriz $V$.
 
@@ -133,7 +135,11 @@ plot(c_path[T:-1:1], lab = "Consumo")
 plot!(k_path[T:-1:1], lab = "Capital")
 
 ```
+Veja que como a última linha da matriz é na verdade o primeiro período, eu faço gráico invertendo o vetor, por isso `[T:-1:1]`: leia isso como "vá de T a 1 com um passo de -1 por vez".
 
+A trajetória faz sentido: o sujeito acumula capital e chegando no fim consome o capital para não sobrar nenhum capital depois de $T$. Veja que a trajetória do consumo é mais ou menos constante, exceto no fim. É uma manifestação da hipótese de renda permamente, famoso devido a Milton Friedman e Franco Modigliani.
+
+Nos próximos posts eu pretendo falar de duas extensões importantes: incerteza e o caso em que o tempo vai para o infinito. Os dois posts seram independentes.
 
 ##Referências
 
