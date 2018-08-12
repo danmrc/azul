@@ -86,17 +86,16 @@ O leitor atento percebeu que $k$ não aparece aqui como um instrumento do proble
 
 A amostra que temos é do ProUni de 2017 e conta com algo em torno de 32 mil observações. Já tive o trabalho de limpar a base para vossa apreciação e vou deixa-la disponível [aqui](https://github.com/danmrc/azul/tree/master/content/post/ProUni) e o código que contém tudo [aqui](https://github.com/danmrc/azul/blob/master/content/post/ProUni/prouni_cluster.R). Vamos primeiro explorar nossa amostra com a ajuda do ````ggplot2````.
 
-```{r imagem1, message=FALSE, warning=FALSE, dpi=900}
+```{r imagem1, message=FALSE, warning=FALSE, dpi=1000}
 final %>%
   ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
              colour = prouni.Medicina, show.legend = FALSE)) +
   geom_point()+
   stat_density_2d()+
   xlab("Mensalidade do curso no ProUni")+
-  ylab("Nota de Corte do curso no ProUni")
+  ylab("Nota de Corte do curso no ProUni")+
+  labs(col="Azul mais claro para Medicina")
 ````
-
-![Mapa de densidade de notas de corte, mensalidades. Observações em azul mais claro são de Medicina.](https://i.imgur.com/i5yfR5V.png)
 
 ```{r imagem2, message=FALSE, warning=FALSE, dpi=700}
 
@@ -166,7 +165,7 @@ Agora que escolhemos o número 3, podemos finalmente ver se o modelo classifica 
 
 ## Os finalmentes, rodando o modelo e resultados
 
-Tendo 3 como o número mágico, podemos finalmente rodar o modelo. ````kmeans```` é um comando nativo do R, mas visualização pode ser melhor - afinal, é interessante _ver_ os agrupamentos. Para isso, vamos usar ````cluster::clusplot````:
+Tendo 3 como o número mágico, podemos finalmente rodar o modelo. ````kmeans```` é um comando nativo do R. Ele retorna um objeto de classe ````kmeans```` e os agrupamentos em específico estão no vetor ````cluster````.  É interessante visualizar o resultado através do primeiro gráfico - agora com _color coding_ baseado nos clusters, mas uma visualização específica pode ser melhor - afinal, é interessante _ver_ os agrupamentos. Para isso, vamos usar ````cluster::clusplot````:
 
 ```{r echo=TRUE, dpi=700}
 
@@ -180,6 +179,16 @@ clusplot(final, analise_kmeans$cluster,
                             color=TRUE,
                               shade=TRUE,
                                 lines=0)
+
+final %>%
+  ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
+             colour = analise_kmeans$cluster, show.legend = FALSE)) +
+  geom_point() +
+  stat_density_2d() +
+  xlab("Mensalidade do curso no ProUni") +
+  ylab("Nota de Corte do curso no ProUni") +
+  labs(col = "Agrupamento")
+
 ````
 
 Se o leitor fizer o exercício de replicar esse post, vai poder ver que o algoritimo identificou todos os 122 cursos de medicina da amostra e inseriu por engano no mesmo cluster 44 cursos que não são de medicina. 
