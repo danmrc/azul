@@ -16,7 +16,7 @@ library(scales)
 
 ##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
 
-prouni <- read_excel("C:/Users/e270860661/Downloads/prouni.xlsx", 
+prouni <- read_excel("C:/Users/pedro/Google Drive/Dados/Próprios/prouni.xlsx", 
                      sheet = "Formatados_para_rodar")
 View(prouni)
 str(prouni)
@@ -36,13 +36,16 @@ summary(coercivo)
 ##### Algoritimos de clustering não lidam bem com NAs
 ##### Iremos retirar obs que não sejam completas
 
-final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
 coercivo$dropador <- complete.cases(coercivo)
 final <- coercivo[coercivo$dropador == TRUE,]
+final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
+final$dropador <- complete.cases(final)
 
 ##### Agora retiramos o vetor residual que indica se a obs é completa
 final$dropador <- NULL
 
+summary(final)
+view(final)
 ##### Análise Exploratória
 
 final %>%
@@ -139,9 +142,10 @@ wssplot <- function(data, nc=15, seed=1234){
   plot(1:nc, wss, type="b", xlab="Number of Clusters",
        ylab="Within groups sum of squares")}
 
+
 wssplot(final) 
 
-##### Pelos criterios anteriores, 2 clusters parece o adequado
+##### Pelos criterios anteriores, 3 clusters parece o adequado
 
 analise_kmeans <- kmeans(final, 
                           centers = 3)
