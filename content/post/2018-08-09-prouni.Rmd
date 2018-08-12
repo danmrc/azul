@@ -1,7 +1,7 @@
 ---
 title: "Usando clustering para identificar cursos no Prouni"
 author: "Pedro Cavalcante"
-date: '2018-08-09'
+date: '2018-08-11'
 output:
   html_document:
     df_print: paged
@@ -11,7 +11,7 @@ categories:
 - Economia
 slug: prouni-clustering
 tags:
-- Economia da EducaÃƒÂ§ÃƒÂ£o
+- Economia da Educação
 - R
 - Clustering
 authors: []
@@ -86,7 +86,7 @@ O leitor atento percebeu que $k$ não aparece aqui como um instrumento do proble
 
 A amostra que temos é do ProUni de 2017 e conta com algo em torno de 32 mil observações. Já tive o trabalho de limpar a base para vossa apreciação e vou deixa-la disponível [aqui](https://github.com/danmrc/azul/tree/master/content/post/ProUni) e o código que contém tudo [aqui](https://github.com/danmrc/azul/blob/master/content/post/ProUni/prouni_cluster.R). Vamos primeiro explorar nossa amostra com a ajuda do ````ggplot2````.
 
-```{r imagem1, echo=FALSE, message=FALSE, warning=FALSE}
+```{r imagem1, message=FALSE, warning=FALSE, dpi=900}
 final %>%
   ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
              colour = prouni.Medicina, show.legend = FALSE)) +
@@ -98,7 +98,7 @@ final %>%
 
 ![Mapa de densidade de notas de corte, mensalidades. Observações em azul mais claro são de Medicina.](https://i.imgur.com/i5yfR5V.png)
 
-```{r imagem2, message=FALSE, warning=FALSE}
+```{r imagem2, message=FALSE, warning=FALSE, dpi=700}
 
 final %>%
 ggplot(aes(x=prouni.mensalidade)) + 
@@ -111,9 +111,9 @@ ggplot(aes(x=prouni.mensalidade)) +
   geom_vline(aes(xintercept=mean(prouni.mensalidade, na.rm=T)),   
              color="black", linetype="dashed", size=1)
 ````
-!["Histograma das Mensalidades"](https://i.imgur.com/twn7b7n.png)
 
-```{r imagem3, message=FALSE, warning=FALSE}
+
+```{r imagem3, message=FALSE, warning=FALSE, dpi=700}
 
 final %>%
   ggplot(aes(x=prouni.mensalidade)) + 
@@ -125,7 +125,6 @@ final %>%
   geom_density(colour =" medium blue", size = 1)
 ````
 
-!["Histograma das Mensalidades diferenciando cursos de Medicina"](https://i.imgur.com/14R87DN.png)
 Os próximos dois gráficos tem códigos análogos aos dois anteriores e estão disponíveis no script. 
 
 Aqui observamos três coisas muito interessantes. A primeira é que notas de corte seguem muito bem uma distribuição normal _exceto_ pela regra que impõe nota de corte mínima de 450 no ProUni e Sisu. É o tipo de coisa em que seria legal aplicar um [Teste de Densidade de McCrary (2006)](https://eml.berkeley.edu/~jmccrary/mccrary2006_DCdensity.pdf). Depois, que Medicina tem um padrão de distribuição de notas bem diferente do resto.
@@ -134,7 +133,7 @@ Aqui observamos três coisas muito interessantes. A primeira é que notas de cor
 
 ![Histograma das notas de corte diferenciando Medicina](https://i.imgur.com/VjfJH7K.png)
 
-## Como escolher k?
+## Como escolher $k$?
 
 Essa é a pergunta de um milhão de dólares, honestamente. Eu encontrei dois principais métodos, um é computacionalmente exigente e preciso, o outro é computacionalmente simples e depende mais de interpretação. 
 
@@ -142,7 +141,7 @@ A primeira e mais complicada é a _Gap Statistic_ ([Tbishirani, Walther e Hastie
 
 O segundo método é o do "Cotovelo". Não é muito sofisticado, mas é potente. Plotamos o WCSS como uma função de $k$ e procuramos por uma inflexão na curva. Onde ela tiver um "cotovelo", é provavelmente o $k$ mais adequado. A função a seguir implementa o gráfico:
 
-```{r cotovelo, echo=TRUE}
+```{r cotovelo, echo=TRUE, dpi=700}
 
 #### Limpar valores lógicos e de texto antes
 final$label <- NULL
@@ -163,15 +162,13 @@ wssplot(final,
           nc = 6) 
 ````
 
-![Método do Cotovelo](https://i.imgur.com/nEBZbL3.png)
-
 Agora que escolhemos o número 3, podemos finalmente ver se o modelo classifica bem cursos de medicina.
 
 ## Os finalmentes, rodando o modelo e resultados
 
 Tendo 3 como o número mágico, podemos finalmente rodar o modelo. ````kmeans```` é um comando nativo do R, mas visualização pode ser melhor - afinal, é interessante _ver_ os agrupamentos. Para isso, vamos usar ````cluster::clusplot````:
 
-```{r echo=TRUE}
+```{r echo=TRUE, dpi=700}
 
 analise_kmeans <- kmeans(final, 
                           centers = 3)
@@ -184,11 +181,10 @@ clusplot(final, analise_kmeans$cluster,
                               shade=TRUE,
                                 lines=0)
 ````
-![Resultados](https://i.imgur.com/DO5ZdtC.png)
 
 Se o leitor fizer o exercício de replicar esse post, vai poder ver que o algoritimo identificou todos os 122 cursos de medicina da amostra e inseriu por engano no mesmo cluster 44 cursos que não são de medicina. 
 
-A performance é aceitável?
+A performance é aceitável? Deixamos a resposta para outro post.
 
 
 
