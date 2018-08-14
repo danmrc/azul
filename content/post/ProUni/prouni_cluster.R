@@ -16,8 +16,8 @@ library(scales)
 
 ##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
 
-prouni <- read_excel("C:/Users/pedro/Google Drive/Dados/Próprios/prouni.xlsx", 
-                     sheet = "Formatados_para_rodar")
+prouni <- read.csv("C:/Users/pedro/Google Drive/Dados/Próprios/prouni.csv")
+
 View(prouni)
 str(prouni)
 
