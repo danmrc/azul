@@ -205,7 +205,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-4 mins read
+5 mins read
 </span>
 
 
@@ -233,7 +233,7 @@ if (!doNotTrack) {
 </ul>
 <div id="um-exemplo" class="section level1">
 <h1>Um exemplo</h1>
-<p>Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando <code>rnorm</code>, mas isso não é estritamente necessário. Eis o código:</p>
+<p>Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando <code>rnorm</code>. Não é estritamente necessário que as variáveis aleatórias sejam normalmente distribuídas: poderíamos testar com uma distribuição mais exótica, como uma t de student com 4 graus de liberdade. Eis o código:</p>
 <pre class="r"><code>set.seed(985)
 
 bet &lt;- rep(0,1000) #Vetor cheio de zeros para ser preenchido com as estimativas
