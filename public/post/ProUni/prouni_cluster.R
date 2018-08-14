@@ -167,6 +167,15 @@ clusplot(final, analise_kmeans$cluster,
                               shade=TRUE,
                                 lines=0)
 
+final %>%
+  ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
+             colour = analise_kmeans$cluster, show.legend = FALSE)) +
+  geom_point()+
+  stat_density_2d()+
+  xlab("Mensalidade do curso no ProUni")+
+  ylab("Nota de Corte do curso no ProUni") +
+  labs(col = "Agrupamento")
+
 
 #### O leitor mais atento percebeu que kmeans não lida bem com os dados do ProUni
 #### Isso porque o algoritimo utiliza distância euclidiana
