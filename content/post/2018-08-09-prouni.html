@@ -32,7 +32,7 @@ authors: []
 </div>
 <div id="clustering-k-means-como-um-problema-de-otimizacao" class="section level2">
 <h2>Clustering k-means como um problema de otimização</h2>
-<p>Um problema de otimização irrestrita tem, a grosso modo, dois <em>features</em>. A <em>função objetivo</em> a ser maximizada ou minimizada e o <em>instrumento</em> com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança.</p>
+<p>Um problema de otimização irrestrita tem, a grosso modo, duas <em>features</em>. A <em>função objetivo</em> a ser maximizada ou minimizada e o <em>instrumento</em> com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança.</p>
 <p>K-means, ao invés de minimizar quadrado dos resíduos, minimiza a soma do quadrado da distância dentro do cluster (WCSS, em inglês). Nossos instrumentos são <span class="math inline">\(k\)</span>, o número de agrupamentos e <span class="math inline">\(S_i\)</span>, os conjuntos que dão qual elemento está em qual agrupamento. Podem parecer instrumentos redundantes à primeira vista. Pense que para um mesmo número de agrupamentos, é possível ter combinações de conjuntos com WCSSs diferentes.</p>
 <p>Algumas definições antes. <span class="math inline">\(k\)</span> é o número de clusters, <span class="math inline">\(S_i\)</span> é conjunto de elementos do i-ésimo cluster, <span class="math inline">\(\mu_i\)</span> é a média do i-ésimo cluster.</p>
 <p><span class="math display">\[ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i ||^2 \]</span></p>
