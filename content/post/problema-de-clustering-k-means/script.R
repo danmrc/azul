@@ -75,5 +75,20 @@ amostra1 %>%
 ##### O algoritimo encontra agrupamentos
 ##### Apesar dos dados serem homogeneamente distribuídos
 
+k <- 8
+m = 100
+
+for (i in 1:k){
+  
+    x <- rnorm(mean = i, 
+              sd = .5, 
+                n=m)
+  y <- rnorm(mean = (8-i),
+              sd = .5,
+                n=m)
+  assign(paste("amostra_for_",i, sep=""), 
+         value = data.frame(x,y)) 
+   }
+
 
 
