@@ -78,17 +78,31 @@ amostra1 %>%
 k <- 8
 m = 100
 
+datalist = list() ## Util depois para aglutinar os dados
+
 for (i in 1:k){
   
     x <- rnorm(mean = i, 
-              sd = .5, 
+              sd = .1, 
                 n=m)
+    
   y <- rnorm(mean = (8-i),
-              sd = .5,
+              sd = .1,
                 n=m)
-  assign(paste("amostra_for_",i, sep=""), 
-         value = data.frame(x,y)) 
-   }
+  
+  datalist[[i]] <- data.frame(x,y)
+}
+
+amostra2 <- do.call(rbind, datalist)
+
+amostra2 %>%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = "blue")+
+  geom_vline(aes(xintercept=mean(x)),   
+             color="black", linetype="dashed", size=1)+
+  geom_hline(aes(yintercept=mean(y)),   
+             color="black", linetype="dashed", size=1)
+
 
 
 
