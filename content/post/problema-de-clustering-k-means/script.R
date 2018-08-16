@@ -8,7 +8,7 @@ library(dplyr)
 library(cluster)
 library(ggplot2)
 
-#####Começaremos gerando dados aleatórios
+##### Começaremos gerando dados aleatórios
 ##### Seja n o tamanho da amostra, o leitor pode alterar se quiser
 
 n = 100000
