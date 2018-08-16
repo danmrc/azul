@@ -118,10 +118,10 @@ amostra2 %>%
 
 wssplot(amostra2)
 
-#### Observe que para k > 8 o WGSS é ~~constante
+#### Observe que para um numero > k de clusters, o WGSS é ~~constante
 
 kmeans_amostra2 <- kmeans(amostra2, 
-                            centers = 8)
+                            centers = k)
 
 amostra2 %>%
   ggplot(aes(x=x, y=y))+
