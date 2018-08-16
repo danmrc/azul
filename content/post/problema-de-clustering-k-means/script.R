@@ -3,9 +3,11 @@
 ####### O Problema de Clustering K-means # #########
 ######## PEDRO CAVALCANTE OLIVEIRA ################# 
 ################ AZUL ##############################
+
 library(dplyr)
 library(cluster)
 library(ggplot2)
+
 #####Começaremos gerando dados aleatórios
 ##### Seja n o tamanho da amostra, o leitor pode alterar se quiser
 
@@ -43,8 +45,8 @@ wssplot <- function(data, nc=15, seed=1234){
   for (i in 2:nc){
     set.seed(seed)
     wss[i] <- sum(kmeans(data, centers=i)$withinss)}
-  plot(1:nc, wss, type="b", xlab="Number of Clusters",
-       ylab="Within groups sum of squares")}
+  plot(1:nc, wss, type="b", xlab="k",
+       ylab="WGSS")}
 
 wssplot(amostra1)
 
@@ -75,19 +77,20 @@ amostra1 %>%
 ##### O algoritimo encontra agrupamentos
 ##### Apesar dos dados serem homogeneamente distribuídos
 
-k <- 8
+k = 8
 m = 100
+sd = .2
 
 datalist = list() ## Util depois para aglutinar os dados
 
 for (i in 1:k){
   
     x <- rnorm(mean = i, 
-              sd = .1, 
+              sd = sd, 
                 n=m)
     
   y <- rnorm(mean = (8-i),
-              sd = .1,
+              sd = sd,
                 n=m)
   
   datalist[[i]] <- data.frame(x,y)
@@ -97,12 +100,32 @@ amostra2 <- do.call(rbind, datalist)
 
 amostra2 %>%
   ggplot(aes(x=x, y=y))+
-  geom_point(color = "blue")+
-  geom_vline(aes(xintercept=mean(x)),   
-             color="black", linetype="dashed", size=1)+
-  geom_hline(aes(yintercept=mean(y)),   
-             color="black", linetype="dashed", size=1)
+  geom_point(color = "blue")
+  
 
+#### Vamos ver como o cotovelo se comporta com 8 agrupamentos claramente definidos
 
+wssplot(amostra2)
 
+#### Observe que para k > 8 o WGSS é ~~constante
 
+kmeans_amostra2 <- kmeans(amostra2, 
+                            centers = 8)
+
+amostra2 %>%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra2$cluster)
+
+#### Tudo bem, k-means não parece estar acertando, mas e dbscan?
+
+library(dbscan)
+
+analise_db <- dbscan(amostra2, eps = sd)
+
+hullplot(amostra2, 
+         cl = analise_db$cluster)
+
+analise_db <- dbscan(amostra2, eps = sd)
+
+hullplot(amostra2, 
+         cl = analise_db$cluster)
