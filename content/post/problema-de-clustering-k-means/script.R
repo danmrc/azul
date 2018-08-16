@@ -11,7 +11,7 @@ library(ggplot2)
 #####Começaremos gerando dados aleatórios
 ##### Seja n o tamanho da amostra, o leitor pode alterar se quiser
 
-n <- 100000
+n = 100000
 
 #### Geraremos um vetor aleatório no R^2
 
@@ -27,12 +27,23 @@ amostra1 <- data.frame(x, y)
 
 amostra1 %>%
   ggplot(aes(x=x, y=y))+
-  geom_point(color = "light blue")+
-  geom_density_2d(color = "dark blue")+
+  geom_point(color = "dark blue")+
+  geom_density_2d(color = "light blue")+
   geom_vline(aes(xintercept=mean(x)),   
              color="black", linetype="dashed", size=1)+
   geom_hline(aes(yintercept=mean(y)),   
              color="black", linetype="dashed", size=1)
+
+amostra1 %>%
+  ggplot(aes(x=x))+
+  geom_histogram(aes(y=..density..), binwidth = .05)+
+  geom_density(color = "dark blue", size = 1)
+
+amostra1 %>%
+  ggplot(aes(x=y))+
+  geom_histogram(aes(y=..density..), binwidth = .1)+
+  geom_density(color = "dark blue", size = 1)
+
 
 ##### Definimos uma semente aleatória
 
@@ -40,7 +51,7 @@ set.seed(1234)
 
 ##### Método do Cotovelo
 
-wssplot <- function(data, nc=15, seed=1234){
+wssplot <- function(data, nc=10, seed=1234){
   wss <- (nrow(data)-1)*sum(apply(data,2,var))
   for (i in 2:nc){
     set.seed(seed)
