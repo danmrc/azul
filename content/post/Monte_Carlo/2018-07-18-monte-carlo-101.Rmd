@@ -35,7 +35,7 @@ Aqui vai um passo a passo de como fazer simulações:
 
 #Um exemplo
 
-Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando `rnorm`, mas isso não é estritamente necessário. Eis o código:
+Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando `rnorm`. Não é estritamente necessário que as variáveis aleatórias sejam normalmente distribuídas: poderíamos testar com uma distribuição mais exótica, como uma t de student com 4 graus de liberdade. Eis o código:
 
 ```{r}
 

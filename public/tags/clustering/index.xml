@@ -6,17 +6,17 @@
     <description>Recent content in Clustering on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 09 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 11 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/clustering/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Usando clustering para identificar cursos no Prouni</title>
-      <link>/2018/08/09/prouni-clustering/</link>
-      <pubDate>Thu, 09 Aug 2018 00:00:00 +0000</pubDate>
+      <link>/2018/08/11/prouni-clustering/</link>
+      <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/09/prouni-clustering/</guid>
+      <guid>/2018/08/11/prouni-clustering/</guid>
       <description>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
 Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</description>
     </item>

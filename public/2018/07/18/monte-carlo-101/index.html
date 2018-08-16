@@ -86,9 +86,13 @@ if (!doNotTrack) {
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/apresenta%C3%A7%C3%A3o' style='font-size:1em'>Apresentação</a>
       </li><li>
+        <a href='/tags/clustering' style='font-size:1em'>Clustering</a>
+      </li><li>
         <a href='/tags/econometria' style='font-size:1em'>Econometria</a>
       </li><li>
         <a href='/tags/economia' style='font-size:1.5em'>Economia</a>
+      </li><li>
+        <a href='/tags/economia-da-educa%C3%A7%C3%A3o' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o' style='font-size:1em'>Interpolação</a>
       </li><li>
@@ -98,7 +102,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica' style='font-size:1.5em'>Programação Dinâmica</a>
       </li><li>
-        <a href='/tags/r' style='font-size:1.5em'>R</a>
+        <a href='/tags/r' style='font-size:2em'>R</a>
       </li><li>
         <a href='/tags/simula%C3%A7%C3%A3o' style='font-size:1.5em'>Simulação</a>
       </li><li>
@@ -201,7 +205,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-4 mins read
+5 mins read
 </span>
 
 
@@ -229,7 +233,7 @@ if (!doNotTrack) {
 </ul>
 <div id="um-exemplo" class="section level1">
 <h1>Um exemplo</h1>
-<p>Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando <code>rnorm</code>, mas isso não é estritamente necessário. Eis o código:</p>
+<p>Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando <code>rnorm</code>. Não é estritamente necessário que as variáveis aleatórias sejam normalmente distribuídas: poderíamos testar com uma distribuição mais exótica, como uma t de student com 4 graus de liberdade. Eis o código:</p>
 <pre class="r"><code>set.seed(985)
 
 bet &lt;- rep(0,1000) #Vetor cheio de zeros para ser preenchido com as estimativas

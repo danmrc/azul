@@ -14,10 +14,11 @@ tags:
 - Economia da Educação
 - R
 - Clustering
-authors: []
+authors: [pedrocava]
 ---
 
 ```{r abertura, include=FALSE}
+
 ##### Carregar bibliotecas
 
 library(dplyr)
@@ -30,7 +31,7 @@ library(scales)
 
 ##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
 
-prouni <- read_excel("C:/Users/pedro/Google Drive/Dados/Próprios/prouni.xlsx", 
+prouni <- read_excel(paste0(getwd(),"/ProUni/prouni.xlsx"), 
                      sheet = "Formatados_para_rodar")
 
 ##### Aqui selecionamos as variáveis de interesse: 
@@ -72,7 +73,7 @@ A visualização é razoavelmente clara, clusters são literalmente agrupamentos
 
 ## Clustering k-means como um problema de otimização
 
-Um problema de otimização irrestrita tem, a grosso modo, dois _features_. A *função objetivo* a ser maximizada ou minimizada e o *instrumento* com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança. 
+Um problema de otimização irrestrita tem, a grosso modo, duas _features_. A *função objetivo* a ser maximizada ou minimizada e o *instrumento* com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança. 
 
 K-means, ao invés de minimizar quadrado dos resíduos, minimiza a soma do quadrado da distância dentro do cluster (WCSS, em inglês). Nossos instrumentos são $k$, o número de agrupamentos e $S_i$, os conjuntos que dão qual elemento está em qual agrupamento. Podem parecer instrumentos redundantes à primeira vista. Pense que para um mesmo número de agrupamentos, é possível ter combinações de conjuntos com WCSSs diferentes.
 

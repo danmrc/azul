@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
+Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Usando clustering para identificar cursos no Prouni • AZUL'>
+<meta property='og:description' content='Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
+Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.'>
+<meta property='og:url' content='/2018/08/11/prouni-clustering/'>
+<meta property='og:site_name' content='AZUL'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Economia da Educação'><meta property='article:tag' content='R'><meta property='article:tag' content='Clustering'><meta property='article:published_time' content='2018-08-11T00:00:00Z'/><meta property='article:modified_time' content='2018-08-11T00:00:00Z'/><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.44" />
+
+  <title>Usando clustering para identificar cursos no Prouni • AZUL</title>
+  <link rel='canonical' href='/2018/08/11/prouni-clustering/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.809149b6.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+
+
+<body class='page type-post has-sidebar'>
+
+  <div class='site'>
+
+    <div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    AZUL
+    </h2>
+    <div class='desc'>
+    Economia, Estatística, Programação
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/apresenta%C3%A7%C3%A3o' style='font-size:1em'>Apresentação</a>
+      </li><li>
+        <a href='/tags/clustering' style='font-size:1em'>Clustering</a>
+      </li><li>
+        <a href='/tags/econometria' style='font-size:1em'>Econometria</a>
+      </li><li>
+        <a href='/tags/economia' style='font-size:1.5em'>Economia</a>
+      </li><li>
+        <a href='/tags/economia-da-educa%C3%A7%C3%A3o' style='font-size:1em'>Economia Da Educação</a>
+      </li><li>
+        <a href='/tags/interpola%C3%A7%C3%A3o' style='font-size:1em'>Interpolação</a>
+      </li><li>
+        <a href='/tags/julia' style='font-size:2em'>Julia</a>
+      </li><li>
+        <a href='/tags/monte-carlo' style='font-size:1.5em'>Monte Carlo</a>
+      </li><li>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica' style='font-size:1.5em'>Programação Dinâmica</a>
+      </li><li>
+        <a href='/tags/r' style='font-size:2em'>R</a>
+      </li><li>
+        <a href='/tags/simula%C3%A7%C3%A3o' style='font-size:1.5em'>Simulação</a>
+      </li><li>
+        <a href='/tags/tutoriais' style='font-size:1em'>Tutoriais</a>
+      </li><li>
+        <a href='/tags/vari%C3%A1veis-instrumentais' style='font-size:1em'>Variáveis Instrumentais</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div>
+
+    <div class='main'>
+
+      <nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href=''>GitHub</a>
+      </li><li class='item'>
+        <a href='/post'>Posts</a>
+      </li><li class='item'>
+        <a href='/about/'>Sobre</a>
+      </li><li class='item'>
+        <a href=''>Twitter</a>
+      </li></ul>
+  </div>
+</nav>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>AZUL</p><p class='desc site-desc'>Economia, Estatística, Programação</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+  <script src="//yihui.name/js/math-code.js"></script>
+  <script async
+  src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Usando clustering para identificar cursos no Prouni</h1>
+      
+
+    </div>
+    
+<div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2018-08-11T00:00:00Z'>2018, Aug 11</time>
+</span>
+
+  
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+5 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame <em>cursinho</em> pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.</p>
+<p>Vou expor brevemente a matemática por trás do processo de <em>Clustering k-means</em>, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, <em>carrer choice</em>.</p>
+<div id="o-que-e-clustering" class="section level2">
+<h2>O que é clustering?</h2>
+<p>Clustering é uma classe de algoritimos não-supervisionados para classificação de observações. Existem vários tipos, cores e tamanho de técnicas de clustering, mas essa bonita variedade vai ficar para outro dia porque o foco de hoje é a abordagem de distância centrada.</p>
+<div class="figure">
+<img src="https://i.imgur.com/S65Sk9c.jpg" alt="Agrupamento de observações" />
+<p class="caption">“Agrupamento de observações”</p>
+</div>
+<p>A visualização é razoavelmente clara, clusters são literalmente agrupamentos. Com base em alguns critérios dependentes do algoritimo a ser utilizado, você classifica uma observação em um <em>ou</em> outro agrupamento (exceto nos modelos <em>fuzzy</em>, mas isso fica para outro dia).</p>
+</div>
+<div id="clustering-k-means-como-um-problema-de-otimizacao" class="section level2">
+<h2>Clustering k-means como um problema de otimização</h2>
+<p>Um problema de otimização irrestrita tem, a grosso modo, duas <em>features</em>. A <em>função objetivo</em> a ser maximizada ou minimizada e o <em>instrumento</em> com o qual atingir tal objetivo. Aqueles familiarizados com o canônico método de estimação por Mínimos Quadrados Ordinários vão reconhecer alguma semelheança.</p>
+<p>K-means, ao invés de minimizar quadrado dos resíduos, minimiza a soma do quadrado da distância dentro do cluster (WCSS, em inglês). Nossos instrumentos são <span class="math inline">\(k\)</span>, o número de agrupamentos e <span class="math inline">\(S_i\)</span>, os conjuntos que dão qual elemento está em qual agrupamento. Podem parecer instrumentos redundantes à primeira vista. Pense que para um mesmo número de agrupamentos, é possível ter combinações de conjuntos com WCSSs diferentes.</p>
+<p>Algumas definições antes. <span class="math inline">\(k\)</span> é o número de clusters, <span class="math inline">\(S_i\)</span> é conjunto de elementos do i-ésimo cluster, <span class="math inline">\(\mu_i\)</span> é a média do i-ésimo cluster.</p>
+<p><span class="math display">\[ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i ||^2 \]</span></p>
+<p>O leitor atento percebeu que <span class="math inline">\(k\)</span> não aparece aqui como um instrumento do problema, mas sim como um parâmetro dado. Bem, aí está uma das peculiaridades de k-means, <em>nós escolhemos o k</em>. É uma tarefa que tem um pouco de ciência e muita arte, vou me aprofundar um pouco nela mais à frente.</p>
+</div>
+<div id="os-dados" class="section level2">
+<h2>Os dados</h2>
+<p>A amostra que temos é do ProUni de 2017 e conta com algo em torno de 32 mil observações. Já tive o trabalho de limpar a base para vossa apreciação e vou deixa-la disponível <a href="https://github.com/danmrc/azul/tree/master/content/post/ProUni">aqui</a> e o código que contém tudo <a href="https://github.com/danmrc/azul/blob/master/content/post/ProUni/prouni_cluster.R">aqui</a>. Vamos primeiro explorar nossa amostra com a ajuda do <code>ggplot2</code>.</p>
+<pre class="r"><code>final %&gt;%
+  ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
+             colour = prouni.Medicina, show.legend = FALSE)) +
+  geom_point()+
+  stat_density_2d()+
+  xlab(&quot;Mensalidade do curso no ProUni&quot;)+
+  ylab(&quot;Nota de Corte do curso no ProUni&quot;)+
+  labs(col=&quot;Medicina&quot;)</code></pre>
+<p><img src="/post/2018-08-09-prouni_files/figure-html/imagem1-1.png" width="7000" /></p>
+<pre class="r"><code>final %&gt;%
+ggplot(aes(x=prouni.mensalidade)) + 
+  xlim(0,2500) +
+  geom_histogram(aes(y=..density..), binwidth = 50) +
+  xlab(&quot;Mensalidade do curso no ProUni&quot;) + 
+  ylab(&quot;&quot;) +
+  geom_density(colour =&quot; medium blue&quot;, size = 1.5) +
+  scale_y_continuous(labels = percent) +
+  geom_vline(aes(xintercept=mean(prouni.mensalidade, na.rm=T)),   
+             color=&quot;black&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="/post/2018-08-09-prouni_files/figure-html/imagem2-1.png" width="4900" /></p>
+<pre class="r"><code>final %&gt;%
+  ggplot(aes(x=prouni.mensalidade)) + 
+  xlab(&quot;Mensalidade do curso no ProUni&quot;) + 
+  ylab(&quot;&quot;) +
+  geom_histogram(aes(y=..density..), binwidth = 300) +
+  scale_y_continuous(labels = percent) +
+  facet_wrap(~label) +
+  geom_density(colour =&quot; medium blue&quot;, size = 1)</code></pre>
+<p><img src="/post/2018-08-09-prouni_files/figure-html/imagem3-1.png" width="4900" /></p>
+<p>Os próximos dois gráficos tem códigos análogos aos dois anteriores e estão disponíveis no script.</p>
+<p>Aqui observamos três coisas muito interessantes. A primeira é que notas de corte seguem muito bem uma distribuição normal <em>exceto</em> pela regra que impõe nota de corte mínima de 450 no ProUni e Sisu. É o tipo de coisa em que seria legal aplicar um <a href="https://eml.berkeley.edu/~jmccrary/mccrary2006_DCdensity.pdf">Teste de Densidade de McCrary (2006)</a>. Depois, que Medicina tem um padrão de distribuição de notas bem diferente do resto.</p>
+<div class="figure">
+<img src="https://i.imgur.com/sipwjrG.png" alt="Histograma das notas de corte" />
+<p class="caption">Histograma das notas de corte</p>
+</div>
+<div class="figure">
+<img src="https://i.imgur.com/VjfJH7K.png" alt="Histograma das notas de corte diferenciando Medicina" />
+<p class="caption">Histograma das notas de corte diferenciando Medicina</p>
+</div>
+</div>
+<div id="como-escolher-k" class="section level2">
+<h2>Como escolher <span class="math inline">\(k\)</span>?</h2>
+<p>Essa é a pergunta de um milhão de dólares, honestamente. Eu encontrei dois principais métodos, um é computacionalmente exigente e preciso, o outro é computacionalmente simples e depende mais de interpretação.</p>
+<p>A primeira e mais complicada é a <em>Gap Statistic</em> (<a href="https://statweb.stanford.edu/~gwalther/gap">Tbishirani, Walther e Hastie, 2001</a>). O método envolve algumas computações com bootstrap, então exige uma máquina preparada. Só consegui rodar usando um servidor, então evite esse método se tiver um computador normal (ou até mesmo um pessoal de alta qualidade). Em qualquer caso, a implementação desse método é a função <code>cluster::clusGap</code>.</p>
+<p>O segundo método é o do “Cotovelo”. Não é muito sofisticado, mas é potente. Plotamos o WCSS como uma função de <span class="math inline">\(k\)</span> e procuramos por uma inflexão na curva. Onde ela tiver um “cotovelo”, é provavelmente o <span class="math inline">\(k\)</span> mais adequado. A função a seguir implementa o gráfico:</p>
+<pre class="r"><code>#### Limpar valores lógicos e de texto antes
+final$label &lt;- NULL
+final$completo &lt;- NULL
+
+#### Definir função para método do Cotovelo
+
+wssplot &lt;- function(data, nc=15, seed=1234){
+  wss &lt;- (nrow(data)-1)*sum(apply(data,2,var))
+  for (i in 2:nc){
+    set.seed(seed)
+    wss[i] &lt;- sum(kmeans(data, centers=i)$withinss)}
+  
+  plot(1:nc, wss, type=&quot;b&quot;, xlab=&quot;Number of Clusters&quot;,
+       ylab=&quot;Within groups sum of squares&quot;)}
+
+wssplot(final, 
+          nc = 6) </code></pre>
+<p><img src="/post/2018-08-09-prouni_files/figure-html/cotovelo-1.png" width="4900" /></p>
+<p>Agora que escolhemos o número 3, podemos finalmente ver se o modelo classifica bem cursos de medicina.</p>
+</div>
+<div id="os-finalmentes-rodando-o-modelo-e-resultados" class="section level2">
+<h2>Os finalmentes, rodando o modelo e resultados</h2>
+<p>Tendo 3 como o número mágico, podemos finalmente rodar o modelo. <code>kmeans</code> é um comando nativo do R. Ele retorna um objeto de classe <code>kmeans</code> e os agrupamentos em específico estão no vetor <code>cluster</code>. É interessante visualizar o resultado através do primeiro gráfico - agora com <em>color coding</em> baseado nos clusters, mas uma visualização específica pode ser melhor - afinal, é interessante <em>ver</em> os agrupamentos. Para isso, vamos usar <code>cluster::clusplot</code>:</p>
+<pre class="r"><code>analise_kmeans &lt;- kmeans(final, 
+                          centers = 3)
+
+##### Agora visualize os resultados
+
+clusplot(final, analise_kmeans$cluster,
+                        main=&#39;Procurando por 3 agrupamentos no ProUni&#39;,
+                            color=TRUE,
+                              shade=TRUE,
+                                lines=0)</code></pre>
+<p><img src="/post/2018-08-09-prouni_files/figure-html/unnamed-chunk-1-1.png" width="4900" /></p>
+<pre class="r"><code>final %&gt;%
+  ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
+             colour = analise_kmeans$cluster, show.legend = FALSE)) +
+  geom_point() +
+  stat_density_2d() +
+  xlab(&quot;Mensalidade do curso no ProUni&quot;) +
+  ylab(&quot;Nota de Corte do curso no ProUni&quot;) +
+  labs(col = &quot;Agrupamento&quot;)</code></pre>
+<p><img src="/post/2018-08-09-prouni_files/figure-html/unnamed-chunk-1-2.png" width="4900" /></p>
+<p>Se o leitor fizer o exercício de replicar esse post, vai poder ver que o algoritimo identificou todos os 122 cursos de medicina da amostra e inseriu por engano no mesmo cluster 44 cursos que não são de medicina.</p>
+<p>A performance é aceitável? Deixamos a resposta para outro post.</p>
+</div>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'>
+  <div class='categories'>
+  <span class='taxonomy-icon'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+</span>
+  <span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/r'>R</a>, <a class='category' href='/categories/clustering'>Clustering</a>, <a class='category' href='/categories/economia'>Economia</a></div>
+<div class='tags'>
+  <span class='taxonomy-icon'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+</span>
+  <span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/economia-da-educa%C3%A7%C3%A3o'>Economia da Educação</a>, <a class='tag' href='/tags/r'>R</a>, <a class='tag' href='/tags/clustering'>Clustering</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/2018/08/09/programacao-dinamica-ii-b/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Programação Dinâmica IIB</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p></p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.68cb493a.js'></script><script src='/js/custom.js'></script>
+
+
+
+</body>
+
+</html>
+
