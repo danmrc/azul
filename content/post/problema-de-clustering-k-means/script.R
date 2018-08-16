@@ -79,7 +79,7 @@ amostra1 %>%
 
 k = 8
 m = 100
-sd = .2
+sd = .2 ## .2 gera identificação limpa em alguns casos
 
 datalist = list() ## Util depois para aglutinar os dados
 
@@ -119,11 +119,6 @@ amostra2 %>%
 #### Tudo bem, k-means não parece estar acertando, mas e dbscan?
 
 library(dbscan)
-
-analise_db <- dbscan(amostra2, eps = sd)
-
-hullplot(amostra2, 
-         cl = analise_db$cluster)
 
 analise_db <- dbscan(amostra2, eps = sd)
 
