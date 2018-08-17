@@ -123,11 +123,11 @@ Observem que WGSS em função de $k$ tem comportamento assintótico bem claro, e
 Aí, meu caro leitor, estamos conversando. Vamos gerar novos dados, agora com agrupamentos separados.
 
 ```{r imagem6, message=FALSE, warning=FALSE, dpi=1000}
-k = 8
-m = 100
-sd = .2 ## .2 gera identifica??o limpa dos agrupamentos em alguns casos
+k = 8 ## numero de agrupamentos 
+m = 100 ## tamanho da amostra em cada agrupamento
+sd = .2 ## .2 gera identificação limpa dos agrupamentos em alguns casos
 
-datalist = list() ## Util depois para aglutinar os dados
+datalist = list() ## Lista para salvar os DFs com cada cluster
 
 for (i in 1:k){
   
@@ -142,7 +142,7 @@ for (i in 1:k){
   datalist[[i]] <- data.frame(x,y)
 }
 
-amostra2 <- do.call(rbind, datalist)
+amostra2 <- do.call(rbind, datalist) ## empilhamos os clusters
 
 amostra2 %>%
   ggplot(aes(x=x, y=y))+
@@ -162,7 +162,7 @@ teste10 <- kmeans(amostra2,
 teste8$tot.withinss / teste10$tot.withinss #dividindo o WGSS de um pelo outro
 
 ```
-3,5% maior. Pequena diferença, não?
+Aqui entra de novo o componente estocástico. Já consegui 3,5% maior, já consegui 40% menor. Quanto você, leitor, achou?
 
 ```{r imagem7, message=FALSE, warning=FALSE, dpi=1000}
 kmeans_amostra2 <- kmeans(amostra2, 
