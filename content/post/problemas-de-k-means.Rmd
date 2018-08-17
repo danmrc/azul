@@ -16,34 +16,32 @@ tags:
 authors: [pedrocava]
 ---
   
-No meu [˙ltimo post](https://azul.netlify.com/2018/08/11/prouni-clustering/) mostrei como podÌamos usar clustering $k$-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contr·rio de mostrar um uso interessante de $k$-means, quero mostrar um _problema_ do algoritimo relacionado a uma de suas hipoteses.
+No meu [√∫ltimo post](https://azul.netlify.com/2018/08/11/prouni-clustering/) mostrei como pod√≠amos usar clustering $k$-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contr√°rio de mostrar um uso interessante de $k$-means, quero mostrar um _problema_ do algoritimo relacionado a uma de suas hipoteses.
 
-HipÛteses s„o ferramentas curiosas. Quem È familiarizado com economia sabe como a profiss„o as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruÌdo e complexidade de uma quest„o que n„o s„o particularmente relevantes aqui. Uma das _rules of thumb_ da profiss„o para modelagem È a de que hipÛteses s„o simplificadoras apenas na medida em que n„o alteram as conclusıes _principais_ do modelo.
+Hipoteses s√£o ferramentas curiosas. Quem √© familiarizado com economia sabe como a profiss√£o as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ru√≠do e complexidade de uma quest√£o que n√£o s√£o particularmente relevantes aqui. Uma das _rules of thumb_ da profiss√£o para modelagem √© a de que hipoteses s√£o simplificadoras apenas na medida em que n√£o alteram as conclus√µes _principais_ do modelo.
 
-Pois, supor informaÁ„o (quasi-)perfeita È absolutamente razo·vel na maioria dos mercados. Existe alguma assimetria relevante de informaÁ„o entre feirante e comprador de bananas? Entre concession·ria e comprador de carro? Supor algum tipo de comportamento maximizador de lucro (ou de utilidade) tambÈm soa um tanto quanto absurdo, mas veja bem, _funciona_. Quando capital fica relativamente mais barato, firmas automatizam. Quando tomates ficam mais caros, consumidores compram menos. Quase como se maximizadores racionais caminhassem sobre a terra.
+Pois, supor informa√ß√£o (quasi-)perfeita √© absolutamente razo√°vel na maioria dos mercados. Existe alguma assimetria relevante de infor√ß√£o entre feirante e comprador de bananas? Entre concession√°ria e comprador de carro? Supor algum tipo de comportamento maximizador de lucro (ou de utilidade) tamb√©m soa um tanto quanto absurdo, mas veja bem, _funciona_. Quando capital fica relativamente mais barato, firmas automatizam. Quando tomates ficam mais caros, consumidores compram menos. Quase como se maximizadores racionais caminhassem sobre a terra.
 
 ## Mas e $k$-means?
 
-Vamos lembrar brevemente da matem·tica por tr·s do clustering $k$-means, a funÁ„o objetivo do procedimento (n„o confundir com o algoritimo para computa-la). $k$ È o n˙mero de clusters, $S_i$ È conjunto de elementos do i-Èsimo cluster, $\mu_i$ È a mÈdia do i-Èsimo cluster.
+Vamos lembrar brevemente da matem√°tica por tr√°s do clustering $k$-means, a fun√ß√£o objetivo do procedimento (n√£o confundir com o algoritimo para computar o problema em si). $k$ √© o n√∫mero de clusters, $S_i$ √© conjunto de elementos do i-√©simo cluster, $\mu_i$ √© a m√©dia do i-√©simo cluster.
 
 $$ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i ||^2 $$
 
-O ˙nico instrumento desse problema de otimizaÁ„o È $S$, $k$ È um par‚metro _dado_. Pois, ao escolher um $k$ em especÌfico, estamos supondo que _existem_ $k$ agrupamentos nos dados. E se n„o for bem assim? Vamos a um exemplo:
+O √∫nico instrumento desse problema de otimiza√ß√£o √© $S$, $k$ √© um par?metro _dado_. Pois, ao escolher um $k$ em especifico, estamos supondo que _existem_ $k$ agrupamentos nos dados. E se n√£o for bem assim? Vamos a um exemplo:
 
 
 ```{r}
-library(cluster)
-
-##### ComeÁaremos gerando dados aleatÛrios
+##### Come√ßaremos gerando dados aleat√≥rios
 ##### Seja n o tamanho da amostra, o leitor pode alterar se quiser
 
 n = 100000
 
-#### Geraremos um vetor aleatÛrio no R^2
+#### Geraremos um vetor aleat√≥rio no R^2
 
 x <- rnorm(mean = 0, 
             sd = 1,
-              n= n) ##mÈdia 0 e vari‚ncia unit·ria nos d· uma normal padr„o
+              n= n) ##m√©dia 0 e vari√¢ncia unit√°ria nos d√° uma normal padr√£o
 
 y <- rnorm(mean = 0,
             sd = 1,
@@ -66,9 +64,9 @@ amostra1 %>%
              color="black", linetype="dashed", size=1)+
   geom_hline(aes(yintercept=mean(y)),   
              color="black", linetype="dashed", size=1)
-````
+```
 
-Existe claramente sÛ um agrupamento, mas podemos detectar quantos agrupamentos quisermos ao definir um $k$ desejado. Antes, vamos avaliar qual seria o $k$ Ûtimo segundo o MÈtodo do Cotovelo:
+Existe claramente s√≥ um agrupamento, mas podemos detectar quantos agrupamentos quisermos ao definir um $k$ desejado. Antes, vamos avaliar qual seria o $k$ √≥timo segundo o M√©todo do Cotovelo:
 
 
 ```{r imagem2, message=FALSE, warning=FALSE, dpi=1000}
@@ -82,9 +80,9 @@ wssplot <- function(data, nc=20, seed=1234){
        ylab="WGSS")}
 
 wssplot(amostra1)
-````
+```
 
-$k=6$ parece ser compatÌvel com um ponto em que adicionar agrupamentos n„o rende uma queda substancial no WGSS, ent„o vamos tentar esse n˙mero e ver o que acontece.
+$k=6$ parece ser compat√≠vel com um ponto em que adicionar agrupamentos n√£o rende uma queda substancial no WGSS, ent√£o vamos tentar esse n√∫mero e ver o que acontece.
 
 ```{r imagem3, message=FALSE, warning=FALSE, dpi=1000}
 kmeans_amostra1 <- kmeans(amostra1, 
@@ -96,7 +94,7 @@ amostra1 %>%
   
 ```
 
-Inclusive, podemos formar padrıes similares simplesmente aumentando $k$ e particionando um dados homogÍneos em agrupamentos menores - apesar de n„o existirem de fato.
+Inclusive, podemos formar padr√µes similares simplesmente aumentando $k$ e particionando dados homog√™neos em agrupamentos menores - apesar de n√£o existirem de fato.
 
 ```{r imagem4, message=FALSE, warning=FALSE, dpi=1000}
 kmeans_amostra1_2 <- kmeans(amostra1, 
@@ -118,16 +116,16 @@ amostra1 %>%
   
 ```
 
-Observem que WGSS em funÁ„o de $k$ tem comportamento assintÛtico bem claro, embora n„o necessariamente monotÙnico: converge a zero.
+Observem que WGSS em fun√ß√£o de $k$ tem comportamento assint√≥tico bem claro, embora n√£o necessariamente monot√¥nico: converge a zero.
 
 ## Mas e se existirem $k$ agrupamentos?
 
-AÌ, meu caro leitor, estamos conversando. Vamos gerar novos dados, agora com agrupamentos separados.
+A√≠, meu caro leitor, estamos conversando. Vamos gerar novos dados, agora com agrupamentos separados.
 
 ```{r imagem6, message=FALSE, warning=FALSE, dpi=1000}
 k = 8
 m = 100
-sd = .2 ## .2 gera identificaÁ„o limpa dos agrupamentos em alguns casos
+sd = .2 ## .2 gera identifica??o limpa dos agrupamentos em alguns casos
 
 datalist = list() ## Util depois para aglutinar os dados
 
@@ -153,7 +151,7 @@ amostra2 %>%
 wssplot(amostra2, nc = 10)
 
 ```
-Um pequeno exercÌcio: em dados claramento agrupados em 8 n˙cleos, qual a diferenÁa do WGSS quando temos $k=8$, fiel aos dados, e $k=10$, um exagero?
+Um pequeno exerc√≠cio: em dados claramento agrupados em 8 n√∫cleos, qual a diferen√ßa do WGSS quando temos $k=8$, fiel aos dados, e $k=10$, um exagero?
 
 ```{r}
 teste8 <- kmeans(amostra2, 
@@ -164,7 +162,7 @@ teste10 <- kmeans(amostra2,
 teste8$tot.withinss / teste10$tot.withinss #dividindo o WGSS de um pelo outro
 
 ```
-3,5% maior. Pequena diferenÁa, n„o?
+3,5% maior. Pequena diferen√ßa, n√£o?
 
 ```{r imagem7, message=FALSE, warning=FALSE, dpi=1000}
 kmeans_amostra2 <- kmeans(amostra2, 
@@ -175,10 +173,10 @@ amostra2 %>%
   geom_point(color = kmeans_amostra2$cluster)
 ```
 
-Aqui entra em cena um certo componente estoc·stico. VocÍ talvez precise gerar algumas amostras aleatÛrias antes de conseguir uma identificaÁ„o limpa de cada agrupamento. Inclusive por isso È sempre bom, ao usar clustering de qualquer forma, repetir algumas vezes o procedimento e ver em que medida seus resultados se alteram.
+Aqui entra em cena um certo componente estoc√°stico. Voc√™ talvez precise gerar algumas amostras antes de conseguir uma identifica√ß√£o limpa de cada agrupamento.
 
-## Acho que È isso
+## Acho que √© isso
 
-Queria mostrar brevemente as limitaÁıes de (i) uma hipÛtese atravÈs dessa ilustraÁ„o interessante e (ii) do MÈtodo do Cotovelo, computacionalmente simples, mas aberto ‡ interpretaÁ„o.
+Queria mostrar brevemente as limita√ß√µes de (i) uma hipotese atrav√©s dessa ilustra√ß√£o interessante e (ii) do M√©todo do Cotovelo, computacionalmente simples, mas dependente de interpreta√ß√£o.
 
-(Como sempre, vocÍ pode reproduzir isso tudo com [esse script](https://github.com/danmrc/azul/tree/master/content/post/problema-de-clustering-k-means))
+(Como sempre, voc√™ pode reproduzir isso tudo com [esse script](https://github.com/danmrc/azul/tree/master/content/post/problema-de-clustering-k-means))
