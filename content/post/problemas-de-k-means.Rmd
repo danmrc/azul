@@ -8,7 +8,6 @@ df_print: paged
 categories:
 - R
 - Clustering
-- Performance
 slug: problemas-clustering-k-means
 tags:
 - R
@@ -20,7 +19,7 @@ No meu [último post](https://azul.netlify.com/2018/08/11/prouni-clustering/) mo
 
 Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui. Uma das _rules of thumb_ da profissão para modelagem é a de que hipoteses são simplificadoras apenas na medida em que não alteram as conclusões _principais_ do modelo.
 
-Pois, supor informação (quasi-)perfeita é absolutamente razoável na maioria dos mercados. Existe alguma assimetria relevante de inforção entre feirante e comprador de bananas? Entre concessionária e comprador de carro? Supor algum tipo de comportamento maximizador de lucro (ou de utilidade) também soa um tanto quanto absurdo, mas veja bem, _funciona_. Quando capital fica relativamente mais barato, firmas automatizam. Quando tomates ficam mais caros, consumidores compram menos. Quase como se maximizadores racionais caminhassem sobre a terra.
+Pois, supor informação (quasi-)perfeita é absolutamente razoável na maioria dos mercados. Existe alguma assimetria relevante de inforção entre feirante e comprador de bananas? Entre concessionária e comprador de carro? Supor algum tipo de comportamento maximizador de lucro (ou de utilidade) também soa um tanto quanto absurdo, mas veja bem, _funciona_. Quando capital fica relativamente ao trabalho mais barato, firmas automatizam. Quando tomates ficam mais caros, consumidores compram menos. Quase como se maximizadores racionais caminhassem sobre a terra.
 
 ## Mas e $k$-means?
 
@@ -28,7 +27,7 @@ Vamos lembrar brevemente da matemática por trás do clustering $k$-means, a fun
 
 $$ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i ||^2 $$
 
-O único instrumento desse problema de otimização é $S$, $k$ é um par?metro _dado_. Pois, ao escolher um $k$ em especifico, estamos supondo que _existem_ $k$ agrupamentos nos dados. E se não for bem assim? Vamos a um exemplo:
+O único instrumento desse problema de otimização é $S$, $k$ é um parâmetro _dado_. Pois, ao escolher um $k$ em especifico, estamos supondo que _existem_ $k$ agrupamentos nos dados. E se não for bem assim? Vamos a um exemplo:
 
 
 ```{r}
@@ -135,7 +134,7 @@ for (i in 1:k){
               sd = sd, 
                 n=m)
     
-  y <- rnorm(mean = (K-i),
+  y <- rnorm(mean = (k-i),
               sd = sd,
                 n=m)
   
@@ -173,7 +172,7 @@ amostra2 %>%
   geom_point(color = kmeans_amostra2$cluster)
 ```
 
-Aqui entra em cena um certo componente estocástico. Você talvez precise gerar algumas amostras antes de conseguir uma identificação limpa de cada agrupamento.
+Você talvez precise gerar algumas amostras antes de conseguir uma identificação limpa de cada agrupamento.
 
 ## Acho que é isso
 
