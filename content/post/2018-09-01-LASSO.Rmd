@@ -1,0 +1,32 @@
+---
+title: O LASSO
+author: Daniel Coutinho
+date: '2018-09-01'
+slug: LASSO
+categories:
+  - R
+  - Tutorial
+  - Econometria
+tags:
+  - LASSO
+  - Machine Learning
+  - R
+authors: ["danielc"]
+draft: true
+---
+
+Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa *Least Absolute Shrinkage and Select Operator*. Como o nome sugere, o LASSO **seleciona quais regressores são relevantes e quais não são**. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de *esparsidade*: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.
+
+A ideia orignal vem de um paper de 1996 de Robert Tibshirani. Não temos solução fechada para encontrar o estimador de LASSO, ao contrário do MQO, onde podemos expressar o estimador como uma multiplicação de matrizes. Portanto, é um estimador que seria impossível sem um computador. Mas a ideia é incrivelmente simples.
+
+Pegue o modelo usual de regressão, $ y_i = X_i \beta{} + u_i$, onde $\beta$ é o coeficiente de interesse, $u$ é um choque aleatório, as observações são indexadas por $i = 1,...,n$ e os coeficientes são indexados por $k = 1,..,K$ . O objetivo do MQO é minimizar a soma dos quadrados dos resíduos, ou seja $ \min_{\beta} \sum_{i=1}^n \hat{u}^2$. O LASSO começa dai, mas adiciona uma pequena alteração: vamos limitar o valor da soma dos valores absolutos dos coeficientes para que ele seja menor que uma constante $c$. Ou seja, o LASSO resolve o problema:
+
+$$\min_{\beta} \sum_{i=1}^n \hat{u}^2  \text{ sujeito a }  \sum_{k=1}^K |\beta_{k}| < c$$
+
+Veja que não temos como tirar a derivada da função módulo, e portanto não podemos resolver o problema "no braço".
+
+Podemos reescrever o problema como um la grangeano: $\min_{\beta} \left() \sum_{i=1}^n \hat{u}^2 \right) - \lambda \left( \sum_{k=1}^K |\beta_{k}| \right)$, onde o $\lambda$ é o multiplicador de lagrange. Existe uma função que leva de $c$ para $\lambda$, então podemos ignorar o valor de $c$ e pensar só em termos de $\lambda$. Muitas implementações fazem isso e eu seguirei este caminho.
+
+Veja que estamos trabalhando a soma do valor absoluto dos coeficientes. Chamamos isso de norma $\ell_1$. Aqueles que já fizeram um curso de algebra linear conhecem a norma $\ell_2$, conhecida como norma euclidiana: $\sum_{k=1}^K \beta{}^2$. Existe um método de estimação que usa a norma $\ell_2$ ao invés da $\ell_1$, conhecido como *ridge*. Usando a norma $\ell_2$, o problema tem solução analítica. Então, por que norma $\ell_1$, que parece ser tão ruim de trabalhar?
+
+Esta é uma das belezas do LASSO: a norma $\ell_2$ **não** gera esparsidade. A norma $\ell_1$ gera. O motivo é ilustrado na figura abaixo, tirada de *Statistical Learning with Sparsity*, de Trevor Hastie, Robert Tibshirani and Martin Wainwright (cujo pdf, 100% legal, você encontra [https://web.stanford.edu/~hastie/StatLearnSparsity_files/SLS_corrected_1.4.16.pdf](aqui))

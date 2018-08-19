@@ -4,23 +4,19 @@
 <head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
-Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
-Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.'>
+<meta name='description' content='Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.'>
 <meta name='theme-color' content='#ffcd00'>
 
-<meta property='og:title' content='print(&#34;Hello,world!&#34;) • AZUL'>
-<meta property='og:description' content='Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
-Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
-Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.'>
-<meta property='og:url' content='/2018/07/18/print-hello-world/'>
+<meta property='og:title' content='O LASSO • Daniel Coutinho'>
+<meta property='og:description' content='Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.'>
+<meta property='og:url' content='/2018/09/01/lasso/'>
 <meta property='og:site_name' content='AZUL'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='Apresentação'><meta property='article:published_time' content='2018-07-18T00:00:00Z'/><meta property='article:modified_time' content='2018-07-18T00:00:00Z'/><meta name='twitter:card' content='summary'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='LASSO'><meta property='article:tag' content='Machine Learning'><meta property='article:tag' content='R'><meta property='article:published_time' content='2018-09-01T00:00:00Z'/><meta property='article:modified_time' content='2018-09-01T00:00:00Z'/><meta name='twitter:card' content='summary'>
 
 <meta name="generator" content="Hugo 0.44" />
 
-  <title>print(&#34;Hello,world!&#34;) • AZUL</title>
-  <link rel='canonical' href='/2018/07/18/print-hello-world/'>
+  <title>O LASSO • Daniel Coutinho</title>
+  <link rel='canonical' href='/2018/09/01/lasso/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -181,7 +177,7 @@ if (!doNotTrack) {
   <header class='header entry-header'>
   <div class='container sep-after'>
     <div class='header-info'>
-      <h1 class='title'>print(&#34;Hello,world!&#34;)</h1>
+      <h1 class='title'>O LASSO</h1>
       
 
     </div>
@@ -196,10 +192,16 @@ if (!doNotTrack) {
   
 </svg>
 <span class='screen-reader-text'>Posted on </span>
-  <time class='entry-date' datetime='2018-07-18T00:00:00Z'>2018, Jul 18</time>
+  <time class='entry-date' datetime='2018-09-01T00:00:00Z'>2018, Sep 01</time>
 </span>
 
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/danielc'>Daniel Coutinho</a></span>
   
 <span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
@@ -207,7 +209,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-One min read
+3 mins read
 </span>
 
 
@@ -221,10 +223,14 @@ One min read
   
 
   <div class='container entry-content'>
-  <p>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:</p>
-<p><strong>Daniel Coutinho</strong> é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.</p>
-<p><strong>Pedro “Cava” Cavalcante</strong> é graduando em economia na UFF e estagiário de pesquisa no IPEA. Gosta especialmente de economia da educação, estratégias identificação interessantes e tem uma quedinha não-correspondida por matemática. Provavelmente é o último defensor de Stata no mundo.</p>
-<p>Nós vamos escrever sobre economia, programação e estatística - recentemente renomeada de ciência dos dados - frequentemente misturando os três. Eventuais desvios pela matemática ocorrerão, já que as três áreas tem como base a matemática. Não sabemos o que o caminho a frente nos reserva. Esperamos que vocês aproveitem o que escrevemos.</p>
+  <p>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa <em>Least Absolute Shrinkage and Select Operator</em>. Como o nome sugere, o LASSO <strong>seleciona quais regressores são relevantes e quais não são</strong>. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de <em>esparsidade</em>: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.</p>
+<p>A ideia orignal vem de um paper de 1996 de Robert Tibshirani. Não temos solução fechada para encontrar o estimador de LASSO, ao contrário do MQO, onde podemos expressar o estimador como uma multiplicação de matrizes. Portanto, é um estimador que seria impossível sem um computador. Mas a ideia é incrivelmente simples.</p>
+<p>Pegue o modelo usual de regressão, $ y_i = X_i  + u_i$, onde <span class="math inline">\(\beta\)</span> é o coeficiente de interesse, <span class="math inline">\(u\)</span> é um choque aleatório, as observações são indexadas por <span class="math inline">\(i = 1,...,n\)</span> e os coeficientes são indexados por <span class="math inline">\(k = 1,..,K\)</span> . O objetivo do MQO é minimizar a soma dos quadrados dos resíduos, ou seja $ <em>{} </em>{i=1}^n ^2$. O LASSO começa dai, mas adiciona uma pequena alteração: vamos limitar o valor da soma dos valores absolutos dos coeficientes para que ele seja menor que uma constante <span class="math inline">\(c\)</span>. Ou seja, o LASSO resolve o problema:</p>
+<p><span class="math display">\[\min_{\beta} \sum_{i=1}^n \hat{u}^2  \text{ sujeito a }  \sum_{k=1}^K |\beta_{k}| &lt; c\]</span></p>
+<p>Veja que não temos como tirar a derivada da função módulo, e portanto não podemos resolver o problema “no braço”.</p>
+<p>Podemos reescrever o problema como um la grangeano: <span class="math inline">\(\min_{\beta} \left() \sum_{i=1}^n \hat{u}^2 \right) - \lambda \left( \sum_{k=1}^K |\beta_{k}| \right)\)</span>, onde o <span class="math inline">\(\lambda\)</span> é o multiplicador de lagrange. Existe uma função que leva de <span class="math inline">\(c\)</span> para <span class="math inline">\(\lambda\)</span>, então podemos ignorar o valor de <span class="math inline">\(c\)</span> e pensar só em termos de <span class="math inline">\(\lambda\)</span>. Muitas implementações fazem isso e eu seguirei este caminho.</p>
+<p>Veja que estamos trabalhando a soma do valor absoluto dos coeficientes. Chamamos isso de norma <span class="math inline">\(\ell_1\)</span>. Aqueles que já fizeram um curso de algebra linear conhecem a norma <span class="math inline">\(\ell_2\)</span>, conhecida como norma euclidiana: <span class="math inline">\(\sum_{k=1}^K \beta{}^2\)</span>. Existe um método de estimação que usa a norma <span class="math inline">\(\ell_2\)</span> ao invés da <span class="math inline">\(\ell_1\)</span>, conhecido como <em>ridge</em>. Usando a norma <span class="math inline">\(\ell_2\)</span>, o problema tem solução analítica. Então, por que norma <span class="math inline">\(\ell_1\)</span>, que parece ser tão ruim de trabalhar?</p>
+<p>Esta é uma das belezas do LASSO: a norma <span class="math inline">\(\ell_2\)</span> <strong>não</strong> gera esparsidade. A norma <span class="math inline">\(\ell_1\)</span> gera. O motivo é ilustrado na figura abaixo, tirada de <em>Statistical Learning with Sparsity</em>, de Trevor Hastie, Robert Tibshirani and Martin Wainwright (cujo pdf, 100% legal, você encontra <a href="aqui">https://web.stanford.edu/~hastie/StatLearnSparsity_files/SLS_corrected_1.4.16.pdf</a>)</p>
 
 </div>
 
@@ -238,7 +244,7 @@ One min read
   
 </svg>
 </span>
-  <span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/geral'>Geral</a></div>
+  <span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/r'>R</a>, <a class='category' href='/categories/tutorial'>Tutorial</a>, <a class='category' href='/categories/econometria'>Econometria</a></div>
 <div class='tags'>
   <span class='taxonomy-icon'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
@@ -247,7 +253,7 @@ One min read
   
 </svg>
 </span>
-  <span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/apresenta%C3%A7%C3%A3o'>Apresentação</a></div>
+  <span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/lasso'>Lasso</a>, <a class='tag' href='/tags/machine-learning'>Machine Learning</a>, <a class='tag' href='/tags/r'>R</a></div>
 
   </div>
 </footer>
@@ -256,16 +262,16 @@ One min read
 </article>
 
 <nav class='entry-nav'>
-  <div class='container'><div class='next-entry sep-before'>
-      <a href='/2018/07/18/monte-carlo-101/'>
-        <span class='screen-reader-text'>Next post: </span>Monte Carlo 101<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/2018/08/11/prouni-clustering/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
   
 </svg>
-</span>
-      </a>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Usando clustering para identificar cursos no Prouni</a>
     </div></div>
 </nav>
 

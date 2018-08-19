@@ -32,14 +32,14 @@ draft: true
 <div id="um-problema-com-horizonte-finito" class="section level2">
 <h2>Um problema com horizonte finito</h2>
 <p>Vamos supor que no problema anterior, ao invés de termos infinitos períodos, temos um número <span class="math inline">\(T\)</span> de períodos. Poderíamos resolver usando o lagrangeano usual, mas podemos proceder por um caminho totalmente diferente - e que vai gerar um estranhamento inicial.</p>
-<p>Suponha que você se encontra no <em>último</em> período, <span class="math inline">\(T\)</span>. Qual a estratégia ótima? Desconsiderando altruísmo - como de praxe - o ideal é consumir todo o estoque de capital de hoje <span class="math inline">\(k_T\)</span>. Isso gera uma utilidade <span class="math inline">\(u(k_T)\)</span>. Agora, suponha que você está em <span class="math inline">\(T-1\)</span>. A sua utilidade hoje é o quanto você vai consumir hoje mais o quanto você vai consumir amanhã trazido a valor presente. Quando você escolher o consumo em <span class="math inline">\(T-1\)</span>, você deve levar em consideração tanto a utilidade hoje como o impacto para o capital amanhã. Voltando para o mundo da matemática, vamos chamar o valor máximo disso de <span class="math inline">\(V_{T-1}\)</span>:</p>
+<p>Suponha que você se encontra no <em>último</em> período, <span class="math inline">\(T\)</span>. Qual a estratégia ótima? Desconsiderando altruísmo - como de praxe - o ideal é consumir todo o estoque de capital de hoje, <span class="math inline">\(k_T\)</span>. Isso gera uma utilidade <span class="math inline">\(u(k_T)\)</span>. Agora, suponha que você está em <span class="math inline">\(T-1\)</span>. A sua utilidade hoje é o quanto você vai consumir hoje mais o quanto você vai consumir amanhã trazido a valor presente. Quando você escolher o consumo em <span class="math inline">\(T-1\)</span>, você deve levar em consideração tanto a utilidade hoje como o impacto para o capital amanhã. Voltando para o mundo da matemática, vamos chamar o valor máximo disso de <span class="math inline">\(V_{T-1}\)</span>:</p>
 <p><span class="math display">\[ V_{T-1}(k_{T-1},c_{T-1}) = \max_{c_{T-1}} u(c_{T-1}) + \beta u(k_T) \]</span></p>
 <p>Veja que o <span class="math inline">\(k_{T-1}\)</span> aparece implicitamente na função acima, já que precisamos dele para calcular <span class="math inline">\(k_T\)</span>.</p>
 <p>E para <span class="math inline">\(T-2\)</span>? Você vai ter que levar em conta o quanto o seu consumo impacta a utilidade em <span class="math inline">\(T-2\)</span> e a acumulação de capital - e por tabela a utilidade - em <span class="math inline">\(T-1\)</span> e <span class="math inline">\(T\)</span>. Mas, convenientemente, a função <span class="math inline">\(V_{T-1}(k_{T-1},c_{T-1})\)</span> leva em conta o impacto do seu consumo em <span class="math inline">\(T-2\)</span> nos períodos seguintes, já que ao determinar <span class="math inline">\(c_{T-2}\)</span> determinamos <span class="math inline">\(k_{T-1}\)</span>, que é essencial para definirmos <span class="math inline">\(c_{T-1}\)</span>. Podemos escrever uma função, <span class="math inline">\(V_{T-2}\)</span>:</p>
 <p><span class="math display">\[ V_{T-2}(k_{T-2},c_{T-2}) = \max_{c_{T-2}} u(c_{T-2}) + \beta*V(k_{T-1},c_{T-1}) \]</span></p>
 <p>Se você ainda não entendeu para onde isso está indo, eu pretendo escrever o problema de maximização de uma data <span class="math inline">\(t\)</span> qualquer como um problema que depende de <span class="math inline">\(V_{t+1}(k_{t+1},c_{t+1})\)</span>. O problema na data <span class="math inline">\(t\)</span> é:</p>
 <p><span class="math display">\[ V_t(k_t,c_t) = \max_{c_t} u(c_t) + \beta V_{t+1}(k_{t+1},c_{t+1}) \]</span></p>
-<p>Eu estou chamando a função de <span class="math inline">\(V\)</span> porque ela recebe o nome de função valor. Afinal, ela é o valor do problema de otimização.</p>
+<p>Eu estou chamando a função de <span class="math inline">\(V\)</span> porque ela recebe o nome de função valor. Afinal, ela é o valor do problema de otimização. Vale observar que o problema do período <span class="math inline">\(t\)</span> depende do valor do problema <span class="math inline">\(t+1\)</span>, e por isso chamamos o problema de <em>recursivo</em>.</p>
 <p>Toda a historia dos últimos paragráfos tem um problema claro: eu supus que eu sabia o valor do capital em todas as datas, que depende das escolhas de <span class="math inline">\(c_t\)</span> para cada data. De certa forma, eu estou dizendo que se eu soubesse a solução, eu saberia a solução. Não é exatamente animador.</p>
 <p>A boa notícia é que temos uma solução: compute <span class="math inline">\(V_t\)</span> para vários valores de <span class="math inline">\(k\)</span> em todos os períodos! Isso é trabalhoso para o computador, mas problema dele. Eis um pseudo código para resolver o problema:</p>
 <ul>
@@ -71,7 +71,7 @@ C[1,1:length(K)] = K
 
 for j = 2:T
     for i = 1:length(K)
-        valor=Spline1D(K,V[(j-1),1:length(K)],k=1,bc=&quot;extrapolate&quot;)
+        valor=Spline1D(K,V[(j-1),:],k=1,bc=&quot;extrapolate&quot;)
         val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
         otimo = optimize(val,0.1,K[i])
         V[j,i] = -Optim.minimum(otimo)
@@ -80,6 +80,7 @@ for j = 2:T
 end
 </code></pre>
 <p>Isso vai nos dar a solução para os valores de K entre 0.1 e 5 para todas as 100 datas. A matriz V guarda o valor da função <span class="math inline">\(V\)</span> e a matriz C guarda o nível ótimo de consumo para cada nível de capital. Da maneira que eu organizei, cada linha recebe o valor de uma data e cada coluna é um ponto do <em>grid</em>. Não há nenhum impedimento para fazer o contrário. Observe que a primeira linha tem a função valor no <strong>último</strong> período, a segunda linha a função valor no penúltimo etc.</p>
+<p>(Uma nota para aqueles que não estão familiarizados com o Julia: <code>x[1,:]</code> pega todos os elementos da primeira linha da matriz x)</p>
 <p>Veja ainda que, como de praxe, o comando <code>optimize</code> só procura mínimos, então nós multiplicamos a função por <span class="math inline">\(-1\)</span> para transformar o máximo em mínimo. Como o que nos interessa é o valor verdadeiro da função - e não o valor na forma de “mínimo” - temos que multiplicar por <span class="math inline">\(-1\)</span> quando inserimos o valor na matriz <span class="math inline">\(V\)</span>.</p>
 <p>Mas nosso interesse é em saber, para um dado valor incial de <span class="math inline">\(k\)</span>, qual deve ser a trajetória ótima de consumo. Vamos escrever outro código, que pega um valor inicial de <span class="math inline">\(k\)</span>, procura o <span class="math inline">\(c\)</span> ótimo para aquele valor - usando a matriz C acima - e computa o capital do próximo período usando a lei de movimento <span class="math inline">\(k_{t+1} + c_t = (1-\delta)k_t+y(k_t)\)</span>.</p>
 <pre class="julia"><code>
@@ -109,6 +110,9 @@ C_path[1] = K_path[1]</code></pre>
 plot(c_path[T:-1:1], lab = &quot;Consumo&quot;)
 plot!(k_path[T:-1:1], lab = &quot;Capital&quot;)
 </code></pre>
+<p>Veja que como a última linha da matriz é na verdade o primeiro período, eu faço gráfico invertendo o vetor, por isso <code>[T:-1:1]</code>: leia isso como “vá de T a 1 com um passo de -1 por vez”.</p>
+<p>A trajetória faz sentido: o sujeito acumula capital e chegando no fim consome o capital para não sobrar nenhum capital depois de <span class="math inline">\(T\)</span>. Veja que a trajetória do consumo é mais ou menos constante, exceto no fim. É uma manifestação da hipótese de renda permamente, famoso devido a Milton Friedman e Franco Modigliani - uma ideia que eu vou abordar mais nos próximos posts sobre o tema.</p>
+<p>Nos próximos posts eu pretendo falar de duas extensões importantes: incerteza e o caso em que o tempo vai para o infinito. Os dois posts serão independentes.</p>
 </div>
 <div id="referencias" class="section level2">
 <h2>Referências</h2>
