@@ -21,6 +21,16 @@
     </item>
     
     <item>
+      <title>Viés de variáveis instrumentais</title>
+      <link>/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
+      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+    </item>
+    
+    <item>
       <title>Programação Dinâmica I</title>
       <link>/2018/07/29/programacao-dinamica-i/</link>
       <pubDate>Sun, 29 Jul 2018 00:00:00 +0000</pubDate>
@@ -37,16 +47,6 @@
       <guid>/2018/07/28/interpolacao/</guid>
       <description>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.</description>
-    </item>
-    
-    <item>
-      <title>Viés de variáveis instrumentais</title>
-      <link>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
-      <pubDate>Thu, 19 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
-      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
-Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
     </item>
     
     <item>

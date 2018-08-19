@@ -21,6 +21,37 @@
     </item>
     
     <item>
+      <title>Viés de variáveis instrumentais</title>
+      <link>/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
+      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+    </item>
+    
+    <item>
+      <title>Homens têm mais casos extraconjugais?</title>
+      <link>/2018/08/17/homens-traicao/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/17/homens-traicao/</guid>
+      <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
+Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
+ProbitsProbits são, essencialmente, uma regressão em que a variável dependente só pode assumir valores binários.</description>
+    </item>
+    
+    <item>
+      <title>Alguns pequenos problemas de clustering k-means</title>
+      <link>/2018/08/11/problemas-clustering-k-means/</link>
+      <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/11/problemas-clustering-k-means/</guid>
+      <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
+    </item>
+    
+    <item>
       <title>Usando clustering para identificar cursos no Prouni</title>
       <link>/2018/08/11/prouni-clustering/</link>
       <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
@@ -38,16 +69,6 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       <guid>/2018/07/28/interpolacao/</guid>
       <description>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.</description>
-    </item>
-    
-    <item>
-      <title>Viés de variáveis instrumentais</title>
-      <link>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
-      <pubDate>Thu, 19 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/07/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
-      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
-Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
     </item>
     
   </channel>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Alguns pequenos problemas de clustering k-means • Pedro Cavalcante'>
+<meta property='og:description' content='No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.'>
+<meta property='og:url' content='/2018/08/11/problemas-clustering-k-means/'>
+<meta property='og:site_name' content='AZUL'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='R'><meta property='article:tag' content='Clustering'><meta property='article:published_time' content='2018-08-11T00:00:00Z'/><meta property='article:modified_time' content='2018-08-11T00:00:00Z'/><meta name='twitter:card' content='summary'><meta name='twitter:creator' content='@https://twitter.com/PedrooCava'>
+
+<meta name="generator" content="Hugo 0.44" />
+
+  <title>Alguns pequenos problemas de clustering k-means • Pedro Cavalcante</title>
+  <link rel='canonical' href='/2018/08/11/problemas-clustering-k-means/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.809149b6.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+
+
+<body class='page type-post has-sidebar'>
+
+  <div class='site'>
+
+    <div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    AZUL
+    </h2>
+    <div class='desc'>
+    Economia, Estatística, Programação
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/apresenta%C3%A7%C3%A3o' style='font-size:1em'>Apresentação</a>
+      </li><li>
+        <a href='/tags/clustering' style='font-size:1.2em'>Clustering</a>
+      </li><li>
+        <a href='/tags/econometria' style='font-size:1em'>Econometria</a>
+      </li><li>
+        <a href='/tags/economia' style='font-size:1.2em'>Economia</a>
+      </li><li>
+        <a href='/tags/economia-da-educa%C3%A7%C3%A3o' style='font-size:1em'>Economia Da Educação</a>
+      </li><li>
+        <a href='/tags/interpola%C3%A7%C3%A3o' style='font-size:1em'>Interpolação</a>
+      </li><li>
+        <a href='/tags/julia' style='font-size:1.4em'>Julia</a>
+      </li><li>
+        <a href='/tags/lasso' style='font-size:1em'>Lasso</a>
+      </li><li>
+        <a href='/tags/machine-learning' style='font-size:1em'>Machine Learning</a>
+      </li><li>
+        <a href='/tags/monte-carlo' style='font-size:1.2em'>Monte Carlo</a>
+      </li><li>
+        <a href='/tags/probit' style='font-size:1em'>Probit</a>
+      </li><li>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica' style='font-size:1.2em'>Programação Dinâmica</a>
+      </li><li>
+        <a href='/tags/r' style='font-size:2em'>R</a>
+      </li><li>
+        <a href='/tags/simula%C3%A7%C3%A3o' style='font-size:1.2em'>Simulação</a>
+      </li><li>
+        <a href='/tags/tutoriais' style='font-size:1em'>Tutoriais</a>
+      </li><li>
+        <a href='/tags/vari%C3%A1veis-instrumentais' style='font-size:1em'>Variáveis Instrumentais</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div>
+
+    <div class='main'>
+
+      <nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href=''>GitHub</a>
+      </li><li class='item'>
+        <a href='/post'>Posts</a>
+      </li><li class='item'>
+        <a href='/about/'>Sobre</a>
+      </li><li class='item'>
+        <a href=''>Twitter</a>
+      </li></ul>
+  </div>
+</nav>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>AZUL</p><p class='desc site-desc'>Economia, Estatística, Programação</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+  <script src="//yihui.name/js/math-code.js"></script>
+  <script async
+  src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Alguns pequenos problemas de clustering k-means</h1>
+      
+
+    </div>
+    
+<div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2018-08-11T00:00:00Z'>2018, Aug 11</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/pedrocava'>Pedro Cavalcante</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+4 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>No meu <a href="https://azul.netlify.com/2018/08/11/prouni-clustering/">último post</a> mostrei como podíamos usar clustering <span class="math inline">\(k\)</span>-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de <span class="math inline">\(k\)</span>-means, quero mostrar um <em>problema</em> do algoritimo relacionado a uma de suas hipoteses.</p>
+<p>Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui. Uma das <em>rules of thumb</em> da profissão para modelagem é a de que hipoteses são simplificadoras apenas na medida em que não alteram as conclusões <em>principais</em> do modelo.</p>
+<p>Pois, supor informação (quasi-)perfeita é absolutamente razoável na maioria dos mercados. Existe alguma assimetria relevante de inforção entre feirante e comprador de bananas? Entre concessionária e comprador de carro? Supor algum tipo de comportamento maximizador de lucro (ou de utilidade) também soa um tanto quanto absurdo, mas veja bem, <em>funciona</em>. Quando capital fica relativamente ao trabalho mais barato, firmas automatizam. Quando tomates ficam mais caros, consumidores compram menos. Quase como se maximizadores racionais caminhassem sobre a terra.</p>
+<div id="mas-e-k-means" class="section level2">
+<h2>Mas e <span class="math inline">\(k\)</span>-means?</h2>
+<p>Vamos lembrar brevemente da matemática por trás do clustering <span class="math inline">\(k\)</span>-means, a função objetivo do procedimento (não confundir com o algoritimo para computar o problema em si). <span class="math inline">\(k\)</span> é o número de clusters, <span class="math inline">\(S_i\)</span> é conjunto de elementos do i-ésimo cluster, <span class="math inline">\(\mu_i\)</span> é a média do i-ésimo cluster.</p>
+<p><span class="math display">\[ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i ||^2 \]</span></p>
+<p>O único instrumento desse problema de otimização é <span class="math inline">\(S\)</span>, <span class="math inline">\(k\)</span> é um parâmetro <em>dado</em>. Pois, ao escolher um <span class="math inline">\(k\)</span> em especifico, estamos supondo que <em>existem</em> <span class="math inline">\(k\)</span> agrupamentos nos dados. E se não for bem assim? Vamos a um exemplo:</p>
+<pre class="r"><code>##### Começaremos gerando dados aleatórios
+##### Seja n o tamanho da amostra, o leitor pode alterar se quiser
+
+n = 100000
+
+#### Geraremos um vetor aleatório no R^2
+
+x &lt;- rnorm(mean = 0, 
+            sd = 1,
+              n= n) ##média 0 e variância unitária nos dá uma normal padrão
+
+y &lt;- rnorm(mean = 0,
+            sd = 1,
+              n = n)
+
+amostra1 &lt;- data.frame(x, y)</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
+
+amostra1 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = &quot;dark blue&quot;)+
+  geom_density_2d(color = &quot;light blue&quot;)+
+  geom_vline(aes(xintercept=mean(x)),   
+             color=&quot;black&quot;, linetype=&quot;dashed&quot;, size=1)+
+  geom_hline(aes(yintercept=mean(y)),   
+             color=&quot;black&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="/post/problemas-de-k-means_files/figure-html/imagem1-1.png" width="7000" /></p>
+<p>Existe claramente só um agrupamento, mas podemos detectar quantos agrupamentos quisermos ao definir um <span class="math inline">\(k\)</span> desejado. Antes, vamos avaliar qual seria o <span class="math inline">\(k\)</span> ótimo segundo o Método do Cotovelo:</p>
+<pre class="r"><code>wssplot &lt;- function(data, nc=20, seed=1234){
+  wss &lt;- (nrow(data)-1)*sum(apply(data,2,var))
+  for (i in 2:nc){
+    set.seed(seed)
+    wss[i] &lt;- sum(kmeans(data, centers=i)$withinss)}
+  plot(1:nc, wss, type=&quot;b&quot;, xlab=&quot;k&quot;,
+       ylab=&quot;WGSS&quot;)}
+
+wssplot(amostra1)</code></pre>
+<p><img src="/post/problemas-de-k-means_files/figure-html/imagem2-1.png" width="7000" /></p>
+<p><span class="math inline">\(k=6\)</span> parece ser compatível com um ponto em que adicionar agrupamentos não rende uma queda substancial no WGSS, então vamos tentar esse número e ver o que acontece.</p>
+<pre class="r"><code>kmeans_amostra1 &lt;- kmeans(amostra1, 
+                            centers = 6)
+
+amostra1 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1$cluster)</code></pre>
+<p><img src="/post/problemas-de-k-means_files/figure-html/imagem3-1.png" width="7000" /></p>
+<p>Inclusive, podemos formar padrões similares simplesmente aumentando <span class="math inline">\(k\)</span> e particionando dados homogêneos em agrupamentos menores - apesar de não existirem de fato.</p>
+<pre class="r"><code>kmeans_amostra1_2 &lt;- kmeans(amostra1, 
+                            centers = 10)
+
+amostra1 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1_2$cluster)</code></pre>
+<p><img src="/post/problemas-de-k-means_files/figure-html/imagem4-1.png" width="7000" /></p>
+<pre class="r"><code>kmeans_amostra1_3 &lt;- kmeans(amostra1, 
+                            centers = 50)
+
+amostra1 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1_3$cluster)</code></pre>
+<p><img src="/post/problemas-de-k-means_files/figure-html/imagem5-1.png" width="7000" /></p>
+<p>Observem que WGSS em função de <span class="math inline">\(k\)</span> tem comportamento assintótico bem claro, embora não necessariamente monotônico: converge a zero.</p>
+</div>
+<div id="mas-e-se-existirem-k-agrupamentos" class="section level2">
+<h2>Mas e se existirem <span class="math inline">\(k\)</span> agrupamentos?</h2>
+<p>Aí, meu caro leitor, estamos conversando. Vamos gerar novos dados, agora com agrupamentos separados.</p>
+<pre class="r"><code>k = 8 ## numero de agrupamentos 
+m = 100 ## tamanho da amostra em cada agrupamento
+sd = .2 ## .2 gera identificação limpa dos agrupamentos em alguns casos
+
+datalist = list() ## Lista para salvar os DFs com cada cluster
+
+for (i in 1:k){
+  
+    x &lt;- rnorm(mean = i, 
+              sd = sd, 
+                n=m)
+    
+  y &lt;- rnorm(mean = (k-i),
+              sd = sd,
+                n=m)
+  
+  datalist[[i]] &lt;- data.frame(x,y)
+}
+
+amostra2 &lt;- do.call(rbind, datalist) ## empilhamos os clusters
+
+amostra2 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = &quot;blue&quot;)</code></pre>
+<p><img src="/post/problemas-de-k-means_files/figure-html/imagem6-1.png" width="7000" /></p>
+<pre class="r"><code>wssplot(amostra2, nc = 10)</code></pre>
+<p><img src="/post/problemas-de-k-means_files/figure-html/imagem6-2.png" width="7000" /> Um pequeno exercício: em dados claramento agrupados em 8 núcleos, qual a diferença do WGSS quando temos <span class="math inline">\(k=8\)</span>, fiel aos dados, e <span class="math inline">\(k=10\)</span>, um exagero?</p>
+<pre class="r"><code>teste8 &lt;- kmeans(amostra2, 
+                  centers = 8)
+teste10 &lt;- kmeans(amostra2,
+                    centers = 10) 
+
+teste8$tot.withinss / teste10$tot.withinss #dividindo o WGSS de um pelo outro</code></pre>
+<pre><code>## [1] 0.4025824</code></pre>
+<p>Aqui entra de novo o componente estocástico. Já consegui 3,5% maior, já consegui 40% menor. Quanto você, leitor, achou?</p>
+<pre class="r"><code>kmeans_amostra2 &lt;- kmeans(amostra2, 
+                            centers = k)
+
+amostra2 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra2$cluster)</code></pre>
+<p><img src="/post/problemas-de-k-means_files/figure-html/imagem7-1.png" width="7000" /></p>
+<p>Você talvez precise gerar algumas amostras antes de conseguir uma identificação limpa de cada agrupamento.</p>
+</div>
+<div id="acho-que-e-isso" class="section level2">
+<h2>Acho que é isso</h2>
+<p>Queria mostrar brevemente as limitações de (i) uma hipotese através dessa ilustração interessante e (ii) do Método do Cotovelo, computacionalmente simples, mas dependente de interpretação.</p>
+<p>(Como sempre, você pode reproduzir isso tudo com <a href="https://github.com/danmrc/azul/tree/master/content/post/problema-de-clustering-k-means">esse script</a>)</p>
+</div>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'>
+  <div class='categories'>
+  <span class='taxonomy-icon'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+</span>
+  <span class='screen-reader-text'>Categories: </span><a class='category' href='/categories/r'>R</a>, <a class='category' href='/categories/clustering'>Clustering</a></div>
+<div class='tags'>
+  <span class='taxonomy-icon'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+</span>
+  <span class='screen-reader-text'>Tags: </span><a class='tag' href='/tags/r'>R</a>, <a class='tag' href='/tags/clustering'>Clustering</a></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/2018/08/11/prouni-clustering/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Usando clustering para identificar cursos no Prouni</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/2018/08/17/homens-traicao/'>
+        <span class='screen-reader-text'>Next post: </span>Homens têm mais casos extraconjugais?<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p></p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.68cb493a.js'></script><script src='/js/custom.js'></script>
+
+
+
+</body>
+
+</html>
+
