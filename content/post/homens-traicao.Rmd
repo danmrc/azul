@@ -30,7 +30,7 @@ Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centav
 
 Probits são, essencialmente, uma regressão em que a variável dependente só pode assumir valores binários. Os parâmetros estimados no dizem em que medida uma variação marginal em uma variável explicativa altera o $z$-score da variável dependente, não a sua probabilidade condicional de assumir $1$. 
 
-Seja $\mathbb{P}$ o operador para probabilidade, $\Phi$ a função de distribuição cumultiva de uma normal padrão e $\beta$ o vetor de parâmetros a ser estimado. Um modelo probit assume a seguinte forma:
+Seja $\mathbb{P}$ o operador para probabilidade, $\Phi$ a função de distribuição cumultiva de uma normal padrão, $X$ um vetor de variáveis aleatórias  e $\beta$ o vetor de parâmetros a ser estimado. Um modelo probit assume a seguinte forma:
 
 $$\mathbb{P}(Y=1 | X) = \Phi (X^T \beta)$$
 
