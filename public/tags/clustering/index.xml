@@ -6,17 +6,17 @@
     <description>Recent content in Clustering on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sat, 11 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/clustering/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Alguns pequenos problemas de clustering k-means</title>
-      <link>/2018/08/11/problemas-clustering-k-means/</link>
-      <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
+      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/11/problemas-clustering-k-means/</guid>
+      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
       <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
 Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>

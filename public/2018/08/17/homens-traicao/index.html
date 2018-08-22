@@ -6,13 +6,13 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, uma regressão em que a variável dependente só pode assumir valores binários.'>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Homens têm mais casos extraconjugais? • Pedro Cavalcante'>
 <meta property='og:description' content='Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, uma regressão em que a variável dependente só pode assumir valores binários.'>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.'>
 <meta property='og:url' content='/2018/08/17/homens-traicao/'>
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='R'><meta property='article:tag' content='Probit'><meta property='article:published_time' content='2018-08-17T00:00:00Z'/><meta property='article:modified_time' content='2018-08-17T00:00:00Z'/><meta name='twitter:card' content='summary'><meta name='twitter:creator' content='@https://twitter.com/PedrooCava'>
@@ -233,8 +233,8 @@ if (!doNotTrack) {
 <p>Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.</p>
 <div id="probits" class="section level2">
 <h2>Probits</h2>
-<p>Probits são, essencialmente, uma regressão em que a variável dependente só pode assumir valores binários. Os parâmetros estimados no dizem em que medida uma variação marginal em uma variável explicativa altera o <span class="math inline">\(z\)</span>-score da variável dependente, não a sua probabilidade condicional de assumir <span class="math inline">\(1\)</span>.</p>
-<p>Seja <span class="math inline">\(\mathbb{P}\)</span> o operador para probabilidade, <span class="math inline">\(\Phi\)</span> a função de distribuição cumultiva de uma normal padrão e <span class="math inline">\(\beta\)</span> o vetor de parâmetros a ser estimado. Um modelo probit assume a seguinte forma:</p>
+<p>Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários. Os parâmetros estimados no dizem em que medida uma variação marginal em uma variável explicativa altera o <span class="math inline">\(z\)</span>-score da variável dependente, não a sua probabilidade condicional de assumir <span class="math inline">\(1\)</span>.</p>
+<p>Seja <span class="math inline">\(\mathbb{P}\)</span> o operador para probabilidade, <span class="math inline">\(\Phi\)</span> a função de distribuição cumultiva de uma normal padrão, <span class="math inline">\(X\)</span> um vetor de variáveis aleatórias e <span class="math inline">\(\beta\)</span> o vetor de parâmetros a ser estimado. Um modelo probit assume a seguinte forma:</p>
 <p><span class="math display">\[\mathbb{P}(Y=1 | X) = \Phi (X^T \beta)\]</span></p>
 <p>É possível também exprimir o modelo como <span class="math inline">\(Y^{*} = X^T \beta + \epsilon\)</span> e mostrar que as duas formas são equivalentes é um exercício interessante.</p>
 <p>Não irei entrar nos pormenores de como se pode estimar os parâmetros desse modelo. A função <code>glm</code> disponível no R usa estimação por Máxima Verossimilhança, até onde sei.</p>
@@ -391,7 +391,7 @@ probitmfx(affair ~ male + kids + feliz + rel + educ + yrsmarr + age,
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/2018/08/11/problemas-clustering-k-means/'>
+      <a href='/2018/08/11/prouni-clustering/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -399,7 +399,7 @@ probitmfx(affair ~ male + kids + feliz + rel + educ + yrsmarr + age,
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Alguns pequenos problemas de clustering k-means</a>
+        <span class='screen-reader-text'>Previous post: </span>Usando clustering para identificar cursos no Prouni</a>
     </div><div class='next-entry sep-before'>
       <a href='/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/'>
         <span class='screen-reader-text'>Next post: </span>Viés de variáveis instrumentais<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>

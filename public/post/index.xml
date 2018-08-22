@@ -21,6 +21,16 @@
     </item>
     
     <item>
+      <title>Alguns pequenos problemas de clustering k-means</title>
+      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
+    </item>
+    
+    <item>
       <title>Viés de variáveis instrumentais</title>
       <link>/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
@@ -38,17 +48,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, uma regressão em que a variável dependente só pode assumir valores binários.</description>
-    </item>
-    
-    <item>
-      <title>Alguns pequenos problemas de clustering k-means</title>
-      <link>/2018/08/11/problemas-clustering-k-means/</link>
-      <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/08/11/problemas-clustering-k-means/</guid>
-      <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
-Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
