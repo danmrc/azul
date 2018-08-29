@@ -213,7 +213,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-6 mins read
+5 mins read
 </span>
 
 
@@ -228,234 +228,105 @@ if (!doNotTrack) {
 
   <div class='container entry-content'>
   <p>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.</p>
-<p>A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos. Eu não vou abordar a matemática por trás disso: vou tentar transmitir a ideia e como fazer interpolação em duas linguagens de programação: o Julia e o R.</p>
+<p>A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos. Eu não vou abordar a matemática por trás disso. O objetivo é transmitir a ideia e como fazer interpolação em duas linguagens de programação, o Julia e o R.</p>
 <p>Veja que interpolar é uma maneira de aproximar uma função desconhecida de alguma maneira: só sabemos o valor da função em alguns pontos e queremos ter alguma ideia do comportamento da função entre os pontos. Para isso, ligamos os pontos, e existem diversas maneiras de ligar os pontos.</p>
-<p>Uma primeira é buscar um único polinômio que liga todos os pontos. O polinômio vai ser mais complicado - vai depender de mais graus - maior o número de pontos. Se tivermos dois pontos, podemos encontrar uma reta que liga os dois. Três pontos, precisamos de um polinômio de segundo grau. Etc. Essa estratégia se chama <em>polinômio de Lagrange</em>. Se temos n pontos, podemos usar Mínimos Quadrados com um polinômio de grau (n-1) para encontrar o polinômio de Lagrange. Vamos testar isso no Julia usando o pacote <strong>polynomials</strong>, que nos traz o comando <code>polyfit</code>. Em um primeiro caso, vamos testar a função cosseno:</p>
+<p>Uma primeira é buscar um único polinômio que liga todos os pontos. O polinômio vai ser mais complicado - vai depender de mais graus - maior o número de pontos. Se tivermos dois pontos, podemos encontrar uma reta que liga os dois. Três pontos, precisamos de um polinômio de segundo grau. Etc. Essa estratégia se chama <em>polinômio de Lagrange</em>. Se temos <span class="math inline">\(n\)</span> pontos, podemos usar Mínimos Quadrados com um polinômio de grau <span class="math inline">\(n-1\)</span> para encontrar o polinômio de Lagrange. Vamos testar isso no Julia usando o pacote <strong>polynomials</strong>, que nos traz o comando <code>polyfit</code>. Em um primeiro caso, vamos testar a função cosseno:</p>
 <pre class="julia"><code>
 using Polynomials
 using Plots
 
-x2 = linspace(0,6,10)</code></pre>
-<pre><code>## 0.0:0.6666666666666666:6.0</code></pre>
-<pre class="julia"><code>x_aux = linspace(0,6,100)</code></pre>
-<pre><code>## 0.0:0.06060606060606061:6.0</code></pre>
-<pre class="julia"><code>
-y = cos.(x2)</code></pre>
-<pre><code>## 10-element Array{Float64,1}:
-##   1.0      
-##   0.785887 
-##   0.235238 
-##  -0.416147 
-##  -0.889327 
-##  -0.981674 
-##  -0.653644 
-##  -0.0457064
-##   0.581803 
-##   0.96017</code></pre>
-<pre class="julia"><code>
-pol = polyfit(x2,y)</code></pre>
-<pre><code>## Poly(1.0 + 0.0020059146298094057*x - 0.5083915409214038*x^2 + 0.014063003704064358*x^3 + 0.029088037148735733*x^4 + 0.006649088505523032*x^5 - 0.0035247878111862745*x^6 + 0.0004009683757313935*x^7 - 1.1113481674042046e-5*x^8 - 3.2898277208929307e-7*x^9)</code></pre>
-<pre class="julia"><code>
+x2 = linspace(0,6,10)
+x_aux = linspace(0,6,100)
+
+y = cos.(x2)
+
+pol = polyfit(x2,y)
+
 scatter(x2,y,lab=&quot;Pontos para interpolação&quot;)
-plot!(x_aux,polyval(pol,x_aux), lw=2,lab=&quot;Polinômio interpolador&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-1-J1.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-1-J2.png" /><!-- --></p>
-<pre class="julia"><code></code></pre>
+plot!(x_aux,polyval(pol,x_aux), lw=2,lab=&quot;Polinômio interpolador&quot;)
+plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)
+</code></pre>
 <p>Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso. Mas desastres podem acontecer, como o exemplo a seguir ilustra: a função é $  $ e o problema se chama <em>fenômeno de Runge</em>. Vamos fazer o mesmo experimento que com o cosseno:</p>
 <pre class="julia"><code>
-x3 = linspace(-1,1,10)</code></pre>
-<pre><code>## -1.0:0.2222222222222222:1.0</code></pre>
-<pre class="julia"><code>y3 = 1./(1+25*x3.^2)</code></pre>
-<pre><code>## 10-element Array{Float64,1}:
-##  0.0384615
-##  0.0620214
-##  0.114731 
-##  0.264706 
-##  0.764151 
-##  0.764151 
-##  0.264706 
-##  0.114731 
-##  0.0620214
-##  0.0384615</code></pre>
-<pre class="julia"><code>
-pol3 = polyfit(x3,y3)</code></pre>
-<pre><code>## Poly(0.8615381519658221 + 6.610033870354216e-15*x - 8.260923328347713*x^2 - 4.239465921175776e-14*x^3 + 30.72853004209621*x^4 + 1.756006054850649e-13*x^5 - 44.91545808089195*x^6 - 3.075411385516741e-13*x^7 + 21.62477475363917*x^8 + 1.6772515840801273e-13*x^9)</code></pre>
-<pre class="julia"><code>
-x_aux = linspace(-1,1,100)</code></pre>
-<pre><code>## -1.0:0.020202020202020204:1.0</code></pre>
-<pre class="julia"><code>
-scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-2-J1.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,polyval(pol3,x_aux),lab=&quot;Polinômio interpolador&quot;, lw = 2)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-2-J2.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,1./(1+25*x_aux.^2),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-2-J3.png" /><!-- --></p>
-<pre class="julia"><code></code></pre>
+x3 = linspace(-1,1,10)
+y3 = 1./(1+25*x3.^2)
+
+pol3 = polyfit(x3,y3)
+
+x_aux = linspace(-1,1,100)
+
+scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)
+plot!(x_aux,polyval(pol3,x_aux),lab=&quot;Polinômio interpolador&quot;, lw = 2)
+plot!(x_aux,1./(1+25*x_aux.^2),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)
+</code></pre>
 <p>Se você acha a oscilação pequena, talvez olhar para um intervalo maior te convença de que um único polinômio não é uma boa ideia algumas vezes:</p>
 <pre class="julia"><code>
-x3 = linspace(-3,3,15)</code></pre>
-<pre><code>## -3.0:0.42857142857142855:3.0</code></pre>
-<pre class="julia"><code>y3 = 1./(1+25*x3.^2)</code></pre>
-<pre><code>## 15-element Array{Float64,1}:
-##  0.00442478
-##  0.00601301
-##  0.00863588
-##  0.0134283 
-##  0.0236258 
-##  0.0516333 
-##  0.178832  
-##  1.0       
-##  0.178832  
-##  0.0516333 
-##  0.0236258 
-##  0.0134283 
-##  0.00863588
-##  0.00601301
-##  0.00442478</code></pre>
-<pre class="julia"><code>
-pol3 = polyfit(x3,y3)</code></pre>
-<pre><code>## Poly(1.000000000004171 - 6.750060182709716e-12*x - 6.6015537128430175*x^2 + 8.752993341978516e-12*x^3 + 13.603162132727812*x^4 - 7.31323815508641e-12*x^5 - 11.771191474323011*x^6 + 3.0644083529963003e-12*x^7 + 4.919462912742713*x^8 - 6.446798737006433e-13*x^9 - 1.0384289262923303*x^10 + 6.623875373212124e-14*x^11 + 0.10580460524487273*x^12 - 2.6253070358619435e-15*x^13 - 0.0041082329527088015*x^14)</code></pre>
-<pre class="julia"><code>
-x_aux = linspace(-3,3,100)</code></pre>
-<pre><code>## -3.0:0.06060606060606061:3.0</code></pre>
-<pre class="julia"><code>
-scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-3-J1.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,polyval(pol3,x_aux),lw=2,lab=&quot;Polinômio interpolador&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-3-J2.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = &quot;Função verdadeira&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-3-J3.png" /><!-- --></p>
-<pre class="julia"><code></code></pre>
+x3 = linspace(-3,3,15)
+y3 = 1./(1+25*x3.^2)
+
+pol3 = polyfit(x3,y3)
+
+x_aux = linspace(-3,3,100)
+
+scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)
+plot!(x_aux,polyval(pol3,x_aux),lw=2,lab=&quot;Polinômio interpolador&quot;)
+plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = &quot;Função verdadeira&quot;)
+</code></pre>
 <p>As figuras acima deixam claro que usar um único polinômio para aproximar a função não funciona em alguns casos. O que fazer? Podemos tomar um caminho relativamente mais simples e ligar cada par de pontos consecutivos com uma função. No Julia, usaremos o pacote <strong>Dierckx</strong> para fazer isso. Ainda mais simples, vamos usar apenas retas. No casso do cosseno:</p>
 <pre class="julia"><code>using Dierckx
 
-x2 = linspace(0,6,10)</code></pre>
-<pre><code>## 0.0:0.6666666666666666:6.0</code></pre>
-<pre class="julia"><code>x_aux = linspace(0,6,100)</code></pre>
-<pre><code>## 0.0:0.06060606060606061:6.0</code></pre>
-<pre class="julia"><code>
-y = cos.(x2)</code></pre>
-<pre><code>## 10-element Array{Float64,1}:
-##   1.0      
-##   0.785887 
-##   0.235238 
-##  -0.416147 
-##  -0.889327 
-##  -0.981674 
-##  -0.653644 
-##  -0.0457064
-##   0.581803 
-##   0.96017</code></pre>
-<pre class="julia"><code>
-aprox_lin = Spline1D(x2,y,k=1)</code></pre>
-<pre><code>## Spline1D(knots=[0.0,0.666667 … 5.33333,6.0] (10 elements), k=1, extrapolation=&quot;nearest&quot;, residual=0.0)</code></pre>
-<pre class="julia"><code>
-scatter(x2,y,lab=&quot;Pontos para interpolação&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-4-J1.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,polyval(pol,x_aux),lw = 2,lab=&quot;Polinômio interpolador&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-4-J2.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,cos.(x_aux),linestyle = :dot,lw = 2, lab = &quot;Função verdadeira&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-4-J3.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,f.(x_aux), linestyle = :dash, lw = 2,lab =  &quot;Aproximação linear&quot;)
+x2 = linspace(0,6,10)
+x_aux = linspace(0,6,100)
+
+y = cos.(x2)
+
+aprox_lin = Spline1D(x2,y,k=1)
+
+scatter(x2,y,lab=&quot;Pontos para interpolação&quot;)
+plot!(x_aux,polyval(pol,x_aux),lw = 2,lab=&quot;Polinômio interpolador&quot;)
+plot!(x_aux,cos.(x_aux),linestyle = :dot,lw = 2, lab = &quot;Função verdadeira&quot;)
+plot!(x_aux,aprox_lin.(x_aux), linestyle = :dash, lw = 2,lab =  &quot;Aproximação linear&quot;)
 </code></pre>
 <p>Não é tão bom quanto a aproximação usando o polinômio de Lagrange, mas é razoável. Mais importante, como essa nova maneira performa no fenômeno de Runge?</p>
 <pre class="julia"><code>
-x3 = linspace(-1,1,10)</code></pre>
-<pre><code>## -1.0:0.2222222222222222:1.0</code></pre>
-<pre class="julia"><code>y3 = 1./(1+25*x3.^2)</code></pre>
-<pre><code>## 10-element Array{Float64,1}:
-##  0.0384615
-##  0.0620214
-##  0.114731 
-##  0.264706 
-##  0.764151 
-##  0.764151 
-##  0.264706 
-##  0.114731 
-##  0.0620214
-##  0.0384615</code></pre>
-<pre class="julia"><code>
-x_aux = linspace(-1,1,100)</code></pre>
-<pre><code>## -1.0:0.020202020202020204:1.0</code></pre>
-<pre class="julia"><code>
-aprox_lin3 = Spline1D(x3,y3,k=1)</code></pre>
-<pre><code>## Spline1D(knots=[-1.0,-0.777778 … 0.777778,1.0] (10 elements), k=1, extrapolation=&quot;nearest&quot;, residual=0.0)</code></pre>
-<pre class="julia"><code>
-scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-5-J1.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = &quot;Função verdadeira&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-5-J2.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = &quot;Aproximação Linear&quot;, lw = 2)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-5-J3.png" /><!-- --></p>
-<pre class="julia"><code></code></pre>
+x3 = linspace(-1,1,10)
+y3 = 1./(1+25*x3.^2)
+
+x_aux = linspace(-1,1,100)
+
+aprox_lin3 = Spline1D(x3,y3,k=1)
+
+scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)
+plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = &quot;Função verdadeira&quot;)
+plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = &quot;Aproximação Linear&quot;, lw = 2)
+</code></pre>
 <p>Tirando ao redor do 0, esta interporlação se comporta bem melhor nas pontas, onde o polinômio de Lagrange fracassa. No caso extremo de termos um intervalo entre <span class="math inline">\([-3,3]\)</span>:</p>
 <pre class="julia"><code>
-x3 = linspace(-3,3,10)</code></pre>
-<pre><code>## -3.0:0.6666666666666666:3.0</code></pre>
-<pre class="julia"><code>y3 = 1./(1+25*x3.^2)</code></pre>
-<pre><code>## 10-element Array{Float64,1}:
-##  0.00442478
-##  0.00729335
-##  0.0141956 
-##  0.0384615 
-##  0.264706  
-##  0.264706  
-##  0.0384615 
-##  0.0141956 
-##  0.00729335
-##  0.00442478</code></pre>
-<pre class="julia"><code>
-x_aux = linspace(-3,3,100)</code></pre>
-<pre><code>## -3.0:0.06060606060606061:3.0</code></pre>
-<pre class="julia"><code>
-aprox_lin3 = Spline1D(x3,y3,k=1)</code></pre>
-<pre><code>## Spline1D(knots=[-3.0,-2.33333 … 2.33333,3.0] (10 elements), k=1, extrapolation=&quot;nearest&quot;, residual=0.0)</code></pre>
-<pre class="julia"><code>
-scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-6-J1.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = &quot;Função verdadeira&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-6-J2.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = &quot;Aproximação Linear&quot;, lw = 2)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-6-J3.png" /><!-- --></p>
-<pre class="julia"><code></code></pre>
+x3 = linspace(-3,3,10)
+y3 = 1./(1+25*x3.^2)
+
+x_aux = linspace(-3,3,100)
+
+aprox_lin3 = Spline1D(x3,y3,k=1)
+
+scatter(x3,y3,lab=&quot;Pontos para interpolação&quot;)
+plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = &quot;Função verdadeira&quot;)
+plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = &quot;Aproximação Linear&quot;, lw = 2)
+</code></pre>
 <p>Veja que podemos ter o caso em que o valor que queremos cai antes do primeiro ponto ou depois do último ponto. Nesse caso, não temos dois pontos para interpolar, e temos que <em>extrapolar</em> a função. Normalmente, existem várias formas de extrapolar: podemos repetir o valor do primeiro ponto para valores antes dele e do último ponto para valores depois dele; podemos continuar usando a função que liga os pontos mais da ponta; podemos fazer o programa cuspir um erro. Vamos ilustrar as duas primeiras opções usando o Dierck, e usar a função <span class="math inline">\(x^2\)</span> para ilustrar:</p>
 <pre class="julia"><code>
-x5 = linspace(-5,5,15)</code></pre>
-<pre><code>## -5.0:0.7142857142857143:5.0</code></pre>
-<pre class="julia"><code>y5 = x5.^2</code></pre>
-<pre><code>## 15-element Array{Float64,1}:
-##  25.0     
-##  18.3673  
-##  12.7551  
-##   8.16327 
-##   4.59184 
-##   2.04082 
-##   0.510204
-##   0.0     
-##   0.510204
-##   2.04082 
-##   4.59184 
-##   8.16327 
-##  12.7551  
-##  18.3673  
-##  25.0</code></pre>
-<pre class="julia"><code>
-inter_1 = Spline1D(x5,y5,k=1,bc=&quot;nearest&quot;)</code></pre>
-<pre><code>## Spline1D(knots=[-5.0,-4.28571 … 4.28571,5.0] (15 elements), k=1, extrapolation=&quot;nearest&quot;, residual=0.0)</code></pre>
-<pre class="julia"><code>inter_2 = Spline1D(x5,y5,k=1,bc=&quot;extrapolate&quot;)</code></pre>
-<pre><code>## Spline1D(knots=[-5.0,-4.28571 … 4.28571,5.0] (15 elements), k=1, extrapolation=&quot;extrapolate&quot;, residual=0.0)</code></pre>
-<pre class="julia"><code>
-x_aux5 = linspace(-7,7,200)</code></pre>
-<pre><code>## -7.0:0.07035175879396985:7.0</code></pre>
-<pre class="julia"><code>
-scatter(x5,y5)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-7-J1.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux5,inter_1(x_aux5), lw = 2, lab = &quot;Extrapolação constante&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-7-J2.png" /><!-- --></p>
-<pre class="julia"><code>plot!(x_aux5,inter_2(x_aux5), lw = 2, lab = &quot;Extrapolação usando última reta&quot;)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-7-J3.png" /><!-- --></p>
-<pre class="julia"><code></code></pre>
+x5 = linspace(-5,5,15)
+y5 = x5.^2
+
+inter_1 = Spline1D(x5,y5,k=1,bc=&quot;nearest&quot;)
+inter_2 = Spline1D(x5,y5,k=1,bc=&quot;extrapolate&quot;)
+
+x_aux5 = linspace(-7,7,200)
+
+scatter(x5,y5)
+plot!(x_aux5,inter_1(x_aux5), lw = 2, lab = &quot;Extrapolação constante&quot;)
+plot!(x_aux5,inter_2(x_aux5), lw = 2, lab = &quot;Extrapolação usando última reta&quot;)
+</code></pre>
 <p>No R, a função <code>approx</code>, que já vem por padrão com o R, faz interpolação linear. Veja que, ao contrário do Dierckx, a função <code>approxfun</code> só permite extrapolar retornando NA ou um valor constante. Isto é escolhido via a opção <code>rule</code>, que é criptíca: <code>rule=1</code> retorna NA e <code>rule=2</code> retorna o valor do ponto mais próximo. Vamos repetir o exemplo do cosseno no R, usando <code>rule = 2</code>:</p>
 <pre class="r"><code>x = seq(0,6, length.out = 10)
 y = cos(x)
@@ -466,7 +337,8 @@ x_aux = seq(-1,7,by=0.01)
 
 plot(x,y, main = &quot;Interpolação linear da função cosseno&quot;, xlim = c(-1,7))
 lines(x_aux,f(x_aux), col = 2)</code></pre>
-<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-8-21.png" width="672" /></p>
+<p><img src="/post/2018-07-28-interpolacao_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>A interpolação é útil para muitas coisas. Uma aplicação - que faremos futuramente - é que não podemos calcular a solução númerica de alguns problemas para todos os pontos. Então, iremos calcular para alguns pontos e interpolar a solução entre eles.</p>
 
 </div>
 
