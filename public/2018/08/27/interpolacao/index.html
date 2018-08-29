@@ -255,7 +255,7 @@ plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&q
 <p>Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso. Mas desastres podem acontecer, como o exemplo a seguir ilustra: a função é <span class="math inline">\(\frac{1}{1+25x^2}\)</span> e o problema se chama <em>fenômeno de Runge</em>. Vamos fazer o mesmo experimento que com o cosseno:</p>
 <pre><code>
 x3 = range(-1/2,stop = 1/2,length = 10)
-y3 = 1 ./(1 .+ 25 .* x3.^2)
+y3 = 1 ./(1 .+ 25 .* x3.^2) 
 
 pol3 = polyfit(x3,y3)
 

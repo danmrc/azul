@@ -12,7 +12,7 @@ tags:
 authors: ["danielc"]
 ---
 
-Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
+Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros. 
 
 A ideia de interpolação é literalmente "ligar os pontos": dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos. Eu não vou abordar a matemática por trás disso. O objetivo é transmitir a ideia e como fazer interpolação em duas linguagens de programação, o Julia e o R.
 
@@ -46,7 +46,7 @@ Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso
 ```
 
 x3 = range(-1/2,stop = 1/2,length = 10)
-y3 = 1 ./(1 .+ 25 .* x3.^2)
+y3 = 1 ./(1 .+ 25 .* x3.^2) 
 
 pol3 = polyfit(x3,y3)
 
