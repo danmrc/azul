@@ -1,5 +1,5 @@
 using Optim
-using Dierckx
+using Interpolations
 using Plots
 
 T = 100
@@ -10,7 +10,7 @@ dens = 100
 
 u(c) = log(c)
 f(k) = k^alpha
-K = linspace(0.1,5,dens)
+K = range(0.1,stop = 5,length = dens)
 
 C = Array{Float64}(T,length(K))
 V = Array{Float64}(T,length(K))
@@ -19,7 +19,7 @@ V[1,1:length(K)] = u.(K)
 C[1,1:length(K)] = K
 
 for j = 2:T
-    valor=Spline1D(K,V[(j-1),1:length(K)],k=1,bc="extrapolate")
+    valor=LinearInterpolation(K,V[(j-1),1:length(K)],extrapolation_bc= Interpolations.linear())
     for i = 1:length(K)
         val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
         otimo = optimize(val,0.1,K[i])
@@ -37,7 +37,7 @@ K_true = Array{Float64}(T)
 K_true[T]=start_val
 
 for j = T:-1:2
-    func_cons = Spline1D(K,C[j,1:length(K)],k=1,bc = "extrapolate")
+    func_cons = LinearInterpolation(K,C[j,1:length(K)], extrapolation_bc = Interpolations.linear())
     C_path[j] = func_cons(K_path[j])
     K_path[j-1] = f(K_path[j]) - func_cons(K_path[j]) + (1-delt)*K_path[j]
     K_true[j-1] = alpha*bet*(1 - (alpha*bet)^(T-(T-j)))/(1-*(alpha*bet)^(T-(T-j-1)))*f(K_true[j])

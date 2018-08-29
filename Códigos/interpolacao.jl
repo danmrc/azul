@@ -1,65 +1,85 @@
 using Polynomials
 using Plots
-using Dierckx
+using Interpolations
 
-x2 = linspace(0,6,10)
-x_aux = linspace(0,6,100)
+pyplot()
+
+x2 = range(0,stop = 6,length = 10) #Cria 10 pontos equiespaçados entre 0 e 6
+x_aux = range(0,stop = 6,length = 100) #Aonde vamos avaliar a função e o polinômio que aproxima
 
 y = cos.(x2)
 
-pol = polyfit(x2,y)
-
-f = Spline1D(x2,y,k=1)
+pol = polyfit(x2,y) #faz o fit do polinomio
 
 scatter(x2,y,lab="Pontos para interpolação")
-plot!(x_aux,polyval(pol,x_aux),lw = 2,lab="Polinômio interpolador")
-plot!(x_aux,cos.(x_aux),linestyle = :dot,lw = 2, lab = "Função verdadeira")
-plot!(x_aux,f.(x_aux), linestyle = :dash, lw = 2,lab =  "Aproximação linear")
+plot!(x_aux,polyval(pol,x_aux), lw=2,lab="Polinômio interpolador")
+plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = "Função verdadeira")
 
-y2 = broadcast(*,x2,cos.(x2))
-
-pol2 = polyfit(x2,y2)
-
-scatter(x2,y2)
-plot!(x_aux,polyval(pol2,x_aux))
-
-x3 = linspace(-3,3,15)
-y3 = 1./(1+25*x3.^2)
+x3 = range(-1/2,stop = 1/2,length = 10)
+y3 = 1 ./(1 .+ 25 .* x3.^2)
 
 pol3 = polyfit(x3,y3)
 
-x_aux = linspace(-3,3,100)
+x_aux = range(-1/2,stop = 1/2,length = 100)
 
-g = Spline1D(x3,y3,k=1)
+scatter(x3,y3,lab="Pontos para interpolação")
+plot!(x_aux,polyval(pol3,x_aux),lab="Polinômio interpolador", lw = 2)
+plot!(x_aux,1 ./(1+25*x_aux.^2),linestyle=:dash, lw=2, lab = "Função verdadeira")
+
+x3 = range(-3,stop = 3,length = 15)
+y3 = 1 ./(1 .+25 .* x3.^2)
+
+pol3 = polyfit(x3,y3)
+
+x_aux = range(-3,stop = 3,length = 100)
 
 scatter(x3,y3,lab="Pontos para interpolação")
 plot!(x_aux,polyval(pol3,x_aux),lw=2,lab="Polinômio interpolador")
 plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdadeira")
-plot!(x_aux,g.(x_aux),linestyle = :dash, lab = "Aproximação Linear", lw = 2)
 
-x4 = linspace(0.1,2,10)
-au = 1./x4
-y4 = x4.*sin.(au)
 
-pol4 = polyfit(x4,y4)
+x2 = range(0,stop = 6,length = 10)
+x_aux = range(0,stop = 6,length = 100)
 
-h = Spline1D(x4,y4,k=1)
+y = cos.(x2)
 
-x_aux = linspace(0.1,2,50)
+aprox_lin = LinearInterpolation(x2,y)
 
-scatter(x4,y4)
-plot!(x_aux,pol4.(x_aux),lw = 2)
-plot!(x_aux,(x_aux.*sin.(1./x_aux)),lw= 2, linestyle = :dash)
-plot!(x_aux,h.(x_aux), lw = 2, linestyle = :dot)
+scatter(x2,y,lab="Pontos para interpolação")
+plot!(x_aux,polyval(pol,x_aux),lw = 2,lab="Polinômio interpolador")
+plot!(x_aux,cos.(x_aux),linestyle = :dot,lw = 2, lab = "Função verdadeira")
+plot!(x_aux,aprox_lin.(x_aux), linestyle = :dash, lw = 2,lab =  "Aproximação linear")
 
-x5 = linspace(-5,5,15)
+x3 = range(-1/2,stop = 1/2,length = 10)
+y3 = 1 ./(1 .+25 .*x3.^2)
+
+x_aux = range(-1/2,stop = 1/2,length = 100)
+
+aprox_lin3 = LinearInterpolation(x3,y3)
+
+scatter(x3,y3,lab="Pontos para interpolação")
+plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdadeira")
+plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", lw = 2)
+
+x3 = range(-3,stop = 3,length = 10)
+3 = 1 ./(1 .+25 .*x3 .^2)
+
+x_aux = range(-3,stop = 3,length = 100)
+
+aprox_lin3 = LinearInterpolation(x3,y3)
+
+scatter(x3,y3,lab="Pontos para interpolação")
+plot!(x_aux,1./(1+25*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdadeira")
+plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", lw = 2)
+
+x5 = range(-5,stop = 5,length = 15)
 y5 = x5.^2
 
-inter_1 = Spline1D(x5,y5,k=1,bc="nearest")
-inter_2 = Spline1D(x5,y5,k=1,bc="extrapolate")
+inter_1 = LinearInterpolation(x5,y5, extrapolation_bc = Interpolations.Flat())
+inter_2 = LinearInterpolation(x5,y5,extrapolation_bc = Interpolations.Linear())
 
-x_aux5 = linspace(-7,7,200)
+x_aux5 = range(-7,stop = 7,length = 200)
 
-scatter(x5,y5)
+scatter(x5,y5, lab = "Pontos para interpolação")
 plot!(x_aux5,inter_1(x_aux5), lw = 2, lab = "Extrapolação constante")
 plot!(x_aux5,inter_2(x_aux5), lw = 2, lab = "Extrapolação usando última reta")

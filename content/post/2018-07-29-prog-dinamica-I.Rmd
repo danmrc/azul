@@ -15,6 +15,12 @@ authors: ["danielc"]
 draft: true
 ---
 
+
+```{r, message=FALSE,echo=FALSE}
+JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
+
+```
+
 Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos. Formalmente, o problema é:
 
 $$ \max_{c} \sum_{t=1}^\infty \beta^{t}u(c_t) \text{sujeito a} c_t = f(k_t)$$
@@ -72,18 +78,18 @@ Veja que isso também tem seus problemas: quando escolhermos o $c_t$ ótimo, nad
 ```{julia, results = 'hide'}
 
 using Optim
-using Dierckx
+using Interpolations
 using Plots
 
 T = 100
 alpha = 0.5
 bet = 0.98
-delt = 0.1
+delt = 1
 dens = 100
 
 u(c) = log(c)
 f(k) = k^alpha
-K = linspace(0.1,5,dens)
+K = range(0.1,stop = 5,length = dens)
 
 C = Array{Float64}(T,length(K))
 V = Array{Float64}(T,length(K))
@@ -92,8 +98,8 @@ V[1,1:length(K)] = u.(K)
 C[1,1:length(K)] = K
 
 for j = 2:T
+    valor=LinearInterpolation(K,V[(j-1),1:length(K)],extrapolation_bc= Interpolations.linear())
     for i = 1:length(K)
-        valor=Spline1D(K,V[(j-1),:],k=1,bc="extrapolate")
         val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
         otimo = optimize(val,0.1,K[i])
         V[j,i] = -Optim.minimum(otimo)
@@ -110,31 +116,40 @@ Veja ainda que, como de praxe, o comando `optimize` só procura mínimos, então
 
 Mas nosso interesse é em saber, para um dado valor incial de $k$, qual deve ser a trajetória ótima de consumo. Vamos escrever outro código, que pega um valor inicial de $k$, procura o $c$ ótimo para aquele valor - usando a matriz C acima - e computa o capital do próximo período usando a lei de movimento $k_{t+1} + c_t = (1-\delta)k_t+y(k_t)$.
 
-```{julia}
+```{julia, results = 'hide'}
 
-start_val = 2
+start_val = 10
 
-C_path = Array{Float64}(1,T)
-K_path = Array{Float64}(1,T)
+C_path = Array{Float64}(T)
+K_path = Array{Float64}(T)
 K_path[T] = start_val
+K_true = Array{Float64}(T)
+K_true[T]=start_val
 
 for j = T:-1:2
-    func_cons = Spline1D(K,C[j,1:length(K)],k=1,bc = "extrapolate")
+    func_cons = LinearInterpolation(K,C[j,1:length(K)], extrapolation_bc = Interpolations.linear())
     C_path[j] = func_cons(K_path[j])
     K_path[j-1] = f(K_path[j]) - func_cons(K_path[j]) + (1-delt)*K_path[j]
+    K_true[j-1] = alpha*bet*(1 - (alpha*bet)^(T-(T-j)))/(1-*(alpha*bet)^(T-(T-j-1)))*f(K_true[j])
 end
 
 C_path[1] = K_path[1]
 
+plot(C_path[T:-1:1], lab = "Consumo")
+plot!(K_path[T:-1:1], lab = "Trajetória estimada do Capital")
+plot!(K_true[T:-1:1], lab = "Trajetória verdadeira do Capital")
+
+
 ```
 Veja que o `for` não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de $T-1$ vai determinar o capital de $T$, que é consumido em sua totalidade. Vamos plotar isso para ver a trajetória do consumo e do capital:
 
-```{julia}
+```{julia, results = 'hold'}
 
 plot(c_path[T:-1:1], lab = "Consumo")
 plot!(k_path[T:-1:1], lab = "Capital")
 
 ```
+
 Veja que como a última linha da matriz é na verdade o primeiro período, eu faço gráfico invertendo o vetor, por isso `[T:-1:1]`: leia isso como "vá de T a 1 com um passo de -1 por vez".
 
 A trajetória faz sentido: o sujeito acumula capital e chegando no fim consome o capital para não sobrar nenhum capital depois de $T$. Veja que a trajetória do consumo é mais ou menos constante, exceto no fim. É uma manifestação da hipótese de renda permamente, famoso devido a Milton Friedman e Franco Modigliani - uma ideia que eu vou abordar mais nos próximos posts sobre o tema.
