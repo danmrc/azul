@@ -12,12 +12,6 @@ tags:
 authors: ["danielc"]
 ---
 
-```{r, message=FALSE,echo=FALSE}
-JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
-JuliaCall::plotsViewer()
-```
-
-
 Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 
 A ideia de interpolação é literalmente "ligar os pontos": dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos. Eu não vou abordar a matemática por trás disso. O objetivo é transmitir a ideia e como fazer interpolação em duas linguagens de programação, o Julia e o R.
@@ -26,7 +20,7 @@ Veja que interpolar é uma maneira de aproximar uma função desconhecida de alg
 
 Uma primeira maneira é buscar um único polinômio que liga todos os pontos. O polinômio vai ser mais complicado - vai depender de mais graus - maior o número de pontos. Se tivermos dois pontos, podemos encontrar uma reta que liga os dois. Três pontos, precisamos de um polinômio de segundo grau. Etc. Essa estratégia se chama *polinômio de Lagrange*. Se temos $n$ pontos, podemos usar Mínimos Quadrados com um polinômio de grau $n-1$ para encontrar o polinômio de Lagrange. Vamos testar isso no Julia usando o pacote **polynomials**, que nos traz o comando `polyfit`.  Em um primeiro caso, vamos testar a função cosseno:
 
-```{julia, collapse = TRUE}
+```
 
 using Polynomials
 using Plots
@@ -49,7 +43,7 @@ plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = "Função verdadeira")
 
 Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso. Mas desastres podem acontecer, como o exemplo a seguir ilustra: a função é $\frac{1}{1+25x^2}$ e o problema se chama *fenômeno de Runge*. Vamos fazer o mesmo experimento que com o cosseno:
 
-```{julia, collapse = TRUE}
+```
 
 x3 = range(-1/2,stop = 1/2,length = 10)
 y3 = 1 ./(1 .+ 25 .* x3.^2)
@@ -69,7 +63,7 @@ plot!(x_aux,1./(1+25*x_aux.^2),linestyle=:dash, lw=2, lab = "Função verdadeira
 Se você acha a oscilação pequena, talvez olhar para um intervalo maior te convença de que um único polinômio não é uma boa ideia algumas vezes:
 
 
-```{julia, collapse = TRUE}
+```
 
 x3 = range(-3,stop = 3,length = 15)
 y3 = 1 ./(1 .+25 .* x3.^2)
@@ -88,7 +82,7 @@ plot!(x_aux,1 ./(1 .+25 .*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdade
 
 As figuras acima deixam claro que usar um único polinômio para aproximar a função não funciona em alguns casos. O que fazer? Podemos tomar um caminho relativamente mais simples e ligar cada par de pontos consecutivos com uma função. No Julia, usaremos o pacote **Interpolations** para fazer isso. Ainda mais simples, vamos usar apenas retas, ou seja, faremos uma interpolação linear. Sem surpresas, o comando que faz isso é o `LinearInterpolation`. No caso do cosseno:
 
-```{julia, collapse = TRUE}
+```
 using Interpolations
 
 x2 = range(0,stop = 6,length = 10)
@@ -109,7 +103,7 @@ plot!(x_aux,aprox_lin.(x_aux), linestyle = :dash, lw = 2,lab =  "Aproximação l
 
 Não é tão bom quanto a aproximação usando o polinômio de Lagrange, mas é razoável. Mais importante, como essa nova maneira performa no fenômeno de Runge?
 
-```{julia, collapse = TRUE}
+```
 
 x3 = range(-1/2,stop = 1/2,length = 10)
 y3 = 1 ./(1 .+25 .*x3.^2)
@@ -127,7 +121,7 @@ plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", 
 
 Tirando ao redor do 0, esta interporlação se comporta bem melhor nas pontas, onde o polinômio de Lagrange fracassa. No caso extremo de termos um intervalo entre $[-3,3]$:
 
-```{julia, collapse = TRUE}
+```
 
 x3 = range(-3,stop = 3,length = 10)
 y3 = 1 ./(1 .+25 .*x3 .^2)
@@ -146,7 +140,7 @@ plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", 
 
 Veja que podemos ter o caso em que o valor que queremos cai antes do primeiro ponto ou depois do último ponto. Nesse caso, não temos dois pontos para interpolar, e temos que *extrapolar* a função. Normalmente, existem várias formas de extrapolar: podemos repetir o valor do primeiro ponto para valores antes dele e do último ponto para valores depois dele; podemos continuar usando a função que liga os pontos mais da ponta; podemos fazer o programa cuspir um erro. Vamos ilustrar as duas primeiras opções usando o Interpolations, e usar a função $x^2$ para ilustrar. A sintaxe de como escolher como o pacote vai extrapolar é meio esquisita
 
-```{julia, collapse = TRUE}
+```
 
 x5 = range(-5,stop = 5,length = 15)
 y5 = x5.^2
