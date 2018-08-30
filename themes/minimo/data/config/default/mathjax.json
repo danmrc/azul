@@ -5,7 +5,7 @@
   },
   "config": {
     "tex2jax": {
-      "inlineMath": [["$", "$"], ["\\(", "\\)"]],
+      "inlineMath": [["$", "$"], ["\(", "\)"]],
       "processEscapes": true
     }
   }
