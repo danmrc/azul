@@ -174,4 +174,4 @@ lines(x_aux,f(x_aux), col = 2)
 
 ```
 
-A interpolação é útil para muitas coisas. Uma aplicação - que faremos futuramente - é que não podemos calcular a solução númerica de alguns problemas para todos os pontos. Então, iremos calcular para alguns pontos e interpolar a solução entre eles. 
+A interpolação é útil para muitas coisas. Uma aplicação - que faremos futuramente - é que não podemos calcular a solução númerica de alguns problemas para todos os pontos. Então, iremos calcular para alguns pontos e interpolar a solução entre eles.
