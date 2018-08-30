@@ -237,6 +237,25 @@ if (!doNotTrack) {
 <li><p>Vou repetir chamar essa função umas 100 vezes e salvar não o conteúdo dela, mas sim o resultado do timing</p></li>
 </ol>
 <p>No R, o código vai ficar assim:</p>
+<pre class="r"><code>ols &lt;- function(x,y){
+  solve(t(x)%*%x)%*%t(x)%*%y
+}
+
+func &lt;- function(){
+  for(j in 1:1000){
+    x &lt;- matrix(rnorm(500),ncol = 5)
+    bet &lt;- c(1,2,3,4,5)
+    y &lt;- x%*%bet + rnorm(100)
+    ols(x,y)
+  }
+}
+
+tempo &lt;- rep(0,100)
+
+for(j in 1:100){
+
+  tempo[j] &lt;- system.time(func())[3]
+}</code></pre>
 </div>
 
 </div>
