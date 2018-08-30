@@ -36,7 +36,7 @@ plot!(x_aux,polyval(pol,x_aux), lw=2,lab=&quot;Polinômio interpolador&quot;)
 plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)
 </code></pre>
 <div class="figure">
-<img src="/public/post/interpol/plot_1.png" />
+<img src="/post/interpol/plot_1.png" />
 
 </div>
 <p>Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso. Mas desastres podem acontecer, como o exemplo a seguir ilustra: a função é <span class="math inline">\(\frac{1}{1+25x^2}\)</span> e o problema se chama <em>fenômeno de Runge</em>. Vamos fazer o mesmo experimento que com o cosseno:</p>
@@ -53,7 +53,7 @@ plot!(x_aux,polyval(pol3,x_aux),lab=&quot;Polinômio interpolador&quot;, lw = 2)
 plot!(x_aux,1./(1+25*x_aux.^2),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)
 </code></pre>
 <div class="figure">
-<img src="/public/post/interpol/plot_2.png" />
+<img src="/post/interpol/plot_2.png" />
 
 </div>
 <p>Se você acha a oscilação pequena, talvez olhar para um intervalo maior te convença de que um único polinômio não é uma boa ideia algumas vezes:</p>
@@ -70,7 +70,7 @@ plot!(x_aux,polyval(pol3,x_aux),lw=2,lab=&quot;Polinômio interpolador&quot;)
 plot!(x_aux,1 ./(1 .+25 .*x_aux.^2),lw=2,linestyle=:dot, lab = &quot;Função verdadeira&quot;)
 </code></pre>
 <div class="figure">
-<img src="/public/post/interpol/plot_3.png" />
+<img src="/post/interpol/plot_3.png" />
 
 </div>
 <p>As figuras acima deixam claro que usar um único polinômio para aproximar a função não funciona em alguns casos. O que fazer? Podemos tomar um caminho relativamente mais simples e ligar cada par de pontos consecutivos com uma função. No Julia, usaremos o pacote <strong>Interpolations</strong> para fazer isso. Ainda mais simples, vamos usar apenas retas, ou seja, faremos uma interpolação linear. Sem surpresas, o comando que faz isso é o <code>LinearInterpolation</code>. No caso do cosseno:</p>
@@ -89,7 +89,7 @@ plot!(x_aux,cos.(x_aux),linestyle = :dot,lw = 2, lab = &quot;Função verdadeira
 plot!(x_aux,aprox_lin.(x_aux), linestyle = :dash, lw = 2,lab =  &quot;Aproximação linear&quot;)
 </code></pre>
 <div class="figure">
-<img src="/public/post/interpol/plot_4.png" />
+<img src="/post/interpol/plot_4.png" />
 
 </div>
 <p>Não é tão bom quanto a aproximação usando o polinômio de Lagrange, mas é razoável. Mais importante, como essa nova maneira performa no fenômeno de Runge?</p>
@@ -106,7 +106,7 @@ plot!(x_aux,1./(1 .+25 .*x_aux .^2),lw=2,linestyle=:dot, lab = &quot;Função ve
 plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = &quot;Aproximação Linear&quot;, lw = 2)
 </code></pre>
 <div class="figure">
-<img src="/public/post/interpol/plot_5.png" />
+<img src="/post/interpol/plot_5.png" />
 
 </div>
 <p>Tirando ao redor do 0, esta interporlação se comporta bem melhor nas pontas, onde o polinômio de Lagrange fracassa. No caso extremo de termos um intervalo entre <span class="math inline">\([-3,3]\)</span>:</p>
@@ -123,7 +123,7 @@ plot!(x_aux,1 ./(1 .+25 .*x_aux .^2),lw=2,linestyle=:dot, lab = &quot;Função v
 plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = &quot;Aproximação Linear&quot;, lw = 2)
 </code></pre>
 <div class="figure">
-<img src="/public/post/interpol/plot_6.png" />
+<img src="/post/interpol/plot_6.png" />
 
 </div>
 <p>Veja que podemos ter o caso em que o valor que queremos cai antes do primeiro ponto ou depois do último ponto. Nesse caso, não temos dois pontos para interpolar, e temos que <em>extrapolar</em> a função. Normalmente, existem várias formas de extrapolar: podemos repetir o valor do primeiro ponto para valores antes dele e do último ponto para valores depois dele; podemos continuar usando a função que liga os pontos mais da ponta; podemos fazer o programa cuspir um erro. Vamos ilustrar as duas primeiras opções usando o Interpolations, e usar a função <span class="math inline">\(x^2\)</span> para ilustrar. A sintaxe de como escolher como o pacote vai extrapolar é meio esquisita</p>
@@ -141,7 +141,7 @@ plot!(x_aux5,inter_1(x_aux5), lw = 2, lab = &quot;Extrapolação constante&quot;
 plot!(x_aux5,inter_2(x_aux5), lw = 2, lab = &quot;Extrapolação usando última reta&quot;)
 </code></pre>
 <div class="figure">
-<img src="/public/post/interpol/plot_7.png" />
+<img src="/post/interpol/plot_7.png" />
 
 </div>
 <p>No R, a função <code>approxfun</code>, que já vem por padrão com o R, faz interpolação linear. Veja que, ao contrário do Interpolations, a função <code>approxfun</code> só permite extrapolar retornando NA ou um valor constante. Isto é escolhido via a opção <code>rule</code>, que é criptíca: <code>rule=1</code> retorna NA e <code>rule=2</code> retorna o valor do ponto mais próximo. Vamos repetir o exemplo do cosseno no R, usando <code>rule = 2</code>:</p>
