@@ -1,0 +1,13 @@
+############################
+#
+#Como atualizar o site####
+##########################
+
+1. Apague o theme/minimo
+
+2. Mande o R reinstalar usando blogdown::install_theme("MunifTanjim/minimo")
+
+Para restaurar o logo: apague tanto o logo e o favicon no public quanto na pasta theme/minimo/static
+
+Coloque o logo e favicon tanto no public quanto no static
+
