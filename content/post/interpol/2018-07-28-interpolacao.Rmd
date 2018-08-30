@@ -39,7 +39,7 @@ plot!(x_aux,polyval(pol,x_aux), lw=2,lab="Polinômio interpolador")
 plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = "Função verdadeira")
 
 ```
-![](/plot_1.png)
+![](/public/post/interpol/plot_1.png)
 
 Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso. Mas desastres podem acontecer, como o exemplo a seguir ilustra: a função é $\frac{1}{1+25x^2}$ e o problema se chama *fenômeno de Runge*. Vamos fazer o mesmo experimento que com o cosseno:
 
@@ -58,7 +58,7 @@ plot!(x_aux,1./(1+25*x_aux.^2),linestyle=:dash, lw=2, lab = "Função verdadeira
 
 ```
 
-![](/plot_2.png)
+![](/public/post/interpol/plot_2.png)
 
 Se você acha a oscilação pequena, talvez olhar para um intervalo maior te convença de que um único polinômio não é uma boa ideia algumas vezes:
 
@@ -78,7 +78,7 @@ plot!(x_aux,1 ./(1 .+25 .*x_aux.^2),lw=2,linestyle=:dot, lab = "Função verdade
 
 ```
 
-![](/plot_3.png)
+![](/public/post/interpol/plot_3.png)
 
 As figuras acima deixam claro que usar um único polinômio para aproximar a função não funciona em alguns casos. O que fazer? Podemos tomar um caminho relativamente mais simples e ligar cada par de pontos consecutivos com uma função. No Julia, usaremos o pacote **Interpolations** para fazer isso. Ainda mais simples, vamos usar apenas retas, ou seja, faremos uma interpolação linear. Sem surpresas, o comando que faz isso é o `LinearInterpolation`. No caso do cosseno:
 
@@ -99,7 +99,7 @@ plot!(x_aux,aprox_lin.(x_aux), linestyle = :dash, lw = 2,lab =  "Aproximação l
 
 ```
 
-![](/plot_4.png)
+![](/public/post/interpol/plot_4.png)
 
 Não é tão bom quanto a aproximação usando o polinômio de Lagrange, mas é razoável. Mais importante, como essa nova maneira performa no fenômeno de Runge?
 
@@ -117,7 +117,7 @@ plot!(x_aux,1./(1 .+25 .*x_aux .^2),lw=2,linestyle=:dot, lab = "Função verdade
 plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", lw = 2)
 
 ```
-![](/plot_5.png)
+![](/public/post/interpol/plot_5.png)
 
 Tirando ao redor do 0, esta interporlação se comporta bem melhor nas pontas, onde o polinômio de Lagrange fracassa. No caso extremo de termos um intervalo entre $[-3,3]$:
 
@@ -136,7 +136,7 @@ plot!(x_aux,aprox_lin3.(x_aux),linestyle = :dash, lab = "Aproximação Linear", 
 
 ```
 
-![](/plot_6.png)
+![](/public/post/interpol/plot_6.png)
 
 Veja que podemos ter o caso em que o valor que queremos cai antes do primeiro ponto ou depois do último ponto. Nesse caso, não temos dois pontos para interpolar, e temos que *extrapolar* a função. Normalmente, existem várias formas de extrapolar: podemos repetir o valor do primeiro ponto para valores antes dele e do último ponto para valores depois dele; podemos continuar usando a função que liga os pontos mais da ponta; podemos fazer o programa cuspir um erro. Vamos ilustrar as duas primeiras opções usando o Interpolations, e usar a função $x^2$ para ilustrar. A sintaxe de como escolher como o pacote vai extrapolar é meio esquisita
 
@@ -156,9 +156,9 @@ plot!(x_aux5,inter_2(x_aux5), lw = 2, lab = "Extrapolação usando última reta"
 
 ```
 
-![](/plot_7.png)
+![](/public/post/interpol/plot_7.png)
 
-No R, a função `approxfun`, que já vem por padrão com o R, faz interpolação linear. Veja que, ao contrário do Interpolations, a função `approxfun` só permite extrapolar retornando NA ou um valor constante. Isto é escolhido via a opção `rule`, que é criptíca: `rule=1` retorna NA e `rule=2` retorna o valor do ponto mais próximo. Vamos repetir o exemplo do cosseno no R, usando `rule = 2`:
+No R, a função `approxfun`, que já vem por padrão com o R, faz interpolação linear. Veja que, ao contrário do Interpolations, a função `approxfun` só permite extrapolar retornando NA ou um valor constante. Isto é escolhido via a opção `rule`, que é criptíca: `rule=1` retorna NA e `rule=2` retorna o valor do ponto mais próximo. Vamos repetir o exemplo do cosseno no R, usando `rule = 2`: 
 
 ```{r, collapse = TRUE}
 
