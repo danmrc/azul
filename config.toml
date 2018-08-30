@@ -111,8 +111,8 @@ description = "A website built through Hugo and blogdown."
 #highlightjsLang = ["r", "yaml", "julia"]
 #highlightjsTheme = "github"
 
-MathJaxCDN = "//cdn.bootcss.com"
-MathJaxVersion = "2.7.1"
+#MathJaxCDN = "//cdn.bootcss.com"
+#MathJaxVersion = "2.7.1"
 
 [params.logo]
 url = ""
