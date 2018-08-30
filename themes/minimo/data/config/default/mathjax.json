@@ -4,9 +4,5 @@
     "config": "TeX-MML-AM_CHTML"
   },
   "config": {
-    "tex2jax": {
-      "inlineMath": [["$", "$"], ["\\(", "\\)"]],
-      "processEscapes": true
-    }
   }
 }
