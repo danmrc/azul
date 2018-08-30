@@ -16,7 +16,7 @@ publishDate = ["publishDate", "date"]
 expiryDate = ["expiryDate"]
 
 [[menu.main]]
-  name = "Posts"
+  name = "Tudo"
   url = "/post"
 [[menu.main]]
     name = "Sobre"
@@ -28,7 +28,7 @@ expiryDate = ["expiryDate"]
     name = "Twitter"
     url = ""
 
-Paginate = 5
+Paginate = 10
 preserveTaxonomyNames = true
 
 enableRobotsTXT = true # generate robots.txt

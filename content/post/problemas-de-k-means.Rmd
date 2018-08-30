@@ -13,6 +13,7 @@ tags:
 - R
 - Clustering
 authors: [pedrocava]
+katek: true
 ---
   
 No meu [último post](https://azul.netlify.com/2018/08/11/prouni-clustering/) mostrei como podíamos usar clustering $k$-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de $k$-means, quero mostrar um _problema_ do algoritimo relacionado a uma de suas hipoteses.
