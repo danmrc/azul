@@ -29,28 +29,4 @@ O estimador de MQO é um ótimo teste. Não só é muito usado, como ele trabalh
 
 3. Vou repetir chamar essa função umas 100 vezes e salvar não o conteúdo dela, mas sim o resultado do timing
 
-No R, o código vai ficar assim:
-
-```{r, eval=FALSE}
-
-ols <- function(x,y){
-  solve(t(x)%*%x)%*%t(x)%*%y
-}
-
-func <- function(){
-  for(j in 1:1000){
-    x <- matrix(rnorm(500),ncol = 5)
-    bet <- c(1,2,3,4,5)
-    y <- x%*%bet + rnorm(100)
-    ols(x,y)
-  }
-}
-
-tempo <- rep(0,100)
-
-for(j in 1:100){
-
-  tempo[j] <- system.time(func())[3]
-}
-
-```
+Eu não vou colar os códigos para o R e para o Julia, mas você encontra eles 

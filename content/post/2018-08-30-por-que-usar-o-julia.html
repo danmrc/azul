@@ -26,24 +26,5 @@ draft: true
 <li><p>Vou criar uma outra função que faz um for e replica 1000 vezes gerar 5 variáveis com 100 observações cada uma e estima o estimador de MQO usando a minha função</p></li>
 <li><p>Vou repetir chamar essa função umas 100 vezes e salvar não o conteúdo dela, mas sim o resultado do timing</p></li>
 </ol>
-<p>No R, o código vai ficar assim:</p>
-<pre class="r"><code>ols &lt;- function(x,y){
-  solve(t(x)%*%x)%*%t(x)%*%y
-}
-
-func &lt;- function(){
-  for(j in 1:1000){
-    x &lt;- matrix(rnorm(500),ncol = 5)
-    bet &lt;- c(1,2,3,4,5)
-    y &lt;- x%*%bet + rnorm(100)
-    ols(x,y)
-  }
-}
-
-tempo &lt;- rep(0,100)
-
-for(j in 1:100){
-
-  tempo[j] &lt;- system.time(func())[3]
-}</code></pre>
+<p>Eu não vou colar os códigos para o R e para o Julia, mas você encontra eles</p>
 </div>
