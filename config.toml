@@ -28,7 +28,7 @@ expiryDate = ["expiryDate"]
     name = "Twitter"
     url = ""
 
-Paginate = 10
+Paginate = 5
 preserveTaxonomyNames = true
 
 enableRobotsTXT = true # generate robots.txt
@@ -102,8 +102,8 @@ lang = "pt-br"
 languageName = "Português"
 weight = 1
 
-[params]
-description = "A website built through Hugo and blogdown."
+#[params]
+#description = "A website built through Hugo and blogdown."
 
 #highlightjsCDN = "//cdn.bootcss.com"    # options for highlight.js (version, additional languages, and theme)
 #highlightjsVersion = "9.11.0"

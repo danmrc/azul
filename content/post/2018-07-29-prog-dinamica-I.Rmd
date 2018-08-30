@@ -13,11 +13,12 @@ tags:
   - Economia
 authors: ["danielc"]
 draft: true
+katex: true
 ---
 
 
 ```{r, message=FALSE,echo=FALSE}
-JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
+#JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
 
 ```
 
