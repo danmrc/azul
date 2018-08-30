@@ -10,6 +10,7 @@ tags:
   - Julia
   - R
 authors: ["danielc"]
+draft: true
 ---
 
 Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R. 
@@ -23,4 +24,8 @@ Eu vou fazer alguns testes em um MacBook Air 2017, OS High Sierra, 8 GB de Ram e
 O estimador de MQO é um ótimo teste. Não só é muito usado, como ele trabalha com matrizes, faz uma inversa de matriz, que são operações muito comuns em estatística. O teste para comparar os dois vai ser bem simples:
 
 1. Eu vou escrever uma função que faz o estimador de MQO "no braço", ou seja, cospe $(X'X)^{-1}X'y$
+
+2. Vou criar uma outra função que faz um for e replica 1000 vezes gerar 5 variáveis com 100 observações cada uma e estima o estimador de MQO usando a minha função
+
+3. Vou repetir chamar essa função umas 100 vezes
 

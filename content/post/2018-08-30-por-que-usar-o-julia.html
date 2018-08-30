@@ -10,6 +10,7 @@ tags:
   - Julia
   - R
 authors: ["danielc"]
+draft: true
 ---
 
 
@@ -21,6 +22,8 @@ authors: ["danielc"]
 <h2>MQO</h2>
 <p>O estimador de MQO é um ótimo teste. Não só é muito usado, como ele trabalha com matrizes, faz uma inversa de matriz, que são operações muito comuns em estatística. O teste para comparar os dois vai ser bem simples:</p>
 <ol style="list-style-type: decimal">
-<li>Eu vou escrever uma função que faz o estimador de MQO “no braço”, ou seja, cospe <span class="math inline">\((X&#39;X)^{-1}X&#39;y\)</span></li>
+<li><p>Eu vou escrever uma função que faz o estimador de MQO “no braço”, ou seja, cospe <span class="math inline">\((X&#39;X)^{-1}X&#39;y\)</span></p></li>
+<li><p>Vou criar uma outra função que faz um for e replica 1000 vezes gerar 5 variáveis com 100 observações cada uma e estima o estimador de MQO usando a minha função</p></li>
+<li><p>Vou repetir chamar essa função umas 100 vezes</p></li>
 </ol>
 </div>
