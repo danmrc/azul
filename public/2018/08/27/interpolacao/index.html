@@ -249,7 +249,7 @@ plot!(x_aux,polyval(pol,x_aux), lw=2,lab=&quot;Polinômio interpolador&quot;)
 plot!(x_aux,cos.(x_aux),linestyle=:dash, lw=2, lab = &quot;Função verdadeira&quot;)
 </code></pre>
 <div class="figure">
-<img src="plot_1.png" />
+<img src="/interpol/2018-07-28-interpolacao_files/plot_1.png" />
 
 </div>
 <p>Veja que o polinômio se aproxima bastante bem da função verdadeira nesse caso. Mas desastres podem acontecer, como o exemplo a seguir ilustra: a função é <span class="math inline">\(\frac{1}{1+25x^2}\)</span> e o problema se chama <em>fenômeno de Runge</em>. Vamos fazer o mesmo experimento que com o cosseno:</p>
