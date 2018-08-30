@@ -27,5 +27,7 @@ O estimador de MQO é um ótimo teste. Não só é muito usado, como ele trabalh
 
 2. Vou criar uma outra função que faz um for e replica 1000 vezes gerar 5 variáveis com 100 observações cada uma e estima o estimador de MQO usando a minha função
 
-3. Vou repetir chamar essa função umas 100 vezes
+3. Vou repetir chamar essa função umas 100 vezes e salvar não o conteúdo dela, mas sim o resultado do timing
+
+No R, o código vai ficar assim:
 
