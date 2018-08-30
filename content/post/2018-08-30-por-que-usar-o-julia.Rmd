@@ -1,0 +1,20 @@
+---
+title: Por que usar o Julia?
+author: Daniel Coutinho
+date: '2018-09-13'
+slug: por-que-usar-o-julia
+categories:
+  - Computação
+tags:
+  - Profiling
+  - Julia
+  - R
+authors: ["danielc"]
+---
+
+Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R. 
+
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes. Este post vai colocar a prova a velocidade do Julia: será que ele realmente é mais rápido? O quão mais rápido? Para isso, eu vou comparar o Julia com o R. Ambos são open source. O R é extremamente popular e usado amplamente em diversas áreas. Eu não vou comparar o Matlab com o Julia: o matlab é um programa que tem que ser comprado (e não é barato), e portanto comparar os dois não vai ser tão informativo. Mal comparando, ninguém ficaria muto feliz de ser informado que ir de jatinho é mais rápido que ir de ônibus: não é surpreendente, mas ei, eu não tenho dinheiro para alugar um jatinho. 
+
+Eu vou fazer alguns testes em um MacBook Air 2017, OS High Sierra, 8 GB de Ram e processador i5
+
