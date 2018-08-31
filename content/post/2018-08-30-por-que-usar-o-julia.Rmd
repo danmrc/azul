@@ -18,9 +18,9 @@ Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Ju
 
 Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes. Este post vai colocar a prova a velocidade do Julia: será que ele realmente é mais rápido? O quão mais rápido? Para isso, eu vou comparar o Julia com o R. Ambos são open source. O R é extremamente popular e usado amplamente em diversas áreas. Eu não vou comparar o Matlab com o Julia: o matlab é um programa que tem que ser comprado (e não é barato), e portanto comparar os dois não vai ser tão informativo. Mal comparando, ninguém ficaria muto feliz de ser informado que ir de jatinho é mais rápido que ir de ônibus: não é surpreendente, mas ei, eu não tenho dinheiro para alugar um jatinho. 
 
-Eu vou fazer alguns testes em um MacBook Air 2017, OS High Sierra, 8 GB de Ram e processador i5. Vamos fazer alguns testes.
+Eu vou fazer alguns testes em um Dell Vostro 2012, Windows 10, 6 GB de Ram e processador i5. Eu vou rodar o R direto do RStudio e o Julia do Atom. Eu deixei apenas o RStudio e o Atom abertos. Vamos a bateria de testes:
 
-##MQO
+##1.MQO
 
 O estimador de MQO é um ótimo teste. Não só é muito usado, como ele trabalha com matrizes, faz uma inversa de matriz, que são operações muito comuns em estatística. O teste para comparar os dois vai ser bem simples:
 
@@ -31,3 +31,20 @@ O estimador de MQO é um ótimo teste. Não só é muito usado, como ele trabalh
 3. Vou repetir chamar essa função umas 100 vezes e salvar não o conteúdo dela, mas sim o resultado do timing
 
 E aqui estão os códigos para o [R](https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.R) e para o [Julia](https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.jl).
+
+E os tempos, em segundos, são:
+
+ R    | Julia
+------|------
+0.1213|0.0246
+
+O Julia é muito mais rápido. Mas uma pergunta justa é se usando o `lm(y ~x)` nativo do R nós não obtemos resultados melhores. Esse é o objetivo do `func2` no arquivo acima. O resultado da mesma simulação usando o `lm` são estúpidos $0.9558$. 
+
+1 a 0 Julia. Gol lindo, sem chance para o R. 
+
+##2. Otimização
+
+
+
+
+

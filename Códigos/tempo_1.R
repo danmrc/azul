@@ -17,3 +17,19 @@ for(j in 1:100){
 
   tempo[j] <- system.time(func())[3]
 }
+
+func2 <- function(){
+  for(j in 1:1000){
+    x <- matrix(rnorm(500),ncol = 5)
+    bet <- c(1,2,3,4,5)
+    y <- x%*%bet + rnorm(100)
+    lm(y ~ x)
+  }
+}
+
+tempo <- rep(0,100)
+
+for(j in 1:100){
+  
+  tempo[j] <- system.time(func2())[3]
+}

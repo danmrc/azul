@@ -1,3 +1,9 @@
+######Profiling do Julia
+##### Por Daniel Coutinho
+######
+
+### 1 - MQO
+
 ols(x,y) = inv(x'*x)*x'*y
 
 function func()
@@ -20,3 +26,27 @@ for j=1:100
 end
 
 sum(tempo)/length(tempo)
+
+### 2 - Otimização
+
+using Optim
+
+vals = 1:0.01:10
+
+function teste_optim()
+
+    valores = Array{Float64}(undef,length(vals),2)
+
+    for j = 1:length(vals)
+
+        f(x) = x[1].^2 .+ x[2].^2
+
+        x0 = [vals[j],vals[j]]
+
+        otimo = optimize(f,x0,NelderMead())
+        valores[j,:] = Optim.minimizer(otimo)
+    end
+    return(valores)
+end
+
+val, t, bytes, gctime, memallocs = @timed teste_optim()
