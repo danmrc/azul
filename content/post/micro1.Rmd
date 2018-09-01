@@ -86,15 +86,61 @@ Essas são as curvas de demanda de cada bem para esse consumidor.
 
 # Estática Comparativa
 
-Volte às curvas de demanda e se pergunta o que acontece quando o preço do bem $i$ aumenta. Ninguém é um maximizador racional (exceto talvez um amigo careca meu, ele é assustador), mas quando o preço das maçãs aumenta, pessoas compram menos maçãs. Quase como se tivessem um lagrangeano rodando na cabeça... Curioso, não?
+Volte às curvas de demanda e se pergunta o que acontece quando o preço do bem $i$ aumenta. Ninguém é um maximizador racional - exceto talvez um amigo meu que tem pouco cabelo, ele é assustadoramente _Homo Oeconomicus_ - mas quando o preço das maçãs aumenta, pessoas compram menos maçãs. Quase como se tivessem computando um lagrangeano na cabeça... Curioso, não?
 
 O mesmo acontece com um choque de renda, pessoas consomem mais. Quando a elasticidade consumo-utilidade de um bem aumenta, ele é mais consumido também. 
 
 # Explorando isso um pouco com o poder do R
 
+Isso tudo tem um aspecto muitas vezes ignorado. A visualização padrão de curvas de indiferença é cortes transversais do mapeamento $U$, por exemplo, e já ouvi inúmeros colegas falarem que simplesmente não foram apresentados essa natureza "tri-dimensional" da função utilidade em uma cesta com dois bens. Podemos visualiza-la sem problemas. 
+
+Vamos definir uma função que computa uma Cobb-Douglas, depois explorar isso graficamente.
+
+
+```{r, dpi = 1000, message=FALSE, warning=FALSE}
+## Definindo função Cobb-Douglas
+cobb.douglas.2 <- function(x, 
+                         TFP = 1, 
+                         alpha = round(runif(n=1, 
+                                       min=0, 
+                                       max=1), digits = 2),
+                         beta = 1 - alpha) {
+  y=vector()
+  
+  for(i in 1:nrow(x) ) {
+  
+  y[i] = TFP * x[i,1]^alpha * x[i,2]^beta
+  
+  }
+  cobb.douglas = list(y=y,alpha=alpha,beta=beta)
+  }
+
+## Gerando coordenadas de consumo
+
+x1 = seq(from=1, to = 100, by = 1)
+
+x1 = sort(rep(x1, length(x1)), decreasing = FALSE)
+
+x2 = seq(from=1, to = 100, by = 1)
+x2 = rep(x2,length(x2))
+
+consumo = data.frame(x1,x2)
+
+util = cobb.douglas.2(consumo, alpha = .1)
+u = util$y
+
+
+##
+library(plot3D)
+
+scatter3D(x=x1, y=x2, z= u, 
+       xlab = "x_1", ylab = "x_2", zlab = "Utilidade")
 
 
 
+```
 
+
+Observe que fazendo curvas de nível você consegue aquele clássico formato de curvas de indiferença em funções de utilidade Cobb-Douglas. 
 
 
