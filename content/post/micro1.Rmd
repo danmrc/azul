@@ -117,16 +117,15 @@ cobb.douglas.2 <- function(x,
 
 ## Gerando coordenadas de consumo
 
-x1 = seq(from=1, to = 100, by = 1)
+x1 = seq(from=1, to = 100, by = 1) ## primeiro geramos pontos de 1 a 100
+x1 = sort(rep(x1, length(x1)), decreasing = FALSE) #depois repitimos 100 vezes cada elemento em ordem crescente
 
-x1 = sort(rep(x1, length(x1)), decreasing = FALSE)
+x2 = seq(from=1, to = 100, by = 1) #agora fazemos o mesmo, sem ordenar
+x2 = rep(x2,length(x2)) 
 
-x2 = seq(from=1, to = 100, by = 1)
-x2 = rep(x2,length(x2))
+consumo = data.frame(x1,x2) #consumo é o produto cartesiano dos conjutnos x_1 e x_2
 
-consumo = data.frame(x1,x2)
-
-util = cobb.douglas.2(consumo, alpha = .1)
+util = cobb.douglas.2(consumo, alpha = .5)
 u = util$y
 
 
@@ -134,13 +133,14 @@ u = util$y
 library(plot3D)
 
 scatter3D(x=x1, y=x2, z= u, 
-       xlab = "x_1", ylab = "x_2", zlab = "Utilidade")
+       xlab = "Bem 1", ylab = "Bem 2", zlab = "Utilidade")
 
 
 
 ```
 
 
-Observe que fazendo curvas de nível você consegue aquele clássico formato de curvas de indiferença em funções de utilidade Cobb-Douglas. 
+Pense numa curva de nível $C(k)=\{ (x_1,x_2) \in \mathbb{R}^2 \, \, | \, \, U(x_1,x_2) = k \}$. Para $k\approx 60$, podemos ve-la na duvisa entre a região verde e a vermelha, mais ou menos a seção amarela da superfície. Nessa superfície é possível visualizar claramente as famosas Curvas de Indiferença.
+
 
 
