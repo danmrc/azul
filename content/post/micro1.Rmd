@@ -46,7 +46,7 @@ Daqui para frente eu prossigo no caso particular $n=2$ e assumindo uma função 
 Pois, temos:
 
 $$ \text{max} \, \,  x_{1}^{\alpha} x_{2}^{\beta} \, \, \text{s.a.} \, \, \,  x_1 p_1 + x_2 p_2 = w$$
-$\alpha$ e $\beta$ são parâmetros que por vezes passam ignorados. São as elasticidades utilidade-consumo de cada bem. $\alpha = 0.4$, por exemplo, nos diz que um aumento no consumo de $x_1$ de 1% gera um aumento de $0.4%$ no nível de utilidade. Por vezes supomos que $\alpha + \beta = 1$ porque isso garante "retornos constantes" ao consumo. Se a soma das elasticidades é a unidade, então dobrando o consumo podemos somente dobrar o nível de utilidade. 
+$\alpha$ e $\beta$ são parâmetros que por vezes passam ignorados. São as elasticidades utilidade-consumo de cada bem. $\alpha = 0.4$, por exemplo, nos diz que um aumento no consumo de $x_1$ de $1%$ gera um aumento de $0.4%$ no nível de utilidade. Por vezes supomos que $\alpha + \beta = 1$ porque isso garante "retornos constantes" ao consumo. Se a soma das elasticidades é a unidade, então dobrando o consumo podemos somente dobrar o nível de utilidade. 
 
 Em um contexto de teoria da firma isso é particularmente relevante porque as elasticidades passam a ser insumo-produto. Uma soma maior que 1 resulta em retornos crescentes à escala, enquanto uma menor que 1 resulta em retornos _decrescentes_. A soma das elasticidades insumo-produto nos informa sobre aspectos relevantes da tecnologia disponível à firma.
 
@@ -76,3 +76,20 @@ A solução não é muito complicada (se o leitor não sabe, deixo como exercíc
 
 $$ x_1 = \frac{\alpha p_2 x_2}{\beta p_1}\\
 x_2 = \frac{\beta p_1 x_1}{\alpha p_2} $$
+
+Como não é muito útil ficar escrevendo linhas e linhas de manipulação algébrica aqui, deixo como exercício ao leitor [que ainda não sabe isso] chegar aqui:
+
+$$ x^{*}_1 = \frac{\alpha}{\alpha + \beta} \frac{w}{p_1} \\
+x^{*}_2 = \frac{\beta}{\alpha + \beta} \frac{w}{p_2}$$
+
+Essas são as curvas de demanda de cada bem para esse consumidor.
+
+# Estática Comparativa
+
+Volte às curvas de demanda e se pergunta o que acontece quando o preço do bem $i$ aumenta. Ninguém é um maximizador racional (exceto talvez um amigo careca meu, ele é assustador), mas quando o preço das maçãs aumenta, pessoas compram menos maçãs. Quase como se tivessem um lagrangeano rodando na cabeça... Curioso, não?
+
+
+
+
+
+
