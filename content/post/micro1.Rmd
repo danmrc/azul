@@ -1,0 +1,78 @@
+---
+title: "Como você gostaria de ter aprendido microeconomia?"
+author: "Pedro Cavalcante"
+date: '2018-09-01'
+output:
+html_document:
+df_print: paged
+categories:
+- R
+- Microeconomia
+slug: microeconomia
+tags:
+- R
+- Microeconomia
+authors: [pedrocava]
+katex: true
+draft: TRUE
+---
+
+No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor. 
+
+Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo. Maximização de lucro/ utilidade e minimização de custo/ gasto, na perspectiva dual que naturalmente decorre da otimização.
+
+Confesso que a principio nada me pareceu fazer muito sentido. Ninguém vai ao mercado com papel e lápis para resolver um lagrangeano - e provavelmente sequer consegue dizer qual é a utilidade marginal de um bem ou outro. É também bem difícil que uma firma _conheça_ sua função de produção.
+
+Alguns poucos dias atrás, estava conversando com meu coorientador sobre isso. Ele - que é matemático e tem lido sobre micro para me ajudar na monografia - relatou algumas dúvidas que eu tive, ou que ao menos vi colegas tendo. Não me surpreendeu muito, devo dizer. 
+
+Espero expor aqui a "minha micro I", do jeito que eu gostaria de ter tido. Por que a taxa marginal de substituição iguala os preços relativos na cesta ótima? Isso tem uma justificativa matemática clara e uma intuição econômica por trás, não é um "decoreba" caído do céu. 
+
+A minha segunda intenção nisso é receber críticas, testar em que medida o meu entendimento da coisa está correta. Então se você avistar uma falha de raciocínio, não exite em me comunicar.Não sou professor, nem autoridade. Isso aqui é só produto de um graduando fiel à mentalidade de que explicar é uma das melhores maneiras de aprender.
+
+# Como se fosse verdade
+
+O meu primeiro erro foi achar que precisamos modelar o objeto de estudo à lá Nelson Rodrigues, a vida como ela é. Não! Precisamos - pelo contrário - chegar em algo que opera _como se fosse_ verdadeiro, a filosofia do _as if_. 
+
+Podemos partir de coisas simples. Se um consumidor escolhe uma cesta dentre todas as outras possíveis de serem adquiridas ao mesmo custo, então ele _revelou_ preferir essa cesta. É tão absurdo assim fingir que ele maximizou utilidade? Não, não é. 
+
+Pois, seja $U: \mathbb{R}^n \to \mathbb{R}$ um mapeamento contínuo. É a nossa função utilidade. Estamos associando um vetor de quantidades consumidos $\mathbf{x}$ dentro do espaço euclidiano $\mathbb{R}^n$ a um dado nível de satisfação, representado por um escalar na reta real. 
+
+Temos também um vetor de preços $\mathbf{p} \in \mathbb{R}^n$. Conhecemos a restrição com a qual o consumidor se confronta, sua renda dada $w$ precisa ser menor ou igual ao produto interno dos vetores $\mathbf{x}$ e $\mathbf{p}$. Tudo gasto não pode exceder o que _pode_ ser gasto, afinal. Em termos mais explícitos e preservando uma certa generalidade, temos:
+
+$$ \text{max} \, \,  U(x_1,x_2,...,x_n) \, \text{s.a.} \sum_{i=1}^n \mathbf{x}_i \mathbf{p}_i = w$$
+
+Daqui para frente eu prossigo no caso particular $n=2$ e assumindo uma função utilidade Cobb-Douglas. Isso não resulta em grandes perdas de generalidade, mas oferece grandes ganhos de didática e facilidade.
+
+Pois, temos:
+
+$$ \text{max} \, \,  x_{1}^{\alpha} x_{2}^{\beta} \, \, \text{s.a.} \, \, \,  x_1 p_1 + x_2 p_2 = w$$
+$\alpha$ e $\beta$ são parâmetros que por vezes passam ignorados. São as elasticidades utilidade-consumo de cada bem. $\alpha = 0.4$, por exemplo, nos diz que um aumento no consumo de $x_1$ de 1% gera um aumento de $0.4%$ no nível de utilidade. Por vezes supomos que $\alpha + \beta = 1$ porque isso garante "retornos constantes" ao consumo. Se a soma das elasticidades é a unidade, então dobrando o consumo podemos somente dobrar o nível de utilidade. 
+
+Em um contexto de teoria da firma isso é particularmente relevante porque as elasticidades passam a ser insumo-produto. Uma soma maior que 1 resulta em retornos crescentes à escala, enquanto uma menor que 1 resulta em retornos _decrescentes_. A soma das elasticidades insumo-produto nos informa sobre aspectos relevantes da tecnologia disponível à firma.
+
+Problemas de otimização restrita como esses podem ser atacados com Multiplicadores de Lagrange. É um método particularmente interessante porque podemos dele ter os preços-sombra de cada bem (ou insumo, num contexto de teoria da firma). 
+
+Temos o lagrangeano:
+
+$$ \Gamma = x_{1}^{\alpha} x_{2}^{\beta} - \lambda (x_1 p_1 + x_2 p_2 - w) $$
+
+
+Então as condições de primeira ordem são:
+
+$$\frac{\partial \Gamma}{\partial x_1 } = \alpha x_{1}^{ \alpha -1} x_{2}^{\beta} - \lambda p_1 = 0 \\
+\frac{\partial \Gamma}{\partial x_2 } = \beta x_{1}^{\alpha} x_{2}^{ \beta - 1} - \lambda p_2 = 0 \\
+\frac{\partial \Gamma}{\partial \lambda } = x_1 p_1 + x_2 p_2 - w = 0
+$$
+
+Antes de prosseguir, o que é exatamente esse $\lambda$? Um problema de otimização restrita tem alguns componentes. A função objetivo a ser otimizada (nesse caso é a função utilidade), o conjunto de oportunidades (nossa restrição orçamentária) e os instrumentos, as variáveis sobre as quais temos controle (o consumidor decide quanto de cada bem consome). Nós conhecemos facilmente quanto a variação no consumo de um bem gera em variação na função utilidade, é simplesmente a derivada parcial $\frac{\partial U}{\partial x_i }$. 
+
+A beleza do método de Lagrange é que ele nos informa o quanto ganhamos quando ocorre uma variação na _restrição_, $\frac{\partial U}{\partial w} = \lambda$. A interpretação econômica do $ \lambda $ em um contexto de teoria do consumidor é a utilidade marginal não de um bem, mas da _renda_. Por ele sabemos o quanto um relaxamento, ou aperto, na restrição orçamentária afeta a utilidade do consumidor.
+
+Ao leitor interessado em se aprofundar nesse ponto, recomendo o excelente livro do professor Michael Intriligator, _Mathematical Optimization and Economic Theory_.
+
+Temos agora que achar a cesta que simultaneamente satisfaz essas três condições. Na cesta ótima, a utilidade marginal de cada bem não pode ultrapassar $\lambda$ multiplicado pelo seu próprio preço, a utilidade marginal da renda que vai ser consumida ao consumir mais de desse bem. Observe que o raciocínio intuitivo é simples. Se a utilidade marginal de um bem a um certo nível de consumo é _menor_ que a utilidade marginal da renda que será deslocada para consumir a mais esse bem, então o consumidor pode estar melhor simplesmente consumindo menos - dado que a utilidade marginal desse bem é decrescente. 
+
+A solução não é muito complicada (se o leitor não sabe, deixo como exercício hehe). Depois de umas poucas manipulações com as condições de primeira ordem chegamos em:
+
+$$ x_1 = \frac{\alpha p_2 x_2}{\beta p_1}\\
+x_2 = \frac{\beta p_1 x_1}{\alpha p_2} $$
