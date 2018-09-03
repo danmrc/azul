@@ -95,8 +95,8 @@ Em termos bem amplos e simples, isso é Dualidade. Maximizar uma função pode s
 nums = seq(from = -10, to = 10, by = .2)
 
 
-f_min = function(x, a=1, b=1,c=0) {a* (x**2) + b*x + c}
-d_f = function(x,a=1,b=1) {2*a*x + b}
+f_min = function(x, a=1, b=1, c=0) {a*(x**2) + b*x + c}
+d_f = function(x, a=1, b=1) {2*a*x + b}
 
 
 parabola1 = data.frame(nums,f_min(nums), d_f(nums))
@@ -106,9 +106,9 @@ library(ggplot2)
 library(dplyr)
 
 parabola1 %>%
-  ggplot(aes(x=nums, y=f_min.nums.))+
+  ggplot(aes(x = nums, y = f_min.nums.))+
   geom_line(size = 2, color = "blue") +
-  geom_line(aes(y= d_f.nums.), size = 1, color = "black")+
+  geom_line(aes(y = d_f.nums.), size = 1, color = "black")+
   geom_hline(yintercept = 0, linetype = "dashed")+
   ylab("y") +
   xlab("x")
@@ -122,18 +122,18 @@ Observe que a derivada iguala-se a zero justamente onde temos um ótimo local da
 
 
 
-f_max = function(x, a=-1, b=-1,c=0) {a* (x**2) + b*x + c}
-d_f_max = function(x,a=-1,b=-1) {2*a*x + b}
+f_max = function(x, a= -1, b= -1,c=0) {a*(x**2) + b*x + c}
+d_f_max = function(x, a= -1, b= -1) {2*a*x + b}
 
 parabolas = data.frame(nums,f_min(nums), d_f_max(nums),
                        f_max(nums), d_f(nums))
 
 parabolas %>%
-  ggplot(aes(x=nums, y=f_max.nums.))+
+  ggplot(aes(x = nums, y = f_max.nums.))+
   geom_line(size = 2, color = "blue") +
-  geom_line(aes(y=f_min.nums.), size = 2, color = "blue") +
-  geom_line(aes(y= d_f.nums.), size = 1, color = "black")+
-  geom_line(aes(y= d_f_max.nums.), size = 1, color = "black")+
+  geom_line(aes(y =f_min.nums.), size = 2, color = "blue") +
+  geom_line(aes(y = d_f.nums.), size = 1, color = "black")+
+  geom_line(aes(y = d_f_max.nums.), size = 1, color = "black")+
   geom_hline(yintercept = 0, linetype = "dashed")+
   ylab("y") +
   xlab("x")
@@ -172,25 +172,27 @@ cobb.douglas.2 <- function(x,
                                        min=0, 
                                        max=1), digits = 2),
                          beta = 1 - alpha) {
-  y=vector()
+  y = vector()
   
-  for(i in 1:nrow(x) ) {
+  for (i in 1:nrow(x)) {
   
   y[i] = TFP * x[i,1]^alpha * x[i,2]^beta
   
   }
-  cobb.douglas = list(y=y,alpha=alpha,beta=beta)
+  cobb.douglas = list(y = y, 
+                      alpha = alpha,
+                      beta = beta)
   }
 
 ## Gerando coordenadas de consumo
 
-x1 = seq(from=1, to = 100, by = 1) ## primeiro geramos pontos de 1 a 100
+x1 = seq(from = 1, to = 100, by = 1) ## primeiro geramos pontos de 1 a 100
 x1 = sort(rep(x1, length(x1)), decreasing = FALSE) #depois repetimos 100 vezes cada elemento em ordem crescente
 
-x2 = seq(from=1, to = 100, by = 1) #agora fazemos o mesmo, sem ordenar
+x2 = seq(from = 1, to = 100, by = 1) #agora fazemos o mesmo, sem ordenar
 x2 = rep(x2,length(x2)) 
 
-consumo = data.frame(x1,x2) #consumo é o produto cartesiano dos conjutnos x_1 e x_2
+consumo = data.frame(x1, x2) #consumo é o produto cartesiano dos conjutnos x_1 e x_2
 
 util = cobb.douglas.2(consumo, alpha = .5)
 u = util$y
@@ -199,10 +201,10 @@ u = util$y
 ##
 library(plot3D)
 
-scatter3D(x=x1, y=x2, z= u, 
+scatter3D(x = x1, y = x2, z = u, 
        xlab = "Bem 1", ylab = "Bem 2", zlab = "Utilidade")
 
-scatter3D(x=x1, y=x2, z= u, 
+scatter3D(x = x1, y = x2, z = u, 
        xlab = "Bem 1", ylab = "Bem 2", zlab = "Utilidade",
        theta=0, phi=90) ##inclinando para ter cada bem em cada eixo
 
