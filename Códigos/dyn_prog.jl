@@ -28,7 +28,7 @@ for j = 2:T
     end
 end
 
-start_val = 10
+start_val = 2
 
 C_path = Array{Float64}(undef,T)
 K_path = Array{Float64}(undef,T)
@@ -45,9 +45,9 @@ end
 
 C_path[1] = K_path[1]
 
-plot(C_path[T:-1:1], lab = "Consumo")
-plot!(K_path[T:-1:1], lab = "Trajetória estimada do Capital")
-plot!(K_true[T:-1:1], lab = "Trajetória verdadeira do Capital")
+plot(C_path[(T-5):-1:1], lab = "Consumo")
+plot!(K_path[(T-5):-1:1], lab = "Trajetória estimada do Capital")
+plot!(K_true[(T-5):-1:10], lab = "Trajetória verdadeira do Capital")
 
 png("imagem1")
 
@@ -56,6 +56,12 @@ err = K_true[T:-1:1] - K_path[T:-1:1]
 plot(err, lab = "Erro na trajetória estimada")
 
 png("imagem2")
+
+###############
+#
+#Exemplo com depreciação apenas 0.3
+#
+#############################
 
 T = 100
 alpha = 0.5
