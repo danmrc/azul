@@ -12,14 +12,14 @@ u(c) = log(c)
 f(k) = k^alpha
 K = range(0.1,stop = 5,length = dens)
 
-C = Array{Float64}(T,length(K))
-V = Array{Float64}(T,length(K))
+C = Array{Float64}(undef,T,length(K))
+V = Array{Float64}(undef,T,length(K))
 
 V[1,1:length(K)] = u.(K)
 C[1,1:length(K)] = K
 
 for j = 2:T
-    valor=LinearInterpolation(K,V[(j-1),1:length(K)],extrapolation_bc= Interpolations.linear())
+    valor=LinearInterpolation(K,V[(j-1),1:length(K)],extrapolation_bc= Interpolations.Linear())
     for i = 1:length(K)
         val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
         otimo = optimize(val,0.1,K[i])
@@ -30,14 +30,14 @@ end
 
 start_val = 10
 
-C_path = Array{Float64}(T)
-K_path = Array{Float64}(T)
+C_path = Array{Float64}(undef,T)
+K_path = Array{Float64}(undef,T)
 K_path[T] = start_val
-K_true = Array{Float64}(T)
+K_true = Array{Float64}(undef,T)
 K_true[T]=start_val
 
 for j = T:-1:2
-    func_cons = LinearInterpolation(K,C[j,1:length(K)], extrapolation_bc = Interpolations.linear())
+    func_cons = LinearInterpolation(K,C[j,1:length(K)], extrapolation_bc = Interpolations.Linear())
     C_path[j] = func_cons(K_path[j])
     K_path[j-1] = f(K_path[j]) - func_cons(K_path[j]) + (1-delt)*K_path[j]
     K_true[j-1] = alpha*bet*(1 - (alpha*bet)^(T-(T-j)))/(1-*(alpha*bet)^(T-(T-j-1)))*f(K_true[j])
