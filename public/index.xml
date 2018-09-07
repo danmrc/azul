@@ -6,10 +6,20 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sazonalidade, x13, e dummies: Muito barulho por nada</title>
+      <link>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</link>
+      <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</guid>
+      <description>Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?
+Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças.</description>
+    </item>
     
     <item>
       <title>Por que usar o Julia?</title>

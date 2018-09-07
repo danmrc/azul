@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</loc>
+    <lastmod>2018-09-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/09/13/por-que-usar-o-julia/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
   </url>
@@ -64,7 +69,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -85,13 +90,13 @@
   </url>
   
   <url>
-    <loc>/tags/clustering/</loc>
+    <loc>/categories/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/clustering/</loc>
+    <loc>/tags/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -104,19 +109,13 @@
   
   <url>
     <loc>/categories/curtas/</loc>
-    <lastmod>2018-08-27T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/authors/danielc/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/econometria/</loc>
-    <lastmod>2018-08-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -127,14 +126,20 @@
   </url>
   
   <url>
-    <loc>/tags/economia/</loc>
-    <lastmod>2018-08-09T00:00:00+00:00</lastmod>
+    <loc>/tags/econometria/</loc>
+    <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/economia/</loc>
     <lastmod>2018-08-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/economia/</loc>
+    <lastmod>2018-08-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -157,14 +162,14 @@
   </url>
   
   <url>
-    <loc>/tags/julia/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <loc>/categories/julia/</loc>
+    <lastmod>2018-08-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/julia/</loc>
-    <lastmod>2018-08-09T00:00:00+00:00</lastmod>
+    <loc>/tags/julia/</loc>
+    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -200,18 +205,18 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/probit/</loc>
-    <lastmod>2018-08-17T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/probit/</loc>
+    <lastmod>2018-08-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/probit/</loc>
     <lastmod>2018-08-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -223,14 +228,20 @@
   </url>
   
   <url>
+    <loc>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
+    <lastmod>2018-08-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
     <lastmod>2018-08-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
-    <lastmod>2018-08-09T00:00:00+00:00</lastmod>
+    <loc>/categories/r/</loc>
+    <lastmod>2018-09-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -241,8 +252,8 @@
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2018-09-01T00:00:00+00:00</lastmod>
+    <loc>/tags/sazonalidade/</loc>
+    <lastmod>2018-09-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
