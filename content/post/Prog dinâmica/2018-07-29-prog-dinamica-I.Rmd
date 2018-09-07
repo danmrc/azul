@@ -150,6 +150,8 @@ plot!(K_true[T:-1:10], lab = "Trajetória verdadeira do Capital")
 
 ```
 
+![](/post/prog dinâmica/imagem1.png)
+
 Veja que como a última linha da matriz é na verdade o primeiro período, eu faço gráfico invertendo o vetor, por isso `[T:-1:1]`: leia isso como "vá de T a 1 com um passo de -1 por vez".
 
 O gráfico acima é um pouco ruim para ver o quão bom é a aproximação numérica. No gráfico abaixo eu ploto a diferença entre a trajetória analítica e a trajetória estimada numericamente para o problema:
@@ -162,11 +164,13 @@ plot(err, lab = "Erro na trajetória estimada")
 
 ```
 
+![](/post/prog dinâmica/imagem2.png)
+
 Veja que existe uma pequena diferença inicial e uma diferença grande no final - que explica aquele aumento súbito no consumo: o agente se vê com muito mais capital do que ele gostaria e no último período ele consome tudo. A diferença aqui é de 0.01, o que é relativamente pequeno.
 
 Vamos fazer mais um exemplo, desse vez com capital se depreciando a uma taxa bem menor, 0.3. O código é idêntico ao anterior, mas mudamos para ter `delta = 0.3`. Essa é a nova cara da trajetória de consumo e capital:
 
-
+![](/post/prog dinâmica/imagem3.png)
 
 A trajetória faz sentido: o sujeito acumula capital e chegando no fim consome o capital para não sobrar nenhum capital depois de $T$. Veja que a trajetória do consumo é mais ou menos constante, exceto no fim. É uma manifestação da hipótese de renda permamente, famoso devido a Milton Friedman e Franco Modigliani - uma ideia que eu vou abordar mais nos próximos posts sobre o tema.
 
