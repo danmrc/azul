@@ -13,12 +13,13 @@ tags:
   - Economia
 authors: ["danielc"]
 draft: true
+katex: true
 ---
 
 
 
 <p>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos. Formalmente, o problema é:</p>
-<p><span class="math display">\[ \max_{c} \sum_{t=1}^\infty \beta^{t}u(c_t) \text{sujeito a} c_t = f(k_t)\]</span></p>
+<p><span class="math display">\[ \max_{c} \sum_{t=1}^\infty \beta^{t}u(c_t) \text{ sujeito a } c_t = f(k_t)\]</span></p>
 <p>Onde <span class="math inline">\(u()\)</span> é uma função utilidade, <span class="math inline">\(\beta\)</span> é uma taxa de desconto. A variável <span class="math inline">\(c\)</span> é conhecida como variável de controle e a variável <span class="math inline">\(k\)</span> é a variável de estado. Ou seja, escolhemos um valor de <span class="math inline">\(c\)</span> (por isso controle) e isso define a variável <span class="math inline">\(k\)</span>. Eu usei as letras <span class="math inline">\(c\)</span> e <span class="math inline">\(k\)</span> de propósito para sugerir que o agente escolhe o consumo e isso impacta em um valor do capital amanhã. Nesse caso, a restrição seria da forma:</p>
 <p><span class="math display">\[k_{t+1} = (1-\delta)k_t+I_t\]</span></p>
 <p>Onde <span class="math inline">\(\delta\)</span> representa a taxa de depreciação e <span class="math inline">\(I_t\)</span> representa o investimento feito. Esta restrição é chama de <em>lei de movimento</em>, porque descreve como o capital se “movimenta” no tempo. Também temos uma função de produção <span class="math inline">\(y(k_t)\)</span>, que vamos supor que é Cobb Douglas com paramêtro <span class="math inline">\(\alpha\)</span>. Em um caso sem governo, toda a produção vai ser dividida entre investimento e consumo, então podemos rescrever a equação acima como:</p>
@@ -47,7 +48,7 @@ draft: true
 <li>Comece do período <span class="math inline">\(T\)</span>, compute o valor de <span class="math inline">\(u()\)</span> para todos os valores do grid.</li>
 <li>Para um <span class="math inline">\(t\)</span>, compute resolva o problema de <span class="math inline">\(V_{t}\)</span> para um dado valor de K. Lembre que isso vai depender do valor do problema no período seguinte, <span class="math inline">\(V_{t+1}\)</span>, que já foi resolvido.</li>
 </ul>
-<p>Veja que isso também tem seus problemas: quando escolhermos o <span class="math inline">\(c_t\)</span> ótimo, nada impede que o <span class="math inline">\(k_{t+1}\)</span> implicado por ele <em>não</em> esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post. No Julia, o pacote <code>Dierckx</code> faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre <span class="math inline">\(0.1\)</span> e <span class="math inline">\(5\)</span> para o grid do capital.</p>
+<p>Veja que isso também tem seus problemas: quando escolhermos o <span class="math inline">\(c_t\)</span> ótimo, nada impede que o <span class="math inline">\(k_{t+1}\)</span> implicado por ele <em>não</em> esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post. No Julia, o pacote <code>Interpolations</code> faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre <span class="math inline">\(0.1\)</span> e <span class="math inline">\(5\)</span> para o grid do capital.</p>
 <pre class="julia"><code>
 using Optim
 using Interpolations
@@ -63,14 +64,14 @@ u(c) = log(c)
 f(k) = k^alpha
 K = range(0.1,stop = 5,length = dens)
 
-C = Array{Float64}(T,length(K))
-V = Array{Float64}(T,length(K))
+C = Array{Float64}(undef,T,length(K))
+V = Array{Float64}(undef,T,length(K))
 
 V[1,1:length(K)] = u.(K)
 C[1,1:length(K)] = K
 
 for j = 2:T
-    valor=LinearInterpolation(K,V[(j-1),1:length(K)],extrapolation_bc= Interpolations.linear())
+    valor=LinearInterpolation(K,V[(j-1),1:length(K)],extrapolation_bc= Interpolations.Linear())
     for i = 1:length(K)
         val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
         otimo = optimize(val,0.1,K[i])
@@ -86,29 +87,26 @@ end
 <pre class="julia"><code>
 start_val = 10
 
-C_path = Array{Float64}(T)
-K_path = Array{Float64}(T)
+C_path = Array{Float64}(undef,T)
+K_path = Array{Float64}(undef,T)
 K_path[T] = start_val
-K_true = Array{Float64}(T)
+K_true = Array{Float64}(undef,T)
 K_true[T]=start_val
 
 for j = T:-1:2
-    func_cons = LinearInterpolation(K,C[j,1:length(K)], extrapolation_bc = Interpolations.linear())
+    func_cons = LinearInterpolation(K,C[j,1:length(K)], extrapolation_bc = Interpolations.Linear())
     C_path[j] = func_cons(K_path[j])
     K_path[j-1] = f(K_path[j]) - func_cons(K_path[j]) + (1-delt)*K_path[j]
     K_true[j-1] = alpha*bet*(1 - (alpha*bet)^(T-(T-j)))/(1-*(alpha*bet)^(T-(T-j-1)))*f(K_true[j])
 end
 
 C_path[1] = K_path[1]
-
-plot(C_path[T:-1:1], lab = &quot;Consumo&quot;)
-plot!(K_path[T:-1:1], lab = &quot;Trajetória estimada do Capital&quot;)
-plot!(K_true[T:-1:1], lab = &quot;Trajetória verdadeira do Capital&quot;)
 </code></pre>
 <p>Veja que o <code>for</code> não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de <span class="math inline">\(T-1\)</span> vai determinar o capital de <span class="math inline">\(T\)</span>, que é consumido em sua totalidade. Vamos plotar isso para ver a trajetória do consumo e do capital:</p>
 <pre class="julia"><code>
-plot(c_path[T:-1:1], lab = &quot;Consumo&quot;)
-plot!(k_path[T:-1:1], lab = &quot;Capital&quot;)
+plot(C_path[T:-1:1], lab = &quot;Consumo&quot;)
+plot!(K_path[T:-1:1], lab = &quot;Trajetória estimada do Capital&quot;)
+plot!(K_true[T:-1:1], lab = &quot;Trajetória verdadeira do Capital&quot;)
 </code></pre>
 <p>Veja que como a última linha da matriz é na verdade o primeiro período, eu faço gráfico invertendo o vetor, por isso <code>[T:-1:1]</code>: leia isso como “vá de T a 1 com um passo de -1 por vez”.</p>
 <p>A trajetória faz sentido: o sujeito acumula capital e chegando no fim consome o capital para não sobrar nenhum capital depois de <span class="math inline">\(T\)</span>. Veja que a trajetória do consumo é mais ou menos constante, exceto no fim. É uma manifestação da hipótese de renda permamente, famoso devido a Milton Friedman e Franco Modigliani - uma ideia que eu vou abordar mais nos próximos posts sobre o tema.</p>

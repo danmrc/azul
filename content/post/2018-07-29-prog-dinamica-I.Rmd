@@ -18,13 +18,13 @@ katex: true
 
 
 ```{r, message=FALSE,echo=FALSE}
-#JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
+JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin/")
 
 ```
 
 Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos. Formalmente, o problema é:
 
-$$ \max_{c} \sum_{t=1}^\infty \beta^{t}u(c_t) \text{sujeito a} c_t = f(k_t)$$
+$$ \max_{c} \sum_{t=1}^\infty \beta^{t}u(c_t) \text{ sujeito a } c_t = f(k_t)$$
 
 Onde $u()$ é uma função utilidade, $\beta$ é uma taxa de desconto. A variável $c$ é conhecida como variável de controle e a variável $k$ é a variável de estado. Ou seja, escolhemos um valor de $c$ (por isso controle) e isso define a variável $k$. Eu usei as letras $c$ e $k$ de propósito para sugerir que o agente escolhe o consumo e isso impacta em um valor do capital amanhã. Nesse caso, a restrição seria da forma:
 
@@ -74,7 +74,7 @@ A boa notícia é que temos uma solução: compute $V_t$ para vários valores de
 * Comece do período $T$, compute o valor de $u()$ para todos os valores do grid.
 * Para um $t$, compute resolva o problema de $V_{t}$ para um dado valor de K. Lembre que isso vai depender do valor do problema no período seguinte, $V_{t+1}$, que já foi resolvido.
 
-Veja que isso também tem seus problemas: quando escolhermos o $c_t$ ótimo, nada impede que o $k_{t+1}$ implicado por ele *não* esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post. No Julia, o pacote `Dierckx` faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre $0.1$ e $5$ para o grid do capital.
+Veja que isso também tem seus problemas: quando escolhermos o $c_t$ ótimo, nada impede que o $k_{t+1}$ implicado por ele *não* esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post. No Julia, o pacote `Interpolations` faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre $0.1$ e $5$ para o grid do capital.
 
 ```{julia, results = 'hide'}
 
@@ -92,14 +92,14 @@ u(c) = log(c)
 f(k) = k^alpha
 K = range(0.1,stop = 5,length = dens)
 
-C = Array{Float64}(T,length(K))
-V = Array{Float64}(T,length(K))
+C = Array{Float64}(undef,T,length(K))
+V = Array{Float64}(undef,T,length(K))
 
 V[1,1:length(K)] = u.(K)
 C[1,1:length(K)] = K
 
 for j = 2:T
-    valor=LinearInterpolation(K,V[(j-1),1:length(K)],extrapolation_bc= Interpolations.linear())
+    valor=LinearInterpolation(K,V[(j-1),1:length(K)],extrapolation_bc= Interpolations.Linear())
     for i = 1:length(K)
         val(c)=-u(c)-bet*valor((1-delt)*K[i]+f(K[i])-c)
         otimo = optimize(val,0.1,K[i])
@@ -121,14 +121,14 @@ Mas nosso interesse é em saber, para um dado valor incial de $k$, qual deve ser
 
 start_val = 10
 
-C_path = Array{Float64}(T)
-K_path = Array{Float64}(T)
+C_path = Array{Float64}(undef,T)
+K_path = Array{Float64}(undef,T)
 K_path[T] = start_val
-K_true = Array{Float64}(T)
+K_true = Array{Float64}(undef,T)
 K_true[T]=start_val
 
 for j = T:-1:2
-    func_cons = LinearInterpolation(K,C[j,1:length(K)], extrapolation_bc = Interpolations.linear())
+    func_cons = LinearInterpolation(K,C[j,1:length(K)], extrapolation_bc = Interpolations.Linear())
     C_path[j] = func_cons(K_path[j])
     K_path[j-1] = f(K_path[j]) - func_cons(K_path[j]) + (1-delt)*K_path[j]
     K_true[j-1] = alpha*bet*(1 - (alpha*bet)^(T-(T-j)))/(1-*(alpha*bet)^(T-(T-j-1)))*f(K_true[j])
@@ -136,18 +136,16 @@ end
 
 C_path[1] = K_path[1]
 
+```
+
+Veja que o `for` não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de $T-1$ vai determinar o capital de $T$, que é consumido em sua totalidade. Vamos plotar isso para ver a trajetória do consumo e do capital:
+
+```{julia}
+
 plot(C_path[T:-1:1], lab = "Consumo")
 plot!(K_path[T:-1:1], lab = "Trajetória estimada do Capital")
 plot!(K_true[T:-1:1], lab = "Trajetória verdadeira do Capital")
 
-
-```
-Veja que o `for` não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de $T-1$ vai determinar o capital de $T$, que é consumido em sua totalidade. Vamos plotar isso para ver a trajetória do consumo e do capital:
-
-```{julia, results = 'hold'}
-
-plot(c_path[T:-1:1], lab = "Consumo")
-plot!(k_path[T:-1:1], lab = "Capital")
 
 ```
 
