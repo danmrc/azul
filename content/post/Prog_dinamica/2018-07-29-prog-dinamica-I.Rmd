@@ -69,11 +69,11 @@ Toda a historia dos últimos paragráfos tem um problema claro: eu supus que eu 
 
 A boa notícia é que temos uma solução: compute $V_t$ para vários valores de $k$ em todos os períodos! Isso é trabalhoso para o computador, mas problema dele. Eis um pseudo código para resolver o problema:
 
-* Estabeleça um *grid* de valores para $k$: um vetor que vai de um $a$ a $b$. No Julia, o comando que faz isso é `linspace`.
+* Estabeleça um *grid* de valores para $k$: um vetor que vai de um $a$ a $b$. No Julia, o comando que faz isso é `range`.
 * Comece do período $T$, compute o valor de $u()$ para todos os valores do grid.
 * Para um $t$, compute resolva o problema de $V_{t}$ para um dado valor de K. Lembre que isso vai depender do valor do problema no período seguinte, $V_{t+1}$, que já foi resolvido.
 
-Veja que isso também tem seus problemas: quando escolhermos o $c_t$ ótimo, nada impede que o $k_{t+1}$ implicado por ele *não* esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em [outro post](interpolacao). No Julia, o pacote `Interpolations` faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre $0.1$ e $5$ para o grid do capital.
+Veja que isso também tem seus problemas: quando escolhermos o $c_t$ ótimo, nada impede que o $k_{t+1}$ implicado por ele *não* esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em [outro post](post/interpolacao). No Julia, o pacote `Interpolations` faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre $0.1$ e $5$ para o grid do capital.
 
 Nesse primeiro exemplo, eu deixei $\delta = 1$, ou seja, o capital sempre se deprecia totalmente. A grande vantagem desse exemplo é que ele tem solução fechada e a gente pode comparar a solução numérica com a solução analítica:
 
