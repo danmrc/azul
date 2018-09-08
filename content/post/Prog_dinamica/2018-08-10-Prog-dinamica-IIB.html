@@ -1,0 +1,107 @@
+---
+title: Programação Dinâmica IIB
+author: Daniel Coutinho
+date: '2018-08-09'
+slug: programacao-dinamica-II-B
+categories:
+  - Julia
+  - Programação Dinâmica
+  - Economia
+tags:
+  - Programação Dinâmica
+  - Julia
+  - Economia
+authors: []
+draft: true
+---
+
+
+
+<p>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:</p>
+<p><span class="math display">\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</span></p>
+<p>A nossa estratégia no post passado era, para cada <span class="math inline">\(t\)</span>, resolver o problema:</p>
+<p><span class="math display">\[ V_t(k_t) = max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) \]</span></p>
+<p>Onde nós sabiamos que o <span class="math inline">\(V_T(k_T)\)</span> era igual a função utilidade avaliada em <span class="math inline">\(k_T\)</span>. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar <span class="math inline">\(V_{T-1}\)</span>, e dai <span class="math inline">\(V_{T-2}\)</span>…</p>
+<p>Mas agora, somos apresentados a um problema em que não temos um último período, então não podemos prosseguir <em>recursivamente</em>. Apesar disso parecer um grande problema, é uma grande vantagem: <em>o problema de hoje é idêntico ao problema de amanhã</em>. Como em qualquer período nós ainda temos infinitos períodos a frente, nós podemos escrever o problema do consumidor usando um único <span class="math inline">\(V(k_t)\)</span> - apesar do valor de <span class="math inline">\(k_t\)</span> depender do período, a função <span class="math inline">\(V(k_t)\)</span> não depende mais do período. Nosso novo problema é resolver:</p>
+<p><span class="math display">\[ V(k_t) = \max_{c_t} u(c_t)+ \beta V((1-\delta)k_{t}+f(k_t)-c_t)) \]</span></p>
+<p>A beleza de resolver esse problema é que, apesar de não sabermos o valor de V, podemos iterar no computador e encontrar uma aproximação. Nosso pseudo-código seria:</p>
+<ul>
+<li>Dê algum chute inicial para <span class="math inline">\(V\)</span>. Vamos chamar de <span class="math inline">\(V_0\)</span>.</li>
+<li>Resolva <span class="math inline">\(\max_c u(c) + \betaV_0((1-\delta)k_{t}+f(k_t)-c))\)</span>. Salve isso como V_1</li>
+<li>Resolva <span class="math inline">\(\max_c u(c) + \betaV_1((1-\delta)k_{t}+f(k_t)-c))\)</span>. Salve isso como V_2</li>
+<li>Faça isso até <span class="math inline">\(V\)</span> ou <span class="math inline">\(c\)</span>, i.e., até <span class="math inline">\(V_{i}\)</span> e <span class="math inline">\(V_{i+1}\)</span> ficarem próximos numericamente</li>
+</ul>
+<p>Vamos continuar com o nosso exemplo de função utilidade log e função de produção Cobb-Douglas. O caso em que <span class="math inline">\(\delta = 1\)</span> tem solução fechada, então para a gente checar que tudo funcionou direitinho, eu vou implementar ele. Vamos dar, como chute inicial, a função valor sendo idêntica ao valor do capital. É um chute tosco, mas justamente por isso é ilustrativo. Eu sequer vou me preocupar em colocar uma checagem de convergência, para deixar o código o mais simples possível: deixe o computador repetir umas 150 vezes a operação.</p>
+<p>```julia using Optim using Dierckx using Plots</p>
+<p>u(c)=log(c) ```</p>
+<p><code>## u (generic function with 1 method)</code></p>
+<p>```julia</p>
+<p>bet = 0.9 ```</p>
+<p><code>## 0.9</code></p>
+<p><code>julia  alf = 0.5</code></p>
+<p><code>## 0.5</code></p>
+<p>```julia</p>
+<p>f(x)=x^alf ```</p>
+<p><code>## f (generic function with 1 method)</code></p>
+<p>```julia</p>
+<p>y = linspace(0.1,10,200) ```</p>
+<p><code>## 0.1:0.04974874371859297:10.0</code></p>
+<p>```julia</p>
+<p>guess = y ```</p>
+<p><code>## 0.1:0.04974874371859297:10.0</code></p>
+<p><code>julia  vals = Array{Float64}(150,length(y))</code></p>
+<p><code>## 150×200 Array{Float64,2}:  ##  5.41471e-315  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  9.55665e-318  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  4.30829e-304  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  ⋮                                 ⋮    ⋱            ⋮                        ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0           0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0</code></p>
+<p><code>julia  pol=Array{Float64}(150,length(y))</code></p>
+<p><code>## 150×200 Array{Float64,2}:  ##  0.0  0.0           0.0  0.0    0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  ⋮                                   ⋱            ⋮                        ##  0.0  2.99921e-315  0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0  NaN       0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0  NaN       0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0  ##  0.0  0.0           0.0  0.0    0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0</code></p>
+<p>```julia</p>
+<p>vals[1,1:length(y)] = guess ```</p>
+<p><code>## 0.1:0.04974874371859297:10.0</code></p>
+<p><code>julia  pol[1,1:length(y)] = y</code></p>
+<p><code>## 0.1:0.04974874371859297:10.0</code></p>
+<p>```julia</p>
+<p>for i=1:149 V=Spline1D(y,vals[i,1:length(y)],k=1,bc=“extrapolate”)</p>
+<pre><code> for j = 1:length(y)
+     That(c)=-(u(c)+bet*V(f(y[j]-c)))
+     op = optimize(That,0,y[j])
+     vals[(i+1),j]=-Optim.minimum(op)
+     pol[(i+1),j]=Optim.minimizer(op)
+ end</code></pre>
+<p>end</p>
+<p>```</p>
+<p>A solução verdadeira é <span class="math inline">\(c^*(k) = (1-\alpha \beta)k\)</span>. Vamos plotar a solução verdadeira contra a estimada:</p>
+<pre class="julia"><code>
+sol(Y)=(1-alf*bet)*Y</code></pre>
+<pre><code>## sol (generic function with 1 method)</code></pre>
+<pre class="julia"><code>
+plot(y,pol[150,1:length(y)] , lab = &quot;Solução estimada&quot;, lw = 2, legend = :topleft)
+plot!(y,sol(y), lab = &quot;Solução verdadeira&quot;, linestyle = :dash, lw = 2)</code></pre>
+<p><img src="/post/2018-08-10-Prog-dinamica-IIB_files/figure-html/unnamed-chunk-2-J1.png" /><!-- --></p>
+<pre class="julia"><code></code></pre>
+<p>A linha da solução computada parece muito próxima da solução verdadeira, mas um pouco menos suave. A diferença parece ficar pior no final. Vamos fazer um gráfico com a diferença entre as duas soluções:</p>
+<pre class="julia"><code>
+dif = sol.(y) - y</code></pre>
+<pre><code>## 200-element Array{Float64,1}:
+##  -0.045    
+##  -0.0673869
+##  -0.0897739
+##  -0.112161 
+##  -0.134548 
+##  -0.156935 
+##  -0.179322 
+##  -0.201709 
+##  -0.224095 
+##  -0.246482 
+##   ⋮        
+##  -4.3209   
+##  -4.34329  
+##  -4.36568  
+##  -4.38807  
+##  -4.41045  
+##  -4.43284  
+##  -4.45523  
+##  -4.47761  
+##  -4.5</code></pre>
+<pre class="julia"><code>
+plot(dif, legend = :none, lw = 2)</code></pre>
+<p><img src="/post/2018-08-10-Prog-dinamica-IIB_files/figure-html/unnamed-chunk-3-J1.png" /><!-- --></p>
+<pre class="julia"><code></code></pre>

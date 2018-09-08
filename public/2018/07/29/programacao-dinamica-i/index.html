@@ -114,13 +114,9 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/r/' style='font-size:2em'>R</a>
       </li><li>
-<<<<<<< HEAD
         <a href='/tags/sazonalidade/' style='font-size:1em'>Sazonalidade</a>
       </li><li>
-        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1666666666666667em'>Simulação</a>
-=======
         <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1428571428571428em'>Simulação</a>
->>>>>>> 724e5cb8d5f3003c34d6fb524f67ca711a902c5c
       </li><li>
         <a href='/tags/tutoriais/' style='font-size:1em'>Tutoriais</a>
       </li><li>
@@ -217,7 +213,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-9 mins read
+10 mins read
 </span>
 
 
@@ -261,7 +257,8 @@ if (!doNotTrack) {
 <li>Comece do período <span class="math inline">\(T\)</span>, compute o valor de <span class="math inline">\(u()\)</span> para todos os valores do grid.</li>
 <li>Para um <span class="math inline">\(t\)</span>, compute resolva o problema de <span class="math inline">\(V_{t}\)</span> para um dado valor de K. Lembre que isso vai depender do valor do problema no período seguinte, <span class="math inline">\(V_{t+1}\)</span>, que já foi resolvido.</li>
 </ul>
-<p>Veja que isso também tem seus problemas: quando escolhermos o <span class="math inline">\(c_t\)</span> ótimo, nada impede que o <span class="math inline">\(k_{t+1}\)</span> implicado por ele <em>não</em> esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em outro post. No Julia, o pacote <code>Interpolations</code> faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre <span class="math inline">\(0.1\)</span> e <span class="math inline">\(5\)</span> para o grid do capital.</p>
+<p>Veja que isso também tem seus problemas: quando escolhermos o <span class="math inline">\(c_t\)</span> ótimo, nada impede que o <span class="math inline">\(k_{t+1}\)</span> implicado por ele <em>não</em> esteja no grid. Podemos aumentar a densidade de pontos no grid, mas mesmo isso não é garantia de resolver o problema. Uma solução é interpolar entre os pontos, e eu já tratei disso em <a href="interpolacao">outro post</a>. No Julia, o pacote <code>Interpolations</code> faz interpolação e usaremos ele. Vamos colocar 100 períodos e 100 pontos entre <span class="math inline">\(0.1\)</span> e <span class="math inline">\(5\)</span> para o grid do capital.</p>
+<p>Nesse primeiro exemplo, eu deixei <span class="math inline">\(\delta = 1\)</span>, ou seja, o capital sempre se deprecia totalmente. A grande vantagem desse exemplo é que ele tem solução fechada e a gente pode comparar a solução numérica com a solução analítica:</p>
 <pre class="julia"><code>
 using Optim
 using Interpolations
@@ -298,7 +295,7 @@ end
 <p>Veja ainda que, como de praxe, o comando <code>optimize</code> só procura mínimos, então nós multiplicamos a função por <span class="math inline">\(-1\)</span> para transformar o máximo em mínimo. Como o que nos interessa é o valor verdadeiro da função - e não o valor na forma de “mínimo” - temos que multiplicar por <span class="math inline">\(-1\)</span> quando inserimos o valor na matriz <span class="math inline">\(V\)</span>.</p>
 <p>Mas nosso interesse é em saber, para um dado valor incial de <span class="math inline">\(k\)</span>, qual deve ser a trajetória ótima de consumo. Vamos escrever outro código, que pega um valor inicial de <span class="math inline">\(k\)</span>, procura o <span class="math inline">\(c\)</span> ótimo para aquele valor - usando a matriz C acima - e computa o capital do próximo período usando a lei de movimento <span class="math inline">\(k_{t+1} + c_t = (1-\delta)k_t+y(k_t)\)</span>.</p>
 <pre class="julia"><code>
-start_val = 10
+start_val = 2
 
 C_path = Array{Float64}(undef,T)
 K_path = Array{Float64}(undef,T)
@@ -317,11 +314,31 @@ C_path[1] = K_path[1]
 </code></pre>
 <p>Veja que o <code>for</code> não vai até o último período: como o consumo hoje determina o capital amanhã, o consumo de <span class="math inline">\(T-1\)</span> vai determinar o capital de <span class="math inline">\(T\)</span>, que é consumido em sua totalidade. Vamos plotar isso para ver a trajetória do consumo e do capital:</p>
 <pre class="julia"><code>
-plot(C_path[T:-1:1], lab = &quot;Consumo&quot;)
-plot!(K_path[T:-1:1], lab = &quot;Trajetória estimada do Capital&quot;)
-plot!(K_true[T:-1:1], lab = &quot;Trajetória verdadeira do Capital&quot;)
+plot(C_path[(T-5):-1:1], lab = &quot;Consumo&quot;)
+plot!(K_path[(T-5):-1:1], lab = &quot;Trajetória estimada do Capital&quot;)
+plot!(K_true[T:-1:10], lab = &quot;Trajetória verdadeira do Capital&quot;)
 </code></pre>
+<div class="figure">
+<img src="/post/Prog_dinamica/imagem1.png" />
+
+</div>
 <p>Veja que como a última linha da matriz é na verdade o primeiro período, eu faço gráfico invertendo o vetor, por isso <code>[T:-1:1]</code>: leia isso como “vá de T a 1 com um passo de -1 por vez”.</p>
+<p>O gráfico acima é um pouco ruim para ver o quão bom é a aproximação numérica. No gráfico abaixo eu ploto a diferença entre a trajetória analítica e a trajetória estimada numericamente para o problema:</p>
+<pre class="julia"><code>
+err = K_true[T:-1:1] - K_path[T:-1:1]
+
+plot(err, lab = &quot;Erro na trajetória estimada&quot;)
+</code></pre>
+<div class="figure">
+<img src="/post/Prog_dinamica/imagem2.png" />
+
+</div>
+<p>Veja que existe uma pequena diferença inicial e uma diferença grande no final - que explica aquele aumento súbito no consumo: o agente se vê com muito mais capital do que ele gostaria e no último período ele consome tudo. A diferença aqui é de 0.01, o que é relativamente pequeno.</p>
+<p>Vamos fazer mais um exemplo, desse vez com capital se depreciando a uma taxa bem menor, 0.3. O código é idêntico ao anterior, mas mudamos para ter <code>delta = 0.3</code>. Essa é a nova cara da trajetória de consumo e capital:</p>
+<div class="figure">
+<img src="/post/Prog_dinamica/imagem3.png" />
+
+</div>
 <p>A trajetória faz sentido: o sujeito acumula capital e chegando no fim consome o capital para não sobrar nenhum capital depois de <span class="math inline">\(T\)</span>. Veja que a trajetória do consumo é mais ou menos constante, exceto no fim. É uma manifestação da hipótese de renda permamente, famoso devido a Milton Friedman e Franco Modigliani - uma ideia que eu vou abordar mais nos próximos posts sobre o tema.</p>
 <p>Nos próximos posts eu pretendo falar de duas extensões importantes: incerteza e o caso em que o tempo vai para o infinito. Os dois posts serão independentes.</p>
 </div>
