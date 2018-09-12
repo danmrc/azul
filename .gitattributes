@@ -11,7 +11,7 @@
 .gitignore text
 *.md text
 static/* linguist-vendored
-# public/* linguist-vendored
+public/* linguist-vendored
 .Rproj.user/* linguist-vendored
-themes/* linguist-vendored
-content/* linguist-vendored
+# themes/* linguist-vendored
+# content/* linguist-vendored
