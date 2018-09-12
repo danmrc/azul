@@ -12,4 +12,5 @@
 *.md text
 static/* linguist-vendored
 public/* linguist-vendored
-Rproj.user/* linguist-vendored
+.Rproj.user/* linguist-vendored
+themes/* linguist-vendored
