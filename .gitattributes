@@ -10,4 +10,5 @@
 *.gitattributes text
 .gitignore text
 *.md text
-* linguist-vendored
+static/* linguist-vendored
+public/* linguist-vendored
