@@ -1,0 +1,51 @@
+---
+title: "Um pouco de convergência estatística e simulações no R"
+author: "Pedro Cavalcante"
+date: '2018-09-16'
+output:
+html_document:
+df_print: paged
+categories:
+- R
+- estatística
+slug: simulacao
+tags:
+- R
+- Estatística
+authors: [pedrocava]
+katex: true
+draft: TRUE
+---
+
+````{r, dpi = 1000}
+
+library(ggplot2)
+library(gridExtra)
+library(grid)
+library(dplyr)
+
+plot = list()
+x = list()
+
+for(i in 1:4) {
+
+dist = paste("dist",i, sep = "")
+
+assign(dist, data.frame(rnorm(n = 10^(1 + i))))
+
+}
+
+###########
+
+for(i in 1:4){
+grafico = paste("grafico", i, sep = "")
+
+assign(grafico, dist[i] %>% ggplot(aes(x = dist[i][1])) +
+  geom_histogram(col = "blue"))  
+
+}
+
+
+grid.arrange(grafico1, grafico2, grafico3, grafico4, nrow = 2, ncol = 2)
+
+````
