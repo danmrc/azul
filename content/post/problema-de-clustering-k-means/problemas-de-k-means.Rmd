@@ -1,0 +1,182 @@
+---
+title: "Alguns pequenos problemas de clustering k-means"
+author: "Pedro Cavalcante"
+date: '2018-08-19'
+output:
+html_document:
+df_print: paged
+categories:
+- R
+- Clustering
+slug: problemas-clustering-k-means
+tags:
+- R
+- Clustering
+authors: [pedrocava]
+katex: true
+---
+  
+No meu [último post](https://azul.netlify.com/2018/08/11/prouni-clustering/) mostrei como podíamos usar clustering $k$-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de $k$-means, quero mostrar um _problema_ do algoritimo relacionado a uma de suas hipoteses.
+
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui. Uma das _rules of thumb_ da profissão para modelagem é a de que hipoteses são simplificadoras apenas na medida em que não alteram as conclusões _principais_ do modelo.
+
+Pois, supor informação (quasi-)perfeita é absolutamente razoável na maioria dos mercados. Existe alguma assimetria relevante de inforção entre feirante e comprador de bananas? Entre concessionária e comprador de carro? Supor algum tipo de comportamento maximizador de lucro (ou de utilidade) também soa um tanto quanto absurdo, mas veja bem, _funciona_. Quando capital fica relativamente ao trabalho mais barato, firmas automatizam. Quando tomates ficam mais caros, consumidores compram menos. Quase como se maximizadores racionais caminhassem sobre a terra.
+
+## Mas e $k$-means?
+
+Vamos lembrar brevemente da matemática por trás do clustering $k$-means, a função objetivo do procedimento (não confundir com o algoritimo para computar o problema em si). $k$ é o número de clusters, $S_i$ é conjunto de elementos do i-ésimo cluster, $\mu_i$ é a média do i-ésimo cluster.
+
+$$ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i ||^2 $$
+
+O único instrumento desse problema de otimização é $S$, $k$ é um parâmetro _dado_. Pois, ao escolher um $k$ em especifico, estamos supondo que _existem_ $k$ agrupamentos nos dados. E se não for bem assim? Vamos a um exemplo:
+
+
+```{r}
+##### Começaremos gerando dados aleatórios
+##### Seja n o tamanho da amostra, o leitor pode alterar se quiser
+
+n = 100000
+
+#### Geraremos um vetor aleatório no R^2
+
+x <- rnorm(mean = 0, 
+            sd = 1,
+              n= n) ##média 0 e variância unitária nos dá uma normal padrão
+
+y <- rnorm(mean = 0,
+            sd = 1,
+              n = n)
+
+amostra1 <- data.frame(x, y)
+
+```
+
+```{r imagem1, message=FALSE, warning=FALSE, dpi=1000}
+
+library(ggplot2)
+library(dplyr)
+
+amostra1 %>%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = "dark blue")+
+  geom_density_2d(color = "light blue")+
+  geom_vline(aes(xintercept=mean(x)),   
+             color="black", linetype="dashed", size=1)+
+  geom_hline(aes(yintercept=mean(y)),   
+             color="black", linetype="dashed", size=1)
+```
+
+Existe claramente só um agrupamento, mas podemos detectar quantos agrupamentos quisermos ao definir um $k$ desejado. Antes, vamos avaliar qual seria o $k$ ótimo segundo o Método do Cotovelo:
+
+
+```{r imagem2, message=FALSE, warning=FALSE, dpi=1000}
+
+wssplot <- function(data, nc=20, seed=1234){
+  wss <- (nrow(data)-1)*sum(apply(data,2,var))
+  for (i in 2:nc){
+    set.seed(seed)
+    wss[i] <- sum(kmeans(data, centers=i)$withinss)}
+  plot(1:nc, wss, type="b", xlab="k",
+       ylab="WGSS")}
+
+wssplot(amostra1)
+```
+
+$k=6$ parece ser compatível com um ponto em que adicionar agrupamentos não rende uma queda substancial no WGSS, então vamos tentar esse número e ver o que acontece.
+
+```{r imagem3, message=FALSE, warning=FALSE, dpi=1000}
+kmeans_amostra1 <- kmeans(amostra1, 
+                            centers = 6)
+
+amostra1 %>%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1$cluster)
+  
+```
+
+Inclusive, podemos formar padrões similares simplesmente aumentando $k$ e particionando dados homogêneos em agrupamentos menores - apesar de não existirem de fato.
+
+```{r imagem4, message=FALSE, warning=FALSE, dpi=1000}
+kmeans_amostra1_2 <- kmeans(amostra1, 
+                            centers = 10)
+
+amostra1 %>%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1_2$cluster)
+  
+```
+
+```{r imagem5, message=FALSE, warning=FALSE, dpi=1000}
+kmeans_amostra1_3 <- kmeans(amostra1, 
+                            centers = 50)
+
+amostra1 %>%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1_3$cluster)
+  
+```
+
+Observem que WGSS em função de $k$ tem comportamento assintótico bem claro, embora não necessariamente monotônico: converge a zero.
+
+## Mas e se existirem $k$ agrupamentos?
+
+Aí, meu caro leitor, estamos conversando. Vamos gerar novos dados, agora com agrupamentos separados.
+
+```{r imagem6, message=FALSE, warning=FALSE, dpi=1000}
+k = 8 ## numero de agrupamentos 
+m = 100 ## tamanho da amostra em cada agrupamento
+sd = .2 ## .2 gera identificação limpa dos agrupamentos em alguns casos
+
+datalist = list() ## Lista para salvar os DFs com cada cluster
+
+for (i in 1:k){
+  
+    x <- rnorm(mean = i, 
+              sd = sd, 
+                n=m)
+    
+  y <- rnorm(mean = (k-i),
+              sd = sd,
+                n=m)
+  
+  datalist[[i]] <- data.frame(x,y)
+}
+
+amostra2 <- do.call(rbind, datalist) ## empilhamos os clusters
+
+amostra2 %>%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = "blue")
+
+wssplot(amostra2, nc = 10)
+
+```
+Um pequeno exercício: em dados claramento agrupados em 8 núcleos, qual a diferença do WGSS quando temos $k=8$, fiel aos dados, e $k=10$, um exagero?
+
+```{r}
+teste8 <- kmeans(amostra2, 
+                  centers = 8)
+teste10 <- kmeans(amostra2,
+                    centers = 10) 
+
+teste8$tot.withinss / teste10$tot.withinss #dividindo o WGSS de um pelo outro
+
+```
+Aqui entra de novo o componente estocástico. Já consegui 3,5% maior, já consegui 40% menor. Quanto você, leitor, achou?
+
+```{r imagem7, message=FALSE, warning=FALSE, dpi=1000}
+kmeans_amostra2 <- kmeans(amostra2, 
+                            centers = k)
+
+amostra2 %>%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra2$cluster)
+```
+
+Você talvez precise gerar algumas amostras antes de conseguir uma identificação limpa de cada agrupamento.
+
+## Acho que é isso
+
+Queria mostrar brevemente as limitações de (i) uma hipotese através dessa ilustração interessante e (ii) do Método do Cotovelo, computacionalmente simples, mas dependente de interpretação.
+
+(Como sempre, você pode reproduzir isso tudo com [esse script](https://github.com/danmrc/azul/tree/master/content/post/problema-de-clustering-k-means))

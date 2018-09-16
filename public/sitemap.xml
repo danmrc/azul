@@ -18,6 +18,11 @@
   </url>
   
   <url>
+    <loc>/2018/09/11/solow/</loc>
+    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/09/08/programacao-dinamica-i/</loc>
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
   </url>
@@ -203,7 +208,23 @@
   
   <url>
     <loc>/categories/macroeconomia/</loc>
+<<<<<<< HEAD
     <lastmod>2018-09-17T00:00:00+00:00</lastmod>
+=======
+    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/macroeconomia/</loc>
+    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/microeconomia/</loc>
+    <lastmod>2018-09-01T00:00:00+00:00</lastmod>
+>>>>>>> d300e50d2cbd1fa085618be98aa780a5fe6ec6ba
     <priority>0</priority>
   </url>
   
@@ -227,7 +248,7 @@
   
   <url>
     <loc>/authors/pedrocava/</loc>
-    <lastmod>2018-09-01T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -303,8 +324,13 @@
   </url>
   
   <url>
+<<<<<<< HEAD
     <loc>/categories/s%C3%A9ries-temporais/</loc>
     <lastmod>2018-09-17T00:00:00+00:00</lastmod>
+=======
+    <loc>/tags/solow/</loc>
+    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
+>>>>>>> d300e50d2cbd1fa085618be98aa780a5fe6ec6ba
     <priority>0</priority>
   </url>
   
