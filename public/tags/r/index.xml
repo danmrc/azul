@@ -6,10 +6,19 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>O LASSO</title>
+      <link>/2018/09/16/lasso/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/16/lasso/</guid>
+      <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
+    </item>
     
     <item>
       <title>Por que usar o Julia?</title>
@@ -29,15 +38,6 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
       <guid>/2018/09/11/solow/</guid>
       <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
-    </item>
-    
-    <item>
-      <title>O LASSO</title>
-      <link>/2018/09/01/lasso/</link>
-      <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/09/01/lasso/</guid>
-      <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
     </item>
     
     <item>

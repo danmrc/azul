@@ -33,6 +33,15 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     </item>
     
     <item>
+      <title>O LASSO</title>
+      <link>/2018/09/16/lasso/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/16/lasso/</guid>
+      <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
+    </item>
+    
+    <item>
       <title>Por que usar o Julia?</title>
       <link>/2018/09/13/por-que-usar-o-julia/</link>
       <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
@@ -49,15 +58,6 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
       
       <guid>/2018/09/08/programacao-dinamica-i/</guid>
       <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
-    </item>
-    
-    <item>
-      <title>O LASSO</title>
-      <link>/2018/09/01/lasso/</link>
-      <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/09/01/lasso/</guid>
-      <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
     </item>
     
     <item>

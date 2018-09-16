@@ -24,10 +24,10 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     
     <item>
       <title>O LASSO</title>
-      <link>/2018/09/01/lasso/</link>
-      <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
+      <link>/2018/09/16/lasso/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/01/lasso/</guid>
+      <guid>/2018/09/16/lasso/</guid>
       <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
     </item>
     
