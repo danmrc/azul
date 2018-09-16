@@ -50,7 +50,7 @@ katex: true
   xlab(&quot;Mensalidade do curso no ProUni&quot;)+
   ylab(&quot;Nota de Corte do curso no ProUni&quot;)+
   labs(col=&quot;Medicina&quot;)</code></pre>
-<p><img src="/post/2018-08-09-prouni_files/figure-html/imagem1-1.png" width="7000" /></p>
+<p><img src="/post/ProUni/2018-08-09-prouni_files/figure-html/imagem1-1.png" width="7000" /></p>
 <pre class="r"><code>final %&gt;%
 ggplot(aes(x=prouni.mensalidade)) + 
   xlim(0,2500) +
@@ -61,7 +61,7 @@ ggplot(aes(x=prouni.mensalidade)) +
   scale_y_continuous(labels = percent) +
   geom_vline(aes(xintercept=mean(prouni.mensalidade, na.rm=T)),   
              color=&quot;black&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
-<p><img src="/post/2018-08-09-prouni_files/figure-html/imagem2-1.png" width="4900" /></p>
+<p><img src="/post/ProUni/2018-08-09-prouni_files/figure-html/imagem2-1.png" width="4900" /></p>
 <pre class="r"><code>final %&gt;%
   ggplot(aes(x=prouni.mensalidade)) + 
   xlab(&quot;Mensalidade do curso no ProUni&quot;) + 
@@ -70,7 +70,7 @@ ggplot(aes(x=prouni.mensalidade)) +
   scale_y_continuous(labels = percent) +
   facet_wrap(~label) +
   geom_density(colour =&quot; medium blue&quot;, size = 1)</code></pre>
-<p><img src="/post/2018-08-09-prouni_files/figure-html/imagem3-1.png" width="4900" /></p>
+<p><img src="/post/ProUni/2018-08-09-prouni_files/figure-html/imagem3-1.png" width="4900" /></p>
 <p>Os próximos dois gráficos tem códigos análogos aos dois anteriores e estão disponíveis no script.</p>
 <p>Aqui observamos três coisas muito interessantes. A primeira é que notas de corte seguem muito bem uma distribuição normal <em>exceto</em> pela regra que impõe nota de corte mínima de 450 no ProUni e Sisu. É o tipo de coisa em que seria legal aplicar um <a href="https://eml.berkeley.edu/~jmccrary/mccrary2006_DCdensity.pdf">Teste de Densidade de McCrary (2006)</a>. Depois, que Medicina tem um padrão de distribuição de notas bem diferente do resto.</p>
 <div class="figure">
@@ -104,7 +104,7 @@ wssplot &lt;- function(data, nc=15, seed=1234){
 
 wssplot(final, 
           nc = 6) </code></pre>
-<p><img src="/post/2018-08-09-prouni_files/figure-html/cotovelo-1.png" width="4900" /></p>
+<p><img src="/post/ProUni/2018-08-09-prouni_files/figure-html/cotovelo-1.png" width="4900" /></p>
 <p>Agora que escolhemos o número 3, podemos finalmente ver se o modelo classifica bem cursos de medicina.</p>
 </div>
 <div id="os-finalmentes-rodando-o-modelo-e-resultados" class="section level2">
@@ -120,7 +120,7 @@ clusplot(final, analise_kmeans$cluster,
                             color=TRUE,
                               shade=TRUE,
                                 lines=0)</code></pre>
-<p><img src="/post/2018-08-09-prouni_files/figure-html/unnamed-chunk-1-1.png" width="4900" /></p>
+<p><img src="/post/ProUni/2018-08-09-prouni_files/figure-html/unnamed-chunk-1-1.png" width="4900" /></p>
 <pre class="r"><code>final %&gt;%
   ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
              colour = analise_kmeans$cluster, show.legend = FALSE)) +
@@ -129,7 +129,7 @@ clusplot(final, analise_kmeans$cluster,
   xlab(&quot;Mensalidade do curso no ProUni&quot;) +
   ylab(&quot;Nota de Corte do curso no ProUni&quot;) +
   labs(col = &quot;Agrupamento&quot;)</code></pre>
-<p><img src="/post/2018-08-09-prouni_files/figure-html/unnamed-chunk-1-2.png" width="4900" /></p>
+<p><img src="/post/ProUni/2018-08-09-prouni_files/figure-html/unnamed-chunk-1-2.png" width="4900" /></p>
 <p>Se o leitor fizer o exercício de replicar esse post, vai poder ver que o algoritimo identificou todos os 122 cursos de medicina da amostra e inseriu por engano no mesmo cluster 44 cursos que não são de medicina.</p>
 <p>A performance é aceitável? Deixamos a resposta para outro post.</p>
 </div>

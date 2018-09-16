@@ -53,7 +53,7 @@ amostra1 %&gt;%
              color=&quot;black&quot;, linetype=&quot;dashed&quot;, size=1)+
   geom_hline(aes(yintercept=mean(y)),   
              color=&quot;black&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
-<p><img src="/post/problemas-de-k-means_files/figure-html/imagem1-1.png" width="7000" /></p>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem1-1.png" width="7000" /></p>
 <p>Existe claramente só um agrupamento, mas podemos detectar quantos agrupamentos quisermos ao definir um <span class="math inline">\(k\)</span> desejado. Antes, vamos avaliar qual seria o <span class="math inline">\(k\)</span> ótimo segundo o Método do Cotovelo:</p>
 <pre class="r"><code>wssplot &lt;- function(data, nc=20, seed=1234){
   wss &lt;- (nrow(data)-1)*sum(apply(data,2,var))
@@ -64,7 +64,7 @@ amostra1 %&gt;%
        ylab=&quot;WGSS&quot;)}
 
 wssplot(amostra1)</code></pre>
-<p><img src="/post/problemas-de-k-means_files/figure-html/imagem2-1.png" width="7000" /></p>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem2-1.png" width="7000" /></p>
 <p><span class="math inline">\(k=6\)</span> parece ser compatível com um ponto em que adicionar agrupamentos não rende uma queda substancial no WGSS, então vamos tentar esse número e ver o que acontece.</p>
 <pre class="r"><code>kmeans_amostra1 &lt;- kmeans(amostra1, 
                             centers = 6)
@@ -72,7 +72,7 @@ wssplot(amostra1)</code></pre>
 amostra1 %&gt;%
   ggplot(aes(x=x, y=y))+
   geom_point(color = kmeans_amostra1$cluster)</code></pre>
-<p><img src="/post/problemas-de-k-means_files/figure-html/imagem3-1.png" width="7000" /></p>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem3-1.png" width="7000" /></p>
 <p>Inclusive, podemos formar padrões similares simplesmente aumentando <span class="math inline">\(k\)</span> e particionando dados homogêneos em agrupamentos menores - apesar de não existirem de fato.</p>
 <pre class="r"><code>kmeans_amostra1_2 &lt;- kmeans(amostra1, 
                             centers = 10)
@@ -80,14 +80,14 @@ amostra1 %&gt;%
 amostra1 %&gt;%
   ggplot(aes(x=x, y=y))+
   geom_point(color = kmeans_amostra1_2$cluster)</code></pre>
-<p><img src="/post/problemas-de-k-means_files/figure-html/imagem4-1.png" width="7000" /></p>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem4-1.png" width="7000" /></p>
 <pre class="r"><code>kmeans_amostra1_3 &lt;- kmeans(amostra1, 
                             centers = 50)
 
 amostra1 %&gt;%
   ggplot(aes(x=x, y=y))+
   geom_point(color = kmeans_amostra1_3$cluster)</code></pre>
-<p><img src="/post/problemas-de-k-means_files/figure-html/imagem5-1.png" width="7000" /></p>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem5-1.png" width="7000" /></p>
 <p>Observem que WGSS em função de <span class="math inline">\(k\)</span> tem comportamento assintótico bem claro, embora não necessariamente monotônico: converge a zero.</p>
 </div>
 <div id="mas-e-se-existirem-k-agrupamentos" class="section level2">
@@ -117,9 +117,9 @@ amostra2 &lt;- do.call(rbind, datalist) ## empilhamos os clusters
 amostra2 %&gt;%
   ggplot(aes(x=x, y=y))+
   geom_point(color = &quot;blue&quot;)</code></pre>
-<p><img src="/post/problemas-de-k-means_files/figure-html/imagem6-1.png" width="7000" /></p>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem6-1.png" width="7000" /></p>
 <pre class="r"><code>wssplot(amostra2, nc = 10)</code></pre>
-<p><img src="/post/problemas-de-k-means_files/figure-html/imagem6-2.png" width="7000" /> Um pequeno exercício: em dados claramento agrupados em 8 núcleos, qual a diferença do WGSS quando temos <span class="math inline">\(k=8\)</span>, fiel aos dados, e <span class="math inline">\(k=10\)</span>, um exagero?</p>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem6-2.png" width="7000" /> Um pequeno exercício: em dados claramento agrupados em 8 núcleos, qual a diferença do WGSS quando temos <span class="math inline">\(k=8\)</span>, fiel aos dados, e <span class="math inline">\(k=10\)</span>, um exagero?</p>
 <pre class="r"><code>teste8 &lt;- kmeans(amostra2, 
                   centers = 8)
 teste10 &lt;- kmeans(amostra2,
@@ -134,7 +134,7 @@ teste8$tot.withinss / teste10$tot.withinss #dividindo o WGSS de um pelo outro</c
 amostra2 %&gt;%
   ggplot(aes(x=x, y=y))+
   geom_point(color = kmeans_amostra2$cluster)</code></pre>
-<p><img src="/post/problemas-de-k-means_files/figure-html/imagem7-1.png" width="7000" /></p>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem7-1.png" width="7000" /></p>
 <p>Você talvez precise gerar algumas amostras antes de conseguir uma identificação limpa de cada agrupamento.</p>
 </div>
 <div id="acho-que-e-isso" class="section level2">

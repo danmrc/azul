@@ -10,6 +10,7 @@ tags:
   - Sazonalidade
 authors: ["danielc"]
 katex: true
+draft: true
 ---
 
 
@@ -18,13 +19,8 @@ katex: true
 <p>Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças. Obviamente, séries diferentes podem ter comportamentos diferentes, então esse post é ilustrativo. Mas uma imagem valem mais que mil palavras.</p>
 <p>Uma rápida revisão do que é dessazonalizar por dummies. Suponha que os dados estão em frequência mensal. Crie 11 dummies, uma para cada mês: a dummy novembro vai ser 1 se o mês é novembro e 0 caso contrário. Etc. Faça uma regressão que a série que queremos dessazonalizar como variável dependente e as dummies como regressores. O resíduo dessa regressão é justamente a série dessazonlizada. Veja que, dessa maneira, a sazonalidade é um valor determinístico: todo ano o efeito é igual para dezembro. Isso pode não ser muito satisfatório.</p>
 <p>Para esse post, eu vou usar o excelente pacote <em>BETS</em> para obter a série de capacidade utilizada, o pacote <em>seasonal</em> para usar o x13 e o <em>forecast</em> para fazer a dessazonalização com dummies.</p>
-<pre class="r"><code>library(BETS)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;BETS&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     predict</code></pre>
-<pre class="r"><code>library(forecast)
+<pre class="r"><code>library(BETS)
+library(forecast)
 library(seasonal)
 
 cap &lt;- BETSget(1344, from = &quot;2000-01-01&quot;) #Serie de capacidade utilizada da FGV</code></pre>
@@ -71,7 +67,7 @@ linf &lt;- min(des_dum_final,x13_des_final)
 plot(des_dum_final, ylim = c(linf,lsup), main = &quot;Comparando como dessasonalizar: x13 contra dummies&quot;, xlab = &quot;Anos&quot;, ylab = &quot;%&quot;, lwd = 2)
 lines(x13_des_final,col = 2, lwd = 2)
 grid(col = &quot;gray&quot;)
-legend(&quot;topleft&quot;,legend = c(&quot;Usando o x13&quot;,&quot;Usando dummies&quot;), lwd = c(2,2), col = c(2,1))</code></pre>
+legend(&quot;bottomleft&quot;,legend = c(&quot;Usando o x13&quot;,&quot;Usando dummies&quot;), lwd = c(2,2), col = c(2,1))</code></pre>
 <p><img src="/post/2018-09-24-sazonalidade-x13-e-dummies-muito-barulho-por-nada_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>A inspeção visual nos diz que a diferença não é muito grande. Qual o tamanho da média da diferença entre as duas ao quadrado?</p>
 <pre class="r"><code>mse &lt;- sum((x13_des_final - des_dum_final)^2)/length(cap)</code></pre>

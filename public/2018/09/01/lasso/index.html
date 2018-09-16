@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='LASSO'><meta property='article:tag' content='Machine Learning'><meta property='article:tag' content='R'><meta property='article:published_time' content='2018-09-01T00:00:00Z'/><meta property='article:modified_time' content='2018-09-01T00:00:00Z'/><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.45" />
+<meta name="generator" content="Hugo 0.48" />
 
   <title>O LASSO • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/09/01/lasso/'>
@@ -24,7 +24,7 @@
 :root{--color-accent:#ffcd00;}
 </style>
 
-<script>
+<script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
 	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
@@ -86,13 +86,9 @@ if (!doNotTrack) {
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/apresenta%C3%A7%C3%A3o/' style='font-size:1em'>Apresentação</a>
       </li><li>
-<<<<<<< HEAD
         <a href='/tags/blanchard-quah/' style='font-size:1em'>Blanchard Quah</a>
       </li><li>
-        <a href='/tags/clustering/' style='font-size:1.1428571428571428em'>Clustering</a>
-=======
         <a href='/tags/clustering/' style='font-size:1.125em'>Clustering</a>
->>>>>>> d300e50d2cbd1fa085618be98aa780a5fe6ec6ba
       </li><li>
         <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
       </li><li>
@@ -170,7 +166,7 @@ if (!doNotTrack) {
 </span>
 </button>
     <ul><li class='item'>
-        <a href=''>GitHub</a>
+        <a href='https://github.com/danmrc/azul/tree/master/C%C3%B3digos'>GitHub</a>
       </li><li class='item'>
         <a href='/about/'>Sobre</a>
       </li><li class='item'>
@@ -242,7 +238,7 @@ if (!doNotTrack) {
 
   <div class='container entry-content'>
   <p>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa <em>Least Absolute Shrinkage and Select Operator</em>. Como o nome sugere, o LASSO <strong>seleciona quais regressores são relevantes e quais não são</strong>. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de <em>esparsidade</em>: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.</p>
-<p>Uma pergunta justa é: por que não simplesmente testamos isso “na mão”? Isso é, fazemos uma regressão com todas as variáveis, uma sem a primeira variável da base de dados, uma outra sem a segunda… e no fim vemos qual a melhor regressão? Além de problemas de teste - lembre que todo teste tem uma chance de você estar tomando a decisão <em>errada</em> - isso seria um inferno: com relés 50 variáveis, precisaríamos de <span class="math inline">\(2^50\)</span> regressões, ou seja, 1.125899910^{15}.</p>
+<p>Uma pergunta justa é: por que não simplesmente testamos isso “na mão”? Isso é, fazemos uma regressão com todas as variáveis, uma sem a primeira variável da base de dados, uma outra sem a segunda… e no fim vemos qual a melhor regressão? Além de problemas de teste - lembre que todo teste tem uma chance de você estar tomando a decisão <em>errada</em> - isso seria um inferno: com relés 50 variáveis, precisaríamos de <span class="math inline">\(2^{50}\)</span> regressões, ou seja, 1.125899910^{15} regressões: esse é um número com 15 zeros.</p>
 <p>A ideia original vem de um paper de 1996 de Robert Tibshirani. Não temos solução fechada para encontrar o estimador de LASSO, ao contrário do MQO, onde podemos expressar o estimador como uma multiplicação de matrizes. Portanto, é um estimador que seria impossível sem um computador. Mas a ideia é incrivelmente simples.</p>
 <p>Pegue o modelo usual de regressão, <span class="math inline">\(y_i = X_i \beta + u_i\)</span>, onde <span class="math inline">\(\beta\)</span> é o coeficiente de interesse, <span class="math inline">\(u\)</span> é um choque aleatório, as observações são indexadas por <span class="math inline">\(i = 1,...,n\)</span> e os coeficientes são indexados por <span class="math inline">\(k = 1,..,K\)</span> . O objetivo do MQO é minimizar a soma dos quadrados dos resíduos, ou seja <span class="math inline">\(\min_{\beta} \sum_{i=1}^n \hat{u}^2\)</span>. O LASSO começa dai, mas adiciona uma pequena alteração: vamos limitar o valor da soma dos valores absolutos dos coeficientes para que ele seja menor que uma constante <span class="math inline">\(c\)</span>. Ou seja, o LASSO resolve o problema:</p>
 <p><span class="math display">\[\min_{\beta} \sum_{i=1}^n \hat{u}^2  \text{ sujeito a }  \sum_{k=1}^K |\beta_{k}| &lt; c\]</span></p>
@@ -251,7 +247,7 @@ if (!doNotTrack) {
 <p>Veja que estamos trabalhando a soma do valor absoluto dos coeficientes. Chamamos isso de norma <span class="math inline">\(\ell_1\)</span>. Aqueles que já fizeram um curso de algebra linear conhecem a norma <span class="math inline">\(\ell_2\)</span>, conhecida como norma euclidiana: <span class="math inline">\(\sum_{k=1}^K \beta{}^2\)</span>. Existe um método de estimação que usa a norma <span class="math inline">\(\ell_2\)</span> ao invés da <span class="math inline">\(\ell_1\)</span>, conhecido como <em>ridge</em>. Usando a norma <span class="math inline">\(\ell_2\)</span>, o problema tem solução analítica. Então, por que norma <span class="math inline">\(\ell_1\)</span>, que parece ser tão ruim de trabalhar?</p>
 <p>Esta é uma das belezas do LASSO: a norma <span class="math inline">\(\ell_2\)</span> <strong>não</strong> gera esparsidade. A norma <span class="math inline">\(\ell_1\)</span> gera. O motivo é ilustrado na figura abaixo, tirada de <em>Statistical Learning with Sparsity</em>, de Trevor Hastie, Robert Tibshirani and Martin Wainwright (cujo pdf, 100% legal, você encontra <a href="https://web.stanford.edu/~hastie/StatLearnSparsity_files/SLS_corrected_1.4.16.pdf">aqui</a>)</p>
 <div class="figure">
-<img src="aquela_classica_imagem_do_lasso.png" />
+<img src="/post/LASSO/aquela_classica_imagem_do_lasso.png" />
 
 </div>
 <p>A imagem supõe que você só tem duas variáveis, por motivos ilustrativos. O <span class="math inline">\(\hat{\beta}\)</span> é o máximo global, o conhecido estimador de MQO. Em vermelho são as curvas de nível do estimador. O que o <em>Ridge</em> (à direita) faz é impor uma restrição no formato de uma bola (azul). Veja que a curva de nível encosta na bola fora do eixo vertical - onde <span class="math inline">\(\beta_1\)</span> seria zero. Já o <em>LASSO</em> é ilustrado na figura à esquerda. Veja que, nesse caso, a curva de nível acerta na quina da restrição, efetivamente zerando o coeficiente <span class="math inline">\(\beta_1\)</span>.</p>
@@ -261,8 +257,8 @@ if (!doNotTrack) {
 <h2>O pacote glmnet</h2>
 <p>Obviamente, começamos carregando o pacote:</p>
 <pre class="r"><code>library(glmnet)</code></pre>
-<pre><code>## Carregando pacotes exigidos: Matrix</code></pre>
-<pre><code>## Carregando pacotes exigidos: foreach</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Loading required package: foreach</code></pre>
 <pre><code>## Loaded glmnet 2.0-16</code></pre>
 <p>O comando para rodar uma regressão usando o LASSO é o <code>glmnet</code>. Ele recebe basicamente duas coisas, uma matriz com regressores e o vetor que é a variável dependente. Até ai, muito parecido com o MQO. Mas a grande diferença em termos de output é que o <code>glmnet</code> devolve uma <em>matriz</em> de coeficientes. O que o <code>glmnet</code> faz é estimar o modelo para um vetor de <span class="math inline">\(\lambda\)</span>, de tal forma que você vá de nenhuma variável incluida no modelo até todas as variáveis. Isso não significa que cada <span class="math inline">\(\lambda\)</span> estimado adicione uma variável nova ao modelo: em alguns casos o LASSO não seleciona mais ninguém, mas como ele tem mais “orçamento” para alocar, ele aumenta o valor dos coeficientes das variáveis incluídas. O <code>glmnet</code> resolve o problema de escolher qual <span class="math inline">\(\lambda\)</span> usar simplesmente estimando com vários valores diferentes.</p>
 <p>Vamos testar o <code>glmnet</code> gerando uma matriz com 50 variáveis e 2000 observações e criando uma variável dependente que depende só das 10 primeiras variáveis:</p>
@@ -273,76 +269,76 @@ y &lt;- x%*%betas + rnorm(2000)
 modelo &lt;- glmnet(x,y)
 coef(modelo)[,1:5] # só pegando as 5 primeiras colunas. Veja que o comando summary não nos dá o que queremos no glmnet</code></pre>
 <pre><code>## 51 x 5 sparse Matrix of class &quot;dgCMatrix&quot;
-##                     s0          s1         s2           s3         s4
-## (Intercept) 0.05954908 0.058406953 0.05422648 0.0483333118 0.04148184
-## V1          .          .           0.07685229 0.1555202844 0.23157650
-## V2          .          0.003521464 0.09656569 0.1814499803 0.25810035
-## V3          .          .           .          0.0572240674 0.13576221
-## V4          .          0.056704516 0.13745197 0.2116776300 0.28315707
-## V5          .          0.093504401 0.17349227 0.2445013034 0.31364929
-## V6          .          .           0.05417463 0.1356734231 0.20959379
-## V7          .          .           0.02857021 0.1104234888 0.18666712
-## V8          .          0.009725697 0.09843537 0.1803225484 0.25507841
-## V9          .          .           .          0.0004619539 0.08722826
-## V10         .          .           .          0.0566265645 0.14390695
-## V11         .          .           .          .            .         
-## V12         .          .           .          .            .         
-## V13         .          .           .          .            .         
-## V14         .          .           .          .            .         
-## V15         .          .           .          .            .         
-## V16         .          .           .          .            .         
-## V17         .          .           .          .            .         
-## V18         .          .           .          .            .         
-## V19         .          .           .          .            .         
-## V20         .          .           .          .            .         
-## V21         .          .           .          .            .         
-## V22         .          .           .          .            .         
-## V23         .          .           .          .            .         
-## V24         .          .           .          .            .         
-## V25         .          .           .          .            .         
-## V26         .          .           .          .            .         
-## V27         .          .           .          .            .         
-## V28         .          .           .          .            .         
-## V29         .          .           .          .            .         
-## V30         .          .           .          .            .         
-## V31         .          .           .          .            .         
-## V32         .          .           .          .            .         
-## V33         .          .           .          .            .         
-## V34         .          .           .          .            .         
-## V35         .          .           .          .            .         
-## V36         .          .           .          .            .         
-## V37         .          .           .          .            .         
-## V38         .          .           .          .            .         
-## V39         .          .           .          .            .         
-## V40         .          .           .          .            .         
-## V41         .          .           .          .            .         
-## V42         .          .           .          .            .         
-## V43         .          .           .          .            .         
-## V44         .          .           .          .            .         
-## V45         .          .           .          .            .         
-## V46         .          .           .          .            .         
-## V47         .          .           .          .            .         
-## V48         .          .           .          .            .         
-## V49         .          .           .          .            .         
-## V50         .          .           .          .            .</code></pre>
+##                      s0           s1          s2          s3          s4
+## (Intercept) -0.02479145 -0.025059882 -0.02381907 -0.02289842 -0.02205955
+## V1           .           .            0.08724505  0.16767510  0.24096260
+## V2           .           0.042440260  0.12474270  0.20019503  0.26894445
+## V3           .           .            0.05122261  0.13618431  0.21359721
+## V4           .           0.091270993  0.17023072  0.24293909  0.30918739
+## V5           .           0.044636055  0.13129594  0.21001786  0.28174736
+## V6           .           0.029135356  0.11582717  0.19457312  0.26632209
+## V7           .           0.004897313  0.09049380  0.16939609  0.24128987
+## V8           .           0.006117720  0.09133712  0.16941048  0.24054813
+## V9           .           0.007978268  0.09324537  0.17083187  0.24152654
+## V10          .           0.084003730  0.16457901  0.24001948  0.30875784
+## V11          .           .            .           .           .         
+## V12          .           .            .           .           .         
+## V13          .           .            .           .           .         
+## V14          .           .            .           .           .         
+## V15          .           .            .           .           .         
+## V16          .           .            .           .           .         
+## V17          .           .            .           .           .         
+## V18          .           .            .           .           .         
+## V19          .           .            .           .           .         
+## V20          .           .            .           .           .         
+## V21          .           .            .           .           .         
+## V22          .           .            .           .           .         
+## V23          .           .            .           .           .         
+## V24          .           .            .           .           .         
+## V25          .           .            .           .           .         
+## V26          .           .            .           .           .         
+## V27          .           .            .           .           .         
+## V28          .           .            .           .           .         
+## V29          .           .            .           .           .         
+## V30          .           .            .           .           .         
+## V31          .           .            .           .           .         
+## V32          .           .            .           .           .         
+## V33          .           .            .           .           .         
+## V34          .           .            .           .           .         
+## V35          .           .            .           .           .         
+## V36          .           .            .           .           .         
+## V37          .           .            .           .           .         
+## V38          .           .            .           .           .         
+## V39          .           .            .           .           .         
+## V40          .           .            .           .           .         
+## V41          .           .            .           .           .         
+## V42          .           .            .           .           .         
+## V43          .           .            .           .           .         
+## V44          .           .            .           .           .         
+## V45          .           .            .           .           .         
+## V46          .           .            .           .           .         
+## V47          .           .            .           .           .         
+## V48          .           .            .           .           .         
+## V49          .           .            .           .           .         
+## V50          .           .            .           .           .</code></pre>
 <p>Obviamente, ainda temos que selecionar qual dos modelos nós queremos. O pacote nos permite selecionar por <em>Cross Validation</em> (CV). Em linhas gerais, o que o Cross Validation faz é separar os dados em <span class="math inline">\(k\)</span> blocos - 5,10, ou até mesmo blocos de uma única observação (conhecido como <em>leave one out</em>). Depois, escolha <span class="math inline">\(k-1\)</span> blocos e estime o modelo usando o <code>glmnet</code>. Para avaliar qual <span class="math inline">\(\lambda\)</span> devemos usar, use o bloco que <em>não</em> foi usado para estimar para ver qual modelo gera o menor erro segundo alguma métrica (erro quadrático médio, por exemplo). O CV vai permitir com que cada bloco tenha uma chance de ser “fora da amostra”.</p>
-<p>Isso pode parecer muito computacionalmente intensivo - e de fato é - mas a implementação do glmnet é tão eficiente que normalmente num piscar de olhos o modelo é estimado. O comando que faz a seleção do <span class="math inline">\(\lambda\)</span> é o <code>cv.glmnet</code>. Vamos testar no exemplo acima:</p>
+<p>Isso pode parecer muito computacionalmente intensivo - e de fato é - mas a implementação do glmnet é tão eficiente que normalmente num piscar de olhos o modelo é estimado - no meu Dell Vostro de 2012 com i5, 6GB e Windows 10, o tempo é de apenas 0.19s. O comando que faz a seleção do <span class="math inline">\(\lambda\)</span> é o <code>cv.glmnet</code>. Vamos testar no exemplo acima:</p>
 <pre class="r"><code>cross_val &lt;- cv.glmnet(x,y)
 
 coef(cross_val)</code></pre>
 <pre><code>## 51 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
 ##                       1
-## (Intercept) -0.02308675
-## V1           0.94825650
-## V2           0.98055364
-## V3           0.87578021
-## V4           0.95665231
-## V5           0.96513265
-## V6           0.90626787
-## V7           0.90517887
-## V8           0.95962350
-## V9           0.90493619
-## V10          0.96647632
+## (Intercept) -0.01409161
+## V1           0.93708514
+## V2           0.92196103
+## V3           0.94890462
+## V4           0.93844702
+## V5           0.96307077
+## V6           0.94782955
+## V7           0.92417381
+## V8           0.91624951
+## V9           0.91302050
+## V10          0.96166968
 ## V11          .         
 ## V12          .         
 ## V13          .         
@@ -383,9 +379,10 @@ coef(cross_val)</code></pre>
 ## V48          .         
 ## V49          .         
 ## V50          .</code></pre>
-<p>O <code>cv.glmnet</code> também fornece um plot com o número de coeficientes e o erro médio do Cross Validation, o que ajuda a ilustrar o ponto:</p>
+<p>O LASSO com CV põe apenas um coeficiente a mais. O <code>cv.glmnet</code> também fornece um plot com o número de coeficientes e o erro médio do Cross Validation, o que ajuda a ilustrar o ponto:</p>
 <pre class="r"><code>plot(cross_val)</code></pre>
 <p><img src="/post/LASSO/2018-09-01-LASSO_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Uma das linhas tracejadas marca o número de coeficientes escolhidos: 11, número em cima. Depois dessa linha tracejada, o <em>Mean Square Error</em> não flutua muito. E também não há muita variação para imediatamente a direita, onde temos o modelo verdadeiro com 10 coeficientes.</p>
 <p><em>(O autor agradece aos Professores Marcelo Medeiros e Pedro Souza pelas longas explicações sobre o LASSO e métodos correlatos. Pedro Cava, o outro autor deste blog, foi primordial em incentivar esse texto. Todos os erros neste texto são, como de praxe, de minha exclusiva culpa)</em></p>
 </div>
 
@@ -453,7 +450,13 @@ coef(cross_val)</code></pre>
     </div>
   </div><script>window.__public_path__='\/assets\/js\/'</script>
 
-<script src='/assets/js/main.59f76c44.js'></script><script src='/js/custom.js'></script>
+<script src='/assets/js/main.59f76c44.js'></script><script src='/js/custom.js'></script><link rel='stylesheet' href='//unpkg.com/katex/dist/katex.min.css'>
+<script src='//unpkg.com/katex/dist/katex.min.js'></script>
+<script src='//unpkg.com/katex/dist/contrib/auto-render.min.js'></script>
+
+<script type='text/javascript'>
+  renderMathInElement(document.querySelector('.entry-content'),{});
+</script>
 
 </body>
 

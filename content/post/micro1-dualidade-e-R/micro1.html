@@ -79,7 +79,7 @@ parabola1 %&gt;%
   geom_hline(yintercept = 0, linetype = &quot;dashed&quot;)+
   ylab(&quot;y&quot;) +
   xlab(&quot;x&quot;)</code></pre>
-<p><img src="/post/micro1_files/figure-html/unnamed-chunk-1-1.png" width="6300" /> Observe que a derivada iguala-se a zero justamente onde temos um ótimo local da função, como aprendemos em Cálculo 1. Agora observe onde a derivada de <span class="math inline">\(-f(x)\)</span> se iguala a zero.</p>
+<p><img src="/post/micro1-dualidade-e-R/micro1_files/figure-html/unnamed-chunk-1-1.png" width="6300" /> Observe que a derivada iguala-se a zero justamente onde temos um ótimo local da função, como aprendemos em Cálculo 1. Agora observe onde a derivada de <span class="math inline">\(-f(x)\)</span> se iguala a zero.</p>
 <pre class="r"><code>f_max = function(x, a= -1, b= -1,c=0) {a*(x**2) + b*x + c}
 d_f_max = function(x, a= -1, b= -1) {2*a*x + b}
 
@@ -95,7 +95,7 @@ parabolas %&gt;%
   geom_hline(yintercept = 0, linetype = &quot;dashed&quot;)+
   ylab(&quot;y&quot;) +
   xlab(&quot;x&quot;)</code></pre>
-<p><img src="/post/micro1_files/figure-html/unnamed-chunk-2-1.png" width="6300" /></p>
+<p><img src="/post/micro1-dualidade-e-R/micro1_files/figure-html/unnamed-chunk-2-1.png" width="6300" /></p>
 <p>No mesmo lugar, não? Estamos aqui no que se chama de Dualidade Forte. <span class="math inline">\(\text{min} f(x) = \text{max} -f(x)\)</span>. E como isso se conecta com teoria do consumidor?</p>
 <p>Aquelas curvas de demanda em que chegamos são marshallianas. Dado um conjunto orçamentário, elas maximizam utilidade. No entanto podemos querer curvas hicksianas, minimizar gastos dado que o consumidor está num nível <span class="math inline">\(k\)</span> de utilidade. Teríamos um problema assim:</p>
 <p><span class="math display">\[ \text{min} \, \,  x_1 p_1 + x_2 p_2  \, \, \text{s.a.} \, \, \,  x_{1}^{\alpha} x_{2}^{\beta} = k\]</span></p>
@@ -146,11 +146,11 @@ library(plot3D)
 
 scatter3D(x = x1, y = x2, z = u, 
        xlab = &quot;Bem 1&quot;, ylab = &quot;Bem 2&quot;, zlab = &quot;Utilidade&quot;)</code></pre>
-<p><img src="/post/micro1_files/figure-html/unnamed-chunk-3-1.png" width="7000" /></p>
+<p><img src="/post/micro1-dualidade-e-R/micro1_files/figure-html/unnamed-chunk-3-1.png" width="7000" /></p>
 <pre class="r"><code>scatter3D(x = x1, y = x2, z = u, 
        xlab = &quot;Bem 1&quot;, ylab = &quot;Bem 2&quot;, zlab = &quot;Utilidade&quot;,
        theta=0, phi=90) ##inclinando para ter cada bem em cada eixo</code></pre>
-<p><img src="/post/micro1_files/figure-html/unnamed-chunk-3-2.png" width="7000" /></p>
+<p><img src="/post/micro1-dualidade-e-R/micro1_files/figure-html/unnamed-chunk-3-2.png" width="7000" /></p>
 <p>Pense numa curva de nível <span class="math inline">\(C(k)=\{ (x_1,x_2) \in \mathbb{R}^2 \, \, | \, \, U(x_1,x_2) = k \}\)</span>. Para <span class="math inline">\(k\approx 60\)</span>, podemos ve-la na duvisa entre a região verde e a vermelha, mais ou menos a seção amarela da superfície. Nessa superfície é possível visualizar claramente as famosas Curvas de Indiferença.</p>
 <p>Em algum momento pretendo voltar à esse assunto, com o foco na teoria da firma. Até lá.</p>
 </div>

@@ -32,7 +32,7 @@ library(scales)
 
 ##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
 
-prouni <- read_excel(paste0(getwd(),"/ProUni/prouni.xlsx"), 
+prouni <- read_excel(paste0(getwd(),"/prouni.xlsx"), 
                      sheet = "Formatados_para_rodar")
 
 ##### Aqui selecionamos as variáveis de interesse: 

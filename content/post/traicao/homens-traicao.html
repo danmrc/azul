@@ -68,13 +68,13 @@ affairs %&gt;%
   geom_histogram(binwidth = 1, fill = &quot;white&quot;, color=&quot;blue&quot;)+
   xlab(&quot;Anos de Casamento&quot;)+
   ylab(&quot;Frequência&quot;)</code></pre>
-<p><img src="/post/homens-traicao_files/figure-html/graficos-1.png" width="7000" /></p>
+<p><img src="/post/traicao/homens-traicao_files/figure-html/graficos-1.png" width="7000" /></p>
 <pre class="r"><code>affairs %&gt;%
   ggplot(aes(x=ratemarr))+
   geom_histogram(binwidth = 1, fill = &quot;white&quot;, color=&quot;blue&quot;)+
   xlab(&quot;Avaliação do Casamento (1 = infeliz, 5 = muito feliz)&quot;)+
   ylab(&quot;Frequência&quot;)</code></pre>
-<p><img src="/post/homens-traicao_files/figure-html/graficos-2.png" width="7000" /></p>
+<p><img src="/post/traicao/homens-traicao_files/figure-html/graficos-2.png" width="7000" /></p>
 <pre class="r"><code>affairs %&gt;%
   ggplot(aes(x=affair))+
   geom_histogram(aes(y=..density..), bins = 2,
@@ -82,7 +82,7 @@ affairs %&gt;%
   scale_y_continuous(labels = percent)+
   xlab(&quot;Teve um caso no ano anterior (1 = sim, 0 = não)&quot;)+
   ylab(&quot;&quot;)</code></pre>
-<p><img src="/post/homens-traicao_files/figure-html/graficos-3.png" width="7000" /></p>
+<p><img src="/post/traicao/homens-traicao_files/figure-html/graficos-3.png" width="7000" /></p>
 </div>
 <div id="estimando-um-modelo-probit" class="section level2">
 <h2>Estimando um modelo probit</h2>

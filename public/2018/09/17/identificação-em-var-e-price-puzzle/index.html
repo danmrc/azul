@@ -92,25 +92,27 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/blanchard-quah/' style='font-size:1em'>Blanchard Quah</a>
       </li><li>
-        <a href='/tags/clustering/' style='font-size:1.1428571428571428em'>Clustering</a>
+        <a href='/tags/clustering/' style='font-size:1.125em'>Clustering</a>
       </li><li>
         <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
       </li><li>
-        <a href='/tags/economia/' style='font-size:1.1428571428571428em'>Economia</a>
+        <a href='/tags/economia/' style='font-size:1.125em'>Economia</a>
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
       </li><li>
-        <a href='/tags/julia/' style='font-size:1.4285714285714286em'>Julia</a>
+        <a href='/tags/julia/' style='font-size:1.375em'>Julia</a>
       </li><li>
         <a href='/tags/lasso/' style='font-size:1em'>Lasso</a>
       </li><li>
         <a href='/tags/machine-learning/' style='font-size:1em'>Machine Learning</a>
       </li><li>
+        <a href='/tags/macroeconomia/' style='font-size:1em'>Macroeconomia</a>
+      </li><li>
         <a href='/tags/microeconomia/' style='font-size:1em'>Microeconomia</a>
       </li><li>
-        <a href='/tags/monte-carlo/' style='font-size:1.1428571428571428em'>Monte Carlo</a>
+        <a href='/tags/monte-carlo/' style='font-size:1.125em'>Monte Carlo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -118,13 +120,15 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/profiling/' style='font-size:1em'>Profiling</a>
       </li><li>
-        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.1428571428571428em'>Programação Dinâmica</a>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.125em'>Programação Dinâmica</a>
       </li><li>
         <a href='/tags/r/' style='font-size:2em'>R</a>
       </li><li>
         <a href='/tags/sazonalidade/' style='font-size:1em'>Sazonalidade</a>
       </li><li>
-        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1428571428571428em'>Simulação</a>
+        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.125em'>Simulação</a>
+      </li><li>
+        <a href='/tags/solow/' style='font-size:1em'>Solow</a>
       </li><li>
         <a href='/tags/tutoriais/' style='font-size:1em'>Tutoriais</a>
       </li><li>
@@ -166,7 +170,7 @@ if (!doNotTrack) {
 </span>
 </button>
     <ul><li class='item'>
-        <a href=''>GitHub</a>
+        <a href='https://github.com/danmrc/azul/tree/master/C%C3%B3digos'>GitHub</a>
       </li><li class='item'>
         <a href='/about/'>Sobre</a>
       </li><li class='item'>
@@ -241,7 +245,7 @@ if (!doNotTrack) {
 <p><span class="math display">\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]</span></p>
 <p>Onde <span class="math inline">\(C\)</span> é uma matriz <span class="math inline">\(2 \times 2\)</span> e <span class="math inline">\(\mathbf{u_t}\)</span> é um vetor de choques, possivelmente correlacionados. Uma equação do VAR é uma das linhas da matriz, e primeira linha, por exemplo, tem a seguinte cara:</p>
 <p><span class="math display">\[x_t = c_{11}x_{t-1} + c_{12}y_{t-1} + u_{1t}\]</span></p>
-<p>Por enquanto só falamos de VARs que tem uma defasagem do vetor <span class="math inline">\(\mathbf{x_t}\)</span>. Podemos ter VARs de qualquer ordem: um VAR(2) depende de <span class="math inline">\(\mathbf{x{t-1}}, \mathbf{x{t-1}}\)</span> etc. Selecionar a ordem do VAR não é trivial e normalmente é feito usando algum critério de informação. Mas podemos obter toda a intuição com um VAR(1). Veja que podemos estimar a matriz <span class="math inline">\(C\)</span> estimando cada uma das equações por MQO e obter:</p>
+<p>Por enquanto só falamos de VARs que tem uma defasagem do vetor <span class="math inline">\(\mathbf{x_t}\)</span>. Podemos ter VARs de qualquer ordem: um VAR(2) depende de <span class="math inline">\(\mathbf{x_{t-1}}, \mathbf{x_{t-2}}\)</span> etc. Selecionar a ordem do VAR não é trivial e normalmente é feito usando algum critério de informação. Mas podemos obter toda a intuição com um VAR(1). Veja que podemos estimar a matriz <span class="math inline">\(C\)</span> estimando cada uma das equações por MQO e obter:</p>
 <p><span class="math display">\[x_t = \hat{c}_{11}x_{t-1} + \hat{c}_{12}y_{t-1} + \hat{u}_{1t}\]</span></p>
 <p>E sobre condições bastante gerais, <span class="math inline">\(\widehat{C}\)</span> vai ser consistente.</p>
 <p>Se em equações <em>cross-section</em> o nosso interesse é em um coeficiente particular - que dá um efeito causal - em um contexto de VAR, temos interesse na <em>dinâmica</em>, ou seja, numa sequência de efeitos parciais de uma variável em outra. Em geral, a nossa pergunta é “Dado um choque exógeno na variável x no período t, como o sistema se comporta?”. Veja que temos que considerar que um choque em <span class="math inline">\(x_t\)</span> pode afetar <span class="math inline">\(y_t\)</span> de maneira defasada, atraves do coeficiente <span class="math inline">\(c_{21}\)</span>, que pode afetar <span class="math inline">\(x_t\)</span> no outro período através de <span class="math inline">\(c_{12}\)</span>. Esta trajetória recebe o nome de Função de Resposta ao Impulso (FRI), ou em inglês <em>Impulse Response Function</em> (IRF).</p>
@@ -273,13 +277,13 @@ selic &lt;- BETSget(4189,from=&quot;2003-01-01&quot;, to = &quot;2017-12-31&quot
 
 plot(ibc_br, main = &quot;IBC-Br&quot;)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-1.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-1.png" width="672" /></p>
 <pre class="r"><code>plot(ipca, main = &quot;IPCA&quot;)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-2.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-2.png" width="672" /></p>
 <pre class="r"><code>plot(selic, main = &quot;Selic&quot;)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-3.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-3.png" width="672" /></p>
 <pre class="r"><code>par(def)</code></pre>
 <p>Veja que <code>par(mfrow = c(3,1))</code> permite com que eu plote as três séries uma debaixo da outra - eu desativei essa opção no post por motivos meramente estéticos, mas funciona muito bem usando a função zoom do RStudio e permite nós vermos as 3 séries uma embaixo da outra. Como esperado, a série do IBC é não estacionária. Vamos precisar deixar ela estacionária, e a solução óbvia é passar log e tirar a primeira diferença - obtendo assim a taxa de crescimento:</p>
 <pre class="r"><code>dibc &lt;- diff(log(ibc_br))
@@ -288,7 +292,7 @@ selic &lt;- window(selic, start = c(2003,02))</code></pre>
 <p>Ao diferenciar, perdemos a primeira observação. O comando <code>window</code> limita as observações das outras séries para retirar a primeira observação. Vamos olhar a cara do crescimento do IBC:</p>
 <pre class="r"><code>plot(dibc)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/ibc-1.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/ibc-1.png" width="672" /></p>
 <p>O pacote <em>vars</em> oferece o comando <code>VARselect</code>, que informa vários critérios de informação e quantos lags minimizam o critério. Vamos usar este comando para saber quantos lags devemos usar:</p>
 <pre class="r"><code>X &lt;- cbind(selic,ipca,dibc)
 
@@ -346,12 +350,17 @@ fri &lt;- function(C,B,t_max){
 <p>Vamos usar essas funções para obter a resposta a impulso do sistema dez período a frente:</p>
 <pre class="r"><code>resposta &lt;- fri(C,solve(B),10)</code></pre>
 <p>Em particular, eu estou interessado na resposta a impulso de choques na Selic sobre a inflação. Isso corresponde a posição [2,3] na matriz de resposta ao impulso do período t. Eu coloco, por conveniência, a linha vermelha onde é o zero:</p>
-<pre class="r"><code>plot(0:10,resposta[2,3,1:11], type = &quot;l&quot;, main = &quot;Resposta ao Impulso&quot;, sub = &quot;Impulso sobre a Selic na Inflação&quot;, xlab = &quot;t&quot;)
+<pre class="r"><code>plot(0:10,resposta[2,3,1:11], type = &quot;l&quot;, main = &quot;Resposta ao Impulso&quot;, sub = &quot;Impulso sobre a Selic na Inflação&quot;, xlab = &quot;t&quot;, ylab = &quot;&quot;)
 lines(0:10,rep(0,11),col=2)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/fri infl-1.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/fri infl-1.png" width="672" /></p>
 <p>Ou seja, segundo o nosso VAR, um aumento na selic <strong>aumenta</strong> a inflação. Por que isso? Algo está realmente errado com o nosso VAR? Ou o Brasil é realmente inexplicável? Ou, ainda pior, será que passamos este tempo todo entendo a economia errado?</p>
-<p>A boa notícia é que este fenômeno é bem conhecido na literatura de VAR, conhecido como <em>price puzzle</em>.</p>
+<p>A boa notícia é que este fenômeno é bem conhecido na literatura de VAR, e recebe o nome de <em>price puzzle</em>. <a href="https://www.dallasfed.org/~/media/documents/research/er/1994/er9404b.pdf">Balke e Emery (1994)</a> tem um gráfico muitissimo parecido com o nosso, para dados dos EUA:</p>
+<div class="figure">
+<img src="/post/VAR_price_puzzle/price_puzzle.png" />
+
+</div>
+<p>Logo, o problema não está no nosso VAR nem no Brasil. No próximo post eu trarei uma solução</p>
 </div>
 
 </div>

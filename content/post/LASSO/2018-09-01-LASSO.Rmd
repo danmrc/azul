@@ -12,12 +12,12 @@ tags:
   - Machine Learning
   - R
 authors: ["danielc"]
-draft: true
+katex: true
 ---
 
 Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa *Least Absolute Shrinkage and Select Operator*. Como o nome sugere, o LASSO **seleciona quais regressores são relevantes e quais não são**. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de *esparsidade*: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.
 
-Uma pergunta justa é: por que não simplesmente testamos isso "na mão"? Isso é, fazemos uma regressão com todas as variáveis, uma sem a primeira variável da base de dados, uma outra sem a segunda... e no fim vemos qual a melhor regressão? Além de problemas de teste - lembre que todo teste tem uma chance de você estar tomando a decisão *errada* - isso seria um inferno: com relés 50 variáveis, precisaríamos de $2^50$ regressões, ou seja, `r 2^50`. 
+Uma pergunta justa é: por que não simplesmente testamos isso "na mão"? Isso é, fazemos uma regressão com todas as variáveis, uma sem a primeira variável da base de dados, uma outra sem a segunda... e no fim vemos qual a melhor regressão? Além de problemas de teste - lembre que todo teste tem uma chance de você estar tomando a decisão *errada* - isso seria um inferno: com relés 50 variáveis, precisaríamos de $2^{50}$ regressões, ou seja, `r 2^50` regressões: esse é um número com 15 zeros. 
 
 A ideia original vem de um paper de 1996 de Robert Tibshirani. Não temos solução fechada para encontrar o estimador de LASSO, ao contrário do MQO, onde podemos expressar o estimador como uma multiplicação de matrizes. Portanto, é um estimador que seria impossível sem um computador. Mas a ideia é incrivelmente simples.
 
@@ -33,7 +33,7 @@ Veja que estamos trabalhando a soma do valor absoluto dos coeficientes. Chamamos
 
 Esta é uma das belezas do LASSO: a norma $\ell_2$ **não** gera esparsidade. A norma $\ell_1$ gera. O motivo é ilustrado na figura abaixo, tirada de *Statistical Learning with Sparsity*, de Trevor Hastie, Robert Tibshirani and Martin Wainwright (cujo pdf, 100% legal, você encontra [aqui](https://web.stanford.edu/~hastie/StatLearnSparsity_files/SLS_corrected_1.4.16.pdf))
 
-![](aquela_classica_imagem_do_lasso.png)
+![](/post/LASSO/aquela_classica_imagem_do_lasso.png)
 
 A imagem supõe que você só tem duas variáveis, por motivos ilustrativos. O $\hat{\beta}$ é o máximo global, o conhecido estimador de MQO. Em vermelho são as curvas de nível do estimador. O que o *Ridge* (à direita) faz é impor uma restrição no formato de uma bola (azul). Veja que a curva de nível encosta na bola fora do eixo vertical - onde $\beta_1$ seria zero. Já o *LASSO* é ilustrado na figura à esquerda. Veja que, nesse caso, a curva de nível acerta na quina da restrição, efetivamente zerando o coeficiente $\beta_1$.
 
@@ -68,7 +68,7 @@ coef(modelo)[,1:5] # só pegando as 5 primeiras colunas. Veja que o comando summ
 
 Obviamente, ainda temos que selecionar qual dos modelos nós queremos. O pacote nos permite selecionar por *Cross Validation* (CV). Em linhas gerais, o que o Cross Validation faz é separar os dados em $k$ blocos - 5,10, ou até mesmo blocos de uma única observação (conhecido como *leave one out*). Depois, escolha $k-1$ blocos e estime o modelo usando o `glmnet`. Para avaliar qual $\lambda$ devemos usar, use o bloco que *não* foi usado para estimar para ver qual modelo gera o menor erro segundo alguma métrica (erro quadrático médio, por exemplo). O CV vai permitir com que cada bloco tenha uma chance de ser "fora da amostra".
 
-Isso pode parecer muito computacionalmente intensivo - e de fato é - mas a implementação do glmnet é tão eficiente que normalmente num piscar de olhos o modelo é estimado. O comando que faz a seleção do $\lambda$ é o `cv.glmnet`. Vamos testar no exemplo acima:
+Isso pode parecer muito computacionalmente intensivo - e de fato é - mas a implementação do glmnet é tão eficiente que normalmente num piscar de olhos o modelo é estimado - no meu Dell Vostro de 2012 com i5, 6GB e Windows 10, o tempo é de apenas 0.19s. O comando que faz a seleção do $\lambda$ é o `cv.glmnet`. Vamos testar no exemplo acima:
 
 ```{r}
 
@@ -78,7 +78,7 @@ coef(cross_val)
 
 ```
 
-O `cv.glmnet` também fornece um plot com o número de coeficientes e o erro médio do Cross Validation, o que ajuda a ilustrar o ponto:
+O LASSO com CV põe apenas um coeficiente a mais. O `cv.glmnet` também fornece um plot com o número de coeficientes e o erro médio do Cross Validation, o que ajuda a ilustrar o ponto:
 
 ```{r}
 
@@ -86,6 +86,6 @@ plot(cross_val)
 
 ```
 
-
+Uma das linhas tracejadas marca o número de coeficientes escolhidos: 11,  número em cima. Depois dessa linha tracejada, o _Mean Square Error_ não flutua muito. E também não há muita variação para imediatamente a direita, onde temos o modelo verdadeiro com 10 coeficientes.     
 
 *(O autor agradece aos Professores Marcelo Medeiros e Pedro Souza pelas longas explicações sobre o LASSO e métodos correlatos. Pedro Cava, o outro autor deste blog, foi primordial em incentivar esse texto. Todos os erros neste texto são, como de praxe, de minha exclusiva culpa)*
