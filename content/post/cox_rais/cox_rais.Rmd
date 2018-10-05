@@ -1,0 +1,69 @@
+---
+title: "Usando dados da RAIS e modelos de sobrevivência para entender desemprego"
+author: "Pedro Cavalcante"
+date: '2018-08-11'
+output:
+  html_document:
+    df_print: paged
+categories:
+- R
+- Economia
+slug: rais-cox-desemprego
+tags:
+- Microeconomia
+- R
+- Análise de Sobrevivência
+authors: [pedrocava]
+katex: true
+draft: true
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
+
+Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça. Até onde eu sei esse tipo de técnica nasceu em pesquisas clínicas, para melhor entender efeitos de certos tratamentos contra câncer. Hoje é aplicado por cientistas sociais em análise de eventos, por engenheiros para entender melhor falha e confiabilidade de sistemas e por economistas, principalmente para estudar desemprego.
+
+# Curvas de Kaplan-Meier, um pouco de teoria
+
+A função de sobrevivência, doravante $S(t)$ é um mapa que relaciona a chance de *não* acontecimento de um evento no momento de tempo $t$. A função _hazard_ - acho que "risco" seja uma tradução apropriada? - relaciona a probabilidade de um evento acontecer no momento $t$. Esse evento pode ser morte do paciente, uma revolução, falha de um sistema mecânica ou, no nosso caso, desemprego.
+
+Uma das ferramentas iniciais de Análise de Sobrevivência é a Curva de Kaplan-Meier de sobrevivência. A Curva KM tem a seguinte forma funcional:
+
+$$S(t_i) = S(t_{i-1})(1-\frac{d_i}{n_i})$$
+
+Onde $n_i$ é o número de empregados até $t_i$, $d_i$ é o número de demissões em $t_i$. Antes de computar isso, vamos explorar nossa amostra.
+
+## Amostra
+
+Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já tive o trabalho de limpa-los e deixei o arquivo ````.Rdata``` disponível no [repositório do AZUL no github](https://github.com/danmrc/azul/tree/master/content/post/cox_rais). Vamos primeiro puxar os dados do repositório e explora-los.
+
+
+````{r, message = FALSE, warning = FALSE}
+library(repmis)
+
+dados = source_data("https://github.com/danmrc/azul/blob/master/content/post/cox_rais/acre_rais_2017.Rdata?raw=true")
+
+
+```
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
