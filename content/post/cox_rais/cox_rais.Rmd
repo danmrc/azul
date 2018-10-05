@@ -23,9 +23,9 @@ Análise de Sobrevivência é um termo bem amplo para descrever modelos que serv
 
 # Curvas de Kaplan-Meier, um pouco de teoria
 
-A função de sobrevivência, doravante $S(t)$ é um mapa que relaciona a chance de *não* acontecimento de um evento no momento de tempo $t$. A função _hazard_ - acho que "risco" seja uma tradução apropriada? - relaciona a probabilidade de um evento acontecer no momento $t$. Esse evento pode ser morte do paciente, uma revolução, falha de um sistema mecânica ou, no nosso caso, desemprego.
+A função de sobrevivência, doravante $S(t)$, é um mapa que relaciona momento de tempo $t$ à probabilidade de *não* acontecimento de um evento. A função _hazard_ - acho que "risco" seja uma tradução apropriada? - relaciona a probabilidade de um evento acontecer no momento $t$. Esse evento pode ser morte do paciente, uma revolução, falha de um sistema mecânico ou, no nosso caso, desemprego.
 
-Uma das ferramentas iniciais de Análise de Sobrevivência é a Curva de Kaplan-Meier de sobrevivência. A Curva KM tem a seguinte forma funcional:
+Uma das ferramentas iniciais de Análise de Sobrevivência é a [Curva de Kaplan-Meier](https://web.stanford.edu/~lutian/coursepdf/KMpaper.pdf). A Curva KM tem a seguinte forma funcional:
 
 $$S(t_i) = S(t_{i-1})(1-\frac{d_i}{n_i})$$
 
@@ -80,8 +80,6 @@ dados %>%
   xlim(0, 10000)+
   facet_wrap(~setor)
 
-
-
 ```
 
 Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote ```survival``` e podemos visualizar com o pacote ```survminer```que implementa uma viz baseada em ```ggplot2```.
@@ -109,6 +107,9 @@ ggsurvplot(fit_etnia, conf.int = TRUE)
 ```
 
 Como esperado, trabalhadores agrícolas tem empregos mais curtos, diplomas de ensino superior normalmente levam a empregos mais longos e negros têm rotatividade maior.
+
+# O teste log-rank
+
 
 # O modelo de Riscos Proporcionais de Cox
 
