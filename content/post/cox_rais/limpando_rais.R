@@ -55,7 +55,7 @@ dados$etnia = ifelse(dados$branco == 1, "Branco",
          ifelse(dados$negro == 1, "Negro", "Outras etnias"))
 
 dados$homem = ifelse(dados$`Sexo Trabalhador` == "01", 1, 0)
-dados$sexo = ifelse(dados$homem == 1, "masculino", "Feminino")
+dados$sexo = ifelse(dados$homem == 1, "Masculino", "Feminino")
 dados$`Sexo Trabalhador` = NULL
 dados$`Raça Cor` = NULL
 
@@ -79,6 +79,7 @@ dados$setor = ifelse(dados$industria == 1, "Indústria",
                             ifelse(dados$construcao == 1, "Construção", 
                                    ifelse(dados$agricultura == 1, "Agricultura", "Outros"))))
 
-saveRDS(dados, file = "acre_rais_2017.Rdata")
+setwd("C:/Users/pedro/Desktop/azul/content/post/cox_rais")
+saveRDS(dados, file = "acre_rais_2017.Rds")
 
 
