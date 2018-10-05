@@ -48,26 +48,36 @@ dados = rename(dados, horas = `Qtd Hora Contr`)
 dados$gringo = ifelse(dados$Nacionalidade == 10, 0, 1)
 dados$Nacionalidade = NULL
 
-dados$branco = ifelse(dados$`Raça Cor` == 2,1,0)
-dados$negro = ifelse(dados$`Raça Cor` == 4 | dados$`Raça Cor` == 8,1,0)
+dados$branco = ifelse(dados$`Raça Cor` == "02", 1, 0)
+dados$negro = ifelse(dados$`Raça Cor` == "04" | dados$`Raça Cor` == "08", 1, 0)
 dados$outra_etnia = ifelse(dados$branco == 0 & dados$negro == 0, 1, 0)
-dados$homem = ifelse(dados$`Sexo Trabalhador` == 1, 1, 0)
+dados$etnia = ifelse(dados$branco == 1, "Branco", 
+         ifelse(dados$negro == 1, "Negro", "Outras etnias"))
+
+dados$homem = ifelse(dados$`Sexo Trabalhador` == "01", 1, 0)
+dados$sexo = ifelse(dados$homem == 1, "masculino", "Feminino")
 dados$`Sexo Trabalhador` = NULL
 dados$`Raça Cor` = NULL
 
 dados = rename(dados, duracao = "Tempo Emprego")
 dados$CNPJ = ifelse(dados$`Tipo Estab_1` == "CNPJ", 1, 0)
-dados$ensino_superior = ifelse(dados$`Escolaridade após 2005` > 8, 1, 0)
+dados$ensino_superior = ifelse(as.numeric(dados$`Escolaridade após 2005`) > 8, 1, 0)
 dados$`Escolaridade após 2005` = NULL
 
-dados$firma_grande = ifelse(dados$`Tamanho Estabelecimento` > 7, 1, 0)
+dados$firma_grande = ifelse(as.numeric(dados$`Tamanho Estabelecimento`) > 7, 1, 0)
 dados$`Tamanho Estabelecimento` = NULL
 
-dados$industria = ifelse(dados$`IBGE Subsetor` < 15, 1, 0)
-dados$servicos = ifelse(dados$`IBGE Subsetor` > 15 | dados$`IBGE Subsetor` < 25, 1, 0)
-dados$agricultura = ifelse(dados$`IBGE Subsetor` == 25, 1, 0)
-dados$construcao = ifelse(dados$`IBGE Subsetor` == 15, 1, 0)
+dados$industria = ifelse(as.numeric(dados$`IBGE Subsetor`) < 15, 1, 0)
+dados$servicos = ifelse(as.numeric(dados$`IBGE Subsetor`) > 15 & as.numeric(dados$`IBGE Subsetor`) < 25, 1, 0)
+dados$agricultura = ifelse(as.numeric(dados$`IBGE Subsetor`) == 25, 1, 0)
+dados$construcao = ifelse(as.numeric(dados$`IBGE Subsetor`) == 15, 1, 0)
+
 dados$`IBGE Subsetor` = NULL
+
+dados$setor = ifelse(dados$industria == 1, "Indústria",
+                     ifelse(dados$servicos == 1, "Comércio e Serviços",
+                            ifelse(dados$construcao == 1, "Construção", 
+                                   ifelse(dados$agricultura == 1, "Agricultura", "Outros"))))
 
 saveRDS(dados, file = "acre_rais_2017.Rdata")
 
