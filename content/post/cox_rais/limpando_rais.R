@@ -1,5 +1,5 @@
 setwd("C:/Users/pedro/Downloads/AC2017")
-library(readtext)
+library(readr)
 
 link = "ftp://ftp.mtps.gov.br/pdet/microdados/RAIS/2017/"
 
