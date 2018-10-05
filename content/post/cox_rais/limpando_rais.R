@@ -78,6 +78,12 @@ dados$setor = ifelse(dados$industria == 1, "Indústria",
                      ifelse(dados$servicos == 1, "Comércio e Serviços",
                             ifelse(dados$construcao == 1, "Construção", 
                                    ifelse(dados$agricultura == 1, "Agricultura", "Outros"))))
+dados$salario = dados$`Vl Remun Média Nom`
+dados$`Vl Remun Média Nom` = NULL
+dados$salario = as.numeric(gsub("([0-9]+).*$", "\\1", dados$salario))
+
+dados$tempo_emprego = as.numeric(gsub("([0-9]+).*$", "\\1", dados$duracao))
+dados$Graduacao = ifelse(dados$ensino_superior == 1, "Sim", "Não")
 
 setwd("C:/Users/pedro/Desktop/azul/content/post/cox_rais")
 saveRDS(dados, file = "acre_rais_2017.Rds")
