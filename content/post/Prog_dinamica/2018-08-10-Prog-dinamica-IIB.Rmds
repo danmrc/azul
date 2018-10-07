@@ -15,7 +15,7 @@ authors: []
 draft: true
 ---
 
-No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
 
 $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t $$
 
@@ -40,7 +40,7 @@ A beleza de resolver esse problema é que, apesar de não sabermos o valor de V,
 
  ```{julia}
  using Optim
- using Dierckx
+ using Interpolations
  using Plots
 
  u(c)=log(c)
@@ -50,17 +50,17 @@ A beleza de resolver esse problema é que, apesar de não sabermos o valor de V,
 
  f(x)=x^alf
 
- y = linspace(0.1,10,200)
+ y = range(0.1,stop = 10,length = 200)
 
  guess = y
- vals = Array{Float64}(150,length(y))
- pol=Array{Float64}(150,length(y))
+ vals = Array{Float64}(undef,150,length(y))
+ pol=Array{Float64}(undef,150,length(y))
 
  vals[1,1:length(y)] = guess
  pol[1,1:length(y)] = y
 
  for i=1:149
-     V=Spline1D(y,vals[i,:],k=1,bc="extrapolate")
+     V=LinearInterpolation(y,vals[i,:],extrapolation_bc = Interpolations.Linear())
 
      for j = 1:length(y)
          That(c)=-(u(c)+bet*V(f(y[j]-c)))

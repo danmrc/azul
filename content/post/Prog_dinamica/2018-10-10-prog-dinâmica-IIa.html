@@ -1,0 +1,72 @@
+---
+title: Prog Dinâmica 2A
+author: Daniel Coutinho
+date: '2018-10-10'
+slug: prog-dinâmica-2a
+categories: []
+tags: []
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+
+
+<p>Em um <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">post anterior</a>, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.</p>
+<p>Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros <span class="math inline">\(r\)</span>. A incerteza vem do salário dele, que passa a ser uma variável aleatória. A nossa variável de estado é <span class="math inline">\(W\)</span>, a riqueza do indivíduo; e a variável de controle é <span class="math inline">\(c\)</span>, o consumo do indivíduo. Escrevendo no formato usando a função valor, o nosso problema para o período <span class="math inline">\(t\)</span> é:</p>
+<p><span class="math display">\[V_t(W_t,c_t) = U(c_t) + \beta E(V_{t+1}(W_{t+1},c_{t+1})) \text{ sujeito a } W_{t+1} = (1+r)(W_t + \omega_t - c_t)\]</span></p>
+<p>Onde <span class="math inline">\(U()\)</span> representa a função utilidade e <span class="math inline">\(\omega_t\)</span> o salário em t - que é uma variável aleatória. Veja que o problema aqui é muito similar ao problema do post anterior, só que agora temos um operador esperança na função valor. Poderiamos tentar calcular a esperança analiticamente, mas isso não é sempre possível. Nós vamos contornar isso simplesmente sorteando alguns valores da distribuição de <span class="math inline">\(\omega_t\)</span> e tirando a média da função valor para estes sorteios. Veja que o nosso grid, dessa vez, vai ser para a riqueza e não para o salário. O código em Julia que faz isso:</p>
+<pre><code>using Plots
+using Interpolations
+using Optim
+using Distributions
+
+r = 0.02
+bet = 1/(1+r)
+
+u(c) = log(c)
+
+d = Gamma(1,2)
+
+sal = rand(d,500)
+
+W = range(0.1,stop = 50 , length = 900)
+V = Array{Float64}(undef,60,900)
+
+V[1,:] = log.(W)
+
+C = Array{Float64}(undef,60,900)
+
+for t = 1:59
+    fun_v = LinearInterpolation(W,V[t,:], extrapolation_bc = Line())
+    for i = 1:900
+        obj(c) = -u(c) - bet*1/500*sum(fun_v.(W[i] .+ sal .- c))
+        sol = optimize(obj,0,W[i])
+        V[t+1,i] = - Optim.minimum(sol)
+        C[t+1,i] = Optim.minimizer(sol)
+    end
+end</code></pre>
+<p>Ele é muito similar ao código do post anterior. Observe que eu estabeleci a taxa de desconto do agente de maneira a ser “consistente” com a taxa de juros: um <span class="math inline">\(\beta\)</span> muito maior que o estabelecido deixaria o agente excessivamente paciente; um <span class="math inline">\(\beta\)</span> muito menor que o estabelecido deixaria o agente sem poupar nunca. Eu escolhi a distribuição Gama para a distribuição do salário porque é uma distribuição que tem suporte nos valores positivos - um salário negativo não faz sentido. Vamos supor que o agente começa sem nenhuma riqueza, só o salário. Vamos construir uma possível trajetória do agente:</p>
+<pre><code>start_val = 0
+
+wealth = Array{Float64}(undef,60)
+wealth[60] = start_val + sal[60]
+consu = zeros(60)
+
+for t = 60:-1:2
+    c_func = LinearInterpolation(W,C[t,:],extrapolation_bc = Line())
+    consu[t] = c_func(wealth[t]+sal[t])
+    wealth[t-1] = (1+r)*(wealth[t] + sal[t] - consu[t])
+end
+
+consu[1] = wealth[1]
+
+plot(consu[60:-1:1], lab=&quot;Consumo&quot;, legend= :topleft )
+plot!(wealth[60:-1:1], lab = &quot;Riqueza&quot;)
+plot!(sal[60:-1:1], lab = &quot;Salário&quot;)</code></pre>
+<p>Vamos ver a trajetória do consumo e da riqueza do agente:</p>
+<div class="figure">
+<img src="/post/Prog_dinamica/img_1_2a.png" />
+
+</div>
+<p>Isso ilustra a ideia de ciclo de vida e suavização do consumo, que em Macroeconomia são associados a Franco Modigliani e Milton Friedman: o agente não consome só uma fração da renda dele hoje, mas sim uma fração da renda dele ao longo do tempo. Veja que a riqueza varia muito mais que o consumo: em períodos em que o agente está rico, ele poupa; e em períodos de vacas magras ele consome a riqueza.</p>

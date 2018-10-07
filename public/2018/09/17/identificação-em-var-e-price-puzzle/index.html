@@ -227,7 +227,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-10 mins read
+11 mins read
 </span>
 
 
@@ -245,7 +245,8 @@ if (!doNotTrack) {
 <p><span class="math display">\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]</span></p>
 <p>Onde <span class="math inline">\(C\)</span> é uma matriz <span class="math inline">\(2 \times 2\)</span> e <span class="math inline">\(\mathbf{u_t}\)</span> é um vetor de choques, possivelmente correlacionados. Uma equação do VAR é uma das linhas da matriz, e primeira linha, por exemplo, tem a seguinte cara:</p>
 <p><span class="math display">\[x_t = c_{11}x_{t-1} + c_{12}y_{t-1} + u_{1t}\]</span></p>
-<p>Por enquanto só falamos de VARs que tem uma defasagem do vetor <span class="math inline">\(\mathbf{x_t}\)</span>. Podemos ter VARs de qualquer ordem: um VAR(2) depende de <span class="math inline">\(\mathbf{x_{t-1}}, \mathbf{x_{t-2}}\)</span> etc. Selecionar a ordem do VAR não é trivial e normalmente é feito usando algum critério de informação. Mas podemos obter toda a intuição com um VAR(1). Veja que podemos estimar a matriz <span class="math inline">\(C\)</span> estimando cada uma das equações por MQO e obter:</p>
+<p>Por enquanto só falamos de VARs que tem uma defasagem do vetor <span class="math inline">\(\mathbf{x_t}\)</span>. Podemos ter VARs de qualquer ordem: um VAR(2) depende de <span class="math inline">\(\mathbf{x_{t-1}}, \mathbf{x_{t-2}}\)</span> etc - e teremos matrizes <span class="math inline">\(C_1\)</span> e <span class="math inline">\(C_2\)</span>, uma para cada lag. Felizmente, é possível escrever qualquer VAR de ordem p como um VAR(1): no fim do post eu mostro como fazer isso. Selecionar a ordem do VAR não é trivial e normalmente é feito usando algum critério de informação. Mas podemos obter toda a intuição com um VAR(1).</p>
+<p>Veja que podemos estimar a matriz <span class="math inline">\(C\)</span> estimando cada uma das equações por MQO e obter:</p>
 <p><span class="math display">\[x_t = \hat{c}_{11}x_{t-1} + \hat{c}_{12}y_{t-1} + \hat{u}_{1t}\]</span></p>
 <p>E sobre condições bastante gerais, <span class="math inline">\(\widehat{C}\)</span> vai ser consistente.</p>
 <p>Se em equações <em>cross-section</em> o nosso interesse é em um coeficiente particular - que dá um efeito causal - em um contexto de VAR, temos interesse na <em>dinâmica</em>, ou seja, numa sequência de efeitos parciais de uma variável em outra. Em geral, a nossa pergunta é “Dado um choque exógeno na variável x no período t, como o sistema se comporta?”. Veja que temos que considerar que um choque em <span class="math inline">\(x_t\)</span> pode afetar <span class="math inline">\(y_t\)</span> de maneira defasada, atraves do coeficiente <span class="math inline">\(c_{21}\)</span>, que pode afetar <span class="math inline">\(x_t\)</span> no outro período através de <span class="math inline">\(c_{12}\)</span>. Esta trajetória recebe o nome de Função de Resposta ao Impulso (FRI), ou em inglês <em>Impulse Response Function</em> (IRF).</p>
@@ -277,13 +278,13 @@ selic &lt;- BETSget(4189,from=&quot;2003-01-01&quot;, to = &quot;2017-12-31&quot
 
 plot(ibc_br, main = &quot;IBC-Br&quot;)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-1.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-1.png" width="672" /></p>
 <pre class="r"><code>plot(ipca, main = &quot;IPCA&quot;)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-2.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-2.png" width="672" /></p>
 <pre class="r"><code>plot(selic, main = &quot;Selic&quot;)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/plot-3.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-3.png" width="672" /></p>
 <pre class="r"><code>par(def)</code></pre>
 <p>Veja que <code>par(mfrow = c(3,1))</code> permite com que eu plote as três séries uma debaixo da outra - eu desativei essa opção no post por motivos meramente estéticos, mas funciona muito bem usando a função zoom do RStudio e permite nós vermos as 3 séries uma embaixo da outra. Como esperado, a série do IBC é não estacionária. Vamos precisar deixar ela estacionária, e a solução óbvia é passar log e tirar a primeira diferença - obtendo assim a taxa de crescimento:</p>
 <pre class="r"><code>dibc &lt;- diff(log(ibc_br))
@@ -292,7 +293,7 @@ selic &lt;- window(selic, start = c(2003,02))</code></pre>
 <p>Ao diferenciar, perdemos a primeira observação. O comando <code>window</code> limita as observações das outras séries para retirar a primeira observação. Vamos olhar a cara do crescimento do IBC:</p>
 <pre class="r"><code>plot(dibc)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/ibc-1.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/ibc-1.png" width="672" /></p>
 <p>O pacote <em>vars</em> oferece o comando <code>VARselect</code>, que informa vários critérios de informação e quantos lags minimizam o critério. Vamos usar este comando para saber quantos lags devemos usar:</p>
 <pre class="r"><code>X &lt;- cbind(selic,ipca,dibc)
 
@@ -333,7 +334,9 @@ A[2,c(1,4,2,5,3,6)] &lt;- coef(eq2)[3:8]
 A[3,c(1,4,2,5,3,6)] &lt;- coef(eq3)[4:9]
 
 C &lt;- solve(B)%*%A</code></pre>
-<p>Veja que podemos usar o pacote vars para checar se <code>C</code>está certa, através do comando VAR, que estima a forma reduzida de um VAR. Eu faço isso no código desse post, mas não aqui no blog.</p>
+<p>Veja que podemos usar o pacote vars para checar se <code>C</code>está certa, através do comando VAR, que estima a forma reduzida de um VAR. Eu faço isso no código desse post, mas não aqui no blog. Eu também vou criar uma matriz com o desvio padrão do choque na diagonal principal. Assim, a nossa FRI vai dar um choque do tamanho “usual” na economia. Essa será a matriz sd_C:</p>
+<pre class="r"><code>sd_c &lt;- matrix(0,ncol = 6,nrow=6)
+diag(sd_c) &lt;- c(sd(resid(eq1)),sd(resid(eq2)),sd(resid(eq3)),0,0,0)</code></pre>
 <p>Com as matrizes <span class="math inline">\(B\)</span> e <span class="math inline">\(C\)</span> em mãos, podemos criar duas funções para obter a FRI: a primeira vai obter a resposta ao impulso em um determinado período. A outra vai iterar essa primeira função um número de vezes e guardar cada matriz de resposta ao impulso em um <code>array</code> uma generalização de matrizes para mais de duas dimensões (nosso array vai ter 3 dimensões, a terceira sendo o tempo):</p>
 <pre class="r"><code>fri_em_t &lt;- function(C,B,h){
   require(expm)
@@ -347,13 +350,16 @@ fri &lt;- function(C,B,t_max){
   }
   return(FRI)
 }</code></pre>
-<p>Vamos usar essas funções para obter a resposta a impulso do sistema dez período a frente:</p>
-<pre class="r"><code>resposta &lt;- fri(C,solve(B),10)</code></pre>
+<p>Vamos usar essas funções para obter a resposta a impulso do sistema dez período a frente, e vamos regularizar para que os choques tenham o tamanho médio dos choques da economia:</p>
+<pre class="r"><code>resposta &lt;- fri(C,solve(B),10)
+for(i in 1:dim(resposta)[3]){
+  resposta[,,i] &lt;- resposta[,,i]%*%sd_c
+}</code></pre>
 <p>Em particular, eu estou interessado na resposta a impulso de choques na Selic sobre a inflação. Isso corresponde a posição [2,3] na matriz de resposta ao impulso do período t. Eu coloco, por conveniência, a linha vermelha onde é o zero:</p>
 <pre class="r"><code>plot(0:10,resposta[2,3,1:11], type = &quot;l&quot;, main = &quot;Resposta ao Impulso&quot;, sub = &quot;Impulso sobre a Selic na Inflação&quot;, xlab = &quot;t&quot;, ylab = &quot;&quot;)
 lines(0:10,rep(0,11),col=2)
 grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identificação-em-var-e-price-puzzle_files/figure-html/fri infl-1.png" width="672" /></p>
+<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/fri%20infl-1.png" width="672" /></p>
 <p>Ou seja, segundo o nosso VAR, um aumento na selic <strong>aumenta</strong> a inflação. Por que isso? Algo está realmente errado com o nosso VAR? Ou o Brasil é realmente inexplicável? Ou, ainda pior, será que passamos este tempo todo entendo a economia errado?</p>
 <p>A boa notícia é que este fenômeno é bem conhecido na literatura de VAR, e recebe o nome de <em>price puzzle</em>. <a href="https://www.dallasfed.org/~/media/documents/research/er/1994/er9404b.pdf">Balke e Emery (1994)</a> tem um gráfico muitissimo parecido com o nosso, para dados dos EUA:</p>
 <div class="figure">
@@ -361,6 +367,20 @@ grid(col = &quot;grey&quot;)</code></pre>
 
 </div>
 <p>Logo, o problema não está no nosso VAR nem no Brasil. No próximo post eu trarei uma solução</p>
+</div>
+<div id="escrevendo-um-varp-como-um-var1" class="section level2">
+<h2>Escrevendo um VAR(p) como um VAR(1)</h2>
+<p>Peguemos um VAR qualquer:</p>
+<p><span class="math display">\[\mathbf{x_{t}} = C_1 \mathbf{x_{t-1}} + C_2 \mathbf{x_{t-2}} + ... + \mathbf{u_t}\]</span></p>
+<p>Vamos definir <span class="math inline">\(\mathbf{z_t} = (\mathbf{x_{t} \phantom{0} \mathbf{x_{t-1} \phantom{0} \mathbf{x_{t-2}} \phatom{0} \cdots)\)</span> Podemos criar uma matriz C que é uma salsicha esperta das matrizes <span class="math inline">\(C_1, C_2,...\)</span>:</p>
+<p><span class="math display">\[C = \begin{pmatrix}
+C_1 &amp; C_1 &amp; \cdots &amp; C_{p-1} &amp;C_p\\
+I &amp; 0 &amp; \cdots &amp; 0 &amp; 0\\
+0 &amp; I &amp; \cdots &amp; 0 &amp;0\\
+\vdots &amp; \vdots&amp; \ddots &amp; \vdots &amp; \vdots\\
+0 &amp; 0 &amp; \cdots &amp; I &amp; 0\\
+\end{pmatrix}\]</span></p>
+<p>Suponha, para facilitar a vida, que <span class="math inline">\(\mathbf{x_t} = (y_{1t} \phantom{0} y_{2t})&#39;\)</span>, e que temos um VAR(2). Nesse caso, <span class="math inline">\(\mathbf{z_t} = (y_{1t} \phantom{0} y_{2t} \phantom{0}y_{1(t-1)} \phantom{0} y_{2(t-1)})&#39;\)</span></p>
 </div>
 
 </div>

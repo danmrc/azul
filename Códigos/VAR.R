@@ -28,7 +28,7 @@ par(def)
 
 plot(dibc)
 
-X <- cbind(selic,ipca,dibc)
+X <- cbind(dibc,ipca,selic)
 
 VARselect(X)
 
@@ -80,7 +80,14 @@ fri <- function(C,B,t_max){
   return(FRI)
 }
 
+sd_c <- matrix(0,ncol = 6,nrow=6)
+diag(sd_c) <- c(sd(resid(eq1)),sd(resid(eq2)),sd(resid(eq3)),0,0,0)
+
 resposta <- fri(C,solve(B),10)
+
+for(i in 1:dim(resposta)[3]){
+  resposta[,,i] <- resposta[,,i]%*%sd_c
+}
 
 plot(0:10,resposta[1,1,1:11], type = "l")
 lines(0:10,rep(0,11),col=2)
@@ -93,20 +100,28 @@ lines(0:10,rep(0,11),col=2)
 
 var1 <- VAR(X,p=2)
 plot(vars::irf(var1))
+BQ(var1)
 
 #Agora vamos tentar usar Blanchard-Quah
 
-C_aux <- C[1:3,1:3]
-AUX <- diag(1,ncol = ncol(C_aux),nrow = nrow(C_aux))- C_aux
-AUX_inv <- solve(AUX)
+C1 <- C[1:3,1:3]
+C2 <- C[1:3,4:6]
+AUX <- diag(1,ncol = ncol(C1),nrow = nrow(C1)) - C1 - C2
+AUX_inv <- qr.solve(AUX)
 S <- var(resid(var1))
-P <- AUX_inv%*%S%*%t(AUX_inv)
-aux <- chol(P)
+aux <- AUX_inv%*%S%*%t(AUX_inv)
+P <- chol(aux)
 A <- AUX%*%P
-A_aux <- matrix(0,ncol=6,nrow=6)
+A_aux <- diag(1,ncol = ncol(C), nrow = nrow(C))
 A_aux[1:3,1:3] <- A
 
+respostabq <- fri(C,A_aux,30)
 
-respostabq <- fri(C,A_aux,10)
-plot(0:10,respostabq[2,3,1:11], type = "l")
-lines(0:10,rep(0,11),col=2)
+n <- dim(respostabq)[3]
+
+for(i in 1:n){
+  respostabq[,,i] <- respostabq[,,i]%*%sd_c
+}
+
+plot(0:(n-1),respostabq[2,3,1:n], type = "l")
+lines(0:(n-1),rep(0,n),col=2)

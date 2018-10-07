@@ -25,7 +25,9 @@ Onde $C$ é uma matriz $2 \times 2$ e $\mathbf{u_t}$ é um vetor de choques, pos
 
 $$x_t = c_{11}x_{t-1} + c_{12}y_{t-1} + u_{1t}$$
 
-Por enquanto só falamos de VARs que tem uma defasagem do vetor $\mathbf{x_t}$. Podemos ter VARs de qualquer ordem: um VAR(2) depende de $\mathbf{x_{t-1}}, \mathbf{x_{t-2}}$ etc. Selecionar a ordem do VAR não é trivial e normalmente é feito usando algum critério de informação. Mas podemos obter toda a intuição com um VAR(1). Veja que podemos estimar a matriz $C$ estimando cada uma das equações por MQO e obter:
+Por enquanto só falamos de VARs que tem uma defasagem do vetor $\mathbf{x_t}$. Podemos ter VARs de qualquer ordem: um VAR(2) depende de $\mathbf{x_{t-1}}, \mathbf{x_{t-2}}$ etc - e teremos matrizes $C_1$ e $C_2$, uma para cada lag. Felizmente, é possível escrever qualquer VAR de ordem p como um VAR(1): no fim do post eu mostro como fazer isso. Selecionar a ordem do VAR não é trivial e normalmente é feito usando algum critério de informação. Mas podemos obter toda a intuição com um VAR(1). 
+
+Veja que podemos estimar a matriz $C$ estimando cada uma das equações por MQO e obter:
 
 $$x_t = \hat{c}_{11}x_{t-1} + \hat{c}_{12}y_{t-1} + \hat{u}_{1t}$$
 
@@ -163,7 +165,12 @@ C <- solve(B)%*%A
 
 ```
 
-Veja que podemos usar o pacote vars para checar se `C`está certa, através do comando VAR, que estima a forma reduzida de um VAR. Eu faço isso no código desse post, mas não aqui no blog. 
+Veja que podemos usar o pacote vars para checar se `C`está certa, através do comando VAR, que estima a forma reduzida de um VAR. Eu faço isso no código desse post, mas não aqui no blog. Eu também vou criar uma matriz com o desvio padrão do choque na diagonal principal. Assim, a nossa FRI vai dar um choque do tamanho "usual" na economia. Essa será a matriz sd_C:
+
+```{r}
+sd_c <- matrix(0,ncol = 6,nrow=6)
+diag(sd_c) <- c(sd(resid(eq1)),sd(resid(eq2)),sd(resid(eq3)),0,0,0)
+```
 
 Com as matrizes $B$ e $C$ em mãos, podemos criar duas funções para obter a FRI: a primeira vai obter a resposta ao impulso em um determinado período. A outra vai iterar essa primeira função um número de vezes e guardar cada matriz de resposta ao impulso em um `array` uma generalização de matrizes para mais de duas dimensões (nosso array vai ter 3 dimensões, a terceira sendo o tempo):
 
@@ -183,10 +190,13 @@ fri <- function(C,B,t_max){
 
 ```
 
-Vamos usar essas funções para obter a resposta a impulso do sistema dez período a frente:
+Vamos usar essas funções para obter a resposta a impulso do sistema dez período a frente, e vamos regularizar para que os choques tenham o tamanho médio dos choques da economia:
 
 ```{r resposta}
 resposta <- fri(C,solve(B),10)
+for(i in 1:dim(resposta)[3]){
+  resposta[,,i] <- resposta[,,i]%*%sd_c
+}
 ```
 
 Em particular, eu estou interessado na resposta a impulso de choques na Selic sobre a inflação. Isso corresponde a posição [2,3] na matriz de resposta ao impulso do período t. Eu coloco, por conveniência, a linha vermelha onde é o zero:
@@ -205,3 +215,21 @@ A boa notícia é que este fenômeno é bem conhecido na literatura de VAR, e re
 ![](/post/VAR_price_puzzle/price_puzzle.png)
 
 Logo, o problema não está no nosso VAR nem no Brasil. No próximo post eu trarei uma solução
+
+##Escrevendo um VAR(p) como um VAR(1)
+
+Peguemos um VAR qualquer:
+
+$$\mathbf{x_{t}} = C_1 \mathbf{x_{t-1}} + C_2 \mathbf{x_{t-2}} + ... + \mathbf{u_t}$$
+
+ Vamos definir $\mathbf{z_t} = (\mathbf{x_{t} \phantom{0} \mathbf{x_{t-1} \phantom{0} \mathbf{x_{t-2}} \phatom{0} \cdots)$ Podemos criar uma matriz C que é uma salsicha esperta das matrizes $C_1, C_2,...$:
+
+$$C = \begin{pmatrix}
+C_1 & C_1 & \cdots & C_{p-1} &C_p\\
+I & 0 & \cdots & 0 & 0\\
+0 & I & \cdots & 0 &0\\
+\vdots & \vdots& \ddots & \vdots & \vdots\\
+0 & 0 & \cdots & I & 0\\
+\end{pmatrix}$$
+
+Suponha, para facilitar a vida, que $\mathbf{x_t} = (y_{1t} \phantom{0} y_{2t})'$, e que temos um VAR(2). Nesse caso, $\mathbf{z_t} = (y_{1t} \phantom{0} y_{2t} \phantom{0}y_{1(t-1)} \phantom{0} y_{2(t-1)})'$
