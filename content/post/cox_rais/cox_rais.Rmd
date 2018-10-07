@@ -1,5 +1,5 @@
 ---
-title: "Usando dados da RAIS e modelos de sobrevivência para entender desemprego"
+title: "Usando dados da RAIS e Análise de Sobrevivência para entender desemprego"
 author: "Pedro Cavalcante"
 date: '2018-08-11'
 output:
@@ -33,7 +33,7 @@ Onde $n_i$ é o número de empregados até $t_i$, $d_i$ é o número de demissõ
 
 ## Amostra
 
-Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já tive o trabalho de limpa-los e deixei o arquivo ````.Rdata``` disponível no [repositório do AZUL no github](https://github.com/danmrc/azul/tree/master/content/post/cox_rais). Você pode puxar os dados diretamente do repositório pelo pacote ```repmis``, deixo como exercício ao leitor o código que faz isso. Vamos explorar a amostra.
+Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já tive o trabalho de limpa-los e deixei o arquivo ````.Rds``` disponível no [repositório do AZUL no github](https://github.com/danmrc/azul/tree/master/content/post/cox_rais). Você pode puxar os dados diretamente do repositório pelo pacote ```repmis`` e deixo como exercício ao leitor o código que faz isso. Vamos explorar a amostra.
 
 ```{r, echo = FALSE}
 dados <- readRDS("C:/Users/pedro/Desktop/azul/content/post/cox_rais/acre_rais_2017.Rds")
@@ -45,6 +45,7 @@ library(ggplot2)
 library(dplyr)
 library(scales)
 
+dim(dados)
 
 dados %>%
   ggplot(aes(x = Idade)) +
@@ -66,7 +67,6 @@ dados %>%
   geom_histogram(binwidth = 50) +
   xlim(0, 10000)
 
-
 dados %>%
   ggplot(aes(x = salario)) +
   geom_histogram(fill = "#325ce7", binwidth = 50) +
@@ -82,7 +82,7 @@ dados %>%
 
 ```
 
-Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote ```survival``` e podemos visualizar com o pacote ```survminer```que implementa uma viz baseada em ```ggplot2```.
+Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote ```survival``` e podemos visualiza-las com o pacote ```survminer```que implementa uma viz baseada em ```ggplot2```.
 
 
 ```{r, dpi = 750, warning = FALSE, message = FALSE}
@@ -110,8 +110,37 @@ Como esperado, trabalhadores agrícolas tem empregos mais curtos, diplomas de en
 
 # O teste log-rank
 
+Podemos nos perguntar, no entanto, se existe significância estatística nessas diferenças. Existem evidências para apoiar a tese de que duas curvas de sobrevivência são _de fato_ diferentes? Podemos usar um teste não-paramétrico, o log-rank para responder essa pergunta. Ele é interessante porque não depende de hipóteses sobre a distribuição das curvas de sobrevivência. O procedimento é - tendo como hipótese nula que as duas curvas são iguais - comparar o número observado de eventos em cada grupo com o esperado caso a hipótese nula valesse. O pacote ````survival``` traz uma implementação desse teste. 
+
+````{r}
+survdiff(Surv(tempo_emprego, demissao) ~ sexo, data = dados)
+````
+
+O p-valor do teste, menor que $2^{-16}$, nos diz que podemos rejeitar a hipótese nula com considerável confiança, encontramos evidências estatisticamente significantes de que de fato as curvas de sobrevivência de homens e mulheres são diferentes. Convido o leitor a repetir o teste com outros recortes em mente.
 
 # O modelo de Riscos Proporcionais de Cox
+
+Tendo $h(t)$ como o risco no momento $t$, $h_o(t)$ como o risco base no período, $\beta$ como um vetor de parâmetros e $x$ como um vetor de $k$ variáveis explicativas, esse modelo exprime a função risco da seguinte maneira:
+
+$$h(t) = h_0(t) \times e^{\sum_{i=1}^k \beta_i x_i}$$
+Podemos estimar o vetor $\beta$ com regressão linear se aplicarmos logarítimos no modelo, que passa a ser:
+
+$$\ln{h(t)} = \ln{h_0(t)} + \sum_{i=1}^k \beta_i x_i$$
+
+Esse modelo é dito de riscos proporcionais porque a forma funcional que assumimos implica que curvas de riscos de indivíduos são múltiplos umas das outras e que, portanto,não se cruzam. Nesse modelo existe independência temporal na razão de risco de quaisquer dois indivíduos da amostra. Podemos estimar os parâmetros facilmente com ````survival::coxph```.
+
+````{r}
+cox = coxph(Surv(tempo_emprego, demissao) ~ homem + horas + Idade + branco + negro + industria + agricultura + CNPJ + firma_grande + servicos + salario , data = dados)
+
+summary(cox)
+
+````
+
+Se defirnimos a Razão de Risco $r_i$ de $i$-ésima covariada como $r_i := e^\beta_i$, então $r_i > 1$ implica que a $i$-ésima covariada leva a um aumento no nível de risco e $r_i < 1$ a uma diminuição. A tabela acima então deve ser capaz de responder algumas das perguntas que fizemos no primeiro parágrafo.
+
+
+
+
 
 
 
