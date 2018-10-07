@@ -81,7 +81,7 @@ dados %>%
 
 ```
 
-Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote ```survival``` e podemos visualiza-las com o pacote ```survminer```que implementa uma viz baseada em ```ggplot2```.
+Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote ``survival``` e podemos visualiza-las com o pacote ``survminer```que implementa uma viz baseada em ``ggplot2```.
 
 
 ```{r, dpi = 750, warning = FALSE, message = FALSE}
@@ -109,7 +109,7 @@ Como esperado, trabalhadores agrícolas tem empregos mais curtos, diplomas de en
 
 # O teste log-rank
 
-Podemos nos perguntar, no entanto, se existe significância estatística nessas diferenças. Existem evidências para apoiar a tese de que duas curvas de sobrevivência são _de fato_ diferentes? Podemos usar um teste não-paramétrico, o log-rank para responder essa pergunta. Ele é interessante porque não depende de hipóteses sobre a distribuição das curvas de sobrevivência. O procedimento é - tendo como hipótese nula que as duas curvas são iguais - comparar o número observado de eventos em cada grupo com o esperado caso a hipótese nula valesse. O pacote ````survival``` traz uma implementação desse teste. 
+Podemos nos perguntar, no entanto, se existe significância estatística nessas diferenças. Existem evidências para apoiar a tese de que duas curvas de sobrevivência são _de fato_ diferentes? Podemos usar um teste não-paramétrico, o log-rank para responder essa pergunta. Ele é interessante porque não depende de hipóteses sobre a distribuição das curvas de sobrevivência. O procedimento é - tendo como hipótese nula que as duas curvas são iguais - comparar o número observado de eventos em cada grupo com o esperado caso a hipótese nula valesse. O pacote ``survival``` traz uma implementação desse teste. 
 
 ````{r}
 survdiff(Surv(tempo_emprego, demissao) ~ sexo, data = dados)
@@ -121,12 +121,12 @@ O p-valor do teste, menor que $2^{-16}$, nos diz que podemos rejeitar a hipótes
 
 Tendo $h(t)$ como o risco no momento $t$, $h_o(t)$ como o risco base no período, $\beta$ como um vetor de parâmetros e $x$ como um vetor de $k$ variáveis explicativas, esse modelo exprime a função risco da seguinte maneira:
 
-$$h(t) = h_0(t) \times e^{\sum_{i=1}^k \beta_i x_i}$$
+$$h(t) = h_0(t) \times e^{\sum_{i=1}^k \beta_i x_i}$$
 Podemos estimar o vetor $\beta$ com regressão linear se aplicarmos logarítimos no modelo, que passa a ser:
 
-$$\ln{h(t)} = \ln{h_0(t)} + \sum_{i=1}^k \beta_i x_i$$
+$$\ln{h(t)} = \ln{h_0(t)} + \sum_{i=1}^k \beta_i x_i$$
 
-Esse modelo é dito de riscos proporcionais porque a forma funcional que assumimos implica que curvas de riscos de indivíduos são múltiplos umas das outras e que, portanto,não se cruzam. Nesse modelo existe independência temporal na razão de risco de quaisquer dois indivíduos da amostra. Podemos estimar os parâmetros facilmente com ````survival::coxph```.
+Esse modelo é dito de riscos proporcionais porque a forma funcional que assumimos implica que curvas de riscos de indivíduos são múltiplos umas das outras e que, portanto,não se cruzam. Nesse modelo existe independência temporal na razão de risco de quaisquer dois indivíduos da amostra. Podemos estimar os parâmetros facilmente com ````survival::coxph```.
 
 ````{r}
 cox = coxph(Surv(tempo_emprego, demissao) ~ homem + horas + Idade + branco + negro + industria + agricultura + CNPJ + firma_grande + servicos + salario , data = dados)

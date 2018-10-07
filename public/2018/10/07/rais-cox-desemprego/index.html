@@ -291,7 +291,7 @@ dim(dados)</code></pre>
   xlim(0, 10000)+
   facet_wrap(~setor)</code></pre>
 <p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-2-6.png" width="5250" /></p>
-<p>Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote <code>survival</code> e podemos visualiza-las com o pacote <code>survminer</code>que implementa uma viz baseada em <code>ggplot2</code>.</p>
+<p>Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote <code>survival``` e podemos visualiza-las com o pacote</code>survminer<code>que implementa uma viz baseada em ``ggplot2</code>.</p>
 <pre class="r"><code>library(survival)
 
 fit_sexo = survfit(Surv(tempo_emprego, demissao) ~ sexo, data = dados)
@@ -315,7 +315,7 @@ ggsurvplot(fit_sexo, conf.int = TRUE,
 </div>
 <div id="o-teste-log-rank" class="section level1">
 <h1>O teste log-rank</h1>
-<p>Podemos nos perguntar, no entanto, se existe significância estatística nessas diferenças. Existem evidências para apoiar a tese de que duas curvas de sobrevivência são <em>de fato</em> diferentes? Podemos usar um teste não-paramétrico, o log-rank para responder essa pergunta. Ele é interessante porque não depende de hipóteses sobre a distribuição das curvas de sobrevivência. O procedimento é - tendo como hipótese nula que as duas curvas são iguais - comparar o número observado de eventos em cada grupo com o esperado caso a hipótese nula valesse. O pacote `<code>survival</code> traz uma implementação desse teste.</p>
+<p>Podemos nos perguntar, no entanto, se existe significância estatística nessas diferenças. Existem evidências para apoiar a tese de que duas curvas de sobrevivência são <em>de fato</em> diferentes? Podemos usar um teste não-paramétrico, o log-rank para responder essa pergunta. Ele é interessante porque não depende de hipóteses sobre a distribuição das curvas de sobrevivência. O procedimento é - tendo como hipótese nula que as duas curvas são iguais - comparar o número observado de eventos em cada grupo com o esperado caso a hipótese nula valesse. O pacote ``survival``` traz uma implementação desse teste.</p>
 <pre class="r"><code>survdiff(Surv(tempo_emprego, demissao) ~ sexo, data = dados)</code></pre>
 <pre><code>## Call:
 ## survdiff(formula = Surv(tempo_emprego, demissao) ~ sexo, data = dados)
@@ -330,9 +330,9 @@ ggsurvplot(fit_sexo, conf.int = TRUE,
 <div id="o-modelo-de-riscos-proporcionais-de-cox" class="section level1">
 <h1>O modelo de Riscos Proporcionais de Cox</h1>
 <p>Tendo <span class="math inline">\(h(t)\)</span> como o risco no momento <span class="math inline">\(t\)</span>, <span class="math inline">\(h_o(t)\)</span> como o risco base no período, <span class="math inline">\(\beta\)</span> como um vetor de parâmetros e <span class="math inline">\(x\)</span> como um vetor de <span class="math inline">\(k\)</span> variáveis explicativas, esse modelo exprime a função risco da seguinte maneira:</p>
-<p><span class="math display">\[h(t) = h_0(t) \times e^{\sum_{i=1}^k \beta_i x_i}\]</span> Podemos estimar o vetor <span class="math inline">\(\beta\)</span> com regressão linear se aplicarmos logarítimos no modelo, que passa a ser:</p>
-<p><span class="math display">\[\ln{h(t)} = \ln{h_0(t)} + \sum_{i=1}^k \beta_i x_i\]</span></p>
-<p>Esse modelo é dito de riscos proporcionais porque a forma funcional que assumimos implica que curvas de riscos de indivíduos são múltiplos umas das outras e que, portanto,não se cruzam. Nesse modelo existe independência temporal na razão de risco de quaisquer dois indivíduos da amostra. Podemos estimar os parâmetros facilmente com `<code>survival::coxph</code>.</p>
+<p><span class="math display">\[h(t) = h_0(t) \times e^{\sum_{i=1}^k \beta_i x_i}\]</span> Podemos estimar o vetor <span class="math inline">\(\beta\)</span> com regressão linear se aplicarmos logarítimos no modelo, que passa a ser:</p>
+<p><span class="math display">\[\ln{h(t)} = \ln{h_0(t)} + \sum_{i=1}^k \beta_i x_i\]</span></p>
+<p>Esse modelo é dito de riscos proporcionais porque a forma funcional que assumimos implica que curvas de riscos de indivíduos são múltiplos umas das outras e que, portanto,não se cruzam. Nesse modelo existe independência temporal na razão de risco de quaisquer dois indivíduos da amostra. Podemos estimar os parâmetros facilmente com `<code>survival::coxph</code>.</p>
 <pre class="r"><code>cox = coxph(Surv(tempo_emprego, demissao) ~ homem + horas + Idade + branco + negro + industria + agricultura + CNPJ + firma_grande + servicos + salario , data = dados)
 
 summary(cox)</code></pre>
