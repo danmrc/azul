@@ -6,10 +6,21 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Mon, 24 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Identificação em VAR e Price Puzzle I</title>
+      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbb{x_t} = (x_y \phantom{0} y_t)&amp;#39;\). Um VAR seria:
+\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
+Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
+    </item>
     
     <item>
       <title>Sazonalidade, x13, e dummies: Muito barulho por nada</title>
@@ -19,17 +30,6 @@
       <guid>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</guid>
       <description>Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?
 Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças.</description>
-    </item>
-    
-    <item>
-      <title>Identificação em VAR e Price Puzzle</title>
-      <link>/2018/09/17/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
-      <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/09/17/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
-      <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbb{x_t} = (x_y \phantom{0} y_t)&amp;#39;\) um VAR seria:
-\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
-Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
     </item>
     
     <item>

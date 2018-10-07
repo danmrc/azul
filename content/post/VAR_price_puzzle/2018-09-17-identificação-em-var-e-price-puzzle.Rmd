@@ -1,7 +1,7 @@
 ---
-title: Identificação em VAR e Price Puzzle
+title: Identificação em VAR e Price Puzzle I
 author: Daniel Coutinho
-date: '2018-09-17'
+date: '2018-10-07'
 slug: identificação-em-var-e-price-puzzle
 categories:
   - R
@@ -14,14 +14,13 @@ tags:
   - Blanchard Quah
 authors: ["danielc"]
 katex: true
-draft: true
 ---
 
-O VAR (_Vector Autoregression_, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis $x_t,y_t$ em um vetor $\mathbb{x_t} = (x_y \phantom{0} y_t)'$ um VAR seria:
+O VAR (_Vector Autoregression_, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis $x_t,y_t$ em um vetor $\mathbb{x_t} = (x_y \phantom{0} y_t)'$. Um VAR seria:
 
 $$\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}$$
 
-Onde $C$ é uma matriz $2 \times 2$ e $\mathbf{u_t}$ é um vetor de choques, possivelmente correlacionados. Uma equação do VAR é uma das linhas da matriz, e primeira linha, por exemplo, tem a seguinte cara:
+Onde $C$ é uma matriz $2 \times 2$ e $\mathbf{u_t}$ é um vetor de choques, possivelmente correlacionados. Uma equação do VAR é uma das linhas da matriz. A primeira linha, por exemplo, tem a seguinte cara:
 
 $$x_t = c_{11}x_{t-1} + c_{12}y_{t-1} + u_{1t}$$
 
@@ -42,17 +41,17 @@ $$\mathbf{x_{t+1}} = C\mathbf{x_{t}} + \mathbf{u_{t+1}} = C^2\mathbf{x_{t-1}} + 
 
 E continuando a iteração, descobrimos que o efeito de um choque em $t$ no período $t+h$ é $C^h$. Veja que $C^h$ é uma matriz e cada posição da matriz dá o efeito de um choque em alguma variável: a posição [1,1] dá o efeito de um choque na variável 1 sobre a variável 1; [1,2] o efeito de um choque na variável **2** sobre a variável 1; etc. Nosso interesse é em toda a sequência $\left\{C^h\right\}_{h=0}^{T}$, onde $T$ é algum período distante no tempo onde o choque não tem mais nenhum efeito sobre as variáveis. 
 
-Por enquanto, tudo muito fácil: temos um objeto bem definido, a FRI; e uma maneira de estimar este objeto que é relativamente simples, o estimador de MQO. Mas veja que eu permiti correlação entre os erro, o que não é interessante. De fato, gostaríamos de erros que tivessem interpretações claras. Para deixar este ponto claro, vamos especializar o nosso VAR: suponha que o vetor $\mathbf{x_{t}} = (y_t \phantom{0} \pi_t \phantom{0} i_t)^{\prime}$, onde os termos são, respectivamente, uma medida de crescimento do produto (para termos estacionariedade), inflação, e juros. Se tivessemos erros correlacionados, um choque na equação de inflação não tem uma interpretação clara: ele acarreta um choque em alguma das outras equações. Gostariamos de conhecer o efeito de um choque que afetasse somente a inflação. Podemos reescrever todo o sistema da seguinte forma:
+Por enquanto, tudo muito fácil: temos um objeto bem definido, a FRI; e uma maneira de estimar este objeto que é relativamente simples, o estimador de MQO. Mas veja que eu permiti correlação entre os erro, o que não é interessante. De fato, gostaríamos de erros que tivessem interpretações diretas. Para deixar este ponto claro, vamos especializar o nosso VAR: suponha que o vetor $\mathbf{x_{t}} = (y_t \phantom{0} \pi_t \phantom{0} i_t)^{\prime}$, onde os termos são, respectivamente, uma medida de crescimento do produto (para termos estacionariedade), inflação, e juros. Se tivessemos erros correlacionados, um choque na equação de inflação não tem uma interpretação clara: ele acarreta um choque em alguma das outras equações. Gostariamos de conhecer o efeito de um choque que afetasse somente a inflação. Podemos reescrever todo o sistema da seguinte forma:
 
 $$B\mathbf{x_{t}} = A\mathbf{x_t} + \mathbf{e_t}$$
 
-Onde agora $\mathbf{e_t}$ são erros não correlacionados e $C \equiv B^{-1}A$. Veja que este VAR é igualzinho ao que escrevemos lá na primeira equação deste post. Para diferenciar estas duas formas de escrever um VAR, chamamos a forma com o $B$ na frente de forma estrutural, e a sem o $B$ de forma reduzida.
+Onde agora $\mathbf{e_t}$ são erros não correlacionados e $C \equiv B^{-1}A$. Veja que este VAR é igualzinho ao que escrevemos lá na primeira equação deste post. Para diferenciar estas duas formas de escrever um VAR, chamamos a forma com o $B$ na frente de forma estrutural, e a forma sem o $B$ de forma reduzida.
 
 Podemos pensar que $B$ é só uma matriz que faz com que $\mathbf{u_t} = B^{-1}\mathbf{e_t}$. Mas $B$ também tem interpretação econômica: é a matriz que diz quais são os efeitos contemporâneos entre as variáveis. Por exemplo, qual o efeito do aumento do PIB hoje na taxa de juros? Etc. Com essa interpretação, fica claro que podemos deixar a diagonal principal de $B$ ser 1. Veja que podemos reescrever a FRI como $C^{h}B^{-1}$, e agora as repostas impulso tem uma interpretação clara: a matriz $B^{-1}$ faz com que cada choque seja a respeito de uma determinada variável, sem implicar em um valor para qualquer outro choque.
 
 Se $B$ não tiver alguma estrutura muito particular, teremos problemas na hora de tentar estimar: se $\pi_t$ causa $y_t$ e $y_t$ causa $\pi_t$, teremos o clássico problema de identificação em sistemas de equações. Uma solução possível é achar algum instrumento, mas isso pode ser extremamente desafiador. Qual variável é causada exogenamente neste sistema? E será que ela tem uma correlação com a variável que nos interessa? 
 
-Uma solução padrão na literatura de VAR é impor que algumas variáveis não se afetam mutuamente: um exemplo seria, inflação causa mudança nos juros hoje, mas o efeito dos juros sobre a inflação é defasado. Isso recebe o chique nome de _decomposição de Choleski_. Mas não é nada além de impor algumas restrições sobre o sistema de efeitos que tem que ser zero. Essa não é a única maneira de impor restrições sobre a matriz $B$, mas é uma das mais populares. 
+Uma solução padrão na literatura de VAR é impor que algumas variáveis não se afetam mutuamente. Por exemplo, podemos estabelecer que inflação causa mudança nos juros hoje, mas o efeito dos juros sobre a inflação é defasado. Isso recebe o chique nome de _decomposição de Choleski_. Mas não é nada além de impor algumas restrições sobre o sistema de efeitos que tem que ser zero. Essa não é a única maneira de impor restrições sobre a matriz $B$, mas é uma das mais populares. 
 
 Vamos levar todo este papo aos dados, como de praxe.
 
@@ -220,12 +219,12 @@ Logo, o problema não está no nosso VAR nem no Brasil. No próximo post eu trar
 
 Peguemos um VAR qualquer:
 
-$$\mathbf{x_{t}} = C_1 \mathbf{x_{t-1}} + C_2 \mathbf{x_{t-2}} + ... + \mathbf{u_t}$$
+$$\mathbf{x_{t}} = C_1 \mathbf{x_{t-1}} + C_2 \mathbf{x_{t-2}} + ... + C_p\mathbf{x_{t-p}}+ \mathbf{u_t}$$
 
  Vamos definir $\mathbf{z_t} = (\mathbf{x_{t} \phantom{0} \mathbf{x_{t-1} \phantom{0} \mathbf{x_{t-2}} \phatom{0} \cdots)$ Podemos criar uma matriz C que é uma salsicha esperta das matrizes $C_1, C_2,...$:
 
 $$C = \begin{pmatrix}
-C_1 & C_1 & \cdots & C_{p-1} &C_p\\
+C_1 & C_2 & \cdots & C_{p-1} &C_p\\
 I & 0 & \cdots & 0 & 0\\
 0 & I & \cdots & 0 &0\\
 \vdots & \vdots& \ddots & \vdots & \vdots\\

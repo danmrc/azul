@@ -31,6 +31,17 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
     </item>
     
     <item>
+      <title>Identificação em VAR e Price Puzzle I</title>
+      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbb{x_t} = (x_y \phantom{0} y_t)&amp;#39;\). Um VAR seria:
+\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
+Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
+    </item>
+    
+    <item>
       <title>Sazonalidade, x13, e dummies: Muito barulho por nada</title>
       <link>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</link>
       <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
@@ -38,17 +49,6 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
       <guid>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</guid>
       <description>Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?
 Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças.</description>
-    </item>
-    
-    <item>
-      <title>Identificação em VAR e Price Puzzle</title>
-      <link>/2018/09/17/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
-      <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/09/17/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
-      <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbb{x_t} = (x_y \phantom{0} y_t)&amp;#39;\) um VAR seria:
-\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
-Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
     </item>
     
     <item>
@@ -188,6 +188,15 @@ Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em eco
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/1/01/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/</guid>
+      <description>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego        code{white-space: pre;} pre:not([class]) { background-color: white; }  if (window.hljs) { hljs.configure({languages: []}); hljs.initHighlightingOnLoad(); if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); } }  h1 { font-size: 34px; } h1.title { font-size: 38px; } h2 { font-size: 30px; } h3 { font-size: 24px; } h4 { font-size: 18px; } h5 { font-size: 16px; } h6 { font-size: 12px; } .</description>
     </item>
     
   </channel>
