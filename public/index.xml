@@ -137,7 +137,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
@@ -148,6 +148,16 @@ Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em qu
       <guid>/2018/08/11/prouni-clustering/</guid>
       <description>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
 Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</description>
+    </item>
+    
+    <item>
+      <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
+      <link>/2018/08/11/rais-cox-desemprego/</link>
+      <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/11/rais-cox-desemprego/</guid>
+      <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
+Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
     </item>
     
     <item>
@@ -166,7 +176,7 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       <pubDate>Wed, 18 Jul 2018 21:48:51 -0700</pubDate>
       
       <guid>/about/</guid>
-      <description>Os Autores Este blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três - é “econometria” que chama?. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts são acompanhados do código. Replicabilidade e aprender-fazendo são a serventia da casa. Sem mais delongas, eis os dois autores:
+      <description>Os AutoresEste blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três - é “econometria” que chama?. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts são acompanhados do código. Replicabilidade e aprender-fazendo são a serventia da casa. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
     </item>
     
@@ -188,15 +198,6 @@ Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em eco
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/1/01/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/</guid>
-      <description>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego        code{white-space: pre;} pre:not([class]) { background-color: white; }  if (window.hljs) { hljs.configure({languages: []}); hljs.initHighlightingOnLoad(); if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); } }  h1 { font-size: 34px; } h1.title { font-size: 38px; } h2 { font-size: 30px; } h3 { font-size: 24px; } h4 { font-size: 18px; } h5 { font-size: 16px; } h6 { font-size: 12px; } .</description>
     </item>
     
   </channel>
