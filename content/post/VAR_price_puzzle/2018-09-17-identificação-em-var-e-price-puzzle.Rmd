@@ -57,7 +57,7 @@ Vamos levar todo este papo aos dados, como de praxe.
 
 ##Um VAR para o Brasil
 
-Vamos fazer um VAR para o Brasil no R. Eu vou usar o excelente pacotes _BETS_ para obter os dados de taxa Selic, IPCA e do IBC-Br, um índice do BCB que é mensal que serve como _proxy_ para o PIB. Os dados são mensais. Eu usarei o pacote _dynlm_ para fazer a estimação do VAR. Existe um ótimo pacote que faz estimação do VAR direto, o _vars_. No código, eu uso ele para checar se tudo está funcionando direitinho (essa parte eu não reproduzi aqui, mas você encontra ()[aqui]). O _expm_ permite fazer potenciação de matriz, que vai ser essencial na hora de calcular a FRI. 
+Vamos fazer um VAR para o Brasil no R. Eu vou usar o excelente pacotes _BETS_ para obter os dados de taxa Selic, IPCA e do IBC-Br, um índice do BCB que é mensal que serve como _proxy_ para o PIB. Os dados são mensais. Eu usarei o pacote _dynlm_ para fazer a estimação do VAR. Existe um ótimo pacote que faz estimação do VAR direto, o _vars_. No código, eu uso ele para checar se tudo está funcionando direitinho (essa parte eu não reproduzi aqui, mas você encontra (https://github.com/danmrc/azul/blob/master/C%C3%B3digos/VAR.R)[aqui]). O _expm_ permite fazer potenciação de matriz, que vai ser essencial na hora de calcular a FRI. 
 
 ```{r preambulo, message = FALSE}
 

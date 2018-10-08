@@ -1,5 +1,5 @@
 ---
-title: Prog Dinâmica 2A
+title: Prog Dinâmica IIA
 author: Daniel Coutinho
 date: '2018-10-10'
 slug: prog-dinâmica-2a
@@ -70,3 +70,16 @@ plot!(sal[60:-1:1], lab = &quot;Salário&quot;)</code></pre>
 
 </div>
 <p>Isso ilustra a ideia de ciclo de vida e suavização do consumo, que em Macroeconomia são associados a Franco Modigliani e Milton Friedman: o agente não consome só uma fração da renda dele hoje, mas sim uma fração da renda dele ao longo do tempo. Veja que a riqueza varia muito mais que o consumo: em períodos em que o agente está rico, ele poupa; e em períodos de vacas magras ele consome a riqueza.</p>
+<div class="figure">
+<img src="/post/Prog_dinamica/img_dens_2a.png" />
+
+</div>
+<p>Veja que nesse primeiro caso, usamos uma distribuição Gama(1,2). O que acontece se mudarmos os parâmetros da distribuição? A distribuição Gama é bastante versátil, e mudanças nos parâmetros geram mudanças profundas no formato da distribuição, como a imagem acima sugere.</p>
+<p>Vamos repetir o exercício, mas usando a Gama(9,0.5). Nesse caso, temos o mesmo código que acima, mas mudamos a variável d, que estabelece a distribuição, para a nova distribuição. Veja que isso exige reestimar as funções, já que mudamos a distribuição. A nova trajetória tem a seguinte aparência:</p>
+<div class="figure">
+<img src="/post/Prog_dinamica/img_2_2a.png" />
+
+</div>
+<p>Veja que o consumo varia bem mais nesse caso, mas ainda assim a riqueza varia ainda mais. Esse caso também deixa claro que, mais para o fim da vida, o consumo flutua muito. A intuição por trás é que teremos menos períodos a frente para suavizar o consumo, e logo menos oportunidades de ganhar dinheiro e consumir.</p>
+<p>Veja que em todos esses casos, a distribuição dos salários é independente ao longo do tempo. Isso não é, necessariamente, uma boa aproximação da realidade. O problema é que, sair do mundo de variáveis independentemente distribuídas complica tudo.</p>
+<p>Uma maneira de facilitar o problema e permitir alguma dependência temporal é usando cadeias de Markov finitas.</p>

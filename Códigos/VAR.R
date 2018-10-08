@@ -108,7 +108,7 @@ C1 <- C[1:3,1:3]
 C2 <- C[1:3,4:6]
 AUX <- diag(1,ncol = ncol(C1),nrow = nrow(C1)) - C1 - C2
 AUX_inv <- qr.solve(AUX)
-S <- var(resid(var1))
+S <- cov(resid(var1))
 aux <- AUX_inv%*%S%*%t(AUX_inv)
 P <- chol(aux)
 A <- AUX%*%P

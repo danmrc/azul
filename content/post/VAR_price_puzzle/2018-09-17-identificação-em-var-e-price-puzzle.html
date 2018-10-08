@@ -39,7 +39,7 @@ katex: true
 <p>Vamos levar todo este papo aos dados, como de praxe.</p>
 <div id="um-var-para-o-brasil" class="section level2">
 <h2>Um VAR para o Brasil</h2>
-<p>Vamos fazer um VAR para o Brasil no R. Eu vou usar o excelente pacotes <em>BETS</em> para obter os dados de taxa Selic, IPCA e do IBC-Br, um índice do BCB que é mensal que serve como <em>proxy</em> para o PIB. Os dados são mensais. Eu usarei o pacote <em>dynlm</em> para fazer a estimação do VAR. Existe um ótimo pacote que faz estimação do VAR direto, o <em>vars</em>. No código, eu uso ele para checar se tudo está funcionando direitinho (essa parte eu não reproduzi aqui, mas você encontra ()[aqui]). O <em>expm</em> permite fazer potenciação de matriz, que vai ser essencial na hora de calcular a FRI.</p>
+<p>Vamos fazer um VAR para o Brasil no R. Eu vou usar o excelente pacotes <em>BETS</em> para obter os dados de taxa Selic, IPCA e do IBC-Br, um índice do BCB que é mensal que serve como <em>proxy</em> para o PIB. Os dados são mensais. Eu usarei o pacote <em>dynlm</em> para fazer a estimação do VAR. Existe um ótimo pacote que faz estimação do VAR direto, o <em>vars</em>. No código, eu uso ele para checar se tudo está funcionando direitinho (essa parte eu não reproduzi aqui, mas você encontra (<a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/VAR.R">https://github.com/danmrc/azul/blob/master/C%C3%B3digos/VAR.R</a>)[aqui]). O <em>expm</em> permite fazer potenciação de matriz, que vai ser essencial na hora de calcular a FRI.</p>
 <pre class="r"><code>library(BETS)
 library(dynlm)
 library(expm)
