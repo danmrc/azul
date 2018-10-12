@@ -32,7 +32,7 @@ Onde $n_i$ é o número de empregados até $t_i$, $d_i$ é o número de demissõ
 
 ## Amostra
 
-Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já tive o trabalho de limpa-los e deixei o arquivo ````.Rds``` disponível no [repositório do AZUL no github](https://github.com/danmrc/azul/tree/master/content/post/cox_rais). Você pode puxar os dados diretamente do repositório pelo pacote ```repmis`` e deixo como exercício ao leitor o código que faz isso. Vamos explorar a amostra.
+Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já tive o trabalho de limpa-los e deixei o arquivo ``.Rds`` disponível no [repositório do AZUL no github](https://github.com/danmrc/azul/tree/master/content/post/cox_rais). Você pode puxar os dados diretamente do repositório pelo pacote ``repmis`` e deixo como exercício ao leitor o código que faz isso. Vamos explorar a amostra.
 
 ```{r, echo = FALSE}
 dados <- readRDS("C:/Users/pedro/Desktop/azul/content/post/cox_rais/acre_rais_2017.Rds")
@@ -81,7 +81,7 @@ dados %>%
 
 ```
 
-Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote ``survival``` e podemos visualiza-las com o pacote ``survminer```que implementa uma viz baseada em ``ggplot2```.
+Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote ``survival`` e podemos visualiza-las com o pacote ``survminer`` que implementa uma viz baseada em ``ggplot2``.
 
 
 ```{r, dpi = 750, warning = FALSE, message = FALSE}
@@ -126,7 +126,7 @@ Podemos estimar o vetor $\beta$ com regressão linear se aplicarmos logarítimos
 
 $$\ln{h(t)} = \ln{h_0(t)} + \sum_{i=1}^k \beta_i x_i$$
 
-Esse modelo é dito de riscos proporcionais porque a forma funcional que assumimos implica que curvas de riscos de indivíduos são múltiplos umas das outras e que, portanto,não se cruzam. Nesse modelo existe independência temporal na razão de risco de quaisquer dois indivíduos da amostra. Podemos estimar os parâmetros facilmente com ````survival::coxph```.
+Esse modelo é dito de riscos proporcionais porque a forma funcional que assumimos implica que curvas de riscos de indivíduos são múltiplos umas das outras e que, portanto,não se cruzam. Nesse modelo existe independência temporal na razão de risco de quaisquer dois indivíduos da amostra. Podemos estimar os parâmetros facilmente com ```survival::coxph```.
 
 ````{r}
 cox = coxph(Surv(tempo_emprego, demissao) ~ homem + horas + Idade + branco + negro + industria + agricultura + CNPJ + firma_grande + servicos + salario , data = dados)
