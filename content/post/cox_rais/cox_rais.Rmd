@@ -36,6 +36,11 @@ Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já
 
 ```{r, echo = FALSE}
 dados <- readRDS("C:/Users/pedro/Desktop/azul/content/post/cox_rais/acre_rais_2017.Rds")
+library(curl)
+githubURL <- ("https://github.com/danmrc/azul/raw/master/content/post/cox_rais/acre_rais_2017.Rds")
+download.file(githubURL, destfile = "acre_rais_2017.Rds", method = "auto")
+dados = readRDS("acre_rais_2017.Rds")
+
 ```
 
 ```{r, message = FALSE, warning = FALSE, dpi = 750}
