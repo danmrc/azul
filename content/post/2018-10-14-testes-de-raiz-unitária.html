@@ -1,0 +1,168 @@
+---
+title: Testes de raiz unitária
+author: Daniel Coutinho
+date: '2018-10-14'
+slug: testes-de-raiz-unitária
+categories:
+  - R
+  - Econometria
+tags:
+  - Raiz unitária
+  - ADF
+  - Monte Carlo
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+
+
+<p>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?</p>
+<p>Neste post vamos mostrar que o teste Dickey-Fuller - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena. Infelizmente, este caso é frequente em macroeconomia.</p>
+<p>Neste exemplo eu usarei um AR(1) (<span class="math inline">\(y_t = \phi y_{t-1} + u_t\)</span>), onde <span class="math inline">\(u_t ~ N(0,\sigma)\)</span>. Como eu vou querer brincar com processos AR com coeficientes diferentes e tamanhos de amostra diferente, eu vou criar uma função que gera processos AR:</p>
+<pre class="r"><code>set.seed(2018)
+
+sim_ar &lt;- function(n,phi,sd=1){
+  y &lt;- rep(0,n+1000)
+  u &lt;- rnorm(n+1000, sd = sd)
+  for(i in 2:(n+1000)){
+    y[i] &lt;- phi*y[i-1]+u[i]
+  }
+  y &lt;- y[1000:(1000+n)]
+  return(y)
+}</code></pre>
+<p>Eu sempre gero 1000 observações extras para permitir com que o processo convirga e não dependa da condição inicial.</p>
+<p>Para o teste ADF, eu usarei a implementação do pacote <strong>urca</strong> (nenhuma relação com o bairro do Rio de Janeiro):</p>
+<pre class="r"><code>library(urca)</code></pre>
+<p>Vamos simular um processo sem raiz unitária usando a função e ver o resultado do teste ADF. Eu vou colocar um coeficiente baixo (0.6) e uma amostra grande (mil observações):</p>
+<pre class="r"><code>y &lt;- sim_ar(1000,0.6)
+summary(ur.df(y))</code></pre>
+<pre><code>## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression none 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 - 1 + z.diff.lag)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.1388 -0.6732 -0.0472  0.6507  3.4355 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## z.lag.1    -0.405838   0.028525 -14.228   &lt;2e-16 ***
+## z.diff.lag  0.004896   0.031798   0.154    0.878    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9987 on 997 degrees of freedom
+## Multiple R-squared:  0.2011, Adjusted R-squared:  0.1995 
+## F-statistic: 125.5 on 2 and 997 DF,  p-value: &lt; 2.2e-16
+## 
+## 
+## Value of test-statistic is: -14.2276 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau1 -2.58 -1.95 -1.62</code></pre>
+<p>O teste tem valores críticos diferentes dos usuais, que são apresentados embaixo dos valores da regressão. Vamos usar o usual 5% de nível de significância. Veja que o valor do teste está bem abaixo do valor crítico e portanto, não temos nenhuma indicação de termos raiz unitária.</p>
+<p>O que acontece, entretanto, se usarmos um horizonte mais curto e um coeficiente mais alto? Eu vou repetir o exercício com 100 observações e um coeficiente de 0.9:</p>
+<pre class="r"><code>y &lt;- sim_ar(100,0.9)
+summary(ur.df(y))</code></pre>
+<pre><code>## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression none 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 - 1 + z.diff.lag)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.51636 -0.59022  0.02518  0.68276  2.70909 
+## 
+## Coefficients:
+##            Estimate Std. Error t value Pr(&gt;|t|)  
+## z.lag.1    -0.06383    0.03649  -1.749   0.0834 .
+## z.diff.lag  0.21727    0.10107   2.150   0.0341 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.077 on 97 degrees of freedom
+## Multiple R-squared:  0.06135,    Adjusted R-squared:  0.04199 
+## F-statistic:  3.17 on 2 and 97 DF,  p-value: 0.0464
+## 
+## 
+## Value of test-statistic is: -1.7493 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau1 -2.58 -1.95 -1.62</code></pre>
+<p>Agora, não rejeitamos a hipótese nula de presença de raiz unitária a 5%. Obviamente não podemos fazer inferência com uma única tentativa, então vamos replicar isso 500 vezes. Mais ainda, eu vou testar diferentes combinações de tamanhos de amostra e coeficientes:</p>
+<ul>
+<li>100 observações e <span class="math inline">\(\phi = 0.5\)</span></li>
+<li>100 observações e <span class="math inline">\(\phi = 0.9\)</span></li>
+<li>200 observações e <span class="math inline">\(\phi = 0.95\)</span></li>
+<li>500 observações e <span class="math inline">\(\phi = 0.99\)</span></li>
+</ul>
+<p>Em todas elas eu vou avaliar se o valor do teste é menor que o valor crítico a 5% (que é -1.95).</p>
+<pre class="r"><code>test1 &lt;- rep(0,500)
+test2 &lt;- test1
+test3 &lt;- test1
+test4 &lt;- test1
+
+for(j in 1:500){
+  y_1 &lt;- sim_ar(100,0.5)
+  y_2 &lt;- sim_ar(100,0.9)
+  y_3 &lt;- sim_ar(200,0.95)
+  y_4 &lt;- sim_ar(500,0.99)
+  test1[j] &lt;- ur.df(y_1)@teststat &lt; -1.95
+  test2[j] &lt;- ur.df(y_2)@teststat &lt; -1.95
+  test3[j] &lt;- ur.df(y_3)@teststat &lt; -1.95
+  test4[j] &lt;- ur.df(y_3)@teststat &lt; -1.95
+}
+
+tabela &lt;- c(mean(test1),
+mean(test2),
+mean(test3),
+mean(test4))
+
+phi = &#39;\u03d5&#39; #porque a estética importa!
+
+names(tabela) &lt;- c(paste(&quot;n = 100&quot;, phi, &quot;= 0.5&quot;),paste(&quot;n = 100&quot;, phi, &quot;= 0.9&quot;),paste(&quot;n = 200&quot;, phi, &quot;= 0.95&quot;),paste(&quot;n = 500&quot;, phi, &quot;= 0.99&quot;))
+
+knitr::kable(tabela, col.names = c(&quot;Proporção de rejeição de H0, significância 5%&quot;),escape = F)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Proporção de rejeição de H0, significância 5%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>n = 100 ϕ = 0.5</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td>n = 100 ϕ = 0.9</td>
+<td align="right">0.748</td>
+</tr>
+<tr class="odd">
+<td>n = 200 ϕ = 0.95</td>
+<td align="right">0.774</td>
+</tr>
+<tr class="even">
+<td>n = 500 ϕ = 0.99</td>
+<td align="right">0.774</td>
+</tr>
+</tbody>
+</table>
+<p>Trocando em miúdos: com uma amostra de 100 observações e um processo muito persistente, em mais de 20% dos casos você vai aceitar a hipótese nula quando não deveria. Se você tem observações mensais, 100 observações correspondem a um pouco mais de 8 anos. Se a sua observação é trimestral, isso corresponde a 25 anos de dados! Estes horizontes podem ser viáveis em alguns casos, mas não em geral - 25 anos atrás não tinhamos o Plano Real, por exemplo.</p>

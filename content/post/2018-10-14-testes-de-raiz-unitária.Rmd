@@ -1,0 +1,111 @@
+---
+title: Testes de raiz unitária
+author: Daniel Coutinho
+date: '2018-10-14'
+slug: testes-de-raiz-unitária
+categories:
+  - R
+  - Econometria
+tags:
+  - Raiz unitária
+  - ADF
+  - Monte Carlo
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
+
+Neste post vamos mostrar que o teste Dickey-Fuller - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena. Infelizmente, este caso é frequente em macroeconomia.
+
+Neste exemplo eu usarei um AR(1) ($y_t = \phi y_{t-1} + u_t$), onde $u_t ~ N(0,\sigma)$.  Como eu vou querer brincar com processos AR com coeficientes diferentes e tamanhos de amostra diferente, eu vou criar uma função que gera processos AR:
+
+```{r}
+
+set.seed(2018)
+
+sim_ar <- function(n,phi,sd=1){
+  y <- rep(0,n+1000)
+  u <- rnorm(n+1000, sd = sd)
+  for(i in 2:(n+1000)){
+    y[i] <- phi*y[i-1]+u[i]
+  }
+  y <- y[1000:(1000+n)]
+  return(y)
+}
+
+
+```
+
+Eu sempre gero 1000 observações extras para permitir com que o processo convirga e não dependa da condição inicial. 
+
+Para o teste ADF, eu usarei a implementação do pacote **urca** (nenhuma relação com o bairro do Rio de Janeiro):
+
+```{r}
+
+library(urca)
+
+```
+
+Vamos simular um processo sem raiz unitária usando a função e ver o resultado do teste ADF. Eu vou colocar um coeficiente baixo (0.6) e uma amostra grande (mil observações):
+
+```{r}
+
+y <- sim_ar(1000,0.6)
+summary(ur.df(y))
+
+```
+
+O teste tem valores críticos diferentes dos usuais, que são apresentados embaixo dos valores da regressão. Vamos usar o usual 5% de nível de significância. Veja que o valor do teste está bem abaixo do valor crítico e portanto, não temos nenhuma indicação de termos raiz unitária. 
+
+O que acontece, entretanto, se usarmos um horizonte mais curto e um coeficiente mais alto? Eu vou repetir o exercício com 100 observações e um coeficiente de 0.9:
+
+```{r}
+
+y <- sim_ar(100,0.9)
+summary(ur.df(y))
+
+```
+
+Agora, não rejeitamos a hipótese nula de presença de raiz unitária a 5%. Obviamente não podemos fazer inferência com uma única tentativa, então vamos replicar isso 500 vezes. Mais ainda, eu vou testar diferentes combinações de tamanhos de amostra e coeficientes:
+
+* 100 observações e $\phi = 0.5$
+* 100 observações e $\phi = 0.9$
+* 200 observações e $\phi = 0.95$
+* 500 observações e $\phi = 0.99$
+
+Em todas elas eu vou avaliar se o valor do teste é menor que o valor crítico a 5% (que é -1.95). 
+
+```{r}
+
+test1 <- rep(0,500)
+test2 <- test1
+test3 <- test1
+test4 <- test1
+
+for(j in 1:500){
+  y_1 <- sim_ar(100,0.5)
+  y_2 <- sim_ar(100,0.9)
+  y_3 <- sim_ar(200,0.95)
+  y_4 <- sim_ar(500,0.99)
+  test1[j] <- ur.df(y_1)@teststat < -1.95
+  test2[j] <- ur.df(y_2)@teststat < -1.95
+  test3[j] <- ur.df(y_3)@teststat < -1.95
+  test4[j] <- ur.df(y_3)@teststat < -1.95
+}
+
+tabela <- c(mean(test1),
+mean(test2),
+mean(test3),
+mean(test4))
+
+phi = '\u03d5' #porque a estética importa!
+
+names(tabela) <- c(paste("n = 100", phi, "= 0.5"),paste("n = 100", phi, "= 0.9"),paste("n = 200", phi, "= 0.95"),paste("n = 500", phi, "= 0.99"))
+
+knitr::kable(tabela, col.names = c("Proporção de rejeição de H0, significância 5%"),escape = F)
+
+```
+
+Trocando em miúdos: com uma amostra de 100 observações e um processo muito persistente, em mais de 20% dos casos você vai aceitar a hipótese nula quando não deveria. Se você tem observações mensais, 100 observações correspondem a um pouco mais de 8 anos. Se a sua observação é trimestral, isso corresponde a 25 anos de dados! Estes horizontes podem ser viáveis em alguns casos, mas não em geral - 25 anos atrás não tinhamos o Plano Real, por exemplo. 
