@@ -5,20 +5,20 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
-Neste post vamos mostrar que o teste Dickey-Fuller - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.'>
+Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Testes de raiz unitária • Daniel Coutinho'>
 <meta property='og:description' content='Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
-Neste post vamos mostrar que o teste Dickey-Fuller - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.'>
-<meta property='og:url' content='/2018/10/14/testes-de-raiz-unit%C3%A1ria/'>
+Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.'>
+<meta property='og:url' content='/2018/10/19/testes-de-raiz-unit%C3%A1ria/'>
 <meta property='og:site_name' content='AZUL'>
-<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='Raiz unitária'><meta property='article:tag' content='ADF'><meta property='article:tag' content='Monte Carlo'><meta property='article:published_time' content='2018-10-14T00:00:00Z'/><meta property='article:modified_time' content='2018-10-14T00:00:00Z'/><meta name='twitter:card' content='summary'>
+<meta property='og:type' content='article'><meta property='article:section' content='post'><meta property='article:tag' content='Raiz unitária'><meta property='article:tag' content='ADF'><meta property='article:tag' content='Monte Carlo'><meta property='article:published_time' content='2018-10-19T00:00:00Z'/><meta property='article:modified_time' content='2018-10-19T00:00:00Z'/><meta name='twitter:card' content='summary'>
 
 <meta name="generator" content="Hugo 0.48" />
 
   <title>Testes de raiz unitária • Daniel Coutinho</title>
-  <link rel='canonical' href='/2018/10/14/testes-de-raiz-unit%C3%A1ria/'>
+  <link rel='canonical' href='/2018/10/19/testes-de-raiz-unit%C3%A1ria/'>
   
   
   <link rel='icon' href='/favicon.ico'>
@@ -212,7 +212,7 @@ if (!doNotTrack) {
   
 </svg>
 <span class='screen-reader-text'>Posted on </span>
-  <time class='entry-date' datetime='2018-10-14T00:00:00Z'>2018, Oct 14</time>
+  <time class='entry-date' datetime='2018-10-19T00:00:00Z'>2018, Oct 19</time>
 </span>
 
   <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
@@ -244,8 +244,8 @@ if (!doNotTrack) {
 
   <div class='container entry-content'>
   <p>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?</p>
-<p>Neste post vamos mostrar que o teste Dickey-Fuller - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena. Infelizmente, este caso é frequente em macroeconomia.</p>
-<p>Neste exemplo eu usarei um AR(1) (<span class="math inline">\(y_t = \phi y_{t-1} + u_t\)</span>), onde <span class="math inline">\(u_t ~ N(0,\sigma)\)</span>. Como eu vou querer brincar com processos AR com coeficientes diferentes e tamanhos de amostra diferente, eu vou criar uma função que gera processos AR:</p>
+<p>Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena. Infelizmente, este caso é frequente em macroeconomia.</p>
+<p>Neste exemplo eu usarei um AR(1) (<span class="math inline">\(y_t = \phi y_{t-1} + u_t\)</span>), onde <span class="math inline">\(u_t \sim N(0,\sigma)\)</span>. Como eu vou querer brincar com processos AR com coeficientes diferentes e tamanhos de amostra diferente, eu vou criar uma função que gera processos AR:</p>
 <pre class="r"><code>set.seed(2018)
 
 sim_ar &lt;- function(n,phi,sd=1){
@@ -257,10 +257,10 @@ sim_ar &lt;- function(n,phi,sd=1){
   y &lt;- y[1000:(1000+n)]
   return(y)
 }</code></pre>
-<p>Eu sempre gero 1000 observações extras para permitir com que o processo convirga e não dependa da condição inicial.</p>
-<p>Para o teste ADF, eu usarei a implementação do pacote <strong>urca</strong> (nenhuma relação com o bairro do Rio de Janeiro):</p>
+<p>Eu sempre gero 1000 observações extras para o processo não depender da condição inicial.</p>
+<p>Eu usarei o teste ADF que vem no pacote <strong>urca</strong> (nenhuma relação com o bairro do Rio de Janeiro):</p>
 <pre class="r"><code>library(urca)</code></pre>
-<p>Vamos simular um processo sem raiz unitária usando a função e ver o resultado do teste ADF. Eu vou colocar um coeficiente baixo (0.6) e uma amostra grande (mil observações):</p>
+<p>Vamos simular um processo sem raiz unitária usando a função e ver o resultado do teste ADF. Veja que a hipótese nula do teste ADF é de presença de raiz unitária. Eu vou colocar um coeficiente baixo (0.6) e uma amostra grande (mil observações):</p>
 <pre class="r"><code>y &lt;- sim_ar(1000,0.6)
 summary(ur.df(y))</code></pre>
 <pre><code>## 
@@ -429,7 +429,7 @@ knitr::kable(tabela, col.names = c(&quot;Proporção de rejeição de H0, signif
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/2018/10/10/prog-din%C3%A2mica-2a/'>
+      <a href='/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -437,17 +437,7 @@ knitr::kable(tabela, col.names = c(&quot;Proporção de rejeição de H0, signif
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Prog Dinâmica 2A</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/'>
-        <span class='screen-reader-text'>Next post: </span>Identificação em VAR e Price Puzzle<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-  
-</svg>
-</span>
-      </a>
+        <span class='screen-reader-text'>Previous post: </span>Identificação em VAR e Price Puzzle</a>
     </div></div>
 </nav>
 

@@ -82,4 +82,10 @@ plot!(sal[60:-1:1], lab = &quot;Salário&quot;)</code></pre>
 </div>
 <p>Veja que o consumo varia bem mais nesse caso, mas ainda assim a riqueza varia ainda mais. Esse caso também deixa claro que, mais para o fim da vida, o consumo flutua muito. A intuição por trás é que teremos menos períodos a frente para suavizar o consumo, e logo menos oportunidades de ganhar dinheiro e consumir.</p>
 <p>Veja que em todos esses casos, a distribuição dos salários é independente ao longo do tempo. Isso não é, necessariamente, uma boa aproximação da realidade. O problema é que, sair do mundo de variáveis independentemente distribuídas complica tudo.</p>
-<p>Uma maneira de facilitar o problema e permitir alguma dependência temporal é usando cadeias de Markov finitas.</p>
+<p>Uma maneira de facilitar o problema e permitir alguma dependência temporal é usando cadeias de Markov finitas. Uma cadeia de Markov é um processo estocástico que só depende da realização anterior - por exemplo, um AR(1). No caso, ela é finita se temos um número finito de estados possíveis. A transição entre estados é governado por uma matriz, onde cada linha representa a probabilidade de sair do estado linha e ir para o estado coluna. Vamos supor que temos apenas 2 estados e a matriz de transição é a seguinte:</p>
+<p><span class="math display">\[\begin{pmatrix}
+0.8 &amp; 0.2\\
+0.3 &amp; 0.7\\
+\end{pmatrix}
+\]</span></p>
+<p>Então, a probabilidade de permanecer no estado 1 é de 0.8; e a probabilidade de migrar para o estado 2, condicional a estar no estado 1, é de 0.2.</p>

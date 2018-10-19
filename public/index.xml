@@ -6,10 +6,20 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Mon, 15 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Testes de raiz unitária</title>
+      <link>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
+      <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</guid>
+      <description>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
+Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.</description>
+    </item>
     
     <item>
       <title>Identificação em VAR e Price Puzzle</title>
@@ -18,16 +28,6 @@
       
       <guid>/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Testes de raiz unitária</title>
-      <link>/2018/10/14/testes-de-raiz-unit%C3%A1ria/</link>
-      <pubDate>Sun, 14 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/10/14/testes-de-raiz-unit%C3%A1ria/</guid>
-      <description>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
-Neste post vamos mostrar que o teste Dickey-Fuller - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.</description>
     </item>
     
     <item>
@@ -156,7 +156,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
@@ -185,7 +185,7 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       <pubDate>Wed, 18 Jul 2018 21:48:51 -0700</pubDate>
       
       <guid>/about/</guid>
-      <description>Os AutoresEste blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três - é “econometria” que chama?. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts são acompanhados do código. Replicabilidade e aprender-fazendo são a serventia da casa. Sem mais delongas, eis os dois autores:
+      <description>Os Autores Este blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três - é “econometria” que chama?. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts são acompanhados do código. Replicabilidade e aprender-fazendo são a serventia da casa. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
     </item>
     
@@ -215,7 +215,7 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/1/01/01/</guid>
-      <description>Usando dados da RAIS e Análise de Sobrevivência para entender desempregocode{white-space: pre;}pre:not([class]) {background-color: white;}if (window.hljs) {hljs.configure({languages: []});hljs.initHighlightingOnLoad();if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) {window.setTimeout(function() { hljs.initHighlighting(); }, 0);}}h1 {font-size: 34px;}h1.title {font-size: 38px;}h2 {font-size: 30px;}h3 {font-size: 24px;}h4 {font-size: 18px;}h5 {font-size: 16px;}h6 {font-size: 12px;}.</description>
+      <description>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego        code{white-space: pre;} pre:not([class]) { background-color: white; }  if (window.hljs) { hljs.configure({languages: []}); hljs.initHighlightingOnLoad(); if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); } }  h1 { font-size: 34px; } h1.title { font-size: 38px; } h2 { font-size: 30px; } h3 { font-size: 24px; } h4 { font-size: 18px; } h5 { font-size: 16px; } h6 { font-size: 12px; } .</description>
     </item>
     
   </channel>

@@ -1,7 +1,7 @@
 ---
 title: Testes de raiz unitária
 author: Daniel Coutinho
-date: '2018-10-14'
+date: '2018-10-19'
 slug: testes-de-raiz-unitária
 categories:
   - R
@@ -12,14 +12,13 @@ tags:
   - Monte Carlo
 authors: ["danielc"]
 katex: true
-draft: true
 ---
 
 
 
 <p>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?</p>
-<p>Neste post vamos mostrar que o teste Dickey-Fuller - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena. Infelizmente, este caso é frequente em macroeconomia.</p>
-<p>Neste exemplo eu usarei um AR(1) (<span class="math inline">\(y_t = \phi y_{t-1} + u_t\)</span>), onde <span class="math inline">\(u_t ~ N(0,\sigma)\)</span>. Como eu vou querer brincar com processos AR com coeficientes diferentes e tamanhos de amostra diferente, eu vou criar uma função que gera processos AR:</p>
+<p>Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena. Infelizmente, este caso é frequente em macroeconomia.</p>
+<p>Neste exemplo eu usarei um AR(1) (<span class="math inline">\(y_t = \phi y_{t-1} + u_t\)</span>), onde <span class="math inline">\(u_t \sim N(0,\sigma)\)</span>. Como eu vou querer brincar com processos AR com coeficientes diferentes e tamanhos de amostra diferente, eu vou criar uma função que gera processos AR:</p>
 <pre class="r"><code>set.seed(2018)
 
 sim_ar &lt;- function(n,phi,sd=1){
@@ -31,10 +30,10 @@ sim_ar &lt;- function(n,phi,sd=1){
   y &lt;- y[1000:(1000+n)]
   return(y)
 }</code></pre>
-<p>Eu sempre gero 1000 observações extras para permitir com que o processo convirga e não dependa da condição inicial.</p>
-<p>Para o teste ADF, eu usarei a implementação do pacote <strong>urca</strong> (nenhuma relação com o bairro do Rio de Janeiro):</p>
+<p>Eu sempre gero 1000 observações extras para o processo não depender da condição inicial.</p>
+<p>Eu usarei o teste ADF que vem no pacote <strong>urca</strong> (nenhuma relação com o bairro do Rio de Janeiro):</p>
 <pre class="r"><code>library(urca)</code></pre>
-<p>Vamos simular um processo sem raiz unitária usando a função e ver o resultado do teste ADF. Eu vou colocar um coeficiente baixo (0.6) e uma amostra grande (mil observações):</p>
+<p>Vamos simular um processo sem raiz unitária usando a função e ver o resultado do teste ADF. Veja que a hipótese nula do teste ADF é de presença de raiz unitária. Eu vou colocar um coeficiente baixo (0.6) e uma amostra grande (mil observações):</p>
 <pre class="r"><code>y &lt;- sim_ar(1000,0.6)
 summary(ur.df(y))</code></pre>
 <pre><code>## 
@@ -105,38 +104,43 @@ summary(ur.df(y))</code></pre>
 ## Critical values for test statistics: 
 ##       1pct  5pct 10pct
 ## tau1 -2.58 -1.95 -1.62</code></pre>
-<p>Agora, não rejeitamos a hipótese nula de presença de raiz unitária a 5%. Obviamente não podemos fazer inferência com uma única tentativa, então vamos replicar isso 500 vezes. Mais ainda, eu vou testar diferentes combinações de tamanhos de amostra e coeficientes:</p>
+<p>Agora, não rejeitamos a hipótese nula de presença de raiz unitária a 5%. Obviamente não podemos fazer inferência com uma única tentativa, então vamos replicar isso 5000 vezes. Mais ainda, eu vou testar diferentes combinações de tamanhos de amostra e coeficientes:</p>
 <ul>
 <li>100 observações e <span class="math inline">\(\phi = 0.5\)</span></li>
 <li>100 observações e <span class="math inline">\(\phi = 0.9\)</span></li>
+<li>100 observações e <span class="math inline">\(\phi = 0.95\)</span></li>
 <li>200 observações e <span class="math inline">\(\phi = 0.95\)</span></li>
 <li>500 observações e <span class="math inline">\(\phi = 0.99\)</span></li>
 </ul>
 <p>Em todas elas eu vou avaliar se o valor do teste é menor que o valor crítico a 5% (que é -1.95).</p>
-<pre class="r"><code>test1 &lt;- rep(0,500)
+<pre class="r"><code>test1 &lt;- rep(0,5000)
 test2 &lt;- test1
 test3 &lt;- test1
 test4 &lt;- test1
+test5 &lt;- test1
 
-for(j in 1:500){
+for(j in 1:5000){
   y_1 &lt;- sim_ar(100,0.5)
   y_2 &lt;- sim_ar(100,0.9)
   y_3 &lt;- sim_ar(200,0.95)
   y_4 &lt;- sim_ar(500,0.99)
+  y_5 &lt;- sim_ar(100,0.95)
   test1[j] &lt;- ur.df(y_1)@teststat &lt; -1.95
   test2[j] &lt;- ur.df(y_2)@teststat &lt; -1.95
   test3[j] &lt;- ur.df(y_3)@teststat &lt; -1.95
-  test4[j] &lt;- ur.df(y_3)@teststat &lt; -1.95
+  test4[j] &lt;- ur.df(y_4)@teststat &lt; -1.95
+  test5[j] &lt;- ur.df(y_5)@teststat &lt; -1.95
 }
 
 tabela &lt;- c(mean(test1),
 mean(test2),
+mean(test5),
 mean(test3),
 mean(test4))
 
-phi = &#39;\u03d5&#39; #porque a estética importa!
+phi = &#39;\u03d5&#39; #pro phi ficar bonito
 
-names(tabela) &lt;- c(paste(&quot;n = 100&quot;, phi, &quot;= 0.5&quot;),paste(&quot;n = 100&quot;, phi, &quot;= 0.9&quot;),paste(&quot;n = 200&quot;, phi, &quot;= 0.95&quot;),paste(&quot;n = 500&quot;, phi, &quot;= 0.99&quot;))
+names(tabela) &lt;- c(paste(&quot;n = 100,&quot;, phi, &quot;= 0.5&quot;),paste(&quot;n = 100,&quot;, phi, &quot;= 0.9&quot;),paste(&quot;n = 100,&quot;, phi, &quot;= 0.95&quot;),paste(&quot;n = 200,&quot;, phi, &quot;= 0.95&quot;),paste(&quot;n = 500,&quot;, phi, &quot;= 0.99&quot;))
 
 knitr::kable(tabela, col.names = c(&quot;Proporção de rejeição de H0, significância 5%&quot;),escape = F)</code></pre>
 <table>
@@ -148,21 +152,26 @@ knitr::kable(tabela, col.names = c(&quot;Proporção de rejeição de H0, signif
 </thead>
 <tbody>
 <tr class="odd">
-<td>n = 100 ϕ = 0.5</td>
-<td align="right">1.000</td>
+<td>n = 100, ϕ = 0.5</td>
+<td align="right">1.0000</td>
 </tr>
 <tr class="even">
-<td>n = 100 ϕ = 0.9</td>
-<td align="right">0.748</td>
+<td>n = 100, ϕ = 0.9</td>
+<td align="right">0.7582</td>
 </tr>
 <tr class="odd">
-<td>n = 200 ϕ = 0.95</td>
-<td align="right">0.774</td>
+<td>n = 100, ϕ = 0.95</td>
+<td align="right">0.3532</td>
 </tr>
 <tr class="even">
-<td>n = 500 ϕ = 0.99</td>
-<td align="right">0.774</td>
+<td>n = 200, ϕ = 0.95</td>
+<td align="right">0.7708</td>
+</tr>
+<tr class="odd">
+<td>n = 500, ϕ = 0.99</td>
+<td align="right">0.3558</td>
 </tr>
 </tbody>
 </table>
 <p>Trocando em miúdos: com uma amostra de 100 observações e um processo muito persistente, em mais de 20% dos casos você vai aceitar a hipótese nula quando não deveria. Se você tem observações mensais, 100 observações correspondem a um pouco mais de 8 anos. Se a sua observação é trimestral, isso corresponde a 25 anos de dados! Estes horizontes podem ser viáveis em alguns casos, mas não em geral - 25 anos atrás não tinhamos o Plano Real, por exemplo.</p>
+<p>Apesar de ser importante diagnosticar a presença de raiz unitária - devido ao problema de regressão espúria - deve se ter algum cuidado com os testes de raiz unitária. Nas amostras geralmente disponíveis para problemas macro, o baixo poder do teste</p>
