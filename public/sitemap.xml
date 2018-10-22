@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/10/31/sistemas-din%C3%A2micos-e-algebra-linear/</loc>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</loc>
     <lastmod>2018-10-19T00:00:00+00:00</lastmod>
   </url>
@@ -103,13 +108,19 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/adf/</loc>
     <lastmod>2018-10-19T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/algebra-linear/</loc>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -125,6 +136,12 @@
   </url>
   
   <url>
+    <loc>/tags/autovalores/</loc>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/blanchard-quah/</loc>
     <lastmod>2018-10-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -136,13 +153,13 @@
   </url>
   
   <url>
-    <loc>/tags/clustering/</loc>
+    <loc>/categories/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/clustering/</loc>
+    <loc>/tags/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -161,6 +178,12 @@
   
   <url>
     <loc>/authors/danielc/</loc>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/econometria/</loc>
     <lastmod>2018-10-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -172,19 +195,13 @@
   </url>
   
   <url>
-    <loc>/categories/econometria/</loc>
-    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/economia/</loc>
+    <loc>/categories/economia/</loc>
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/economia/</loc>
+    <loc>/tags/economia/</loc>
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -208,14 +225,14 @@
   </url>
   
   <url>
-    <loc>/tags/julia/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <loc>/categories/julia/</loc>
+    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/julia/</loc>
-    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
+    <loc>/tags/julia/</loc>
+    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -232,25 +249,31 @@
   </url>
   
   <url>
-    <loc>/tags/macroeconomia/</loc>
-    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/macroeconomia/</loc>
     <lastmod>2018-10-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/microeconomia/</loc>
-    <lastmod>2018-09-01T00:00:00+00:00</lastmod>
+    <loc>/tags/macroeconomia/</loc>
+    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/matem%C3%A1tica/</loc>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/microeconomia/</loc>
+    <lastmod>2018-09-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/microeconomia/</loc>
     <lastmod>2018-09-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -269,7 +292,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -280,13 +303,13 @@
   </url>
   
   <url>
-    <loc>/tags/probit/</loc>
+    <loc>/categories/probit/</loc>
     <lastmod>2018-08-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/probit/</loc>
+    <loc>/tags/probit/</loc>
     <lastmod>2018-08-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -298,26 +321,26 @@
   </url>
   
   <url>
+    <loc>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
+    <lastmod>2018-10-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
-    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
+    <loc>/categories/r/</loc>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
     <lastmod>2018-10-15T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -341,6 +364,12 @@
   <url>
     <loc>/tags/simula%C3%A7%C3%A3o/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sistemas-din%C3%A2micos/</loc>
+    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

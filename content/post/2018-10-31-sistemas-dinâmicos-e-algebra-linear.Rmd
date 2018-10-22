@@ -1,0 +1,46 @@
+---
+title: Sistemas dinâmicos e Algebra Linear
+author: Daniel Coutinho
+date: '2018-10-31'
+slug: sistemas-dinâmicos-e-algebra-linear
+categories:
+  - R
+  - Matemática
+tags:
+  - Algebra Linear
+  - Sistemas dinâmicos
+  - Autovalores
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+Este é mais um post na linha de "como eu gostaria de ter sido apresentado à". O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso. 
+
+Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo. Ele pode ser descrito como $x_{t+1} = Ax_{t}$, onde $x_t$ é o vetor de interesse e $A$ é a matriz que governa como as variáveis se relacionam. Também precisamos de uma condição inicial $x_0$. Veja que calcular o valor do sistema no tempo $T$ é equivalente a fazer $A^{T} x_0$, onde $A^{T} = A \times A \times A$, $T$ vezes.
+
+Já encontramos uma situação similar a essa em um post anterior, no qual eu falei de Autoregressão vetorial (VAR). Lá, estavamos interessados em recuperar a matriz A, e o nosso sistema tinha um choque aleatório $\epsilon_t$. Nosso interesse hoje é saber quando o sistema é estável. Ser estável quer dizer que o sistema não explode, como é o caso do exemplo abaixo:
+
+```{r um sistema explosivo}
+
+A <- rbind(c(0.8,0.7),c(0.6,0.7))
+x <- matrix(0,ncol = 2, nrow = 100)
+x[1,] <- c(1,0)
+for(i in 1:99){
+  x[i+1,] <- A%*%x[i,]
+}
+plot(x[,1], type="l", ylab = " ", xlab = "tempo")
+lines(x[,2], type = "l", col = 2)
+```
+
+Um sistema não explosivo vai voltar a um estado de "repouso" do sistema. Veja que isso soa familiar: nós esperamos que a economia saia do equilíbrio mas volte a ele (ou a um novo equilíbrio). Como podemos saber se um sistema dinâmico linear é explosivo ou não? 
+
+A resposta são os autovalores da matriz $A$ - na verdade, apenas o maior deles (em módulo). A ideia aqui é que a matriz $A$ possa ser decomposta em seus autovalores e autovetores. Seja $\Lambda$ uma matriz que tem na diagonal os autovalores e fora dela zero; e $P$ uma matriz que tem os autovetores. Então, $A = P\Lambda{}P^{-1}$. Mais ainda, $A^j = P\Lambda^jP^{-1}$, onde $\Lambda^j$ é equivalente a elevar cada entrada da diagonal a $j$. Logo, toda a dinâmica do sistema é governada pelos autovalores! 
+
+Para provar o ponto, eis os autovalores da matriz A do exemplo anterior:
+
+```{r}
+eigen(A)
+```
+
+O maior deles é 1,4. Qualquer autovalor maior que 1 gera um comportamento explosivo, já que elevar ele a números cada vez maiores gera números maiores. Um autovalor menor que 1 gera um sistema bem comportado, já que conforme elevamos ele a números maiores ele vai diminuindo. 

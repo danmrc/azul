@@ -1,0 +1,44 @@
+---
+title: Sistemas dinâmicos e Algebra Linear
+author: Daniel Coutinho
+date: '2018-10-31'
+slug: sistemas-dinâmicos-e-algebra-linear
+categories:
+  - R
+  - Matemática
+tags:
+  - Algebra Linear
+  - Sistemas dinâmicos
+  - Autovalores
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+
+
+<p>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.</p>
+<p>Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo. Ele pode ser descrito como <span class="math inline">\(x_{t+1} = Ax_{t}\)</span>, onde <span class="math inline">\(x_t\)</span> é o vetor de interesse e <span class="math inline">\(A\)</span> é a matriz que governa como as variáveis se relacionam. Também precisamos de uma condição inicial <span class="math inline">\(x_0\)</span>. Veja que calcular o valor do sistema no tempo <span class="math inline">\(T\)</span> é equivalente a fazer <span class="math inline">\(A^{T} x_0\)</span>, onde <span class="math inline">\(A^{T} = A \times A \times A\)</span>, <span class="math inline">\(T\)</span> vezes.</p>
+<p>Já encontramos uma situação similar a essa em um post anterior, no qual eu falei de Autoregressão vetorial (VAR). Lá, estavamos interessados em recuperar a matriz A, e o nosso sistema tinha um choque aleatório <span class="math inline">\(\epsilon_t\)</span>. Nosso interesse hoje é saber quando o sistema é estável. Ser estável quer dizer que o sistema não explode, como é o caso do exemplo abaixo:</p>
+<pre class="r"><code>A &lt;- rbind(c(0.8,0.7),c(0.6,0.7))
+x &lt;- matrix(0,ncol = 2, nrow = 100)
+x[1,] &lt;- c(1,0)
+for(i in 1:99){
+  x[i+1,] &lt;- A%*%x[i,]
+}
+plot(x[,1], type=&quot;l&quot;, ylab = &quot; &quot;, xlab = &quot;tempo&quot;)
+lines(x[,2], type = &quot;l&quot;, col = 2)</code></pre>
+<p><img src="/post/2018-10-31-sistemas-din%C3%A2micos-e-algebra-linear_files/figure-html/um%20sistema%20explosivo-1.png" width="672" /></p>
+<p>Um sistema não explosivo vai voltar a um estado de “repouso” do sistema. Veja que isso soa familiar: nós esperamos que a economia saia do equilíbrio mas volte a ele (ou a um novo equilíbrio). Como podemos saber se um sistema dinâmico linear é explosivo ou não?</p>
+<p>A resposta são os autovalores da matriz <span class="math inline">\(A\)</span> - na verdade, apenas o maior deles (em módulo). A ideia aqui é que a matriz <span class="math inline">\(A\)</span> possa ser decomposta em seus autovalores e autovetores. Seja <span class="math inline">\(\Lambda\)</span> uma matriz que tem na diagonal os autovalores e fora dela zero; e <span class="math inline">\(P\)</span> uma matriz que tem os autovetores. Então, <span class="math inline">\(A = P\Lambda{}P^{-1}\)</span>. Mais ainda, <span class="math inline">\(A^j = P\Lambda^jP^{-1}\)</span>, onde <span class="math inline">\(\Lambda^j\)</span> é equivalente a elevar cada entrada da diagonal a <span class="math inline">\(j\)</span>. Logo, toda a dinâmica do sistema é governada pelos autovalores!</p>
+<p>Para provar o ponto, eis os autovalores da matriz A do exemplo anterior:</p>
+<pre class="r"><code>eigen(A)</code></pre>
+<pre><code>## eigen() decomposition
+## $values
+## [1] 1.4 0.1
+## 
+## $vectors
+##           [,1]       [,2]
+## [1,] 0.7592566 -0.7071068
+## [2,] 0.6507914  0.7071068</code></pre>
+<p>O maior deles é 1,4. Qualquer autovalor maior que 1 gera um comportamento explosivo, já que elevar ele a números cada vez maiores gera números maiores. Um autovalor menor que 1 gera um sistema bem comportado, já que conforme elevamos ele a números maiores ele vai diminuindo.</p>
