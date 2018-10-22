@@ -102,6 +102,11 @@ lang = "pt-br"
 languageName = "Português"
 weight = 1
 
+[params.opengraph.facebook]
+admins = []  # for fb:admins tags
+appID  = "1762899530488891"  # for fb:app_id tag
+pageID = "261817724519833"
+
 #[params]
 #description = "A website built through Hugo and blogdown."
 
