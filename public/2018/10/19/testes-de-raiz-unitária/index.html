@@ -43,6 +43,14 @@ if (!doNotTrack) {
 
 
 <body class='page type-post has-sidebar'>
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.1&appId=133741353880161&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
   <div class='site'>
 
@@ -408,6 +416,7 @@ knitr::kable(tabela, col.names = c(&quot;Proporção de rejeição de H0, signif
 </table>
 <p>Trocando em miúdos: com uma amostra de 100 observações e um processo muito persistente, em mais de 20% dos casos você vai aceitar a hipótese nula quando não deveria. Se você tem observações mensais, 100 observações correspondem a um pouco mais de 8 anos. Se a sua observação é trimestral, isso corresponde a 25 anos de dados! Estes horizontes podem ser viáveis em alguns casos, mas não em geral - 25 anos atrás não tinhamos o Plano Real, por exemplo.</p>
 <p>Apesar de ser importante diagnosticar a presença de raiz unitária - devido ao problema de regressão espúria - deve se ter algum cuidado com os testes de raiz unitária. Nas amostras geralmente disponíveis para problemas macro, o baixo poder do teste pode gerar problemas.</p>
+
 <div class="fb-comments" data-href="https://azul.netlify.com/" data-width="700" data-numposts="5">
 
 </div>
