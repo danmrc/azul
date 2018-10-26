@@ -50,3 +50,34 @@ function teste_optim()
 end
 
 val, t, bytes, gctime, memallocs = @timed teste_optim()
+
+##3 - Bootstrap
+
+using Distributions
+using Statistics
+
+
+function boot()
+    z = randn(100)
+
+    boot_mean = Array{Float64}(undef,2000)
+
+    for i = 1:2000
+
+        prob = repeat([1/length(z)],length(z))
+
+        h = Categorical(prob)
+
+        boot_mean[i] = Statistics.mean(z[rand(h,100)])
+    end
+end
+
+tempo = Array{Float64}(undef,100)
+
+for j=1:100
+
+    val, t, bytes, gctime, memallocs =  @timed boot()
+    tempo[j] = t
+end
+
+sum(tempo)/length(tempo)
