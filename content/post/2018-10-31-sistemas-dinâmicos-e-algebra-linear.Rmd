@@ -43,4 +43,35 @@ Para provar o ponto, eis os autovalores da matriz A do exemplo anterior:
 eigen(A)
 ```
 
-O maior deles é 1,4. Qualquer autovalor maior que 1 gera um comportamento explosivo, já que elevar ele a números cada vez maiores gera números maiores. Um autovalor menor que 1 gera um sistema bem comportado, já que conforme elevamos ele a números maiores ele vai diminuindo. 
+O maior deles é 1,4. Qualquer autovalor maior que 1 gera um comportamento explosivo, já que elevar ele a números cada vez maiores gera números maiores. Um autovalor menor que 1 gera um sistema bem comportado, já que conforme elevamos ele a números maiores ele vai diminuindo. Para ilustrar o ponto, vou gerar um sistema estacionário:
+
+```{r}
+B <- rbind(c(0.8,-0.4),c(0.6,-0.5))
+eigen(B)
+x <- matrix(0,ncol = 2, nrow = 20)
+x[1,] <- c(1,0)
+for(i in 1:19){
+  x[i+1,] <- B%*%x[i,]
+}
+plot(x[,1], type="l", ylab = " ", xlab = "tempo")
+lines(x[,2], type = "l", col = 2)
+```
+
+Veja que, nesse caso, o sistema converge para o vetor (0,0). Apesar disso parecer excessivamente rigído, podemos sempre pensar que o vetor $x$ representa desvios do equilíbrio e o equilíbrio é basicamente o que a gente quiser. Talvez um caso mais fascinante é quando nós temos o maior autovalor 1. O autovetor associado vai ser o equilíbrio do sistema. O exemplo abaixo ilustra isso, onde a linha verde representa o equilíbrio:
+
+```{r}
+C = rbind(c(0.8,0.2),c(0.4,0.6))
+eigen(C)
+ee <- eigen(C)$vectors[,1]/(eigen(C)$vectors[1,1]+eigen(C)$vectors[2,1])
+y <- matrix(0,ncol = 2, nrow = 30)
+y[1,] <- c(0.6,0.4)
+for(i in 1:29){
+  aux <- C%*%y[i,]
+  y[i+1,] <- aux/sum(aux)
+}
+plot(y[,1], type="l", ylab = " ", xlab = "tempo", ylim = c(min(y),max(y)))
+lines(y[,2], col = 2)
+lines(1:30,rep(ee[1],30), col = 3)
+```
+
+Como um autovetor vezes um escalar é também um autovetor, eu escolhi o autovetor que somando os componentes, é igual 1. Isso permite interpretar o autovetor como a probabilidade, em equilíbrio, de cair em qualquer um dos dois estados. 

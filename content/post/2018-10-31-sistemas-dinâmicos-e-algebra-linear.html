@@ -41,4 +41,45 @@ lines(x[,2], type = &quot;l&quot;, col = 2)</code></pre>
 ##           [,1]       [,2]
 ## [1,] 0.7592566 -0.7071068
 ## [2,] 0.6507914  0.7071068</code></pre>
-<p>O maior deles é 1,4. Qualquer autovalor maior que 1 gera um comportamento explosivo, já que elevar ele a números cada vez maiores gera números maiores. Um autovalor menor que 1 gera um sistema bem comportado, já que conforme elevamos ele a números maiores ele vai diminuindo.</p>
+<p>O maior deles é 1,4. Qualquer autovalor maior que 1 gera um comportamento explosivo, já que elevar ele a números cada vez maiores gera números maiores. Um autovalor menor que 1 gera um sistema bem comportado, já que conforme elevamos ele a números maiores ele vai diminuindo. Para ilustrar o ponto, vou gerar um sistema estacionário:</p>
+<pre class="r"><code>B &lt;- rbind(c(0.8,-0.4),c(0.6,-0.5))
+eigen(B)</code></pre>
+<pre><code>## eigen() decomposition
+## $values
+## [1]  0.5772002 -0.2772002
+## 
+## $vectors
+##           [,1]      [,2]
+## [1,] 0.8736212 0.3481078
+## [2,] 0.4866066 0.9374545</code></pre>
+<pre class="r"><code>x &lt;- matrix(0,ncol = 2, nrow = 20)
+x[1,] &lt;- c(1,0)
+for(i in 1:19){
+  x[i+1,] &lt;- B%*%x[i,]
+}
+plot(x[,1], type=&quot;l&quot;, ylab = &quot; &quot;, xlab = &quot;tempo&quot;)
+lines(x[,2], type = &quot;l&quot;, col = 2)</code></pre>
+<p><img src="/post/2018-10-31-sistemas-din%C3%A2micos-e-algebra-linear_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Veja que, nesse caso, o sistema converge para o vetor (0,0). Apesar disso parecer excessivamente rigído, podemos sempre pensar que o vetor <span class="math inline">\(x\)</span> representa desvios do equilíbrio e o equilíbrio é basicamente o que a gente quiser. Talvez um caso mais fascinante é quando nós temos o maior autovalor 1. O autovetor associado vai ser o equilíbrio do sistema. O exemplo abaixo ilustra isso, onde a linha verde representa o equilíbrio:</p>
+<pre class="r"><code>C = rbind(c(0.8,0.2),c(0.4,0.6))
+eigen(C)</code></pre>
+<pre><code>## eigen() decomposition
+## $values
+## [1] 1.0 0.4
+## 
+## $vectors
+##           [,1]       [,2]
+## [1,] 0.7071068 -0.4472136
+## [2,] 0.7071068  0.8944272</code></pre>
+<pre class="r"><code>ee &lt;- eigen(C)$vectors[,1]/(eigen(C)$vectors[1,1]+eigen(C)$vectors[2,1])
+y &lt;- matrix(0,ncol = 2, nrow = 30)
+y[1,] &lt;- c(0.6,0.4)
+for(i in 1:29){
+  aux &lt;- C%*%y[i,]
+  y[i+1,] &lt;- aux/sum(aux)
+}
+plot(y[,1], type=&quot;l&quot;, ylab = &quot; &quot;, xlab = &quot;tempo&quot;, ylim = c(min(y),max(y)))
+lines(y[,2], col = 2)
+lines(1:30,rep(ee[1],30), col = 3)</code></pre>
+<p><img src="/post/2018-10-31-sistemas-din%C3%A2micos-e-algebra-linear_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Como um augtovetor vezes um escalar é também um autovetor, eu escolhi o autovetor que somando os componentes, é igual 1. Isso permite interpretar o autovetor como a probabilidade, em equilíbrio, de cair em qualquer um dos dois estados.</p>

@@ -235,7 +235,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-2 mins read
+4 mins read
 </span>
 
 
@@ -277,10 +277,51 @@ if (!doNotTrack) {
 </tbody>
 </table>
 <p>O Julia é muito mais rápido. Mas uma pergunta justa é se usando o <code>lm(y ~x)</code> nativo do R nós não obtemos resultados melhores. Esse é o objetivo do <code>func2</code> no arquivo acima. O resultado da mesma simulação usando o <code>lm</code> são estúpidos <span class="math inline">\(0.9558\)</span>.</p>
-<p>1 a 0 Julia. Gol lindo, sem chance para o R.</p>
+<p>Julia 1, R 0.</p>
 </div>
 <div id="otimizacao" class="section level2">
 <h2>2. Otimização</h2>
+<p>É muito comum precisar encontrar o máximo ou mínimo de uma função. Vamos testar isso comparando o <code>optim</code> do próprio R e o pacote do Julia <strong>optim</strong>, que foi escrito em Julia.</p>
+</div>
+<div id="uma-simulacao-pequena" class="section level2">
+<h2>3. Uma simulação pequena</h2>
+<p>Vamos ver como cada uma das linguagens se comporta com uma simulação pequena. Para variar um pouco, eu vou escrever uma função que calcula o desvio padrão numericamente a partir de uma amostra <span class="math inline">\(x\)</span> da seguinte forma:</p>
+<ul>
+<li>Tire uma amostra aleatória de <span class="math inline">\(X\)</span>, permitindo repetições. Esta amostra tem o tamanho <span class="math inline">\(n\)</span>, que você quiser.</li>
+<li>Calcule a média desta amostra aleatória e coloque isso em um vetor <span class="math inline">\(b\)</span></li>
+<li>Calcule o desvio padrão de <span class="math inline">\(b\)</span>. Ele deve ser igual a <span class="math inline">\(\frac{\sigma}{\sqrt{n}}\)</span>, onde <span class="math inline">\(\sigma\)</span> é o desvio padrão da variável <span class="math inline">\(x\)</span>.</li>
+</ul>
+<p>Este procedimento é conhecido como <em>bootstrap</em>. Apenas para garantir que o procedimento faz sentido, eu deixo abaixo a versão do R. Vamos fazer uma amostra de 100 observações distribuídas <span class="math inline">\(N(0,1)\)</span>. A nossa reamostragem vai ter 100 observações também.</p>
+<pre class="r"><code>amostra &lt;- rnorm(1000)
+
+boot &lt;- rep(0,10000)
+
+for(i in 1:10000){
+  amostra_boot &lt;- sample(amostra,size = 500, replace = T)
+  boot[i] &lt;- mean(amostra_boot)
+}
+
+tabela &lt;- cbind(sd(boot),sd(amostra)/sqrt(500))
+knitr::kable(tabela, col.names = c(&quot;Desvio padrão bootstrap&quot;,&quot;Desvio padrão analítico&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Desvio padrão bootstrap</th>
+<th align="right">Desvio padrão analítico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.0439302</td>
+<td align="right">0.0441283</td>
+</tr>
+</tbody>
+</table>
+<p>Veja que usaremos este mesmo código no nosso teste. Ele basicamente testa o quão bom é cada linguagem ao rodarmos um <em>loop</em>.</p>
+</div>
+<div id="por-que-nao-usar-o-julia" class="section level2">
+<h2>Por que não usar o Julia?</h2>
+<p>Dado todos os elogios ao Julia até aqui, talvez seja uma boa hora de dizer quais as coisas ruins do Julia. A primeira é que não há tantos pacotes quanto o R, e nem temos uma IDE tão boa quanto o RStudio (apesar do Atom ser bastante competente). Por exemplo, não estamos nem perto de integrar arquivos markdown com código em Julia direto no Atom. Como o Julia é uma linguagem muito nova, as mudanças entre versões anteriores a 1.0 eram brutais - espero que a linguagem se estabilize a partir de agora. Um outro “problema” é que a primeira vez que você roda um código, o Julia é lento. Isso não é um <em>bug</em>: o Julia é uma linguagem compila, então a primeira vez que você roda um código ele vai ser mais lento que linguagens interpretadas como o Python e o R. Entretanto, nas vezes seguintes, ele vai ser muito mais rápido, como os testes acima mostram.</p>
 </div>
 
 </div>
