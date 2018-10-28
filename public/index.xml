@@ -22,6 +22,16 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
     </item>
     
     <item>
+      <title>Por que usar o Julia?</title>
+      <link>/2018/10/28/por-que-usar-o-julia/</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/28/por-que-usar-o-julia/</guid>
+      <description>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</description>
+    </item>
+    
+    <item>
       <title>Testes de raiz unitária</title>
       <link>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
       <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
@@ -78,16 +88,6 @@ Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando
       
       <guid>/2018/09/16/lasso/</guid>
       <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
-    </item>
-    
-    <item>
-      <title>Por que usar o Julia?</title>
-      <link>/2018/09/13/por-que-usar-o-julia/</link>
-      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/09/13/por-que-usar-o-julia/</guid>
-      <description>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
-Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</description>
     </item>
     
     <item>
@@ -157,7 +157,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
@@ -186,7 +186,7 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       <pubDate>Wed, 18 Jul 2018 21:48:51 -0700</pubDate>
       
       <guid>/about/</guid>
-      <description>Os Autores Este blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três - é “econometria” que chama?. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts são acompanhados do código. Replicabilidade e aprender-fazendo são a serventia da casa. Sem mais delongas, eis os dois autores:
+      <description>Os AutoresEste blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três - é “econometria” que chama?. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts são acompanhados do código. Replicabilidade e aprender-fazendo são a serventia da casa. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
     </item>
     
@@ -216,7 +216,7 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/1/01/01/</guid>
-      <description>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego        code{white-space: pre;} pre:not([class]) { background-color: white; }  if (window.hljs) { hljs.configure({languages: []}); hljs.initHighlightingOnLoad(); if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); } }  h1 { font-size: 34px; } h1.title { font-size: 38px; } h2 { font-size: 30px; } h3 { font-size: 24px; } h4 { font-size: 18px; } h5 { font-size: 16px; } h6 { font-size: 12px; } .</description>
+      <description>Usando dados da RAIS e Análise de Sobrevivência para entender desempregocode{white-space: pre;}pre:not([class]) {background-color: white;}if (window.hljs) {hljs.configure({languages: []});hljs.initHighlightingOnLoad();if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) {window.setTimeout(function() { hljs.initHighlighting(); }, 0);}}h1 {font-size: 34px;}h1.title {font-size: 38px;}h2 {font-size: 30px;}h3 {font-size: 24px;}h4 {font-size: 18px;}h5 {font-size: 16px;}h6 {font-size: 12px;}.</description>
     </item>
     
   </channel>

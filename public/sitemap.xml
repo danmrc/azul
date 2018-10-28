@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>/2018/10/28/por-que-usar-o-julia/</loc>
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</loc>
     <lastmod>2018-10-19T00:00:00+00:00</lastmod>
   </url>
@@ -35,11 +40,6 @@
   <url>
     <loc>/2018/09/16/lasso/</loc>
     <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2018/09/13/por-que-usar-o-julia/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -153,20 +153,20 @@
   </url>
   
   <url>
-    <loc>/tags/clustering/</loc>
-    <lastmod>2018-08-19T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>/tags/clustering/</loc>
+    <lastmod>2018-08-19T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/computa%C3%A7%C3%A3o/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -183,25 +183,25 @@
   </url>
   
   <url>
-    <loc>/tags/econometria/</loc>
-    <lastmod>2018-08-19T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/econometria/</loc>
     <lastmod>2018-10-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/economia/</loc>
-    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
+    <loc>/tags/econometria/</loc>
+    <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/economia/</loc>
+    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/economia/</loc>
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -225,14 +225,14 @@
   </url>
   
   <url>
-    <loc>/tags/julia/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <loc>/categories/julia/</loc>
+    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/julia/</loc>
-    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
+    <loc>/tags/julia/</loc>
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -249,14 +249,14 @@
   </url>
   
   <url>
-    <loc>/tags/macroeconomia/</loc>
-    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
+    <loc>/categories/macroeconomia/</loc>
+    <lastmod>2018-10-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/macroeconomia/</loc>
-    <lastmod>2018-10-07T00:00:00+00:00</lastmod>
+    <loc>/tags/macroeconomia/</loc>
+    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -267,13 +267,13 @@
   </url>
   
   <url>
-    <loc>/tags/microeconomia/</loc>
+    <loc>/categories/microeconomia/</loc>
     <lastmod>2018-09-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/microeconomia/</loc>
+    <loc>/tags/microeconomia/</loc>
     <lastmod>2018-09-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -303,26 +303,20 @@
   </url>
   
   <url>
-    <loc>/tags/probit/</loc>
-    <lastmod>2018-08-17T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/probit/</loc>
     <lastmod>2018-08-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/profiling/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <loc>/tags/probit/</loc>
+    <lastmod>2018-08-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
-    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
+    <loc>/tags/profiling/</loc>
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -333,14 +327,20 @@
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2018-10-15T00:00:00+00:00</lastmod>
+    <loc>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
+    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
     <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -1,56 +1,49 @@
+x <- matrix(rnorm(500),ncol = 5)
+bet <- c(1,2,3,4,5)
+y <- x%*%bet+rnorm(100)
+
 ols <- function(x,y){
   solve(t(x)%*%x)%*%t(x)%*%y
 }
 
-func <- function(){
-  for(j in 1:1000){
-    x <- matrix(rnorm(500),ncol = 5)
-    bet <- c(1,2,3,4,5)
-    y <- x%*%bet + rnorm(100)
-    ols(x,y)
-  }
-}
 
-tempo <- rep(0,100)
+benchmark(ols(x,y))
 
-for(j in 1:100){
-
-  tempo[j] <- system.time(func())[3]
-}
-
-func2 <- function(){
-  for(j in 1:1000){
-    x <- matrix(rnorm(500),ncol = 5)
-    bet <- c(1,2,3,4,5)
-    y <- x%*%bet + rnorm(100)
-    lm(y ~ x)
-  }
-}
-
-tempo <- rep(0,100)
-
-for(j in 1:100){
-  
-  tempo[j] <- system.time(func2())[3]
-}
+benchmark(lm(y ~ x))
 
 ##2 Otimização
 
 rm(list=ls())
 
-vals = seq(1,1000,by = 0.01)
+x <- rweibull(500,1)
 
-f <- function(x)(x[1]^2+x[2]^2)
-
-teste_optim <- function(){
-  valores <- matrix(0,ncol = 2, nrow = length(vals))
-  
-  for (i in 1:length(vals)){
-    x0 = c(vals[i],vals[i])
-    otimo = optim(x0,f)
-    valores[i,] = otimo$par
-  }
-  return(valores)
+weib <- function(par){
+  -1*sum(log(par[2]) - log(par[1]) + (par[2]-1)*(log(x)-log(par[1]))-(x/par[1])^par[2])
 }
 
-system.time(teste_optim())
+x0 = c(2,2)
+
+benchmark(optim(x0,weib))
+
+##3 Bootstrapping
+
+
+
+Boot <- function(amostra){
+
+  boot <- rep(0,10000)
+  
+  for(i in 1:10000){
+    amostra_boot <- sample(amostra,size = 500, replace = T)
+    boot[i] <- mean(amostra_boot)
+  }
+}
+
+tempo <- rep(0,100)
+
+for(i in 1:100){
+  amostra <- rnorm(1000)
+  tempo[i] <- system.time(Boot(amostra))[3]
+}
+
+mean(tempo)

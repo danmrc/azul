@@ -22,6 +22,16 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
     </item>
     
     <item>
+      <title>Por que usar o Julia?</title>
+      <link>/2018/10/28/por-que-usar-o-julia/</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/28/por-que-usar-o-julia/</guid>
+      <description>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</description>
+    </item>
+    
+    <item>
       <title>Testes de raiz unitária</title>
       <link>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
       <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
@@ -78,16 +88,6 @@ Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando
       
       <guid>/2018/09/16/lasso/</guid>
       <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
-    </item>
-    
-    <item>
-      <title>Por que usar o Julia?</title>
-      <link>/2018/09/13/por-que-usar-o-julia/</link>
-      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/09/13/por-que-usar-o-julia/</guid>
-      <description>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
-Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</description>
     </item>
     
     <item>
