@@ -1,0 +1,115 @@
+---
+title: "Os Custos da Patronagem: evidências do Império Britânico"
+author: "Pedro Cavalcante"
+date: '2018-11-05'
+output:
+  html_document:
+    df_print: paged
+categories:
+- R
+- Economia
+slug: patronagem
+tags:
+- Microeconomia
+- R
+- Replicação
+authors: [pedrocava]
+katex: true
+draft: true
+---
+
+
+
+<pre class="r"><code>library(readstata13)</code></pre>
+<pre><code>## Warning: package &#39;readstata13&#39; was built under R version 3.4.4</code></pre>
+<pre class="r"><code>temp = tempfile() ## geramos um arquivo temporário
+download.file(&quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&quot;,
+              destfile = temp, mode = &quot;wb&quot;) # puxamos diretamente os dados do repositório da AEA
+
+dados = unzip(temp, file = &quot;analysis.dta&quot;) # descomprimimos
+dados = read.dta13(dados) #lemos
+head(dados) #exploramos para garantir que está tudo certo</code></pre>
+<pre><code>##    sid year                   aid log_salary_governor_gbp
+## 1 Aden 1938 Bernard Rawdon Reilly                8.086411
+## 2 Aden 1937 Bernard Rawdon Reilly                8.086411
+## 3 Aden 1939 Bernard Rawdon Reilly                8.086411
+## 4 Aden 1944     John Hathorn Hall                8.086411
+## 5 Aden 1941     John Hathorn Hall                8.086411
+## 6 Aden 1942     John Hathorn Hall                8.086411
+##   log_rev_total_gbp log_rev_customs_gbp log_rev_internal_gbp
+## 1          11.90891                  NA                   NA
+## 2                NA                  NA                   NA
+## 3                NA                  NA                   NA
+## 4                NA                  NA                   NA
+## 5                NA                  NA                   NA
+## 6                NA                  NA                   NA
+##   log_exp_total_gbp log_exp_tax_gbp log_exp_pubworks_gbp
+## 1          11.79066              NA                   NA
+## 2                NA              NA                   NA
+## 3                NA              NA                   NA
+## 4                NA              NA                   NA
+## 5                NA              NA                   NA
+## 6                NA              NA                   NA
+##   log_population_imputed shared_ancestry both_arist both_oxbridge
+## 1               11.05763               0          0             0
+## 2               11.01172               0          0             0
+## 3               11.10355               0          0             0
+## 4               11.33313               0          0             0
+## 5               11.19538               0          0             0
+## 6               11.24130               0          0             0
+##   both_eton connected age_entry cambridge oxford eton peerage civilservant
+## 1         0         0        55         0      0    0       0            1
+## 2         0         0        55         0      0    0       0            1
+## 3         0         0        55         0      0    0       0            1
+## 4         0         0        46         0      1    0       0            1
+## 5         0         0        46         0      1    0       0            1
+## 6         0         0        46         0      1    0       0            1
+##   politician military ordinance_total ordinance_health ordinance_education
+## 1          0        1               0                0                   0
+## 2          0        1               0                0                   0
+## 3          0        1               0                0                   0
+## 4          0        1               0                0                   0
+## 5          0        1               0                0                   0
+## 6          0        1               0                0                   0
+##   ordinance_pubworks ordinance_welfare ordinance_tax ordinance_trade
+## 1                  0                 0             0               0
+## 2                  0                 0             0               0
+## 3                  0                 0             0               0
+## 4                  0                 0             0               0
+## 5                  0                 0             0               0
+## 6                  0                 0             0               0
+##   customs_exemptions social_unrest hansard_mention    polarity
+## 1                 NA             0               1 -0.04201159
+## 2                 NA             0               1  0.17053641
+## 3                 NA             0               1 -0.05729311
+## 4                 NA             0               1  0.04278848
+## 5                 NA             0               1  0.48875952
+## 6                 NA             0               1  0.20026831
+##   award_highest log_dist_london area_tropics logem4 sum_d_pre_post
+## 1             0        8.206037            0     NA             NA
+## 2             0        8.206037            0     NA             NA
+## 3             0        8.206037            0     NA             NA
+## 4             0        8.206037            0     NA             NA
+## 5             0        8.206037            0     NA             NA
+## 6             0        8.206037            0     NA             NA
+##   post1930 tenure_aid landlocked quinquennial decade bilateral no_colonies
+## 1        1          2          0         1935   1930       245           1
+## 2        1          2          0         1935   1930       245           1
+## 3        1          2          0         1935   1930       244           1
+## 4        1         11          0         1940   1940      1567           1
+## 5        1         11          0         1940   1940      1568           1
+## 6        1         11          0         1940   1940      1568           1
+##   duration state_aid min_year min_revenue full post1930_connected
+## 1        1         1     1937    11.90891    0                  0
+## 2        0         1     1937    11.90891    0                  0
+## 3        2         1     1937    11.90891    0                  0
+## 4        4         2     1940    11.90891    0                  0
+## 5        1         2     1940    11.90891    0                  0
+## 6        2         2     1940    11.90891    0                  0
+##   connected_year1930 tenure
+## 1                  0      1
+## 2                  0      0
+## 3                  0      2
+## 4                  0      4
+## 5                  0      1
+## 6                  0      2</code></pre>

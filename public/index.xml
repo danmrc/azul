@@ -6,10 +6,19 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Wed, 31 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Os Custos da Patronagem: evidências do Império Britânico</title>
+      <link>/2018/11/05/patronagem/</link>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/05/patronagem/</guid>
+      <description>library(readstata13)## Warning: package &amp;#39;readstata13&amp;#39; was built under R version 3.4.4temp = tempfile() ## geramos um arquivo temporáriodownload.file(&amp;quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&amp;quot;,destfile = temp, mode = &amp;quot;wb&amp;quot;) # puxamos diretamente os dados do repositório da AEAdados = unzip(temp, file = &amp;quot;analysis.dta&amp;quot;) # descomprimimosdados = read.dta13(dados) #lemoshead(dados) #exploramos para garantir que está tudo certo## sid year aid log_salary_governor_gbp## 1 Aden 1938 Bernard Rawdon Reilly 8.086411## 2 Aden 1937 Bernard Rawdon Reilly 8.</description>
+    </item>
     
     <item>
       <title>Sistemas dinâmicos e Algebra Linear</title>
@@ -69,6 +78,16 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
       <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbb{x_t} = (x_y \phantom{0} y_t)&amp;#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
+    </item>
+    
+    <item>
+      <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
+      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
+Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
     </item>
     
     <item>
@@ -208,15 +227,6 @@ Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em eco
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/1/01/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/</guid>
-      <description>Usando dados da RAIS e Análise de Sobrevivência para entender desempregocode{white-space: pre;}pre:not([class]) {background-color: white;}if (window.hljs) {hljs.configure({languages: []});hljs.initHighlightingOnLoad();if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) {window.setTimeout(function() { hljs.initHighlighting(); }, 0);}}h1 {font-size: 34px;}h1.title {font-size: 38px;}h2 {font-size: 30px;}h3 {font-size: 24px;}h4 {font-size: 18px;}h5 {font-size: 16px;}h6 {font-size: 12px;}.</description>
     </item>
     
   </channel>

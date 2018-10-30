@@ -6,10 +6,19 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Wed, 31 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Os Custos da Patronagem: evidências do Império Britânico</title>
+      <link>/2018/11/05/patronagem/</link>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/05/patronagem/</guid>
+      <description>library(readstata13)## Warning: package &amp;#39;readstata13&amp;#39; was built under R version 3.4.4temp = tempfile() ## geramos um arquivo temporáriodownload.file(&amp;quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&amp;quot;,destfile = temp, mode = &amp;quot;wb&amp;quot;) # puxamos diretamente os dados do repositório da AEAdados = unzip(temp, file = &amp;quot;analysis.dta&amp;quot;) # descomprimimosdados = read.dta13(dados) #lemoshead(dados) #exploramos para garantir que está tudo certo## sid year aid log_salary_governor_gbp## 1 Aden 1938 Bernard Rawdon Reilly 8.086411## 2 Aden 1937 Bernard Rawdon Reilly 8.</description>
+    </item>
     
     <item>
       <title>Sistemas dinâmicos e Algebra Linear</title>
@@ -59,6 +68,16 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
       <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbb{x_t} = (x_y \phantom{0} y_t)&amp;#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
+    </item>
+    
+    <item>
+      <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
+      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
+Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
     </item>
     
     <item>
