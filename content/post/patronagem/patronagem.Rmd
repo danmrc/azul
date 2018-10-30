@@ -1,0 +1,37 @@
+---
+title: "Os Custos da Patronagem: evidências do Império Britânico"
+author: "Pedro Cavalcante"
+date: '2018-11-05'
+output:
+  html_document:
+    df_print: paged
+categories:
+- R
+- Economia
+slug: patronagem
+tags:
+- Microeconomia
+- R
+- Replicação
+authors: [pedrocava]
+katex: true
+draft: true
+---
+
+
+
+
+
+
+```{R}
+library(readstata13)
+
+temp = tempfile() ## geramos um arquivo temporário
+download.file("https://www.aeaweb.org/doi/10.1257/aer.20171339.data",
+              destfile = temp, mode = "wb") # puxamos diretamente os dados do repositório da AEA
+
+dados = unzip(temp, file = "analysis.dta") # descomprimimos
+dados = read.dta13(dados) #lemos
+head(dados) #exploramos para garantir que está tudo certo
+```
+
