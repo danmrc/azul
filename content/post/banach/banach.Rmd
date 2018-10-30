@@ -86,45 +86,64 @@ Teoremas de Ponto Fixo são extremamente úteis porque são ferramentas propíci
 Vamos definir uma função:
 
 ```{R}
-contracao = function(c, A, n) {
+contracao = function(c, A, n, soma = 0) {
   x = vector()
   x[1] = c
   
   for(i in 2:n){
-    x[i] = A*x[i-1]
+    x[i] = A*x[i-1] + soma
   }
   
   return(x)
 }
 
-n = 100000
-A = .2 
+n = 15
 # A dá a taxa de convergência ao ponto fixo
-#vamos alterar as condições inciais drasticamente
 
-obj1 = contracao(c = 10, A = A, n = n) 
-obj2 = contracao(c = 100, A = A, n = n)
-obj3 = contracao(c = 1000, A = A, n = n)
-obj4 = contracao(c = 10000, A = A, n = n)
+obj1 = contracao(c = 10, A = .05, n = n) 
+obj2 = contracao(c = 10, A = .2, n = n)
+obj3 = contracao(c = 10, A = .6, n = n)
+obj4 = contracao(c = 10, A = .8, n = n)
 x = seq(0, n-1, by = 1)
 
 dados = data.frame(primeiro = obj1, segundo = obj2,
                    terceiro = obj3, quarto = obj4,
                    x = x)
 
-library(ggplot2)
-library(dplyr)
-
 ggplot(dados, aes(x = x))+
-  geom_line(aes(y = obj1), color = "red")+
-  geom_line(aes(y = obj2), color = "blue")+
-  geom_line(aes(y = obj3), color = "green")+
-  geom_line(aes(y = obj4), color = "yellow")
+ geom_line(aes(y = obj1), size = 2)+
+  geom_line(aes(y = obj2), color = "blue", size = 2)+
+  geom_line(aes(y = obj3), color = "green", size = 2)+
+  geom_line(aes(y = obj4), color = "yellow", size = 2)
 
 ```
 
+Podemos manter a taxa de convergência constante e alterar as posições iniciais também.
+
+```{R}
+
+n = 15
+# A dá a taxa de convergência ao ponto fixo
+A = .1
+
+obj5 = contracao(c = 10, A = A, n = n) 
+obj6 = contracao(c = 100, A = A, n = n)
+obj7 = contracao(c = 1000, A = A, n = n)
+obj8 = contracao(c = 10000, A = A, n = n)
+x = seq(0, n-1, by = 1)
+
+dados = data.frame(Quinto = obj5, Sexto = obj6,
+                   Setimo = obj7, Oitavo = obj8,
+                   x = x)
+
+ggplot(dados, aes(x = x))+
+ geom_line(aes(y = obj5), size = 2)+
+  geom_line(aes(y = obj6), color = "blue", size = 2)+
+  geom_line(aes(y = obj7), color = "green", size = 2)+
+  geom_line(aes(y = obj8), color = "yellow", size = 2)
 
 
+```
 
 
 
