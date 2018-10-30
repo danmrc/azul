@@ -4,11 +4,13 @@
 <head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='library(readstata13)## Warning: package &#39;readstata13&#39; was built under R version 3.4.4temp = tempfile() ## geramos um arquivo temporáriodownload.file(&quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&quot;,destfile = temp, mode = &quot;wb&quot;) # puxamos diretamente os dados do repositório da AEAdados = unzip(temp, file = &quot;analysis.dta&quot;) # descomprimimosdados = read.dta13(dados) #lemoshead(dados) #exploramos para garantir que está tudo certo## sid year aid log_salary_governor_gbp## 1 Aden 1938 Bernard Rawdon Reilly 8.086411## 2 Aden 1937 Bernard Rawdon Reilly 8.'>
+<meta name='description' content='Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu. O resumo me deixou dando pulinhos de alegria:
+“I combine newly digitized personnel and public finance data from the British colonial administration for the period 1854-1966 to study how patronage affects the promotion and incentives of governors. Governors are more likely to be promoted to higher salaried colonies when connected to their superior during the period of patronage.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Os Custos da Patronagem: evidências do Império Britânico • Pedro Cavalcante'>
-<meta property='og:description' content='library(readstata13)## Warning: package &#39;readstata13&#39; was built under R version 3.4.4temp = tempfile() ## geramos um arquivo temporáriodownload.file(&quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&quot;,destfile = temp, mode = &quot;wb&quot;) # puxamos diretamente os dados do repositório da AEAdados = unzip(temp, file = &quot;analysis.dta&quot;) # descomprimimosdados = read.dta13(dados) #lemoshead(dados) #exploramos para garantir que está tudo certo## sid year aid log_salary_governor_gbp## 1 Aden 1938 Bernard Rawdon Reilly 8.086411## 2 Aden 1937 Bernard Rawdon Reilly 8.'>
+<meta property='og:description' content='Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu. O resumo me deixou dando pulinhos de alegria:
+“I combine newly digitized personnel and public finance data from the British colonial administration for the period 1854-1966 to study how patronage affects the promotion and incentives of governors. Governors are more likely to be promoted to higher salaried colonies when connected to their superior during the period of patronage.'>
 <meta property='og:url' content='/2018/11/05/patronagem/'>
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/6257e4bc50db642ff52a5ab484db3859?s=256'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Microeconomia'><meta property='article:tag' content='R'><meta property='article:tag' content='Replicação'><meta property='article:published_time' content='2018-11-05T00:00:00Z'/><meta property='article:modified_time' content='2018-11-05T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'><meta name='twitter:creator' content='@https://twitter.com/PedrooCava'>
@@ -86,27 +88,25 @@ if (!doNotTrack) {
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/adf/' style='font-size:1em'>Adf</a>
       </li><li>
-        <a href='/tags/algebra-linear/' style='font-size:1em'>Algebra Linear</a>
-      </li><li>
         <a href='/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/' style='font-size:1em'>Análise De Sobrevivência</a>
       </li><li>
         <a href='/tags/apresenta%C3%A7%C3%A3o/' style='font-size:1em'>Apresentação</a>
       </li><li>
         <a href='/tags/autovalores/' style='font-size:1em'>Autovalores</a>
       </li><li>
-        <a href='/tags/blanchard-quah/' style='font-size:1.0909090909090908em'>Blanchard Quah</a>
+        <a href='/tags/blanchard-quah/' style='font-size:1.0833333333333333em'>Blanchard Quah</a>
       </li><li>
-        <a href='/tags/clustering/' style='font-size:1.0909090909090908em'>Clustering</a>
+        <a href='/tags/clustering/' style='font-size:1.0833333333333333em'>Clustering</a>
       </li><li>
         <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
       </li><li>
-        <a href='/tags/economia/' style='font-size:1.0909090909090908em'>Economia</a>
+        <a href='/tags/economia/' style='font-size:1.0833333333333333em'>Economia</a>
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
       </li><li>
-        <a href='/tags/julia/' style='font-size:1.2727272727272727em'>Julia</a>
+        <a href='/tags/julia/' style='font-size:1.25em'>Julia</a>
       </li><li>
         <a href='/tags/lasso/' style='font-size:1em'>Lasso</a>
       </li><li>
@@ -114,9 +114,9 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/macroeconomia/' style='font-size:1em'>Macroeconomia</a>
       </li><li>
-        <a href='/tags/microeconomia/' style='font-size:1.1818181818181819em'>Microeconomia</a>
+        <a href='/tags/microeconomia/' style='font-size:1.1666666666666667em'>Microeconomia</a>
       </li><li>
-        <a href='/tags/monte-carlo/' style='font-size:1.1818181818181819em'>Monte Carlo</a>
+        <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -124,7 +124,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/profiling/' style='font-size:1em'>Profiling</a>
       </li><li>
-        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.0909090909090908em'>Programação Dinâmica</a>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.0833333333333333em'>Programação Dinâmica</a>
       </li><li>
         <a href='/tags/r/' style='font-size:2em'>R</a>
       </li><li>
@@ -134,7 +134,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/sazonalidade/' style='font-size:1em'>Sazonalidade</a>
       </li><li>
-        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.0909090909090908em'>Simulação</a>
+        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1666666666666667em'>Simulação</a>
       </li><li>
         <a href='/tags/sistemas-din%C3%A2micos/' style='font-size:1em'>Sistemas Dinâmicos</a>
       </li><li>
@@ -145,6 +145,8 @@ if (!doNotTrack) {
         <a href='/tags/var/' style='font-size:1em'>Var</a>
       </li><li>
         <a href='/tags/vari%C3%A1veis-instrumentais/' style='font-size:1em'>Variáveis Instrumentais</a>
+      </li><li>
+        <a href='/tags/%C3%A1lgebra-linear/' style='font-size:1em'>Álgebra Linear</a>
       </li></ul>
 </div>
 
@@ -237,7 +239,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-3 mins read
+5 mins read
 </span>
 
 
@@ -251,7 +253,12 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  <pre class="r"><code>library(readstata13)</code></pre>
+  <p>Dia desses saiu a edição de <a href="https://www.aeaweb.org/issues/526">Novembro da American Economic Review</a> e nela um paper me chamou <em>muito</em> à atenção: <a href="https://www.aeaweb.org/articles?id=10.1257/aer.20171339">The Costs of Patronage: Evidence from the British Empire</a>, de Guo Xu. O resumo me deixou dando pulinhos de alegria:</p>
+<p>“I combine newly digitized personnel and public finance data from the British colonial administration for the period 1854-1966 to study how patronage affects the promotion and incentives of governors. Governors are more likely to be promoted to higher salaried colonies when connected to their superior during the period of patronage. Once allocated, they provide more tax exemptions, raise less revenue, and invest less. The promotion and performance gaps disappear after the abolition of patronage appointments. Patronage therefore distorts the allocation of public sector positions and reduces the incentives of favored bureaucrats to perform.”</p>
+<p>Tem tudo aí. Uma base de dados inédita, uma questão interessante, uma abordagem claramente econômica (incentivos, regras) e a quantificação do impacto de um comportamento. Se alguém arranjar um anão e uma garrafa de champagne vira uma festa daquelas. Pois, como eu tenho muita coisa pra fazer, prova para estudar e trabalho para entregar, decidir (tentar) replicar o paper.</p>
+<div id="extraindo-os-dados" class="section level2">
+<h2>Extraindo os dados</h2>
+<pre class="r"><code>library(readstata13)</code></pre>
 <pre><code>## Warning: package &#39;readstata13&#39; was built under R version 3.4.4</code></pre>
 <pre class="r"><code>temp = tempfile() ## geramos um arquivo temporário
 download.file(&quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&quot;,
@@ -259,6 +266,7 @@ download.file(&quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&quot;,
 
 dados = unzip(temp, file = &quot;analysis.dta&quot;) # descomprimimos
 dados = read.dta13(dados) #lemos
+
 head(dados) #exploramos para garantir que está tudo certo</code></pre>
 <pre><code>##    sid year                   aid log_salary_governor_gbp
 ## 1 Aden 1938 Bernard Rawdon Reilly                8.086411
@@ -344,6 +352,42 @@ head(dados) #exploramos para garantir que está tudo certo</code></pre>
 ## 4                  0      4
 ## 5                  0      1
 ## 6                  0      2</code></pre>
+<pre class="r"><code>dim(dados)</code></pre>
+<pre><code>## [1] 4687   55</code></pre>
+<p>Temos um painel que cobre boa parte do século XIX e início do XX. As informações são bem detalhadas, desde nome do governador da colônia, onde ele estudou, se era militar e até distância da colônia até Londres.</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.4.4</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>dados %&gt;%
+  group_by(decade) %&gt;%
+  summarise(idade = round(mean(age_entry, na.rm = TRUE), digits = 2), 
+            politico = round(mean(politician, na.rm = TRUE), digits = 2), 
+            militar = round(mean(military, na.rm = TRUE), digits = 2))</code></pre>
+<pre><code>## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.4</code></pre>
+<pre><code>## # A tibble: 13 x 4
+##    decade idade politico militar
+##     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1   1854  43.5     0.19   0.45 
+##  2   1860  42.0     0.2    0.38 
+##  3   1870  41.9     0.16   0.37 
+##  4   1880  44.0     0.12   0.39 
+##  5   1890  45.6     0.13   0.44 
+##  6   1900  45.3     0.07   0.44 
+##  7   1910  46.4     0.07   0.44 
+##  8   1920  49.8     0.06   0.4  
+##  9   1930  50.4     0.01   0.35 
+## 10   1940  48.6     0.04   0.38 
+## 11   1950  47.0     0      0.290
+## 12   1960  48.6     0.02   0.25 
+## 13     NA  45.5     0.16   0.54</code></pre>
+</div>
 
 </div>
 
@@ -371,7 +415,7 @@ head(dados) #exploramos para garantir que está tudo certo</code></pre>
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/2018/10/31/sistemas-din%C3%A2micos-e-algebra-linear/'>
+      <a href='/2018/10/31/banach/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -379,7 +423,7 @@ head(dados) #exploramos para garantir que está tudo certo</code></pre>
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Sistemas dinâmicos e Algebra Linear</a>
+        <span class='screen-reader-text'>Previous post: </span>O Teorema do Ponto Fixo de Banach e uma visualização no R</a>
     </div></div>
 </nav>
 

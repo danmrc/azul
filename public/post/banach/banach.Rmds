@@ -1,0 +1,112 @@
+---
+title: "O Teorema do Ponto Fixo de Banach e uma visualização no R"
+author: "Pedro Cavalcante"
+date: '2018-10-31'
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+katex: yes
+categories:
+- R
+- Matemática
+slug: banach
+tags:
+- R
+- Simulação
+authors: pedrocava
+---
+
+Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado. 
+
+
+# O Teorema do Ponto Fixo de Banach
+
+Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício. Mais especificamente, o exercício 22 do capítulo 5 do livro _Principles of Mathematical Analysis_, de Walter Rudin. 
+
+_5.22. Enunciado:_ Suponha $f$ uma função real em $(-\infty, \infty)$. Chame $x$ um _ponto fixo_ de $f$ se $f(x)=x$. 
+
+_Item A_) Se $f$ é diferenciável e $f'(t) \neq 1$ para qualquer $t$ real, prove que $f$ tem no máximo um ponto fixo. 
+
+Essa proposição deve ter uma infinidade de provas diferentes. Eu particularente gosto da prova que me veio à mente quando um professor de análise apresenteou esse problema em sala. Um mapa $f$ só tem ponto fixo se cruza a função identidade, a famosa $g(x)=x$, cuja derivada sempre é $1$ e tem infinitos pontos fixos. Então queremos mostrar que se uma função real _nunca_ tem derivada igual a $1$, ela só pode cruzar a função identidade no máximo uma vez. Segue aqui um esboço:
+
+Suponha por absurdo que $f$ tenha dois pontos fixos, logo duas interseções com a identidade. Digamos que são $x_1$ e $x_2$. Agora usamos um "lema", o Teorema do Valor Médio. Ele nos garante que dada uma função contínua definida num intervalo fechado $[a,b]$, existe algum ponto $c \in [a,b]$ tal que $f'(c) = \frac{f(b)-f(a)}{b-a}$. Em bom português: uma função contínua que varia a uma certa taxa média em um intervalo vai ter derivada igual a essa taxa média em algum ponto desse intervalo. Opa opa, então estamos dizendo que $f$ passou por um intervalo fechado $[x_1, x_2]$ em que teve taxa de variação média de $1$ - já que $f(x_1)$ e $f(x_2)$ estão ambos sobre a reta da identidade. Pelo Teorema do Valor Médio, a derivada de $f$ necessariamente assumiu o valor $1$ em algum ponto desse intervalo, o que contradiz nossa hipótese inicial. Temos então um absurdo e aqui termina a "prova". 
+
+Vamos pular o item B porque ele não é muito interessante para o nosso assunto e eu não posso deixar o leitor morrer de sono.
+
+_Item C_) Se existe uma constante _A < 1_ tal que $|f`(t)\leq A|$ para todo $t$ real, prove que um ponto fixo $x$ de $f$ existe e que $x = \lim x_n$, onde $x_1$ é um número real arbitrário e $x_{n+1} = f(x_n)$.
+
+Vamos quebrar um pouco o enunciado. Se existe o $A$ descrito, então $f$ é dita uma _contração_. A distância da imagem de quaisquer do domínio é sempre menor ou igual a distância entre os próprios pontos. $f$ é um mapa que comprime distâncias. Se $x_1$ é um número real arbitrário e a sequência definida daquela maneira tem um limite, então estamos dizendo que se aplicarmos uma contração repetidas vezes, essa sequência de imagens converge para um ponto - e mais interessante ainda - _somente_ para esse ponto, independente do ponto inicial escolhido. 
+
+Essa proposição diz que se $f$ é uma contração, ela não só tem ponto fixo, como tem _um único_ ponto fixo e que podemos encontra-lo aplicando a função repetidas vezes com um ponto inicial qualquer. Segue um esboço da prova:
+
+$d(x,y)$ é a distância euclidiana entre dois pontos. 
+
+$$d(x,y) \leq d(x, f(x)) + d(f(x), f(y)) + d(y, f(y))$$
+$$d(x,y) \leq d(x, f(x)) + Ad(x, y) + d(y, f(y))$$
+Podemos então isolar $d(x,y)$:
+$$d(x,y) - Ad(x, y) \leq d(x, f(x))  + d(y, f(y))$$
+$$d(x,y) \leq \frac{d(x, f(x))  + d(y, f(y))}{1 - A}$$
+Note que se $x$ e $y$ forem pontos fixos, então $d(x,y) = 0$, portanto, $x=y$. Podemos garantir que uma contração somente terá _um_ ponto fixo com essa observação. Resta mostrar agora que a sequência descrita no enunciado é de Cauchy - que a distância entre seus termos é cada vez menor, no informal português. Se $f^n(t)$ for a $n$-ésima aplicação de $f$ com ponto inicial em $t$, $x = f^n(x_0)$ e $y = f^m(x_0)$, então podemos substituir isso tudo na desigualdade anterior:
+
+$$d(f^n(x_0),f^m(x_0)) \leq \frac{d(f^n(x_0), f(f^n(x_0)))  + d(f^m(x_0), f(f^m(x_0)))}{1 - A}$$
+$$d(f^n(x_0),f^m(x_0)) \leq \frac{A^nd(f(x_0), x_0)  + A^md(f(x_0), x_0)}{1 - A}$$
+$$d(f^n(x_0),f^m(x_0)) \leq \frac{A^n + A^m}{1-A}d(f(x_0), x_0)$$
+Observe que isso converge a zero, à medida que $n,m \to \infty$. Então a distância de quaisquer dois elementos daquela sequência descrita no enunciado converge a zero à medida que o índice da sequência aumenta - logo ela é Cauchy.
+
+Esse teorema é um resultado muito importante para economia, especialmente porque garante que várias técnicas de programação dinâmica têm solução. Agora vamos sair da teoria, ver brevemente algumas aplicações de pontos fixos e depois e por as mãos na massa, observar ele acontecendo na prática.
+
+# Por que pontos fixos são interessantes?
+
+Idealmente essa seria a primeira seção do post, mas eu queria ter certeza que o leitor sabia o _o que é_ um ponto fixo. Agora sabe. Os familiarizados com álgebra linear vão se lembrar do conceito de autovetor. Pois, um ponto fixo é essencialmente um autovetor cujo autovalor é $1$. São "locais estáveis", por assim dizer, de funções. Kim Border, em seu livro _Fixed Point Theorems with Applications to Economics and Game Theory_ diz:
+
+"In a large market economy the number of prices determined is enormous. Aside from the practical difficulty of computing and communicating all those prices, how can we even be sure that it is possible to find prices that will equate supply and demand in all markets at once? Mathematicians will recognize the problem as one
+of proving the existence of a solution to a set of (nonlinear) equations. The first successful efforts by mathematicians toward answering this question took place in the 1930's, in a workshop conducted by Karl Menger in Vienna. The seminars were attended by many of the finest mathematicians of the period and produced the path breaking papers of Wald [1935; 19361. Also published in the proceedings of Menger's seminar was an important piece by von Neumann [1937]. At about the same time, mathematicians began an intensive study of games and what outcomes ought to be expected from a game played by rational players. Most of the proposed outcomes are characterized as some form of "equilibrium." That is, the outcome of a game ought to be a situation where no player (or perhaps no group of players) wants to change his play. Again the question arises as to. if and when such a combination of plays exist. The notion of mixed strategy had been developed by Borel [1921], but the first major result in the field, the minimax theorem, is due to von Neumann [1928]. It turns out that the same mathematical tools are useful in value theory and game theory, at least for proving the existence of equilibrium."
+
+Teoremas de Ponto Fixo são extremamente úteis porque são ferramentas propícias para provar existência de equilíbrios. É por isso que quem abrir as [notas de aula de Economia Política de Daron Acemoglu](https://economics.mit.edu/files/8753) vai ver que um governo é dito estável se é ponto fixo de uma função particular, ou quem pesquisar as contribuições do Nobel John Nash vai logo descobrir que ele usou o Teorema do Ponto Fixo de Kakutani para provar existência de "equilíbrios" para uma série de jogos. 
+
+# Vendo a magia funcionar
+
+Vamos definir uma função:
+
+```{R, dpi = 750}
+contracao = function(c, A, n, soma = 0) {
+  x = vector()
+  x[1] = c
+  
+  for(i in 2:n){
+    x[i] = A*x[i-1] + soma
+  }
+  
+  return(x)
+}
+
+n = 30
+A = .9
+# A dá a taxa de convergência ao ponto fixo
+
+obj1 = contracao(c = 1, A = A, n = n) 
+obj2 = contracao(c = 3, A = A, n = n)
+obj3 = contracao(c = 6, A = A, n = n)
+obj4 = contracao(c = 10, A = A, n = n)
+x = seq(0, n-1, by = 1)
+
+dados = data.frame(primeiro = obj1, segundo = obj2,
+                   terceiro = obj3, quarto = obj4,
+                   x = x)
+library(ggplot2)
+
+ggplot(dados, aes(x = x))+
+ geom_line(aes(y = obj1), size = 2)+
+  geom_line(aes(y = obj2), color = "blue", size = 2)+
+  geom_line(aes(y = obj3), color = "green", size = 2)+
+  geom_line(aes(y = obj4), color = "yellow", size = 2)
+
+```
+
+Fica o convite ao leitor: pegue esta função e altere os parâmetros como quiser. Se $A < 1$, não importa a condição inicial, as sequências sempre vão convergir para o mesmo ponto. 
+
+
+
+
+
