@@ -21,7 +21,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)
 
 A nossa estratégia no post passado era, para cada $t$, resolver o problema:
 
-$$ V_t(k_t) = max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) $$
+$$V_t(k_t) = max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) $$
 
 Onde nós sabiamos que o $V_T(k_T)$ era igual a função utilidade avaliada em $k_T$. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar $V_{T-1}$, e dai $V_{T-2}$...
 
@@ -39,6 +39,7 @@ A beleza de resolver esse problema é que, apesar de não sabermos o valor de V,
  Vamos continuar com o nosso exemplo de função utilidade log e função de produção Cobb-Douglas. O caso em que $\delta = 1$ tem solução fechada, então para a gente checar que tudo funcionou direitinho, eu vou implementar ele. Vamos dar, como chute inicial, a função valor sendo idêntica ao valor do capital. É um chute tosco, mas justamente por isso é ilustrativo. Eu sequer vou me preocupar em colocar uma checagem de convergência, para deixar o código o mais simples possível: deixe o computador repetir umas 150 vezes a operação.
 
  ```{julia}
+
  using Optim
  using Interpolations
  using Plots

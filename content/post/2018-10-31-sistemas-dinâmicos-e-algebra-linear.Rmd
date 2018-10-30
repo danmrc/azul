@@ -57,7 +57,7 @@ plot(x[,1], type="l", ylab = " ", xlab = "tempo")
 lines(x[,2], type = "l", col = 2)
 ```
 
-Veja que, nesse caso, o sistema converge para o vetor (0,0). Apesar disso parecer excessivamente rigído, podemos sempre pensar que o vetor $x$ representa desvios do equilíbrio e o equilíbrio é basicamente o que a gente quiser. Talvez um caso mais fascinante é quando nós temos o maior autovalor 1. O autovetor associado vai ser o equilíbrio do sistema. O exemplo abaixo ilustra isso, onde a linha verde representa o equilíbrio:
+Veja que, nesse caso, o sistema converge para o vetor (0,0). Com o maior autovalor menor que 1, isso é sempre verdade. Apesar disso parecer excessivamente rigído, podemos sempre pensar que o vetor $x$ representa desvios do equilíbrio e o equilíbrio é basicamente o que a gente quiser. Talvez um caso mais fascinante é quando nós temos o maior autovalor igual a 1. O autovetor associado vai ser o equilíbrio do sistema. O exemplo abaixo ilustra isso, onde a linha verde representa o equilíbrio:
 
 ```{r}
 C = rbind(c(0.8,0.2),c(0.4,0.6))
@@ -72,6 +72,9 @@ for(i in 1:29){
 plot(y[,1], type="l", ylab = " ", xlab = "tempo", ylim = c(min(y),max(y)))
 lines(y[,2], col = 2)
 lines(1:30,rep(ee[1],30), col = 3)
+legend("topright",legend = c("Componentes do ","sistema dinâmico", "Autovetor associado ao autovalor 1"), lty = c(1,1,1), col = c(1,2,3))
 ```
 
-Como um autovetor vezes um escalar é também um autovetor, eu escolhi o autovetor que somando os componentes, é igual 1. Isso permite interpretar o autovetor como a probabilidade, em equilíbrio, de cair em qualquer um dos dois estados. 
+Como um autovetor vezes um escalar é também um autovetor, eu escolhi o autovetor que somando os componentes, é igual 1. Isso permite interpretar o autovetor como a probabilidade (incondicional), em equilíbrio, de cair em qualquer um dos dois estados.
+
+Veja que a matriz $C$, que governa a evolução do sistema, é tal que cada linha soma 1. Isso nos permite interpretar cada entrada $c_ij$ como a probabilidade de migrar do estado $j$ se estamos no estado $i$. Cada mudança de estado no sistema depende exclusivamente de qual era o estado anterior do sistema (matematicamente, $P(x_t |x_{t-1},x_{t-2},x_{t-3},...) = P(x_t|x_{t-1})$): este tipo de processo recebe o nome de _Cadeia de Markov_. Um AR(1) é um exemplo de um processo de Markov também.  
