@@ -3,8 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/11/05/patronagem/</loc>
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/10/31/sistemas-din%C3%A2micos-e-algebra-linear/</loc>
     <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2018/10/28/por-que-usar-o-julia/</loc>
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -28,6 +38,11 @@
   </url>
   
   <url>
+    <loc>/2018/10/07/rais-cox-desemprego/</loc>
+    <lastmod>2018-10-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</loc>
     <lastmod>2018-09-24T00:00:00+00:00</lastmod>
   </url>
@@ -35,11 +50,6 @@
   <url>
     <loc>/2018/09/16/lasso/</loc>
     <lastmod>2018-09-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2018/09/13/por-que-usar-o-julia/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -103,12 +113,8 @@
   </url>
   
   <url>
-    <loc>/1/01/01/</loc>
-  </url>
-  
-  <url>
     <loc>/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -121,6 +127,12 @@
   <url>
     <loc>/tags/algebra-linear/</loc>
     <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/</loc>
+    <lastmod>2018-10-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -166,7 +178,7 @@
   
   <url>
     <loc>/categories/computa%C3%A7%C3%A3o/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -196,7 +208,11 @@
   
   <url>
     <loc>/categories/economia/</loc>
+<<<<<<< HEAD
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
+=======
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+>>>>>>> f1adb09a66cb09707e61cc7774361e4309e49719
     <priority>0</priority>
   </url>
   
@@ -232,7 +248,11 @@
   
   <url>
     <loc>/tags/julia/</loc>
+<<<<<<< HEAD
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+=======
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
+>>>>>>> f1adb09a66cb09707e61cc7774361e4309e49719
     <priority>0</priority>
   </url>
   
@@ -274,7 +294,11 @@
   
   <url>
     <loc>/tags/microeconomia/</loc>
+<<<<<<< HEAD
     <lastmod>2018-09-01T00:00:00+00:00</lastmod>
+=======
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+>>>>>>> f1adb09a66cb09707e61cc7774361e4309e49719
     <priority>0</priority>
   </url>
   
@@ -286,13 +310,13 @@
   
   <url>
     <loc>/authors/pedrocava/</loc>
-    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -316,7 +340,7 @@
   
   <url>
     <loc>/tags/profiling/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -327,6 +351,10 @@
   </url>
   
   <url>
+<<<<<<< HEAD
+    <loc>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
+    <lastmod>2018-10-10T00:00:00+00:00</lastmod>
+=======
     <loc>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
     <lastmod>2018-09-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -334,11 +362,30 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+>>>>>>> f1adb09a66cb09707e61cc7774361e4309e49719
     <priority>0</priority>
   </url>
   
   <url>
+<<<<<<< HEAD
+    <loc>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
+    <lastmod>2018-09-08T00:00:00+00:00</lastmod>
+=======
+    <loc>/tags/r/</loc>
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+>>>>>>> f1adb09a66cb09707e61cc7774361e4309e49719
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/raiz-unit%C3%A1ria/</loc>
+    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+<<<<<<< HEAD
     <loc>/tags/r/</loc>
     <lastmod>2018-10-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -347,6 +394,10 @@
   <url>
     <loc>/tags/raiz-unit%C3%A1ria/</loc>
     <lastmod>2018-10-19T00:00:00+00:00</lastmod>
+=======
+    <loc>/tags/replica%C3%A7%C3%A3o/</loc>
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+>>>>>>> f1adb09a66cb09707e61cc7774361e4309e49719
     <priority>0</priority>
   </url>
   

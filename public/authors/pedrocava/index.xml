@@ -6,10 +6,29 @@
     <description>Recent content in Pedrocava on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Tue, 11 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 05 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/authors/pedrocava/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Os Custos da Patronagem: evidências do Império Britânico</title>
+      <link>/2018/11/05/patronagem/</link>
+      <pubDate>Mon, 05 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/05/patronagem/</guid>
+      <description>library(readstata13)## Warning: package &amp;#39;readstata13&amp;#39; was built under R version 3.4.4temp = tempfile() ## geramos um arquivo temporáriodownload.file(&amp;quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&amp;quot;,destfile = temp, mode = &amp;quot;wb&amp;quot;) # puxamos diretamente os dados do repositório da AEAdados = unzip(temp, file = &amp;quot;analysis.dta&amp;quot;) # descomprimimosdados = read.dta13(dados) #lemoshead(dados) #exploramos para garantir que está tudo certo## sid year aid log_salary_governor_gbp## 1 Aden 1938 Bernard Rawdon Reilly 8.086411## 2 Aden 1937 Bernard Rawdon Reilly 8.</description>
+    </item>
+    
+    <item>
+      <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
+      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
+Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
+    </item>
     
     <item>
       <title>Explorando o Modelo de Solow com a ajuda do R</title>
@@ -49,7 +68,7 @@ Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe com
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>

@@ -4,80 +4,73 @@
 
 ### 1 - MQO
 
+using Statistics
+
 ols(x,y) = inv(x'*x)*x'*y
 
 function func()
-
-    for i = 1:1000
-
-        X = randn(100,5)
-        bet = [1.,2,3,4,5]
-        y = X*bet + randn(100)
-        ols(X,y)
-    end
+    X = randn(100,5)
+    bet = [1.,2,3,4,5]
+    y = X*bet + randn(100)
+    ols(X,y)
 end
 
-tempo = Array{Float64}(undef,100)
+tempo1 = Array{Float64}(undef,100)
 
 for j=1:100
-
-    val, t, bytes, gctime, memallocs =  @timed func()
-    tempo[j] = t
+    tempo1[j] = @elapsed func()
 end
 
-sum(tempo)/length(tempo)
+temp = Statistics.median(tempo1)
 
 ### 2 - Otimização
 
 using Optim
+using Distributions
 
-vals = 1:0.01:10
+weib(par) = -1*sum(log(par[2])-log(par[1]) .+ (par[2]-1) .* (log.(x) .- log(par[1])) .- (x./par[1]) .^par[2])
 
-function teste_optim()
+g = Weibull(1,1)
 
-    valores = Array{Float64}(undef,length(vals),2)
 
-    for j = 1:length(vals)
+lower = [0 0.]
+upper = [Inf Inf]
+x0 = [2 2.]
 
-        f(x) = x[1].^2 .+ x[2].^2
-
-        x0 = [vals[j],vals[j]]
-
-        otimo = optimize(f,x0,NelderMead())
-        valores[j,:] = Optim.minimizer(otimo)
-    end
-    return(valores)
+function func2()
+    x = rand(g,500)
+    optimize(weib,lower,upper,x0,Fminbox(LBFGS()))
 end
 
-val, t, bytes, gctime, memallocs = @timed teste_optim()
+tempo2 = Array{Float64}(undef,100)
+
+for i=1:100
+    tempo2[i] = @elapsed optimize(weib,lower,upper,x0,Fminbox(LBFGS()))
+end
+
+temp = Statistics.median(tempo2)
 
 ##3 - Bootstrap
 
-using Distributions
-using Statistics
-
-
 function boot()
+
     z = randn(100)
+    boot_mean = Array{Float64}(undef,10000)
 
-    boot_mean = Array{Float64}(undef,2000)
-
-    for i = 1:2000
+    for i = 1:10000
 
         prob = repeat([1/length(z)],length(z))
 
         h = Categorical(prob)
 
-        boot_mean[i] = Statistics.mean(z[rand(h,100)])
+        boot_mean[i] = Statistics.mean(z[rand(h,500)])
     end
 end
 
 tempo = Array{Float64}(undef,100)
 
 for j=1:100
-
-    val, t, bytes, gctime, memallocs =  @timed boot()
-    tempo[j] = t
+    tempo[j]=  @elapsed boot()
 end
 
-sum(tempo)/length(tempo)
+temp3 = Statistics.median(tempo)

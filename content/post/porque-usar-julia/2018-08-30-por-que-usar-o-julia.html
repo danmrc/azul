@@ -1,7 +1,7 @@
 ---
 title: Por que usar o Julia?
 author: Daniel Coutinho
-date: '2018-09-13'
+date: '2018-10-28'
 slug: por-que-usar-o-julia
 categories:
   - Computação
@@ -10,7 +10,6 @@ tags:
   - Julia
   - R
 authors: ["danielc"]
-draft: true
 katex: true
 ---
 
@@ -18,17 +17,17 @@ katex: true
 
 <p>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.</p>
 <p>Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes. Este post vai colocar a prova a velocidade do Julia: será que ele realmente é mais rápido? O quão mais rápido? Para isso, eu vou comparar o Julia com o R. Ambos são open source. O R é extremamente popular e usado amplamente em diversas áreas. Eu não vou comparar o Matlab com o Julia: o matlab é um programa que tem que ser comprado (e não é barato), e portanto comparar os dois não vai ser tão informativo. Mal comparando, ninguém ficaria muto feliz de ser informado que ir de jatinho é mais rápido que ir de ônibus: não é surpreendente, mas ei, eu não tenho dinheiro para alugar um jatinho.</p>
-<p>Eu vou fazer alguns testes em um Dell Vostro 2012, Windows 10, 6 GB de Ram e processador i5. Eu vou rodar o R direto do RStudio e o Julia do Atom. Eu deixei apenas o RStudio e o Atom abertos. Vamos a bateria de testes:</p>
+<p>Eu vou fazer alguns testes em um Dell Vostro 2012, Windows 10, 6 GB de Ram e processador i5. Eu vou rodar o R direto do RStudio e o Julia do Atom. Eu deixei apenas o RStudio e o Atom abertos. Vamos a bateria de testes. Para o R, eu usei o pacote <strong>benchr</strong> para fazer o benchmarking. Em todas as tabelas, está reportado a <em>mediana</em> das 100 replicações. Eu explico o motivo no fim do artigo.</p>
+<p>E aqui estão os códigos para o <a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.R">R</a> e para o <a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.jl">Julia</a>.</p>
 <div id="mqo" class="section level2">
 <h2>1.MQO</h2>
 <p>O estimador de MQO é um ótimo teste. Não só é muito usado, como ele trabalha com matrizes, faz uma inversa de matriz, que são operações muito comuns em estatística. O teste para comparar os dois vai ser bem simples:</p>
 <ol style="list-style-type: decimal">
 <li><p>Eu vou escrever uma função que faz o estimador de MQO “no braço”, ou seja, cospe <span class="math inline">\((X&#39;X)^{-1}X&#39;y\)</span></p></li>
-<li><p>Vou criar uma outra função que faz um for e replica 1000 vezes gerar 5 variáveis com 100 observações cada uma e estima o estimador de MQO usando a minha função</p></li>
+<li><p>Vou criar uma função que gera uma matriz X aleatório e um <span class="math inline">\(y = X\beta + \varepsilon\)</span>, onde <span class="math inline">\(\varepsilon\)</span> é um vetor aleatório de uma normal e <span class="math inline">\(\beta = [1 \phantom{-} 2 \phantom{-} 3 \phantom{-}4 \phantom{-} 5]&#39;\)</span>.</p></li>
 <li><p>Vou repetir chamar essa função umas 100 vezes e salvar não o conteúdo dela, mas sim o resultado do timing</p></li>
 </ol>
-<p>E aqui estão os códigos para o <a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.R">R</a> e para o <a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.jl">Julia</a>.</p>
-<p>E os tempos, em segundos, são:</p>
+<p>E os tempos, em microsegundos, são:</p>
 <table>
 <thead>
 <tr class="header">
@@ -38,17 +37,44 @@ katex: true
 </thead>
 <tbody>
 <tr class="odd">
-<td>0.1213</td>
-<td>0.0246</td>
+<td>141</td>
+<td>33.4</td>
 </tr>
 </tbody>
 </table>
-<p>O Julia é muito mais rápido. Mas uma pergunta justa é se usando o <code>lm(y ~x)</code> nativo do R nós não obtemos resultados melhores. Esse é o objetivo do <code>func2</code> no arquivo acima. O resultado da mesma simulação usando o <code>lm</code> são estúpidos <span class="math inline">\(0.9558\)</span>.</p>
-<p>Julia 1, R 0.</p>
+<p>O Julia é muito mais rápido. Mas uma pergunta justa é se usando o <code>lm(y ~x)</code> nativo do R nós não obtemos resultados melhores. Esse é o objetivo do segundo teste no arquivo acima. O resultado da mesma simulação usando o <code>lm</code> são estúpidos 1020 microsegundos.</p>
 </div>
 <div id="otimizacao" class="section level2">
 <h2>2. Otimização</h2>
-<p>É muito comum precisar encontrar o máximo ou mínimo de uma função. Vamos testar isso comparando o <code>optim</code> do próprio R e o pacote do Julia <strong>optim</strong>, que foi escrito em Julia.</p>
+<p>É muito comum precisar encontrar o máximo ou mínimo de uma função. Vamos testar isso comparando o <code>optim</code> do próprio R e o pacote do Julia <strong>optim</strong>, que foi escrito em Julia. O nosso teste vai ser a maximização da log verossimelhança de uma distribuição Weibull - afinal, de distribuições como a normal podemos encontrar a solução analiticamente, e não é o caso com os dois parâmetros da Weibull. O código para o R tem a seguinte cara:</p>
+<pre><code>weib &lt;- function(par){
+  -1*sum(log(par[2]) - log(par[1]) + (par[2]-1)*(log(x)-log(par[1]))-(x/par[1])^par[2])
+}
+
+x0 = c(2,2)
+
+func2 &lt;- function(){
+  x &lt;- rweibull(500,1)
+  optim(x0,weib,method=&quot;L-BFGS-B&quot;,lower=c(0,0))
+}
+
+benchmark(func2())</code></pre>
+<p>E os tempos em milisegundos são:</p>
+<table>
+<thead>
+<tr class="header">
+<th>R</th>
+<th>Julia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3.97</td>
+<td>16.5</td>
+</tr>
+</tbody>
+</table>
+<p>Curiosamente, o Julia é bem mais lento que o R.</p>
 </div>
 <div id="uma-simulacao-pequena" class="section level2">
 <h2>3. Uma simulação pequena</h2>
@@ -79,14 +105,60 @@ knitr::kable(tabela, col.names = c(&quot;Desvio padrão bootstrap&quot;,&quot;De
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">0.0439302</td>
-<td align="right">0.0441283</td>
+<td align="right">0.0443277</td>
+<td align="right">0.0443293</td>
 </tr>
 </tbody>
 </table>
-<p>Veja que usaremos este mesmo código no nosso teste. Ele basicamente testa o quão bom é cada linguagem ao rodarmos um <em>loop</em>.</p>
+<p>Veja que usaremos este mesmo código no nosso teste. Ele basicamente testa o quão bom é cada linguagem ao rodarmos um <em>loop</em>. Nós vamos repetir a função que faz <em>bootstrap</em> 100 vezes, cada uma com uma amostra diferente. Os tempos em milisegundos são:</p>
+<table>
+<thead>
+<tr class="header">
+<th>R</th>
+<th>Julia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>251</td>
+<td>146</td>
+</tr>
+</tbody>
+</table>
+<p>O R é um pouco menos eficiente que o Julia. A situação não é tão dramática quanto no exemplo 1, mas ainda assim há um ganho significativo em usar o Julia.</p>
 </div>
 <div id="por-que-nao-usar-o-julia" class="section level2">
 <h2>Por que não usar o Julia?</h2>
-<p>Dado todos os elogios ao Julia até aqui, talvez seja uma boa hora de dizer quais as coisas ruins do Julia. A primeira é que não há tantos pacotes quanto o R, e nem temos uma IDE tão boa quanto o RStudio (apesar do Atom ser bastante competente). Por exemplo, não estamos nem perto de integrar arquivos markdown com código em Julia direto no Atom. Como o Julia é uma linguagem muito nova, as mudanças entre versões anteriores a 1.0 eram brutais - espero que a linguagem se estabilize a partir de agora. Um outro “problema” é que a primeira vez que você roda um código, o Julia é lento. Isso não é um <em>bug</em>: o Julia é uma linguagem compila, então a primeira vez que você roda um código ele vai ser mais lento que linguagens interpretadas como o Python e o R. Entretanto, nas vezes seguintes, ele vai ser muito mais rápido, como os testes acima mostram.</p>
+<p>Dado todos os elogios ao Julia até aqui, talvez seja uma boa hora de dizer quais as coisas ruins do Julia. A primeira é que não há tantos pacotes quanto o R, e nem temos uma IDE tão boa quanto o RStudio (apesar do Atom ser bastante competente). Por exemplo, não estamos nem perto de integrar arquivos markdown com código em Julia direto no Atom, com todos os recursos que o RStudio oferece.</p>
+<p>Como o Julia é uma linguagem muito nova, as mudanças entre versões anteriores a 1.0 eram brutais - espero que a linguagem se estabilize a partir de agora. Um outro “problema” é que a primeira vez que você roda um código, o Julia é lento. Isso é ilustrado na seção abaixo.</p>
+</div>
+<div id="por-que-usei-a-mediana" class="section level2">
+<h2>Por que usei a mediana?</h2>
+<p>Eis os valores da média de cada um dos sistemas, e eu divide no caso em que eu tiro a primeira observação do caso cheio. Os tempos estão em microsegundos:</p>
+<table style="width:96%;">
+<colgroup>
+<col width="23%" />
+<col width="25%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>R (c/primeira observação)</th>
+<th>R(s/primeira observação)</th>
+<th>Julia (c/primeira obs)</th>
+<th>Julia (s/primeira obs)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>241</td>
+<td>143</td>
+<td>551</td>
+<td>32.66</td>
+</tr>
+</tbody>
+</table>
+<p>Veja que a média dos dois é afetado pela primeira observação, e o efeito sobre o Julia é brutal. Isso se deve a maneira que o Julia funciona. Usar a mediana - que é mais robusta a outliers que a média - permite uma comparação mais limpa do que usando a média.</p>
+<p>Isso tem um efeito colateral interessante: a primeira vez que você roda um código no Julia ele parece extremamente lento. Mas rodadas subsequentes são mais rápidas - rápidas o suficiente para gerar momentos em que não parece possível que o Julia tenha acabado.</p>
 </div>
