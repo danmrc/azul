@@ -39,7 +39,7 @@ Opa opa, então você estamos dizendo que $f$ passou por um intervalo fechado $[
 
 Vamos pular o item B porque ele não é muito interessante para o nosso assunto e eu não posso deixar o leitor morrer de sono.
 
-_Item C_) Se existe uma constante _A < 1_ tal que $|f`(t)\leq A|$ para todo $t$ real, prove que um ponto fixo $x$ de $f$ existe e que $ x = \lim x_n$, onde $x_1$ é um número real arbitrário e $x_{n+1} = f(x_n)$.
+_Item C_) Se existe uma constante _A < 1_ tal que $|f`(t)\leq A|$ para todo $t$ real, prove que um ponto fixo $x$ de $f$ existe e que $x = \lim x_n$, onde $x_1$ é um número real arbitrário e $x_{n+1} = f(x_n)$.
 
 Vamos quebrar um pouco o enunciado. Se existe o $A$ descrito, então $f$ é dita uma _contração_. A distância da imagem de quaisquer do domínio é sempre menor ou igual a distância entre os próprios pontos. $f$ é um mapa que comprime distâncias. 
 
