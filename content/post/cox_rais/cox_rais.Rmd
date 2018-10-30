@@ -1,11 +1,11 @@
 ---
-title: "Usando dados da RAIS e AnÃ¡lise de SobrevivÃªncia para entender desemprego"
+title: "Usando dados da RAIS e Análise de Sobrevivência para entender desemprego"
 author: "Pedro Cavalcante"
 date: '2018-10-07'
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 katex: yes
 categories:
 - R
@@ -33,14 +33,16 @@ Onde $n_i$ é o número de empregados até $t_i$, $d_i$ é o número de demissõ
 
 ## Amostra
 
-Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já tive o trabalho de limpa-los e deixei o arquivo ``.Rds`` disponível no [repositório do AZUL no github](https://github.com/danmrc/azul/tree/master/content/post/cox_rais). Você pode puxar os dados diretamente do repositório pelo pacote ``repmis`` e deixo como exercício ao leitor o código que faz isso. Vamos explorar a amostra.
+Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já tive o trabalho de limpa-los e deixei o arquivo ``.Rds`` disponível no [repositório do AZUL no github](https://github.com/danmrc/azul/tree/master/content/post/cox_rais). Você pode puxar os dados diretamente do repositório para o R e deixo como exercício ao leitor o código que faz isso (se quiser o código porque não está conseguindo eu estou sempre disponível). 
+
+Vamos explorar a amostra.
 
 ```{r, echo = FALSE}
-dados <- readRDS("C:/Users/pedro/Desktop/azul/content/post/cox_rais/acre_rais_2017.Rds")
-#library(curl)
 githubURL <- ("https://github.com/danmrc/azul/raw/master/content/post/cox_rais/acre_rais_2017.Rds")
+
 temporario = tempfile()
-download.file(githubURL, destfile = temporario, method = "auto")
+download.file(githubURL, destfile = temporario, mode = "wb")
+
 dados = readRDS(temporario)
 
 ```
