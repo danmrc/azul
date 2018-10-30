@@ -1,7 +1,7 @@
 ---
-title: "Verificando o Teorema do Ponto Fixo de Banach no R"
+title: "O Teorema do Ponto Fixo de Banach e uma visualização no R"
 author: "Pedro Cavalcante"
-date: '2018-11-10'
+date: '2018-10-31'
 output:
   pdf_document: default
   html_document:
@@ -10,11 +10,11 @@ draft: yes
 katex: yes
 categories:
 - R
-- MatemÃ¡tica
+- Matemática
 slug: banach
 tags:
 - R
-- SimulaÃ§Ã£o
+- Simulação
 authors: pedrocava
 ---
 
