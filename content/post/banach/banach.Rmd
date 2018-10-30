@@ -3,18 +3,19 @@ title: "Verificando o Teorema do Ponto Fixo de Banach no R"
 author: "Pedro Cavalcante"
 date: '2018-11-10'
 output:
+  pdf_document: default
   html_document:
     df_print: paged
+draft: yes
+katex: yes
 categories:
 - R
-- Matemática
+- MatemÃ¡tica
 slug: banach
 tags:
 - R
-- Simulação
-authors: [pedrocava]
-katex: true
-draft: true
+- SimulaÃ§Ã£o
+authors: pedrocava
 ---
 
 Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado. 
@@ -97,18 +98,20 @@ contracao = function(c, A, n, soma = 0) {
   return(x)
 }
 
-n = 15
+n = 25
+A = .9
 # A dá a taxa de convergência ao ponto fixo
 
-obj1 = contracao(c = 10, A = .05, n = n) 
-obj2 = contracao(c = 10, A = .2, n = n)
-obj3 = contracao(c = 10, A = .6, n = n)
-obj4 = contracao(c = 10, A = .8, n = n)
+obj1 = contracao(c = 1, A = A, n = n) 
+obj2 = contracao(c = 3, A = A, n = n)
+obj3 = contracao(c = 6, A = A, n = n)
+obj4 = contracao(c = 10, A = A, n = n)
 x = seq(0, n-1, by = 1)
 
 dados = data.frame(primeiro = obj1, segundo = obj2,
                    terceiro = obj3, quarto = obj4,
                    x = x)
+library(ggplot2)
 
 ggplot(dados, aes(x = x))+
  geom_line(aes(y = obj1), size = 2)+
@@ -118,32 +121,7 @@ ggplot(dados, aes(x = x))+
 
 ```
 
-Podemos manter a taxa de convergência constante e alterar as posições iniciais também.
 
-```{R}
-
-n = 15
-# A dá a taxa de convergência ao ponto fixo
-A = .1
-
-obj5 = contracao(c = 10, A = A, n = n) 
-obj6 = contracao(c = 100, A = A, n = n)
-obj7 = contracao(c = 1000, A = A, n = n)
-obj8 = contracao(c = 10000, A = A, n = n)
-x = seq(0, n-1, by = 1)
-
-dados = data.frame(Quinto = obj5, Sexto = obj6,
-                   Setimo = obj7, Oitavo = obj8,
-                   x = x)
-
-ggplot(dados, aes(x = x))+
- geom_line(aes(y = obj5), size = 2)+
-  geom_line(aes(y = obj6), color = "blue", size = 2)+
-  geom_line(aes(y = obj7), color = "green", size = 2)+
-  geom_line(aes(y = obj8), color = "yellow", size = 2)
-
-
-```
 
 
 
