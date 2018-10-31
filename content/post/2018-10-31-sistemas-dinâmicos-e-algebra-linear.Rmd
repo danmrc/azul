@@ -77,4 +77,6 @@ legend("topright",legend = c("Componentes do ","sistema dinâmico", "Autovetor a
 
 Como um autovetor vezes um escalar é também um autovetor, eu escolhi o autovetor que somando os componentes, é igual 1. Isso permite interpretar o autovetor como a probabilidade (incondicional), em equilíbrio, de cair em qualquer um dos dois estados.
 
-Veja que a matriz $C$, que governa a evolução do sistema, é tal que cada linha soma 1. Isso nos permite interpretar cada entrada $c_ij$ como a probabilidade de migrar do estado $j$ se estamos no estado $i$. Cada mudança de estado no sistema depende exclusivamente de qual era o estado anterior do sistema (matematicamente, $P(x_t |x_{t-1},x_{t-2},x_{t-3},...) = P(x_t|x_{t-1})$): este tipo de processo recebe o nome de _Cadeia de Markov_. Um AR(1) é um exemplo de um processo de Markov também.  
+Veja que a matriz $C$, que governa a evolução do sistema, é tal que cada linha soma 1. Isso nos permite interpretar cada entrada $c_{ij}$ como a probabilidade de migrar do estado $j$ se estamos no estado $i$. Cada mudança de estado no sistema depende exclusivamente de qual era o estado anterior do sistema (matematicamente, $P(x_t |x_{t-1},x_{t-2},x_{t-3},...) = P(x_t|x_{t-1})$): este tipo de processo recebe o nome de _Cadeia de Markov_. Um AR(1) é um exemplo de um processo de Markov também.
+
+Autovalores são importantes para entender como sistemas dinâmicos se comportam, e dão uma excelente ilustração de uma aplicação de Algebra Linear em economia. 

@@ -5,17 +5,17 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.'>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Prog Dinâmica IIA • Daniel Coutinho'>
 <meta property='og:description' content='Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.'>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).'>
 <meta property='og:url' content='/2018/10/10/prog-din%C3%A2mica-2a/'>
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:published_time' content='2018-10-10T00:00:00Z'/><meta property='article:modified_time' content='2018-10-10T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.45" />
+<meta name="generator" content="Hugo 0.50" />
 
   <title>Prog Dinâmica IIA • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/10/10/prog-din%C3%A2mica-2a/'>
@@ -26,7 +26,7 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
 :root{--color-accent:#ffcd00;}
 </style>
 
-<script>
+<script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
 	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
@@ -88,27 +88,25 @@ if (!doNotTrack) {
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/adf/' style='font-size:1em'>Adf</a>
       </li><li>
-        <a href='/tags/algebra-linear/' style='font-size:1em'>Algebra Linear</a>
-      </li><li>
         <a href='/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/' style='font-size:1em'>Análise De Sobrevivência</a>
       </li><li>
         <a href='/tags/apresenta%C3%A7%C3%A3o/' style='font-size:1em'>Apresentação</a>
       </li><li>
         <a href='/tags/autovalores/' style='font-size:1em'>Autovalores</a>
       </li><li>
-        <a href='/tags/blanchard-quah/' style='font-size:1.0909090909090908em'>Blanchard Quah</a>
+        <a href='/tags/blanchard-quah/' style='font-size:1.0833333333333333em'>Blanchard Quah</a>
       </li><li>
-        <a href='/tags/clustering/' style='font-size:1.0909090909090908em'>Clustering</a>
+        <a href='/tags/clustering/' style='font-size:1.0833333333333333em'>Clustering</a>
       </li><li>
         <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
       </li><li>
-        <a href='/tags/economia/' style='font-size:1.0909090909090908em'>Economia</a>
+        <a href='/tags/economia/' style='font-size:1.0833333333333333em'>Economia</a>
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
       </li><li>
-        <a href='/tags/julia/' style='font-size:1.2727272727272727em'>Julia</a>
+        <a href='/tags/julia/' style='font-size:1.25em'>Julia</a>
       </li><li>
         <a href='/tags/lasso/' style='font-size:1em'>Lasso</a>
       </li><li>
@@ -116,9 +114,9 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/macroeconomia/' style='font-size:1em'>Macroeconomia</a>
       </li><li>
-        <a href='/tags/microeconomia/' style='font-size:1.1818181818181819em'>Microeconomia</a>
+        <a href='/tags/microeconomia/' style='font-size:1.1666666666666667em'>Microeconomia</a>
       </li><li>
-        <a href='/tags/monte-carlo/' style='font-size:1.1818181818181819em'>Monte Carlo</a>
+        <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -126,7 +124,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/profiling/' style='font-size:1em'>Profiling</a>
       </li><li>
-        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.0909090909090908em'>Programação Dinâmica</a>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.0833333333333333em'>Programação Dinâmica</a>
       </li><li>
         <a href='/tags/r/' style='font-size:2em'>R</a>
       </li><li>
@@ -136,7 +134,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/sazonalidade/' style='font-size:1em'>Sazonalidade</a>
       </li><li>
-        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.0909090909090908em'>Simulação</a>
+        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1666666666666667em'>Simulação</a>
       </li><li>
         <a href='/tags/sistemas-din%C3%A2micos/' style='font-size:1em'>Sistemas Dinâmicos</a>
       </li><li>
@@ -147,6 +145,8 @@ if (!doNotTrack) {
         <a href='/tags/var/' style='font-size:1em'>Var</a>
       </li><li>
         <a href='/tags/vari%C3%A1veis-instrumentais/' style='font-size:1em'>Variáveis Instrumentais</a>
+      </li><li>
+        <a href='/tags/%C3%A1lgebra-linear/' style='font-size:1em'>Álgebra Linear</a>
       </li></ul>
 </div>
 
@@ -253,7 +253,10 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  <p>Em um <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">post anterior</a>, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.</p>
+  
+
+
+<p>Em um <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">post anterior</a>, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.</p>
 <p>Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros <span class="math inline">\(r\)</span>. A incerteza vem do salário dele, que passa a ser uma variável aleatória. A nossa variável de estado é <span class="math inline">\(W\)</span>, a riqueza do indivíduo; e a variável de controle é <span class="math inline">\(c\)</span>, o consumo do indivíduo. Escrevendo no formato usando a função valor, o nosso problema para o período <span class="math inline">\(t\)</span> é:</p>
 <p><span class="math display">\[V_t(W_t,c_t) = U(c_t) + \beta E(V_{t+1}(W_{t+1},c_{t+1})) \text{ sujeito a } W_{t+1} = (1+r)(W_t + \omega_t - c_t)\]</span></p>
 <p>Onde <span class="math inline">\(U()\)</span> representa a função utilidade e <span class="math inline">\(\omega_t\)</span> o salário em t - que é uma variável aleatória. Veja que o problema aqui é muito similar ao problema do post anterior, só que agora temos um operador esperança na função valor. Poderiamos tentar calcular a esperança analiticamente, mas isso não é sempre possível. Nós vamos contornar isso simplesmente sorteando alguns valores da distribuição de <span class="math inline">\(\omega_t\)</span> e tirando a média da função valor para estes sorteios. Veja que o nosso grid, dessa vez, vai ser para a riqueza e não para o salário. O código em Julia que faz isso:</p>

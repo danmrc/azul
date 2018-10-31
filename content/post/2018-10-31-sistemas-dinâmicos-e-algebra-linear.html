@@ -28,7 +28,7 @@ for(i in 1:99){
 }
 plot(x[,1], type=&quot;l&quot;, ylab = &quot; &quot;, xlab = &quot;tempo&quot;)
 lines(x[,2], type = &quot;l&quot;, col = 2)</code></pre>
-<p><img src="/post/2018-10-31-sistemas-dinâmicos-e-algebra-linear_files/figure-html/um sistema explosivo-1.png" width="672" /></p>
+<p><img src="/post/2018-10-31-sistemas-din%C3%A2micos-e-algebra-linear_files/figure-html/um%20sistema%20explosivo-1.png" width="672" /></p>
 <p>Um sistema não explosivo vai voltar a um estado de “repouso” do sistema. Veja que isso soa familiar: nós esperamos que a economia saia do equilíbrio mas volte a ele (ou a um novo equilíbrio). Como podemos saber se um sistema dinâmico linear é explosivo ou não?</p>
 <p>A resposta são os autovalores da matriz <span class="math inline">\(A\)</span> - na verdade, apenas o maior deles (em módulo). A ideia aqui é que a matriz <span class="math inline">\(A\)</span> possa ser decomposta em seus autovalores e autovetores. Seja <span class="math inline">\(\Lambda\)</span> uma matriz que tem na diagonal os autovalores e fora dela zero; e <span class="math inline">\(P\)</span> uma matriz que tem os autovetores. Então, <span class="math inline">\(A = P\Lambda{}P^{-1}\)</span>. Mais ainda, <span class="math inline">\(A^j = P\Lambda^jP^{-1}\)</span>, onde <span class="math inline">\(\Lambda^j\)</span> é equivalente a elevar cada entrada da diagonal a <span class="math inline">\(j\)</span>. Logo, toda a dinâmica do sistema é governada pelos autovalores!</p>
 <p>Para provar o ponto, eis os autovalores da matriz A do exemplo anterior:</p>
@@ -59,13 +59,8 @@ for(i in 1:19){
 }
 plot(x[,1], type=&quot;l&quot;, ylab = &quot; &quot;, xlab = &quot;tempo&quot;)
 lines(x[,2], type = &quot;l&quot;, col = 2)</code></pre>
-<<<<<<< HEAD
 <p><img src="/post/2018-10-31-sistemas-din%C3%A2micos-e-algebra-linear_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Veja que, nesse caso, o sistema converge para o vetor (0,0). Com o maior autovalor menor que 1, isso é sempre verdade. Apesar disso parecer excessivamente rigído, podemos sempre pensar que o vetor <span class="math inline">\(x\)</span> representa desvios do equilíbrio e o equilíbrio é basicamente o que a gente quiser. Talvez um caso mais fascinante é quando nós temos o maior autovalor igual a 1. O autovetor associado vai ser o equilíbrio do sistema. O exemplo abaixo ilustra isso, onde a linha verde representa o equilíbrio:</p>
-=======
-<p><img src="/post/2018-10-31-sistemas-dinâmicos-e-algebra-linear_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Veja que, nesse caso, o sistema converge para o vetor (0,0). Apesar disso parecer excessivamente rigído, podemos sempre pensar que o vetor <span class="math inline">\(x\)</span> representa desvios do equilíbrio e o equilíbrio é basicamente o que a gente quiser. Talvez um caso mais fascinante é quando nós temos o maior autovalor 1. O autovetor associado vai ser o equilíbrio do sistema. O exemplo abaixo ilustra isso, onde a linha verde representa o equilíbrio:</p>
->>>>>>> f1adb09a66cb09707e61cc7774361e4309e49719
 <pre class="r"><code>C = rbind(c(0.8,0.2),c(0.4,0.6))
 eigen(C)</code></pre>
 <pre><code>## eigen() decomposition
@@ -85,14 +80,9 @@ for(i in 1:29){
 }
 plot(y[,1], type=&quot;l&quot;, ylab = &quot; &quot;, xlab = &quot;tempo&quot;, ylim = c(min(y),max(y)))
 lines(y[,2], col = 2)
-<<<<<<< HEAD
 lines(1:30,rep(ee[1],30), col = 3)
 legend(&quot;topright&quot;,legend = c(&quot;Componentes do &quot;,&quot;sistema dinâmico&quot;, &quot;Autovetor associado ao autovalor 1&quot;), lty = c(1,1,1), col = c(1,2,3))</code></pre>
 <p><img src="/post/2018-10-31-sistemas-din%C3%A2micos-e-algebra-linear_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Como um autovetor vezes um escalar é também um autovetor, eu escolhi o autovetor que somando os componentes, é igual 1. Isso permite interpretar o autovetor como a probabilidade (incondicional), em equilíbrio, de cair em qualquer um dos dois estados.</p>
-<p>Veja que a matriz <span class="math inline">\(C\)</span>, que governa a evolução do sistema, é tal que cada linha soma 1. Isso nos permite interpretar cada entrada <span class="math inline">\(c_ij\)</span> como a probabilidade de migrar do estado <span class="math inline">\(j\)</span> se estamos no estado <span class="math inline">\(i\)</span>. Cada mudança de estado no sistema depende exclusivamente de qual era o estado anterior do sistema (matematicamente, <span class="math inline">\(P(x_t |x_{t-1},x_{t-2},x_{t-3},...) = P(x_t|x_{t-1})\)</span>): este tipo de processo recebe o nome de <em>Cadeia de Markov</em>. Um AR(1) é um exemplo de um processo de Markov também.</p>
-=======
-lines(1:30,rep(ee[1],30), col = 3)</code></pre>
-<p><img src="/post/2018-10-31-sistemas-dinâmicos-e-algebra-linear_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>Como um autovetor vezes um escalar é também um autovetor, eu escolhi o autovetor que somando os componentes, é igual 1. Isso permite interpretar o autovetor como a probabilidade, em equilíbrio, de cair em qualquer um dos dois estados.</p>
->>>>>>> f1adb09a66cb09707e61cc7774361e4309e49719
+<p>Veja que a matriz <span class="math inline">\(C\)</span>, que governa a evolução do sistema, é tal que cada linha soma 1. Isso nos permite interpretar cada entrada <span class="math inline">\(c_{ij}\)</span> como a probabilidade de migrar do estado <span class="math inline">\(j\)</span> se estamos no estado <span class="math inline">\(i\)</span>. Cada mudança de estado no sistema depende exclusivamente de qual era o estado anterior do sistema (matematicamente, <span class="math inline">\(P(x_t |x_{t-1},x_{t-2},x_{t-3},...) = P(x_t|x_{t-1})\)</span>): este tipo de processo recebe o nome de <em>Cadeia de Markov</em>. Um AR(1) é um exemplo de um processo de Markov também.</p>
+<p>Autovalores são importantes para entender como sistemas dinâmicos se comportam, e dão uma excelente ilustração de uma aplicação de Algebra Linear em economia.</p>

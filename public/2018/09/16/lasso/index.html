@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='LASSO'><meta property='article:tag' content='Machine Learning'><meta property='article:tag' content='R'><meta property='article:published_time' content='2018-09-16T00:00:00Z'/><meta property='article:modified_time' content='2018-09-16T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.45" />
+<meta name="generator" content="Hugo 0.50" />
 
   <title>O LASSO • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/09/16/lasso/'>
@@ -24,7 +24,7 @@
 :root{--color-accent:#ffcd00;}
 </style>
 
-<script>
+<script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
 	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
@@ -86,27 +86,25 @@ if (!doNotTrack) {
   <ul class='list taxonomy-cloud'><li>
         <a href='/tags/adf/' style='font-size:1em'>Adf</a>
       </li><li>
-        <a href='/tags/algebra-linear/' style='font-size:1em'>Algebra Linear</a>
-      </li><li>
         <a href='/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/' style='font-size:1em'>Análise De Sobrevivência</a>
       </li><li>
         <a href='/tags/apresenta%C3%A7%C3%A3o/' style='font-size:1em'>Apresentação</a>
       </li><li>
         <a href='/tags/autovalores/' style='font-size:1em'>Autovalores</a>
       </li><li>
-        <a href='/tags/blanchard-quah/' style='font-size:1.0909090909090908em'>Blanchard Quah</a>
+        <a href='/tags/blanchard-quah/' style='font-size:1.0833333333333333em'>Blanchard Quah</a>
       </li><li>
-        <a href='/tags/clustering/' style='font-size:1.0909090909090908em'>Clustering</a>
+        <a href='/tags/clustering/' style='font-size:1.0833333333333333em'>Clustering</a>
       </li><li>
         <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
       </li><li>
-        <a href='/tags/economia/' style='font-size:1.0909090909090908em'>Economia</a>
+        <a href='/tags/economia/' style='font-size:1.0833333333333333em'>Economia</a>
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
       </li><li>
-        <a href='/tags/julia/' style='font-size:1.2727272727272727em'>Julia</a>
+        <a href='/tags/julia/' style='font-size:1.25em'>Julia</a>
       </li><li>
         <a href='/tags/lasso/' style='font-size:1em'>Lasso</a>
       </li><li>
@@ -114,9 +112,9 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/macroeconomia/' style='font-size:1em'>Macroeconomia</a>
       </li><li>
-        <a href='/tags/microeconomia/' style='font-size:1.1818181818181819em'>Microeconomia</a>
+        <a href='/tags/microeconomia/' style='font-size:1.1666666666666667em'>Microeconomia</a>
       </li><li>
-        <a href='/tags/monte-carlo/' style='font-size:1.1818181818181819em'>Monte Carlo</a>
+        <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -124,7 +122,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/profiling/' style='font-size:1em'>Profiling</a>
       </li><li>
-        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.0909090909090908em'>Programação Dinâmica</a>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.0833333333333333em'>Programação Dinâmica</a>
       </li><li>
         <a href='/tags/r/' style='font-size:2em'>R</a>
       </li><li>
@@ -134,7 +132,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/sazonalidade/' style='font-size:1em'>Sazonalidade</a>
       </li><li>
-        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.0909090909090908em'>Simulação</a>
+        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1666666666666667em'>Simulação</a>
       </li><li>
         <a href='/tags/sistemas-din%C3%A2micos/' style='font-size:1em'>Sistemas Dinâmicos</a>
       </li><li>
@@ -145,6 +143,8 @@ if (!doNotTrack) {
         <a href='/tags/var/' style='font-size:1em'>Var</a>
       </li><li>
         <a href='/tags/vari%C3%A1veis-instrumentais/' style='font-size:1em'>Variáveis Instrumentais</a>
+      </li><li>
+        <a href='/tags/%C3%A1lgebra-linear/' style='font-size:1em'>Álgebra Linear</a>
       </li></ul>
 </div>
 
@@ -251,7 +251,10 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  <p>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa <em>Least Absolute Shrinkage and Select Operator</em>. Como o nome sugere, o LASSO <strong>seleciona quais regressores são relevantes e quais não são</strong>. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de <em>esparsidade</em>: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.</p>
+  
+
+
+<p>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa <em>Least Absolute Shrinkage and Select Operator</em>. Como o nome sugere, o LASSO <strong>seleciona quais regressores são relevantes e quais não são</strong>. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de <em>esparsidade</em>: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.</p>
 <p>Uma pergunta justa é: por que não simplesmente testamos isso “na mão”? Isso é, fazemos uma regressão com todas as variáveis, uma sem a primeira variável da base de dados, uma outra sem a segunda… e no fim vemos qual a melhor regressão? Além de problemas de teste - lembre que todo teste tem uma chance de você estar tomando a decisão <em>errada</em> - isso seria um inferno: com relés 50 variáveis, precisaríamos de <span class="math inline">\(2^{50}\)</span> regressões, ou seja, 1.125899910^{15} regressões: esse é um número com 15 zeros.</p>
 <p>A ideia original vem de um paper de 1996 de Robert Tibshirani. Não temos solução fechada para encontrar o estimador de LASSO, ao contrário do MQO, onde podemos expressar o estimador como uma multiplicação de matrizes. Portanto, é um estimador que seria impossível sem um computador. Mas a ideia é incrivelmente simples.</p>
 <p>Pegue o modelo usual de regressão, <span class="math inline">\(y_i = X_i \beta + u_i\)</span>, onde <span class="math inline">\(\beta\)</span> é o coeficiente de interesse, <span class="math inline">\(u\)</span> é um choque aleatório, as observações são indexadas por <span class="math inline">\(i = 1,...,n\)</span> e os coeficientes são indexados por <span class="math inline">\(k = 1,..,K\)</span> . O objetivo do MQO é minimizar a soma dos quadrados dos resíduos, ou seja <span class="math inline">\(\min_{\beta} \sum_{i=1}^n \hat{u}^2\)</span>. O LASSO começa dai, mas adiciona uma pequena alteração: vamos limitar o valor da soma dos valores absolutos dos coeficientes para que ele seja menor que uma constante <span class="math inline">\(c\)</span>. Ou seja, o LASSO resolve o problema:</p>
