@@ -88,6 +88,9 @@ plot(y,pol[150,1:length(y)] , lab = "Solução estimada", lw = 2, legend = :topl
 plot!(y,sol(y), lab = "Solução verdadeira", linestyle = :dash, lw = 2)
 
 ```
+
+![](/post/Prog_dinamica/img1_2a.png)
+
 A linha da solução computada parece muito próxima da solução verdadeira, mas um pouco menos suave. A diferença parece ficar pior no final. Vamos fazer um gráfico com a diferença entre as duas soluções:
 
 ```{julia}
@@ -97,5 +100,7 @@ dif = sol.(y) - pol[150,:]
 plot(y,dif, legend = :none, lw = 2)
 
 ```
+
+![](/post/Prog_dinamica/img2_2a.png)
 
 O gráfico deixa bem claro que a solução difere mais na ponta direita.

@@ -12,11 +12,21 @@
     
     
     <item>
-      <title>Sistemas dinâmicos e Algebra Linear</title>
-      <link>/2018/10/31/sistemas-din%C3%A2micos-e-algebra-linear/</link>
+      <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
+      <link>/2018/10/31/banach/</link>
       <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/31/sistemas-din%C3%A2micos-e-algebra-linear/</guid>
+      <guid>/2018/10/31/banach/</guid>
+      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+    </item>
+    
+    <item>
+      <title>Sistemas Dinâmico e Álgebra Linear</title>
+      <link>/2018/10/31/sistemas-dinamicos-e-algebra-linear/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/31/sistemas-dinamicos-e-algebra-linear/</guid>
       <description>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.
 Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo.</description>
     </item>

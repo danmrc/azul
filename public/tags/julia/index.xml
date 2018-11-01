@@ -6,10 +6,20 @@
     <description>Recent content in Julia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 28 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 02 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Programação Dinâmica IIB</title>
+      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
+      <description>JuliaCall::julia_setup(&amp;quot;/Applications/Julia-1.0.app/Contents/Resources/julia/bin&amp;quot;)No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
+    </item>
     
     <item>
       <title>Por que usar o Julia?</title>
@@ -38,16 +48,6 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
       <guid>/2018/08/27/interpolacao/</guid>
       <description>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/08/09/programacao-dinamica-ii-b/</link>
-      <pubDate>Thu, 09 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/08/09/programacao-dinamica-ii-b/</guid>
-      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
     </item>
     
   </channel>

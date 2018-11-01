@@ -6,15 +6,16 @@ output:
   html_document:
     df_print: paged
   pdf_document: default
-katex: yes
 categories:
-- R
-- Matemática
+  - R
+  - Matemática
 slug: banach
 tags:
-- R
-- Simulação
-authors: pedrocava
+  - R
+  - Simulação
+authors: ["pedrocava"]
+draft: true
+katex: true
 ---
 
 Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado. 
