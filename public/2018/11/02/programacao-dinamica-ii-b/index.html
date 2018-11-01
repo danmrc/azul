@@ -4,18 +4,18 @@
 <head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='JuliaCall::julia_setup(&quot;/Applications/Julia-1.0.app/Contents/Resources/julia/bin&quot;)No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]'>
+<meta name='description' content='No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Programação Dinâmica IIB • Daniel Coutinho'>
-<meta property='og:description' content='JuliaCall::julia_setup(&quot;/Applications/Julia-1.0.app/Contents/Resources/julia/bin&quot;)No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]'>
+<meta property='og:description' content='No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$'>
 <meta property='og:url' content='/2018/11/02/programacao-dinamica-ii-b/'>
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Programação Dinâmica'><meta property='article:tag' content='Julia'><meta property='article:tag' content='Economia'><meta property='article:published_time' content='2018-11-02T00:00:00Z'/><meta property='article:modified_time' content='2018-11-02T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.48" />
+<meta name="generator" content="Hugo 0.49" />
 
   <title>Programação Dinâmica IIB • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/11/02/programacao-dinamica-ii-b/'>
@@ -100,13 +100,13 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
       </li><li>
-        <a href='/tags/economia/' style='font-size:1.0833333333333333em'>Economia</a>
+        <a href='/tags/economia/' style='font-size:1.25em'>Economia</a>
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
       </li><li>
-        <a href='/tags/julia/' style='font-size:1.25em'>Julia</a>
+        <a href='/tags/julia/' style='font-size:1.4166666666666665em'>Julia</a>
       </li><li>
         <a href='/tags/lasso/' style='font-size:1em'>Lasso</a>
       </li><li>
@@ -124,7 +124,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/profiling/' style='font-size:1em'>Profiling</a>
       </li><li>
-        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.0833333333333333em'>Programação Dinâmica</a>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.25em'>Programação Dinâmica</a>
       </li><li>
         <a href='/tags/r/' style='font-size:2em'>R</a>
       </li><li>
@@ -239,7 +239,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-5 mins read
+3 mins read
 </span>
 
 
@@ -253,95 +253,53 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  <pre class="r"><code>JuliaCall::julia_setup(&quot;/Applications/Julia-1.0.app/Contents/Resources/julia/bin&quot;)</code></pre>
-<p>No (<a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/" class="uri">https://azul.netlify.com/2018/09/08/programacao-dinamica-i/</a>)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:</p>
-<p><span class="math display">\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</span></p>
-<p>A nossa estratégia no post passado era, para cada <span class="math inline">\(t\)</span>, resolver o problema:</p>
-<p><span class="math display">\[V_t(k_t) = max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) \]</span></p>
-<p>Onde nós sabiamos que o <span class="math inline">\(V_T(k_T)\)</span> era igual a função utilidade avaliada em <span class="math inline">\(k_T\)</span>. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar <span class="math inline">\(V_{T-1}\)</span>, e dai <span class="math inline">\(V_{T-2}\)</span>…</p>
-<p>Mas agora, somos apresentados a um problema em que não temos um último período, então não podemos prosseguir <em>recursivamente</em>. Apesar disso parecer um grande problema, é uma grande vantagem: <em>o problema de hoje é idêntico ao problema de amanhã</em>. Como em qualquer período nós ainda temos infinitos períodos a frente, nós podemos escrever o problema do consumidor usando um único <span class="math inline">\(V(k_t)\)</span> - apesar do valor de <span class="math inline">\(k_t\)</span> depender do período, a função <span class="math inline">\(V(k_t)\)</span> não depende mais do período. Nosso novo problema é resolver:</p>
-<p><span class="math display">\[ V(k_t) = \max_{c_t} u(c_t)+ \beta{} V((1-\delta)k_{t}+f(k_t)-c_t)) \]</span></p>
+  <p>No (<a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post">https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post</a> passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:</p>
+
+<p>$$Max \sum_{t=1}^{\infty} \beta^t u(c<em>t) \text{ sujeito a } k</em>{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</p>
+
+<p>A nossa estratégia no post passado era, para cada $t$, resolver o problema:</p>
+
+<p>$$V_t(k<em>t) = max</em>{c_t}{} u(c<em>t) + \beta{} V</em>{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t)$$</p>
+
+<p>Onde nós sabiamos que o $V_T(k_T)$ era igual a função utilidade avaliada em $k<em>T$. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar $V</em>{T-1}$, e dai $V_{T-2}$&hellip;</p>
+
+<p>Mas agora, somos apresentados a um problema em que não temos um último período, então não podemos prosseguir <em>recursivamente</em>. Apesar disso parecer um grande problema, é uma grande vantagem: <em>o problema de hoje é idêntico ao problema de amanhã</em>. Como em qualquer período nós ainda temos infinitos períodos a frente, nós podemos escrever o problema do consumidor usando um único $V(k_t)$ - apesar do valor de $k_t$ depender do período, a função $V(k_t)$ não depende mais do período. Nosso novo problema é resolver:</p>
+
+<p>$$V(k<em>t) = \max</em>{c_t} u(c<em>t)+ \beta{} V((1-\delta)k</em>{t}+f(k_t)-c_t))$$</p>
+
 <p>A beleza de resolver esse problema é que, apesar de não sabermos o valor de V, podemos iterar no computador e encontrar uma aproximação. Isso se deve ao fato de que o problema acima é uma contração, então vale o Teorema do Ponto Fixo de Banach, que o Pedro apresentou aqui. Nosso pseudo-código seria:</p>
+
 <ul>
-<li>Dê algum chute inicial para <span class="math inline">\(V\)</span>. Vamos chamar de <span class="math inline">\(V_0\)</span>.</li>
-<li>Resolva <span class="math inline">\(\max_c u(c) + \beta{}V_0((1-\delta)k_{t}+f(k_t)-c))\)</span>. Salve isso como <span class="math inline">\(V_1\)</span></li>
-<li>Resolva <span class="math inline">\(\max_c u(c) + \beta{}V_1((1-\delta)k_{t}+f(k_t)-c))\)</span>. Salve isso como <span class="math inline">\(V_2\)</span></li>
-<li>Faça isso até <span class="math inline">\(V\)</span> ou <span class="math inline">\(c\)</span> convergirem, i.e., até <span class="math inline">\(V_{i}\)</span> e <span class="math inline">\(V_{i+1}\)</span> (ou <span class="math inline">\(c_i\)</span> e <span class="math inline">\(c_{i+1}\)</span>) ficarem próximos numericamente</li>
+<li>Dê algum chute inicial para $V$. Vamos chamar de $V_0$.</li>
+<li>Resolva $\max_c u&copy; + \beta{}V<em>0((1-\delta)k</em>{t}+f(k_t)-c))$. Salve isso como $V_1$</li>
+<li>Resolva $\max_c u&copy; + \beta{}V<em>1((1-\delta)k</em>{t}+f(k_t)-c))$. Salve isso como $V_2$</li>
+<li>Faça isso até $V$ ou $c$ convergirem, i.e., até $V<em>{i}$ e $V</em>{i+1}$ (ou $c<em>i$ e $c</em>{i+1}$) ficarem próximos numericamente</li>
 </ul>
-<p>Vamos continuar com o nosso exemplo de função utilidade log e função de produção Cobb-Douglas. O caso em que <span class="math inline">\(\delta = 1\)</span> tem solução fechada, então para a gente checar que tudo funcionou direitinho, eu vou implementar ele. Vamos dar, como chute inicial, a função valor sendo idêntica ao valor do capital. É um chute tosco, mas justamente por isso é ilustrativo. Eu sequer vou me preocupar em colocar uma checagem de convergência, para deixar o código o mais simples possível: deixe o computador repetir umas 150 vezes a operação.</p>
-<pre class="julia"><code>
-using Optim
+
+<p>Vamos continuar com o nosso exemplo de função utilidade log e função de produção Cobb-Douglas. O caso em que $\delta = 1$ tem solução fechada, então para a gente checar que tudo funcionou direitinho, eu vou implementar ele. Vamos dar, como chute inicial, a função valor sendo idêntica ao valor do capital. É um chute tosco, mas justamente por isso é ilustrativo. Eu sequer vou me preocupar em colocar uma checagem de convergência, para deixar o código o mais simples possível: deixe o computador repetir umas 150 vezes a operação.</p>
+
+<pre><code class="language-julia">using Optim
 using Interpolations
 using Plots
 
-u(c)=log(c)</code></pre>
-<pre><code>## u (generic function with 1 method)</code></pre>
-<pre class="julia"><code>
-bet = 0.9</code></pre>
-<pre><code>## 0.9</code></pre>
-<pre class="julia"><code>alf = 0.5</code></pre>
-<pre><code>## 0.5</code></pre>
-<pre class="julia"><code>
-f(x)=x^alf</code></pre>
-<pre><code>## f (generic function with 1 method)</code></pre>
-<pre class="julia"><code>
-y = range(0.1,stop = 10,length = 200)</code></pre>
-<pre><code>## 0.1:0.04974874371859297:10.0</code></pre>
-<pre class="julia"><code>
-guess = y</code></pre>
-<pre><code>## 0.1:0.04974874371859297:10.0</code></pre>
-<pre class="julia"><code>vals = Array{Float64}(undef,150,length(y))</code></pre>
-<pre><code>## 150×200 Array{Float64,2}:
-##  6.94488e-310    2.52027e-314  …    4.94066e-324    6.94488e-310
-##  0.0             0.0                6.94488e-310    6.94488e-310
-##  2.52027e-314  NaN                  0.0             5.43472e-323
-##  0.0             2.52027e-314       0.0             0.0         
-##  2.52027e-314    2.52027e-314     NaN               5.92879e-323
-##  2.52027e-314    2.52027e-314  …    2.52039e-314    0.0         
-##  2.52027e-314    4.94066e-324       2.52039e-314  NaN           
-##  2.52027e-314    6.94488e-310       2.52039e-314    2.52039e-314
-##  0.0             0.0                4.94066e-324    2.52039e-314
-##  2.52027e-314    6.94488e-310       6.94488e-310    2.52039e-314
-##  ⋮                             ⋱                                
-##  0.0             0.0                6.94488e-310    6.94488e-310
-##  0.0             2.52027e-314       6.94488e-310  NaN           
-##  0.0             2.52027e-314       6.94488e-310    2.52039e-314
-##  6.94488e-310    2.52027e-314       5.43472e-323    2.52039e-314
-##  0.0             2.52027e-314  …    0.0             2.52039e-314
-##  2.52027e-314    2.122e-314         5.92879e-323  NaN           
-##  0.0             2.52027e-314       0.0             6.94488e-310
-##  2.52027e-314    2.122e-314       NaN               6.94488e-310
-##  2.52027e-314    2.52027e-314       6.94488e-310    6.94488e-310</code></pre>
-<pre class="julia"><code>pol=Array{Float64}(undef,150,length(y))</code></pre>
-<pre><code>## 150×200 Array{Float64,2}:
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  ⋮                        ⋮              ⋱            ⋮                      
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0  …  0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0
-##  0.0  0.0  0.0  0.0  0.0  0.0  0.0  0.0     0.0  0.0  0.0  0.0  0.0  0.0  0.0</code></pre>
-<pre class="julia"><code>
-vals[1,1:length(y)] = guess</code></pre>
-<pre><code>## 0.1:0.04974874371859297:10.0</code></pre>
-<pre class="julia"><code>pol[1,1:length(y)] = y</code></pre>
-<pre><code>## 0.1:0.04974874371859297:10.0</code></pre>
-<pre class="julia"><code>
+u(c)=log(c)
+
+bet = 0.9
+alf = 0.5
+
+f(x)=x^alf
+
+y = range(0.1,stop = 10,length = 200)
+
+guess = y
+vals = Array{Float64}(undef,150,length(y))
+pol = Array{Float64}(undef,150,length(y))
+
+vals[1,1:length(y)] = guess
+pol[1,1:length(y)] = y
+
 for i=1:149
-  V=LinearInterpolation(y,vals[i,:],extrapolation_bc = Interpolations.Linear())
+  V=LinearInterpolation(y,vals[i,:],extrapolation_bc = Interpolations.Line())
     for j = 1:length(y)
         That(c)=-(u(c)+bet*V(f(y[j]-c)))
         op = optimize(That,0,y[j])
@@ -350,41 +308,26 @@ for i=1:149
    end
 end
 </code></pre>
-<p>A solução verdadeira é <span class="math inline">\(c^*(k) = (1-\alpha \beta)k\)</span>. Vamos plotar a solução verdadeira contra a estimada:</p>
-<pre class="julia"><code>
-sol(Y)=(1-alf*bet)*Y</code></pre>
-<pre><code>## sol (generic function with 1 method)</code></pre>
-<pre class="julia"><code>
+
+<p>A solução verdadeira é $c^*(k) = (1-\alpha{} \beta{})k$. Vamos plotar a solução verdadeira contra a estimada:</p>
+
+<pre><code class="language-julia">sol(Y)=(1-alf*bet)*Y
+
 plot(y,pol[150,1:length(y)] , lab = &quot;Solução estimada&quot;, lw = 2, legend = :topleft)
 plot!(y,sol(y), lab = &quot;Solução verdadeira&quot;, linestyle = :dash, lw = 2)
 </code></pre>
+
+<p><img src="figures/2018-08-10-Prog-dinamica-IIB_2_1.svg" alt="" /></p>
+
 <p>A linha da solução computada parece muito próxima da solução verdadeira, mas um pouco menos suave. A diferença parece ficar pior no final. Vamos fazer um gráfico com a diferença entre as duas soluções:</p>
-<pre class="julia"><code>
-dif = sol.(y) - pol[150,:]</code></pre>
-<pre><code>## 200-element Array{Float64,1}:
-##  -0.0018785795029160127 
-##  -0.0025796332040932957 
-##  -0.00037587394867405477
-##   0.003907586146442044  
-##  -0.001890909644453015  
-##   0.001861568339373565  
-##   0.0031974476511501815 
-##  -0.0007883644931546974 
-##  -0.003270423717491866  
-##   0.0015115781999590627 
-##   ⋮                     
-##  -0.016476259353814804  
-##  -0.00804470560128756   
-##   0.00042796935767253075
-##  -0.02017537266368752   
-##  -0.037619172488038366  
-##  -0.029289288148464543  
-##  -0.020918122737919376  
-##  -0.012506528446667886  
-##  -0.004053945405656734</code></pre>
-<pre class="julia"><code>
+
+<pre><code class="language-julia">dif = sol.(y) - pol[150,:]
+
 plot(y,dif, legend = :none, lw = 2)
 </code></pre>
+
+<p><img src="figures/2018-08-10-Prog-dinamica-IIB_3_1.svg" alt="" /></p>
+
 <p>O gráfico deixa bem claro que a solução difere mais na ponta direita.</p>
 
 </div>
@@ -413,7 +356,7 @@ plot(y,dif, legend = :none, lw = 2)
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/2018/10/31/banach/'>
+      <a href='/2018/11/02/programacao-dinamica-ii-b/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -421,10 +364,10 @@ plot(y,dif, legend = :none, lw = 2)
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>O Teorema do Ponto Fixo de Banach e uma visualização no R</a>
+        <span class='screen-reader-text'>Previous post: </span>Programação Dinâmica IIB</a>
     </div><div class='next-entry sep-before'>
-      <a href='/2018/11/05/patronagem/'>
-        <span class='screen-reader-text'>Next post: </span>Os Custos da Patronagem: evidências do Império Britânico<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+      <a href='/2018/11/02/programacao-dinamica-ii-b/'>
+        <span class='screen-reader-text'>Next post: </span>Programação Dinâmica IIB<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="4" y1="12" x2="20" y2="12"/>
   <polyline points="14 6 20 12 14 18"/>
