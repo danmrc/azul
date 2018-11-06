@@ -10,7 +10,7 @@
 # These files are text and should be normalized (Convert crlf => lf)
 *.gitattributes text
 .gitignore text
-*.md text
+.md text
 static/* linguist-vendored
 public/* linguist-vendored
 .Rproj.user/* linguist-vendored
