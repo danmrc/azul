@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/11/06/sistemas-dinamicos-e-algebra-linear/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/11/05/patronagem/</loc>
     <lastmod>2018-11-05T00:00:00+00:00</lastmod>
   </url>
@@ -19,11 +24,6 @@
   
   <url>
     <loc>/2018/10/31/banach/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2018/10/31/sistemas-dinamicos-e-algebra-linear/</loc>
     <lastmod>2018-10-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -124,7 +124,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -153,7 +153,7 @@
   
   <url>
     <loc>/tags/autovalores/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -169,13 +169,13 @@
   </url>
   
   <url>
-    <loc>/tags/clustering/</loc>
+    <loc>/categories/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/clustering/</loc>
+    <loc>/tags/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -194,13 +194,7 @@
   
   <url>
     <loc>/authors/danielc/</loc>
-    <lastmod>2018-11-02T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/econometria/</loc>
-    <lastmod>2018-08-19T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -211,14 +205,20 @@
   </url>
   
   <url>
-    <loc>/tags/economia/</loc>
-    <lastmod>2018-11-02T00:00:00+00:00</lastmod>
+    <loc>/tags/econometria/</loc>
+    <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/economia/</loc>
     <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/economia/</loc>
+    <lastmod>2018-11-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -241,13 +241,13 @@
   </url>
   
   <url>
-    <loc>/tags/julia/</loc>
+    <loc>/categories/julia/</loc>
     <lastmod>2018-11-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/julia/</loc>
+    <loc>/tags/julia/</loc>
     <lastmod>2018-11-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -265,32 +265,32 @@
   </url>
   
   <url>
-    <loc>/tags/macroeconomia/</loc>
-    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/macroeconomia/</loc>
     <lastmod>2018-10-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/matem%C3%A1tica/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <loc>/tags/macroeconomia/</loc>
+    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/microeconomia/</loc>
-    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+    <loc>/categories/matem%C3%A1tica/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/microeconomia/</loc>
     <lastmod>2018-09-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/microeconomia/</loc>
+    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -308,7 +308,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -319,13 +319,13 @@
   </url>
   
   <url>
-    <loc>/tags/probit/</loc>
+    <loc>/categories/probit/</loc>
     <lastmod>2018-08-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/probit/</loc>
+    <loc>/tags/probit/</loc>
     <lastmod>2018-08-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -337,25 +337,25 @@
   </url>
   
   <url>
-    <loc>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
-    <lastmod>2018-11-02T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
     <lastmod>2018-11-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2018-11-05T00:00:00+00:00</lastmod>
+    <loc>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</loc>
+    <lastmod>2018-11-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
     <lastmod>2018-11-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -391,7 +391,7 @@
   
   <url>
     <loc>/tags/sistemas-din%C3%A2micos/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -439,7 +439,7 @@
   
   <url>
     <loc>/tags/%C3%A1lgebra-linear/</loc>
-    <lastmod>2018-10-31T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
