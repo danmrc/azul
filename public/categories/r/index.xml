@@ -67,7 +67,7 @@ Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar p
       
       <guid>/2018/10/10/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
     
     <item>

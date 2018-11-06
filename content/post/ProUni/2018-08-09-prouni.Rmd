@@ -24,38 +24,16 @@ katex: true
 
 library(dplyr)
 library(ggplot2)
-library(readxl)
-library(dbscan)
-library(mclust)
 library(cluster)
 library(scales)
 
 ##### A base de dados pode ser encontrada aqui: https://github.com/danmrc/azul/tree/master/content/post/ProUni
 
-prouni <- read_excel(paste0(getwd(),"/prouni.xlsx"), 
-                     sheet = "Formatados_para_rodar")
+temp = tempfile()
+url = "https://github.com/pcavalcanteoliveira/apresentacao_jovens_ppge/blob/master/prouni_limpo.Rds?raw=true"
 
-##### Aqui selecionamos as variáveis de interesse: 
-##### Dummy de Medicina
-##### Mensalidade
-##### Nota de Corte
-
-coercivo <- data.frame(prouni$mensalidade, 
-                        prouni$Medicina, 
-                          prouni$nota_integral_ampla)
-##### Inspecione a base
-summary(coercivo)
-
-##### Algoritimos de clustering não lidam bem com NAs
-##### Iremos retirar obs que não sejam completas
-
-coercivo$dropador <- complete.cases(coercivo)
-final <- coercivo[coercivo$dropador == TRUE,]
-final$label <- ifelse(final$prouni.Medicina == 1, "Medicina", "Não-Medicina")
-final$dropador <- complete.cases(final)
-
-##### Agora retiramos o vetor residual que indica se a obs é completa
-final$dropador <- NULL
+download.file(url = url, destfile = temp, mode = "wb")
+final = readRDS(temp)
 ```
 
 
@@ -90,10 +68,9 @@ A amostra que temos é do ProUni de 2017 e conta com algo em torno de 32 mil obs
 
 ```{r imagem1, message=FALSE, warning=FALSE, dpi=1000}
 final %>%
-  ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
-             colour = prouni.Medicina, show.legend = FALSE)) +
+  ggplot(aes(x = mensalidade, y = nota, 
+             color = medicina, show.legend = FALSE)) +
   geom_point()+
-  stat_density_2d()+
   xlab("Mensalidade do curso no ProUni")+
   ylab("Nota de Corte do curso no ProUni")+
   labs(col="Medicina")
@@ -102,14 +79,13 @@ final %>%
 ```{r imagem2, message=FALSE, warning=FALSE, dpi=700}
 
 final %>%
-ggplot(aes(x=prouni.mensalidade)) + 
+ggplot(aes(x = mensalidade)) + 
   xlim(0,2500) +
-  geom_histogram(aes(y=..density..), binwidth = 50) +
+  geom_histogram(aes(y=..density..), binwidth = 50, fill = "#3385ff") +
   xlab("Mensalidade do curso no ProUni") + 
   ylab("") +
-  geom_density(colour =" medium blue", size = 1.5) +
   scale_y_continuous(labels = percent) +
-  geom_vline(aes(xintercept=mean(prouni.mensalidade, na.rm=T)),   
+  geom_vline(aes(xintercept = mean(mensalidade, na.rm=T)),   
              color="black", linetype="dashed", size=1)
 ````
 
@@ -117,22 +93,37 @@ ggplot(aes(x=prouni.mensalidade)) +
 ```{r imagem3, message=FALSE, warning=FALSE, dpi=700}
 
 final %>%
-  ggplot(aes(x=prouni.mensalidade)) + 
+  ggplot(aes(x = mensalidade, fill = medicina)) + 
   xlab("Mensalidade do curso no ProUni") + 
   ylab("") +
   geom_histogram(aes(y=..density..), binwidth = 300) +
-  scale_y_continuous(labels = percent) +
-  facet_wrap(~label) +
-  geom_density(colour =" medium blue", size = 1)
+  scale_y_continuous(labels = percent) 
 ````
 
-Os próximos dois gráficos tem códigos análogos aos dois anteriores e estão disponíveis no script. 
 
 Aqui observamos três coisas muito interessantes. A primeira é que notas de corte seguem muito bem uma distribuição normal _exceto_ pela regra que impõe nota de corte mínima de 450 no ProUni e Sisu. É o tipo de coisa em que seria legal aplicar um [Teste de Densidade de McCrary (2006)](https://eml.berkeley.edu/~jmccrary/mccrary2006_DCdensity.pdf). Depois, que Medicina tem um padrão de distribuição de notas bem diferente do resto.
 
-![Histograma das notas de corte](https://i.imgur.com/sipwjrG.png)
 
-![Histograma das notas de corte diferenciando Medicina](https://i.imgur.com/VjfJH7K.png)
+```{r, dpi = 700}
+
+final %>%
+  ggplot(aes(x = nota)) +
+  geom_histogram(aes(y = ..density..), binwidth = 10, fill = "#3385ff") +
+  scale_y_continuous(labels = percent) + 
+  xlab("Nota de corte do curso no ProUni")
+
+```
+
+
+```{r, dpi = 700}
+
+final %>%
+  ggplot(aes(x = nota, fill = medicina)) +
+  geom_histogram(aes(y = ..density..), binwidth = 10) +
+  scale_y_continuous(labels = percent) + 
+  xlab("Nota de corte do curso no ProUni")
+
+```
 
 ## Como escolher $k$?
 
@@ -144,12 +135,6 @@ O segundo método é o do "Cotovelo". Não é muito sofisticado, mas é potente.
 
 ```{r cotovelo, echo=TRUE, dpi=700}
 
-#### Limpar valores lógicos e de texto antes
-final$label <- NULL
-final$completo <- NULL
-
-#### Definir função para método do Cotovelo
-
 wssplot <- function(data, nc=15, seed=1234){
   wss <- (nrow(data)-1)*sum(apply(data,2,var))
   for (i in 2:nc){
@@ -159,7 +144,16 @@ wssplot <- function(data, nc=15, seed=1234){
   plot(1:nc, wss, type="b", xlab="Number of Clusters",
        ylab="Within groups sum of squares")}
 
-wssplot(final, 
+final$completo = complete.cases(final)
+
+final.cotovelo = data.frame(nota = final$nota, 
+                            mensalidade = final$mensalidade,
+                            completo = final$completo)
+
+final.cotovelo = final.cotovelo[final$completo == TRUE,]
+final.cotovelo$completo = NULL
+
+wssplot(final.cotovelo, 
           nc = 6) 
 ````
 
@@ -171,22 +165,22 @@ Tendo 3 como o número mágico, podemos finalmente rodar o modelo. ````kmeans```
 
 ```{r echo=TRUE, dpi=700}
 
-analise_kmeans <- kmeans(final, 
+analise_kmeans <- kmeans(final.cotovelo, 
                           centers = 3)
 
 ##### Agora visualize os resultados
 
 clusplot(final, analise_kmeans$cluster,
                         main='Procurando por 3 agrupamentos no ProUni',
-                            color=TRUE,
-                              shade=TRUE,
-                                lines=0)
+                            color = TRUE,
+                              shade = TRUE,
+                                lines = 0)
 
 final %>%
-  ggplot(aes(x=prouni.mensalidade, y=prouni.nota_integral_ampla,
-             colour = analise_kmeans$cluster, show.legend = FALSE)) +
+  ggplot(aes(x = mensalidade, y = nota,
+             colour = factor(analise_kmeans$cluster), 
+             show.legend = FALSE)) +
   geom_point() +
-  stat_density_2d() +
   xlab("Mensalidade do curso no ProUni") +
   ylab("Nota de Corte do curso no ProUni") +
   labs(col = "Agrupamento")
