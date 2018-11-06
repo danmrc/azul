@@ -5,17 +5,17 @@
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
 <meta name='description' content='Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.'>
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='O Teorema do Ponto Fixo de Banach e uma visualização no R • Pedro Cavalcante'>
 <meta property='og:description' content='Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.'>
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.'>
 <meta property='og:url' content='/2018/10/31/banach/'>
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/6257e4bc50db642ff52a5ab484db3859?s=256'><meta property='article:author' content='https://facebook.com/https://www.facebook.com/pedro.cavalcante.988'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='R'><meta property='article:tag' content='Simulação'><meta property='article:published_time' content='2018-10-31T00:00:00Z'/><meta property='article:modified_time' content='2018-10-31T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'><meta name='twitter:creator' content='@https://twitter.com/PedrooCava'>
 
-<meta name="generator" content="Hugo 0.50" />
+<meta name="generator" content="Hugo 0.49" />
 
   <title>O Teorema do Ponto Fixo de Banach e uma visualização no R • Pedro Cavalcante</title>
   <link rel='canonical' href='/2018/10/31/banach/'>
@@ -36,7 +36,6 @@ if (!doNotTrack) {
 }
 </script>
 <script async src='https://www.google-analytics.com/analytics.js'></script>
-<<<<<<< HEAD
 
   
 
@@ -240,361 +239,6 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-7 mins read
-</span>
-
-
-</div>
-
-
-  </div>
-</header>
-
-  
-  
-
-  <div class='container entry-content'>
-  <p>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.</p>
-<div id="o-teorema-do-ponto-fixo-de-banach" class="section level1">
-<h1>O Teorema do Ponto Fixo de Banach</h1>
-<p>Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício. Mais especificamente, o exercício 22 do capítulo 5 do livro <em>Principles of Mathematical Analysis</em>, de Walter Rudin.</p>
-<p><em>5.22. Enunciado:</em> Suponha <span class="math inline">\(f\)</span> uma função real em <span class="math inline">\((-\infty, \infty)\)</span>. Chame <span class="math inline">\(x\)</span> um <em>ponto fixo</em> de <span class="math inline">\(f\)</span> se <span class="math inline">\(f(x)=x\)</span>.</p>
-<p><em>Item A</em>) Se <span class="math inline">\(f\)</span> é diferenciável e <span class="math inline">\(f&#39;(t) \neq 1\)</span> para qualquer <span class="math inline">\(t\)</span> real, prove que <span class="math inline">\(f\)</span> tem no máximo um ponto fixo.</p>
-<p>Essa proposição deve ter uma infinidade de provas diferentes. Eu particularente gosto da prova que me veio à mente quando um professor de análise apresenteou esse problema em sala. Um mapa <span class="math inline">\(f\)</span> só tem ponto fixo se cruza a função identidade, a famosa <span class="math inline">\(g(x)=x\)</span>, cuja derivada sempre é <span class="math inline">\(1\)</span> e tem infinitos pontos fixos. Então queremos mostrar que se uma função real <em>nunca</em> tem derivada igual a <span class="math inline">\(1\)</span>, ela só pode cruzar a função identidade no máximo uma vez. Segue aqui um esboço:</p>
-<p>Suponha por absurdo que <span class="math inline">\(f\)</span> tenha dois pontos fixos, logo duas interseções com a identidade. Digamos que são <span class="math inline">\(u\)</span> e <span class="math inline">\(v\)</span>. Agora usamos um “lema”, o Teorema do Valor Médio. Ele nos garante que dada uma função contínua definida num intervalo fechado <span class="math inline">\([a,b]\)</span>, existe algum ponto <span class="math inline">\(c \in [a,b]\)</span> tal que <span class="math inline">\(f&#39;(c) = \frac{f(b)-f(a)}{b-a}\)</span>. Em bom português: uma função contínua que varia a uma certa taxa média em um intervalo vai ter derivada igual a essa taxa média em algum ponto desse intervalo. Opa opa, então estamos dizendo que <span class="math inline">\(f\)</span> passou por um intervalo fechado <span class="math inline">\([u, v]\)</span> em que teve taxa de variação média de <span class="math inline">\(1\)</span> - já que <span class="math inline">\(f(u)\)</span> e <span class="math inline">\(f(v)\)</span> estão ambos sobre a reta da identidade. Pelo Teorema do Valor Médio, a derivada de <span class="math inline">\(f\)</span> necessariamente assumiu o valor <span class="math inline">\(1\)</span> em algum ponto desse intervalo, o que contradiz nossa hipótese inicial. Temos então um absurdo e aqui termina a “prova”.</p>
-<p>Vamos pular o item B porque ele não é muito interessante para o nosso assunto e eu não posso deixar o leitor morrer de sono.</p>
-<p><em>Item C</em>) Se existe uma constante <em>A &lt; 1</em> tal que <span class="math inline">\(|f`(t)\leq A|\)</span> para todo <span class="math inline">\(t\)</span> real, prove que um ponto fixo <span class="math inline">\(x\)</span> de <span class="math inline">\(f\)</span> existe e que <span class="math inline">\(x = \lim x_n\)</span>, onde <span class="math inline">\(x_1\)</span> é um número real arbitrário e <span class="math inline">\(x_{n+1} = f(x_n)\)</span>.</p>
-<p>Vamos quebrar um pouco o enunciado. Se existe o <span class="math inline">\(A\)</span> descrito, então <span class="math inline">\(f\)</span> é dita uma <em>contração</em>. A distância da imagem de quaisquer dois pontos do domínio é sempre menor ou igual a distância entre os próprios pontos. <span class="math inline">\(f\)</span> é um mapa que comprime distâncias. Se <span class="math inline">\(x_1\)</span> é um número real arbitrário e a sequência definida daquela maneira tem um limite, então estamos dizendo que se aplicarmos uma contração repetidas vezes e montarmos uma sequência com os resultados, essa sequência de imagens converge para um ponto - e mais interessante ainda - <em>somente</em> para esse ponto, independente da condição inicial. Essa proposição diz que se <span class="math inline">\(f\)</span> é uma contração, ela não só tem ponto fixo, como tem <em>um único</em> ponto fixo e que podemos encontra-lo aplicando a função repetidas vezes a um ponto inicial qualquer. Pois, este é o Teorema do Ponto Fixo de Banach - também chamado de <em>Contraction Mapping Theorem</em>. Segue um esboço da prova:</p>
-<p><span class="math inline">\(d(x,y)\)</span> é a distância euclidiana entre dois pontos. Pela desigualdade triangular, temos:</p>
-<p><span class="math display">\[d(x,y) \leq d(x, f(x)) + d(f(x), f(y)) + d(y, f(y))\]</span> <span class="math display">\[d(x,y) \leq d(x, f(x)) + Ad(x, y) + d(y, f(y))\]</span> Podemos então isolar <span class="math inline">\(d(x,y)\)</span>: <span class="math display">\[d(x,y) - Ad(x, y) \leq d(x, f(x))  + d(y, f(y))\]</span> <span class="math display">\[d(x,y) \leq \frac{d(x, f(x))  + d(y, f(y))}{1 - A}\]</span> Note que se <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> forem pontos fixos, então <span class="math inline">\(d(x,y) = 0\)</span>, portanto, <span class="math inline">\(x=y\)</span>. Podemos garantir que uma contração somente terá <em>um</em> ponto fixo com essa observação. Resta mostrar agora que a sequência descrita no enunciado é de Cauchy - que a distância entre seus termos é cada vez menor, no informal português. Se <span class="math inline">\(f^n(t)\)</span> for a <span class="math inline">\(n\)</span>-ésima aplicação de <span class="math inline">\(f\)</span> com ponto inicial em <span class="math inline">\(t\)</span>, <span class="math inline">\(x = f^n(x_0)\)</span> e <span class="math inline">\(y = f^m(x_0)\)</span>, então podemos substituir isso tudo na desigualdade anterior:</p>
-<p><span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{d(f^n(x_0), f(f^n(x_0)))  + d(f^m(x_0), f(f^m(x_0)))}{1 - A}\]</span> <span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{A^nd(f(x_0), x_0)  + A^md(f(x_0), x_0)}{1 - A}\]</span> <span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{A^n + A^m}{1-A}d(f(x_0), x_0)\]</span> Observe que isso converge a zero, à medida que <span class="math inline">\(n,m \to \infty\)</span>. Então a distância de quaisquer dois elementos daquela sequência descrita no enunciado converge a zero à medida que o índice da sequência aumenta - logo ela é Cauchy.</p>
-<p>Esse teorema é um resultado muito importante para economia, especialmente porque garante que várias técnicas de programação dinâmica têm solução. Agora vamos sair da teoria, ver brevemente algumas aplicações de pontos fixos e depois e por as mãos na massa, observar ele acontecendo na prática.</p>
-</div>
-<div id="por-que-pontos-fixos-sao-interessantes" class="section level1">
-<h1>Por que pontos fixos são interessantes?</h1>
-<p>Idealmente essa seria a primeira seção do post, mas eu queria ter certeza que o leitor sabia o <em>o que é</em> um ponto fixo. Agora sabe. Os familiarizados com álgebra linear vão se lembrar do conceito de autovetor. Pois, um ponto fixo é essencialmente um autovetor cujo autovalor é <span class="math inline">\(1\)</span>. São “locais estáveis”, por assim dizer, de funções. Kim Border, em seu livro <em>Fixed Point Theorems with Applications to Economics and Game Theory</em> diz:</p>
-<p>“In a large market economy the number of prices determined is enormous. Aside from the practical difficulty of computing and communicating all those prices, how can we even be sure that it is possible to find prices that will equate supply and demand in all markets at once? Mathematicians will recognize the problem as one of proving the existence of a solution to a set of (nonlinear) equations. The first successful efforts by mathematicians toward answering this question took place in the 1930’s, in a workshop conducted by Karl Menger in Vienna. The seminars were attended by many of the finest mathematicians of the period and produced the path breaking papers of Wald [1935; 19361. Also published in the proceedings of Menger’s seminar was an important piece by von Neumann [1937]. At about the same time, mathematicians began an intensive study of games and what outcomes ought to be expected from a game played by rational players. Most of the proposed outcomes are characterized as some form of”equilibrium.&quot; That is, the outcome of a game ought to be a situation where no player (or perhaps no group of players) wants to change his play. Again the question arises as to. if and when such a combination of plays exist. The notion of mixed strategy had been developed by Borel [1921], but the first major result in the field, the minimax theorem, is due to von Neumann [1928]. It turns out that the same mathematical tools are useful in value theory and game theory, at least for proving the existence of equilibrium.&quot;</p>
-<p>Teoremas de Ponto Fixo são extremamente úteis porque são ferramentas propícias para provar existência de equilíbrios. É por isso que quem abrir as <a href="https://economics.mit.edu/files/8753">notas de aula de Economia Política de Daron Acemoglu</a> vai ver que um governo é dito estável se é ponto fixo de uma função particular, ou quem pesquisar as contribuições do Nobel John Nash vai logo descobrir que ele usou o Teorema do Ponto Fixo de Kakutani para provar existência de “equilíbrios” para uma série de jogos.</p>
-</div>
-<div id="vendo-a-magia-funcionar" class="section level1">
-<h1>Vendo a magia funcionar</h1>
-<p>Vamos definir uma função:</p>
-<pre class="r"><code>contracao = function(c, A, n, soma = 0) {
-  x = vector()
-  x[1] = c
-  
-  for(i in 2:n){
-    x[i] = A*x[i-1] + soma
-  }
-  
-  return(x)
-}
-
-n = 40
-s = 1
-A = .9
-# A dá a taxa de convergência ao ponto fixo
-
-obj1 = contracao(c = 1, A = A, n = n, soma = s) 
-obj2 = contracao(c = 3, A = A, n = n, soma = s)
-obj3 = contracao(c = 8, A = A, n = n, soma = s)
-obj4 = contracao(c = 14, A = A, n = n, soma = s)
-x = seq(0, n-1, by = 1)
-
-dados = data.frame(primeiro = obj1, segundo = obj2,
-                   terceiro = obj3, quarto = obj4,
-                   x = x)
-library(ggplot2)
-
-ggplot(dados, aes(x = x))+
- geom_line(aes(y = obj1), size = 2)+
-  geom_line(aes(y = obj2), color = &quot;blue&quot;, size = 2)+
-  geom_line(aes(y = obj3), color = &quot;green&quot;, size = 2)+
-  geom_line(aes(y = obj4), color = &quot;yellow&quot;, size = 2)</code></pre>
-<p><img src="/post/banach/banach_files/figure-html/unnamed-chunk-1-1.png" width="5250" /></p>
-<p>Fica o convite ao leitor: pegue esta função e altere os parâmetros como quiser. Se <span class="math inline">\(A &lt; 1\)</span>, não importa a condição inicial, as sequências sempre vão convergir para o mesmo ponto.</p>
-</div>
-
-</div>
-
-  
-<footer class='entry-footer'>
-  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
-  
-</svg>
-<span class='screen-reader-text'>Categories: </span></div>
-<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
-  <line x1="7" y1="7" x2="7" y2="7"/>
-  
-</svg>
-<span class='screen-reader-text'>Tags: </span></div>
-
-  </div>
-</footer>
-
-
-</article>
-
-<nav class='entry-nav'>
-  <div class='container'><div class='prev-entry sep-before'>
-      <a href='/2018/10/31/sistemas-dinamicos-e-algebra-linear/'>
-        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="20" y1="12" x2="4" y2="12"/>
-  <polyline points="10 18 4 12 10 6"/>
-  
-</svg>
- Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Sistemas Dinâmico e Álgebra Linear</a>
-    </div><div class='next-entry sep-before'>
-      <a href='/2018/11/02/programacao-dinamica-ii-b/'>
-        <span class='screen-reader-text'>Next post: </span>Programação Dinâmica IIB<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="4" y1="12" x2="20" y2="12"/>
-  <polyline points="14 6 20 12 14 18"/>
-  
-</svg>
-</span>
-      </a>
-    </div></div>
-</nav>
-
-
-
-
-      </main>
-
-      <footer id='footer' class='footer'>
-        <div class='container sep-before'><div class='copyright'>
-  <p></p>
-</div>
-
-        </div>
-      </footer>
-
-    </div>
-  </div><script>window.__public_path__='\/assets\/js\/'</script>
-
-<script src='/assets/js/main.59f76c44.js'></script><script src='/js/custom.js'></script><link rel='stylesheet' href='//unpkg.com/katex/dist/katex.min.css'>
-<script src='//unpkg.com/katex/dist/katex.min.js'></script>
-<script src='//unpkg.com/katex/dist/contrib/auto-render.min.js'></script>
-
-<script type='text/javascript'>
-  renderMathInElement(document.querySelector('.entry-content'),{});
-</script>
-
-</body>
-
-</html>
-
-=======
-
-  
-
-</head>
-
-
-<body class='page type-post has-sidebar'>
-
-  <div class='site'>
-
-    <div id='sidebar' class='sidebar'>
-  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
-
-  <div class='container'><section class='widget widget-about sep-after'>
-  <header>
-    
-    <div class='logo'>
-      <a href='/'>
-        <img src='/images/logo.png'>
-      </a>
-    </div>
-    
-    <h2 class='title site-title '>
-    AZUL
-    </h2>
-    <div class='desc'>
-    Economia, Estatística, Programação
-    </div>
-  </header>
-
-</section>
-<section class='widget widget-search sep-after'>
-  <header>
-    <h4 class='title widget-title'>Search</h4>
-  </header>
-
-  <form action='/search' id='search-form' class='search-form'>
-    <label>
-      <span class='screen-reader-text'>Search</span>
-      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
-    </label></form>
-
-</section>
-<section class='widget widget-taxonomy_cloud sep-after'>
-  <header>
-    <h4 class='title widget-title'>Tags</h4>
-  </header>
-
-  <div class='container list-container'>
-  <ul class='list taxonomy-cloud'><li>
-        <a href='/tags/adf/' style='font-size:1em'>Adf</a>
-      </li><li>
-        <a href='/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/' style='font-size:1em'>Análise De Sobrevivência</a>
-      </li><li>
-        <a href='/tags/apresenta%C3%A7%C3%A3o/' style='font-size:1em'>Apresentação</a>
-      </li><li>
-        <a href='/tags/autovalores/' style='font-size:1em'>Autovalores</a>
-      </li><li>
-        <a href='/tags/blanchard-quah/' style='font-size:1.0833333333333333em'>Blanchard Quah</a>
-      </li><li>
-        <a href='/tags/clustering/' style='font-size:1.0833333333333333em'>Clustering</a>
-      </li><li>
-        <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
-      </li><li>
-        <a href='/tags/economia/' style='font-size:1.25em'>Economia</a>
-      </li><li>
-        <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
-      </li><li>
-        <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
-      </li><li>
-        <a href='/tags/julia/' style='font-size:1.4166666666666665em'>Julia</a>
-      </li><li>
-        <a href='/tags/lasso/' style='font-size:1em'>Lasso</a>
-      </li><li>
-        <a href='/tags/machine-learning/' style='font-size:1em'>Machine Learning</a>
-      </li><li>
-        <a href='/tags/macroeconomia/' style='font-size:1em'>Macroeconomia</a>
-      </li><li>
-        <a href='/tags/microeconomia/' style='font-size:1.1666666666666667em'>Microeconomia</a>
-      </li><li>
-        <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
-      </li><li>
-        <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
-      </li><li>
-        <a href='/tags/probit/' style='font-size:1em'>Probit</a>
-      </li><li>
-        <a href='/tags/profiling/' style='font-size:1em'>Profiling</a>
-      </li><li>
-        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.25em'>Programação Dinâmica</a>
-      </li><li>
-        <a href='/tags/r/' style='font-size:2em'>R</a>
-      </li><li>
-        <a href='/tags/raiz-unit%C3%A1ria/' style='font-size:1em'>Raiz Unitária</a>
-      </li><li>
-        <a href='/tags/replica%C3%A7%C3%A3o/' style='font-size:1em'>Replicação</a>
-      </li><li>
-        <a href='/tags/sazonalidade/' style='font-size:1em'>Sazonalidade</a>
-      </li><li>
-        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1666666666666667em'>Simulação</a>
-      </li><li>
-        <a href='/tags/sistemas-din%C3%A2micos/' style='font-size:1em'>Sistemas Dinâmicos</a>
-      </li><li>
-        <a href='/tags/solow/' style='font-size:1em'>Solow</a>
-      </li><li>
-        <a href='/tags/tutoriais/' style='font-size:1em'>Tutoriais</a>
-      </li><li>
-        <a href='/tags/var/' style='font-size:1em'>Var</a>
-      </li><li>
-        <a href='/tags/vari%C3%A1veis-instrumentais/' style='font-size:1em'>Variáveis Instrumentais</a>
-      </li><li>
-        <a href='/tags/%C3%A1lgebra-linear/' style='font-size:1em'>Álgebra Linear</a>
-      </li></ul>
-</div>
-
-
-</section>
-</div>
-
-  <div class='sidebar-overlay'></div>
-</div>
-
-    <div class='main'>
-
-      <nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
-  <div class='container'>
-    <a class='screen-reader-text' href='#content'>Skip to Content</a>
-
-<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
-  <span class='screen-reader-text'>Toggle Sidebar</span>
-  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="3" y1="12" x2="21" y2="12" />
-  <line x1="3" y1="6" x2="21" y2="6" />
-  <line x1="3" y1="18" x2="21" y2="18" />
-  
-</svg>
-</span>
-  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <line x1="18" y1="6" x2="6" y2="18" />
-  <line x1="6" y1="6" x2="18" y2="18" />
-  
-</svg>
-</span>
-</button>
-    <ul><li class='item'>
-        <a href='https://github.com/danmrc/azul/tree/master/C%C3%B3digos'>GitHub</a>
-      </li><li class='item'>
-        <a href='/about/'>Sobre</a>
-      </li><li class='item'>
-        <a href='/post'>Tudo</a>
-      </li><li class='item'>
-        <a href=''>Twitter</a>
-      </li></ul>
-  </div>
-</nav>
-
-      <header id='header' class='header site-header'>
-        <div class='container sep-after'>
-          <div class='header-info'><p class='site-title title'>AZUL</p><p class='desc site-desc'>Economia, Estatística, Programação</p>
-          </div>
-        </div>
-      </header>
-
-      <main id='content'>
-
-
-<article lang='en' class='entry'>
-  <header class='header entry-header'>
-  <div class='container sep-after'>
-    <div class='header-info'>
-      <h1 class='title'>O Teorema do Ponto Fixo de Banach e uma visualização no R</h1>
-      
-
-    </div>
-    
-<div class='entry-meta'>
-  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-  <line x1="16" y1="2" x2="16" y2="6"/>
-  <line x1="8" y1="2" x2="8" y2="6"/>
-  <line x1="3" y1="10" x2="21" y2="10"/>
-  
-</svg>
-<span class='screen-reader-text'>Posted on </span>
-  <time class='entry-date' datetime='2018-10-31T00:00:00Z'>2018, Oct 31</time>
-</span>
-
-  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
-  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
-  
-</svg>
-<span class='screen-reader-text'> by </span><a href='/authors/pedrocava'>Pedro Cavalcante</a></span>
-  
-<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
-  
-  <circle cx="12" cy="12" r="10"/>
-  <polyline points="12 6 12 12 15 15"/>
-  
-</svg>
 8 mins read
 </span>
 
@@ -609,10 +253,7 @@ ggplot(dados, aes(x = x))+
   
 
   <div class='container entry-content'>
-  
-
-
-<p>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.</p>
+  <p>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.</p>
 <div id="o-teorema-do-ponto-fixo-de-banach" class="section level1">
 <h1>O Teorema do Ponto Fixo de Banach</h1>
 <p>Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício. Mais especificamente, o exercício 22 do capítulo 5 do livro <em>Principles of Mathematical Analysis</em>, de Walter Rudin.</p>
@@ -749,4 +390,3 @@ library(ggplot2)</code></pre>
 
 </html>
 
->>>>>>> 3772a1c49e83df30fc9db0086591e3d378faa66b

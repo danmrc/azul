@@ -28,7 +28,7 @@
       
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
@@ -67,7 +67,7 @@ Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar p
       
       <guid>/2018/10/10/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
     </item>
     
     <item>
@@ -158,7 +158,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>

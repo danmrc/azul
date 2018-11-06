@@ -5,7 +5,6 @@ date: '2018-10-31'
 categories:
 - R
 - Matemática
-draft: yes
 katex: yes
 slug: sistemas-dinamicos-e-algebra-linear
 tags:
@@ -35,7 +34,7 @@ lines(x[,2], type = "l", col = 2)
 
 Um sistema não explosivo vai voltar a um estado de "repouso" do sistema. Veja que isso soa familiar: nós esperamos que a economia saia do equilíbrio mas volte a ele (ou a um novo equilíbrio). Como podemos saber se um sistema dinâmico linear é explosivo ou não? 
 
-A resposta são os autovalores da matriz $A$ - na verdade, apenas o maior deles (em módulo). A ideia aqui é que a matriz $A$ possa ser decomposta em seus autovalores e autovetores. Seja $\Lambda$ uma matriz que tem na diagonal os autovalores e fora dela zero; e $P$ uma matriz que tem os autovetores. Então, $A = P\Lambda{}P^{-1}$. Mais ainda, $A^j = P\Lambda^jP^{-1}$, onde $\Lambda^j$ é equivalente a elevar cada entrada da diagonal a $j$. Logo, toda a dinâmica do sistema é governada pelos autovalores! 
+A resposta são os autovalores da matriz $A$ - na verdade, apenas o maior deles (em módulo). A ideia aqui é que a matriz $A$ possa ser decomposta em seus autovalores e autovetores. Seja $\Lambda$ uma matriz que tem na diagonal os autovalores e fora dela zero; e $P$ uma matriz que tem os autovetores. Então, $A = P\Lambda{}P^{-1}$. Mais ainda, $A^j = P\Lambda^jP^{-1}$, onde $\Lambda^j$ é equivalente a elevar cada entrada da diagonal a $j$. Mostrar isso é fácil. Pense no caso $A^2$. Se a decomposição por autovalor vale, $A^2 = A \times A = P \Lambda P^{-1} P \Lambda P^{-1} = P \Lambda^2P^{-1}$, onde a última igualdade eu só usei o fato que $P^{-1}P = I$, onde $I$ é a matriz identidade. Logo, toda a dinâmica do sistema é governada pelos autovalores! 
 
 Para provar o ponto, eis os autovalores da matriz A do exemplo anterior:
 
@@ -57,7 +56,7 @@ plot(x[,1], type="l", ylab = " ", xlab = "tempo")
 lines(x[,2], type = "l", col = 2)
 ```
 
-Veja que, nesse caso, o sistema converge para o vetor (0,0). Com o maior autovalor menor que 1, isso é sempre verdade. Apesar disso parecer excessivamente rigído, podemos sempre pensar que o vetor $x$ representa desvios do equilíbrio e o equilíbrio é basicamente o que a gente quiser. Talvez um caso mais fascinante é quando nós temos o maior autovalor igual a 1. O autovetor associado vai ser o equilíbrio do sistema. O exemplo abaixo ilustra isso, onde a linha verde representa o equilíbrio:
+Veja que, nesse caso, o sistema converge para o vetor (0,0). Com o maior autovalor menor que 1, isso é sempre verdade. Apesar disso parecer excessivamente rigído, podemos sempre pensar que o vetor $x$ representa desvios do equilíbrio e o equilíbrio é basicamente o que a gente quiser. Talvez um caso mais fascinante é quando nós temos o maior autovalor igual a 1. O autovetor associado vai ser o equilíbrio do sistema. Neste caso, o autovetor é um ponto fixo do sistema também - um tema que o Pedro falou um pouco sobre [aqui](https://azul.netlify.com/2018/10/31/banach/). O exemplo abaixo ilustra isso, onde a linha verde representa o equilíbrio:
 
 ```{r}
 C = rbind(c(0.8,0.2),c(0.4,0.6))
