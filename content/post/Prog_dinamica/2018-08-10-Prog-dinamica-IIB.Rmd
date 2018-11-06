@@ -16,12 +16,12 @@ draft: true
 katex: true
 ---
 
-```{r, message=FALSE}
+```{r, message=FALSE,echo=FALSE}
 JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
 
 ```
 
-No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+No [post passado](https://azul.netlify.com/2018/09/08/programacao-dinamica-i/) eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
 
 $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t $$
 
@@ -44,7 +44,7 @@ A beleza de resolver esse problema é que, apesar de não sabermos o valor de V,
 
  Vamos continuar com o nosso exemplo de função utilidade log e função de produção Cobb-Douglas. O caso em que $\delta = 1$ tem solução fechada, então para a gente checar que tudo funcionou direitinho, eu vou implementar ele. Vamos dar, como chute inicial, a função valor sendo idêntica ao valor do capital. É um chute tosco, mas justamente por isso é ilustrativo. Eu sequer vou me preocupar em colocar uma checagem de convergência, para deixar o código o mais simples possível: deixe o computador repetir umas 150 vezes a operação.
 
-```{julia}
+```{julia,results="hold"}
 
 using Optim
 using Interpolations
@@ -67,7 +67,7 @@ vals[1,1:length(y)] = guess
 pol[1,1:length(y)] = y
 
 for i=1:149
-  V=LinearInterpolation(y,vals[i,:],extrapolation_bc = Interpolations.Linear())
+  V=LinearInterpolation(y,vals[i,:],extrapolation_bc = Interpolations.Line())
     for j = 1:length(y)
         That(c)=-(u(c)+bet*V(f(y[j]-c)))
         op = optimize(That,0,y[j])
@@ -103,4 +103,6 @@ plot(y,dif, legend = :none, lw = 2)
 
 ![](/post/Prog_dinamica/img2_2a.png)
 
-O gráfico deixa bem claro que a solução difere mais na ponta direita.
+O gráfico deixa bem claro que a solução difere mais na ponta direita. Mas mesmo assim a diferença é pequena. 
+
+Este post encerra a série de posts sobre programação dinâmica. Esse tipo de ferramenta é importante em diversas aplicações em economia, tanto macro quanto em desenvolvimento. Muitas variações do problema não são resolvidas de maneira analítica: veja que mesmo no caso acima, em que a função de produção é Cobb Douglas e a utilidade é log, precisamos que o capital se deprecie totalmente; caso contrário, não temos solução analítica.
