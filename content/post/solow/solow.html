@@ -10,7 +10,7 @@ tags:
   - Solow
   - R
   - Macroeconomia
-authors: [pedrocava]
+authors: ["pedrocava"]
 katex: TRUE
 ---
 
@@ -31,7 +31,7 @@ katex: TRUE
 <p>Com isso em mente podemos começar a fazer algumas perguntas.</p>
 <div id="o-que-determina-a-renda-por-trabalhador" class="section level2">
 <h2>O que determina a renda por trabalhador?</h2>
-<p>Estamos interessados em <span class="math inline">\(\frac{Y}{L}\)</span>, a renda por trabalhador. Pois, da função de produção podemos rapidamente encontrar isso:</p>
+<p>Estamos interessados em <span class="math inline">\(\frac{Y}{AL}\)</span>, a renda por trabalhador efetivo. Pois, da função de produção podemos rapidamente encontrar isso:</p>
 <p><span class="math display">\[Y(t) = K(t)^\alpha (A(t)L(t))^{1-\alpha} \\
 \frac{Y}{L} = \frac{K^\alpha (A(t)L(t))^{1-\alpha}}{L} \\\]</span></p>
 <p>Se definirmos a renda por trabalhador <span class="math inline">\(y := \frac{Y}{L}\)</span> e o estoque de capital por trabalhador <span class="math inline">\(k:= \frac{K}{L}\)</span>, temos então:</p>
@@ -85,7 +85,7 @@ grid %&gt;%
   ylab(&quot;Renda por trabalhador no Estado Estacionário&quot;) +
   xlab(&quot;Taxa de Crescimento da População&quot;)+
   labs(caption = &quot;s= 15%, g = 2%, alpha = .4 e delta = 2%&quot;)</code></pre>
-<p><img src="/post/solow_files/figure-html/unnamed-chunk-1-1.png" width="7000" /></p>
+<p><img src="/post/solow/solow_files/figure-html/unnamed-chunk-1-1.png" width="7000" /></p>
 <p>E o que acontece com a renda per capita no longo prazo caso um país passe a poupar maior parcela de sua renda?</p>
 <pre class="r"><code>s = seq(from = .1,
         to = .5,
@@ -105,7 +105,7 @@ grid2 %&gt;%
   ylab(&quot;Renda por trabalhador no Estado Estacionário&quot;) +
   xlab(&quot;Taxa de Poupança&quot;)+
   labs(caption = &quot;n = 2%, g = 2%, alpha = .4 e delta = 2%&quot;)</code></pre>
-<p><img src="/post/solow_files/figure-html/unnamed-chunk-2-1.png" width="7000" /></p>
+<p><img src="/post/solow/solow_files/figure-html/unnamed-chunk-2-1.png" width="7000" /></p>
 </div>
 </div>
 <div id="como-se-divide-a-renda-nessa-economia" class="section level2">
