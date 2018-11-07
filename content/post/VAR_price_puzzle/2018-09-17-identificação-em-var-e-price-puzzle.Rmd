@@ -16,7 +16,7 @@ authors: ["danielc"]
 katex: true
 ---
 
-O VAR (_Vector Autoregression_, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis $x_t,y_t$ em um vetor $\mathbf{x_t} = (x_y \phantom{0} y_t)'$. Um VAR seria:
+O VAR (_Vector Autoregression_, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis $x_t,y_t$ em um vetor $\mathbf{x_t} = (x_t \phantom{0} y_t)'$. Um VAR seria:
 
 $$\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}$$
 

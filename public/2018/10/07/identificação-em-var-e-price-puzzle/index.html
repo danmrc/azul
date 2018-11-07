@@ -4,13 +4,13 @@
 <head>
   <meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='description' content='O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_y \phantom{0} y_t)&#39;\). Um VAR seria:
+<meta name='description' content='O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} &#43; \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.'>
 <meta name='theme-color' content='#ffcd00'>
 
 <meta property='og:title' content='Identificação em VAR e Price Puzzle I • Daniel Coutinho'>
-<meta property='og:description' content='O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_y \phantom{0} y_t)&#39;\). Um VAR seria:
+<meta property='og:description' content='O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} &#43; \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.'>
 <meta property='og:url' content='/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/'>
@@ -259,7 +259,7 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  <p>O VAR (<em>Vector Autoregression</em>, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis <span class="math inline">\(x_t,y_t\)</span> em um vetor <span class="math inline">\(\mathbf{x_t} = (x_y \phantom{0} y_t)&#39;\)</span>. Um VAR seria:</p>
+  <p>O VAR (<em>Vector Autoregression</em>, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis <span class="math inline">\(x_t,y_t\)</span> em um vetor <span class="math inline">\(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\)</span>. Um VAR seria:</p>
 <p><span class="math display">\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]</span></p>
 <p>Onde <span class="math inline">\(C\)</span> é uma matriz <span class="math inline">\(2 \times 2\)</span> e <span class="math inline">\(\mathbf{u_t}\)</span> é um vetor de choques, possivelmente correlacionados. Uma equação do VAR é uma das linhas da matriz. A primeira linha, por exemplo, tem a seguinte cara:</p>
 <p><span class="math display">\[x_t = c_{11}x_{t-1} + c_{12}y_{t-1} + u_{1t}\]</span></p>
