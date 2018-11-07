@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
+Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Worflow • Daniel Coutinho'>
+<meta property='og:description' content='Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
+Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown.'>
+<meta property='og:url' content='/2018/11/25/worflow/'>
+<meta property='og:site_name' content='AZUL'>
+<meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Blogdown'><meta property='article:published_time' content='2018-11-25T00:00:00Z'/><meta property='article:modified_time' content='2018-11-25T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
+
+<meta name="generator" content="Hugo 0.49" />
+
+  <title>Worflow • Daniel Coutinho</title>
+  <link rel='canonical' href='/2018/11/25/worflow/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4267b3fa.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+
+
+<body class='page type-post has-sidebar'>
+
+  <div class='site'>
+
+    <div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    AZUL
+    </h2>
+    <div class='desc'>
+    Economia, Estatística, Programação
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/adf/' style='font-size:1em'>Adf</a>
+      </li><li>
+        <a href='/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/' style='font-size:1em'>Análise De Sobrevivência</a>
+      </li><li>
+        <a href='/tags/apresenta%C3%A7%C3%A3o/' style='font-size:1em'>Apresentação</a>
+      </li><li>
+        <a href='/tags/autovalores/' style='font-size:1em'>Autovalores</a>
+      </li><li>
+        <a href='/tags/blanchard-quah/' style='font-size:1.0833333333333333em'>Blanchard Quah</a>
+      </li><li>
+        <a href='/tags/blogdown/' style='font-size:1em'>Blogdown</a>
+      </li><li>
+        <a href='/tags/cadeias-de-markov/' style='font-size:1em'>Cadeias De Markov</a>
+      </li><li>
+        <a href='/tags/clustering/' style='font-size:1.0833333333333333em'>Clustering</a>
+      </li><li>
+        <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
+      </li><li>
+        <a href='/tags/economia/' style='font-size:1.1666666666666667em'>Economia</a>
+      </li><li>
+        <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
+      </li><li>
+        <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
+      </li><li>
+        <a href='/tags/julia/' style='font-size:1.3333333333333333em'>Julia</a>
+      </li><li>
+        <a href='/tags/lasso/' style='font-size:1em'>Lasso</a>
+      </li><li>
+        <a href='/tags/machine-learning/' style='font-size:1em'>Machine Learning</a>
+      </li><li>
+        <a href='/tags/macroeconomia/' style='font-size:1em'>Macroeconomia</a>
+      </li><li>
+        <a href='/tags/microeconomia/' style='font-size:1.1666666666666667em'>Microeconomia</a>
+      </li><li>
+        <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
+      </li><li>
+        <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
+      </li><li>
+        <a href='/tags/probit/' style='font-size:1em'>Probit</a>
+      </li><li>
+        <a href='/tags/profiling/' style='font-size:1em'>Profiling</a>
+      </li><li>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.25em'>Programação Dinâmica</a>
+      </li><li>
+        <a href='/tags/r/' style='font-size:2em'>R</a>
+      </li><li>
+        <a href='/tags/raiz-unit%C3%A1ria/' style='font-size:1em'>Raiz Unitária</a>
+      </li><li>
+        <a href='/tags/replica%C3%A7%C3%A3o/' style='font-size:1em'>Replicação</a>
+      </li><li>
+        <a href='/tags/sazonalidade/' style='font-size:1em'>Sazonalidade</a>
+      </li><li>
+        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1666666666666667em'>Simulação</a>
+      </li><li>
+        <a href='/tags/sistemas-din%C3%A2micos/' style='font-size:1em'>Sistemas Dinâmicos</a>
+      </li><li>
+        <a href='/tags/solow/' style='font-size:1em'>Solow</a>
+      </li><li>
+        <a href='/tags/suaviza%C3%A7%C3%A3o-do-consumo/' style='font-size:1em'>Suavização Do Consumo</a>
+      </li><li>
+        <a href='/tags/tutoriais/' style='font-size:1em'>Tutoriais</a>
+      </li><li>
+        <a href='/tags/var/' style='font-size:1em'>Var</a>
+      </li><li>
+        <a href='/tags/vari%C3%A1veis-instrumentais/' style='font-size:1em'>Variáveis Instrumentais</a>
+      </li><li>
+        <a href='/tags/%C3%A1lgebra-linear/' style='font-size:1em'>Álgebra Linear</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div>
+
+    <div class='main'>
+
+      <nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='https://github.com/danmrc/azul/tree/master/C%C3%B3digos'>GitHub</a>
+      </li><li class='item'>
+        <a href='/about/'>Sobre</a>
+      </li><li class='item'>
+        <a href='/post'>Tudo</a>
+      </li><li class='item'>
+        <a href=''>Twitter</a>
+      </li></ul>
+  </div>
+</nav>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>AZUL</p><p class='desc site-desc'>Economia, Estatística, Programação</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Worflow</h1>
+      
+
+    </div>
+    
+<div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2018-11-25T00:00:00Z'>2018, Nov 25</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/danielc'>Daniel Coutinho</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+3 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.</p>
+<p>Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado <em>blogdown</em>. A beleza é que escrevemos os nossos posts em Markdown, com o código direto no post. O código pode ser em diversas linguagens - R (obviamente), Python, Julia - e o R Studio se encarrega em compilar o código. Vamos ao passo a passo:</p>
+<div id="o-codigo" class="section level2">
+<h2>O Código</h2>
+<p>O primeiro passo depois de ter a ideia é escrever o código do post. Para os posts em R eu uso o RStudio, e para os posts em Julia eu uso o Atom com o plugin que permite rodar o Julia.</p>
+<p>Essa é uma parte que pode ser especialmente trabalhosa, já que nós precisamos garantir que tudo funciona. Em geral eles cuminam em alguma tabela ou gráfico que ilustram os resultados. Os códigos vão para Github do blog.</p>
+<p>Não existe nenhum motivo óbvio para eu escolher uma linguagem ou outra em um determinado post. Quando eu levo algum problema aos dados eu uso o R, por uma questão de hábito e de infra estrutura. Por exemplo, com o <em>BETS</em> eu posso puxar dados macroeconômicos do Brasil direto para o R sem sair do RStudio. Posts que são mais intensivos computacionalmente mas envolvem poucos dados - como foi o caso de posts sobre programação dinâmica - são feitos no Julia, que foi pensado em ser uma linguagem eficiente para computação científica. Eu já falei de como o Julia é mais rápido que o R <a href="https://azul.netlify.com/2018/10/28/por-que-usar-o-julia/">em outro post</a>.</p>
+</div>
+<div id="o-post" class="section level2">
+<h2>O post</h2>
+<p>O passo seguinte é escrever o post em si. Novamente, eu uso tanto o RStudio quanto o Atom. Ambos tem suporte para o Markdown. Em geral o código da parte anterior é inserido no texto para ser compilado. Eu quebro o código em várias partes e coloco o texto explicando no meio. O código é de fato uma parte importante do texto, já que é nele que se implementa o grosso da ideia do post.</p>
+<p>Os posts são escritos em Markdown, que é uma linguagem de programação para escrever textos. Para formatar o texto, ao invés de escolher a opção num atalho, nós usamos comandos como numa linguagem de programação. Por exemplo <code>_palavra_</code> deixa a palavra em itálico (<em>palavra</em>). Pode parecer esquisito a primeira vista, mas depois que você se acostuma voltar para softwares como o Word é um pesadelo.</p>
+<p>Uma parte importante de qualquer post - e de qualquer trabalho que envolva dados - é exibir os resultados. Especialmente no R as opções são quase infinitas de como construir tabelas e fazer gráficos. No R, eu uso os plots básicos que já vem implementado no R - eu rarissimamente uso o ggplot2. Para tabelas de regressão, o <em>Stargazer</em> é excelente. Muitas tabelas da minhoa monografia foram feitas usando o <em>xtable</em>. A maioria das tabelas do blog foram feitas usando o comando <code>kable</code> do <em>knitr</em>. A vantagem é que eu não preciso configurar o markdown para interpretar o código literalmente usando o <code>kable</code> enquanto para os outros dois eu preciso usar a opção <code>results='asis'</code> para a tabela aparecer corretamente.</p>
+</div>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/2018/11/06/sistemas-dinamicos-e-algebra-linear/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>Sistemas Dinâmicos e Álgebra Linear</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p></p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.59f76c44.js'></script><script src='/js/custom.js'></script><link rel='stylesheet' href='//unpkg.com/katex/dist/katex.min.css'>
+<script src='//unpkg.com/katex/dist/katex.min.js'></script>
+<script src='//unpkg.com/katex/dist/contrib/auto-render.min.js'></script>
+
+<script type='text/javascript'>
+  renderMathInElement(document.querySelector('.entry-content'),{});
+</script>
+
+</body>
+
+</html>
+
