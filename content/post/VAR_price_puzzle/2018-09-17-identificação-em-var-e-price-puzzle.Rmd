@@ -16,7 +16,7 @@ authors: ["danielc"]
 katex: true
 ---
 
-O VAR (_Vector Autoregression_, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis $x_t,y_t$ em um vetor $\mathbb{x_t} = (x_y \phantom{0} y_t)'$. Um VAR seria:
+O VAR (_Vector Autoregression_, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis $x_t,y_t$ em um vetor $\mathbf{x_t} = (x_y \phantom{0} y_t)'$. Um VAR seria:
 
 $$\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}$$
 
@@ -221,7 +221,7 @@ Peguemos um VAR qualquer:
 
 $$\mathbf{x_{t}} = C_1 \mathbf{x_{t-1}} + C_2 \mathbf{x_{t-2}} + ... + C_p\mathbf{x_{t-p}}+ \mathbf{u_t}$$
 
- Vamos definir $\mathbf{z_t} = (\mathbf{x_{t} \phantom{0} \mathbf{x_{t-1} \phantom{0} \mathbf{x_{t-2}} \phatom{0} \cdots)$ Podemos criar uma matriz C que é uma salsicha esperta das matrizes $C_1, C_2,...$:
+ Vamos definir $\mathbf{z_t} = (\mathbf{x_t} \phantom{0} \mathbf{x_{t-1}} \phantom{0} \mathbf{x_{t-2}} \cdots)^{'}$ Podemos criar uma matriz C que é uma salsicha esperta das matrizes $C_1, C_2,...$:
 
 $$C = \begin{pmatrix}
 C_1 & C_2 & \cdots & C_{p-1} &C_p\\

@@ -4,9 +4,12 @@ author: Daniel Coutinho
 date: '2018-10-10'
 slug: prog-dinâmica-2a
 categories:
-  - R
-  - Programação dinâmica
-tags: []
+  - Julia
+  - Matemática
+tags:
+    - Programação dinâmica
+    - Suavização do consumo
+    - Cadeias de Markov
 authors: ["danielc"]
 katex: true
 draft: true
@@ -25,7 +28,7 @@ $$V_t(W_t,c_t) = U(c_t) + \beta E(V_{t+1}(W_{t+1},c_{t+1})) \text{ sujeito a } W
 
 Onde $U()$ representa a função utilidade e $\omega_t$ o salário em t - que é uma variável aleatória. Veja que o problema aqui é muito similar ao problema do post anterior, só que agora temos um operador esperança na função valor. Poderiamos tentar calcular a esperança analiticamente, mas isso não é sempre possível. Nós vamos contornar isso simplesmente sorteando alguns valores da distribuição de $\omega_t$ e tirando a média da função valor para estes sorteios. Veja que o nosso grid, dessa vez, vai ser para a riqueza e não para o salário. O código em Julia que faz isso:
 
-```{julia}
+```{julia, results = 'hide'}
 
 using Plots
 using Interpolations
@@ -57,11 +60,13 @@ for t = 1:59
         C[t+1,i] = Optim.minimizer(sol)
     end
 end
+
 ```
 
 Ele é muito similar ao código do post anterior. Observe que eu estabeleci a taxa de desconto do agente de maneira a ser "consistente" com a taxa de juros: um $\beta$ muito maior que o estabelecido deixaria o agente excessivamente paciente; um $\beta$ muito menor que o estabelecido deixaria o agente sem poupar nunca. Eu escolhi a distribuição Gama para a distribuição do salário porque é uma distribuição que tem suporte nos valores positivos - um salário negativo não faz sentido. Vamos supor que o agente começa sem nenhuma riqueza, só o salário. Vamos construir uma possível trajetória do agente:
 
-```{julia}
+```{julia, results = 'hide'}
+
 start_val = 0
 
 wealth = Array{Float64}(undef,60)
@@ -99,7 +104,7 @@ Veja que o consumo varia bem mais nesse caso, mas ainda assim a riqueza varia ai
 
 Veja que em todos esses casos, a distribuição dos salários é independente ao longo do tempo. Isso não é, necessariamente, uma boa aproximação da realidade. O problema é que, sair do mundo de variáveis independentemente distribuídas complica tudo.
 
-Uma maneira de facilitar o problema e permitir alguma dependência temporal é usando cadeias de Markov finitas. Uma cadeia de Markov é um processo estocástico que só depende da realização anterior - por exemplo, um AR(1). No caso, ela é finita se temos um número finito de estados possíveis. A transição entre estados é governado por uma matriz, onde cada linha representa a probabilidade de sair do estado linha e ir para o estado coluna. Vamos supor que temos apenas 2 estados e a matriz de transição é a seguinte:
+Uma maneira de facilitar o problema e permitir alguma dependência temporal é usando cadeias de Markov finitas. Uma cadeia de Markov é um processo estocástico que só depende da realização anterior - por exemplo, um AR(1). No caso, ela é finita se temos um número finito de estados possíveis. [Neste post](https://azul.netlify.com/2018/11/06/sistemas-dinamicos-e-algebra-linear/) eu já usei cadeias de Markov. A transição entre estados é governado por uma matriz, onde cada linha representa a probabilidade de sair do estado linha e ir para o estado coluna. Vamos supor que temos apenas 2 estados e a matriz de transição é a seguinte:
 
 $$\begin{pmatrix}
 0.5 & 0.5\\
@@ -110,7 +115,7 @@ Então, a probabilidade de permanecer no estado 1 é de 0.5; e a probabilidade d
 
 O código abaixo estima o consumo no caso em que o salário segue uma cadeia de Markov com apenas dois estados. Veja que isso exige mais um for (mas teoricamente poderiamos ter adicionado os estados usando as matrizes direto e cada iteração devolveria uma dupla de valores):
 
-```{julia}
+```{julia, results = 'hide'}
 
 using Plots
 using Optim
@@ -182,7 +187,7 @@ cons[1] = riqueza[1]
 
 plot(riqueza[T:-1:1], lab = "Riqueza")
 plot!(cons[T:-1:1], lab = "Consumo")
-scatter!(state, lab = "Estado")
+scatter!(state[T:-1:1], lab = "Estado")
 
 ```
 
@@ -197,4 +202,4 @@ O gráfico desse caso é o seguinte:
 
 Ou seja, mesmo no caso em que salários seguem um processo com depêndencia ao temporal, a mensagem fundamental permanece: pessoas suavizam o consumo ao longo do tempo.
 
-No outro post eu tratarei de como computar a decisão do consumidor quando ele se depara com um problema com infinitos períodos. 
+No outro post eu tratarei de como computar a decisão do consumidor quando ele se depara com um problema com infinitos períodos.

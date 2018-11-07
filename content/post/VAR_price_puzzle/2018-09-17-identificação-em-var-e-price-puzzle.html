@@ -18,7 +18,7 @@ katex: true
 
 
 
-<p>O VAR (<em>Vector Autoregression</em>, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis <span class="math inline">\(x_t,y_t\)</span> em um vetor <span class="math inline">\(\mathbb{x_t} = (x_y \phantom{0} y_t)&#39;\)</span>. Um VAR seria:</p>
+<p>O VAR (<em>Vector Autoregression</em>, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis <span class="math inline">\(x_t,y_t\)</span> em um vetor <span class="math inline">\(\mathbf{x_t} = (x_y \phantom{0} y_t)&#39;\)</span>. Um VAR seria:</p>
 <p><span class="math display">\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]</span></p>
 <p>Onde <span class="math inline">\(C\)</span> é uma matriz <span class="math inline">\(2 \times 2\)</span> e <span class="math inline">\(\mathbf{u_t}\)</span> é um vetor de choques, possivelmente correlacionados. Uma equação do VAR é uma das linhas da matriz. A primeira linha, por exemplo, tem a seguinte cara:</p>
 <p><span class="math display">\[x_t = c_{11}x_{t-1} + c_{12}y_{t-1} + u_{1t}\]</span></p>
@@ -149,7 +149,7 @@ grid(col = &quot;grey&quot;)</code></pre>
 <h2>Escrevendo um VAR(p) como um VAR(1)</h2>
 <p>Peguemos um VAR qualquer:</p>
 <p><span class="math display">\[\mathbf{x_{t}} = C_1 \mathbf{x_{t-1}} + C_2 \mathbf{x_{t-2}} + ... + C_p\mathbf{x_{t-p}}+ \mathbf{u_t}\]</span></p>
-<p>Vamos definir <span class="math inline">\(\mathbf{z_t} = (\mathbf{x_{t} \phantom{0} \mathbf{x_{t-1} \phantom{0} \mathbf{x_{t-2}} \phatom{0} \cdots)\)</span> Podemos criar uma matriz C que é uma salsicha esperta das matrizes <span class="math inline">\(C_1, C_2,...\)</span>:</p>
+<p>Vamos definir <span class="math inline">\(\mathbf{z_t} = (\mathbf{x_t} \phantom{0} \mathbf{x_{t-1}} \phantom{0} \mathbf{x_{t-2}} \cdots)^{&#39;}\)</span> Podemos criar uma matriz C que é uma salsicha esperta das matrizes <span class="math inline">\(C_1, C_2,...\)</span>:</p>
 <p><span class="math display">\[C = \begin{pmatrix}
 C_1 &amp; C_2 &amp; \cdots &amp; C_{p-1} &amp;C_p\\
 I &amp; 0 &amp; \cdots &amp; 0 &amp; 0\\

@@ -32,16 +32,6 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t+1} = (1-\delta)k_
     </item>
     
     <item>
-      <title>Prog Dinâmica IIA</title>
-      <link>/2018/10/10/prog-din%C3%A2mica-2a/</link>
-      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/10/10/prog-din%C3%A2mica-2a/</guid>
-      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
-    </item>
-    
-    <item>
       <title>Programação Dinâmica I</title>
       <link>/2018/09/08/programacao-dinamica-i/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>

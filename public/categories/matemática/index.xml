@@ -31,5 +31,15 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
 O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
+    <item>
+      <title>Prog Dinâmica IIA</title>
+      <link>/2018/10/10/prog-din%C3%A2mica-2a/</link>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/10/prog-din%C3%A2mica-2a/</guid>
+      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
+    </item>
+    
   </channel>
 </rss>

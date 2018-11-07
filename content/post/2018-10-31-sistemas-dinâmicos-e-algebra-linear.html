@@ -3,14 +3,14 @@ title: "Sistemas Dinâmico e Álgebra Linear"
 author: "Daniel Coutinho"
 date: '2018-11-06'
 categories:
-- R
-- Matemática
+  - R
+  - Matemática
 katex: yes
 slug: sistemas-dinamicos-e-algebra-linear
 tags:
-- Álgebra Linear
-- Sistemas Dinâmicos
-- Autovalores
+  - Álgebra Linear
+  - Sistemas Dinâmicos
+  - Autovalores
 authors: [danielc]
 ---
 
@@ -56,6 +56,7 @@ x[1,] &lt;- c(1,0)
 for(i in 1:19){
   x[i+1,] &lt;- B%*%x[i,]
 }
+
 plot(x[,1], type=&quot;l&quot;, ylab = &quot; &quot;, xlab = &quot;tempo&quot;)
 lines(x[,2], type = &quot;l&quot;, col = 2)</code></pre>
 <p><img src="/post/2018-10-31-sistemas-din%C3%A2micos-e-algebra-linear_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
