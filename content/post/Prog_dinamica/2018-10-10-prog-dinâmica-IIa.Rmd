@@ -1,7 +1,7 @@
 ---
 title: Prog Dinâmica IIA
 author: Daniel Coutinho
-date: '2018-10-10'
+date: '2018-11-14'
 slug: prog-dinâmica-2a
 categories:
   - Julia
@@ -12,7 +12,6 @@ tags:
     - Cadeias de Markov
 authors: ["danielc"]
 katex: true
-draft: true
 ---
 
 ```{r, message=FALSE,echo=FALSE}

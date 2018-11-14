@@ -6,17 +6,17 @@
     <description>Recent content in Cadeias De Markov on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Wed, 10 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/cadeias-de-markov/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Prog Dinâmica IIA</title>
-      <link>/2018/10/10/prog-din%C3%A2mica-2a/</link>
-      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
+      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/10/prog-din%C3%A2mica-2a/</guid>
+      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
 Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
     </item>

@@ -6,10 +6,19 @@
     <description>Recent content in Danielc on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 25 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/authors/danielc/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Integrando o Telegram e R</title>
+      <link>/2018/11/30/telegram-e-r/</link>
+      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/30/telegram-e-r/</guid>
+      <description>Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.</description>
+    </item>
     
     <item>
       <title>Workflow</title>
@@ -19,6 +28,16 @@
       <guid>/2018/11/25/workflow/</guid>
       <description>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
 Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown.</description>
+    </item>
+    
+    <item>
+      <title>Prog Dinâmica IIA</title>
+      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
     </item>
     
     <item>
@@ -78,16 +97,6 @@ Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar p
       
       <guid>/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Prog Dinâmica IIA</title>
-      <link>/2018/10/10/prog-din%C3%A2mica-2a/</link>
-      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/10/10/prog-din%C3%A2mica-2a/</guid>
-      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
     </item>
     
     <item>

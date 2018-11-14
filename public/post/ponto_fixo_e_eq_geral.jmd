@@ -22,7 +22,7 @@ A parte interessante é que o teorema de ponto fixo usual para Equilíbrio Geral
 
 _Teorema de Ponto Fixo de Kakutani_: seja f uma correspondência semi-continua superior $f: C \rightarrow C$ onde $C$ é um compacto e é convexo. Então, f admite um ponto fixo i.e. $f(a)=a$
 
-Uma correspondência é uma generalização de uma função: pensar f como uma função é totalmente inoquo para o presente exemplo (o caso com função se chama Teorema do Ponto Fixo de Brouwer). No caso de ser uma função, exigimos continuidade. Ser _compacto_, nos reais, significa ser fechado e limitado. Logo $[0,1]$ é um compacto, mas $(0,1)$ não. E para $\mathbb{R}^2,\mathbb{R}^3 \dots$ a definição permanece, logo $[0,1] \times [0,1]$ é um compacto em $\mathbf{R}^2$. Um pouco frustrante, entretanto, é que o ponto fixo de Banach nos fornece um algoritmo para encontrar o ponto fixo: faça uma sequência de $x$ tal que $x_i = f(x_{i-1})$. O limite dessa sequência vai ser o ponto fixo da função. O ponto fixo de Kakutani não nós dá nada desse tipo.
+Uma correspondência é uma generalização de uma função: pensar f como uma função é totalmente inoquo para o presente exemplo (o caso com função se chama Teorema do Ponto Fixo de Brouwer). No caso de ser uma função, exigimos continuidade. Ser _compacto_, nos reais, significa ser fechado e limitado. Logo $[0,1]$ é um compacto, mas $(0,1)$ não. E para $\mathbb{R}^2,\mathbb{R}^3, \dots$ a definição permanece, logo $[0,1] \times [0,1]$ é um compacto em $\mathbf{R}^2$. Um pouco frustrante, entretanto, é que o ponto fixo de Banach nos fornece um algoritmo para encontrar o ponto fixo: faça uma sequência de $x$ tal que $x_i = f(x_{i-1})$. O limite dessa sequência vai ser o ponto fixo da função. O ponto fixo de Kakutani não nós dá nada desse tipo.
 
 Para aplicar o Teorema, exigimos uma função que mapeie um compacto nele mesmo. Vamos construir essa funçao. Para isso, defina $z_i$ como o excesso de demanda agregada do bem i, logo $z_i = d(p_i) - w_i$, onde $d()$ é a demanda e $w_i$ é a dotação. Veja que se o preço estiver muito baixo, teremos excesso de demanda e $z_i$ vai ser positivo. E vice versa. Se temos excesso de demanda, precisamos aumentar o preço. Podemos somar ao preço atual uma fraçaão $\delta$ do excesso de demanda para obter novos preços. Isso dá origem a função $\hat{\phi}$:
 
@@ -63,7 +63,7 @@ A função $\phi(p_i)$ simplesmente pega o output da função $\hat{\phi}$ e div
 ```{julia}
 
 function phi(p,w,alfa,delta = 0.01)
-  q = phi_hat(p,w,alfa,delta = 0.01)
+  q = phi_hat(p,w,alfa,0.01)
   q = q ./ sum(q)
   return(q)
 end
@@ -83,5 +83,52 @@ end
 
 plot(p[:,1])
 plot!(p[:,2])
+
+```
+Claramente o problema converge para a solução verdadeira. Isso é interessante poruqe mostra que, para esse caso, um processo de aprendizado que envolve reagir ao último preço leva o mercado a um eventual equilíbrio. Veja que mesmo preços absurdamente distantes funcionam:
+
+```{julia}
+
+p = zeros(500,2)
+p[1,:] = [0.03 0.05]
+
+for i=1:499
+  p[i+1,:] = phi(p[i,:]',[1 1],[.5 .5])
+end
+
+plot(p[:,1])
+plot!(p[:,2])
+
+```
+
+Vamos checar se a normalização é realmente necessária:
+
+```{julia}
+
+p = zeros(500,2)
+p[1,:] = [0.03 0.05]
+
+for i=1:499
+  p[i+1,:] = phi_hat(p[i,:]',[1 1],[.5 .5])
+end
+
+plot(p[:,1])
+plot!(p[:,2])
+
+```
+
+Veja que nesse caso específico não! A Cobb Douglas (e as dotações) é bem comportada o suficiente
+
+```{julia}
+
+x = hcat(range(0.005,1,length = 100),range(0.005,1,length = 100))
+y = zeros(100,2)
+
+for i = 1:100
+  y[i,:] = phi_hat(p[i,:]',[1 1],[.5 .5])
+end
+
+plot(x[:,1],y[:,1])
+plot!(x[1:5,1],x[1:5,1])
 
 ```
