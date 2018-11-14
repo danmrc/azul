@@ -1,0 +1,45 @@
+---
+title: Integrando o Telegram e R
+author: Daniel Coutinho
+date: '2018-11-30'
+slug: telegram-e-r
+categories:
+  - R
+  - Meta
+tags:
+    - Telegram
+    - Bot
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+Algum tempo atrás eu achei [este post](https://www.r-bloggers.com/integrating-r-and-telegram/) no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por @azulblogbot na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.
+
+O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote _telegram.bot_ no R. Segue o passo a passo que é uma tradução do post do R Bloggers:
+
+* Procure o @BotFather no Telegram e digite /start e depois /newbot. Siga o passo a passo. No fim ele vai dar um token de acesso, que voce vai precisar e _não deve compartilhar com ninguém_.
+* No R, abra o arquivo .Renviron. Esse trecho de código faz isso:
+
+```
+user_renviron <- path.expand(file.path("~", ".Renviron"))
+file.edit(user_renviron)
+
+```
+
+* Adicione a seguinte linha de código: `R_TELEGRAM_BOT_nomedobot=token`. Por exemplo, se o meu bot se chama _azulblogbot_ e o Token é 1234, eu adicionaria a linha `R_TELEGRAM_BOT_AZULBLOGBOT=1234`
+*Carregue o pacote e para inicializar a ligação entre o R e o bot basta usar `bot <- Bot(token = bot_token('nomedobot'))`
+
+Agora, o objeto bot tem várias opções. Para ver as mensagens recebidas basta fazer `bot$getUpdates()`. Isso vai mostrar quem enviou a mensagem e qual foi a mensagem. Podemos salvar o resultado do `bot$getUpdates()` em um objeto update. Podemos responder a pessoa usando o comando `bot$sendMessage`. Para isso precisamos de uma mensagem e do id do usuário. Se um usuário enviou uma mensagem para o bot, é fácil obter o id via o objeto `update` que criamos acima: basta fazer `update$message$from$id`.
+
+Isso é essencialmente o que o texto do R Bloggers nos explica. O que eu fiz foi amarrar essas ideias em várias funções que fazem o passo a passo abaixo:
+
+1. Lê quem enviou mensagens para o bot e compara com a lista de usuários para definir se temos novos usuários. Mandaremos uma mensagem saudando os novos usuários.
+2. Uma função que lê o blog e define se temos um artigo novo (comparado com uma lista de artigos).
+3. Enviar uma mensagens para os usuários com o link para o novo post
+
+O passo 1 simplesmente lê o `bot$getUpdates` e procura por mensagens que são comandos que eu defini para o bot. Ao encontrar certos comandos (simplesmente checando se message$text é igual a uma string), ele salva o nome e o id do sujeito. Eu separei em várias funções: uma que procura por pessoas que usaram certos comandos; compara a base de dados de usuários com a lista de possíveis novos usuários e junta as duas; uma terceira manda uma mensagem (com o nome!) para o usuário informando que ele se inscreveu.
+
+O passo 2 não tem nenhuma relação com o Telegram, mas é importante para automatizar o processo de mandar as atualizações. Para isso, eu faço o que é chamado de webscrapping - um tema amplo o suficiente para ocupar vários posts. Essencialmente, eu mando o R baixar a página, ler o html e roubar os links do blog usando o pacote _xml2_. Eu salvo os links como um vetor. Se existe um post novo, ele vai me devolver o link para o post. Caso contrário ele apenas devolve um erro.
+
+O passo 3 envolve criar um loop em cima da lista de usuários e enviar o link do passo 2 para cada um. Veja que, para evitar ser considerado spam, eu deixo uma pausa entre os envios de 1s mais algum valor aleatório (que eu sorteio de uma distribuição exponencial com parâmetro 1/2).

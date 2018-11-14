@@ -1,0 +1,87 @@
+---
+title: Ponto Fixo e Equlíbrio Geral
+author: Daniel Coutinho
+date: '2018-11-30'
+slug: ponto-fixo-e-eq-geral
+categories:
+  - Julia
+  - Matemática
+tags:
+    - Equilíbrio Geral
+    - Ponto Fixo
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+Faz algum tempo o Pedro escreveu um [post excepcional](https://azul.netlify.com/2018/10/31/banach/) (como de praxe) falando do teorema do ponto fixo de Banach. Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
+
+Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).
+
+A parte interessante é que o teorema de ponto fixo usual para Equilíbrio Geral _não_ é o de Banach, mas sim o de Kakutani. Eis o enunciado dele:
+
+_Teorema de Ponto Fixo de Kakutani_: seja f uma correspondência semi-continua superior $f: C \rightarrow C$ onde $C$ é um compacto e é convexo. Então, f admite um ponto fixo i.e. $f(a)=a$
+
+Uma correspondência é uma generalização de uma função: pensar f como uma função é totalmente inoquo para o presente exemplo (o caso com função se chama Teorema do Ponto Fixo de Brouwer). No caso de ser uma função, exigimos continuidade. Ser _compacto_, nos reais, significa ser fechado e limitado. Logo $[0,1]$ é um compacto, mas $(0,1)$ não. E para $\mathbb{R}^2,\mathbb{R}^3 \dots$ a definição permanece, logo $[0,1] \times [0,1]$ é um compacto em $\mathbf{R}^2$. Um pouco frustrante, entretanto, é que o ponto fixo de Banach nos fornece um algoritmo para encontrar o ponto fixo: faça uma sequência de $x$ tal que $x_i = f(x_{i-1})$. O limite dessa sequência vai ser o ponto fixo da função. O ponto fixo de Kakutani não nós dá nada desse tipo.
+
+Para aplicar o Teorema, exigimos uma função que mapeie um compacto nele mesmo. Vamos construir essa funçao. Para isso, defina $z_i$ como o excesso de demanda agregada do bem i, logo $z_i = d(p_i) - w_i$, onde $d()$ é a demanda e $w_i$ é a dotação. Veja que se o preço estiver muito baixo, teremos excesso de demanda e $z_i$ vai ser positivo. E vice versa. Se temos excesso de demanda, precisamos aumentar o preço. Podemos somar ao preço atual uma fraçaão $\delta$ do excesso de demanda para obter novos preços. Isso dá origem a função $\hat{\phi}$:
+
+$$\hat{\phi}(p_i) = p_i + \delta z_i$$
+
+Esta função faz o papel de um leiloeiro que dá um preço e ouve quanto cada consumidor demanda e vê se há bens o suficiente para atender aquela demanda. Esta função mapeia preços em preços, então estamos em um bom caminho. Infelizmente, não há nenhum motivo para afirmar que esse preços estão limitados. Mas graças a Lei de Walras, podemos normalizar os preços de maneira arbitrária (tudo que importa são preços relativos). A solução é normalizar todos os preços para somarem 1, e isso dá origem a função $\phi$:
+
+$$\phi(p_i) = \frac{p_i + \delta{} z_i}{\displaystyle \sum_{j = 1}^{k} p_j} = \frac{\hat{\phi}(p_i)}{\displaystyle \sum_{j = 1}^{k} p_j}$$
+
+Nesse caso, sabemos que os preços estarão no intervalo $[0,1]$, que é um compacto.
+
+A parte interessante é que, em alguns casos, podemos iterar a função $\phi$ e obter um eq partindo de um ponto arbitrário. Vamos primeiro implementar a função demanda e uma função para calcular a renda do sujeito a partir da dotação:
+
+```{julia}
+
+using Plots
+
+d1(alfa,p,m) = alfa/p*m
+
+m(p,w) = p*w'
+
+```
+
+Agora a função $\hat{\phi}(p_i)$:
+
+```{julia}
+
+function phi_hat(p,w,alfa,delta = 0.01)
+  m1 = m(p,w)
+  z = d1.(alfa,p,m1) - w
+  return(p + delta*z)
+end
+
+```
+
+A função $\phi(p_i)$ simplesmente pega o output da função $\hat{\phi}$ e divide pela soma:
+
+```{julia}
+
+function phi(p,w,alfa,delta = 0.01)
+  q = phi_hat(p,w,alfa,delta = 0.01)
+  q = q ./ sum(q)
+  return(q)
+end
+
+```
+
+Vamos testar se iterar para frente funciona. Vamos trabalhar com o caso em que $\alpha = 0.5$ e que a dotação de ambos os bens é igual a 1. A solução analítica nos diz que os preços tem que ser iguais:
+
+```{julia}
+
+p = zeros(500,2)
+p[1,:] = [1 0.5]
+
+for i=1:499
+  p[i+1,:] = phi(p[i,:]',[1 1],[.5 .5])
+end
+
+plot(p[:,1])
+plot!(p[:,2])
+
+```

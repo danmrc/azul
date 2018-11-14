@@ -1,8 +1,8 @@
 ---
-title: Worflow
+title: Workflow
 author: Daniel Coutinho
 date: '2018-11-25'
-slug: worflow
+slug: workflow
 categories:
   - Julia
   - R
@@ -29,4 +29,10 @@ draft: true
 <p>O passo seguinte é escrever o post em si. Novamente, eu uso tanto o RStudio quanto o Atom. Ambos tem suporte para o Markdown. Em geral o código da parte anterior é inserido no texto para ser compilado. Eu quebro o código em várias partes e coloco o texto explicando no meio. O código é de fato uma parte importante do texto, já que é nele que se implementa o grosso da ideia do post.</p>
 <p>Os posts são escritos em Markdown, que é uma linguagem de programação para escrever textos. Para formatar o texto, ao invés de escolher a opção num atalho, nós usamos comandos como numa linguagem de programação. Por exemplo <code>_palavra_</code> deixa a palavra em itálico (<em>palavra</em>). Pode parecer esquisito a primeira vista, mas depois que você se acostuma voltar para softwares como o Word é um pesadelo.</p>
 <p>Uma parte importante de qualquer post - e de qualquer trabalho que envolva dados - é exibir os resultados. Especialmente no R as opções são quase infinitas de como construir tabelas e fazer gráficos. No R, eu uso os plots básicos que já vem implementado no R - eu rarissimamente uso o ggplot2. Para tabelas de regressão, o <em>Stargazer</em> é excelente. Muitas tabelas da minhoa monografia foram feitas usando o <em>xtable</em>. A maioria das tabelas do blog foram feitas usando o comando <code>kable</code> do <em>knitr</em>. A vantagem é que eu não preciso configurar o markdown para interpretar o código literalmente usando o <code>kable</code> enquanto para os outros dois eu preciso usar a opção <code>results='asis'</code> para a tabela aparecer corretamente.</p>
+<p>O Julia, por ser mais novo, não apresenta tantas opções. Eu nunca precisei de fazer uma tabela com ele, então eu não faço ideia de um pacote para isso. Em compensação, eu fiz uma penca de gráficos, todos usando o pacote <em>Plots</em>. O Julia não tem um pacote para gráficos que já venha implementado como o R. O <em>Plots</em> do Julia é uma interface extremamente conveniente para várias opções de gráfico implementadas no Julia. Fazer gráficos com ele é fácil e sem muito esforço os resultados são bonitos - e a documentação é ótima.</p>
+</div>
+<div id="compilando" class="section level2">
+<h2>Compilando</h2>
+<p>O passo seguinte é compilar o texto. Para aqueles que estão acostumados, é equivalente a opção knit do Markdown ou compilar no LaTeX. Mas para o blog precisamos usar um comando especial para compilar, o <code>serve_site</code> do pacote <em>blogdown</em>. Isso gera o documento com toda a estrutura para o blog. Nessa etapa nós temos que usar o R.</p>
+<p>Para integrar o Julia com o R eu uso o pacote <em>JuliaCall</em> para o R, que permite</p>
 </div>

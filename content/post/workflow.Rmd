@@ -1,8 +1,8 @@
 ---
-title: Worflow
+title: Workflow
 author: Daniel Coutinho
 date: '2018-11-25'
-slug: worflow
+slug: workflow
 categories:
   - Julia
   - R
@@ -33,3 +33,11 @@ O passo seguinte é escrever o post em si. Novamente, eu uso tanto o RStudio qua
 Os posts são escritos em Markdown, que é uma linguagem de programação para escrever textos. Para formatar o texto, ao invés de escolher a opção num atalho, nós usamos comandos como numa linguagem de programação. Por exemplo `_palavra_` deixa a palavra em itálico (_palavra_). Pode parecer esquisito a primeira vista, mas depois que você se acostuma voltar para softwares como o Word é um pesadelo.
 
 Uma parte importante de qualquer post - e de qualquer trabalho que envolva dados - é exibir os resultados. Especialmente no R as opções são quase infinitas de como construir tabelas e fazer gráficos. No R, eu uso os plots básicos que já vem implementado no R - eu rarissimamente uso o ggplot2. Para tabelas de regressão, o _Stargazer_ é excelente. Muitas tabelas da minhoa monografia foram feitas usando o _xtable_. A maioria das tabelas do blog foram feitas usando o comando `kable` do _knitr_. A vantagem é que eu não preciso configurar o markdown para interpretar o código literalmente usando o `kable` enquanto para os outros dois eu preciso usar a opção `results='asis'` para a tabela aparecer corretamente.
+
+O Julia, por ser mais novo, não apresenta tantas opções. Eu nunca precisei de fazer uma tabela com ele, então eu não faço ideia de um pacote para isso. Em compensação, eu fiz uma penca de gráficos, todos usando o pacote _Plots_. O Julia não tem um pacote para gráficos que já venha implementado como o R. O _Plots_ do Julia é uma interface extremamente conveniente para várias opções de gráfico implementadas no Julia. Fazer gráficos com ele é fácil e sem muito esforço os resultados são bonitos - e a documentação é ótima.
+
+## Compilando
+
+O passo seguinte é compilar o texto. Para aqueles que estão acostumados, é equivalente a opção knit do Markdown ou compilar no LaTeX. Mas para o blog precisamos usar um comando especial para compilar, o `serve_site` do pacote _blogdown_. Isso gera o documento com toda a estrutura para o blog. Nessa etapa nós temos que usar o R.
+
+Para integrar o Julia com o R eu uso o pacote _JuliaCall_ para o R, que permite   
