@@ -14,7 +14,7 @@ katex: true
 draft: true
 ---
 
-Faz algum tempo o Pedro escreveu um [post excepcional](https://azul.netlify.com/2018/10/31/banach/) (como de praxe) falando do teorema do ponto fixo (de Banach). Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
+Faz algum tempo o Pedro escreveu um [post excepcional](https://azul.netlify.com/2018/10/31/banach/) (como de praxe) falando do teorema do ponto fixo de Banach. Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
 
 Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).
 
@@ -36,7 +36,7 @@ $$\phi(p_i) = \frac{p_i + \delta{} z_i}{\displaystyle \sum_{j = 1}^{k} p_j} = \f
 
 Nesse caso, sabemos que os preços estarão no intervalo $[0,1]$, que é um compacto.
 
-A parte interessante é que, em alguns casos, podemos iterar a função $\phi$ e obter um eq partindo de um ponto arbitrário. Vamos primeiro implementar a função demanda e uma função para calcular a renda do sujeito a partir da dotação:
+A parte interessante é que, em alguns casos, podemos iterar a função $\phi$ e obter um equilíbrio partindo de um ponto arbitrário. Vamos primeiro implementar a função demanda e uma função para calcular a renda do sujeito a partir da dotação:
 
 ```{julia}
 
@@ -88,7 +88,7 @@ plot(p[:,1])
 plot!(p[:,2])
 
 ```
-Claramente o problema converge para a solução verdadeira. Isso é interessante porque mostra que, para esse caso, um processo de aprendizado que envolve reagir ao último preço leva o mercado a um eventual equilíbrio - uma ideia vinda de Walras que recebe o nome de tâtonnement. Veja que mesmo preços absurdamente distantes funcionam:
+Claramente o problema converge para a solução verdadeira. Isso é interessante porque mostra que, para esse caso, um processo de aprendizado que envolve reagir ao último preço leva o mercado a um eventual equilíbrio - uma ideia vinda de Walras que recebe o nome de _tâtonnement_. Veja que mesmo preços absurdamente distantes funcionam:
 
 ```{julia}
 
