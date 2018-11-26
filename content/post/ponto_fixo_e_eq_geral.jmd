@@ -20,11 +20,11 @@ Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produ�
 
 A parte interessante é que o teorema de ponto fixo usual para Equilíbrio Geral _não_ é o de Banach, mas sim o de Kakutani. Eis o enunciado dele:
 
-_Teorema de Ponto Fixo de Kakutani_: seja f uma correspondência semi-continua superior $f: C \rightarrow C$ onde $C$ é um compacto e é convexo. Então, f admite um ponto fixo i.e. $f(a)=a$
+_Teorema de Ponto Fixo de Kakutani_: seja $f$ uma correspondência semi-continua superior $f: C \rightarrow C$ onde $C$ é compacto e convexo. Então, $f$ admite um ponto fixo i.e. $f(a)=a$
 
-(A prova disso é o pesadelo de muitos alunos de pós graduação)
+(A prova disso é o pesadelo de muitos alunos de pós graduação)[^1]
 
-Uma correspondência é uma generalização de uma função: pensar f como uma função é totalmente inóquo para o presente exemplo (o caso do teorema com função, ao invés de uma correspondência, se chama Teorema do Ponto Fixo de Brouwer). No caso de ser uma função, exigimos continuidade. Ser _compacto_, nos reais, significa ser fechado e limitado. Logo $[0,1]$ é um compacto, mas $(0,1)$ não. E para $\mathbb{R}^2,\mathbb{R}^3, \dots$ a definição permanece, logo $[0,1] \times [0,1]$ é um compacto em $\mathbb{R}^2$. Um pouco frustrante, entretanto, é que o ponto fixo de Banach nos fornece um algoritmo para encontrar o ponto fixo: faça uma sequência de $x$ tal que $x_i = f(x_{i-1})$. O limite dessa sequência vai ser o ponto fixo da função. O ponto fixo de Kakutani não nós dá nada desse tipo. Mas no nosso caso, _iterar a sequência vai nos levar ao ponto fixo_.
+Uma correspondência é uma generalização de uma função: pensar $f$ como uma função é totalmente inóquo para o presente exemplo (o caso do teorema com função, ao invés de uma correspondência, se chama Teorema do Ponto Fixo de Brouwer). No caso de ser uma função, exigimos continuidade. Ser _compacto_, nos reais, significa ser fechado e limitado[^2]. Logo $[0,1]$ é um compacto, mas $(0,1)$ não. E para $\mathbb{R}^2,\mathbb{R}^3, \dots$ a definição permanece, logo $[0,1] \times [0,1]$ é um compacto em $\mathbb{R}^2$. Um pouco frustrante, entretanto, é que o ponto fixo de Banach nos fornece um algoritmo para encontrar o ponto fixo: faça uma sequência de $x$ tal que $x_i = f(x_{i-1})$. O limite dessa sequência vai ser o ponto fixo da função. O ponto fixo de Kakutani não nós dá nada desse tipo. Mas no nosso caso, _iterar a sequência vai nos levar ao ponto fixo_.
 
 Para aplicar o Teorema, exigimos uma função que mapeie um compacto nele mesmo. Vamos construir essa função. Para isso, defina $z_i$ como o excesso de demanda agregada do bem i, logo $z_i = d(p_i) - w_i$, onde $d()$ é a demanda e $w_i$ é a dotação. Veja que se o preço estiver muito baixo, teremos excesso de demanda e $z_i$ vai ser positivo. E vice versa. Se temos excesso de demanda, precisamos aumentar o preço. Podemos somar ao preço atual uma fração $\delta$ do excesso de demanda para obter novos preços. Isso dá origem a função $\hat{\phi}$:
 
@@ -184,3 +184,17 @@ plot!(p[:,2])
 ```
 
 Logo, para alguns valores de $\delta$ e alguns preços iniciais, podemos aplicar o teorema do ponto fixo de Banach ao invés do teorema do ponto fixo de Kakutani.
+
+
+
+
+
+
+
+
+
+
+
+
+[^1]: Mas o Pedro sabe provar. Será que vale um post?
+[^2]: Nota de rodapé do Pedro dizendo que na verdade isso na verdade é uma condição suficiente de compacidade. É o famoso teorema de Heine-Borel. De forma alguma está _errado_ dizer isso, todo conjunto fechado e limitado de fato é compacto e a volta também vale. No entanto, uma definição - para mim - mais interessante de um conjunto compacto é que qualquer cobertura aberta do conjunto admite pelo menos uma subcobertura finita. Em português mais claro, estamos dizendo que se tentarmos "cobrir" o conjunto (fechado e limitado) com conjuntos abertos, não importa como façamos isso, precisamos sempre poder parar de adicionar conjuntos à coleção e ter coberto o conjunto.
