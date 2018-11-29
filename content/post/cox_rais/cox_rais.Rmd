@@ -38,12 +38,14 @@ Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já
 Vamos explorar a amostra.
 
 ```{r, echo = FALSE}
+library(tibble)
 githubURL <- ("https://github.com/danmrc/azul/raw/master/content/post/cox_rais/acre_rais_2017.Rds")
 
 temporario = tempfile()
 download.file(githubURL, destfile = temporario, mode = "wb")
 
 dados = readRDS(temporario)
+dados = as.tibble(dados)
 
 ```
 

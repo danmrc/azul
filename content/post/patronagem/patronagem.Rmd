@@ -1,5 +1,5 @@
 ---
-title: "Os Custos da Patronagem: evidências do Império Britânico"
+title: "Como eu rodei Stata dentro do R para replicar um paper"
 author: "Pedro Cavalcante"
 date: '2018-11-05'
 output:
@@ -17,32 +17,40 @@ authors: ["pedrocava"]
 katex: true
 draft: true
 ---
+#### Nota prévia de leitura
+
+Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote ``RMarkdown`` - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada [disponível aqui](). 
+
+# O paper
 
 Dia desses saiu a edição de [Novembro da American Economic Review](https://www.aeaweb.org/issues/526) e nela um paper me chamou _muito_ à atenção: [The Costs of Patronage: Evidence from the British Empire](https://www.aeaweb.org/articles?id=10.1257/aer.20171339), de Guo Xu. O resumo me deixou dando pulinhos de alegria:
 
-"I combine newly digitized personnel and public finance data from the British colonial administration for the period 1854-1966 to study how patronage affects the promotion and incentives of governors. Governors are more likely to be promoted to higher salaried colonies when connected to their superior during the period of patronage. Once allocated, they provide more tax exemptions, raise less revenue, and invest less. The promotion and performance gaps disappear after the abolition of patronage appointments. Patronage therefore distorts the allocation of public sector positions and reduces the incentives of favored bureaucrats to perform."
+> "I combine newly digitized personnel and public finance data from the British colonial administration for the period 1854-1966 to study how patronage affects the promotion and incentives of governors. Governors are more likely to be promoted to higher salaried colonies when connected to their superior during the period of patronage. Once allocated, they provide more tax exemptions, raise less revenue, and invest less. The promotion and performance gaps disappear after the abolition of patronage appointments. Patronage therefore distorts the allocation of public sector positions and reduces the incentives of favored bureaucrats to perform."
 
-Tem tudo aí. Uma base de dados inédita, uma questão interessante, uma abordagem claramente econômica (incentivos, regras) e a quantificação do impacto de um comportamento. Se alguém arranjar um anão e uma garrafa de champagne vira uma festa daquelas. Pois, como eu tenho muita coisa pra fazer, prova para estudar e trabalho para entregar, decidir (tentar) replicar o paper. 
+Tem tudo aí. Uma base de dados inédita, uma questão interessante, uma abordagem claramente econômica (incentivos, regras) e a quantificação do impacto de um comportamento. Se alguém arranjar um anão e uma garrafa de champagne vira uma festa daquelas. Pois, como eu tenho muita coisa pra fazer, prova para estudar e trabalho para entregar, decidir replicar nem que seja uma regressão desse paper tão bonito - e mais importante ainda - deixar uma base pronta para quem quiser replicar o resto.
 
-## Extraindo os dados
+# Extraindo os dados
 
-```{R}
-library(readstata13)
+Se você está interessado em ter a base de dados maneira que o autor desse paper conseguiu, é fácil. O código a seguir puxa eles diretamente do repositório da AER. 
+
+```{R, warning = FALSE, message = FALSE}
+library(readstata13) # importante para ler o arquivo com a base
+library(tibble) # não tão importante, mas tibbles > data.frames
 
 temp = tempfile() ## geramos um arquivo temporário
 download.file("https://www.aeaweb.org/doi/10.1257/aer.20171339.data",
               destfile = temp, mode = "wb") # puxamos diretamente os dados do repositório da AEA
 
 dados = unzip(temp, file = "analysis.dta") # descomprimimos
-dados = read.dta13(dados) #lemos
+dados = as.tibble(read.dta13(dados)) #lemos como um tibble
 
-head(dados) #exploramos para garantir que está tudo certo
 dim(dados)
+dados #exploramos para garantir que está tudo certo
 ```
 
 Temos um painel que cobre boa parte do século XIX e início do XX. As informações são bem detalhadas, desde nome do governador da colônia, onde ele estudou, se era militar e até distância da colônia até Londres. 
 
-```{R}
+```{R, warning = FALSE, message = FALSE}
 library(dplyr)
 
 dados %>%
@@ -51,8 +59,92 @@ dados %>%
             politico = round(mean(politician, na.rm = TRUE), digits = 2), 
             militar = round(mean(military, na.rm = TRUE), digits = 2))
   
+```
+
+Queria, em particular, reproduzir a tabela 2 em que salários de governadores de colônias são explicadas por modelos com alguns termos de efeitos fixos e variáveis de conectividade com o encarregado dos apontamentos. Essas variáveis incluem ancentrais comuns, ser aristocrata e ter estudado em Eton, Oxford ou Cambridge junto com quem fez os apontamentos.
+
+
+# A loucura do Stata, ou como eu virei um herege
+
+Acabei fuçando os arquivos para reprodução que a própria AER fornece e achei o código original em Stata - que por sinal poderia ser executado no próprio RMarkdown com a ajuda do [pacote ``Statamarkdown``](https://github.com/Hemken/Statamarkdown) e vou mostrar como fazer isso.
+
+Primeiro carregamos a biblioteca, ainda em R:
+
+```{r, message=FALSE}
+library(Statamarkdown)
+```
+
+Depois armazenamos um objeto com nome ``stataexe`` o endereço do Stata no seu computador. Se tiver instalado, pode usar a função ``Statamarkdown::find_stata()`` para isso.
+
+```{R, eval = FALSE}
+
+stataexe <- "C:/Users/Pedro/Desktop/Meus Dados/Stata14/StataMP-64.exe"
 
 ```
 
+```{R, echo = FALSE}
 
+stataexe <- "C:/Users/Pichau/Desktop/Meus Dados/Stata14/StataMP-64.exe"
 
+```
+
+Agora você avisa o ``knitr`` que está realmente fazendo essa loucura de rodar Stata no RStudio:
+
+```{R}
+knitr::opts_chunk$set(engine.path = stataexe)
+```
+
+_Voi lá_:
+
+```{stata}
+use "analysis.dta", replace
+
+sum log_salary_governo, detail
+```
+
+Para de fato rodar o código original, precisamos do pacote ``reghdfe``, do Sergio Correia - [disponível no Github](https://github.com/sergiocorreia/reghdfe). Então vamos instala-lo com o código sugerido pelo próprio criador:
+
+```{stata, eval = FALSE}
+* Install ftools (remove program if it existed previously)
+cap ado uninstall ftools
+net install ftools, from("https://raw.githubusercontent.com/sergiocorreia/ftools/master/src/")
+
+* Install reghdfe 4.x
+cap ado uninstall reghdfe
+net install reghdfe, from("https://raw.githubusercontent.com/sergiocorreia/reghdfe/master/src/")
+
+* Install boottest for Stata 11 and 12
+if (c(version)<13) cap ado uninstall boottest
+if (c(version)<13) ssc install boottest
+
+* Install moremata (sometimes used by ftools but not needed for reghdfe)
+cap ssc install moremata
+
+ftools, compile
+reghdfe, compile
+```
+
+Agora sim podemos estimar os modelos com o código original em Stata:
+
+```{stata}
+use "analysis.dta", replace
+
+reghdfe log_salary_governor_gbp no_colonies shared_ancestry if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+** reghdfe log_salary_governor_gbp no_colonies both_arist if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+** reghdfe log_salary_governor_gbp no_colonies both_eton if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+** reghdfe log_salary_governor_gbp no_colonies both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+** reghdfe log_salary_governor_gbp no_colonies shared_ancestry both_arist both_eton both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+** reghdfe log_salary_governor_gbp no_colonies connected if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+```
+
+Encontrei duas dificuldades:
+
+* O console sai no documento então para ver o resultao de uma linha de código, é preciso compilar o documento todo e conferir a saída lá
+
+* Cada chunk de código em Stata gera uma sessão nova, então é preciso _sempre_ importar os dados 
