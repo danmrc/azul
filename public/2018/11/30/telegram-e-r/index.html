@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Telegram'><meta property='article:tag' content='Bot'><meta property='article:published_time' content='2018-11-30T00:00:00Z'/><meta property='article:modified_time' content='2018-11-30T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.49" />
+<meta name="generator" content="Hugo 0.50" />
 
   <title>Integrando o Telegram e R • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/11/30/telegram-e-r/'>
@@ -121,6 +121,8 @@ if (!doNotTrack) {
         <a href='/tags/microeconomia/' style='font-size:1.1666666666666667em'>Microeconomia</a>
       </li><li>
         <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
+      </li><li>
+        <a href='/tags/ponto-fixo/' style='font-size:1em'>Ponto Fixo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -261,8 +263,11 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  <p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por <span class="citation">@azulblogbot</span> na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
-<p>O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote <em>telegram.bot</em> no R. Segue o passo a passo que é uma tradução do post do R Bloggers:</p>
+  
+
+
+<p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por <span class="citation">@azulblogbot</span> na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
+<p>O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote <code>telegram.bot</code> no R. Segue o passo a passo que é uma tradução do post do R Bloggers:</p>
 <ul>
 <li>Procure o <span class="citation">@BotFather</span> no Telegram e digite /start e depois /newbot. Siga o passo a passo. No fim ele vai dar um token de acesso, que voce vai precisar e <em>não deve compartilhar com ninguém</em>.</li>
 <li>No R, abra o arquivo .Renviron. Esse trecho de código faz isso:</li>
@@ -271,7 +276,8 @@ if (!doNotTrack) {
 file.edit(user_renviron)
 </code></pre>
 <ul>
-<li>Adicione a seguinte linha de código: <code>R_TELEGRAM_BOT_nomedobot=token</code>. Por exemplo, se o meu bot se chama <em>azulblogbot</em> e o Token é 1234, eu adicionaria a linha <code>R_TELEGRAM_BOT_AZULBLOGBOT=1234</code> *Carregue o pacote e para inicializar a ligação entre o R e o bot basta usar <code>bot &lt;- Bot(token = bot_token('nomedobot'))</code></li>
+<li>Adicione a seguinte linha de código: <code>R_TELEGRAM_BOT_nomedobot=token</code>. Por exemplo, se o meu bot se chama <em>azulblogbot</em> e o Token é 1234, eu adicionaria a linha <code>R_TELEGRAM_BOT_AZULBLOGBOT=1234</code></li>
+<li>Carregue o pacote e para inicializar a ligação entre o R e o bot basta usar <code>bot &lt;- Bot(token = bot_token('nomedobot'))</code></li>
 </ul>
 <p>Agora, o objeto bot tem várias opções. Para ver as mensagens recebidas basta fazer <code>bot$getUpdates()</code>. Isso vai mostrar quem enviou a mensagem e qual foi a mensagem. Podemos salvar o resultado do <code>bot$getUpdates()</code> em um objeto update. Podemos responder a pessoa usando o comando <code>bot$sendMessage</code>. Para isso precisamos de uma mensagem e do id do usuário. Se um usuário enviou uma mensagem para o bot, é fácil obter o id via o objeto <code>update</code> que criamos acima: basta fazer <code>update$message$from$id</code>.</p>
 <p>Isso é essencialmente o que o texto do R Bloggers nos explica. O que eu fiz foi amarrar essas ideias em várias funções que fazem o passo a passo abaixo:</p>
@@ -310,7 +316,7 @@ file.edit(user_renviron)
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/2018/11/25/workflow/'>
+      <a href='/2018/11/29/patronagem/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -318,7 +324,7 @@ file.edit(user_renviron)
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Workflow</a>
+        <span class='screen-reader-text'>Previous post: </span>Como eu rodei Stata dentro do R para replicar um paper</a>
     </div></div>
 </nav>
 

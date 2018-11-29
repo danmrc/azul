@@ -104,7 +104,7 @@ ggsurvplot(fit_sexo, conf.int = TRUE,
 ## sexo=Feminino  80793    19606    22066       274       532
 ## sexo=Masculino 96565    26517    24057       251       532
 ## 
-##  Chisq= 532  on 1 degrees of freedom, p= &lt;2e-16</code></pre>
+##  Chisq= 532  on 1 degrees of freedom, p= 0</code></pre>
 <p>O p-valor do teste, menor que <span class="math inline">\(2^{-16}\)</span>, nos diz que podemos rejeitar a hipótese nula com considerável confiança, encontramos evidências estatisticamente significantes de que de fato as curvas de sobrevivência de homens e mulheres são diferentes. Convido o leitor a repetir o teste com outros recortes em mente.</p>
 </div>
 <div id="o-modelo-de-riscos-proporcionais-de-cox" class="section level1">
@@ -153,8 +153,8 @@ summary(cox)</code></pre>
 ## 
 ## Concordance= 0.736  (se = 0.001 )
 ## Rsquare= 0.175   (max possible= 0.998 )
-## Likelihood ratio test= 34183  on 11 df,   p=&lt;2e-16
-## Wald test            = 29993  on 11 df,   p=&lt;2e-16
-## Score (logrank) test = 33199  on 11 df,   p=&lt;2e-16</code></pre>
+## Likelihood ratio test= 34183  on 11 df,   p=0
+## Wald test            = 29993  on 11 df,   p=0
+## Score (logrank) test = 33199  on 11 df,   p=0</code></pre>
 <p>Se defirnimos a Razão de Risco <span class="math inline">\(r_i\)</span> de <span class="math inline">\(i\)</span>-ésima covariada como <span class="math inline">\(r_i := e^\beta_i\)</span>, então <span class="math inline">\(r_i &gt; 1\)</span> implica que a <span class="math inline">\(i\)</span>-ésima covariada leva a um aumento no nível de risco e <span class="math inline">\(r_i &lt; 1\)</span> a uma diminuição. A tabela acima então deve ser capaz de responder algumas das perguntas que fizemos no primeiro parágrafo.</p>
 </div>

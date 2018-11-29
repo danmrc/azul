@@ -15,7 +15,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Simulação'><meta property='article:tag' content='Econometria'><meta property='article:tag' content='R'><meta property='article:tag' content='Monte Carlo'><meta property='article:tag' content='Variáveis Instrumentais'><meta property='article:published_time' content='2018-08-19T00:00:00Z'/><meta property='article:modified_time' content='2018-08-19T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.49" />
+<meta name="generator" content="Hugo 0.50" />
 
   <title>Viés de variáveis instrumentais • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/'>
@@ -123,6 +123,8 @@ if (!doNotTrack) {
         <a href='/tags/microeconomia/' style='font-size:1.1666666666666667em'>Microeconomia</a>
       </li><li>
         <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
+      </li><li>
+        <a href='/tags/ponto-fixo/' style='font-size:1em'>Ponto Fixo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -263,7 +265,10 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  <p>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente <em>Mostly Harmless Econometrics</em>, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de <em>Bias of 2SLS</em>.</p>
+  
+
+
+<p>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente <em>Mostly Harmless Econometrics</em>, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de <em>Bias of 2SLS</em>.</p>
 <p>Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo <span class="math inline">\(y =x\beta+e\)</span> e você sabe que <span class="math inline">\(E(ex) \neq 0\)</span> - ou seja, temos um problema de endogenidade. Suponha ainda que temos uma variável, <span class="math inline">\(z\)</span>, que é tal que <span class="math inline">\(E(xz) \neq 0\)</span> e <span class="math inline">\(E(ez) = 0\)</span> - a variável é dita relevante e exógena, respectivamente. Então, podemos usar Mínimos Quadrados em 2 Estágios (MQ2E) para obter uma estimativa do efeito de x sobre y.</p>
 <p>Podemos ter mais instrumentos do que variáveis endógenas - um problema sobreidentificado - e parece razoável que queiramos usar todos os instrumentos para estimar o efeito de x sobre y. Afinal, estaríamos jogando fora informação se não usassemos todos os instrumentos, e definitivamente não queremos isso. O mínimos Quadrados em Dois Estágios permite isso.</p>
 <p>Entretanto, variáveis instrumentais sofrem de um sério problema de viés quando se tem muitos instrumentos. Vamos ilustrar isso no caso que temos uma única variável endógena e ela é a única variável do problema. Nosso modelo vai ter duas equações:</p>
