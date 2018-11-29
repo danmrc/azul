@@ -19,7 +19,7 @@ draft: true
 ---
 #### Nota prévia de leitura
 
-Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote ``RMarkdown`` - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada [disponível aqui](). 
+Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote ``RMarkdown`` - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada [disponível preeliminarmente aqui](https://github.com/danmrc/azul/blob/master/content/post/workflow.Rmd). 
 
 # O paper
 
@@ -27,7 +27,7 @@ Dia desses saiu a edição de [Novembro da American Economic Review](https://www
 
 > "I combine newly digitized personnel and public finance data from the British colonial administration for the period 1854-1966 to study how patronage affects the promotion and incentives of governors. Governors are more likely to be promoted to higher salaried colonies when connected to their superior during the period of patronage. Once allocated, they provide more tax exemptions, raise less revenue, and invest less. The promotion and performance gaps disappear after the abolition of patronage appointments. Patronage therefore distorts the allocation of public sector positions and reduces the incentives of favored bureaucrats to perform."
 
-Tem tudo aí. Uma base de dados inédita, uma questão interessante, uma abordagem claramente econômica (incentivos, regras) e a quantificação do impacto de um comportamento. Se alguém arranjar um anão e uma garrafa de champagne vira uma festa daquelas. Pois, como eu tenho muita coisa pra fazer, prova para estudar e trabalho para entregar, decidir replicar nem que seja uma regressão desse paper tão bonito - e mais importante ainda - deixar uma base pronta para quem quiser replicar o resto.
+Tem tudo aí. Uma base de dados inédita, uma questão interessante, uma abordagem claramente econômica (incentivos, regras) e a quantificação do impacto de um comportamento. Se alguém arranjar um anão e uma garrafa de champagne vira uma festa daquelas. Pois, como eu tenho muita coisa pra fazer, prova para estudar e trabalho para entregar, decidi replicar nem que seja uma regressão desse paper tão bonito - e mais importante ainda - deixar uma base pronta para quem quiser replicar o resto.
 
 # Extraindo os dados
 
@@ -124,27 +124,45 @@ ftools, compile
 reghdfe, compile
 ```
 
-Agora sim podemos estimar os modelos com o código original em Stata:
+Agora sim podemos estimar os modelos com o código original em Stata, que estima todas as especificações da tabela 2. Vou colocar ``*`` antes das linhas que seguem a primeira para que o documento não renderize todas as tabelas. 
 
 ```{stata}
-use "analysis.dta", replace
+use "analysis.dta"
 
 reghdfe log_salary_governor_gbp no_colonies shared_ancestry if full==1, absorb(aid year duration) vce(cluster bilateral)
 
-** reghdfe log_salary_governor_gbp no_colonies both_arist if full==1, absorb(aid year duration) vce(cluster bilateral)
+* reghdfe log_salary_governor_gbp no_colonies both_arist if full==1, absorb(aid year duration) vce(cluster bilateral)
 
-** reghdfe log_salary_governor_gbp no_colonies both_eton if full==1, absorb(aid year duration) vce(cluster bilateral)
+* reghdfe log_salary_governor_gbp no_colonies both_eton if full==1, absorb(aid year duration) vce(cluster bilateral)
 
-** reghdfe log_salary_governor_gbp no_colonies both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilateral)
+* reghdfe log_salary_governor_gbp no_colonies both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilateral)
 
-** reghdfe log_salary_governor_gbp no_colonies shared_ancestry both_arist both_eton both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilateral)
+* reghdfe log_salary_governor_gbp no_colonies shared_ancestry both_arist both_eton both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilateral)
 
-** reghdfe log_salary_governor_gbp no_colonies connected if full==1, absorb(aid year duration) vce(cluster bilateral)
+* reghdfe log_salary_governor_gbp no_colonies connected if full==1, absorb(aid year duration) vce(cluster bilateral)
 
 ```
 
 Encontrei duas dificuldades:
 
-* O console sai no documento então para ver o resultao de uma linha de código, é preciso compilar o documento todo e conferir a saída lá
+* O console sai no documento então para ver o resultado de uma linha de código, é preciso compilar o documento todo e conferir a saída lá
 
-* Cada chunk de código em Stata gera uma sessão nova, então é preciso _sempre_ importar os dados 
+* Cada chunk de código em Stata gera uma sessão nova, então é preciso importar os dados sempre que abrir um chunk novo
+
+# E como fazer isso no R?
+
+Vamos usar o pacote ``lfe``, que implementa um método muito similar com a função ``felm``. Como não conheço nem localizei implementação funcional para R de erros-padrão agrupados então a estimação não é _estritamente_ a mesma, mas o espírito está lá.
+
+```{R, warning = FALSE, message = FALSE}
+
+library(lfe)
+
+modelo1 = felm(log_salary_governor_gbp ~ no_colonies + shared_ancestry | aid + year + duration, 
+               data = dados,
+               subset = (full == 1))
+
+summary(modelo1)
+```
+
+Observe que o código que estima o ``modelo1`` é praticamente o mesmo que estima as outras especificações, basta somente adicionar ou retirar variáveis explicativas na fórmula. 
+
