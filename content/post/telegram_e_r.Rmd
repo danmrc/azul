@@ -16,7 +16,7 @@ draft: true
 
 Algum tempo atrás eu achei [este post](https://www.r-bloggers.com/integrating-r-and-telegram/) no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por @azulblogbot na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.
 
-O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote _telegram.bot_ no R. Segue o passo a passo que é uma tradução do post do R Bloggers:
+O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote ``telegram.bot`` no R. Segue o passo a passo que é uma tradução do post do R Bloggers:
 
 * Procure o @BotFather no Telegram e digite /start e depois /newbot. Siga o passo a passo. No fim ele vai dar um token de acesso, que voce vai precisar e _não deve compartilhar com ninguém_.
 * No R, abra o arquivo .Renviron. Esse trecho de código faz isso:
@@ -28,7 +28,7 @@ file.edit(user_renviron)
 ```
 
 * Adicione a seguinte linha de código: `R_TELEGRAM_BOT_nomedobot=token`. Por exemplo, se o meu bot se chama _azulblogbot_ e o Token é 1234, eu adicionaria a linha `R_TELEGRAM_BOT_AZULBLOGBOT=1234`
-*Carregue o pacote e para inicializar a ligação entre o R e o bot basta usar `bot <- Bot(token = bot_token('nomedobot'))`
+* Carregue o pacote e para inicializar a ligação entre o R e o bot basta usar `bot <- Bot(token = bot_token('nomedobot'))`
 
 Agora, o objeto bot tem várias opções. Para ver as mensagens recebidas basta fazer `bot$getUpdates()`. Isso vai mostrar quem enviou a mensagem e qual foi a mensagem. Podemos salvar o resultado do `bot$getUpdates()` em um objeto update. Podemos responder a pessoa usando o comando `bot$sendMessage`. Para isso precisamos de uma mensagem e do id do usuário. Se um usuário enviou uma mensagem para o bot, é fácil obter o id via o objeto `update` que criamos acima: basta fazer `update$message$from$id`.
 

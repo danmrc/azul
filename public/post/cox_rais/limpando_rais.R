@@ -10,11 +10,15 @@ dados <- read_delim(file = "AC2017.txt",
 View(dados)
 
 library(dplyr)
+
+#### REMOVER LINHA APROPRIADA SE USAR DADOS DOS ESTADOS CONTEMPLADOS
 dados$`Bairros SP` = NULL
 dados$`Bairros Fortaleza` = NULL
 dados$`Bairros RJ` = NULL
 dados$`Distritos SP` = NULL
 dados$`Regiões Adm DF` = NULL
+
+###################
 
 dados$`Vl Rem Janeiro CC` = NULL
 dados$`Vl Rem Fevereiro CC` = NULL
@@ -55,7 +59,7 @@ dados$etnia = ifelse(dados$branco == 1, "Branco",
          ifelse(dados$negro == 1, "Negro", "Outras etnias"))
 
 dados$homem = ifelse(dados$`Sexo Trabalhador` == "01", 1, 0)
-dados$sexo = ifelse(dados$homem == 1, "Masculino", "Feminino")
+dados$sexo = factor(ifelse(dados$homem == 1, "Masculino", "Feminino"))
 dados$`Sexo Trabalhador` = NULL
 dados$`Raça Cor` = NULL
 

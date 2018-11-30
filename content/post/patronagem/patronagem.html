@@ -1,7 +1,7 @@
 ---
-title: "Os Custos da Patronagem: evidências do Império Britânico"
+title: "Como eu rodei Stata dentro do R para replicar um paper"
 author: "Pedro Cavalcante"
-date: '2018-11-05'
+date: '2018-11-29'
 output:
   html_document:
     df_print: paged
@@ -15,143 +15,230 @@ tags:
 - Replicação
 authors: ["pedrocava"]
 katex: true
-draft: true
+
 ---
 
 
 
+<div id="nota-previa-de-leitura" class="section level4">
+<h4>Nota prévia de leitura</h4>
+<p>Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote <code>RMarkdown</code> - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada <a href="https://github.com/danmrc/azul/blob/master/content/post/workflow.Rmd">disponível preeliminarmente aqui</a>.</p>
+</div>
+<div id="o-paper" class="section level1">
+<h1>O paper</h1>
 <p>Dia desses saiu a edição de <a href="https://www.aeaweb.org/issues/526">Novembro da American Economic Review</a> e nela um paper me chamou <em>muito</em> à atenção: <a href="https://www.aeaweb.org/articles?id=10.1257/aer.20171339">The Costs of Patronage: Evidence from the British Empire</a>, de Guo Xu. O resumo me deixou dando pulinhos de alegria:</p>
+<blockquote>
 <p>“I combine newly digitized personnel and public finance data from the British colonial administration for the period 1854-1966 to study how patronage affects the promotion and incentives of governors. Governors are more likely to be promoted to higher salaried colonies when connected to their superior during the period of patronage. Once allocated, they provide more tax exemptions, raise less revenue, and invest less. The promotion and performance gaps disappear after the abolition of patronage appointments. Patronage therefore distorts the allocation of public sector positions and reduces the incentives of favored bureaucrats to perform.”</p>
-<p>Tem tudo aí. Uma base de dados inédita, uma questão interessante, uma abordagem claramente econômica (incentivos, regras) e a quantificação do impacto de um comportamento. Se alguém arranjar um anão e uma garrafa de champagne vira uma festa daquelas. Pois, como eu tenho muita coisa pra fazer, prova para estudar e trabalho para entregar, decidir (tentar) replicar o paper.</p>
-<div id="extraindo-os-dados" class="section level2">
-<h2>Extraindo os dados</h2>
-<pre class="r"><code>library(readstata13)</code></pre>
-<pre><code>## Warning: package &#39;readstata13&#39; was built under R version 3.4.4</code></pre>
-<pre class="r"><code>temp = tempfile() ## geramos um arquivo temporário
+</blockquote>
+<p>Tem tudo aí. Uma base de dados inédita, uma questão interessante, uma abordagem claramente econômica (incentivos, regras) e a quantificação do impacto de um comportamento. Se alguém arranjar um anão e uma garrafa de champagne vira uma festa daquelas. Pois, como eu tenho muita coisa pra fazer, prova para estudar e trabalho para entregar, decidi replicar nem que seja uma regressão desse paper tão bonito - e mais importante ainda - deixar uma base pronta para quem quiser replicar o resto.</p>
+</div>
+<div id="extraindo-os-dados" class="section level1">
+<h1>Extraindo os dados</h1>
+<p>Se você está interessado em ter a base de dados maneira que o autor desse paper conseguiu, é fácil. O código a seguir puxa eles diretamente do repositório da AER.</p>
+<pre class="r"><code>library(readstata13) # importante para ler o arquivo com a base
+library(tibble) # não tão importante, mas tibbles &gt; data.frames
+
+temp = tempfile() ## geramos um arquivo temporário
 download.file(&quot;https://www.aeaweb.org/doi/10.1257/aer.20171339.data&quot;,
               destfile = temp, mode = &quot;wb&quot;) # puxamos diretamente os dados do repositório da AEA
 
 dados = unzip(temp, file = &quot;analysis.dta&quot;) # descomprimimos
-dados = read.dta13(dados) #lemos
+dados = as.tibble(read.dta13(dados)) #lemos como um tibble
 
-head(dados) #exploramos para garantir que está tudo certo</code></pre>
-<pre><code>##    sid year                   aid log_salary_governor_gbp
-## 1 Aden 1938 Bernard Rawdon Reilly                8.086411
-## 2 Aden 1937 Bernard Rawdon Reilly                8.086411
-## 3 Aden 1939 Bernard Rawdon Reilly                8.086411
-## 4 Aden 1944     John Hathorn Hall                8.086411
-## 5 Aden 1941     John Hathorn Hall                8.086411
-## 6 Aden 1942     John Hathorn Hall                8.086411
-##   log_rev_total_gbp log_rev_customs_gbp log_rev_internal_gbp
-## 1          11.90891                  NA                   NA
-## 2                NA                  NA                   NA
-## 3                NA                  NA                   NA
-## 4                NA                  NA                   NA
-## 5                NA                  NA                   NA
-## 6                NA                  NA                   NA
-##   log_exp_total_gbp log_exp_tax_gbp log_exp_pubworks_gbp
-## 1          11.79066              NA                   NA
-## 2                NA              NA                   NA
-## 3                NA              NA                   NA
-## 4                NA              NA                   NA
-## 5                NA              NA                   NA
-## 6                NA              NA                   NA
-##   log_population_imputed shared_ancestry both_arist both_oxbridge
-## 1               11.05763               0          0             0
-## 2               11.01172               0          0             0
-## 3               11.10355               0          0             0
-## 4               11.33313               0          0             0
-## 5               11.19538               0          0             0
-## 6               11.24130               0          0             0
-##   both_eton connected age_entry cambridge oxford eton peerage civilservant
-## 1         0         0        55         0      0    0       0            1
-## 2         0         0        55         0      0    0       0            1
-## 3         0         0        55         0      0    0       0            1
-## 4         0         0        46         0      1    0       0            1
-## 5         0         0        46         0      1    0       0            1
-## 6         0         0        46         0      1    0       0            1
-##   politician military ordinance_total ordinance_health ordinance_education
-## 1          0        1               0                0                   0
-## 2          0        1               0                0                   0
-## 3          0        1               0                0                   0
-## 4          0        1               0                0                   0
-## 5          0        1               0                0                   0
-## 6          0        1               0                0                   0
-##   ordinance_pubworks ordinance_welfare ordinance_tax ordinance_trade
-## 1                  0                 0             0               0
-## 2                  0                 0             0               0
-## 3                  0                 0             0               0
-## 4                  0                 0             0               0
-## 5                  0                 0             0               0
-## 6                  0                 0             0               0
-##   customs_exemptions social_unrest hansard_mention    polarity
-## 1                 NA             0               1 -0.04201159
-## 2                 NA             0               1  0.17053641
-## 3                 NA             0               1 -0.05729311
-## 4                 NA             0               1  0.04278848
-## 5                 NA             0               1  0.48875952
-## 6                 NA             0               1  0.20026831
-##   award_highest log_dist_london area_tropics logem4 sum_d_pre_post
-## 1             0        8.206037            0     NA             NA
-## 2             0        8.206037            0     NA             NA
-## 3             0        8.206037            0     NA             NA
-## 4             0        8.206037            0     NA             NA
-## 5             0        8.206037            0     NA             NA
-## 6             0        8.206037            0     NA             NA
-##   post1930 tenure_aid landlocked quinquennial decade bilateral no_colonies
-## 1        1          2          0         1935   1930       245           1
-## 2        1          2          0         1935   1930       245           1
-## 3        1          2          0         1935   1930       244           1
-## 4        1         11          0         1940   1940      1567           1
-## 5        1         11          0         1940   1940      1568           1
-## 6        1         11          0         1940   1940      1568           1
-##   duration state_aid min_year min_revenue full post1930_connected
-## 1        1         1     1937    11.90891    0                  0
-## 2        0         1     1937    11.90891    0                  0
-## 3        2         1     1937    11.90891    0                  0
-## 4        4         2     1940    11.90891    0                  0
-## 5        1         2     1940    11.90891    0                  0
-## 6        2         2     1940    11.90891    0                  0
-##   connected_year1930 tenure
-## 1                  0      1
-## 2                  0      0
-## 3                  0      2
-## 4                  0      4
-## 5                  0      1
-## 6                  0      2</code></pre>
-<pre class="r"><code>dim(dados)</code></pre>
+dim(dados)</code></pre>
 <pre><code>## [1] 4687   55</code></pre>
+<pre class="r"><code>dados #exploramos para garantir que está tudo certo</code></pre>
+<pre><code>## # A tibble: 4,687 x 55
+##       sid  year                      aid log_salary_governor_gbp
+##  * &lt;fctr&gt; &lt;dbl&gt;                   &lt;fctr&gt;                   &lt;dbl&gt;
+##  1   Aden  1938    Bernard Rawdon Reilly                8.086411
+##  2   Aden  1937    Bernard Rawdon Reilly                8.086411
+##  3   Aden  1939    Bernard Rawdon Reilly                8.086411
+##  4   Aden  1944        John Hathorn Hall                8.086411
+##  5   Aden  1941        John Hathorn Hall                8.086411
+##  6   Aden  1942        John Hathorn Hall                8.086411
+##  7   Aden  1940        John Hathorn Hall                8.086411
+##  8   Aden  1943        John Hathorn Hall                8.086411
+##  9   Aden  1946 Reginald Stuart Champion                8.086411
+## 10   Aden  1947 Reginald Stuart Champion                8.086411
+## # ... with 4,677 more rows, and 51 more variables:
+## #   log_rev_total_gbp &lt;dbl&gt;, log_rev_customs_gbp &lt;dbl&gt;,
+## #   log_rev_internal_gbp &lt;dbl&gt;, log_exp_total_gbp &lt;dbl&gt;,
+## #   log_exp_tax_gbp &lt;dbl&gt;, log_exp_pubworks_gbp &lt;dbl&gt;,
+## #   log_population_imputed &lt;dbl&gt;, shared_ancestry &lt;dbl&gt;, both_arist &lt;dbl&gt;,
+## #   both_oxbridge &lt;dbl&gt;, both_eton &lt;dbl&gt;, connected &lt;dbl&gt;,
+## #   age_entry &lt;dbl&gt;, cambridge &lt;int&gt;, oxford &lt;int&gt;, eton &lt;int&gt;,
+## #   peerage &lt;dbl&gt;, civilservant &lt;dbl&gt;, politician &lt;dbl&gt;, military &lt;dbl&gt;,
+## #   ordinance_total &lt;dbl&gt;, ordinance_health &lt;dbl&gt;,
+## #   ordinance_education &lt;dbl&gt;, ordinance_pubworks &lt;dbl&gt;,
+## #   ordinance_welfare &lt;dbl&gt;, ordinance_tax &lt;dbl&gt;, ordinance_trade &lt;dbl&gt;,
+## #   customs_exemptions &lt;int&gt;, social_unrest &lt;dbl&gt;, hansard_mention &lt;dbl&gt;,
+## #   polarity &lt;dbl&gt;, award_highest &lt;dbl&gt;, log_dist_london &lt;dbl&gt;,
+## #   area_tropics &lt;dbl&gt;, logem4 &lt;dbl&gt;, sum_d_pre_post &lt;dbl&gt;,
+## #   post1930 &lt;dbl&gt;, tenure_aid &lt;dbl&gt;, landlocked &lt;int&gt;,
+## #   quinquennial &lt;dbl&gt;, decade &lt;dbl&gt;, bilateral &lt;dbl&gt;, no_colonies &lt;dbl&gt;,
+## #   duration &lt;dbl&gt;, state_aid &lt;dbl&gt;, min_year &lt;dbl&gt;, min_revenue &lt;dbl&gt;,
+## #   full &lt;dbl&gt;, post1930_connected &lt;dbl&gt;, connected_year1930 &lt;dbl&gt;,
+## #   tenure &lt;dbl&gt;</code></pre>
 <p>Temos um painel que cobre boa parte do século XIX e início do XX. As informações são bem detalhadas, desde nome do governador da colônia, onde ele estudou, se era militar e até distância da colônia até Londres.</p>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 3.4.4</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>dados %&gt;%
+<pre class="r"><code>library(dplyr)
+
+dados %&gt;%
   group_by(decade) %&gt;%
   summarise(idade = round(mean(age_entry, na.rm = TRUE), digits = 2), 
             politico = round(mean(politician, na.rm = TRUE), digits = 2), 
             militar = round(mean(military, na.rm = TRUE), digits = 2))</code></pre>
-<pre><code>## Warning: package &#39;bindrcpp&#39; was built under R version 3.4.4</code></pre>
 <pre><code>## # A tibble: 13 x 4
 ##    decade idade politico militar
 ##     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
-##  1   1854  43.5     0.19   0.45 
-##  2   1860  42.0     0.2    0.38 
-##  3   1870  41.9     0.16   0.37 
-##  4   1880  44.0     0.12   0.39 
-##  5   1890  45.6     0.13   0.44 
-##  6   1900  45.3     0.07   0.44 
-##  7   1910  46.4     0.07   0.44 
-##  8   1920  49.8     0.06   0.4  
-##  9   1930  50.4     0.01   0.35 
-## 10   1940  48.6     0.04   0.38 
-## 11   1950  47.0     0      0.290
-## 12   1960  48.6     0.02   0.25 
-## 13     NA  45.5     0.16   0.54</code></pre>
+##  1   1854 43.52     0.19    0.45
+##  2   1860 41.96     0.20    0.38
+##  3   1870 41.92     0.16    0.37
+##  4   1880 43.97     0.12    0.39
+##  5   1890 45.61     0.13    0.44
+##  6   1900 45.26     0.07    0.44
+##  7   1910 46.38     0.07    0.44
+##  8   1920 49.82     0.06    0.40
+##  9   1930 50.36     0.01    0.35
+## 10   1940 48.55     0.04    0.38
+## 11   1950 47.01     0.00    0.29
+## 12   1960 48.65     0.02    0.25
+## 13     NA 45.48     0.16    0.54</code></pre>
+<p>Queria, em particular, reproduzir a tabela 2 em que salários de governadores de colônias são explicadas por modelos com alguns termos de efeitos fixos e variáveis de conectividade com o encarregado dos apontamentos. Essas variáveis incluem ancentrais comuns, ser aristocrata e ter estudado em Eton, Oxford ou Cambridge junto com quem fez os apontamentos.</p>
+</div>
+<div id="a-loucura-do-stata-ou-como-eu-virei-um-herege" class="section level1">
+<h1>A loucura do Stata, ou como eu virei um herege</h1>
+<p>Acabei fuçando os arquivos para reprodução que a própria AER fornece e achei o código original em Stata - que por sinal poderia ser executado no próprio RMarkdown com a ajuda do <a href="https://github.com/Hemken/Statamarkdown">pacote <code>Statamarkdown</code></a> e vou mostrar como fazer isso.</p>
+<p>Primeiro carregamos a biblioteca, ainda em R:</p>
+<pre class="r"><code>library(Statamarkdown)</code></pre>
+<p>Depois armazenamos um objeto com nome <code>stataexe</code> o endereço do Stata no seu computador. Se tiver instalado, pode usar a função <code>Statamarkdown::find_stata()</code> para isso.</p>
+<pre class="r"><code>stataexe &lt;- &quot;C:/Users/Pedro/Desktop/Meus Dados/Stata14/StataMP-64.exe&quot;</code></pre>
+<p>Agora você avisa o <code>knitr</code> que está realmente fazendo essa loucura de rodar Stata no RStudio:</p>
+<pre class="r"><code>knitr::opts_chunk$set(engine.path = stataexe)</code></pre>
+<p><em>Voi lá</em>:</p>
+<pre class="stata"><code>use &quot;analysis.dta&quot;, replace
+
+sum log_salary_governo, detail</code></pre>
+<pre><code>                  ln governor salary (gbp)
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     5.703783       5.521461
+ 5%      6.39693       5.521461
+10%     6.684612       5.521461       Obs               4,325
+25%     7.495542       5.521461       Sum of Wgt.       4,325
+
+50%     8.086411                      Mean           7.957734
+                        Largest       Std. Dev.      .7848033
+75%     8.517193       9.545025
+90%     8.853665       9.546813       Variance       .6159162
+95%     8.922658       9.546813       Skewness      -.7752303
+99%      9.21034       9.546813       Kurtosis       3.013498</code></pre>
+<p>Para de fato rodar o código original, precisamos do pacote <code>reghdfe</code>, do Sergio Correia - <a href="https://github.com/sergiocorreia/reghdfe">disponível no Github</a>. Então vamos instala-lo com o código sugerido pelo próprio criador:</p>
+<pre class="stata"><code>* Install ftools (remove program if it existed previously)
+cap ado uninstall ftools
+net install ftools, from(&quot;https://raw.githubusercontent.com/sergiocorreia/ftools/master/src/&quot;)
+
+* Install reghdfe 4.x
+cap ado uninstall reghdfe
+net install reghdfe, from(&quot;https://raw.githubusercontent.com/sergiocorreia/reghdfe/master/src/&quot;)
+
+* Install boottest for Stata 11 and 12
+if (c(version)&lt;13) cap ado uninstall boottest
+if (c(version)&lt;13) ssc install boottest
+
+* Install moremata (sometimes used by ftools but not needed for reghdfe)
+cap ssc install moremata
+
+ftools, compile
+reghdfe, compile</code></pre>
+<p>Agora sim podemos estimar os modelos com o código original em Stata, que estima todas as especificações da tabela 2. Vou colocar <code>*</code> antes das linhas que seguem a primeira para que o documento não renderize todas as tabelas.</p>
+<pre class="stata"><code>use &quot;analysis.dta&quot;
+
+reghdfe log_salary_governor_gbp no_colonies shared_ancestry if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+* reghdfe log_salary_governor_gbp no_colonies both_arist if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+* reghdfe log_salary_governor_gbp no_colonies both_eton if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+* reghdfe log_salary_governor_gbp no_colonies both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+* reghdfe log_salary_governor_gbp no_colonies shared_ancestry both_arist both_eton both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilateral)
+
+* reghdfe log_salary_governor_gbp no_colonies connected if full==1, absorb(aid year duration) vce(cluster bilateral)
+</code></pre>
+<pre><code>&gt; b(aid year duration) vce(cluster bilateral)
+(MWFE estimator converged in 26 iterations)
+
+HDFE Linear regression                            Number of obs   =      3,510
+Absorbing 3 HDFE groups                           F(   2,   1517) =      22.90
+Statistics robust to heteroskedasticity           Prob &gt; F        =     0.0000
+                                                  R-squared       =     0.9253
+                                                  Adj R-squared   =     0.9108
+                                                  Within R-sq.    =     0.0962
+Number of clusters (bilateral) =      1,518       Root MSE        =     0.2376
+
+                          (Std. Err. adjusted for 1,518 clusters in bilateral)
+------------------------------------------------------------------------------
+             |               Robust
+log_salary~p |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+ no_colonies |   .2207025   .0350703     6.29   0.000     .1519111    .2894939
+shared_anc~y |   .1034715   .0470474     2.20   0.028     .0111866    .1957563
+       _cons |   7.496656   .0664925   112.74   0.000     7.366229    7.627083
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+         aid |       456           0         456     |
+        year |       110           1         109     |
+    duration |         7           1           6    ?|
+-----------------------------------------------------+
+? = number of redundant parameters may be higher
+
+&gt; id year duration) vce(cluster bilateral)
+&gt; d year duration) vce(cluster bilateral)
+&gt; b(aid year duration) vce(cluster bilateral)
+&gt; _eton both_oxbridge if full==1, absorb(aid year duration) vce(cluster bilater
+&gt; al)
+&gt; d year duration) vce(cluster bilateral)</code></pre>
+<p>Encontrei duas dificuldades:</p>
+<ul>
+<li><p>O console sai no documento então para ver o resultado de uma linha de código, é preciso compilar o documento todo e conferir a saída lá</p></li>
+<li><p>Cada chunk de código em Stata gera uma sessão nova, então é preciso importar os dados sempre que abrir um chunk novo</p></li>
+</ul>
+</div>
+<div id="e-como-fazer-isso-no-r" class="section level1">
+<h1>E como fazer isso no R?</h1>
+<p>Vamos usar o pacote <code>lfe</code>, que implementa um método muito similar com a função <code>felm</code>. Como não conheço nem localizei implementação funcional para R de erros-padrão agrupados então a estimação não é <em>estritamente</em> a mesma, mas o espírito está lá.</p>
+<pre class="r"><code>library(lfe)
+
+modelo1 = felm(log_salary_governor_gbp ~ no_colonies + shared_ancestry | aid + year + duration, 
+               data = dados,
+               subset = (full == 1))
+
+summary(modelo1)</code></pre>
+<pre><code>
+Call:
+   felm(formula = log_salary_governor_gbp ~ no_colonies + shared_ancestry |      aid + year + duration, data = dados, subset = (full == 1)) 
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.26531 -0.07417  0.00110  0.08623  0.96266 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+no_colonies      0.22070    0.01289  17.123  &lt; 2e-16 ***
+shared_ancestry  0.10347    0.02425   4.267 2.04e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.2376 on 2937 degrees of freedom
+Multiple R-squared(full model): 0.9253   Adjusted R-squared: 0.9108 
+Multiple R-squared(proj model): 0.09618   Adjusted R-squared: -0.07985 
+F-statistic(full model):63.63 on 572 and 2937 DF, p-value: &lt; 2.2e-16 
+F-statistic(proj model): 156.3 on 2 and 2937 DF, p-value: &lt; 2.2e-16 
+*** Standard errors may be too high due to more than 2 groups and exactDOF=FALSE</code></pre>
+<p>Observe que o código que estima o <code>modelo1</code> é praticamente o mesmo que estima as outras especificações, basta somente adicionar ou retirar variáveis explicativas na fórmula.</p>
 </div>
