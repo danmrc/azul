@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Telegram'><meta property='article:tag' content='Bot'><meta property='article:published_time' content='2018-11-30T00:00:00Z'/><meta property='article:modified_time' content='2018-11-30T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.50" />
+<meta name="generator" content="Hugo 0.49" />
 
   <title>Integrando o Telegram e R • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/11/30/telegram-e-r/'>
@@ -108,6 +108,8 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
+        <a href='/tags/equil%C3%ADbrio-geral/' style='font-size:1.0833333333333333em'>Equilíbrio Geral</a>
+      </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
       </li><li>
         <a href='/tags/julia/' style='font-size:1.3333333333333333em'>Julia</a>
@@ -122,7 +124,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
       </li><li>
-        <a href='/tags/ponto-fixo/' style='font-size:1em'>Ponto Fixo</a>
+        <a href='/tags/ponto-fixo/' style='font-size:1.1666666666666667em'>Ponto Fixo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -148,7 +150,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/suaviza%C3%A7%C3%A3o-do-consumo/' style='font-size:1em'>Suavização Do Consumo</a>
       </li><li>
-        <a href='/tags/telegram/' style='font-size:1em'>Telegram</a>
+        <a href='/tags/telegram/' style='font-size:1.0833333333333333em'>Telegram</a>
       </li><li>
         <a href='/tags/tutoriais/' style='font-size:1em'>Tutoriais</a>
       </li><li>
@@ -263,10 +265,7 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  
-
-
-<p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por <span class="citation">@azulblogbot</span> na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
+  <p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por <span class="citation">@azulblogbot</span> na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
 <p>O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote <code>telegram.bot</code> no R. Segue o passo a passo que é uma tradução do post do R Bloggers:</p>
 <ul>
 <li>Procure o <span class="citation">@BotFather</span> no Telegram e digite /start e depois /newbot. Siga o passo a passo. No fim ele vai dar um token de acesso, que voce vai precisar e <em>não deve compartilhar com ninguém</em>.</li>
@@ -316,7 +315,7 @@ file.edit(user_renviron)
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/2018/11/29/patronagem/'>
+      <a href='/2018/11/30/ponto-fixo-e-eq-geral/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -324,7 +323,17 @@ file.edit(user_renviron)
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Como eu rodei Stata dentro do R para replicar um paper</a>
+        <span class='screen-reader-text'>Previous post: </span>Ponto Fixo e Equlíbrio Geral</a>
+    </div><div class='next-entry sep-before'>
+      <a href='/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/'>
+        <span class='screen-reader-text'>Next post: </span>Como receber atualizações do blog no celular<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="4" y1="12" x2="20" y2="12"/>
+  <polyline points="14 6 20 12 14 18"/>
+  
+</svg>
+</span>
+      </a>
     </div></div>
 </nav>
 

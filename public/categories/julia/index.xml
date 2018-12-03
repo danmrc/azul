@@ -6,10 +6,30 @@
     <description>Recent content in Julia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 25 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 30 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ponto Fixo e Equlíbrio Geral</title>
+      <link>/2018/11/30/ponto-fixo-e-eq-geral/</link>
+      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/30/ponto-fixo-e-eq-geral/</guid>
+      <description>Faz algum tempo o Pedro escreveu um post excepcional (como de praxe) falando do teorema do ponto fixo (de Banach). Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
+Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).</description>
+    </item>
+    
+    <item>
+      <title>Ponto Fixo e Equlíbrio Geral</title>
+      <link>/2018/11/30/ponto-fixo-e-eq-geral/</link>
+      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/30/ponto-fixo-e-eq-geral/</guid>
+      <description>Faz algum tempo o Pedro escreveu um post excepcional (como de praxe) falando do teorema do ponto fixo (de Banach). Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
+Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).</description>
+    </item>
     
     <item>
       <title>Workflow - Como funciona o AZUL</title>
@@ -28,7 +48,7 @@ Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais 
       
       <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
     </item>
     
     <item>

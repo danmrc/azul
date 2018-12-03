@@ -13,7 +13,7 @@
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='LASSO'><meta property='article:tag' content='Machine Learning'><meta property='article:tag' content='R'><meta property='article:published_time' content='2018-09-16T00:00:00Z'/><meta property='article:modified_time' content='2018-09-16T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.50" />
+<meta name="generator" content="Hugo 0.49" />
 
   <title>O LASSO • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/09/16/lasso/'>
@@ -108,6 +108,8 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
+        <a href='/tags/equil%C3%ADbrio-geral/' style='font-size:1.0833333333333333em'>Equilíbrio Geral</a>
+      </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
       </li><li>
         <a href='/tags/julia/' style='font-size:1.3333333333333333em'>Julia</a>
@@ -122,7 +124,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
       </li><li>
-        <a href='/tags/ponto-fixo/' style='font-size:1em'>Ponto Fixo</a>
+        <a href='/tags/ponto-fixo/' style='font-size:1.1666666666666667em'>Ponto Fixo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -148,7 +150,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/suaviza%C3%A7%C3%A3o-do-consumo/' style='font-size:1em'>Suavização Do Consumo</a>
       </li><li>
-        <a href='/tags/telegram/' style='font-size:1em'>Telegram</a>
+        <a href='/tags/telegram/' style='font-size:1.0833333333333333em'>Telegram</a>
       </li><li>
         <a href='/tags/tutoriais/' style='font-size:1em'>Tutoriais</a>
       </li><li>
@@ -263,10 +265,7 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  
-
-
-<p>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa <em>Least Absolute Shrinkage and Select Operator</em>. Como o nome sugere, o LASSO <strong>seleciona quais regressores são relevantes e quais não são</strong>. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de <em>esparsidade</em>: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.</p>
+  <p>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa <em>Least Absolute Shrinkage and Select Operator</em>. Como o nome sugere, o LASSO <strong>seleciona quais regressores são relevantes e quais não são</strong>. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de <em>esparsidade</em>: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.</p>
 <p>Uma pergunta justa é: por que não simplesmente testamos isso “na mão”? Isso é, fazemos uma regressão com todas as variáveis, uma sem a primeira variável da base de dados, uma outra sem a segunda… e no fim vemos qual a melhor regressão? Além de problemas de teste - lembre que todo teste tem uma chance de você estar tomando a decisão <em>errada</em> - isso seria um inferno: com relés 50 variáveis, precisaríamos de <span class="math inline">\(2^{50}\)</span> regressões, ou seja, 1.125899910^{15} regressões: esse é um número com 15 zeros.</p>
 <p>A ideia original vem de um paper de 1996 de Robert Tibshirani. Não temos solução fechada para encontrar o estimador de LASSO, ao contrário do MQO, onde podemos expressar o estimador como uma multiplicação de matrizes. Portanto, é um estimador que seria impossível sem um computador. Mas a ideia é incrivelmente simples.</p>
 <p>Pegue o modelo usual de regressão, <span class="math inline">\(y_i = X_i \beta + u_i\)</span>, onde <span class="math inline">\(\beta\)</span> é o coeficiente de interesse, <span class="math inline">\(u\)</span> é um choque aleatório, as observações são indexadas por <span class="math inline">\(i = 1,...,n\)</span> e os coeficientes são indexados por <span class="math inline">\(k = 1,..,K\)</span> . O objetivo do MQO é minimizar a soma dos quadrados dos resíduos, ou seja <span class="math inline">\(\min_{\beta} \sum_{i=1}^n \hat{u}^2\)</span>. O LASSO começa dai, mas adiciona uma pequena alteração: vamos limitar o valor da soma dos valores absolutos dos coeficientes para que ele seja menor que uma constante <span class="math inline">\(c\)</span>. Ou seja, o LASSO resolve o problema:</p>

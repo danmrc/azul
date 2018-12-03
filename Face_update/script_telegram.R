@@ -27,6 +27,8 @@ answer_new_users(novos_usu)
 
 dados <- dados[-(dados[,2] == del_users),]
 
+send_post(dados,post)
+
 save(dados,file = paste0(getwd(),"/Face_update/dados.Rdata"))
 
 obj <- site
