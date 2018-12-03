@@ -6,10 +6,20 @@
     <description>Recent content in Pedrocava on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 29 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/authors/pedrocava/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
+      <link>/2018/12/10/prouni-rf-svm/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/10/prouni-rf-svm/</guid>
+      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes. Random Forests e Support Vector Machines.
+Random Forests  Support Vector Machines  Rodando tudo  </description>
+    </item>
     
     <item>
       <title>Como eu rodei Stata dentro do R para replicar um paper</title>
