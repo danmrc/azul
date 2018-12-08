@@ -1,16 +1,15 @@
 ---
-title: Julia 101
-author: Daniel Coutinho
+title: "Julia 101"
+author: "Daniel Coutinho"
 date: '2018-12-31'
-slug: julia-101
 categories:
-  - Julia
-  - Tutoriais
-tags:
-    - Julia
-authors: ["danielc"]
-katex: true
-draft: true
+- Julia
+- Tutoriais
+draft: yes
+katex: yes
+slug: julia-101
+tags: Julia
+authors: danielc
 ---
 
 Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando mais onde buscar ajuda, o sistema de pacotes e coisa do tio.
@@ -25,12 +24,12 @@ Outra opção é usar o Atom, que tem um pluginn que faz funcionar o Atom funcio
 
 O primeiro ícone na barra a esquerda do Atom abre um arquivo em Julia. Voce pode escrever o código lá e dar ctrl + enter na linha para o Julia rodar (sempre supondo que o Julia foi iniciado).
 
-Também é possível usar o Julia no Jupyter. Para isso, basta instalar o pacote no próprio Julia chamado *IJulia*. Uma vez carregado, use `notebok()` para abrir um notebook do jupyter no sue browser.
+Também é possível usar o Julia no Jupyter. Para isso, basta instalar o pacote no próprio Julia chamado ``IJulia``. Uma vez carregado, use `notebok()` para abrir um notebook do jupyter no sue browser.
 
 E é claro que voce pode usar no terminal.
 
 ## Pacotes
 
-O repositório de pacotes do Julia é o (https://.juliaobserver.com)[Julia Observer]
+O repositório de pacotes do Julia é o [Julia Observer](https://.juliaobserver.com)
 
-Instalar pacotes no Julia é interessante. Numa seção interativa do Julia voce deve digitar ] (não é um typo). Isso ativa a interface de instalação de pacotes. Para instalar, basta digitar `add nome_do_pacote`. Por exemplo, para instalar o pacote de otimização, bastaria fazer `add optim`. Para fazer update, na mesma interface, basta digitar `update`.
+Instalar pacotes no Julia é interessante. Numa seção interativa do Julia voce deve digitar ``]`` (não é um typo). Isso ativa a interface de instalação de pacotes. Para instalar, basta digitar `add nome_do_pacote`. Por exemplo, para instalar o pacote de otimização, bastaria fazer `add optim`. Para fazer update, na mesma interface, basta digitar `update`.
