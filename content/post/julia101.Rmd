@@ -1,0 +1,35 @@
+---
+title: "Julia 101"
+author: "Daniel Coutinho"
+date: '2018-12-31'
+categories:
+- Julia
+- Tutoriais
+draft: yes
+katex: yes
+slug: julia-101
+tags: Julia
+authors: danielc
+---
+
+Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando mais onde buscar ajuda, o sistema de pacotes e coisa do tio.
+
+## Instalando
+
+Primeiramente, o site do Julia é [este aqui](https://julialang.org/). O Download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, voce também pode baixar pela "loja" do linux.
+
+Atualmente o próprio Julia oferece uma IDE. Ela ...
+
+Outra opção é usar o Atom, que tem um pluginn que faz funcionar o Atom funcionar como uma IDE. Basta abrir o config (ctrl + ,), ir em install e buscar por julia - o que interessa é o julia-client. Ele deve instalar uma meia duzia de outros pacotes importantes e pedir para reiniciar o Atom. Se tudo funcionar, vai aparecer uma barrinha na esquerda do Atom com vários ícones, incluindo um botão de _play_, _pause_ e _stop_. Para abrir uma seção iterativa do Julia, desloque o mouse até a barrinha embaixo. Vai aparecer uma setinha para cima - ou vá no menu Julia e escolha _Open Console_. Clica nele e enter e o Julia deve funcionar. Em alguns casos, você pode precisar de instalar o pacote _atom_ no Julia para o Julia e o Atom se entenderem. Para isso, vá no próprio Atom, no menu Julia e escolha _Open Terminal_. Lá, voce deve instalar o pacote Atom (eu explico como instalar pacotes mais abaixo).
+
+O primeiro ícone na barra a esquerda do Atom abre um arquivo em Julia. Voce pode escrever o código lá e dar ctrl + enter na linha para o Julia rodar (sempre supondo que o Julia foi iniciado).
+
+Também é possível usar o Julia no Jupyter. Para isso, basta instalar o pacote no próprio Julia chamado ``IJulia``. Uma vez carregado, use `notebok()` para abrir um notebook do jupyter no sue browser.
+
+E é claro que voce pode usar no terminal.
+
+## Pacotes
+
+O repositório de pacotes do Julia é o [Julia Observer](https://.juliaobserver.com)
+
+Instalar pacotes no Julia é interessante. Numa seção interativa do Julia voce deve digitar ``]`` (não é um typo). Isso ativa a interface de instalação de pacotes. Para instalar, basta digitar `add nome_do_pacote`. Por exemplo, para instalar o pacote de otimização, bastaria fazer `add optim`. Para fazer update, na mesma interface, basta digitar `update`.
