@@ -6,10 +6,20 @@
     <description>Recent content in Posts on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Mon, 10 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos</title>
+      <link>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
+      <pubDate>Mon, 17 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
+      <description>(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
+Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regreesão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
+    </item>
     
     <item>
       <title>Julia 101</title>
@@ -27,7 +37,7 @@ InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e f
       <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/12/10/prouni-rf-svm/</guid>
-      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes. Random Forests e Support Vector Machines.
+      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
 Random ForestsSupport Vector MachinesRodando tudo</description>
     </item>
     
@@ -49,26 +59,6 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
       
       <guid>/2018/11/30/telegram-e-r/</guid>
       <description>Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.</description>
-    </item>
-    
-    <item>
-      <title>Ponto Fixo e Equlíbrio Geral</title>
-      <link>/2018/11/30/ponto-fixo-e-eq-geral/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/30/ponto-fixo-e-eq-geral/</guid>
-      <description>Faz algum tempo o Pedro escreveu um post excepcional (como de praxe) falando do teorema do ponto fixo (de Banach). Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
-Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).</description>
-    </item>
-    
-    <item>
-      <title>Ponto Fixo e Equlíbrio Geral</title>
-      <link>/2018/11/30/ponto-fixo-e-eq-geral/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/30/ponto-fixo-e-eq-geral/</guid>
-      <description>Faz algum tempo o Pedro escreveu um post excepcional (como de praxe) falando do teorema do ponto fixo (de Banach). Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
-Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).</description>
     </item>
     
     <item>

@@ -9,7 +9,7 @@ categories:
 tags:
   - Variáveis Instrumentais
   - Instrumentos Fracos
-authors: ['danielc']
+authors: ["danielc"]
 katex: true
 draft: true
 ---
@@ -56,7 +56,7 @@ reg_iv <- ivreg(y ~x,~z)
 
 ```{r,results='asis'}
 
-stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"))
+stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("rsq","adj.rsq","f","ser","n"),style = "aer")
 
 ```
 

@@ -11,7 +11,7 @@
 <meta property='og:description' content='Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.'>
 <meta property='og:url' content='/2018/11/30/telegram-e-r/'>
 <meta property='og:site_name' content='AZUL'>
-<meta property='og:type' content='article'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Telegram'><meta property='article:tag' content='Bot'><meta property='article:published_time' content='2018-11-30T00:00:00Z'/><meta property='article:modified_time' content='2018-11-30T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/1f9cf77b3ace375b20613f8985437059?s=256'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Telegram'><meta property='article:tag' content='Bot'><meta property='article:published_time' content='2018-11-30T00:00:00Z'/><meta property='article:modified_time' content='2018-11-30T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
 <meta name="generator" content="Hugo 0.48" />
 
@@ -108,7 +108,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
       </li><li>
-        <a href='/tags/equil%C3%ADbrio-geral/' style='font-size:1.0833333333333333em'>Equilíbrio Geral</a>
+        <a href='/tags/instrumentos-fracos/' style='font-size:1em'>Instrumentos Fracos</a>
       </li><li>
         <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
       </li><li>
@@ -124,7 +124,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/monte-carlo/' style='font-size:1.1666666666666667em'>Monte Carlo</a>
       </li><li>
-        <a href='/tags/ponto-fixo/' style='font-size:1.1666666666666667em'>Ponto Fixo</a>
+        <a href='/tags/ponto-fixo/' style='font-size:1em'>Ponto Fixo</a>
       </li><li>
         <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
       </li><li>
@@ -160,7 +160,7 @@ if (!doNotTrack) {
       </li><li>
         <a href='/tags/var/' style='font-size:1em'>Var</a>
       </li><li>
-        <a href='/tags/vari%C3%A1veis-instrumentais/' style='font-size:1em'>Variáveis Instrumentais</a>
+        <a href='/tags/vari%C3%A1veis-instrumentais/' style='font-size:1.0833333333333333em'>Variáveis Instrumentais</a>
       </li><li>
         <a href='/tags/%C3%A1lgebra-linear/' style='font-size:1em'>Álgebra Linear</a>
       </li></ul>
@@ -269,7 +269,7 @@ if (!doNotTrack) {
   
 
   <div class='container entry-content'>
-  <p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por <span class="citation">@azulblogbot</span> na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
+  <p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por @azulblogbot na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
 <p>O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote <code>telegram.bot</code> no R. Segue o passo a passo que é uma tradução do post do R Bloggers:</p>
 <ul>
 <li>Procure o <span class="citation">@BotFather</span> no Telegram e digite /start e depois /newbot. Siga o passo a passo. No fim ele vai dar um token de acesso, que voce vai precisar e <em>não deve compartilhar com ninguém</em>.</li>
@@ -289,7 +289,7 @@ file.edit(user_renviron)
 <li>Uma função que lê o blog e define se temos um artigo novo (comparado com uma lista de artigos).</li>
 <li>Enviar uma mensagens para os usuários com o link para o novo post</li>
 </ol>
-<p>O passo 1 simplesmente lê o <code>bot$getUpdates</code> e procura por mensagens que são comandos que eu defini para o bot. Ao encontrar certos comandos (simplesmente checando se message$text é igual a uma string), ele salva o nome e o id do sujeito. Eu separei em várias funções: uma que procura por pessoas que usaram certos comandos; compara a base de dados de usuários com a lista de possíveis novos usuários e junta as duas; uma terceira manda uma mensagem (com o nome!) para o usuário informando que ele se inscreveu.</p>
+<p>O passo 1 simplesmente lê o <code>bot$getUpdates</code> e procura por mensagens que são comandos que eu defini para o bot - no caso, <code>\getupdate</code>. Ao encontrar certos comandos (simplesmente checando se message$text é igual a uma string), ele salva o nome e o id do sujeito. Eu separei em várias funções: uma que procura por pessoas que usaram certos comandos; compara a base de dados de usuários com a lista de possíveis novos usuários e junta as duas; uma terceira manda uma mensagem (com o nome!) para o usuário informando que ele se inscreveu.</p>
 <p>O passo 2 não tem nenhuma relação com o Telegram, mas é importante para automatizar o processo de mandar as atualizações. Para isso, eu faço o que é chamado de webscrapping - um tema amplo o suficiente para ocupar vários posts. Essencialmente, eu mando o R baixar a página, ler o html e roubar os links do blog usando o pacote <em>xml2</em>. Eu salvo os links como um vetor. Se existe um post novo, ele vai me devolver o link para o post. Caso contrário ele apenas devolve um erro.</p>
 <p>O passo 3 envolve criar um loop em cima da lista de usuários e enviar o link do passo 2 para cada um. Veja que, para evitar ser considerado spam, eu deixo uma pausa entre os envios de 1s mais algum valor aleatório (que eu sorteio de uma distribuição exponencial com parâmetro 1/2).</p>
 
@@ -319,7 +319,7 @@ file.edit(user_renviron)
 
 <nav class='entry-nav'>
   <div class='container'><div class='prev-entry sep-before'>
-      <a href='/2018/11/30/ponto-fixo-e-eq-geral/'>
+      <a href='/2018/11/29/patronagem/'>
         <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
   
   <line x1="20" y1="12" x2="4" y2="12"/>
@@ -327,7 +327,7 @@ file.edit(user_renviron)
   
 </svg>
  Previous</span>
-        <span class='screen-reader-text'>Previous post: </span>Ponto Fixo e Equlíbrio Geral</a>
+        <span class='screen-reader-text'>Previous post: </span>Como eu rodei Stata dentro do R para replicar um paper</a>
     </div><div class='next-entry sep-before'>
       <a href='/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/'>
         <span class='screen-reader-text'>Next post: </span>Como receber atualizações do blog no celular<span aria-hidden='true'>Next <svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>

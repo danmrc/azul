@@ -9,7 +9,7 @@ categories:
 tags:
   - Variáveis Instrumentais
   - Instrumentos Fracos
-authors: ['danielc']
+authors: ["danielc"]
 katex: true
 draft: true
 ---
@@ -38,7 +38,7 @@ y &lt;- h + 2*x + u
 
 reg_mqo &lt;- lm(y ~ x)
 reg_iv &lt;- ivreg(y ~x,~z)</code></pre>
-<pre class="r"><code>stargazer(reg_iv,reg_mqo,type = &quot;html&quot;, column.labels = c(&quot;MQ2E&quot;,&quot;MQO&quot;))</code></pre>
+<pre class="r"><code>stargazer(reg_iv,reg_mqo,type = &quot;html&quot;, column.labels = c(&quot;MQ2E&quot;,&quot;MQO&quot;),model.names = FALSE,omit.stat = c(&quot;rsq&quot;,&quot;adj.rsq&quot;,&quot;f&quot;,&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;)</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">
@@ -48,40 +48,7 @@ reg_iv &lt;- ivreg(y ~x,~z)</code></pre>
 <td style="text-align:left">
 </td>
 <td colspan="2">
-<em>Dependent variable:</em>
-</td>
-</tr>
-<tr>
-<td>
-</td>
-<td colspan="2" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td colspan="2">
 y
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-<em>instrumental</em>
-</td>
-<td>
-<em>OLS</em>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-<em>variable</em>
-</td>
-<td>
-<em></em>
 </td>
 </tr>
 <tr>
@@ -172,68 +139,24 @@ Constant
 </tr>
 <tr>
 <td style="text-align:left">
-Observations
+<em>Notes:</em>
 </td>
-<td>
-1,000
-</td>
-<td>
-1,000
+<td colspan="2" style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
-R<sup>2</sup>
 </td>
-<td>
-0.875
-</td>
-<td>
-0.902
+<td colspan="2" style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
-Adjusted R<sup>2</sup>
 </td>
-<td>
-0.875
-</td>
-<td>
-0.902
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Residual Std. Error (df = 998)
-</td>
-<td>
-1.426
-</td>
-<td>
-1.265
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-F Statistic
-</td>
-<td>
-</td>
-<td>
-9,145.727<sup>***</sup> (df = 1; 998)
-</td>
-</tr>
-<tr>
-<td colspan="3" style="border-bottom: 1px solid black">
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-<em>Note:</em>
-</td>
-<td colspan="2" style="text-align:right">
-<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+<td colspan="2" style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
 </td>
 </tr>
 </table>
