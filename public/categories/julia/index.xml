@@ -6,29 +6,19 @@
     <description>Recent content in Julia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Fri, 30 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/julia/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Ponto Fixo e Equlíbrio Geral</title>
-      <link>/2018/11/30/ponto-fixo-e-eq-geral/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
+      <title>Julia 101</title>
+      <link>/2018/12/10/julia-101/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/30/ponto-fixo-e-eq-geral/</guid>
-      <description>Faz algum tempo o Pedro escreveu um post excepcional (como de praxe) falando do teorema do ponto fixo (de Banach). Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
-Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).</description>
-    </item>
-    
-    <item>
-      <title>Ponto Fixo e Equlíbrio Geral</title>
-      <link>/2018/11/30/ponto-fixo-e-eq-geral/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/30/ponto-fixo-e-eq-geral/</guid>
-      <description>Faz algum tempo o Pedro escreveu um post excepcional (como de praxe) falando do teorema do ponto fixo (de Banach). Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
-Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).</description>
+      <guid>/2018/12/10/julia-101/</guid>
+      <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
+InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
     </item>
     
     <item>

@@ -1,0 +1,86 @@
+---
+title: "I Can't Get No Instruments: quando instrumentos são fracos"
+author: Daniel Coutinho
+date: '2018-12-17'
+slug: i-can-t-get-no-instruments-quando-instrumentos-são-fracos
+categories:
+  - R
+  - Econometria
+tags:
+  - Variáveis Instrumentais
+  - Instrumentos Fracos
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+```{r,message=FALSE,echo=FALSE}
+
+library(AER)
+library(stargazer)
+
+```
+
+_(O título desse post é uma piada com o [título do capítulo do Mostly Harmless Econometrics](http://www.mostlyharmlesseconometrics.com/book-contents/) sobre instrumentos)_
+
+Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO $E(u|\textbf{X}) = 0$, em uma regreesão $\textbf{y} = \textbf{X}\beta + \textbf{u}$. Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância. Um instrumento $z$ é exógeno se $E(u|z) = 0$. Essa hipótse não é testável, em geral. A segunda hipótese, de relevância, significa que z é capaz de explicar alguma variação em z. Ela é muitas vezes ignorada, mas vamos falar dela neste artigo porque ele é importantíssima e testável. 
+
+## Quando um instrumento é fraco e porque se preocupar
+
+Como eu já adiantei, um instrumento é fraco se ele não consegue explicar muito da variação de $X$. Vamos criar um problema em que há uma variável omitida $h$, que fazem parte tanto da equação de $y$ como da de $x$ (o exemplo vai ter só um regressor pra ficar simples), mas x também é influenciada por $z$ (novamente, univariado). Vamos começar com um caso em que as equação são:
+
+$$
+y = h + 2x + u\\
+x = h + z + v\\
+$$
+
+Onde $u$ e $v$ são erros iid Normais com média zero, variância um e independentes entre si. Eu vou usar o pacote **AER** pra estimar a regressão y em x usando z como instrumentos, o conhecido MQ2E. Vamos usar 1000 observações,e e u vou fazer a regressão por MQO pra nós compararmos o resultado das duas:
+
+
+```{r}
+
+set.seed(1928376)
+
+u <- rnorm(1000)
+v <- rnorm(1000)
+h <- rnorm(1000)
+z <- rnorm(1000)
+
+x <- h + z + v
+y <- h + 2*x + u
+
+reg_mqo <- lm(y ~ x)
+reg_iv <- ivreg(y ~x,~z)
+
+```
+
+```{r,results='asis'}
+
+stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("rsq","adj.rsq","f","ser","n"),style = "aer")
+
+```
+
+Nada mal: a estimativa está bem próxima do valor real, e é melhor que a de OLS.
+
+Agora, vamos fazer uma simples alteração no processo gerador de dados. A equação de x vai ser:
+
+$$x = h + 0.01z + v$$
+
+Vamos repetir o nosso experimento:
+
+```{r}
+x <- h + 0.01*z + v
+y <- h + 2*x + u
+
+reg_mqo <- lm(y ~ x)
+reg_iv <- ivreg(y ~x,~z)
+```
+
+E eis os resultados:
+
+```{r,results='asis'}
+
+stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"))
+
+```
+

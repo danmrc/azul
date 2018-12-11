@@ -1,0 +1,276 @@
+---
+title: Julia 101
+author: Daniel Coutinho
+date: '2018-12-10'
+slug: julia-101
+categories:
+  - Julia
+  - Tutoriais
+tags:
+    - Julia
+authors: ["danielc"]
+katex: true
+---
+
+
+
+<p>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.</p>
+<div id="instalando" class="section level2">
+<h2>Instalando</h2>
+<p>Primeiramente, o site do Julia é <a href="https://julialang.org/">este aqui</a>. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</p>
+<p>Atualmente o próprio Julia oferece uma IDE. Ela é só o Atom disfarçado, mas já vem com os pacotes necessários instalados, então é extremamente conveniente. O Pedro só conseguiu usar o Julia “via Atom” assim.</p>
+<p>Outra opção é usar o Atom, que tem um plugin que faz funcionar o Atom funcionar como uma IDE. Basta abrir o config (ctrl + ,), ir em install e buscar por julia - o que interessa é o julia-client e o julia-language. Você também deve instalar o juno. Em geral, vai demorar um pouco. Ele deve instalar uma meia duzia de outros pacotes importantes e pedir para reiniciar o Atom. Se tudo funcionar, vai aparecer uma barrinha na esquerda do Atom com vários ícones, incluindo um botão de <em>play</em>, <em>pause</em> e <em>stop</em>. Para abrir uma seção iterativa do Julia, desloque o mouse até a barra embaixo. Vai aparecer uma setinha para cima - ou vá no menu Julia e escolha <em>Open Console</em>. Clica nele e enter e o deve aparecer uma mensagem em inglês “aperte enter para iniciar o Julia”. Você sabe o que fazer.</p>
+<p>Em alguns casos, você pode precisar de instalar o pacote <em>atom</em> no Julia para o Julia e o Atom se entenderem. Para isso, vá no próprio Atom, no menu Julia e escolha <em>Open Terminal</em>. Lá, você deve instalar o pacote Atom e o pacote Juno (eu explico como instalar pacotes mais abaixo).</p>
+<p>O primeiro ícone na barra a esquerda do Atom abre um arquivo em Julia. Você pode escrever o código lá e dar ctrl + enter na linha para o Julia rodar. Se o Julia ainda não tiver sido iniciado, ele será iniciado automaticamente.</p>
+<p>Também é possível usar o Julia no Jupyter. Para isso, basta instalar o pacote no próprio Julia chamado <em>IJulia</em>. Uma vez carregado, use <code>notebok()</code> para abrir um notebook do jupyter no seu browser.</p>
+<p>E é claro que você pode usar o Julia no terminal.</p>
+</div>
+<div id="usando-online" class="section level2">
+<h2>Usando online</h2>
+<p>Você não necessariamente precisa instalar o Julia. O <a href="https://www.juliabox.com/">Julia box</a> permite você usar o Julia direto do navegador sem instalar nada. Ele se parece muito com o Jupyter e tem suporte para pacotes também, mas são instalados de maneira diferente que a descrita nas linhas abaixo.</p>
+</div>
+<div id="pacotes" class="section level2">
+<h2>Pacotes</h2>
+<p>O repositório de pacotes do Julia é o <a href="https://.juliaobserver.com">Julia Observer</a></p>
+<p>Instalar pacotes no Julia é interessante. Numa seção interativa do Julia voce deve digitar ] (não é um typo). Isso ativa a interface de instalação de pacotes. Para instalar, basta digitar <code>add nome_do_pacote</code>. Por exemplo, para instalar o pacote de otimização, bastaria fazer <code>add optim</code>. Para fazer update, na mesma interface, basta digitar <code>update</code>.</p>
+<p>(Na versão 1.0.2, a mais recente quando esse post foi escrito, o Julia tem um bug que impede de instalar qualquer pacote. Para corrigir, no próprio julia digite <code>rm(joinpath(homedir(), &quot;.julia&quot;, &quot;registries&quot;); recursive=true)</code>. Retirado <a href="https://discourse.julialang.org/t/atom-not-found-in-project-manifest-or-registry/13380">daqui</a>).</p>
+<p>Alguns pacotes importantes são o <strong>Optim</strong> e o <strong>Plots</strong> (os nomes são auto explicativos). O <strong>Plots</strong> é especialmente importante porque o Julia não tem nenhum suporte nativo à gráficos, e o <strong>Plots</strong> tem uma interface extremamente amigável e faz gráficos bonitos. O próprio help do pacote já é suficiente para usar ele.</p>
+<p>Para carregar um pacote, basta digitar <code>using nome_do_pacote</code>. Se eu quiser carregar o pacote <strong>Plots</strong>, por exemplo, eu faria <code>using Plots</code></p>
+<p>O Julia Observer conta com uma enorme variedade de pacotes, mas dado o quão nova é a linguagem, ela ainda não chega perto do Python ou do R.</p>
+</div>
+<div id="matematica-basica-e-matrizes" class="section level2">
+<h2>Matemática básica e matrizes</h2>
+<p>O básico de matemática com o Julia é obvio: <code>2+2</code> retorna 4 etc. O Julia usa <code>^</code> para potenciação, ao contrário do infame <code>**</code> do Python.</p>
+<p>Criar matrizes no Julia é muitissimo parecido com o matlab (a ponto de você poder copiar um código que criar uma matriz no Julia para o matlab e vice versa). Para exemplificar, vamos construir a matriz identidade:</p>
+<pre class="julia"><code>[[1 0];[0 1]]</code></pre>
+<pre><code>## 2×2 Array{Int64,2}:
+##  1  0
+##  0  1</code></pre>
+<p>Espaço separa elementos dentro da mesma linha, e ponto e vírgula “pula” a linha. Felizmente, para a matriz identidade, o Julia fornece o comando <code>Matrix{Float64}(I,dim1,dim2)</code> onde <code>dim1</code> é o número de linhas e <code>dim2</code> é o número de colunas. Veja que podemos criar matrizes de zeros com o comando <code>zeros</code>, de 1s com o comando <code>ones</code> e matrizes com elementos iid de uma normal de média zero e variância 1 com o <code>randn</code>. Mais ainda, podemos zerar <em>arrays</em> que são matrizes com mais dimensões, usando os mesmos comandos, mas adicionando mais argumentos.</p>
+<p>Transposto (e transposta conjugada) são obtidos usando <code>'</code>. Logo a transporta da matriz <code>A</code> é <code>A'</code>. A inversa é obtida usando usando <code>inv()</code>.</p>
+<p>Outra operação muito comum é aplicar uma função a todos os elementos do <em>array</em>. A sintaxe geral disso para o Julia é <code>foo.()</code>. Então, se quisermos o valor absoluto dos elementos da matriz A, fariamos <code>abs.(A)</code>. Essa notação com ponto é tão geral que se aplica a operadores matemáticos. Suponha que temos dois vetores <span class="math inline">\(v\)</span> e <span class="math inline">\(h\)</span>, e queremos dividir um vetor elemento a elemento: bastaria fazer <code>v ./ h</code>. Isso também funciona para operadores lógicos (<code>x .&lt; 0</code> para ver quais elementos do vetor x são menores que 0)</p>
+</div>
+<div id="fors-e-ifs" class="section level2">
+<h2>Fors e ifs</h2>
+<p>Como qualquer linguagem que se preze, Julia tem <code>for</code> e <code>if</code>. Um exemplo de for seria:</p>
+<pre><code>for i = 1:100
+  println(i)
+end
+</code></pre>
+<p>Isso faria os números de 1 a 100 serem exibidos no console, um em cada linha - o print usual mostraria eles todos juntos. Veja que não há necessidade de parêntese e de chaves para delimitar as coisas. O fim do <code>for</code>é indicado pela <em>keyword</em> <code>end</code>. Um <code>if</code>segue a mesmissa ideia: coloque a condição e termine com um <code>end</code>.</p>
+</div>
+<div id="funcoes" class="section level2">
+<h2>Funções</h2>
+<p>Existem duas maneiras básicas de criar uma função no Julia. Se a sua função é meramente matemática, você pode definir como você faria no papel:</p>
+<pre><code>f(x)=x^2</code></pre>
+<p>Mas as vezes queremos construir funções que ocupam várias linhas. Nesse caso, fariamos:</p>
+<pre><code>function nome_da_função
+
+  código aqui
+
+end
+</code></pre>
+</div>
+<div id="plots" class="section level2">
+<h2>Plots</h2>
+<p>Representar visualmente nossos resultados é importante. O pacote <strong>Plots</strong> é a melhor biblioteca disponível - em part por ela ser uma interface para várias outras. Vamos gerar alguns números aleatórios e usar o plot para ilustrar:</p>
+<pre class="julia"><code>
+using Plots
+
+x = randn(500)</code></pre>
+<pre><code>## 500-element Array{Float64,1}:
+##  -0.966016425790643  
+##  -0.6549934883883096 
+##   0.07537130950088887
+##  -1.3484400061016943 
+##   0.14741865439690838
+##  -1.2803683359427276 
+##  -1.1684526008090093 
+##   0.3738863991025716 
+##  -0.4404390301611624 
+##  -0.37091501730040216
+##   ⋮                  
+##  -0.2513005867657996 
+##  -0.6415164188154471 
+##   0.28803780576872806
+##   1.5948075418597427 
+##  -0.1094407582341317 
+##   0.6579897997322348 
+##  -1.6966008972433515 
+##   0.6604213988576229 
+##   0.1848470649263178</code></pre>
+<pre class="julia"><code>plot(x)
+</code></pre>
+<div class="figure">
+<img src="/post/julia101/figures/julia101_2_1.svg" />
+
+</div>
+<p>Nós poderíamos querer plotar os pontos, e neste caso o comando é <code>scatter</code></p>
+<pre class="julia"><code>scatter(x)</code></pre>
+<div class="figure">
+<img src="/post/julia101/figures/julia101_3_1.svg" />
+
+</div>
+<p>Podemos sobrepor plots simplesmente usando <code>plot!</code> depois do primeiro plot. Por exemplo, eu vou sobrepor duas “séries” cointegradas:</p>
+<pre class="julia"><code>
+x = randn(200)</code></pre>
+<pre><code>## 200-element Array{Float64,1}:
+##   1.034723927624754  
+##   0.23065302851578165
+##  -0.3108032976744763 
+##  -1.9434255338751902 
+##   0.8144649161881792 
+##   1.2097411425217792 
+##   0.2277925377718097 
+##   0.07881237008052974
+##  -0.8820838673977671 
+##  -1.0040334937467443 
+##   ⋮                  
+##  -0.08695880878811776
+##   0.8198305495039027 
+##   1.3318217491137434 
+##   0.05844673483227949
+##   0.5431397859818725 
+##  -0.6147931168351176 
+##   0.6627614127879577 
+##   0.40544999990993036
+##   0.5849088744301197</code></pre>
+<pre class="julia"><code>x = cumsum(x)</code></pre>
+<pre><code>## 200-element Array{Float64,1}:
+##   1.034723927624754 
+##   1.2653769561405357
+##   0.9545736584660593
+##  -0.9888518754091309
+##  -0.1743869592209517
+##   1.0353541833008275
+##   1.2631467210726373
+##   1.341959091153167 
+##   0.4598752237553998
+##  -0.5441582699913445
+##   ⋮                 
+##   6.853044600274796 
+##   7.672875149778699 
+##   9.004696898892442 
+##   9.063143633724723 
+##   9.606283419706594 
+##   8.991490302871476 
+##   9.654251715659434 
+##  10.059701715569364 
+##  10.644610589999484</code></pre>
+<pre class="julia"><code>
+y = 0.5*x + randn(200)</code></pre>
+<pre><code>## 200-element Array{Float64,1}:
+##  -0.027818301154587055
+##   0.8903703265568057  
+##   1.2574079336378945  
+##   0.6001263003600894  
+##   0.0419565989811633  
+##  -0.5365541035663862  
+##  -0.20477643982882576 
+##  -0.15930931630221523 
+##  -0.18289379854386772 
+##  -1.0132911990244033  
+##   ⋮                   
+##   3.59471386148804    
+##   2.585334099734208   
+##   3.610463540320871   
+##   3.660759239718606   
+##   4.244929272954586   
+##   5.263865900633711   
+##   5.257686298043876   
+##   4.429430219390428   
+##   4.952734045304187</code></pre>
+<pre class="julia"><code>z = x + randn(200)</code></pre>
+<pre><code>## 200-element Array{Float64,1}:
+##   1.965100776407966   
+##   1.0973945643131668  
+##   2.7737815661824596  
+##  -0.8874764837813615  
+##  -0.004427568978068563
+##   2.288923298588875   
+##   0.6983365176930205  
+##   1.6574236548842711  
+##  -0.483275989904838   
+##  -0.17767509201164305 
+##   ⋮                   
+##   8.339234529781901   
+##   7.136635826486224   
+##   7.703650659161019   
+##   8.532354903302501   
+##   9.818392978351344   
+##   8.378316641320888   
+##   8.091948812404079   
+##  10.747730240182875   
+##  12.978877582211066</code></pre>
+<pre class="julia"><code>
+plot(y)
+plot!(z)
+</code></pre>
+<div class="figure">
+<img src="/post/julia101/figures/julia101_4_1.svg" />
+
+</div>
+</div>
+<div id="optim" class="section level2">
+<h2>Optim</h2>
+<p>Existe vários pacotes para fazer otimização no Julia: <strong>Optim</strong>, <strong>JuMP</strong>, <strong>Nlopt</strong>. O <strong>Optim</strong> é o mais simples deles; o <strong>JuMP</strong> permite escrever problemas complicados com restrição de maneira elegante e resolver - de certa forma é um pacote muito mais completo do que o <strong>Optim</strong>. O <strong>Nlopt</strong> chama um pacote externo para resolver problemas de otimização não lineares que aceita restrição. EU vou ilustrar apenas o caso de uso do <strong>optim</strong>.</p>
+<p>Suponha que queremos encontrar o mínimo de <span class="math inline">\(f(x,y) = x^2+3x*y\)</span>. Vamos definir a função do Julia. Veja que ela vai receber um único argumento, que é um vetor, onde a segunda posição do vetor é o y:</p>
+<pre class="julia"><code>
+using Optim
+
+f(x) = x[1]^2+3*x[1]*x[2]</code></pre>
+<pre><code>## f (generic function with 1 method)</code></pre>
+<p>O comando do <strong>Optim</strong> é <code>optimize</code>. Ela exige a função e um chute inicial:</p>
+<pre class="julia"><code>
+sol = optimize(f,zeros(2))</code></pre>
+<pre><code>## Results of Optimization Algorithm
+##  * Algorithm: Nelder-Mead
+##  * Starting Point: [0.0,0.0]
+##  * Minimizer: [-1.1570856980032543e154,9.192651717887951e153, ...]
+##  * Minimum: -Inf
+##  * Iterations: 1000
+##  * Convergence: false
+##    *  √(Σ(yᵢ-ȳ)²)/n &lt; 1.0e-08: false
+##    * Reached Maximum Number of Iterations: true
+##  * Objective Calls: 2629</code></pre>
+<pre class="julia"><code>
+Optim.minimizer(sol)</code></pre>
+<pre><code>## 2-element Array{Float64,1}:
+##  -1.1570856980032543e154
+##   9.192651717887951e153</code></pre>
+<pre class="julia"><code></code></pre>
+<p>O <strong>Optim</strong> vem com diferentes algoritmos de solução, e podemos definir qual usar. Por padrão, ele usa o Nelder-Mead, queé o mesmo padrão que o R usa. Vamos testar o LBFGS:</p>
+<pre class="julia"><code>
+sol2 = optimize(f,zeros(2),LBFGS())</code></pre>
+<pre><code>## Results of Optimization Algorithm
+##  * Algorithm: L-BFGS
+##  * Starting Point: [0.0,0.0]
+##  * Minimizer: [0.0,0.0]
+##  * Minimum: 0.000000e+00
+##  * Iterations: 0
+##  * Convergence: true
+##    * |x - x&#39;| ≤ 0.0e+00: false 
+##      |x - x&#39;| = 1.03e-315 
+##    * |f(x) - f(x&#39;)| ≤ 0.0e+00 |f(x)|: false
+##      |f(x) - f(x&#39;)| = NaN |f(x)|
+##    * |g(x)| ≤ 1.0e-08: true 
+##      |g(x)| = 0.00e+00 
+##    * Stopped by an increasing objective: false
+##    * Reached Maximum Number of Iterations: false
+##  * Objective Calls: 1
+##  * Gradient Calls: 1</code></pre>
+<pre class="julia"><code>
+Optim.minimizer(sol2)</code></pre>
+<pre><code>## 2-element Array{Float64,1}:
+##  0.0
+##  0.0</code></pre>
+<pre class="julia"><code></code></pre>
+</div>
+<div id="julia-markdown" class="section level2">
+<h2>Julia Markdown</h2>
+<p>O Julia já tem pacotes que permitem escrever um documento markdown com <em>chincks</em> em Julia. Se você já usou o RMarkdown, a ideia é igual, mas ao invés de se usar ```{r}, usamos ```{julia}. O pacote que permite compilar o documento é o <strong>Weave</strong>. O documento deve ser salvo com a extensão <em>.jmd</em>. Compilar ele é uma simples questão de <code>weave(&quot;caminho do documento&quot;)</code>. O pacote dá várias opções de como compilar, e você deve olhar a documentação dele para ver a mais adequada.</p>
+</div>
+<div id="conclusao" class="section level2">
+<h2>Conclusão</h2>
+<p>O Julia é bastante versátil, <a href="https://azul.netlify.com/2018/10/28/por-que-usar-o-julia/">eficiente</a> e com uma comunidade ativa e crescente. Ele também é de graça, e o Thomas Sargent mantém <a href="https://lectures.quantecon.org/jl/">um site</a> com lições de uma tonelada de coisas de economia moderna para o Julia. Esta rápida introdução deve permitir você fazer coisas básicas no Julia. Muitos dos pacotes tem documentação,que apesar de não ser tão acessível quanto a do R (que vai direto pelo RStudio), ela é de grande ajuda.</p>
+</div>

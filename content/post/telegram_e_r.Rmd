@@ -14,7 +14,7 @@ katex: true
 draft: true
 ---
 
-Algum tempo atrás eu achei [este post](https://www.r-bloggers.com/integrating-r-and-telegram/) no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por @azulblogbot na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.
+Algum tempo atrás eu achei [este post](https://www.r-bloggers.com/integrating-r-and-telegram/) no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por \@azulblogbot na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.
 
 O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote ``telegram.bot`` no R. Segue o passo a passo que é uma tradução do post do R Bloggers:
 
@@ -38,7 +38,7 @@ Isso é essencialmente o que o texto do R Bloggers nos explica. O que eu fiz foi
 2. Uma função que lê o blog e define se temos um artigo novo (comparado com uma lista de artigos).
 3. Enviar uma mensagens para os usuários com o link para o novo post
 
-O passo 1 simplesmente lê o `bot$getUpdates` e procura por mensagens que são comandos que eu defini para o bot. Ao encontrar certos comandos (simplesmente checando se message$text é igual a uma string), ele salva o nome e o id do sujeito. Eu separei em várias funções: uma que procura por pessoas que usaram certos comandos; compara a base de dados de usuários com a lista de possíveis novos usuários e junta as duas; uma terceira manda uma mensagem (com o nome!) para o usuário informando que ele se inscreveu.
+O passo 1 simplesmente lê o `bot$getUpdates` e procura por mensagens que são comandos que eu defini para o bot - no caso, `\getupdate`. Ao encontrar certos comandos (simplesmente checando se message$text é igual a uma string), ele salva o nome e o id do sujeito. Eu separei em várias funções: uma que procura por pessoas que usaram certos comandos; compara a base de dados de usuários com a lista de possíveis novos usuários e junta as duas; uma terceira manda uma mensagem (com o nome!) para o usuário informando que ele se inscreveu.
 
 O passo 2 não tem nenhuma relação com o Telegram, mas é importante para automatizar o processo de mandar as atualizações. Para isso, eu faço o que é chamado de webscrapping - um tema amplo o suficiente para ocupar vários posts. Essencialmente, eu mando o R baixar a página, ler o html e roubar os links do blog usando o pacote _xml2_. Eu salvo os links como um vetor. Se existe um post novo, ele vai me devolver o link para o post. Caso contrário ele apenas devolve um erro.
 

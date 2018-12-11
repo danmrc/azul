@@ -1,0 +1,372 @@
+---
+title: "I Can't Get No Instruments: quando instrumentos são fracos"
+author: Daniel Coutinho
+date: '2018-12-17'
+slug: i-can-t-get-no-instruments-quando-instrumentos-são-fracos
+categories:
+  - R
+  - Econometria
+tags:
+  - Variáveis Instrumentais
+  - Instrumentos Fracos
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+
+
+<p><em>(O título desse post é uma piada com o <a href="http://www.mostlyharmlesseconometrics.com/book-contents/">título do capítulo do Mostly Harmless Econometrics</a> sobre instrumentos)</em></p>
+<p>Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO <span class="math inline">\(E(u|\textbf{X}) = 0\)</span>, em uma regreesão <span class="math inline">\(\textbf{y} = \textbf{X}\beta + \textbf{u}\)</span>. Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância. Um instrumento <span class="math inline">\(z\)</span> é exógeno se <span class="math inline">\(E(u|z) = 0\)</span>. Essa hipótse não é testável, em geral. A segunda hipótese, de relevância, significa que z é capaz de explicar alguma variação em z. Ela é muitas vezes ignorada, mas vamos falar dela neste artigo porque ele é importantíssima e testável.</p>
+<div id="quando-um-instrumento-e-fraco-e-porque-se-preocupar" class="section level2">
+<h2>Quando um instrumento é fraco e porque se preocupar</h2>
+<p>Como eu já adiantei, um instrumento é fraco se ele não consegue explicar muito da variação de <span class="math inline">\(X\)</span>. Vamos criar um problema em que há uma variável omitida <span class="math inline">\(h\)</span>, que fazem parte tanto da equação de <span class="math inline">\(y\)</span> como da de <span class="math inline">\(x\)</span> (o exemplo vai ter só um regressor pra ficar simples), mas x também é influenciada por <span class="math inline">\(z\)</span> (novamente, univariado). Vamos começar com um caso em que as equação são:</p>
+<p><span class="math display">\[
+y = h + 2x + u\\
+x = h + z + v\\
+\]</span></p>
+<p>Onde <span class="math inline">\(u\)</span> e <span class="math inline">\(v\)</span> são erros iid Normais com média zero, variância um e independentes entre si. Eu vou usar o pacote <strong>AER</strong> pra estimar a regressão y em x usando z como instrumentos, o conhecido MQ2E. Vamos usar 1000 observações,e e u vou fazer a regressão por MQO pra nós compararmos o resultado das duas:</p>
+<pre class="r"><code>set.seed(1928376)
+
+u &lt;- rnorm(1000)
+v &lt;- rnorm(1000)
+h &lt;- rnorm(1000)
+z &lt;- rnorm(1000)
+
+x &lt;- h + z + v
+y &lt;- h + 2*x + u
+
+reg_mqo &lt;- lm(y ~ x)
+reg_iv &lt;- ivreg(y ~x,~z)</code></pre>
+<pre class="r"><code>stargazer(reg_iv,reg_mqo,type = &quot;html&quot;, column.labels = c(&quot;MQ2E&quot;,&quot;MQO&quot;),model.names = FALSE,omit.stat = c(&quot;rsq&quot;,&quot;adj.rsq&quot;,&quot;f&quot;,&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;)</code></pre>
+<table style="text-align:center">
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+y
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+MQ2E
+</td>
+<td>
+MQO
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x
+</td>
+<td>
+1.948<sup>***</sup>
+</td>
+<td>
+2.353<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.052)
+</td>
+<td>
+(0.025)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.072
+</td>
+<td>
+0.051
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.045)
+</td>
+<td>
+(0.040)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td colspan="2" style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2" style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2" style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+<p>Nada mal: a estimativa está bem próxima do valor real, e é melhor que a de OLS.</p>
+<p>Agora, vamos fazer uma simples alteração no processo gerador de dados. A equação de x vai ser:</p>
+<p><span class="math display">\[x = h + 0.01z + v\]</span></p>
+<p>Vamos repetir o nosso experimento:</p>
+<pre class="r"><code>x &lt;- h + 0.01*z + v
+y &lt;- h + 2*x + u
+
+reg_mqo &lt;- lm(y ~ x)
+reg_iv &lt;- ivreg(y ~x,~z)</code></pre>
+<p>E eis os resultados:</p>
+<pre class="r"><code>stargazer(reg_iv,reg_mqo,type = &quot;html&quot;, column.labels = c(&quot;MQ2E&quot;,&quot;MQO&quot;))</code></pre>
+<table style="text-align:center">
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+y
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>instrumental</em>
+</td>
+<td>
+<em>OLS</em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>variable</em>
+</td>
+<td>
+<em></em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+MQ2E
+</td>
+<td>
+MQO
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x
+</td>
+<td>
+2.340<sup>***</sup>
+</td>
+<td>
+2.513<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.291)
+</td>
+<td>
+(0.027)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.065<sup>*</sup>
+</td>
+<td>
+0.062<sup>*</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.039)
+</td>
+<td>
+(0.038)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+1,000
+</td>
+<td>
+1,000
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.890
+</td>
+<td>
+0.894
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.890
+</td>
+<td>
+0.894
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error (df = 998)
+</td>
+<td>
+1.219
+</td>
+<td>
+1.195
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+</td>
+<td>
+8,436.010<sup>***</sup> (df = 1; 998)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+</div>
