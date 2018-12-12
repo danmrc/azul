@@ -1,0 +1,33 @@
+---
+title: RDDs, identificação causal e um exemplo
+author: Pedro Cavalcante
+date: '2018-12-20'
+slug: rdd-mixtape
+categories:
+  - R
+  - Econometria
+  - Inferência Causal
+tags:
+    - RDD
+authors: ["pedrocava"]
+katex: true
+draft: true
+---
+
+Três pacotes trazem ferramentas para estimar e brincar com RDDS:
+
+* O primeiro é ``rdrobust``, que implementa o estimador proposto em [Calonico, Cattaneo e Titiunik (Econometrica, 2014)](https://deepblue.lib.umich.edu/bitstream/handle/2027.42/109857/ecta1465.pdf?sequence=1&isAllowed=y), um RDD com intervalos de confiança menos sensíveis à variações no bandwidth selecionado. Eles fazem isso usando um estimador novo para o erro-padrão. O pacote também tem um port para Stata publicado no [Stata Journal](http://www-personal.umich.edu/~cattaneo/papers/Calonico-Cattaneo-Farrell-Titiunik_2017_Stata.pdf), além da versão em R - que também saiu no [R Journal](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.429.1273&rep=rep1&type=pdf).
+
+* O segundo é ``rddtools``, que traz algumas ferramentas de inferência, implementações variadas e uma base de dados interessante.
+
+* O terceiro é ``rdd``. O menos completo de todos, traz ferramentas para visualização e uma implementação. 
+
+Lembre-se de instalar o pacote ``mixtape`` com o comando ``devtools::install_github('johnson-shuffle/mixtape')``, já que o autor não submeteu ao CRAN. 
+
+```{R}
+library(rdrobust)
+library(mixtape)
+```
+
+
+
