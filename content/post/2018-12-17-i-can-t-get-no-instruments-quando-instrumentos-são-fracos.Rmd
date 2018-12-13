@@ -56,7 +56,7 @@ reg_iv <- ivreg(y ~x,~z)
 
 ```{r,results='asis'}
 
-stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer")
+stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
 
 ```
 
@@ -69,19 +69,83 @@ $$x = h + 0.01z + v$$
 Vamos repetir o nosso experimento:
 
 ```{r}
-x <- h + 0.01*z + v
-y <- h + 2*x + u
+x2 <- h + 0.01*z + v
+y2 <- h + 2*x2 + u
 
-reg_mqo <- lm(y ~ x)
-reg_iv <- ivreg(y ~x,~z)
+reg_mqo <- lm(y2 ~ x2)
+reg_iv <- ivreg(y2 ~x2,~z)
 ```
 
 E eis os resultados:
 
 ```{r,results='asis'}
 
-stargazer(reg_iv,reg_mqo,type ="html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer")
+stargazer(reg_iv,reg_mqo,type ="html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
 
 ```
 
-Veja que agora os resultado da regressão com variáveis instrumentais se aproxima dos resultados obtidos pelo MQO. Veja também que não
+Veja que agora os resultado da regressão com variáveis instrumentais se aproxima dos resultados obtidos pelo MQO. Veja também que, olhando as tabelas acima, não há nenhuma maneira de advinhar que nossos instrumentos são fracos. Mas, ao contrário da exogenidade dos instrumentos, podemos testar se os instrumentos são forte. 
+
+##Testando se instrumentos fracos
+
+Se fizermos a regressão de x em z -  do intrumentado em cima do instrumento, o que é conhecido como primeiro estágio do MQ2E - podemos olhar _a estatística F_ da regressão para saber se o instrumento é forte ou não. Veja que isso só vale se for uma variável instrumentada. Stock e Watson dão como regra de bolso $F > 10$ para consideramos o instrumento forte. Vamos testar isso para o nosso caso:
+
+```{r}
+
+primeiro_estágio1 <- lm(x ~z)
+primeiro_estágio2 <- lm(x2 ~z)
+
+```
+
+E os resultados são:
+
+```{r, results= 'asis'}
+
+stargazer(primeiro_estágio1,primeiro_estágio2, type = "html", column.labels = c("Instrumento Forte","Instrumento Fraco"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
+
+```
+
+Seguindo a regra de bolso do Stock e Watson, veríamos que o nosso instrumento de fato é fraco. Veja que esse teste vale para mais de um instrumento, mas não para mais de uma variável instrumentadada. Trocando em miúdos: podemos ter muitos $z$, mas apenas um $x$. Vamos fazer um exemplo em que temos duas variáveis instrumentais, $z_1$ e $z_2$, e em um dos casos ambas serão fortes e em outro ambas serão fracas:
+
+
+```{r}
+z1 <- rnorm(1000)
+z2 <- rnorm(1000)
+h <- rnorm(1000)
+
+
+x1 <- h + z1 - z2 + rnorm(1000)
+x2 <- h + 0.01*z1 - 0.0001*z2 + rnorm(1000)
+
+y1 <- h - x1 + rnorm(1000)
+y2 <- h - x2 + rnorm(1000)
+
+modelo2 <- ivreg(y1 ~x1,~z1+z2)
+modelo3 <- ivreg(y2 ~x2,~z1+z2)
+modelo4 <- lm(y2 ~x2)
+
+pri_estg1 <- lm(x1 ~z1+z2)
+pri_estg2 <- lm(x2 ~z1+z2)
+
+```
+
+Vamos começar vendo os resultados para a regressão que nós teríamos mais interesse, na qual usamos $z_1$ e $z_2$ como instrumento:
+
+```{r, results='asis'}
+
+stargazer(modelo2,modelo3,modelo4,type ="html", column.labels = c("Inst Forte","Inst Fraco", "MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
+
+```
+
+Veja que na regressão com instrumentos fracos, o  coeficiente saiu com metade do valor verdadeiro _e_ não significante. Um pesquisador levando essa regressão a sério teria obtido resultados totalmente enganosos. Vamos checar a regressão de primeiro estágio:
+
+```{r, results= 'asis'}
+stargazer(pri_estg1,pri_estg2,type ="html", column.labels = c("Inst Forte","Inst Fraco"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
+```
+
+Veja que o valor da estatística F para a regressão com instrumentos fracos está _muito abaixo_ do valor da regra de bolso do Stock Watson. E esse exemplo também ilustra o perigo de olhar para a significância de cada um dos regressores numa regressão de primeiro estágio: $z_2$ é significante a 5% na regressão em que os instrumentos são fracos; mas isso não impede os instrumentos de serem fracos! A razão de usar a estatítica F não é apenas por um teste conjunto de significância, mas por outros motivos teóricos. Uma limitação deste teste é que ele só vale para _uma variável instrumentada_. Mas em muitas aplicações, só temos uma variável a ser instrumentsda, então ele é valioso - principalmente por ser extremamente simples.
+
+Então, sempre que for usar um instrumento, lembre de olhar a regressão de primeiro estágio e ver se a estatística F é maior que 10. Senão, cuidado: suas estimativas devem ser viesadas. 
+
+
+
