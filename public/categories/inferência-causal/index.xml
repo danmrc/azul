@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Inferência Causal on AZUL</title>
+    <link>/categories/infer%C3%AAncia-causal/</link>
+    <description>Recent content in Inferência Causal on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Thu, 13 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/infer%C3%AAncia-causal/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>RDD, inferência causal e um exemplo em R</title>
+      <link>/2018/12/13/rdd-mixtape/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
+    </item>
+    
+  </channel>
+</rss>

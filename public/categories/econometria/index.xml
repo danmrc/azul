@@ -22,6 +22,15 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
     </item>
     
     <item>
+      <title>RDD, inferência causal e um exemplo em R</title>
+      <link>/2018/12/13/rdd-mixtape/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
+    </item>
+    
+    <item>
       <title>Testes de raiz unitária</title>
       <link>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
       <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
