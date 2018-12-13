@@ -56,7 +56,7 @@ reg_iv <- ivreg(y ~x,~z)
 
 ```{r,results='asis'}
 
-stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("rsq","adj.rsq","f","ser","n"),style = "aer")
+stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer")
 
 ```
 
@@ -80,7 +80,8 @@ E eis os resultados:
 
 ```{r,results='asis'}
 
-stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"))
+stargazer(reg_iv,reg_mqo,type ="html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer")
 
 ```
 
+Veja que agora os resultado da regressão com variáveis instrumentais se aproxima dos resultados obtidos pelo MQO. Veja também que não
