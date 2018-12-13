@@ -6,19 +6,10 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 20 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>RDD, inferência causal e um exemplo em R</title>
-      <link>/2018/12/20/rdd-mixtape/</link>
-      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/12/20/rdd-mixtape/</guid>
-      <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
-    </item>
     
     <item>
       <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos</title>
@@ -28,6 +19,15 @@
       <guid>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
       <description>(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
 Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regreesão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
+    </item>
+    
+    <item>
+      <title>RDD, inferência causal e um exemplo em R</title>
+      <link>/2018/12/13/rdd-mixtape/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
     </item>
     
     <item>
