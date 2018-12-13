@@ -2,15 +2,20 @@
 title: "RDD, inferência causal e um exemplo em R"
 author: "Pedro Cavalcante"
 date: '2018-12-20'
+output:
+  pdf_document: default
+  html_document: 
+    df_print: paged
+katex: yes
 categories:
 - R
 - Econometria
 - Inferência Causal
-draft: yes
-katex: yes
 slug: rdd-mixtape
-tags: RDD
-authors: pedrocava
+tags:
+- RDD
+- Inferência Causal
+authors: ["pedrocava"]
 ---
 
 Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas ~~sérios~~ que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra $X$ e outro em que não vigora. 
