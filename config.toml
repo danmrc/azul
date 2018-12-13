@@ -22,8 +22,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 	enableDisqus = false
 	disqusShortname = "your_disqus_short_name"
-  
-  customJS = ["mathjax_support.html"]
 
 	enableSummary = true
 	# Set the value to true if use description in post front matter replace content summary
@@ -33,8 +31,19 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 	enableGoogleAnalytics = true
 	enableBaiduAnalytics = false
 	# Set the value to your baidu analysis code if you want to use baidu analytics
-	baiduAnalytics = 'your_baidu_analysis_code'
 
 	enableTwitterCard = false
 	# The url for twitter card image, default is avatar.png in static/images directory
 twitterCardImage = ""
+
+  home = ""
+	about = ""
+	archive = ""
+	
+	enableShare = true
+	tweet = ""
+  share = ""
+  
+[social]
+
+  github = "https://github.com/danmrc/azul/tree/master/C%C3%B3digos"
