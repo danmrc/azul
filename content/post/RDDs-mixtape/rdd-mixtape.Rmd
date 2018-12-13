@@ -1,33 +1,105 @@
 ---
-title: RDDs, identificação causal e um exemplo
-author: Pedro Cavalcante
+title: "RDD, inferência causal e um exemplo em R"
+author: "Pedro Cavalcante"
 date: '2018-12-20'
-slug: rdd-mixtape
 categories:
-  - R
-  - Econometria
-  - Inferência Causal
-tags:
-    - RDD
-authors: ["pedrocava"]
-katex: true
-draft: true
+- R
+- Econometria
+- Inferência Causal
+draft: yes
+katex: yes
+slug: rdd-mixtape
+tags: RDD
+authors: pedrocava
 ---
 
-Três pacotes trazem ferramentas para estimar e brincar com RDDS:
+Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas ~~sérios~~ que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra $X$ e outro em que não vigora. 
 
-* O primeiro é ``rdrobust``, que implementa o estimador proposto em [Calonico, Cattaneo e Titiunik (Econometrica, 2014)](https://deepblue.lib.umich.edu/bitstream/handle/2027.42/109857/ecta1465.pdf?sequence=1&isAllowed=y), um RDD com intervalos de confiança menos sensíveis à variações no bandwidth selecionado. Eles fazem isso usando um estimador novo para o erro-padrão. O pacote também tem um port para Stata publicado no [Stata Journal](http://www-personal.umich.edu/~cattaneo/papers/Calonico-Cattaneo-Farrell-Titiunik_2017_Stata.pdf), além da versão em R - que também saiu no [R Journal](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.429.1273&rep=rep1&type=pdf).
+Somos, nesse sentido, muito limitados em nossas ambições. O melhor com que podemos sonhar é conduzir estudos caríssimos em que um tratamento é designado aleatoriamente entre participantes, como fazem em estudos clínicos para drogas novas. Um exemplo interessante é [Nyqvist _et al._ (2018, AEJ: Applied Economics)](https://www.aeaweb.org/articles?id=10.1257/app.20160469), que montou uma loteria para pacientes com HIV no Lesoto. A nossa capacidade de controlar covariáveis relevantes também é limitada a depender do contexto. Em um laboratório é razoavelmente fácil controlar os fatores relevantes para o comportamento de duas pessoas jogando o Jogo do Ultimato, não é tão simples dizer para alunos (ou mesmo equipe) de uma escola que metade da turma vai receber um pagamento em dinheiro, aulas de música ou ficar em uma turma menor.
+
+Por isso no mundo real usualmente dependemos de quasi-experimentos, ou experimentos naturais. O resgate de cubanos de Mariel como em [Card e DiNardo (2000, AER)](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.421.9316&rep=rep1&type=pdf), a colonização européia de boa parte do mundo como em [Acemoglu _et. al_ (2001, AER)](https://economics.mit.edu/files/4123) e a divisão da América do Sul no Tratado de Tordesillas como em [Fujiwara _et. al_ (2017)](http://www.tinbergen.nl/wp-content/uploads/2017/09/Felipe-Caicedo-27-Sept.pdf) exploram esse tipo de evento como fontes de variação exógena em algum tipo de variável: oferta de trabalho, instituições políticas e presença de escravos, respectivamente. Tendo isso em mente, qualquer variação em outras variáveis que seja explicada por essa variação exógena que identificamos pode ser crivelmente atribuída ao efeito causal que a primeira variável tem. Isso é, em termos bem amplos, o que chamamos de Variáveis Instrumentais. É uma técnica bem popular de inferência causal.
+
+Esses exemplos, no entanto, parecem muito grandiosos, históricos. Podem ser menores e normalmente regras implementadas por burocratas são fontes valiosas de variações agudas. Aqui entra o RDD.
+
+É plausível que dia de nascimento seja relevante para renda e escolaridade? Muito pouco a princípio, a menos que - por exemplo - um pai precise esperar um ano para matricular seu filho numa escola pública porque ele nasceu um dia depois da data limite para o ano. Essa é a ideia de [McCrary e Royer (2011, AER)](https://www.nber.org/papers/w12329). Esse tipo de evento não causa só variação plausivelmente exógena na escolaridade entre crianças, mas variação aguda. Uma _descontinuidade_, por assim dizer. O gráfico abaixo, tirado do paper, ilustra isso:
+
+![](https://i.imgur.com/SoWHVFw.png)
+
+Você pode entender o efeito de tratamento da regra como a diferença dos limites laterais desse polimônio estimado no ponto da descontnuidade. Chamamos essa técnica de _Regression Descontinuity Design_ (RDD). 
+
+Leitor, RDD 
+
+RDD, leitor
+
+A história dessa técnica é curiosa: foi proposta por dois psicólogos educacionais, [Campbell e Thistlewaite (1960)](https://obsstudies.org/wp-content/uploads/2017/01/regression_discontinuity_all_comments-1.pdf) para avaliar o efeito de ganhar competições científicas nos hábitos de atendência em pós-graduação de alunos. Você pode ler mais sobre [a história dela clicando aqui](https://www.ipr.northwestern.edu/publications/docs/workingpapers/2007/IPR-WP-07-03.pdf) se quiser.
+
+# Tá, mas e mão na massa?
+
+Já falei demais sem escrever uma linha de código. Vamos ver a magia acontecer. Vou replicar um exemplo do incrível livro _Causal Inference: The Mixtape_, do Scott Cunningham (que tem uma [maravilhosa conta no twitter](https://twitter.com/causalinf)), [disponível de graça no site dele](http://scunning.com/cunningham_mixtape.pdf). 
+Três pacotes trazem ferramentas de R para estimar e brincar com RDDs:
+
+* O primeiro é ``rdrobust``, que implementa o estimador proposto em [Calonico, Cattaneo e Titiunik (Econometrica, 2014)](https://deepblue.lib.umich.edu/bitstream/handle/2027.42/109857/ecta1465.pdf?sequence=1&isAllowed=y), um RDD com intervalos de confiança menos sensíveis à variações no bandwidth selecionado. Eles fazem isso usando um estimador novo para o erro-padrão. O pacote também tem um port para Stata publicado no [Stata Journal](http://www-personal.umich.edu/~cattaneo/papers/Calonico-Cattaneo-Farrell-Titiunik_2017_Stata.pdf), além da versão em R - que saiu no [Journal of Statistical Software](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.429.1273&rep=rep1&type=pdf).
 
 * O segundo é ``rddtools``, que traz algumas ferramentas de inferência, implementações variadas e uma base de dados interessante.
 
-* O terceiro é ``rdd``. O menos completo de todos, traz ferramentas para visualização e uma implementação. 
+* O terceiro é ``rdd``. O menos completo de todos, traz ferramentas para visualização e uma implementação, completamente _barebones_, mas entrega o que precisa ser feito. Talvez seja bom para quem está começando R, porque é de longe o mais simples.
 
-Lembre-se de instalar o pacote ``mixtape`` com o comando ``devtools::install_github('johnson-shuffle/mixtape')``, já que o autor não submeteu ao CRAN. 
+Vamos replicar parte das regressões em [Lee, Moretti e Butler (2004, QJE)](https://academic.oup.com/qje/article-abstract/119/3/807/1938834). Lembre-se de instalar o pacote ``mixtape`` com o comando ``devtools::install_github('johnson-shuffle/mixtape')``, já que o autor não submeteu ao CRAN. Nele estão as bases de dados com exemplos. Vamos usar a base ``lmb_data``, com dados eleitorais a nível de distrito. ``score`` é o ADA Score, uma medida de $0$ (muito conservador) a $100$ (muito progressista) de cada legislador e ``demvoteshare`` é a fração dos votos no distrito para legisladores democratas.
 
-```{R}
+A pergunta que estamos nos fazendo é: eleitores elegem ou afetam políticas públicas? Se eles afetam, então entende-se que pressão competitiva por voto induz convergência política - assim como no jogo de Hotelling farmácias se agrupam em Copacabana (desculpa para quem não é do Rio, não resisti). No entanto, se eles _elegem_, então entende-se que políticos não conseguem crivelmente se comprometer com plataformas específicas. Eleições então são mecanismos que revelam preferências sociais de maneira bem clara, quem ganha melhor satisfaz esses desejos. 
+
+```{R, warning = FALSE, message = FALSE}
 library(rdrobust)
 library(mixtape)
+library(tidyverse)
+
+data("lmb_data")
+lmb_data = as.tibble(lmb_data)
+head(lmb_data)
 ```
+
+Agora procuramos uma descontinuidade, que sabemos existir quando democratas ganham:
+
+```{R, dpi = 200}
+rdrobust::rdplot(y = lmb_data$score,
+       x = lmb_data$demvoteshare,
+       p = 2, # grau do polinômio
+       c = .5, # onde está o cut-off
+       x.label = "Fração de votos dos Democratas",
+       y.label = "Score") 
+```
+
+Podemos tentar repetir com um polinômio linear:
+
+```{R, dpi = 200}
+rdrobust::rdplot(y = lmb_data$score,
+       x = lmb_data$demvoteshare,
+       p = 1, # grau do polinômio
+       c = .5, # onde está o cut-off
+       x.label = "Fração de votos dos Democratas",
+       y.label = "Score") 
+```
+
+Podemos só estimar o RDD sem o auxílio gráfico. Observe que o print padrão da função não é completo e vai omitir informações importantes como p-valor. É de bom tom armazenar o modelo em um objeto e pedir o sumário dele.
+
+
+```{R}
+rdd1 = rdrobust(y = lmb_data$score,
+       x = lmb_data$demvoteshare,
+       p = 2,
+       c = .5,
+       kernel = "triangular")
+
+summary(rdd1)
+```
+
+O próximo passo - central - é repetir essa estimação para legisladores democratas e depois somente para legisladores republicanos. Se o efeito da competição domina, então observaríamos ambos os partidos indo mais para a esquerda em distritos que tem maioria Democrata. 
+
+Deixo ao leitor fazer essa parte e tirar suas próprias conclusões.
+
+
+
+
 
 
 
