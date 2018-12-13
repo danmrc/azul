@@ -37,7 +37,7 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
       
       <guid>/2018/12/10/julia-101/</guid>
       <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
+Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
     </item>
     
     <item>
@@ -47,7 +47,7 @@ InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e f
       
       <guid>/2018/12/10/prouni-rf-svm/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
-Random ForestsSupport Vector MachinesRodando tudo</description>
+Random Forests  Support Vector Machines  Rodando tudo  </description>
     </item>
     
     <item>
@@ -76,8 +76,8 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
-O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
@@ -137,7 +137,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t+1} = (1-\delta)k_
       
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
@@ -276,7 +276,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
@@ -315,7 +315,7 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/1/01/01/</guid>
-      <description>Ponto Fixo e Equlíbrio GeralMathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]},TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } }});@font-face {font-style: normal;font-weight: 300;}@font-face {font-style: normal;font-weight: 400;}@font-face {font-style: normal;font-weight: 600;}html {font-family: sans-serif; /* 1 */-ms-text-size-adjust: 100%; /* 2 */-webkit-text-size-adjust: 100%; /* 2 */}body {margin: 0;}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {display: block;}audio,canvas,progress,video {display: inline-block; /* 1 */vertical-align: baseline; /* 2 */}audio:not([controls]) {display: none;height: 0;}[hidden],template {display: none;}a:active,a:hover {outline: 0;}abbr[title] {border-bottom: 1px dotted;}b,strong {font-weight: bold;}dfn {font-style: italic;}h1 {font-size: 2em;margin: 0.</description>
+      <description>Ponto Fixo e Equlíbrio Geral MathJax.Hub.Config({ tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}, TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } } });   @font-face { font-style: normal; font-weight: 300; } @font-face { font-style: normal; font-weight: 400; } @font-face { font-style: normal; font-weight: 600; } html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -webkit-text-size-adjust: 100%; /* 2 */ } body { margin: 0; } article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; } audio, canvas, progress, video { display: inline-block; /* 1 */ vertical-align: baseline; /* 2 */ } audio:not([controls]) { display: none; height: 0; } [hidden], template { display: none; } a:active, a:hover { outline: 0; } abbr[title] { border-bottom: 1px dotted; } b, strong { font-weight: bold; } dfn { font-style: italic; } h1 { font-size: 2em; margin: 0.</description>
     </item>
     
   </channel>

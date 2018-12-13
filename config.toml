@@ -11,8 +11,8 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [params]
 	author = "Daniel Coutinho e Pedro Cavalcante"
-	description = "Economia, Estatística, Programação "
-	bio = "Estudantes de economia"
+	description = "Economia, Estatística, Programação"
+	bio = "Economia, Estatística, Programação"
 
 	twitter = ""
 	facebook = ""
@@ -21,7 +21,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 	enableToc = true
 
 	enableDisqus = false
-	disqusShortname = "your_disqus_short_name"
+	disqusShortname = ""
 
 	enableSummary = true
 	# Set the value to true if use description in post front matter replace content summary
@@ -36,9 +36,10 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 	# The url for twitter card image, default is avatar.png in static/images directory
 twitterCardImage = ""
 
-  home = ""
-	about = ""
-	archive = ""
+  home = "Início"
+	about = "Sobre"
+	archive = "Arquivo"
+	olderposts = "Antigos"
 	
 	enableShare = true
 	tweet = ""
