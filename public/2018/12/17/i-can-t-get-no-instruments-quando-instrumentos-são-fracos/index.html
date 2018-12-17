@@ -261,7 +261,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-6 mins read
+7 mins read
 </span>
 
 
@@ -298,7 +298,7 @@ y &lt;- h + 2*x + u
 reg_mqo &lt;- lm(y ~ x)
 reg_iv &lt;- ivreg(y ~x,~z)</code></pre>
 <pre class="r"><code>stargazer(reg_iv,reg_mqo,type = &quot;html&quot;, column.labels = c(&quot;MQ2E&quot;,&quot;MQO&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
-<table style="text-align:center border:none;">
+<table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">
 </td>
@@ -596,6 +596,191 @@ F Statistic
 </tr>
 </table>
 <p>Veja que agora os resultado da regressão com variáveis instrumentais se aproxima dos resultados obtidos pelo MQO. Veja também que, olhando as tabelas acima, não há nenhuma maneira de advinhar que nossos instrumentos são fracos. Mas, ao contrário da exogenidade dos instrumentos, podemos testar se os instrumentos são forte.</p>
+<p>Em um exemplo mais dramático do tamanho do problema, eu vou usar um vetor inventado <span class="math inline">\(zi\)</span> que nada tem nenhuma relação com o nosso processo gerador de dados e usar como instrumento e comparar com o nosso instrumento fraco. Só que, ao invés da nossa amostra relativamente grande de 1000 obs, eu usarei apenas 100 para gerar <span class="math inline">\(y_3\)</span>,<span class="math inline">\(x_3\)</span>,<span class="math inline">\(z_3\)</span>:</p>
+<pre class="r"><code>u &lt;- rnorm(100)
+v &lt;- rnorm(100)
+h &lt;- rnorm(100)
+z3 &lt;- rnorm(100)
+
+x3 &lt;- h + 0.01*z3 + v
+y3 &lt;- h + 2*x3 + u
+
+reg1 &lt;- lm(y3 ~ x3)
+reg2 &lt;- ivreg(y3 ~x3,~z3)
+zi &lt;- rnorm(100,sd=2)
+reg3 &lt;- ivreg(y3~x3,~zi)</code></pre>
+<pre class="r"><code>stargazer(reg1,reg2,reg3,type =&quot;html&quot;, column.labels = c(&quot;MQO&quot;,&quot;MQ2E&quot;,&quot;MQ2E com instrumento inventado&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
+<table style="text-align:center">
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+y3
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+MQO
+</td>
+<td>
+MQ2E
+</td>
+<td>
+MQ2E com instrumento inventado
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+x3
+</td>
+<td>
+2.579<sup>***</sup>
+</td>
+<td>
+3.416<sup>***</sup>
+</td>
+<td>
+2.625
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.095)
+</td>
+<td>
+(1.108)
+</td>
+<td>
+(2.580)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.015
+</td>
+<td>
+0.097
+</td>
+<td>
+0.020
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.123)
+</td>
+<td>
+(0.197)
+</td>
+<td>
+(0.280)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.883
+</td>
+<td>
+0.790
+</td>
+<td>
+0.883
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.882
+</td>
+<td>
+0.788
+</td>
+<td>
+0.882
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+740.809<sup>***</sup> (df = 1; 98)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td colspan="3" style="text-align:left">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3" style="text-align:left">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3" style="text-align:left">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+<p>Apesar do desvio padrão alto, o resultado da variável instrumental inventada é numericamente mais próximo do real que o instrumento fraco! Isso não ocorre só em amostras pequenas. O livro <em>Econometria</em>, de Stock e Watson, diz que esse mesmo efeito pode ocorrer com amostras grandes!</p>
 </div>
 <div id="testando-se-instrumentos-fracos" class="section level2">
 <h2>Testando se instrumentos fracos</h2>
@@ -808,7 +993,7 @@ MQO
 x1
 </td>
 <td>
--1.022<sup>***</sup>
+-1.033<sup>***</sup>
 </td>
 <td>
 </td>
@@ -819,7 +1004,7 @@ x1
 <td style="text-align:left">
 </td>
 <td>
-(0.032)
+(0.033)
 </td>
 <td>
 </td>
@@ -843,10 +1028,10 @@ x2
 <td>
 </td>
 <td>
--0.410
+0.165
 </td>
 <td>
--0.516<sup>***</sup>
+-0.488<sup>***</sup>
 </td>
 </tr>
 <tr>
@@ -855,10 +1040,10 @@ x2
 <td>
 </td>
 <td>
-(0.355)
+(1.182)
 </td>
 <td>
-(0.026)
+(0.027)
 </td>
 </tr>
 <tr>
@@ -876,13 +1061,13 @@ x2
 Constant
 </td>
 <td>
-0.046
-</td>
-<td>
-0.008
+0.086<sup>*</sup>
 </td>
 <td>
 0.011
+</td>
+<td>
+0.026
 </td>
 </tr>
 <tr>
@@ -892,10 +1077,10 @@ Constant
 (0.045)
 </td>
 <td>
-(0.040)
+(0.056)
 </td>
 <td>
-(0.039)
+(0.040)
 </td>
 </tr>
 <tr>
@@ -913,13 +1098,13 @@ Constant
 R<sup>2</sup>
 </td>
 <td>
-0.528
+0.512
 </td>
 <td>
-0.268
+-0.194
 </td>
 <td>
-0.280
+0.246
 </td>
 </tr>
 <tr>
@@ -927,13 +1112,13 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.527
+0.511
 </td>
 <td>
-0.268
+-0.196
 </td>
 <td>
-0.279
+0.245
 </td>
 </tr>
 <tr>
@@ -945,7 +1130,7 @@ F Statistic
 <td>
 </td>
 <td>
-388.110<sup>***</sup> (df = 1; 998)
+325.553<sup>***</sup> (df = 1; 998)
 </td>
 </tr>
 <tr>
@@ -1011,7 +1196,7 @@ Inst Fraco
 z1
 </td>
 <td>
-1.040<sup>***</sup>
+1.047<sup>***</sup>
 </td>
 <td>
 0.011
@@ -1021,65 +1206,7 @@ z1
 <td style="text-align:left">
 </td>
 <td>
-(0.045)
-</td>
-<td>
-(0.046)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-z2
-</td>
-<td>
--0.921<sup>***</sup>
-</td>
-<td>
-0.116<sup>**</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
 (0.048)
-</td>
-<td>
-(0.049)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Constant
-</td>
-<td>
-0.047
-</td>
-<td>
-0.032
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.046)
 </td>
 <td>
 (0.047)
@@ -1095,13 +1222,71 @@ Constant
 </tr>
 <tr>
 <td style="text-align:left">
+z2
+</td>
+<td>
+-0.920<sup>***</sup>
+</td>
+<td>
+0.042
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.049)
+</td>
+<td>
+(0.048)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+0.048
+</td>
+<td>
+0.022
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.047)
+</td>
+<td>
+(0.046)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
 R<sup>2</sup>
 </td>
 <td>
-0.487
+0.455
 </td>
 <td>
-0.006
+0.001
 </td>
 </tr>
 <tr>
@@ -1109,10 +1294,10 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.486
+0.454
 </td>
 <td>
-0.004
+-0.001
 </td>
 </tr>
 <tr>
@@ -1120,10 +1305,10 @@ Adjusted R<sup>2</sup>
 F Statistic (df = 2; 997)
 </td>
 <td>
-473.473<sup>***</sup>
+416.707<sup>***</sup>
 </td>
 <td>
-2.775<sup>*</sup>
+0.413
 </td>
 </tr>
 <tr>

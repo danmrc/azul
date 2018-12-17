@@ -86,6 +86,31 @@ stargazer(reg_iv,reg_mqo,type ="html", column.labels = c("MQ2E","MQO"),model.nam
 
 Veja que agora os resultado da regressão com variáveis instrumentais se aproxima dos resultados obtidos pelo MQO. Veja também que, olhando as tabelas acima, não há nenhuma maneira de advinhar que nossos instrumentos são fracos. Mas, ao contrário da exogenidade dos instrumentos, podemos testar se os instrumentos são forte. 
 
+Em um exemplo mais dramático do tamanho do problema, eu vou usar um vetor inventado $zi$ que nada tem nenhuma relação com o nosso processo gerador de dados e usar como instrumento e comparar com o nosso instrumento fraco. Só que, ao invés da nossa amostra relativamente grande de 1000 obs, eu usarei apenas 100 para gerar $y_3$,$x_3$,$z_3$:
+
+```{r}
+u <- rnorm(100)
+v <- rnorm(100)
+h <- rnorm(100)
+z3 <- rnorm(100)
+
+x3 <- h + 0.01*z3 + v
+y3 <- h + 2*x3 + u
+
+reg1 <- lm(y3 ~ x3)
+reg2 <- ivreg(y3 ~x3,~z3)
+zi <- rnorm(100,sd=2)
+reg3 <- ivreg(y3~x3,~zi)
+```
+
+```{r, results='asis'}
+
+stargazer(reg1,reg2,reg3,type ="html", column.labels = c("MQO","MQ2E","MQ2E com instrumento inventado"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
+
+```
+
+Apesar do desvio padrão alto, o resultado da variável instrumental inventada é numericamente mais próximo do real que o instrumento fraco! Isso não ocorre só em amostras pequenas. O livro _Econometria_, de Stock e Watson, diz que esse mesmo efeito pode ocorrer com amostras grandes!
+
 ##Testando se instrumentos fracos
 
 Se fizermos a regressão de x em z -  do intrumentado em cima do instrumento, o que é conhecido como primeiro estágio do MQ2E - podemos olhar _a estatística F_ da regressão para saber se o instrumento é forte ou não. Veja que isso só vale se for uma variável instrumentada. Stock e Watson dão como regra de bolso $F > 10$ para consideramos o instrumento forte. Vamos testar isso para o nosso caso:
@@ -137,7 +162,7 @@ stargazer(modelo2,modelo3,modelo4,type ="html", column.labels = c("Inst Forte","
 
 ```
 
-Veja que na regressão com instrumentos fracos, o  coeficiente saiu com metade do valor verdadeiro _e_ não significante. Um pesquisador levando essa regressão a sério teria obtido resultados totalmente enganosos. Vamos checar a regressão de primeiro estágio:
+Veja que na regressão com instrumentos fracos, o coeficiente saiu com metade do valor verdadeiro _e_ não significante. Um pesquisador levando essa regressão a sério teria obtido resultados totalmente enganosos. Vamos checar a regressão de primeiro estágio:
 
 ```{r, results= 'asis'}
 stargazer(pri_estg1,pri_estg2,type ="html", column.labels = c("Inst Forte","Inst Fraco"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
