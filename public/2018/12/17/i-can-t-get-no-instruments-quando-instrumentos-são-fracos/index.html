@@ -15,7 +15,7 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
 <meta property='og:site_name' content='AZUL'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/1f9cf77b3ace375b20613f8985437059?s=256'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='Variáveis Instrumentais'><meta property='article:tag' content='Instrumentos Fracos'><meta property='article:published_time' content='2018-12-17T00:00:00Z'/><meta property='article:modified_time' content='2018-12-17T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'>
 
-<meta name="generator" content="Hugo 0.49" />
+<meta name="generator" content="Hugo 0.48" />
 
   <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos • Daniel Coutinho</title>
   <link rel='canonical' href='/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/'>
@@ -261,7 +261,7 @@ if (!doNotTrack) {
   <polyline points="12 6 12 12 15 15"/>
   
 </svg>
-7 mins read
+8 mins read
 </span>
 
 
@@ -276,15 +276,15 @@ if (!doNotTrack) {
 
   <div class='container entry-content'>
   <p><em>(O título desse post é uma piada com o <a href="http://www.mostlyharmlesseconometrics.com/book-contents/">título do capítulo do Mostly Harmless Econometrics</a> sobre instrumentos)</em></p>
-<p>Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO <span class="math inline">\(E(u|\textbf{X}) = 0\)</span>, em uma regreesão <span class="math inline">\(\textbf{y} = \textbf{X}\beta + \textbf{u}\)</span>. Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância. Um instrumento <span class="math inline">\(z\)</span> é exógeno se <span class="math inline">\(E(u|z) = 0\)</span>. Essa hipótse não é testável, em geral. A segunda hipótese, de relevância, significa que z é capaz de explicar alguma variação em z. Ela é muitas vezes ignorada, mas vamos falar dela neste artigo porque ele é importantíssima e testável.</p>
+<p>Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO <span class="math inline">\(E(u|\textbf{X}) = 0\)</span>, em uma regreesão <span class="math inline">\(\textbf{y} = \textbf{X}\beta + \textbf{u}\)</span>. Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância. Um instrumento <span class="math inline">\(z\)</span> é exógeno se <span class="math inline">\(E(u|z) = 0\)</span>. Essa hipótse não é testável, em geral. A segunda hipótese, de relevância, significa que <span class="math inline">\(z\)</span> é capaz de explicar alguma variação em z. Ela é muitas vezes ignorada, mas vamos falar dela neste artigo porque ele é importantíssima e testável.</p>
 <div id="quando-um-instrumento-e-fraco-e-porque-se-preocupar" class="section level2">
 <h2>Quando um instrumento é fraco e porque se preocupar</h2>
-<p>Como eu já adiantei, um instrumento é fraco se ele não consegue explicar muito da variação de <span class="math inline">\(X\)</span>. Vamos criar um problema em que há uma variável omitida <span class="math inline">\(h\)</span>, que fazem parte tanto da equação de <span class="math inline">\(y\)</span> como da de <span class="math inline">\(x\)</span> (o exemplo vai ter só um regressor pra ficar simples), mas x também é influenciada por <span class="math inline">\(z\)</span> (novamente, univariado). Vamos começar com um caso em que as equação são:</p>
+<p>Como eu já adiantei, um instrumento é fraco se ele não consegue explicar muito da variação de <span class="math inline">\(X\)</span>. Vamos criar um problema em que há uma variável omitida <span class="math inline">\(h\)</span>, que fazem parte tanto da equação de <span class="math inline">\(y\)</span> como da de <span class="math inline">\(x\)</span> (o exemplo vai ter só um regressor pra ficar simples), mas <span class="math inline">\(x\)</span> também é influenciada por <span class="math inline">\(z\)</span> (novamente, univariado). Vamos começar com um caso em que as equação são:</p>
 <p><span class="math display">\[
 y = h + 2x + u\\
 x = h + z + v\\
 \]</span></p>
-<p>Onde <span class="math inline">\(u\)</span> e <span class="math inline">\(v\)</span> são erros iid Normais com média zero, variância um e independentes entre si. Eu vou usar o pacote <strong>AER</strong> pra estimar a regressão y em x usando z como instrumentos, o conhecido MQ2E. Vamos usar 1000 observações,e e u vou fazer a regressão por MQO pra nós compararmos o resultado das duas:</p>
+<p>Onde <span class="math inline">\(u\)</span> e <span class="math inline">\(v\)</span> são erros iid Normais com média zero, variância um e independentes entre si. Eu vou usar o pacote <strong>AER</strong> pra estimar a regressão <span class="math inline">\(y\)</span> em <span class="math inline">\(x\)</span> usando <span class="math inline">\(z\)</span> como instrumentos, o conhecido MQ2E. Vamos usar 1000 observações,e vou fazer a regressão por MQO pra nós compararmos o resultado das duas:</p>
 <pre class="r"><code>set.seed(1928376)
 
 u &lt;- rnorm(1000)
@@ -442,7 +442,7 @@ F Statistic
 </tr>
 </table>
 <p>Nada mal: a estimativa está bem próxima do valor real, e é melhor que a de OLS.</p>
-<p>Agora, vamos fazer uma simples alteração no processo gerador de dados. A equação de x vai ser:</p>
+<p>Agora, vamos fazer uma simples alteração no processo gerador de dados. A equação de <span class="math inline">\(x\)</span> vai ser:</p>
 <p><span class="math display">\[x = h + 0.01z + v\]</span></p>
 <p>Vamos repetir o nosso experimento:</p>
 <pre class="r"><code>x2 &lt;- h + 0.01*z + v
@@ -607,7 +607,7 @@ y3 &lt;- h + 2*x3 + u
 
 reg1 &lt;- lm(y3 ~ x3)
 reg2 &lt;- ivreg(y3 ~x3,~z3)
-zi &lt;- rnorm(100,sd=2)
+zi &lt;- rnorm(100)
 reg3 &lt;- ivreg(y3~x3,~zi)</code></pre>
 <pre class="r"><code>stargazer(reg1,reg2,reg3,type =&quot;html&quot;, column.labels = c(&quot;MQO&quot;,&quot;MQ2E&quot;,&quot;MQ2E com instrumento inventado&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
 <table style="text-align:center">
@@ -781,14 +781,57 @@ F Statistic
 </tr>
 </table>
 <p>Apesar do desvio padrão alto, o resultado da variável instrumental inventada é numericamente mais próximo do real que o instrumento fraco! Isso não ocorre só em amostras pequenas. O livro <em>Econometria</em>, de Stock e Watson, diz que esse mesmo efeito pode ocorrer com amostras grandes!</p>
+<p>“Mas isso é só uma regressão, você não pode fazer inferência com uma única observação!” Ok, vamos fazer uma simulação de monte carlo e ver qual é o beta médio que sai. Eu serei generoso o suficiente e usarei 1000 obs e farei mil replicações:</p>
+<pre class="r"><code>beta &lt;- rep(0,1000)
+
+for(k in 1:1000){
+  z &lt;- rnorm(1000)
+  h &lt;- rnorm(1000)
+  v &lt;- rnorm(1000)
+  u &lt;- rnorm(1000)
+  x &lt;- h + 0.01*z + v
+  y &lt;- h + 2*x + u
+  beta[k] &lt;- ivreg(y ~ x,~z)$coef[2]
+} 
+
+tabela &lt;- matrix(c(max(beta),min(beta),mean(beta),sd(beta)),ncol=1)
+rownames(tabela) &lt;- c(paste0(&quot;Max dos &quot;,&#39;\u03b2&#39;),paste0(&quot;Min dos &quot;,&#39;\u03b2&#39;),paste0(&quot;Média dos &quot;,&#39;\u03b2&#39;),paste0(&quot;Desvio Padrão dos &quot;,&#39;\u03b2&#39;))
+knitr::kable(tabela,row.names = T,col.names = &quot;Resultados da simulação&quot;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">Resultados da simulação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Max dos β</td>
+<td align="right">224.204857</td>
+</tr>
+<tr class="even">
+<td>Min dos β</td>
+<td align="right">-692.931448</td>
+</tr>
+<tr class="odd">
+<td>Média dos β</td>
+<td align="right">1.516544</td>
+</tr>
+<tr class="even">
+<td>Desvio Padrão dos β</td>
+<td align="right">25.760984</td>
+</tr>
+</tbody>
+</table>
+<p>O desvio padrão é tão absurdamente alto que eu decidi colocar o máximo e o mínimo. A tabela fala por si só: com instrumentos fracos, regressões por MQ2E não merecem confiança. Temos que saber se nossos instrumentos são fortes (ou não).</p>
 </div>
 <div id="testando-se-instrumentos-fracos" class="section level2">
 <h2>Testando se instrumentos fracos</h2>
 <p>Se fizermos a regressão de x em z - do intrumentado em cima do instrumento, o que é conhecido como primeiro estágio do MQ2E - podemos olhar <em>a estatística F</em> da regressão para saber se o instrumento é forte ou não. Veja que isso só vale se for uma variável instrumentada. Stock e Watson dão como regra de bolso <span class="math inline">\(F &gt; 10\)</span> para consideramos o instrumento forte. Vamos testar isso para o nosso caso:</p>
-<pre class="r"><code>primeiro_estágio1 &lt;- lm(x ~z)
-primeiro_estágio2 &lt;- lm(x2 ~z)</code></pre>
+<pre class="r"><code>primeiro_estagio1 &lt;- lm(x ~z)
+primeiro_estagio2 &lt;- lm(x2 ~z)</code></pre>
 <p>E os resultados são:</p>
-<pre class="r"><code>stargazer(primeiro_estágio1,primeiro_estágio2, type = &quot;html&quot;, column.labels = c(&quot;Instrumento Forte&quot;,&quot;Instrumento Fraco&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
+<pre class="r"><code>stargazer(primeiro_estagio1,primeiro_estagio2, type = &quot;html&quot;, column.labels = c(&quot;Instrumento Forte&quot;,&quot;Instrumento Fraco&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">
@@ -823,20 +866,20 @@ Instrumento Fraco
 z
 </td>
 <td>
-0.859<sup>***</sup>
+0.069
 </td>
 <td>
--0.131<sup>***</sup>
+0.001
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.043)
+(0.046)
 </td>
 <td>
-(0.043)
+(0.045)
 </td>
 </tr>
 <tr>
@@ -852,10 +895,10 @@ z
 Constant
 </td>
 <td>
-0.018
+0.011
 </td>
 <td>
-0.018
+0.013
 </td>
 </tr>
 <tr>
@@ -881,10 +924,10 @@ Constant
 R<sup>2</sup>
 </td>
 <td>
-0.285
+0.002
 </td>
 <td>
-0.009
+0.000
 </td>
 </tr>
 <tr>
@@ -892,10 +935,10 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.284
+0.001
 </td>
 <td>
-0.008
+-0.001
 </td>
 </tr>
 <tr>
@@ -903,10 +946,10 @@ Adjusted R<sup>2</sup>
 F Statistic (df = 1; 998)
 </td>
 <td>
-397.523<sup>***</sup>
+2.294
 </td>
 <td>
-9.228<sup>***</sup>
+0.000
 </td>
 </tr>
 <tr>
@@ -993,7 +1036,7 @@ MQO
 x1
 </td>
 <td>
--1.033<sup>***</sup>
+-0.986<sup>***</sup>
 </td>
 <td>
 </td>
@@ -1028,7 +1071,7 @@ x2
 <td>
 </td>
 <td>
-0.165
+-0.624
 </td>
 <td>
 -0.488<sup>***</sup>
@@ -1040,10 +1083,10 @@ x2
 <td>
 </td>
 <td>
-(1.182)
+(0.388)
 </td>
 <td>
-(0.027)
+(0.028)
 </td>
 </tr>
 <tr>
@@ -1061,13 +1104,13 @@ x2
 Constant
 </td>
 <td>
-0.086<sup>*</sup>
+-0.023
 </td>
 <td>
-0.011
+-0.032
 </td>
 <td>
-0.026
+-0.034
 </td>
 </tr>
 <tr>
@@ -1077,10 +1120,10 @@ Constant
 (0.045)
 </td>
 <td>
-(0.056)
+(0.040)
 </td>
 <td>
-(0.040)
+(0.039)
 </td>
 </tr>
 <tr>
@@ -1098,13 +1141,13 @@ Constant
 R<sup>2</sup>
 </td>
 <td>
-0.512
+0.480
 </td>
 <td>
--0.194
+0.213
 </td>
 <td>
-0.246
+0.231
 </td>
 </tr>
 <tr>
@@ -1112,13 +1155,13 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.511
+0.479
 </td>
 <td>
--0.196
+0.212
 </td>
 <td>
-0.245
+0.230
 </td>
 </tr>
 <tr>
@@ -1130,7 +1173,7 @@ F Statistic
 <td>
 </td>
 <td>
-325.553<sup>***</sup> (df = 1; 998)
+299.732<sup>***</sup> (df = 1; 998)
 </td>
 </tr>
 <tr>
@@ -1196,68 +1239,10 @@ Inst Fraco
 z1
 </td>
 <td>
-1.047<sup>***</sup>
+0.972<sup>***</sup>
 </td>
 <td>
-0.011
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.048)
-</td>
-<td>
-(0.047)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-z2
-</td>
-<td>
--0.920<sup>***</sup>
-</td>
-<td>
-0.042
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.049)
-</td>
-<td>
-(0.048)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Constant
-</td>
-<td>
-0.048
-</td>
-<td>
-0.022
+-0.107<sup>**</sup>
 </td>
 </tr>
 <tr>
@@ -1280,13 +1265,71 @@ Constant
 </tr>
 <tr>
 <td style="text-align:left">
+z2
+</td>
+<td>
+-1.004<sup>***</sup>
+</td>
+<td>
+-0.002
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.045)
+</td>
+<td>
+(0.044)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-0.048
+</td>
+<td>
+0.021
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.045)
+</td>
+<td>
+(0.044)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
 R<sup>2</sup>
 </td>
 <td>
-0.455
+0.483
 </td>
 <td>
-0.001
+0.005
 </td>
 </tr>
 <tr>
@@ -1294,10 +1337,10 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.454
+0.482
 </td>
 <td>
--0.001
+0.003
 </td>
 </tr>
 <tr>
@@ -1305,10 +1348,10 @@ Adjusted R<sup>2</sup>
 F Statistic (df = 2; 997)
 </td>
 <td>
-416.707<sup>***</sup>
+464.957<sup>***</sup>
 </td>
 <td>
-0.413
+2.710<sup>*</sup>
 </td>
 </tr>
 <tr>

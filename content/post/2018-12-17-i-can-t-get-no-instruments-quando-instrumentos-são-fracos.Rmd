@@ -1,7 +1,7 @@
 ---
 title: "I Can't Get No Instruments: quando instrumentos são fracos"
 author: Daniel Coutinho
-date: '2018-12-17'
+date: '2018-12-19'
 slug: i-can-t-get-no-instruments-quando-instrumentos-são-fracos
 categories:
   - R
@@ -11,7 +11,6 @@ tags:
   - Instrumentos Fracos
 authors: ["danielc"]
 katex: true
-draft: true
 ---
 
 ```{r,message=FALSE,echo=FALSE}
@@ -23,18 +22,18 @@ library(stargazer)
 
 _(O título desse post é uma piada com o [título do capítulo do Mostly Harmless Econometrics](http://www.mostlyharmlesseconometrics.com/book-contents/) sobre instrumentos)_
 
-Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO $E(u|\textbf{X}) = 0$, em uma regreesão $\textbf{y} = \textbf{X}\beta + \textbf{u}$. Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância. Um instrumento $z$ é exógeno se $E(u|z) = 0$. Essa hipótse não é testável, em geral. A segunda hipótese, de relevância, significa que z é capaz de explicar alguma variação em z. Ela é muitas vezes ignorada, mas vamos falar dela neste artigo porque ele é importantíssima e testável. 
+Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO $E(u|\textbf{X}) = 0$, em uma regreesão $\textbf{y} = \textbf{X}\beta + \textbf{u}$. Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância. Um instrumento $z$ é exógeno se $E(u|z) = 0$. Essa hipótse não é testável, em geral. A segunda hipótese, de relevância, significa que $z$ é capaz de explicar alguma variação em z. Ela é muitas vezes ignorada, mas vamos falar dela neste artigo porque ele é importantíssima e testável. 
 
 ## Quando um instrumento é fraco e porque se preocupar
 
-Como eu já adiantei, um instrumento é fraco se ele não consegue explicar muito da variação de $X$. Vamos criar um problema em que há uma variável omitida $h$, que fazem parte tanto da equação de $y$ como da de $x$ (o exemplo vai ter só um regressor pra ficar simples), mas x também é influenciada por $z$ (novamente, univariado). Vamos começar com um caso em que as equação são:
+Como eu já adiantei, um instrumento é fraco se ele não consegue explicar muito da variação de $X$. Vamos criar um problema em que há uma variável omitida $h$, que fazem parte tanto da equação de $y$ como da de $x$ (o exemplo vai ter só um regressor pra ficar simples), mas $x$ também é influenciada por $z$ (novamente, univariado). Vamos começar com um caso em que as equação são:
 
 $$
 y = h + 2x + u\\
 x = h + z + v\\
 $$
 
-Onde $u$ e $v$ são erros iid Normais com média zero, variância um e independentes entre si. Eu vou usar o pacote **AER** pra estimar a regressão y em x usando z como instrumentos, o conhecido MQ2E. Vamos usar 1000 observações,e e u vou fazer a regressão por MQO pra nós compararmos o resultado das duas:
+Onde $u$ e $v$ são erros iid Normais com média zero, variância um e independentes entre si. Eu vou usar o pacote **AER** pra estimar a regressão $y$ em $x$ usando $z$ como instrumentos, o conhecido MQ2E. Vamos usar 1000 observações,e vou fazer a regressão por MQO pra nós compararmos o resultado das duas:
 
 
 ```{r}
@@ -62,7 +61,7 @@ stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"),model.na
 
 Nada mal: a estimativa está bem próxima do valor real, e é melhor que a de OLS.
 
-Agora, vamos fazer uma simples alteração no processo gerador de dados. A equação de x vai ser:
+Agora, vamos fazer uma simples alteração no processo gerador de dados. A equação de $x$ vai ser:
 
 $$x = h + 0.01z + v$$
 
@@ -99,7 +98,7 @@ y3 <- h + 2*x3 + u
 
 reg1 <- lm(y3 ~ x3)
 reg2 <- ivreg(y3 ~x3,~z3)
-zi <- rnorm(100,sd=2)
+zi <- rnorm(100)
 reg3 <- ivreg(y3~x3,~zi)
 ```
 
@@ -111,14 +110,38 @@ stargazer(reg1,reg2,reg3,type ="html", column.labels = c("MQO","MQ2E","MQ2E com 
 
 Apesar do desvio padrão alto, o resultado da variável instrumental inventada é numericamente mais próximo do real que o instrumento fraco! Isso não ocorre só em amostras pequenas. O livro _Econometria_, de Stock e Watson, diz que esse mesmo efeito pode ocorrer com amostras grandes!
 
+"Mas isso é só uma regressão, você não pode fazer inferência com uma única observação!" Ok, vamos fazer uma simulação de monte carlo e ver qual é o beta médio que sai. Eu serei generoso o suficiente e usarei 1000 obs e farei mil replicações:
+
+```{r,cache=TRUE}
+
+beta <- rep(0,1000)
+
+for(k in 1:1000){
+  z <- rnorm(1000)
+  h <- rnorm(1000)
+  v <- rnorm(1000)
+  u <- rnorm(1000)
+  x <- h + 0.01*z + v
+  y <- h + 2*x + u
+  beta[k] <- ivreg(y ~ x,~z)$coef[2]
+} 
+
+tabela <- matrix(c(max(beta),min(beta),mean(beta),sd(beta)),ncol=1)
+rownames(tabela) <- c(paste0("Max dos ",'\u03b2'),paste0("Min dos ",'\u03b2'),paste0("Média dos ",'\u03b2'),paste0("Desvio Padrão dos ",'\u03b2'))
+knitr::kable(tabela,row.names = T,col.names = "Resultados da simulação")
+
+```
+
+O desvio padrão é tão absurdamente alto que eu decidi colocar o máximo e o mínimo. A tabela fala por si só: com instrumentos fracos, regressões por MQ2E não merecem confiança. Temos que saber se nossos instrumentos são fortes (ou não).  
+
 ##Testando se instrumentos fracos
 
 Se fizermos a regressão de x em z -  do intrumentado em cima do instrumento, o que é conhecido como primeiro estágio do MQ2E - podemos olhar _a estatística F_ da regressão para saber se o instrumento é forte ou não. Veja que isso só vale se for uma variável instrumentada. Stock e Watson dão como regra de bolso $F > 10$ para consideramos o instrumento forte. Vamos testar isso para o nosso caso:
 
 ```{r}
 
-primeiro_estágio1 <- lm(x ~z)
-primeiro_estágio2 <- lm(x2 ~z)
+primeiro_estagio1 <- lm(x ~z)
+primeiro_estagio2 <- lm(x2 ~z)
 
 ```
 
@@ -126,7 +149,7 @@ E os resultados são:
 
 ```{r, results= 'asis'}
 
-stargazer(primeiro_estágio1,primeiro_estágio2, type = "html", column.labels = c("Instrumento Forte","Instrumento Fraco"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
+stargazer(primeiro_estagio1,primeiro_estagio2, type = "html", column.labels = c("Instrumento Forte","Instrumento Fraco"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")
 
 ```
 
