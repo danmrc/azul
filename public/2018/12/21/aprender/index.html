@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta name='description' content='Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
+Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.'>
+<meta name='theme-color' content='#ffcd00'>
+
+<meta property='og:title' content='Todo estudante de Economia deveria aprender R e por onde começar • Pedro Cavalcante'>
+<meta property='og:description' content='Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
+Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.'>
+<meta property='og:url' content='/2018/12/21/aprender/'>
+<meta property='og:site_name' content='AZUL'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/6257e4bc50db642ff52a5ab484db3859?s=256'><meta property='article:author' content='https://facebook.com/https://www.facebook.com/pedro.cavalcante.988'><meta property='article:publisher' content='261817724519833'><meta property='article:section' content='post'><meta property='article:tag' content='R'><meta property='article:published_time' content='2018-12-21T00:00:00Z'/><meta property='article:modified_time' content='2018-12-21T00:00:00Z'/><meta property='fb:app_id' content='1762899530488891'><meta name='twitter:card' content='summary'><meta name='twitter:creator' content='@https://twitter.com/PedrooCava'>
+
+<meta name="generator" content="Hugo 0.49" />
+
+  <title>Todo estudante de Economia deveria aprender R e por onde começar • Pedro Cavalcante</title>
+  <link rel='canonical' href='/2018/12/21/aprender/'>
+  
+  
+  <link rel='icon' href='/favicon.ico'>
+<link rel='stylesheet' href='/assets/css/main.4267b3fa.css'><link rel='stylesheet' href='/css/custom.css'><style>
+:root{--color-accent:#ffcd00;}
+</style>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  
+
+</head>
+
+
+<body class='page type-post has-sidebar'>
+
+  <div class='site'>
+
+    <div id='sidebar' class='sidebar'>
+  <a class='screen-reader-text' href='#main-menu'>Skip to Main Menu</a>
+
+  <div class='container'><section class='widget widget-about sep-after'>
+  <header>
+    
+    <div class='logo'>
+      <a href='/'>
+        <img src='/images/logo.png'>
+      </a>
+    </div>
+    
+    <h2 class='title site-title '>
+    AZUL
+    </h2>
+    <div class='desc'>
+    Economia, Estatística, Programação
+    </div>
+  </header>
+
+</section>
+<section class='widget widget-search sep-after'>
+  <header>
+    <h4 class='title widget-title'>Search</h4>
+  </header>
+
+  <form action='/search' id='search-form' class='search-form'>
+    <label>
+      <span class='screen-reader-text'>Search</span>
+      <input id='search-term' class='search-term' type='search' name='q' placeholder='Search&hellip;'>
+    </label></form>
+
+</section>
+<section class='widget widget-taxonomy_cloud sep-after'>
+  <header>
+    <h4 class='title widget-title'>Tags</h4>
+  </header>
+
+  <div class='container list-container'>
+  <ul class='list taxonomy-cloud'><li>
+        <a href='/tags/adf/' style='font-size:1em'>Adf</a>
+      </li><li>
+        <a href='/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/' style='font-size:1em'>Análise De Sobrevivência</a>
+      </li><li>
+        <a href='/tags/apresenta%C3%A7%C3%A3o/' style='font-size:1em'>Apresentação</a>
+      </li><li>
+        <a href='/tags/autovalores/' style='font-size:1em'>Autovalores</a>
+      </li><li>
+        <a href='/tags/blanchard-quah/' style='font-size:1.0769230769230769em'>Blanchard Quah</a>
+      </li><li>
+        <a href='/tags/blogdown/' style='font-size:1em'>Blogdown</a>
+      </li><li>
+        <a href='/tags/bot/' style='font-size:1em'>Bot</a>
+      </li><li>
+        <a href='/tags/cadeias-de-markov/' style='font-size:1em'>Cadeias De Markov</a>
+      </li><li>
+        <a href='/tags/clustering/' style='font-size:1.0769230769230769em'>Clustering</a>
+      </li><li>
+        <a href='/tags/econometria/' style='font-size:1em'>Econometria</a>
+      </li><li>
+        <a href='/tags/economia/' style='font-size:1.1538461538461537em'>Economia</a>
+      </li><li>
+        <a href='/tags/economia-da-educa%C3%A7%C3%A3o/' style='font-size:1em'>Economia Da Educação</a>
+      </li><li>
+        <a href='/tags/infer%C3%AAncia-causal/' style='font-size:1em'>Inferência Causal</a>
+      </li><li>
+        <a href='/tags/instrumentos-fracos/' style='font-size:1em'>Instrumentos Fracos</a>
+      </li><li>
+        <a href='/tags/interpola%C3%A7%C3%A3o/' style='font-size:1em'>Interpolação</a>
+      </li><li>
+        <a href='/tags/julia/' style='font-size:1.3846153846153846em'>Julia</a>
+      </li><li>
+        <a href='/tags/lasso/' style='font-size:1em'>Lasso</a>
+      </li><li>
+        <a href='/tags/machine-learning/' style='font-size:1em'>Machine Learning</a>
+      </li><li>
+        <a href='/tags/macroeconomia/' style='font-size:1em'>Macroeconomia</a>
+      </li><li>
+        <a href='/tags/microeconomia/' style='font-size:1.1538461538461537em'>Microeconomia</a>
+      </li><li>
+        <a href='/tags/monte-carlo/' style='font-size:1.1538461538461537em'>Monte Carlo</a>
+      </li><li>
+        <a href='/tags/ponto-fixo/' style='font-size:1em'>Ponto Fixo</a>
+      </li><li>
+        <a href='/tags/price-puzzle/' style='font-size:1em'>Price Puzzle</a>
+      </li><li>
+        <a href='/tags/probit/' style='font-size:1em'>Probit</a>
+      </li><li>
+        <a href='/tags/profiling/' style='font-size:1em'>Profiling</a>
+      </li><li>
+        <a href='/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/' style='font-size:1.2307692307692308em'>Programação Dinâmica</a>
+      </li><li>
+        <a href='/tags/r/' style='font-size:2em'>R</a>
+      </li><li>
+        <a href='/tags/raiz-unit%C3%A1ria/' style='font-size:1em'>Raiz Unitária</a>
+      </li><li>
+        <a href='/tags/random-forest/' style='font-size:1em'>Random Forest</a>
+      </li><li>
+        <a href='/tags/rdd/' style='font-size:1em'>Rdd</a>
+      </li><li>
+        <a href='/tags/replica%C3%A7%C3%A3o/' style='font-size:1.0769230769230769em'>Replicação</a>
+      </li><li>
+        <a href='/tags/sazonalidade/' style='font-size:1em'>Sazonalidade</a>
+      </li><li>
+        <a href='/tags/simula%C3%A7%C3%A3o/' style='font-size:1.1538461538461537em'>Simulação</a>
+      </li><li>
+        <a href='/tags/sistemas-din%C3%A2micos/' style='font-size:1em'>Sistemas Dinâmicos</a>
+      </li><li>
+        <a href='/tags/solow/' style='font-size:1em'>Solow</a>
+      </li><li>
+        <a href='/tags/suaviza%C3%A7%C3%A3o-do-consumo/' style='font-size:1em'>Suavização Do Consumo</a>
+      </li><li>
+        <a href='/tags/svm/' style='font-size:1em'>Svm</a>
+      </li><li>
+        <a href='/tags/telegram/' style='font-size:1.0769230769230769em'>Telegram</a>
+      </li><li>
+        <a href='/tags/tutoriais/' style='font-size:1em'>Tutoriais</a>
+      </li><li>
+        <a href='/tags/var/' style='font-size:1em'>Var</a>
+      </li><li>
+        <a href='/tags/vari%C3%A1veis-instrumentais/' style='font-size:1.0769230769230769em'>Variáveis Instrumentais</a>
+      </li><li>
+        <a href='/tags/%C3%A1lgebra-linear/' style='font-size:1em'>Álgebra Linear</a>
+      </li></ul>
+</div>
+
+
+</section>
+</div>
+
+  <div class='sidebar-overlay'></div>
+</div>
+
+    <div class='main'>
+
+      <nav id='main-menu' class='menu main-menu' aria-label='Main Menu'>
+  <div class='container'>
+    <a class='screen-reader-text' href='#content'>Skip to Content</a>
+
+<button id='sidebar-toggler' class='sidebar-toggler' aria-controls='sidebar'>
+  <span class='screen-reader-text'>Toggle Sidebar</span>
+  <span class='open'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="3" y1="12" x2="21" y2="12" />
+  <line x1="3" y1="6" x2="21" y2="6" />
+  <line x1="3" y1="18" x2="21" y2="18" />
+  
+</svg>
+</span>
+  <span class='close'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="18" y1="6" x2="6" y2="18" />
+  <line x1="6" y1="6" x2="18" y2="18" />
+  
+</svg>
+</span>
+</button>
+    <ul><li class='item'>
+        <a href='https://github.com/danmrc/azul/tree/master/C%C3%B3digos'>GitHub</a>
+      </li><li class='item'>
+        <a href='/about/'>Sobre</a>
+      </li><li class='item'>
+        <a href='/post'>Tudo</a>
+      </li><li class='item'>
+        <a href=''>Twitter</a>
+      </li></ul>
+  </div>
+</nav>
+
+      <header id='header' class='header site-header'>
+        <div class='container sep-after'>
+          <div class='header-info'><p class='site-title title'>AZUL</p><p class='desc site-desc'>Economia, Estatística, Programação</p>
+          </div>
+        </div>
+      </header>
+
+      <main id='content'>
+
+
+<article lang='en' class='entry'>
+  <header class='header entry-header'>
+  <div class='container sep-after'>
+    <div class='header-info'>
+      <h1 class='title'>Todo estudante de Economia deveria aprender R e por onde começar</h1>
+      
+
+    </div>
+    
+<div class='entry-meta'>
+  <span class='posted-on'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+  <line x1="16" y1="2" x2="16" y2="6"/>
+  <line x1="8" y1="2" x2="8" y2="6"/>
+  <line x1="3" y1="10" x2="21" y2="10"/>
+  
+</svg>
+<span class='screen-reader-text'>Posted on </span>
+  <time class='entry-date' datetime='2018-12-21T00:00:00Z'>2018, Dec 21</time>
+</span>
+
+  <span class='byline'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M21,21V20c0-2.76-4-5-9-5s-9,2.24-9,5v1"/>
+  <path d="M16,6.37A4,4,0,1,1,12.63,3,4,4,0,0,1,16,6.37Z"/>
+  
+</svg>
+<span class='screen-reader-text'> by </span><a href='/authors/pedrocava'>Pedro Cavalcante</a></span>
+  
+<span class='reading-time'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <circle cx="12" cy="12" r="10"/>
+  <polyline points="12 6 12 12 15 15"/>
+  
+</svg>
+8 mins read
+</span>
+
+
+</div>
+
+
+  </div>
+</header>
+
+  
+  
+
+  <div class='container entry-content'>
+  <p>Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas <em>queiram</em> perder uma semana de férias programando.</p>
+<p>Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.</p>
+<div id="ah-a-realidade-tao-confusa-os-modelos-tao-errados" class="section level2">
+<h2>Ah, a realidade tão confusa, os modelos tão errados</h2>
+<p>Me ocorreu que antes de pensar por que um estudante de economia deveria aprender uma linguagem de programação voltada para análise de dados, eu deveria antes convence-lo que matemática é importante. “Matemática”, leia, algo além de dois cursos mastigados de cálculo e um de álgebra linear. Tô falando de análise, otimização e topologia.</p>
+<p>Vamos fazer um pequeno exercício mental. Qual é a diferença entre os dois seguintes enunciados:</p>
+<ul>
+<li>Pessoas escolhem o que consomem levando em conta suas preferências e suas restrições orçamentárias</li>
+</ul>
+<p><span class="math display">\[\text{Max} \,\,U(x,y) \,\,s.t. \,P_x x + P_y y = W \]</span></p>
+<p>Obviamente os dois enunciados carregam a mesma informação central. Por quê é mais interessante escrever da segunda forma? Veja bem, leitor, certamente existe quem escreva mal com matemática, mas ninguém escreve matemática mal. Equações, funções, problemas de otimização são exatamente equações, funções e problemas de otimização.</p>
+<p>Enquanto isso posso escrever a mesma ideia central como:</p>
+<ul>
+<li>Pessoas escolhem o melhor que podem</li>
+<li>Consumidores dotados de faculdades cognitivas apropriadas realizam escolhas válidas para o contexto tomando em consideração preferências pessoais e restrições externas de ordem orçamentária</li>
+</ul>
+<p>Eu não sei você, mas me sinto quase ofendido quando leio essas enrolações. Disso para concluir algo que depende de combinação muito específica de parâmetros como o comum é um pulo. Escrever os modelos com matemática é mais transparente, deixa clara nossa ignorância. Resultados contraintuitivos aparecem mais facilmente e induzir o leitor a concluir algo sem apresentar dados apropriados se torna um exercício de futilidade: “acredite em mim que esse parâmetro aqui é mais relevante que esse outro por favor”.</p>
+<p>E onde entra análise e topologia aqui?</p>
+<p>Bem, análise é onde você entra no jogo dos crescidinhos. É, em termos bem amplos, a área da matemática que fundamenta nossos conceitos usuais como funções, limites, derivadas. O jogo deixa de ser fazer conta para provar teoremas e propriedades. Isso é importante porque ver matemática (e por consequência nossos modelinhos) sob esse novo prisma te faz ver e se preocupar com coisas novas. A primeira reação de quem teve algum contato com isso quando apresentado a um resultado é “você consegue provar isso?”. Ter esse tipo de raciocínio fará mil vezes mais pelo seu pensamento crítico do que ler na fonte gente que morreu no século <span class="math inline">\(XIX\)</span>.</p>
+<p>A segunda reação é, tendo mais ferramentas para ponderar o quão central é uma hipótese em um modelo, questionar o papel delas nessa conclusão. No melhor dos cenários, um modelo é uma coleção de hipóteses aceitavelmente irrealistas. É, ninguém computa Multiplicadores de Lagrange no supermercado, mas quando tomates ficam mais caros pessoas compram menos. É absurdo fingir que pessoas maximizam utilidade, têm preferências racionais e outros tantos flagrantes irrealismos? Não. Existência de Equilíbrio Geral não depende de competição perfeita em todos os mercados, mas alunos de graduação são assim introduzidos a esse mundo porque é, veja você, mais simples.</p>
+<p>Um modelo é, por definição, algo errado. Subtraímos do mundo à nossa volta pecualiaridades em busca de um objeto mais tratável, matemático. Funciona? Creio que sim. Você, leitor, pode ler minhas palavras diretamente do telefone porque os teoremas de Teoria dos Leilões provados por Vickrey, Milgrom e Wilson nos anos 70-80 fundamentaram os bem-sucedidos leilões de banda larga nos anos 90. Se um parente seu precisar de doação de rim, provavelmente se beneficiará do <a href="http://www.eecs.harvard.edu/cs286r/courses/fall09/papers/galeshapley.pdf">Algoritimo de Gale-Shapley</a> e para mercados com pareamentos e dos <a href="https://pdfs.semanticscholar.org/cf51/08ca274bdf762193ffdc8d2b2c95208af1b0.pdf">teoremas (de impossibilidade) demonstrados por Alvin Roth</a>. Sim, Shapley e Roth, aqueles laureados com o Nobel de Economia. A obra de outros dois laureados com o Nobel, Roger Myerson e Bengt Holmstrom envolve muitos teoremas e tem aplicações práticas na vida de todos nós. Como um organizador determina as remunerações de uma <a href="https://www.jstor.org/stable/3003457?seq=1#page_scan_tab_contents">equipe que não pode diretamente observar</a>? Como <a href="https://www.jstor.org/stable/1912769?seq=1#page_scan_tab_contents">regulamos um monopolista se não conhecemos sua curva de custo</a>?</p>
+<p>Matemática é importante não só para provar teoremas difíceis e levar o Nobel para casa. Eu te garanto que entender por que “deriva e iguala a zero” funciona fica mais fácil. Entender por que um jogo tem Equilíbrio de Nash deixa de ser questão de achar interseções de curvas e sim de entender que isso é consequência do <a href="https://pt.wikipedia.org/wiki/Teorema_do_ponto_fixo_de_Brouwer">Teorema do Ponto Fixo de Brouwer</a>, ou mais, que consumidores têm uma cesta ótima graças ao <a href="https://pt.wikipedia.org/wiki/Teorema_de_Bolzano-Weierstrass">Teorema de Bolzano-Weierstrass</a>.</p>
+</div>
+<div id="ok-seu-maluco-e-o-r" class="section level1">
+<h1>Ok, seu maluco, e o R?</h1>
+<p>Como já dizia o revolucionário, o mérito da teoria está na prática. Jogar modelos malucos no quadro é uma coisa, <em>eles serem bons explicadores da realidade é outra completamente diferente</em>. Aqui entra o R. Uma coisa que me incomoda no ambiente universitário brasileiro de economia é que nós <em>paramos no tempo</em>. Nos anos 50 eu chuto, mas talvez no século <span class="math inline">\(XIX\)</span>.</p>
+<p>Quais são os temas mais comuns de serem debatidos aqui na Banânia?</p>
+<ul>
+<li>Heterodoxia vs Ortodoxia</li>
+<li>Poupança causa Investimento ou o contrário?</li>
+<li>Valor-utilidade ou valor-trabalho?</li>
+</ul>
+<p>Eu vou listar alguns artigos com menos de 18 anos de idade para você, leitor, ter uma ideia do que se debate lá fora, nas melhores revistas de economia:</p>
+<ul>
+<li><a href="https://www.aeaweb.org/articles?id=10.1257/app.20160469">Incentivizing Safer Sexual Behavior: Evidence from a Lottery Experiment on HIV Prevention, de Martina Nyqvist, Lucia Corno , Damien de Walque e Jakob Svensson</a></li>
+</ul>
+<p>Os caras montaram uma loteria para pacientes de HIV no Lesoto. A condição para ficar era participar da profilaxia. Os resultados: diminuição enorme no contágio a um custo pequeno. Saiu numa das melhores revistas de economia aplicada do mundo.</p>
+<ul>
+<li><a href="https://dash.harvard.edu/bitstream/handle/1/13457753/TeaParty_Protests.pdf?sequence=1">Do Political Protests Matter? Evidence from the Tea Party Movement, de Andreas Madestam, Daniel Shoag, Stan Veuger e David Yanagizawa-Drott</a></li>
+</ul>
+<p>Exploraram o fato de que chuva alterou a atendência a protestos coordenados nacionalmente nos EUA em cada região e depois cruzou isso com candidatos eleitos nas próximas eleições e filiações no movimento. Um trabalho realmente interessante, saiu na <em>melhor</em> revista de economia do mundo, o Quarterly Journal of Economics.</p>
+<ul>
+<li><a href="https://www.aeaweb.org/articles?id=10.1257/aer.101.1.158">The Effect of Female Education on Fertility and Infant Health: Evidence from School Entry Policies Using Exact Date of Birth, de Justin McCrary e Heather Royer</a></li>
+</ul>
+<p>Quem nasce logo antes de uma certa data precisa esperar um ano para entrar na escola e isso causa uma variação exógena na escolaridade de adultos que não concluíram o ensino médio. Os autores então cruzam isso com indicadores de saúde dos filhos desses pais menos escolarizados. Saiu numa das melhores revistas de economia do mundo.</p>
+<p>Esses trabalhos são só três exemplos do que se faz hoje em dia em economia. Tem pouco ou nada a ver com o esoterismo instalado em boa parte dos departametnos de economia nacionais e sim com tratar, explorar e analisar dados. Não só isso, mas tendo cuidado e usando técnicas para procurar relações de causalidade e não só de correlação. Falo mais disso <a href="https://azul.netlify.com/2018/12/13/rdd-mixtape/">nesse post aqui se o assunto te interessar</a>.</p>
+<p>Aprender R é uma porta de entrada para esse mundo, o da pesquisa séria. <a href="https://azul.netlify.com/2018/11/29/patronagem/">Nesse post aqui eu mostrei como replicar um paper muito interessante sobre nepotismo usando dados ingleses do século XIX</a> com o R. Desde importar os dados que o autor usou até rodar os modelos.</p>
+</div>
+<div id="e-por-onde-comecar" class="section level1">
+<h1>E por onde começar?</h1>
+<p>Antes de mais nada, programar na vida real não é como nos filmes de hackers. Você não vai ficar digitando sem parar por horas a fio olhando para uma tela preta e branca. A maior parte do tempo você vai passar no <a href="https://stackoverflow.com/">StackOverflow</a> e no <a href="https://stats.stackexchange.com/">CrossValidated</a> (ambos parte da rede StackExchange de fóruns) tirando dúvidas e procurando gente com o mesmo problema que você. Programar é assim, não se sinta mal com mensagens de erro.</p>
+<p>Aqui segue uma lista não-exaustiva de fontes úteis para começar:</p>
+<ul>
+<li><a href="https://www.datacamp.com/">Datacamp</a></li>
+</ul>
+<p>Eles tem um curso introdutório grauito de R e um de python. As aulas são curtas, cheias de exercícios com dados engraçadinhos (tipo bilheteria de Star Wars). O resto é pago e vale cada centavo. Existem mais de 100 cursos aí que duram entre 2 e 6 horas cada e são todos de altíssima qualidade. O maior ponto a favor é que você aprende fazendo.</p>
+<ul>
+<li><a href="https://analisemacro.com.br/">Análise Macro</a></li>
+</ul>
+<p>Cursos pagos, mas muito bons. Você vai receber uma apostila de alta qualidade, videoaulas gravadas, 3 meses para acessar o material e mergulhar fundo em um tema específico. Desde análise de séries temporais a teoria macroeconômica, tudo com a mão na massa.</p>
+<ul>
+<li><a href="https://r4ds.had.co.nz/">R for Data Science</a></li>
+</ul>
+<p>E-book gratuito de dois dos papas de R. Aqui tem praticamente tudo que você vai precisar saber na vida sobre R e de graça. Atenção: não só leia o livro, vá programando tudo que eles apresentam na hora. É fazendo que se aprende.</p>
+<ul>
+<li><a href="https://danmrc.github.io/R-para-Economistas/index.html">R para Economistas, de Daniel Coutinho</a></li>
+</ul>
+<p>E-book mais curto ainda e também gratuito. O Daniel é um econometrista teórico safado que faz mestrado na PUC com quem eu tenho o prazer de dividir esse blog. O livro cobre como fazer o básico de uma graduação em economia no R. De novo: é importante programar tudo.</p>
+<ul>
+<li><a href="https://swirlstats.com/">Swirl</a></li>
+</ul>
+<p>A ideia é a mesma do DataCamp, aprender fazendo, só que é de graça. Cobre o básico que qualquer um precisa saber e é um ótimo ponto de partida.</p>
+<ul>
+<li><a href="https://azul.netlify.com/post/">Azul</a></li>
+</ul>
+<p>Não podia deixar de falar do meu bebê. O blog nasceu quando eu falei com o Daniel que queria ter algum jeito de me forçar a praticar R. Dito e feito. O espírito dele é um grande “como eu gostaria de ter aprendido”. A ideia é ser didático - porque ensinar é ótimo para aprender - e dar ideias para mais gente fazer mais experimentos com dados.</p>
+</div>
+
+</div>
+
+  
+<footer class='entry-footer'>
+  <div class='container sep-before'><div class='categories'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M22,19a2,2,0,0,1-2,2H4a2,2,0,0,1-2-2V5A2,2,0,0,1,4,3H9l2,3h9a2,2,0,0,1,2,2Z"/>
+  
+</svg>
+<span class='screen-reader-text'>Categories: </span></div>
+<div class='tags'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <path d="M20.59,13.41l-7.17,7.17a2,2,0,0,1-2.83,0L2,12V2H12l8.59,8.59A2,2,0,0,1,20.59,13.41Z"/>
+  <line x1="7" y1="7" x2="7" y2="7"/>
+  
+</svg>
+<span class='screen-reader-text'>Tags: </span></div>
+
+  </div>
+</footer>
+
+
+</article>
+
+<nav class='entry-nav'>
+  <div class='container'><div class='prev-entry sep-before'>
+      <a href='/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/'>
+        <span aria-hidden='true'><svg class='icon' viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+  
+  <line x1="20" y1="12" x2="4" y2="12"/>
+  <polyline points="10 18 4 12 10 6"/>
+  
+</svg>
+ Previous</span>
+        <span class='screen-reader-text'>Previous post: </span>I Can&#39;t Get No Instruments: quando instrumentos são fracos</a>
+    </div></div>
+</nav>
+
+
+
+
+      </main>
+
+      <footer id='footer' class='footer'>
+        <div class='container sep-before'><div class='copyright'>
+  <p></p>
+</div>
+
+        </div>
+      </footer>
+
+    </div>
+  </div><script>window.__public_path__='\/assets\/js\/'</script>
+
+<script src='/assets/js/main.59f76c44.js'></script><script src='/js/custom.js'></script><link rel='stylesheet' href='//unpkg.com/katex/dist/katex.min.css'>
+<script src='//unpkg.com/katex/dist/katex.min.js'></script>
+<script src='//unpkg.com/katex/dist/contrib/auto-render.min.js'></script>
+
+<script type='text/javascript'>
+  renderMathInElement(document.querySelector('.entry-content'),{});
+</script>
+
+</body>
+
+</html>
+
