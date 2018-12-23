@@ -1,0 +1,17 @@
+---
+title: "maps"
+author: "Pedro Cavalcante"
+date: "December 23, 2018"
+output: html_document
+---
+
+```{R, warning = FALSE, message = FALSE}
+library(ggmap)
+library(tidyverse)
+```
+
+```{R}
+mapa = get_googlemap(center = "Flamengo, Rio de Janeiro")
+
+
+```
