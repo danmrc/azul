@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2018/12/26/ano-novo-layout-novo/</loc>
+    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/12/21/aprender/</loc>
     <lastmod>2018-12-21T00:00:00+00:00</lastmod>
   </url>
@@ -168,7 +173,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-12-21T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -334,6 +339,12 @@
   </url>
   
   <url>
+    <loc>/tags/layout/</loc>
+    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/machine-learning/</loc>
     <lastmod>2018-09-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -365,7 +376,7 @@
   
   <url>
     <loc>/categories/meta/</loc>
-    <lastmod>2018-12-03T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -395,7 +406,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-12-21T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -504,6 +515,12 @@
   <url>
     <loc>/tags/svm/</loc>
     <lastmod>2018-12-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/syntax-highlighting/</loc>
+    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
