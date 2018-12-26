@@ -17,7 +17,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 	twitter = ""
 	facebook = ""
 
-	enableRSS = true
+	enableRSS = false
 	enableToc = true
 
 	enableDisqus = false
