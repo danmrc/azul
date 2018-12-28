@@ -1,7 +1,7 @@
 ---
 title: Programação Dinâmica IIB
 author: Daniel Coutinho
-date: '2018-11-02'
+date: '2018-12-27'
 slug: programacao-dinamica-II-B
 categories:
   - Julia
@@ -11,13 +11,11 @@ tags:
   - Programação Dinâmica
   - Julia
   - Economia
-authors: ["danielc"]
-draft: true
 katex: true
 ---
 
 ```{r, message=FALSE,echo=FALSE}
-JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
+JuliaCall::julia_setup()
 
 ```
 
@@ -27,7 +25,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)
 
 A nossa estratégia no post passado era, para cada $t$, resolver o problema:
 
-$$V_t(k_t) = max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) $$
+$$V_t(k_t) = Max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) $$
 
 Onde nós sabiamos que o $V_T(k_T)$ era igual a função utilidade avaliada em $k_T$. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar $V_{T-1}$, e dai $V_{T-2}$...
 
@@ -35,7 +33,7 @@ Mas agora, somos apresentados a um problema em que não temos um último períod
 
 $$ V(k_t) = \max_{c_t} u(c_t)+ \beta{} V((1-\delta)k_{t}+f(k_t)-c_t)) $$
 
-A beleza de resolver esse problema é que, apesar de não sabermos o valor de V, podemos iterar no computador e encontrar uma aproximação. Isso se deve ao fato de que o problema acima é uma contração, então vale o Teorema do Ponto Fixo de Banach, que o Pedro apresentou aqui. Nosso pseudo-código seria:
+A beleza de resolver esse problema é que, apesar de não sabermos o valor de $V$, podemos iterar no computador e encontrar uma aproximação. Isso se deve ao fato de que o problema acima é uma contração, então vale o Teorema do Ponto Fixo de Banach, que o Pedro apresentou [aqui](https://azul.netlify.com/2018/10/31/banach/). Nosso pseudo-código seria:
 
 * Dê algum chute inicial para $V$. Vamos chamar de $V_0$.
 * Resolva $\max_c u(c) + \beta{}V_0((1-\delta)k_{t}+f(k_t)-c))$. Salve isso como $V_1$
@@ -78,7 +76,7 @@ end
 
 ```
 
-A solução verdadeira é $c^*(k) = (1-\alpha \beta)k$. Vamos plotar a solução verdadeira contra a estimada:
+A solução verdadeira é $c^*(y) = (1-\alpha \beta)y$. Vamos plotar a solução verdadeira contra a estimada:
 
 ```{julia}
 
@@ -89,7 +87,7 @@ plot!(y,sol(y), lab = "Solução verdadeira", linestyle = :dash, lw = 2)
 
 ```
 
-![](/post/Prog_dinamica/img1_2a.png)
+![](/post/Prog_dinamica/img1_2b.png)
 
 A linha da solução computada parece muito próxima da solução verdadeira, mas um pouco menos suave. A diferença parece ficar pior no final. Vamos fazer um gráfico com a diferença entre as duas soluções:
 
@@ -101,8 +99,10 @@ plot(y,dif, legend = :none, lw = 2)
 
 ```
 
-![](/post/Prog_dinamica/img2_2a.png)
+![](/post/Prog_dinamica/img2_2b.png)
 
-O gráfico deixa bem claro que a solução difere mais na ponta direita. Mas mesmo assim a diferença é pequena. 
+O gráfico deixa bem claro que a solução difere mais na ponta direita. Mas mesmo assim a diferença é pequena, apenas na segunda casa decimal. 
 
-Este post encerra a série de posts sobre programação dinâmica. Esse tipo de ferramenta é importante em diversas aplicações em economia, tanto macro quanto em desenvolvimento. Muitas variações do problema não são resolvidas de maneira analítica: veja que mesmo no caso acima, em que a função de produção é Cobb Douglas e a utilidade é log, precisamos que o capital se deprecie totalmente; caso contrário, não temos solução analítica.
+Este post encerra a série de posts (introdutórios) sobre programação dinâmica. Esse tipo de ferramenta é importante em diversas aplicações em economia, tanto macro, desenvolvimento, e organização ondustrial. Muitas variações do problema não são resolvidas de maneira analítica: veja que mesmo no caso acima, em que a função de produção é Cobb Douglas e a utilidade é logarítmica, precisamos que o capital se deprecie totalmente; caso contrário, não temos solução analítica. Esse caso é interessante e pode ser obtido alterando o código acima minimamente.  
+
+_Este post é, basicamente, uma adaptção [deste post](https://lectures.quantecon.org/jl/optgrowth.html#), do quant-econ, do Sargent e Stachurski_
