@@ -47,7 +47,7 @@
                     </h1>
                     <h2 class="headline">
                     Jan 7, 2019 00:00
-                    · 544 words
+                    · 508 words
                     · 3 minute read
                       <span class="tags">
                       
@@ -71,24 +71,15 @@
                     <p>Dia desses o <code>gganimate</code> finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando <code>install.packages(&quot;gganimate&quot;)</code> - mas se prepare porque ele têm <em>muitas</em> dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do <code>ggplot2</code> não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês <a href="https://github.com/thomasp85">Thomas Lin Pedersen</a>, que desenvolve vários pacotes excelentes de R. Entre eles, três extensões ao <code>ggplot2</code>, <code>ggraph</code> para plotar grafos, <code>ggforce</code> com uma gramática expandida e o <code>gganimate</code>.</p>
 <p>Pra quem não sabe, o “gg” de <code>ggplot2</code> significa <em>grammar of graphs</em>. Faz parte da filosofia interessante dos pacotes do <code>tidyverse</code> oferecer uma <em>gramática</em> de um assunto. O <code>ggplot2</code> não só produz visualizações de alta qualidade, ele oferece uma linguagem comum para isso. A ideia é criar camadas e adicionar uma sobre a outra. É bem modular, por isso existem dezenas de expansões ao <code>ggplot2</code> que conversam perfeitamente com o pacote base e usam a mesma gramática, só adicionando verbos novos. <a href="http://www.ggplot2-exts.org/gallery/">Aqui tem uma lista interessante</a>.</p>
 <p>Um desafio no desenvolvimento do <code>gganimate</code> era pensar em uma <em>gramática das animações</em>. Quem usou o pacote na versão ainda em desenvolvimento do Robinson logo percebeu que ele entendia a animação como um eixo na qual o usuário iria variar a visualização. Era só adicionar uma linha dizendo qual variável indexaria os frames da animação e pronto, parecia mais um parâmetro do gráfico. Isso mudou.</p>
-<p>Nesse <a href="https://www.r-bloggers.com/gganimate-has-transitioned-to-a-state-of-release/">post aqui</a> Pedersen explica brevemente como funciona a nova gramática e o spoiler que eu posso dar é que ela diferencia duas coisas fundamentais que antes eram a mesma: <em>scenes</em> e <em>segues</em>. Uma <em>scene</em> é só uma sequência de dados diferentes sendo exibidos no que fundamentalmente é a mesma estética base. Uma <em>segue</em> representa mudanças na estética base do da visualização. Eu gostei muito de um exemplo que o próprio deu no post:</p>
-<pre class="r"><code>library(ggplot2)
-library(gganimate)
-library(dplyr)
-
-airquality %&gt;%
-    ggplot() + 
-    geom_line(aes(x = Day, y = Temp, group = Month),
-            size = 1.5)</code></pre>
-<p><img src="/post/gganimate_files/figure-html/unnamed-chunk-1-1.png" width="2100" /></p>
-<pre class="r"><code>## agora geramos a animação
-last_plot() + 
-  transition_reveal(Day)</code></pre>
-<p><img src="/post/gganimate_files/figure-html/unnamed-chunk-1-1.gif" /><!-- --></p>
+<p>Nesse <a href="https://www.r-bloggers.com/gganimate-has-transitioned-to-a-state-of-release/">post aqui</a> Pedersen explica brevemente como funciona a nova gramática e o spoiler que eu posso dar é que ela diferencia duas coisas fundamentais que antes eram a mesma: <em>scenes</em> e <em>segues</em>. Uma <em>scene</em> é só uma sequência de dados diferentes sendo exibidos no que fundamentalmente é a mesma estética base. Uma <em>segue</em> representa mudanças na estética base do da visualização.</p>
 <p>Vamos fazer uma pequena simulação aqui para exemplificar comportamento assintótico de uma distribuição de probabilidade. Se você jogar um dado, guardar o número, jogar de novo, guardar o número e por aí vai… A média desses números vai para algum lugar?</p>
 <p>Vai, e sabemos para onde. Chamemos de <span class="math inline">\(D\)</span> a distribuição discreta que representa um dado não-viciado, temos <span class="math inline">\(\mathbb{E}[D] = \sum_{i = 1}^6 \frac{i}{6} = 3.5\)</span></p>
 <pre class="r"><code>library(TeachingDemos)
 library(tibble)
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+
 
 set.seed(10)
 n = 1500
@@ -110,11 +101,14 @@ base = tibble(media = media,
 base %&gt;%
   ggplot(aes(x = indice, y = media)) +
   geom_line(size = 1.5) + 
-  geom_hline(yintercept = 3.5) # linha vertical na experança</code></pre>
-<p><img src="/post/gganimate_files/figure-html/unnamed-chunk-2-1.png" width="2100" /></p>
-<pre class="r"><code>last_plot() +
+  geom_hline(yintercept = 3.5) # linha vertical na experança
+
+last_plot() +
   transition_reveal(indice)</code></pre>
-<p><img src="/post/gganimate_files/figure-html/unnamed-chunk-2-1.gif" /><!-- --></p>
+<div class="figure">
+<img src="https://i.imgur.com/1gFrwmE.gif" />
+
+</div>
 
                 </section>
             </article>

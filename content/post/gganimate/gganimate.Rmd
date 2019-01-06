@@ -24,31 +24,19 @@ Pra quem não sabe, o "gg" de ``ggplot2`` significa _grammar of graphs_. Faz par
 
 Um desafio no desenvolvimento do ``gganimate`` era pensar em uma _gramática das animações_. Quem usou o pacote na versão ainda em desenvolvimento do Robinson logo percebeu que ele entendia a animação como um eixo na qual o usuário iria variar a visualização. Era só adicionar uma linha dizendo qual variável indexaria os frames da animação e pronto, parecia mais um parâmetro do gráfico. Isso mudou.
 
-Nesse [post aqui](https://www.r-bloggers.com/gganimate-has-transitioned-to-a-state-of-release/) Pedersen explica brevemente como funciona a nova gramática e o spoiler que eu posso dar é que ela diferencia duas coisas fundamentais que antes eram a mesma: _scenes_ e _segues_. Uma _scene_ é só uma sequência de dados diferentes sendo exibidos no que fundamentalmente é a mesma estética base. Uma _segue_ representa mudanças na estética base do da visualização. Eu gostei muito de um exemplo que o próprio deu no post:
-
-```{R, dpi = 300, message = FALSE, warning = FALSE}
-library(ggplot2)
-library(gganimate)
-library(dplyr)
-
-airquality %>%
-    ggplot() + 
-    geom_line(aes(x = Day, y = Temp, group = Month),
-            size = 1.5)
-
-## agora geramos a animação
-last_plot() + 
-  transition_reveal(Day)
-
-```
+Nesse [post aqui](https://www.r-bloggers.com/gganimate-has-transitioned-to-a-state-of-release/) Pedersen explica brevemente como funciona a nova gramática e o spoiler que eu posso dar é que ela diferencia duas coisas fundamentais que antes eram a mesma: _scenes_ e _segues_. Uma _scene_ é só uma sequência de dados diferentes sendo exibidos no que fundamentalmente é a mesma estética base. Uma _segue_ representa mudanças na estética base do da visualização. 
 
 Vamos fazer uma pequena simulação aqui para exemplificar comportamento assintótico de uma distribuição de probabilidade. Se você jogar um dado, guardar o número, jogar de novo, guardar o número e por aí vai... A média desses números vai para algum lugar? 
 
 Vai, e sabemos para onde. Chamemos de $D$ a distribuição discreta que representa um dado não-viciado, temos $\mathbb{E}[D] = \sum_{i = 1}^6 \frac{i}{6} = 3.5$
 
-```{R, warning = FALSE, message = FALSE, dpi = 300}
+```{R, warning = FALSE, message = FALSE, dpi = 300, eval = FALSE}
 library(TeachingDemos)
 library(tibble)
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+
 
 set.seed(10)
 n = 1500
@@ -75,7 +63,9 @@ base %>%
 last_plot() +
   transition_reveal(indice)
 
+
 ```
 
+![](https://i.imgur.com/1gFrwmE.gif)
 
 
