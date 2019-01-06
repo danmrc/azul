@@ -1,0 +1,81 @@
+---
+title: "Visualizando comportamento assintótico de uma distribuição com o gganimate"
+author: "Pedro Cavalcante"
+date: '2019-01-07'
+output:
+  html_document: 
+    df_print: paged
+  pdf_document: default
+katex: yes
+categories:
+- R
+- Estatística
+slug: prob-animate
+tags:
+  - Convergência
+  - Animação
+  - Visualização de Dados
+authors: ["pedrocava"]
+---
+
+Dia desses o ``gganimate`` finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando ``install.packages("gganimate")`` - mas se prepare porque ele têm *muitas* dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ``ggplot2`` não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês [Thomas Lin Pedersen](https://github.com/thomasp85), que desenvolve vários pacotes excelentes de R. Entre eles, três extensões ao ``ggplot2``, ``ggraph`` para plotar grafos, ``ggforce`` com uma gramática expandida e o ``gganimate``. 
+
+Pra quem não sabe, o "gg" de ``ggplot2`` significa _grammar of graphs_. Faz parte da filosofia interessante dos pacotes do ``tidyverse`` oferecer uma _gramática_ de um assunto. O ``ggplot2`` não só produz visualizações de alta qualidade, ele oferece uma linguagem comum para isso. A ideia é criar camadas e adicionar uma sobre a outra. É bem modular, por isso existem dezenas de expansões ao ``ggplot2`` que conversam perfeitamente com o pacote base e usam a mesma gramática, só adicionando verbos novos. [Aqui tem uma lista interessante](http://www.ggplot2-exts.org/gallery/).
+
+Um desafio no desenvolvimento do ``gganimate`` era pensar em uma _gramática das animações_. Quem usou o pacote na versão ainda em desenvolvimento do Robinson logo percebeu que ele entendia a animação como um eixo na qual o usuário iria variar a visualização. Era só adicionar uma linha dizendo qual variável indexaria os frames da animação e pronto, parecia mais um parâmetro do gráfico. Isso mudou.
+
+Nesse [post aqui](https://www.r-bloggers.com/gganimate-has-transitioned-to-a-state-of-release/) Pedersen explica brevemente como funciona a nova gramática e o spoiler que eu posso dar é que ela diferencia duas coisas fundamentais que antes eram a mesma: _scenes_ e _segues_. Uma _scene_ é só uma sequência de dados diferentes sendo exibidos no que fundamentalmente é a mesma estética base. Uma _segue_ representa mudanças na estética base do da visualização. Eu gostei muito de um exemplo que o próprio deu no post:
+
+```{R, dpi = 300, message = FALSE, warning = FALSE}
+library(ggplot2)
+library(gganimate)
+library(dplyr)
+
+airquality %>%
+    ggplot() + 
+    geom_line(aes(x = Day, y = Temp, group = Month),
+            size = 1.5)
+
+## agora geramos a animação
+last_plot() + 
+  transition_reveal(Day)
+
+```
+
+Vamos fazer uma pequena simulação aqui para exemplificar comportamento assintótico de uma distribuição de probabilidade. Se você jogar um dado, guardar o número, jogar de novo, guardar o número e por aí vai... A média desses números vai para algum lugar? 
+
+Vai, e sabemos para onde. Chamemos de $D$ a distribuição discreta que representa um dado não-viciado, temos $\mathbb{E}[D] = \sum_{i = 1}^6 \frac{i}{6} = 3.5$
+
+```{R, warning = FALSE, message = FALSE, dpi = 300}
+library(TeachingDemos)
+library(tibble)
+
+set.seed(10)
+n = 1500
+numeros = dice(rolls = n, ndice = 1)
+numeros = numeros[[1]] # precisamos fazer isso porque a função dice() é louca
+media = vector()
+
+for(i in 1:n) {
+  
+  media[i] = mean(numeros[c(1:i)])
+  #armazenamos a média das jogadas na i-ésima jogada
+}
+
+base = tibble(media = media,
+              indice = seq(from = 1,
+                           to = n,
+                           by = 1))
+
+base %>%
+  ggplot(aes(x = indice, y = media)) +
+  geom_line(size = 1.5) + 
+  geom_hline(yintercept = 3.5) # linha vertical na experança
+
+last_plot() +
+  transition_reveal(indice)
+
+```
+
+
+
