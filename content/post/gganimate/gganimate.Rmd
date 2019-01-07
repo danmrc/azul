@@ -67,7 +67,7 @@ base %>%
 last_plot() +
   transition_reveal(indice)
 
-anim_save("animacao1.gif", dpi = 300)
+anim_save("animacao1.gif")
 
 ```
 
@@ -118,10 +118,8 @@ AR %>%
 last_plot() + 
   transition_reveal(indice)
 
-anim_save("animacao2.gif", dpi = 300)
+anim_save("animacao2.gif")
 
 ```
 
 ![](https://i.imgur.com/F93zNbL.gif)
-
-Observe que o processo sem raiz unitária não se afasta muito da condição inicial, ao contrário do com raiz unitária, que incorpora os choques aleatórios e diverge da condição inicial.
