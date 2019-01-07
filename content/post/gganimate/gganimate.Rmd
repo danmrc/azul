@@ -31,17 +31,15 @@ Vamos fazer uma pequena simulação aqui para exemplificar comportamento assint�
 
 Vai, e sabemos para onde. Chamemos de $D$ a distribuição discreta que representa um dado não-viciado, temos $\mathbb{E}[D] = \sum_{i = 1}^6 \frac{i}{6} = 3.5$
 
-```{R, warning = FALSE, message = FALSE, dpi = 300, eval = FALSE}
+```{R, warning = FALSE, message = FALSE, dpi = 300}
 library(TeachingDemos)
-library(tibble)
-library(ggplot2)
+library(tidyverse)
 library(gganimate)
-library(dplyr)
-
 
 set.seed(10)
 n = 1500
-numeros = dice(rolls = n, ndice = 1)
+numeros = dice(rolls = n, 
+               ndice = 1)
 numeros = numeros[[1]] # precisamos fazer isso porque a função dice() é louca
 media = vector()
 
@@ -59,14 +57,71 @@ base = tibble(media = media,
 base %>%
   ggplot(aes(x = indice, y = media)) +
   geom_line(size = 1.5) + 
-  geom_hline(yintercept = 3.5) # linha vertical na experança
-
-last_plot() +
-  transition_reveal(indice)
-
+  geom_hline(yintercept = 3.5) + # linha vertical na experança
+  labs(caption = "Elaboração: Pedro Cavalcante, disponível em azul.netlify.com")
 
 ```
 
-![](https://i.imgur.com/1gFrwmE.gif)
+
+```{R, eval = FALSE}
+last_plot() +
+  transition_reveal(indice)
+
+anim_save("animacao1.gif", dpi = 300)
+
+```
+
+![](https://i.imgur.com/u2r88N4.gif)
+
+Outra coisa interessante de ver é a diferença entre processos autoregressivos com e sem raízes unitárias, o que os diferencia entre estacionário e não-estacionário.
+
+```{R, dpi = 300, warning = FALSE, message = FALSE}
+library(tidyverse)
+
+n = 500
+set.seed(1234)
+inicial = rnorm(1)
+estacionario = vector()
+estacionario[1] = inicial
+
+n_estacionario = vector()
+n_estacionario[1] = inicial
+
+for(i in 2:n) {
+  
+estacionario[i] = estacionario[i-1] * 0.8 + rnorm(1, sd = .5)  
+n_estacionario[i] = n_estacionario[i-1] + rnorm(1, sd = .5)  
+
+  }
 
 
+AR = tibble::tibble(estacionario = estacionario,
+            n_estacionario = n_estacionario,
+            indice = seq(from = 1,
+                           to = n,
+                           by = 1))
+
+
+AR %>%
+  ggplot(aes(x = indice)) + 
+  geom_line(aes(y = estacionario),
+            size = 1.2,
+            color = "#5b97f7") + 
+  geom_line(aes(y = n_estacionario), 
+            size = 1.2,
+            color = "#ed6840") +
+  labs(caption = "Elaboração: Pedro Cavalcante, disponível em azul.netlify.com")
+
+```
+
+```{R, eval = FALSE}
+last_plot() + 
+  transition_reveal(indice)
+
+anim_save("animacao2.gif", dpi = 300)
+
+```
+
+![](https://i.imgur.com/F93zNbL.gif)
+
+Observe que o processo sem raiz unitária não se afasta muito da condição inicial, ao contrário do com raiz unitária, que incorpora os choques aleatórios e diverge da condição inicial.

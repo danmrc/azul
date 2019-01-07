@@ -28,15 +28,13 @@ draft: TRUE
 <p>Vamos fazer uma pequena simulação aqui para exemplificar comportamento assintótico de uma distribuição de probabilidade. Se você jogar um dado, guardar o número, jogar de novo, guardar o número e por aí vai… A média desses números vai para algum lugar?</p>
 <p>Vai, e sabemos para onde. Chamemos de <span class="math inline">\(D\)</span> a distribuição discreta que representa um dado não-viciado, temos <span class="math inline">\(\mathbb{E}[D] = \sum_{i = 1}^6 \frac{i}{6} = 3.5\)</span></p>
 <pre class="r"><code>library(TeachingDemos)
-library(tibble)
-library(ggplot2)
+library(tidyverse)
 library(gganimate)
-library(dplyr)
-
 
 set.seed(10)
 n = 1500
-numeros = dice(rolls = n, ndice = 1)
+numeros = dice(rolls = n, 
+               ndice = 1)
 numeros = numeros[[1]] # precisamos fazer isso porque a função dice() é louca
 media = vector()
 
@@ -54,11 +52,60 @@ base = tibble(media = media,
 base %&gt;%
   ggplot(aes(x = indice, y = media)) +
   geom_line(size = 1.5) + 
-  geom_hline(yintercept = 3.5) # linha vertical na experança
+  geom_hline(yintercept = 3.5) + # linha vertical na experança
+  labs(caption = &quot;Elaboração: Pedro Cavalcante, disponível em azul.netlify.com&quot;)</code></pre>
+<p><img src="/post/gganimate/gganimate_files/figure-html/unnamed-chunk-1-1.png" width="2100" /></p>
+<pre class="r"><code>last_plot() +
+  transition_reveal(indice)
 
-last_plot() +
-  transition_reveal(indice)</code></pre>
+anim_save(&quot;animacao1.gif&quot;, dpi = 300)</code></pre>
 <div class="figure">
-<img src="https://i.imgur.com/1gFrwmE.gif" />
+<img src="https://i.imgur.com/u2r88N4.gif" />
 
 </div>
+<p>Outra coisa interessante de ver é a diferença entre processos autoregressivos com e sem raízes unitárias, o que os diferencia entre estacionário e não-estacionário.</p>
+<pre class="r"><code>library(tidyverse)
+
+n = 500
+set.seed(1234)
+inicial = rnorm(1)
+estacionario = vector()
+estacionario[1] = inicial
+
+n_estacionario = vector()
+n_estacionario[1] = inicial
+
+for(i in 2:n) {
+  
+estacionario[i] = estacionario[i-1] * 0.8 + rnorm(1, sd = .5)  
+n_estacionario[i] = n_estacionario[i-1] + rnorm(1, sd = .5)  
+
+  }
+
+
+AR = tibble::tibble(estacionario = estacionario,
+            n_estacionario = n_estacionario,
+            indice = seq(from = 1,
+                           to = n,
+                           by = 1))
+
+
+AR %&gt;%
+  ggplot(aes(x = indice)) + 
+  geom_line(aes(y = estacionario),
+            size = 1.2,
+            color = &quot;#5b97f7&quot;) + 
+  geom_line(aes(y = n_estacionario), 
+            size = 1.2,
+            color = &quot;#ed6840&quot;) +
+  labs(caption = &quot;Elaboração: Pedro Cavalcante, disponível em azul.netlify.com&quot;)</code></pre>
+<p><img src="/post/gganimate/gganimate_files/figure-html/unnamed-chunk-3-1.png" width="2100" /></p>
+<pre class="r"><code>last_plot() + 
+  transition_reveal(indice)
+
+anim_save(&quot;animacao2.gif&quot;, dpi = 300)</code></pre>
+<div class="figure">
+<img src="https://i.imgur.com/F93zNbL.gif" />
+
+</div>
+<p>Observe que o processo sem raiz unitária não se afasta muito da condição inicial, ao contrário do com raiz unitária, que incorpora os choques aleatórios e diverge da condição inicial.</p>
