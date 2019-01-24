@@ -41,8 +41,7 @@ A história dessa técnica é curiosa: foi proposta por dois psicólogos educaci
 
 # Tá, mas e mão na massa?
 
-Já falei demais sem escrever uma linha de código. Vamos ver a magia acontecer. Vou replicar um exemplo do incrível livro _Causal Inference: The Mixtape_, do Scott Cunningham (que tem uma [maravilhosa conta no twitter](https://twitter.com/causalinf)), [disponível de graça no site dele](http://scunning.com/cunningham_mixtape.pdf). 
-Três pacotes trazem ferramentas de R para estimar e brincar com RDDs:
+Já falei demais sem escrever uma linha de código. Vamos ver a magia acontecer. Vou replicar um exemplo do incrível livro _Causal Inference: The Mixtape_, do Scott Cunningham (que tem uma [maravilhosa conta no twitter](https://twitter.com/causalinf)), [disponível de graça no site dele](http://scunning.com/cunningham_mixtape.pdf). Três pacotes trazem ferramentas de R para estimar e brincar com RDDs:
 
 * O primeiro é ``rdrobust``, que implementa o estimador proposto em [Calonico, Cattaneo e Titiunik (Econometrica, 2014)](https://deepblue.lib.umich.edu/bitstream/handle/2027.42/109857/ecta1465.pdf?sequence=1&isAllowed=y), um RDD com intervalos de confiança menos sensíveis à variações no bandwidth selecionado. Eles fazem isso usando um estimador novo para o erro-padrão. O pacote também tem um port para Stata publicado no [Stata Journal](http://www-personal.umich.edu/~cattaneo/papers/Calonico-Cattaneo-Farrell-Titiunik_2017_Stata.pdf), além da versão em R - que saiu no [Journal of Statistical Software](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.429.1273&rep=rep1&type=pdf).
 
@@ -87,7 +86,6 @@ rdrobust::rdplot(y = lmb_data$score,
 ```
 
 Podemos só estimar o RDD sem o auxílio gráfico. Observe que o print padrão da função não é completo e vai omitir informações importantes como p-valor. É de bom tom armazenar o modelo em um objeto e pedir o sumário dele.
-
 
 ```{R}
 rdd1 = rdrobust(y = lmb_data$score,

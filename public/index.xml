@@ -6,10 +6,48 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Wed, 19 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate</title>
+      <link>/2019/01/07/prob-animate/</link>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/01/07/prob-animate/</guid>
+      <description>Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&amp;quot;gganimate&amp;quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R.</description>
+    </item>
+    
+    <item>
+      <title>Programação Dinâmica IIB</title>
+      <link>/2018/12/27/programacao-dinamica-ii-b/</link>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/27/programacao-dinamica-ii-b/</guid>
+      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
+    </item>
+    
+    <item>
+      <title>Ano novo, layout novo</title>
+      <link>/2018/12/26/ano-novo-layout-novo/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/26/ano-novo-layout-novo/</guid>
+      <description>Um novo ano se aproxima. E junto dele, temos um novo tema para o blog, com um layout ainda mais minimalista, descrições dos posts na página inicial (na verdade um trecho do texto), mas mais importante (e o principal motivo) é que o novo tema faz syntax highlighting, ou seja, o código dos nossos posts agora vão se parecer mais com os códigos que você normalmente vê em uma IDE, como o RStudio.</description>
+    </item>
+    
+    <item>
+      <title>Por quê todo estudante de Economia deveria aprender R e por onde começar</title>
+      <link>/2018/12/21/aprender/</link>
+      <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/21/aprender/</guid>
+      <description>Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
+Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.</description>
+    </item>
     
     <item>
       <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos</title>
@@ -108,16 +146,6 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
       <guid>/2018/11/06/sistemas-dinamicos-e-algebra-linear/</guid>
       <description>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.
 Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo.</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
     </item>
     
     <item>

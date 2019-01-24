@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Animação on AZUL</title>
+    <link>/tags/anima%C3%A7%C3%A3o/</link>
+    <description>Recent content in Animação on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Mon, 07 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/anima%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate</title>
+      <link>/2019/01/07/prob-animate/</link>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/01/07/prob-animate/</guid>
+      <description>Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&amp;quot;gganimate&amp;quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R.</description>
+    </item>
+    
+  </channel>
+</rss>
