@@ -1,0 +1,105 @@
+---
+title: 'Filtros: Uma Introdução'
+author: Daniel Coutinho
+date: '2019-02-03'
+slug: filtros-uma-introdução
+categories:
+  - Econometria
+tags:
+  - Filtros Lineares
+  - Filtro HP
+---
+
+Um filtro (linear) é basicamente qualquer polinômio $\alpha(B)$ a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:  
+
+$$ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} $$
+
+Onde B é o operador _backshift_, logo para uma série temporal $y_t$, $By_t = y_{t-1}$. A forma acima é conhecida como a _representação no domínio temporal (time domain)_ do filtro. Filtros podem "existir" em duas formas, que carregam a mesma informação: a de _time domain_ e a _frequency domain_ (que, em tradução literal, é o domínio da frequência ou domínio frequencial. E vou adotar a primeira tradução). Em alguns casos, transformar o filtro para o domínio da frequência ajuda a realçar certos aspectos do filtro que são mais difíceis de entender no domínio temporal. 
+
+# Do domínio temporal para o domínio frequência
+
+Passar um filtro do domínio temporal para o domínio da frequência envolve usar a Transformada de Fourier. A regra de bolso é que trocamos todos os $B$ por $e^{-i\omega}$, onde $\omega$ é a frequência que estamos interessados e $i = \sqrt{-1}$. Apesar da interpretação de $\omega$ não ser direta, é fácil relacionar a frequência com o período $p$, já que $p=\frac{2\pi}{\omega}$. O período é quanto tempo demora para aquele componente da série se repetir. Elementos são de alta frequência - tem $\omega$ grande - se repetem em períodos mais curtos, enquanto elementos de baixa frequência demoram mais a se repetir. São os componentes de baixa frequência que estão associados a tendência da série. Muitas vezes temos o interesse em remover esse componente para obter uma série estacionária. Vou exemplificar isso tudo com o "filtro" de primeira diferença, que pode ser escrito no _time domain_ como $F(B) = 1 - B$. Vamos usar a regra de bolso e substituir B por $e^{-i\omega}$ e obtemos a expressão $1 - e^{-i\omega}$. Veja que isso é um número complexo, e que números complexos aceitam a representação na forma polar (basta pensar que a parte real e a parte imaginária formam um vetor). Então seja um número com parte real $a$ e parte imaginária $b$, i.e. $a+bi$. Ele pode ser reescrito como $ge^{i\theta}$, onde $g = \sqrt{a^2+b^2}$ e $\theta = tan^{-1}(\frac{b}{a})$. 
+
+O importante dessa representação é que $g$ pode ser interpretado como o ganho do filtro para a frequência $\omega$. Um paralelo seria o equalizador da maior parte dos _players_ de música, que permitem você aumentar o volume da frequências mais baixas (associadas ao baixo e a bateria, por ex.) e das mais altas (voz e guitarra, por ex.)^[Esse exemplo se deve a Mark Watson, na _Summer Institute 2008 Methods Lectures_, disponíveis [aqui](https://www.nber.org/minicourse_2008.html). Assistam, é muito bom!]. Já $\frac{\theta}{\omega}$ tem a interpretação de em quantas unidades de tempo o nosso filtro defasa a série (e isso é chamado da _fase_ do filtro).
+
+Uma propriedade conveniente da representação no domínio da frequência é que é fácil saber o que acontece com uma série se passamos por múltiplos filtros: basta multiplicar as representações no domínio da frequência. Então o efeito de passar a séria $x_t$ pelos filtro $\alpha(B)$ e $\beta(B)$ é simplesmente $\alpha(e^{-iw})\beta(e^{-iw})$. Isso será de grande valia no que se segue. 
+
+# Alguns Exemplos
+
+Um filtro óbvio é o filtro defasar uma vez. Ele não deveria dar ganho nenhum a série (espera-se) e ter fase que reflita a defasagem por um período. Vamos escrever isso como uma função no R, usando a nossa regra de trocar B por $e^{-i\omega}$: 
+
+```{r}
+backshift <- function(w){exp(-1i*w)}
+
+x <- seq(0,pi,by = 0.05)
+
+plot(x,Mod(backshift(x)),type="l",ylab = " ", xlab = "Frequência", main = "Ganho do Filtro de Defasar uma vez")
+grid(col = "darkgrey")
+
+plot(x,Arg(backshift(x))/x,type="l",ylab = " ", xlab = "Frequência", main = "Fase do Filtro Defasar uma vez")
+grid(col = "darkgrey")
+
+```
+
+
+Para nosso grande alívio (e nenhuma surpresa) defasar uma vez a série não gera ganho em nenhuma frequência e altera todas as frequências uma unidade de tempo para trás. Vamos ver o ganho do filtro de primeira diferença:
+
+```{r}
+fd <- function(w){
+  1-exp(-1i*w)
+}
+
+x <- seq(0,pi,by = 0.05)
+
+plot(x,Mod(fd(x)),type="l",ylab = " ", xlab = "Frequência", main = "Ganho do Filtro de Primeira Diferenças")
+grid(col = "darkgrey")
+
+plot(x,Arg(fd(x))/x,type="l",ylab = " ", xlab = "Frequência", main = "Fase do Filtro de Primeira Diferenças")
+grid(col = "darkgrey")
+
+```
+
+Como prometido, as frequências mais baixas tem ganho próximo a zero, o que tem como efeito sumir com a tendência da série. A fase dele tem um comportamento esquisito nas frequências mais baixas - justamente as que são atenuadas - mas para frequências mais altas ele decai para 0 - logo, não altera em nada a fase.  Vamos aos exemplos mais interessantes: que tal uma média móvel que troca o valor de hoje pela média entre o valor dele e dos seus dois valores anteriores e dois valores posteriores? Isso pode ser escrito, no domínio temporal, como: 
+
+$$MA(L) = \frac{1}{5}\left(L + L^2 + 1 + L^{-1} + L^{-2} \right)$$
+
+Implementando no R usando a nossa regra de bolso:
+
+```{r}
+ma_freq_domain <- function(w){
+  1/5*(exp(-1i*w) + exp(-2i*w) + 1 + exp(1i*w) + exp(2i*w)) 
+}
+
+x <- seq(0,pi,by = 0.05)
+
+plot(x,Mod(ma_freq_domain(x)),type="l",ylab = " ", xlab = "Frequência", main = "Ganho do Filtro MA")
+grid(col = "darkgrey")
+
+plot(x,Arg(ma_freq_domain(x))/x,type="l",ylab = " ", xlab = "Frequência", main = "Fase do Filtro MA")
+grid(col = "darkgrey")
+```
+
+
+Em um exemplo mais interessante, vamos analisar o filtro HP. King e Rebbelo (1993) obtém o ganho do filtro a partir das condições de primeira ordem do filtro. O ganho é: 
+
+$$\frac{4\lambda(1-\cos(\omega))^2}{1+4\lambda(1-\cos(\omega))^2}$$
+
+
+Veja que não há nenhum número complexo ai. Isso se deve ao fato de que o filtro HP é um filtro _simétrico_. Um filtro é dito _simétrico_ se, na representação no domínio temporal $a_j = a_{-j}$.(Lembrando que o filtro é definido como $\displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j}$)
+
+Nesse caso, o filtro tem a propriedade de _neutralidade de fase i.e._, $\frac{\theta}{\omega} = 0$. Noutras palavras, o ganho resume tudo que o filtro faz. Vamos plotar o ganho do filtro HP:
+
+```{r}
+Gain_HP <- function(w,lam){
+  4*lam*(1-cos(w))^2/(1+4*lam*(1-cos(w))^2)
+}
+
+plot(x,Gain_HP(x,1600), main = "Ganho filtro HP, \u03bb = 1600", type = "l", ylab = "Ganho",xlab="Frequência")
+grid(col = "darkgrey")
+```
+
+Como esperado, o filtro HP remove a frequência mais baixa e mantém as frequências mais altas, ou seja, remove a tendência. Veja que isso permite com que a frequência associada a sazonalidade passe pelo filtro, então apesar de retirar a tendência o filtro HP não retira sazonalidade.
+
+# Referências
+
+King, Robert G., and Sergio T. Rebelo. 1993. “Low frequency filtering and real business cycles.” Journal of Economic Dynamics and Control. doi:10.1016/S0165-1889(06)80010-2.
