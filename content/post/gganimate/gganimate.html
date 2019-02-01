@@ -77,8 +77,10 @@ n_estacionario[1] = inicial
 
 for(i in 2:n) {
   
-estacionario[i] = estacionario[i-1] * 0.8 + rnorm(1, sd = .5)  
-n_estacionario[i] = n_estacionario[i-1] + rnorm(1, sd = .5)  
+  choque = rnorm(1, sd = .5)
+  
+estacionario[i] = estacionario[i-1] * 0.8 + choque  
+n_estacionario[i] = n_estacionario[i-1] + choque
 
   }
 
