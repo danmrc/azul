@@ -14,7 +14,7 @@ Um filtro (linear) é basicamente qualquer polinômio $\alpha(B)$ a ser aplicado
 
 $$ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} $$
 
-Onde B é o operador _backshift_, logo para uma série temporal $y_t$, $By_t = y_{t-1}$. A forma acima é conhecida como a _representação no domínio temporal (time domain)_ do filtro. Filtros podem "existir" em duas formas, que carregam a mesma informação: a de _time domain_ e a _frequency domain_ (que, em tradução literal, é o domínio da frequência ou domínio frequencial. E vou adotar a primeira tradução). Em alguns casos, transformar o filtro para o domínio da frequência ajuda a realçar certos aspectos do filtro que são mais difíceis de entender no domínio temporal. 
+Onde B é o operador _backshift_, logo para uma série temporal $y_t$, $By_t = y_{t-1}$ e $B^ny_t = y_{t-n}$. A forma acima é conhecida como a _representação no domínio temporal (time domain)_ do filtro. Filtros podem "existir" em duas formas, que carregam a mesma informação: a de _time domain_ e a _frequency domain_ (que, em tradução literal, é o domínio da frequência ou domínio frequencial. E vou adotar a primeira tradução). Em alguns casos, transformar o filtro para o domínio da frequência ajuda a realçar certos aspectos do filtro que são mais difíceis de entender no domínio temporal. 
 
 # Do domínio temporal para o domínio frequência
 
@@ -22,7 +22,7 @@ Passar um filtro do domínio temporal para o domínio da frequência envolve usa
 
 O importante dessa representação é que $g$ pode ser interpretado como o ganho do filtro para a frequência $\omega$. Um paralelo seria o equalizador da maior parte dos _players_ de música, que permitem você aumentar o volume da frequências mais baixas (associadas ao baixo e a bateria, por ex.) e das mais altas (voz e guitarra, por ex.)^[Esse exemplo se deve a Mark Watson, na _Summer Institute 2008 Methods Lectures_, disponíveis [aqui](https://www.nber.org/minicourse_2008.html). Assistam, é muito bom!]. Já $\frac{\theta}{\omega}$ tem a interpretação de em quantas unidades de tempo o nosso filtro defasa a série (e isso é chamado da _fase_ do filtro).
 
-Uma propriedade conveniente da representação no domínio da frequência é que é fácil saber o que acontece com uma série se passamos por múltiplos filtros: basta multiplicar as representações no domínio da frequência. Então o efeito de passar a séria $x_t$ pelos filtro $\alpha(B)$ e $\beta(B)$ é simplesmente $\alpha(e^{-iw})\beta(e^{-iw})$. Isso será de grande valia no que se segue. 
+Uma propriedade conveniente da representação no domínio da frequência é que é fácil saber o que acontece com uma série se passamos por múltiplos filtros: basta multiplicar as representações no domínio da frequência. Então o efeito de passar a séria $x_t$ pelos filtro $\alpha(B)$ e $\beta(B)$ é simplesmente $\alpha(e^{-iw})\beta(e^{-iw})$. Isso facilita enormemente a vida de analisar o que acontece quando você passa os dados por n filtros. 
 
 # Alguns Exemplos
 
@@ -63,31 +63,33 @@ Como prometido, as frequências mais baixas tem ganho próximo a zero, o que tem
 
 $$MA(L) = \frac{1}{5}\left(L + L^2 + 1 + L^{-1} + L^{-2} \right)$$
 
-Implementando no R usando a nossa regra de bolso:
+Esse é um bom momento para apresentar o conceito de filtro _simétrico_ : um filtro é dito _simétrico se $a_j = a_{-j}$ (Lembrando que o filtro é definido como $\displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j}$). Veja que esse é o caso. Como $e^{-ix} + e^{ix} = 2cos(x)$, então o filtro pode ser reescrito na representação espectral como $a_0 + 2\sum_{j=1}^\infty a_j \cos(jw)$. Veja que não temos nenhum número imaginário, então um filtro simétrico não induz nenhuma mudnça de fase, e podemos só olhar o ganho dele. Vamos implementar o filtro MA no R usando a nossa regra de bolso e olhar para os ganhos que o filtro gera:
 
 ```{r}
 ma_freq_domain <- function(w){
-  1/5*(exp(-1i*w) + exp(-2i*w) + 1 + exp(1i*w) + exp(2i*w)) 
+  1/5*(exp(-1i*w) + exp(-2i*w)+ 1 + exp(1i*w) + exp(2i*w)) 
 }
 
 x <- seq(0,pi,by = 0.05)
 
 plot(x,Mod(ma_freq_domain(x)),type="l",ylab = " ", xlab = "Frequência", main = "Ganho do Filtro MA")
 grid(col = "darkgrey")
-
-plot(x,Arg(ma_freq_domain(x))/x,type="l",ylab = " ", xlab = "Frequência", main = "Fase do Filtro MA")
-grid(col = "darkgrey")
 ```
 
+O que acontece se usarmos o filtro MA acima para tirar a tendência de uma série? Basta analisar o ganho de 1 - MA:
+
+```{r}
+ma_detrender <- function(w){1-ma_freq_domain(w)}
+
+plot(x,Mod(ma_detrender(x)),type="l",ylab = " ", xlab = "Frequência", main = "Ganho do Filtro MA")
+grid(col = "darkgrey")  
+```
+
+Veja que para frequências entre 1,5 e 2 (que correspondem a períodos de 3 a 4 trimestres para dados trimestrais), o ganho do filtro é _maior que 1_. Logo, os dados que passarem por este filtro vão ter essa frequência realçada. Isso gera um problema perigoso: dizer que os dados exibem um determinado padrão _porque você passou ele num filtro que gera este padrão_. É importante entender o que cada filtro que você passa nos dados faz para evitar apontar padrões nos dados que foram gerados pelos filtros. 
 
 Em um exemplo mais interessante, vamos analisar o filtro HP. King e Rebbelo (1993) obtém o ganho do filtro a partir das condições de primeira ordem do filtro. O ganho é: 
 
 $$\frac{4\lambda(1-\cos(\omega))^2}{1+4\lambda(1-\cos(\omega))^2}$$
-
-
-Veja que não há nenhum número complexo ai. Isso se deve ao fato de que o filtro HP é um filtro _simétrico_. Um filtro é dito _simétrico_ se, na representação no domínio temporal $a_j = a_{-j}$.(Lembrando que o filtro é definido como $\displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j}$)
-
-Nesse caso, o filtro tem a propriedade de _neutralidade de fase i.e._, $\frac{\theta}{\omega} = 0$. Noutras palavras, o ganho resume tudo que o filtro faz. Vamos plotar o ganho do filtro HP:
 
 ```{r}
 Gain_HP <- function(w,lam){
@@ -99,6 +101,8 @@ grid(col = "darkgrey")
 ```
 
 Como esperado, o filtro HP remove a frequência mais baixa e mantém as frequências mais altas, ou seja, remove a tendência. Veja que isso permite com que a frequência associada a sazonalidade passe pelo filtro, então apesar de retirar a tendência o filtro HP não retira sazonalidade.
+
+Espero que este post ajude a entender como analisar filtros, que são frequentemente utilizados para analisar séries temporais. Futuramente, irei apresentar outros filtros com propriedades interessantes. 
 
 # Referências
 
