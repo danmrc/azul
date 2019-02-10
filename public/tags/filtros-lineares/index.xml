@@ -6,17 +6,17 @@
     <description>Recent content in Filtros Lineares on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 03 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 09 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/filtros-lineares/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Filtros: Uma Introdução</title>
-      <link>/2019/02/03/filtros-uma-introdu%C3%A7%C3%A3o/</link>
-      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
+      <link>/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</link>
+      <pubDate>Sat, 09 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/02/03/filtros-uma-introdu%C3%A7%C3%A3o/</guid>
+      <guid>/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</guid>
       <description>Um filtro (linear) é basicamente qualquer polinômio \(\alpha(B)\) a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:
 \[ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} \]
 Onde B é o operador backshift, logo para uma série temporal \(y_t\), \(By_t = y_{t-1}\) e \(B^ny_t = y_{t-n}\). A forma acima é conhecida como a representação no domínio temporal (time domain) do filtro. Filtros podem “existir” em duas formas, que carregam a mesma informação: a de time domain e a frequency domain (que, em tradução literal, é o domínio da frequência ou domínio frequencial.</description>
