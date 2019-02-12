@@ -1,0 +1,27 @@
+---
+title: 'Still Haven''t Found What I am looking for: modelos de search para emprego'
+author: Daniel Coutinho
+date: '2019-02-18'
+slug: still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego
+categories:
+  - Programação Dinâmica
+tags:
+  - Modelo de Search
+  - Modelo de McCall
+  - Economia do Trabalho
+draft: true
+---
+
+_(Sim, o título é uma referência a [música do U2](https://open.spotify.com/track/7gozgbG5EBTukCFWToTRA5?si=plTR7i5sQeir30avzMArgQ). Não só de economia vive um homem.)_
+
+Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos [posts anteriores](https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)^[Leia eles ou você ficará perdido no que segue!] para estudar um problema interessante em economia:  Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário $w$, onde $w$ sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?
+
+Nós partiremos de um modelo muito básico em que eu não permitirei demissão. Nesse caso, se o agente aceita o emprego com salário $w$ ele recebe $\frac{w}{1-\beta}$, onde $\beta$ é a taxa de desconto do agente.
+
+Se o agente não aceita o emprego ele recebe um seguro desemprego ($\bar{c}$) e enfrenta o mesmo problema no período seguinte. Nosso problema no formato de Bellman é:
+
+$$ V(w_t) = \max\left(\frac{w}{1-\beta},\bar{c}+E(V(w_{t+1}))\right)$$
+
+Veja que precisamos tirar a expectância da função valor e que eu vou proceder simplesmente sorteando alguma quantidade de números aleatórios da distribuição e calculando a média da função valor nestes pontos (como eu fiz em posts anteriores). Eu vou escolher a função Gama com paramêtros (5,1) e (5,2), que geram as distribuições abaixo:
+
+

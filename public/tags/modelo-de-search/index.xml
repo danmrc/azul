@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Modelo De Search on AZUL</title>
+    <link>/tags/modelo-de-search/</link>
+    <description>Recent content in Modelo De Search on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Mon, 18 Feb 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/modelo-de-search/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Still Haven&#39;t Found What I am looking for: modelos de search para emprego</title>
+      <link>/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/</link>
+      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/</guid>
+      <description>(Sim, o título é uma referência a música do U2. Não só de economia vive um homem.)
+Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos posts anteriores1 para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário \(w\), onde \(w\) sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?</description>
+    </item>
+    
+  </channel>
+</rss>
