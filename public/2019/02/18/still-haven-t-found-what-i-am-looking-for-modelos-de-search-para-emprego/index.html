@@ -47,8 +47,8 @@
                     </h1>
                     <h2 class="headline">
                     Feb 18, 2019 00:00
-                    · 213 words
-                    · 1 minute read
+                    · 948 words
+                    · 5 minute read
                       <span class="tags">
                       
                       
@@ -74,6 +74,153 @@
 <p>Se o agente não aceita o emprego ele recebe um seguro desemprego (<span class="math inline">\(\bar{c}\)</span>) e enfrenta o mesmo problema no período seguinte. Nosso problema no formato de Bellman é:</p>
 <p><span class="math display">\[ V(w_t) = \max\left(\frac{w}{1-\beta},\bar{c}+E(V(w_{t+1}))\right)\]</span></p>
 <p>Veja que precisamos tirar a expectância da função valor e que eu vou proceder simplesmente sorteando alguma quantidade de números aleatórios da distribuição e calculando a média da função valor nestes pontos (como eu fiz em posts anteriores). Eu vou escolher a função Gama com paramêtros (5,1) e (5,2), que geram as distribuições abaixo:</p>
+<div class="figure">
+<img src="/post/search/densidade.png" />
+
+</div>
+<p>Veja que essas funções tem um suporte limitado (a densidade depois de 30 é basicamente 0) e só aceitam valores positivos - como deveria ser em uma distribuição de salários.</p>
+<p>Vamos resolver o problema no computador. Eu vou colocar <span class="math inline">\(\beta = 0.9\)</span>, um consumidor relativamente paciente, e um seguro desemprego inicialmente baixo igual a 1. Eu vou representar a escolha de permanecer desempregado com um zero e de aceitar uma oferta de emprego igual a 1. Vamos ao código em Julia que faz isso:</p>
+<pre><code>using Distributions
+using Plots
+using Interpolations
+using Statistics
+
+d = Gamma(5,1)
+w = range(0,stop=16,length=300)
+plot(w,pdf.(d,w))
+ww = range(0,stop=25,length=500)
+dd = Gamma(5,2)
+
+bet = 0.9
+cbar = 1
+
+choice = zeros(3000,length(w))
+value = zeros(3000,length(w))
+
+value[1,:] = w/(1-bet)
+
+for j in 2:3000
+    f = LinearInterpolation(w,value[j-1,:], extrapolation_bc = Line())
+    for i in 1:length(w)
+        mm = rand(d,2000)
+        emp = w[i]/(1-bet)
+        unp = cbar + bet*mean(f.(mm))
+        choo = max(emp,unp)
+        if choo == emp
+            choice[j,i] = 1
+            value[j,i] = emp
+        else
+            value[j,i] = unp
+        end
+    end
+end
+</code></pre>
+<p>Vamos a escolha do trabalhador:</p>
+<div class="figure">
+<img src="/post/search/escolha1.png" />
+
+</div>
+<p>Veja que a escolha faz sentido: abaixo de um certo valor o empregado não aceita o emprego, mas existe um salário reserva a partir do qual ele passa a aceitar o emprego.Vamos checar a convergência comparando a função valor da última iteração com a penúltima iteração:</p>
+<pre><code>plot(value[3000,:]-value[2999,:])</code></pre>
+<div class="figure">
+<img src="/post/search/conv_value1.png" />
+
+</div>
+<p>Veja que a função valor oscila muito no intervalo aonde o trabalhador não aceita o emprego, o que mostra que não tivemos uma convergência muito boa. Mas como a decisão é discreta podemos ficar menos preocupados. Vamos fazer a mesma comparação para a escolha do trabalhador:</p>
+<div class="figure">
+<img src="/post/search/conv_pol1.png" />
+
+</div>
+<p>Veja que existe a mudança em apenas em um ponto. Não vamos nos preocupar excessivamente com isso - mesmo com 5 mil iterações, um grid mais fino para os salários e mais pontos para calcular a expectância nós teríamos os mesmos problemas - convido o leitor a testar isso.</p>
+<p>Esse modelo nos permite uma pergunta interessante de política: como um agente reage a um aumento no seguro desemprego? Vamos colocar <span class="math inline">\(\bar{c}=5\)</span>:</p>
+<pre><code>cbar = 5
+
+choice2 = zeros(3000,length(w))
+value2 = zeros(3000,length(w))
+
+value2[1,:] = w/(1-bet)
+
+for j in 2:3000
+    f = LinearInterpolation(w,value2[j-1,:], extrapolation_bc = Line())
+    for i in 1:length(w)
+        mm = rand(d,2000)
+        emp = w[i]/(1-bet)
+        unp = cbar + bet*mean(f.(mm))
+        choo = max(emp,unp)
+        if choo == emp
+            choice2[j,i] = 1
+            value2[j,i] = emp
+        else
+            value2[j,i] = unp
+        end
+    end
+end</code></pre>
+<p>Obtemos como resultado:</p>
+<div class="figure">
+<img src="/post/search/escolha2.png" />
+
+</div>
+<p>Sem nenhuma surpresa, um aumento do seguro desemprego aumenta o salário de reserva do agente. Isso é o que a intuição econômica nos aponta, mas formalizado e simulado.</p>
+<p>Vamos experimentar as mesmas coisas usando a distribuição Gama(5,2). Começamos devolvendo o seguro desemprego para 1:</p>
+<pre><code>cbar = 1
+
+choice3 = zeros(3000,length(ww))
+value3 = zeros(3000,length(ww))
+
+value3[1,:] = ww/(1-bet)
+
+for j in 2:3000
+    f = LinearInterpolation(ww,value3[j-1,:], extrapolation_bc = Line())
+    for i in 1:length(ww)
+        mm = rand(dd,2000)
+        emp = ww[i]/(1-bet)
+        unp = cbar + bet*mean(f.(mm))
+        choo = max(emp,unp)
+        if choo == emp
+            choice3[j,i] = 1
+            value3[j,i] = emp
+        else
+            value3[j,i] = unp
+        end
+    end
+end
+
+cbar = 5
+
+choice4 = zeros(3000,length(ww))
+value4 = zeros(3000,length(ww))
+
+value4[1,:] = ww/(1-bet)
+
+for j in 2:3000
+    f = LinearInterpolation(ww,value4[j-1,:], extrapolation_bc = Line())
+    for i in 1:length(ww)
+        mm = rand(dd,2000)
+        emp = ww[i]/(1-bet)
+        unp = cbar + bet*mean(f.(mm))
+        choo = max(emp,unp)
+        if choo == emp
+            choice4[j,i] = 1
+            value4[j,i] = emp
+        else
+            value4[j,i] = unp
+        end
+    end
+end</code></pre>
+<p>Vamos ver tanto o efeito de <span class="math inline">\(\bar{c} = 1\)</span> e <span class="math inline">\(\bar{c} = 5\)</span> em um único gráfico:</p>
+<div class="figure">
+<img src="/post/search/escolha3.png" />
+
+</div>
+<p>Sem surpresa, o efeito é muito semelhante ao do exemplo com a distribuição Gama(5,1). Mais interessante, podemos comparar a escolha com <span class="math inline">\(\bar{c} = 1\)</span>, mas distribuições diferentes para o salário:</p>
+<div class="figure">
+<img src="/post/search/escolha4.png" />
+
+</div>
+<p>Veja que com uma distribuição que tem uma probabilidade de salários maiores gera um salário de reserva mais alto. Isso não é exatamente surpreendente: se existe a possibilidade de ganhar um salário mais alto, o agente espera um salário mais alto. Isso provavelmente motiva a seguinte citação do Robert Lucas, que invariavelmente aparece quando tratamos de modelos de Search:</p>
+<blockquote>
+<p>“Questioning a McCall worker is like having a conversation with an out-of-work friend: ‘Maybe you are setting your sights too high’, or ‘Why did you quit your old job before you had a new one lined up?’ This is real social science: an attempt to model, to understand, human behavior by visualizing the situation people find themselves in, the options they face and the pros and cons as they themselves see them.” – Robert E. Lucas, Jr.</p>
+</blockquote>
 <div class="footnotes">
 <hr />
 <ol>

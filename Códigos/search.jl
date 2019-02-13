@@ -5,10 +5,11 @@ using Statistics
 
 d = Gamma(5,1)
 w = range(0,stop=16,length=300)
-plot(w,pdf.(d,w))
+plot(w,pdf.(d,w),label = "Gama(5,1)")
 ww = range(0,stop=25,length=500)
 dd = Gamma(5,2)
-plot!(ww,pdf.(dd,ww))
+plot!(ww,pdf.(dd,ww),label = "Gama(5,2)")
+png("content/post/search/densidade")
 
 bet = 0.9
 cbar = 1
@@ -35,9 +36,12 @@ for j in 2:3000
 end
 
 plot(value[3000,:]-value[2999,:])
+png("content/post/search/conv_value1")
 plot(choice[3000,:]-choice[2999,:])
+png("content/post/search/conv_pol1")
 
-plot(w,choice[3000,:])
+plot(w,choice[3000,:], lab="Escolha")
+png("content/post/search/escolha1")
 
 cbar = 5
 
@@ -65,8 +69,9 @@ end
 plot(value2[3000,:]-value2[2999,:])
 plot(choice2[3000,:]-choice2[2999,:])
 
-plot(w,choice[3000,:])
-plot!(w,choice2[3000,:])
+plot(w,choice[3000,:],label = "cbar=1")
+plot!(w,choice2[3000,:],label = "cbar=5")
+png("content/post/search/escolha2")
 
 #### Different Distribution now
 
@@ -121,8 +126,10 @@ for j in 2:3000
     end
 end
 
-plot(ww,choice3[3000,:])
-plot!(ww,choice4[3000,:])
+plot(ww,choice3[3000,:],label = "cbar=1")
+plot!(ww,choice4[3000,:],label = "cbar=5")
+png("content/post/search/escolha3")
 
-plot(w,choice[3000,:])
-plot!(ww,choice3[3000,:])
+plot(w,choice[3000,:],label = "Gama(5,1)")
+plot!(ww,choice3[3000,:],label = "Gama(5,2)")
+png("content/post/search/escolha4")
