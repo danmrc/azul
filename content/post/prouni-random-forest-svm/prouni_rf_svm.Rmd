@@ -1,24 +1,46 @@
 ---
-title: Usando Random Forest e SVMs para classificar cursos no ProUni
-author: Pedro Cavalcante
-date: '2018-12-10'
-slug: prouni-rf-svm
+title: "Usando Random Forest e SVMs para classificar cursos no ProUni"
+author: "Pedro Cavalcante"
+date: '2019-02-23'
+output:
+  html_document:
+    self_contained: FALSE
+draft: TRUE
+katex: TRUE
 categories:
-  - R
-  - Economia da Educação
-  - Machine Learning
+- R
+- Economia da Educação
+- Machine Learning
+slug: prouni-rf-svm
 tags:
-    - Random Forest
-    - SVM
+- Random Forest
+- SVM
 authors: ["pedrocava"]
-katex: true
-draft: true
 ---
 
-Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering $k$-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
+Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering $k$-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines. Vou explicar breve e simplesmente o que são/ como funcionam essas duas técnicas e depois estimar tudo. 
 
 # Random Forests
 
+Primeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação. Quem já teve algum contato com teoria dos grafos e estudou Árvores também deve conhecer isso de alguma maneira.
+
+Cada nodo representa um teste lógico que retorna algo como verdadeiro/falso, maior/menor/igual ou algum tipo de controle de fluxo. É um objeto bem flexível, útil tanto para criar algum esquema de decisão quanto classificar observações. Treinar uma árvore de decisão é essencialmente testar regras e aglutina-las.
+
+!["Exemplo de Árvore de Decisão"](https://cdn-images-1.medium.com/max/1200/0*Yclq0kqMAwCQcIV_.jpg)
+
+O que uma Random Forest faz é treinar *várias* árvores de decisão diferentes e ponderar os vários diagnósticos. Isso é tão amplo que podemos rodar regressões ou um algoritimo de classificação com a mesma técnica. 
+
+Eu quero ser breve aqui então deixo uma explicação mais detalhada: [Breiman (2001)](https://www.stat.berkeley.edu/~breiman/randomforest2001.pdf).
+
+
+
+
+
+
+
+
 # Support Vector Machines
+
+
 
 # Rodando tudo
