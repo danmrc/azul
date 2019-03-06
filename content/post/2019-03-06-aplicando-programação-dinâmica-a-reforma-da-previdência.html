@@ -18,10 +18,10 @@ draft: true
 <p>Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em <a href="https://azul.netlify.com/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/">outras ocasiões</a>.</p>
 <p>Vamos pensar em um agente que recebe um salário <span class="math inline">\(\omega\)</span> e pode escolher poupar ou consumir. Ele sabe que em uma certa idade ele vai se aposentar e passar a receber uma aposentadoria <span class="math inline">\(s\)</span>. Qual a escolha ótima desse agente? Nós nos fizemos uma pergunta similar em posts anteriores e lá - como aqui - eu vou adotar algumas hipóteses simplificadoras (como de praxe):</p>
 <ul>
-<li>O salário é um processo i.i.d. (Relaxarei essa em um outro post). Eu vou usar a distribuição Gama(5,1), que tem suporte finito e nos números positivos - como se espera de um salário.</li>
+<li>O salário é um processo i.i.d. Eu vou usar a distribuição Gama(5,1), que tem suporte finito e nos números positivos - como se espera de um salário.</li>
 <li>O agente sabe exatamente quanto tempo ele vai viver e exatamente quanto tempo ele vai trabalhar. O primeiro é polêmico, mas ele facilita enormemente as contas e é mais realista do que supor que o agente se planeja para o infinito quando ele pensa na aposentadoria. O segundo é relativamente realístico.</li>
 <li>Existe um único ativo que paga uma taxa de juros <span class="math inline">\(r\)</span>.</li>
-<li>O agente não pode se endividar. Isso facilita a vida na hora de resolver o problema de otimização (numericamente) e é uma maneira muito fácil de evitar esquemas em que o agente se endivida ao infinito.</li>
+<li>O agente não pode se endividar. Isso facilita a vida na hora de resolver o problema de otimização (numericamente) e é uma maneira muito fácil de evitar esquemas em que o agente se endivida ao infinito. Relaxarei essa hipótese em outro post.</li>
 </ul>
 <p>Então o problema do agente é:</p>
 <p><span class="math display">\[Max_{\{c_t\}_{t=0}^T} \displaystyle \sum_{t=0}^T \beta E(u(c_t)) \text{ sujeito a } a_{t+1} = (1+r)a_t + W_t - c_t \]</span></p>
@@ -151,3 +151,95 @@ vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
 
 </div>
 <p>Veja que para valores maiores de <span class="math inline">\(s\)</span>, maior o nível de consumo dado a mesma riqueza. Veja que aqui o consumo ótimo depende da data que estamos olhando, ao contrário do problema em tempo infinito. Mas de forma geral as funções não mudam muito, e a imagem acima é bem representativa de se fossemos olhar período por período.</p>
+<div id="salarios-crescendo-no-tempo" class="section level2">
+<h2>Salários crescendo no tempo</h2>
+<p>A hipótese de um salário i.i.d. é bastante irrealista. Espera-se que o salário do agente cresca com o tempo, conforme ele vai acumulando capital humano, por exemplo. Existem várias maneiras de inserir isso no modelo.</p>
+<p>Eu vou adotar uma maneira curiosa, que vai envolver uma mudança de distribuição: a cada período o salário é distribuído usando uma <span class="math inline">\(Normal(\mu+\epsilon_t,\sigma)\)</span>, onde <span class="math inline">\(\epsilon_t\)</span> é um aumento determinístico da média. Eu uso a normal ao invés da Gama porque a variância da distribuição Gama depende dos dois paramêtros: aumentar a média assim aumentaria a variância. Eu vou definir <span class="math inline">\(\epsilon_t\)</span> de maneira que no último período a média seja 8, e vou colocar <span class="math inline">\(\mu = 5, \sigma = 1\)</span>. Isso coloca a probabilidade de um salário negativo virtualmente zero, já que exigiria mais de 5 desvios padrões para alcançarmos o zero. Veja que isso é equivalente a:</p>
+<p><span class="math display">\[\omega_t = \epsilon_t + \mu + \sigma z,\quad z \sim N(0,1)\]</span></p>
+<p>Eu escolho mudar direto na distribuição porque (a) eu testei inicialmente com a distribuição Gama onde a conta acima não é verdade (b) isso permite facilmente adicionar heterocedasticidade aos salários, o que eu não vou fazer. A animação abaixo (feita no Julia) mostra a ideia de como o salário vai mudar ao longo do tempo.</p>
+<div class="figure">
+<img src="/post/prev/teste.gif" />
+
+</div>
+<p>O código para estimar a melhor resposta nesse modelo muda apenas um pouco:</p>
+<pre><code>inc = range(0,stop=3,length=65) #esse é o epsilon_t da fórmula acima
+inc = inc[65:-1:1] #Lembrem que eu faço tudo de trás pra frente
+
+s = 1
+
+choice_ret5 = zeros(ret_age,length(w))
+value_ret5 = zeros(ret_age,length(w))
+
+value_ret5[1,:] = u.(w)
+choice_ret5[1,:] = w
+
+#Nada muda aqui
+
+for j in 2:ret_age
+    f = LinearInterpolation(w,value_ret5[j-1,:], extrapolation_bc = Line())
+    for i in 1:length(w)
+        val(c) = -(u(c) + bet*f((1+r)*w[i] -c + s))
+        otm = optimize(val,0,w[i])
+        choice_ret5[j,i] = Optim.minimizer(otm)
+        value_ret5[j,i] = -Optim.minimum(otm)
+    end
+    println(&quot;Iteration &quot;, j)
+end
+
+value_trab5 = zeros(work_age,length(w))
+choice_trab5 = zeros(work_age,length(w))
+
+value_trab5[1,:] = value_ret5[ret_age,:]
+choice_trab5[1,:] = choice_ret5[ret_age,:]
+
+#Aqui a coisa muda: observe dd e y
+
+for k in 2:work_age
+    f =  LinearInterpolation(w,value_trab5[k-1,:], extrapolation_bc = Line())
+    y = 5+inc[k]
+    dd=Normal(y,1)
+    for i in 1:length(w)
+        mm = rand(dd,2000)
+        val(c) = -(u(c) + bet*mean(f.((1+r)*w[i] -c .+ mm)))
+        otm = optimize(val,0,w[i])
+        choice_trab5[k,i] = Optim.minimizer(otm)
+        value_trab5[k,i] = -Optim.minimum(otm)
+    end
+    println(&quot;Iteration &quot;,k)
+end
+</code></pre>
+<p>O código para gerar uma trajetória é idêntico, exceto na hora de gear o salário, que envolve uma ligeira mudança para alocar a mudança na distribuição:</p>
+<pre><code>wage5 = zeros(65)
+
+for i in 65:-1:1
+    y = 5+inc[i]
+    dd=Normal(y,1)
+    wage5[i] = rand(dd,1)[1]
+end
+</code></pre>
+<p>E o resto do código envolve apenas mudar quais arrays serão preenchidas e desenhadas. Vamos ver a trajetória de consumo, ativo, e renda:</p>
+<div class="figure">
+<img src="/post/prev/sal_cresc.png" />
+
+</div>
+<p>Veja que as principais características do problema se mantém. A trajetória dos ativos esconde quase toda a variação no consumo, então vamos fazer um gráfico sem os ativos:</p>
+<div class="figure">
+<img src="/post/prev/sal_cresc2.png" />
+
+</div>
+<p>Veja que o consumo cresce ao longo do tempo junto com os salários, outra vez resultado da limitação do endividamento. Veja que mesmo com um seguro desemprego baixissimo, o agente poupa o suficiente para manter o consumo inalterado comparado com o final da vida.</p>
+<p>Podemos fazer exercícios de estatíca comparativa e ver como o consumo e trajetória de acumulação de ativos se colocarmos uma aposentadoria maior (<span class="math inline">\(s=5\)</span>). Vamos começar fazendo o gráfico do consumo:</p>
+<div class="figure">
+<img src="/post/prev/cons2.png" />
+
+</div>
+<p>A diferença não é muito grande até por volta dos 40 anos, onde o consumo de quem tem uma aposentadoria maior fica maior do que o agente com aposentadoria <span class="math inline">\(s=1\)</span>. Vamos ver a trajetória dos ativos:</p>
+<div class="figure">
+<img src="/post/prev/asset2.png" />
+
+</div>
+<p>Assim como no caso i.i.d., a trajetória dos ativos dos os dois processos é a que mais chama atenção: o agente recebendo uma aposentadoria muito baixa poupa muito mais do que o agente que recebe aposentadoria alta.</p>
+<p>Previdência é um tema que se encaixa perfeitamente no arcabouço de programação dinâmica. A resposta matemática/computacional é coerente com a intuição econômica: benefícios de aposentadoria mais generosos geram menores incentivos a poupar. Os agentes vão procurar suavizar o consumo.</p>
+<p>Duas coisas ficaram faltando neste post: a primeira é permitir que o agente se endivide. Isso provavelmente terá repercuções no início da vida do agente, especialmente no caso em que o salário cresce ao longo do tempo: o agente vai querer suavizar o consumo tendo dívida hoje que serão pagas no futuro. Também faltou fazermos uma estática comparativa com a idade de aposentadoria: e se o agente vivesse 85 anos, mas só precisasse de 45 anos trabalhando para se aposentar? Quão brutal seriam as mudanças?</p>
+<p>Prometo responder essas perguntas em breve.</p>
+</div>

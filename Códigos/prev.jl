@@ -12,7 +12,6 @@ u(c) = log(c)
 #### Finite life
 r = 0.06
 bet = 1/(1+r)
-prob = 0.6
 work_age = 65
 s = 1
 ret_age = 20
@@ -337,13 +336,26 @@ plot!(cons3[85:-1:1])
 plot(asset4[85:-1:1])
 plot!(asset3[85:-1:1])
 
-#### s=1 but living 40 years in retirement
+## Wage distribution increaing with age
 
-## Without borrowing
+inc = range(0,stop=3,length=65)
+xx = 0:0.05:15
 
-s = 7
-ret_age = 40
-work_age = 45
+anim = @animate for i=1:65
+    y = inc[i]
+    dd=Normal(5+y,1)
+    plot(xx,pdf.(dd,xx), lab = string("Normal ",5+y,",1"))
+    vline!([mean(dd)], lab = string("Média ",mean(dd)))
+end
+
+gif(anim,"./content/post/prev/teste.gif",fps=3)
+
+## Wage distribution now increases with age, s=1
+
+inc = range(0,stop=3,length=65)
+inc = inc[65:-1:1]
+
+s = 1
 
 choice_ret5 = zeros(ret_age,length(w))
 value_ret5 = zeros(ret_age,length(w))
@@ -353,7 +365,7 @@ choice_ret5[1,:] = w
 
 for j in 2:ret_age
     f = LinearInterpolation(w,value_ret5[j-1,:], extrapolation_bc = Line())
-    for i in 1:length(ww)
+    for i in 1:length(w)
         val(c) = -(u(c) + bet*f((1+r)*w[i] -c + s))
         otm = optimize(val,0,w[i])
         choice_ret5[j,i] = Optim.minimizer(otm)
@@ -370,10 +382,12 @@ choice_trab5[1,:] = choice_ret5[ret_age,:]
 
 for k in 2:work_age
     f =  LinearInterpolation(w,value_trab5[k-1,:], extrapolation_bc = Line())
+    y = 5+inc[k]
+    dd=Normal(y,1)
     for i in 1:length(w)
-        mm = rand(d,2000)
+        mm = rand(dd,2000)
         val(c) = -(u(c) + bet*mean(f.((1+r)*w[i] -c .+ mm)))
-        otm = optimize(val,0,(w[i]))
+        otm = optimize(val,0,w[i])
         choice_trab5[k,i] = Optim.minimizer(otm)
         value_trab5[k,i] = -Optim.minimum(otm)
     end
@@ -387,13 +401,23 @@ asset5 = zeros(85)
 
 asset5[85] = start
 
-for k in 45:-1:1
-    cons_foo =  LinearInterpolation(w,choice_trab5[k,:], extrapolation_bc = Line())
-    cons5[k+40] = cons_foo(asset5[k+40])
-    asset5[k+39] = (1+r)*asset5[k+40] + wage[k] - cons5[k+40]
+wage5 = zeros(65)
+
+for i in 65:-1:1
+    y = 5+inc[i]
+    dd=Normal(y,1)
+    wage5[i] = rand(dd,1)[1]
 end
 
-for k in 40:-1:2
+plot(wage5)
+
+for k in 65:-1:1
+    cons_foo =  LinearInterpolation(w,choice_trab5[k,:], extrapolation_bc = Line())
+    cons5[k+20] = cons_foo(asset5[k+20])
+    asset5[k+19] = (1+r)*asset5[k+20] - cons5[k+20] + wage5[k]
+end
+
+for k in 20:-1:2
     cons_foo =  LinearInterpolation(w,choice_ret5[k,:], extrapolation_bc = Line()) #also depends on the convergence of the previous program
     cons5[k] = cons_foo(asset5[k])
     asset5[k-1] = (1+r)*asset5[k] - cons5[k] + s
@@ -401,43 +425,50 @@ end
 
 cons5[1] = asset5[1]
 
-rett5 = zeros(40)
+rett5 = zeros(20)
 fill!(rett5,s)
-income5 = [wage[45:-1:1]; rett5]
+income5 = [wage5[65:-1:1]; rett5]
 
 plot(asset5[85:-1:1], lab = "Assets", xlab = "Tempo",legend = :topleft)
 plot!(cons5[85:-1:1], lab = "Consumption")
 plot!(income5[1:85], lab = "Income")
-vline!([46],lab = "Aposentadoria", lw = 2)
+vline!([66],lab = "Aposentadoria", lw = 2)
 
-## With Borrowing
+png("./content/post/prev/sal_cresc.png")
 
-w = range(-25,stop=25,length=500)
+plot(cons5[85:-1:1], lab = "Consumption", legend = :topleft)
+plot!(income5[1:85], lab = "Income")
+plot!((5 .+inc[65:-1:1]), label = "Trend Salário",lw=2)
+vline!([66],lab = "Aposentadoria",lw=2)
 
-s = 7
-ret_age = 40
-work_age = 45
+png("./content/post/prev/sal_cresc2.png")
+
+plot(w,choice_trab5[1,:], legend = :topleft,lab = "t = 65")
+plot!(w,choice_trab5[10,:],lab = "t = 55")
+plot!(w,choice_trab5[45,:],lab = "t = 20")
+plot!(w,choice_trab5[55,:],lab = "t = 10")
+
+png("./content/post/prev/escolh_cresc_sal.png")
+
+plot(w,choice_trab[40,:])
+plot!(w,choice_trab5[40,:])
+
+
+### Increasing wage s = 5
+
+s = 5
 
 choice_ret6 = zeros(ret_age,length(w))
 value_ret6 = zeros(ret_age,length(w))
 
-aux = zeros(length(w))
-for i in 1:length(w)
-    if w[i] < 0
-        aux[i] = -Inf
-    else
-        aux[i] = u(w[i])
-    end
-end
-
-value_ret6[1,:] = aux
+value_ret6[1,:] = u.(w)
 choice_ret6[1,:] = w
 
 for j in 2:ret_age
     f = LinearInterpolation(w,value_ret6[j-1,:], extrapolation_bc = Line())
-    for i in 1:length(ww)
+    for i in 1:length(w)
         val(c) = -(u(c) + bet*f((1+r)*w[i] -c + s))
-        otm = optimize(val,0,(w[i]+26))
+        otm = optimize(val,0,w[i])
         choice_ret6[j,i] = Optim.minimizer(otm)
         value_ret6[j,i] = -Optim.minimum(otm)
     end
@@ -452,10 +483,12 @@ choice_trab6[1,:] = choice_ret6[ret_age,:]
 
 for k in 2:work_age
     f =  LinearInterpolation(w,value_trab6[k-1,:], extrapolation_bc = Line())
+    y = 5+inc[k]
+    dd=Normal(y,1)
     for i in 1:length(w)
-        mm = rand(d,2000)
+        mm = rand(dd,2000)
         val(c) = -(u(c) + bet*mean(f.((1+r)*w[i] -c .+ mm)))
-        otm = optimize(val,0,(w[i]+26))
+        otm = optimize(val,0,w[i])
         choice_trab6[k,i] = Optim.minimizer(otm)
         value_trab6[k,i] = -Optim.minimum(otm)
     end
@@ -469,13 +502,13 @@ asset6 = zeros(85)
 
 asset6[85] = start
 
-for k in 45:-1:1
+for k in 65:-1:1
     cons_foo =  LinearInterpolation(w,choice_trab6[k,:], extrapolation_bc = Line())
-    cons6[k+40] = cons_foo(asset6[k+40])
-    asset6[k+39] = (1+r)*asset6[k+40] + wage[k] - cons6[k+40]
+    cons6[k+20] = cons_foo(asset6[k+20])
+    asset6[k+19] = (1+r)*asset6[k+20] - cons6[k+20] + wage5[k]
 end
 
-for k in 40:-1:2
+for k in 20:-1:2
     cons_foo =  LinearInterpolation(w,choice_ret6[k,:], extrapolation_bc = Line()) #also depends on the convergence of the previous program
     cons6[k] = cons_foo(asset6[k])
     asset6[k-1] = (1+r)*asset6[k] - cons6[k] + s
@@ -483,80 +516,30 @@ end
 
 cons6[1] = asset6[1]
 
-rett6 = zeros(40)
+rett6 = zeros(20)
 fill!(rett6,s)
-income6 = [wage[45:-1:1]; rett6]
+income6 = [wage5[65:-1:1]; rett6]
 
 plot(asset6[85:-1:1], lab = "Assets", xlab = "Tempo",legend = :topleft)
 plot!(cons6[85:-1:1], lab = "Consumption")
 plot!(income6[1:85], lab = "Income")
-vline!([46],lab = "Aposentadoria", lw = 2)
+vline!([66],lab = "Aposentadoria", lw = 2)
 
-#######################################
-########### Infinite life #############
-#######################################
+png("./content/post/prev/sal_cresc.png")
 
-choice_ret = zeros(1000,length(w))
-value_ret = zeros(1000,length(w))
+plot(cons6[85:-1:1], lab = "Consumption", legend = :topleft)
+plot!(income6[1:85], lab = "Income")
+plot!((5 .+inc[65:-1:1]), label = "Trend Salário",lw=2)
+vline!([66],lab = "Aposentadoria",lw=2)
 
-value_ret[1,:] = u.(w)
+png("./content/post/prev/sal_cresc2.png")
 
-global j = 2
-global err = 1
+plot(cons5[85:-1:1], lab = "s=1", legend = :topleft)
+plot!(cons6[85:-1:1], lab = "s=5")
 
-while j <= 1000 && err >= eps()*10^5
-    f = LinearInterpolation(w,value_ret[j-1,:], extrapolation_bc = Line())
-    for i in 1:length(w)
-        val(c) = -(u(c) + bet*prob*mean(f.((1+r)*w[i] -c + s)))
-        otm = optimize(val,0,w[i])
-        choice_ret[j,i] = Optim.minimizer(otm)
-        value_ret[j,i] = -Optim.minimum(otm)
-    end
-    global err = maximum(abs.(value_ret[j-1,:] - value_ret[j,:]))
-    println("Iteration ",j, " w/ error ",err )
-    global j = j + 1
-end
+png("./content/post/prev/cons2.png")
 
-value_trab = zeros(work_age,length(w))
-choice_trab = zeros(work_age,length(w))
+plot(asset5[85:-1:1], lab = "s=1", legend = :topleft)
+plot!(asset6[85:-1:1], lab = "s=5")
 
-value_trab[1,:] = value_ret[44,:] #Depends on the convergence of the previous program
-
-for k in 2:work_age
-    f =  LinearInterpolation(w,value_trab[k-1,:], extrapolation_bc = Line())
-    for i in 1:length(w)
-        mm = rand(d,2000)
-        val(c) = -(u(c) + bet*mean(f.((1+r)*w[i] -c .+ mm)))
-        otm = optimize(val,0,w[i])
-        choice_trab[k,i] = Optim.minimizer(otm)
-        value_trab[k,i] = -Optim.minimum(otm)
-    end
-end
-
-start = 2
-wage = rand(d,65)
-
-cons = zeros(85)
-asset = zeros(85)
-
-asset[85] = start
-
-for k in 65:-1:2
-    cons_foo =  LinearInterpolation(w,choice_trab[k,:], extrapolation_bc = Line())
-    cons[k+20] = cons_foo(asset[k+20])
-    asset[k+19] = (1+r)*asset[k+20] - cons[k+20] + wage[k]
-end
-
-for k in 21:-1:2
-    cons_foo =  LinearInterpolation(w,choice_ret[44,:], extrapolation_bc = Line()) #also depends on the convergence of the previous program
-    cons[k] = cons_foo(asset[k])
-    asset[k-1] = (1+r)*asset[k] - cons[k] + s
-end
-
-rett = zeros(20)
-fill!(rett,s)
-income = [wage[65:-1:1]; rett]
-
-plot(asset[85:-1:1], lab = "assets")
-plot!(cons[85:-1:1], lab = "Consumption")
-plot!(income[1:85], lab = "Income")
+png("./content/post/prev/asset2.png")
