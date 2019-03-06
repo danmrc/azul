@@ -6,10 +6,20 @@
     <description>Recent content in Computação on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 28 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 06 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/computa%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Aplicando Programação Dinâmica a Reforma da Previdência</title>
+      <link>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</link>
+      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</guid>
+      <description>Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.
+Vamos pensar em um agente que recebe um salário \(\omega\) e pode escolher poupar ou consumir.</description>
+    </item>
     
     <item>
       <title>Por que usar o Julia?</title>

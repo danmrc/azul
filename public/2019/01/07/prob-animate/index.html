@@ -47,7 +47,7 @@
                     </h1>
                     <h2 class="headline">
                     Jan 7, 2019 00:00
-                    · 640 words
+                    · 643 words
                     · 4 minute read
                       <span class="tags">
                       
@@ -112,10 +112,12 @@ anim_save(&quot;animacao1.gif&quot;)</code></pre>
 </div>
 <p>Outra coisa interessante de ver é a diferença entre processos autoregressivos com e sem raízes unitárias, o que os diferencia entre estacionário e não-estacionário.</p>
 <pre class="r"><code>library(tidyverse)
+set.seed(1234)
 
 n = 500
-set.seed(1234)
 inicial = rnorm(1)
+inercia = .8
+
 estacionario = vector()
 estacionario[1] = inicial
 
@@ -126,7 +128,7 @@ for(i in 2:n) {
   
   choque = rnorm(1, sd = .5)
   
-estacionario[i] = estacionario[i-1] * 0.8 + choque  
+estacionario[i] = estacionario[i-1] * inercia + choque  
 n_estacionario[i] = n_estacionario[i-1] + choque
 
   }
