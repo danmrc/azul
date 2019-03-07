@@ -29,8 +29,8 @@ Onde
 
 $$W_t = 
 \begin{cases}
-\omega_t & \text{se } 0 \geq t \leq T_{aposentadoria}\\
-s & \text{se } T_{aposentadoria} \geq t \leq T\\
+\omega_t & \text{se } 0 \leq t \leq T_{aposentadoria}\\
+s & \text{se } T_{aposentadoria} \leq t \leq T\\
 \end{cases}$$
 
 Veja que isso gera uma quebra no nosso problema de programação dinâmica: de um ponto em diante a dotação muda completamente, inclusive deixando de ser aleatória. Vamos resolver isso de uma maneira muito esperta, como sugerida no site do [quant.econ](https://lectures.quantecon.org/jl/lqcontrol.html#Further-Applications):

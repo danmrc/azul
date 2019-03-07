@@ -1,5 +1,5 @@
 ---
-title: Aplicando Programação Dinâmica a Reforma da Previdência
+title: Aplicando Programação Dinâmica à Reforma da Previdência
 author: Daniel Coutinho
 date: '2019-03-06'
 slug: aplicando-programação-dinâmica-a-reforma-da-previdência
@@ -27,8 +27,8 @@ tags:
 <p>Onde</p>
 <p><span class="math display">\[W_t = 
 \begin{cases}
-\omega_t &amp; \text{se } 0 \geq t \leq T_{aposentadoria}\\
-s &amp; \text{se } T_{aposentadoria} \geq t \leq T\\
+\omega_t &amp; \text{se } 0 \leq t \leq T_{aposentadoria}\\
+s &amp; \text{se } T_{aposentadoria} \leq t \leq T\\
 \end{cases}\]</span></p>
 <p>Veja que isso gera uma quebra no nosso problema de programação dinâmica: de um ponto em diante a dotação muda completamente, inclusive deixando de ser aleatória. Vamos resolver isso de uma maneira muito esperta, como sugerida no site do <a href="https://lectures.quantecon.org/jl/lqcontrol.html#Further-Applications">quant.econ</a>:</p>
 <ol style="list-style-type: decimal">
