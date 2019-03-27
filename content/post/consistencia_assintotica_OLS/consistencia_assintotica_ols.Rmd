@@ -1,0 +1,83 @@
+---
+title: "Verificando Consistência Assintótica de Mínimos Quadrados com o R"
+author: "Pedro Cavalcante"
+date: '2019-04-28'
+output:
+  html_document: default
+    df_print: paged
+  pdf_document:
+katex: yes
+categories:
+- R
+- Econometria
+- Estatística
+slug: consistencia-assintotica-OLS
+tags:
+  - Otimização
+  - Econometria
+  - OLS
+  - Simulações
+authors: ["pedrocava"]
+draft: TRUE
+---
+
+Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que consistência assintótica de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos a serem introduzidos com uma abordagem computacional, do _ver acontecendo_. É isso que eu quero mostrar hoje. Como de costume, esse blog é um espaço para falar de ideias da maneira como nós gostaríamos de ter sido introduzidos à elas.
+
+
+Espera-se que a "precisão" do estimador aumente à medida que o tamanho da amostra aumenta, não? De maneira mais formal, um estimador é dito consistente se à medida que o tamanho da amostra aumenta a variância do estimador diminui. 
+
+
+# Verificando isso computacionalmente
+
+De fato, podemos visualizar uma parte isso ocorrendo. Vamos usar um loop ``for`` para achar parâmetros estimados para tamanhos diferentes de amostras
+
+```{R, warning = FALSE, message = FALSE, dpi = 250}
+
+parametros = vector() # vetor vazio que será preenchido
+variancia_estimador = vector()
+m = 10000 # tamanho máximos de amostra
+
+for(i in 1:m) {
+  
+X = runif(n = m, min = 10, max = 20) # n = 2000 de uma variável aleatória X ~ U(10,20)
+u = rnorm(n = m) # pertubações aleatórias com distribuição u ~ N(0,1)
+Y = 5 + 0.8*X + u   # criamos Y a partir de X e u
+
+dados = data.frame(explicada = Y,
+                   explicativa = X)
+
+modelo = lm(Y ~ X, # fórmula do modelo a ser estimado 
+             data = dados) # data.frame em que estão as variáveis
+  
+parametros[i] = coef(modelo)[2] # pegamos somente o parâmetro estimado para X
+variancia_estimador[i] = var(parametros)
+
+}
+
+df_parametros = data.frame(Estimado = parametros,
+                           Amostra = 1:m) #criamos um dataframe para o ggplot2
+df_variancia = data.frame(Variancia = variancia_estimador,
+                          amostra = 1:m)
+
+df_variancia %>%
+  ggplot(aes(x = amostra, y = Variancia)) +
+  geom_line(size = 2)
+
+df_parametros %>%
+  ggplot(aes(x = Estimado)) +
+  geom_histogram(aes(y = ..density..)) + 
+  geom_vline(xintercept = .8, # linha vertical no parâmetro verdadeiro
+             size = 2) +
+  ylab("") +
+  xlab("Parâmetro estimado") +
+  labs(title = "Normalidade do estimador mínimos quadrados")
+
+df_parametros %>%
+  ggplot(aes(x = Amostra, y = Estimado)) +
+  geom_line() + 
+  ylab("Parâmetro Estimado") + 
+  labs(title = "Consistência Assintótica do Estimador de Mínimos Quadrados",
+       subtitle = "Os parâmetros estimados se comportam como ruído branco, com média no parâmetro verdadeiro")
+
+
+```
