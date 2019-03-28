@@ -1,0 +1,82 @@
+---
+title: "Duopólio de Cournot no R com o pacote Recon"
+author: "Pedro Cavalcante"
+date: '2019-03-28'
+output:
+  html_document: 
+    df_print: paged
+  pdf_document: default
+katex: yes
+categories:
+- R
+- Microeconomia
+slug: Recon-comp-micro
+tags:
+  - Microeconomia
+  - Otimização
+  - Cournot
+  - Competição Imperfeita
+  - Duopólio
+  - Oligopólio
+authors: ["pedrocava"]
+draft: TRUE
+---
+
+
+
+<p>Dia desses eu <a href="https://twitter.com/PedrooCava/status/1109630732585058304">concluí o primeiro release estável do <code>Recon</code></a> e inclusive já está disponível no CRAN para download, é só rodar <code>install.packages(&quot;Recon&quot;)</code>. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.</p>
+<p>O primeiro rascunho do <code>Recon</code> nasceu em agosto de 2018 com o nome de <code>econ101</code> (que foi rapidamente abandonado por conta do bom senso do grande Flavio Abdenur) em um computador do Instituto de Pesquisa Econômica Aplicada no Rio de Janeiro durante um pós-expediente. Naquele semestre eu estava cursando uma matéria de estatística computacional na faculdade e percebi que aprendi muito implementando funções que computavam os testes de hipótese e estimadores que eu conhecia das aulas teóricas. Não foi difícil pensar que eu também deveria aprender muito implementando solução de vários modelos que conheci nos cursos de teoria macro e microeconômica.</p>
+<p>Depois de traçar algum plano de vôo do que deveria ser feito, criar repositório e gerar o esqueleto do pacote eu comecei a trabalhar nas funções em si. Em primeiro de setembro eu fiz um post aqui no <a href="https://azul.netlify.com/2018/09/01/microeconomia/">blog sobre alguns aspectos de dualidade em modelos micro</a>, onde mostrei o que depois se tornariam as funções <code>cobb_douglas2()</code> e <code>grid2()</code>. Dez dias depois fiz um post <a href="https://azul.netlify.com/2018/09/11/solow/">explorando o modelo de Solow</a>, cortesia do curso de Teoria Macroeconômica IV do professor Gabriel Montes, onde criei uma primeira versão do que hoje é a função <code>solow_steady_state()</code>.</p>
+<p>Essas são funções razoavelmente simples e modelam problemas não muito complicados. Depois de solucionado o modelo de Solow, as equações que governam o estado estacionário são bem diretas e curtas. Computar uma função do tipo Cobb-Douglas também é muito simples. Até agora só vimos funções que implementam fórmulas conhecidas. O que eu acho interessante no <code>Recon</code> é que ele implementa soluções de problemas que envolvem problemas de otimização com restrições e não somente substituir letras por números.</p>
+<div id="cournot-e-condicoes-de-primeira-ordem" class="section level1">
+<h1>Cournot e Condições de Primeira Ordem</h1>
+<p>Em 1838 Cournot publicou seu tratado de economia política com, pioneiramente, vários modelos matemáticos. O mais famoso sendo o que foca em oligopólios. Existem várias implicações interessantes no modelo de Cournot com várias firmas, um teorema curioso e um entendimento mais profundo do que é competição perfeita, mas hoje vamos focar no caso de duopólio.</p>
+<p>Primeiro caracterizamos o problema. Temos duas firmas com custos não-lineares e potencialmente diferentes. O preço de mercado é único - não há diferenciação - e uma função, potencialmente não-linear, monotonamente decrescente do produto total das firmas. Dada a curva de demanda e as curvas de custo, montamos duas funções lucros e procuramos um Equilíbrio de Nash. Nesse jogo ele é dado pelo ponto fixo do sistema com as duas condições de primeira ordem das funções lucro. O que a função <code>cournot_solver()</code> faz é montar duas CPOs com os parâmetros do problema e achar as suas raízes.</p>
+<p>A notação dos parâmetros é <code>p*</code> para parâmetro da curva de demanda e <code>cx_*</code> para parâmetros das curvas de custo. Nos parâmetros da curva de custo o primeiro número diz de qual firma o parâmetro é, o segundo diz qual a potência da variável de produto que o parâmetro multiplica e o mesmo vale para os da curva de demanda.</p>
+<pre class="r"><code> focs &lt;- function(q) c(foc1 &lt;- ((p1 + 2 * p2 * sum(q)) * 
+    q[1] + (p0 + p1 * sum(q) + p2 * sum(q)^2) - (c1_1 + 
+    2 * c1_2 * q[1])), foc2 &lt;- ((p1 + 2 * p2 * sum(q)) * 
+    q[2] + (p0 + p1 * sum(q) + p2 * sum(q)^2) - (c2_1 + 
+    2 * c2_2 * q[2])))
+ 
+ q_eq &lt;- rootSolve::multiroot(f = focs, start = c(0, 0))
+
+   q_1 &lt;- q_eq$root[1]
+  q_2 &lt;- q_eq$root[2]</code></pre>
+<p>Então se temos uma curva de demanda inversa <span class="math inline">\(P(Q) = 100 - 2Q - 0.2Q^2\)</span> e curvas de custo <span class="math inline">\(C_1 (Q_1) = 10 + 3Q_1 + 0.5Q_1^2\)</span> e <span class="math inline">\(C_2 (Q_2) = 40 + 2Q_1 + 0.9Q_1^2\)</span> basta alimentar:</p>
+<pre class="r"><code>library(Recon)
+
+cournot_solver(p0 = 100,
+               p1 = -2,
+               p2 = -.2,
+               c1_0 = 10,
+               c1_1 = 3,
+               c1_2 = .5,
+               c2_0 = 40,
+               c2_1 = 2,
+               c2_2 = .9)</code></pre>
+<pre><code>## $price
+## [1] 49.45478
+## 
+## $output_1
+## [1] 6.05981
+## 
+## $output_2
+## [1] 5.605306
+## 
+## $total_output
+## [1] 11.66512
+## 
+## $firm1_share
+## [1] 0.519
+## 
+## $firm2_share
+## [1] 0.481
+## 
+## $firm1_profit
+## [1] 253.1465
+## 
+## $firm2_profit
+## [1] 197.7211</code></pre>
+<p>Podemos replicar computacionalmente alguns resultados teóricos bem conhecidos deste modelo. Um que eu acho particularmente interessante é que custos fixos não alteram o produto, nem o market share, de equilíbrio, somente o volume de lucro.</p>
+</div>

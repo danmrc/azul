@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Competição Imperfeita on AZUL</title>
+    <link>/tags/competi%C3%A7%C3%A3o-imperfeita/</link>
+    <description>Recent content in Competição Imperfeita on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Thu, 28 Mar 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/competi%C3%A7%C3%A3o-imperfeita/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Duopólio de Cournot no R com o pacote Recon</title>
+      <link>/2019/03/28/recon-comp-micro/</link>
+      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/03/28/recon-comp-micro/</guid>
+      <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;). Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
+O primeiro rascunho do Recon nasceu em agosto de 2018 com o nome de econ101 (que foi rapidamente abandonado por conta do bom senso do grande Flavio Abdenur) em um computador do Instituto de Pesquisa Econômica Aplicada no Rio de Janeiro durante um pós-expediente.</description>
+    </item>
+    
+  </channel>
+</rss>
