@@ -6,19 +6,10 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 28 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
-      <link>/2019/04/28/consistencia-assintotica-ols/</link>
-      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/28/consistencia-assintotica-ols/</guid>
-      <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
-    </item>
     
     <item>
       <title>Duopólio de Cournot no R com o pacote Recon</title>
@@ -28,6 +19,15 @@
       <guid>/2019/03/28/recon-comp-micro/</guid>
       <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;). Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
 O primeiro rascunho do Recon nasceu em agosto de 2018 com o nome de econ101 (que foi rapidamente abandonado por conta do bom senso do grande Flavio Abdenur) em um computador do Instituto de Pesquisa Econômica Aplicada no Rio de Janeiro durante um pós-expediente.</description>
+    </item>
+    
+    <item>
+      <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
+      <link>/2019/03/28/consistencia-assintotica-ols/</link>
+      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/03/28/consistencia-assintotica-ols/</guid>
+      <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
     </item>
     
     <item>
