@@ -1,0 +1,101 @@
+---
+title: 'LASSO Adaptativo '
+author: Daniel Coutinho
+date: '2019-04-05'
+slug: lasso-adaptativo
+categories:
+  - Econometria
+  - Machine Learning
+tags:
+  - adaLASSO
+  - LASSO
+  draft: true
+---
+
+Em um [post anterior](https://azul.netlify.com/2018/09/16/lasso/), eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia: 
+
+$$\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|$$
+
+(Onde |.| é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não. Vamos fazer um pequeno teste com o LASSO: eu vou gerar 50 variáveis normais, independentes, e dessas dez - as dez primeiras - eu colocarei$\beta=1$. As outra vão ser irrelevantes para o problema e vão ter $\beta=0$. O tamanho da amostra vai ser igual a 100. 
+
+Como de praxe, nós podemos ter diversos objetivos ao estimar um modelo. Eu vou comparar 3 coisas: a quantidade de vezes que o LASSO coloca as variáveis relevantes, a quantidade de vezes que ele exclui as variáveis irrelevantes e quando ele obtém o modelo certo - o que exige colocar todo mundo que é relevante **e** excluir todos os irrelevantes. Vou fazer só 500 replicações e usar o Cross Validation para escolher o $\lambda$:
+
+```{r,cache=TRUE}
+
+library(glmnet)
+
+coeficientes <- Matrix(0,ncol=500,nrow=51)
+
+for(i in 1:500){
+  x <- matrix(rnorm(50*100),ncol = 50) #gerando x
+  betas <- c(rep(1,10),rep(0,40)) #
+  y <- x%*%betas + rnorm(100)
+  modelo <- cv.glmnet(x,y) #estimando usando LASSO e Cross Validation
+  coeficientes[,i] <- coef(modelo)
+}
+
+#Fim da simulação
+
+analise <- matrix(0,ncol=3,nrow=500)
+colnames(analise)<- c("Não zeros certos","Zeros certos", "Modelo certo?")
+
+for(i in 1:500){
+  analise[i,1]<- mean(coeficientes[2:11,i] != 0)
+  analise[i,2]<- mean(coeficientes[12:51,i] == 0)
+  analise[i,3]<- ifelse(analise[i,1]+analise[i,2] == 2,1,0)
+}
+
+tabela_final <- colMeans(analise)*100
+knitr::kable(tabela_final,caption = "Os valores estão em porcentagem")
+
+```
+
+O LASSO sempre inclui as variáveis relevantes, e exclui as variáveis irrelevantes em 84% das vezes. Mesmo assim, a proporção de vezes que o LASSO consegue recuperar o modelo correto é um pocuo mais que 1%. Isso parece esquisito a primeira vez, mas lembre que recuperar o modelo certo envolve *acertar todas as relevantes e todas as irrelevantes*. Se tivermos 50 variáveis e 500 replicações e em toda replicação o LASSO colocar apenas umas variável irrelevante no modelo, nós teríamos 98% de zeros certos ($49/50$) e exatamente 0 modelos certos.
+
+Parte do problema é que o LASSO penaliza todos os coeficientes igual, usando o $\lambda$. Nós esperaríamos que algumas variáveis são mais importantes que outras - e isso pode vir a priori ou ser dito pelos dados. O LASSO adaptativo (adaLASSO) adiciona pesos ($\omega$) para cada uma das variáveis na penalidade. Logo o novo problema a ser resolvido é: 
+
+$$\hat{\beta}_{adaLASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p \frac{|\beta_k|}{\omega_k}$$
+
+A única exigência desses pesos é que eles sejam positivos. Veja que nós temos um novo parâmetro a escolher, os pesos. Eis um algoritmo muito simples que gera os pesos baseado nos dados e usa o LASSO:
+
+1. Estime o modelo usando LASSO. Guarde os coeficientes, que eu chamarei de $\beta_{LASSO}$
+2. Defina $\omega_k = \frac{1}{|\beta_{LASSO}|}
+3. Estime o adaLASSO usando os pesos definidos em 2.
+
+A boa notícia é que o *glmnet* já nos oferece uma opção para colocar o peso, via o argumento *penalty.factor*. Nosso trabalho é basicamente reduzido a escrever umas duas linhas de código a mais: uma que faz o LASSO de "primeiro estágio" e outra que define os pesos.
+
+Uma coisa deve ficar evidente: da maneira que os pesos foram estabelecidos no meu algoritmo, coeficientes que são zerados pelo LASSO serão automaticamente excluídos pelo LASSO adaptativo: teremos como peso $1/0$ (com perdão aos matemáticos), que no limite é infinito. Como o LASSO não excluiu as variáveis relevantes em nenhum caso, não vamos nos preocupar. Mas é possível imaginar situações em que o LASSO poderia ter problemas (pense em coeficientes altissimamente correlacionados em uma amostra relativamente pequena). Outra coisa que deve ficar clara é que precisamos selecionar o $\lambda$ e agora duas vezes!
+
+Vamos repetir a simulação ali de cima, mas usando o adaLASSO. EM ambos os estágios eu vou usar o Cross Validation:
+
+```{r,cache=TRUE}
+
+coeficientes_adalasso <- Matrix(0,ncol=500,nrow=51)
+
+for(i in 1:500){
+  x <- matrix(rnorm(50*100),ncol = 50) #gerando x
+  betas <- c(rep(1,10),rep(0,40)) #
+  y <- x%*%betas + rnorm(100)
+  primeiro_estagio <- cv.glmnet(x,y) #estimando usando LASSO e Cross Validation
+  pesos <- 1/abs(coef(primeiro_estagio)[-1,]) #veja que eu tenho que jogar fora o intercepto
+  adalasso <- cv.glmnet(x,y,penalty.factor = pesos)
+  coeficientes_adalasso[,i] <- coef(adalasso)
+}
+
+#Fim da simulação
+
+analise <- matrix(0,ncol=3,nrow=500)
+colnames(analise)<- c("Não zeros certos","Zeros certos", "Modelo certo?")
+
+for(i in 1:500){
+  analise[i,1]<- mean(coeficientes_adalasso[2:11,i] != 0)
+  analise[i,2]<- mean(coeficientes_adalasso[12:51,i] == 0)
+  analise[i,3]<- ifelse(analise[i,1]+analise[i,2] == 2,1,0)
+}
+
+tabela_final <- colMeans(analise)*100
+knitr::kable(tabela_final,caption = "Os valores estão em porcentagem")
+
+```
+
+A performance do LASSO adaptativo é muito melhor que a do LASSO: em 63% dos casos agora recuperamos o modelo correto, contra um pouco mais de 1% dos casos para o LASSO. 

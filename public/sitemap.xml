@@ -3,8 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/2019/03/28/recon-comp-micro/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <loc>/2019/04/28/central-limit-theorem-r/</loc>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2019/04/28/central-limit-theorem-r/</loc>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2019/04/05/lasso-adaptativo/</loc>
+    <lastmod>2019-04-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -202,8 +212,18 @@
   </url>
   
   <url>
+    <loc>/1/01/01/</loc>
+  </url>
+  
+  <url>
     <loc>/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/adalasso/</loc>
+    <lastmod>2019-04-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -267,6 +287,12 @@
   </url>
   
   <url>
+    <loc>/tags/clt/</loc>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -275,12 +301,6 @@
   <url>
     <loc>/categories/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/competi%C3%A7%C3%A3o-imperfeita/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -297,32 +317,20 @@
   </url>
   
   <url>
-    <loc>/tags/cournot/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/curtas/</loc>
     <lastmod>2018-09-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/duop%C3%B3lio/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/econometria/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/econometria/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -358,7 +366,7 @@
   
   <url>
     <loc>/categories/estat%C3%ADstica/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -418,7 +426,7 @@
   
   <url>
     <loc>/tags/lasso/</loc>
-    <lastmod>2018-09-16T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -436,19 +444,19 @@
   
   <url>
     <loc>/categories/machine-learning/</loc>
-    <lastmod>2019-02-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/macroeconomia/</loc>
-    <lastmod>2018-09-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/macroeconomia/</loc>
-    <lastmod>2018-10-07T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -466,13 +474,13 @@
   
   <url>
     <loc>/tags/microeconomia/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/microeconomia/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2018-09-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -501,12 +509,6 @@
   </url>
   
   <url>
-    <loc>/tags/oligop%C3%B3lio/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/ols/</loc>
     <lastmod>2019-03-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -526,7 +528,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -568,13 +570,13 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-12-21T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -622,7 +624,7 @@
   
   <url>
     <loc>/tags/simula%C3%A7%C3%B5es/</loc>
-    <lastmod>2019-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -664,7 +666,7 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2018-10-19T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -694,7 +696,7 @@
   
   <url>
     <loc>/tags/var/</loc>
-    <lastmod>2018-10-07T00:00:00+00:00</lastmod>
+    <lastmod>2019-04-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

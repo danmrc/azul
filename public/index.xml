@@ -6,19 +6,39 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 28 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Duopólio de Cournot no R com o pacote Recon</title>
-      <link>/2019/03/28/recon-comp-micro/</link>
-      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
+      <title>Será que Investimento Público é tudo isso? Estimando VARs no R</title>
+      <link>/2019/04/28/central-limit-theorem-r/</link>
+      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/03/28/recon-comp-micro/</guid>
-      <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;). Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
-O primeiro rascunho do Recon nasceu em agosto de 2018 com o nome de econ101 (que foi rapidamente abandonado por conta do bom senso do grande Flavio Abdenur) em um computador do Instituto de Pesquisa Econômica Aplicada no Rio de Janeiro durante um pós-expediente.</description>
+      <guid>/2019/04/28/central-limit-theorem-r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Verificando computacionalmente o Teorema Central do Limite no R</title>
+      <link>/2019/04/28/central-limit-theorem-r/</link>
+      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/04/28/central-limit-theorem-r/</guid>
+      <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Não é exagero dizer que sem ele não teríamos Econometria. E como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências.
+Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
+    </item>
+    
+    <item>
+      <title>LASSO Adaptativo </title>
+      <link>/2019/04/05/lasso-adaptativo/</link>
+      <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/04/05/lasso-adaptativo/</guid>
+      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
+\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
+(Onde |.| é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
     </item>
     
     <item>
@@ -47,7 +67,7 @@ Vamos pensar em um agente que recebe um salário \(\omega\) e pode escolher poup
       
       <guid>/2019/02/23/prouni-rf-svm/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines. Vou explicar breve e simplesmente o que são/ como funcionam essas duas técnicas e depois estimar tudo.
-Random ForestsPrimeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</description>
+Random Forests Primeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</description>
     </item>
     
     <item>
@@ -135,7 +155,7 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
       
       <guid>/2018/12/10/julia-101/</guid>
       <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
+Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
     </item>
     
     <item>
@@ -164,8 +184,8 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
-O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
@@ -215,7 +235,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t+1} = (1-\delta)k_
       
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
@@ -354,7 +374,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
@@ -373,8 +393,8 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       <pubDate>Wed, 18 Jul 2018 21:48:51 -0700</pubDate>
       
       <guid>/about/</guid>
-      <description>Os AutoresEste blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três - é “econometria” que chama?. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts são acompanhados do código. Replicabilidade e aprender-fazendo são a serventia da casa. Sem mais delongas, eis os dois autores:
-Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
+      <description>Este blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três. A ideia é escrever de maneira replicável e acessível (na medida do possível) sobre assuntos que gostaríamos de ter visto de outra forma. Aqui acreditamos em aprender fazendo.
+Os Autores Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.</description>
     </item>
     
     <item>
@@ -403,7 +423,16 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/1/01/01/</guid>
-      <description>Ponto Fixo e Equlíbrio GeralMathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]},TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } }});@font-face {font-style: normal;font-weight: 300;}@font-face {font-style: normal;font-weight: 400;}@font-face {font-style: normal;font-weight: 600;}html {font-family: sans-serif; /* 1 */-ms-text-size-adjust: 100%; /* 2 */-webkit-text-size-adjust: 100%; /* 2 */}body {margin: 0;}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {display: block;}audio,canvas,progress,video {display: inline-block; /* 1 */vertical-align: baseline; /* 2 */}audio:not([controls]) {display: none;height: 0;}[hidden],template {display: none;}a:active,a:hover {outline: 0;}abbr[title] {border-bottom: 1px dotted;}b,strong {font-weight: bold;}dfn {font-style: italic;}h1 {font-size: 2em;margin: 0.</description>
+      <description>Modelo de Cournot no R com o pacote Recon        code{white-space: pre;} pre:not([class]) { background-color: white; }  if (window.hljs) { hljs.configure({languages: []}); hljs.initHighlightingOnLoad(); if (document.readyState &amp;&amp; document.readyState === &#34;complete&#34;) { window.setTimeout(function() { hljs.initHighlighting(); }, 0); } }  h1 { font-size: 34px; } h1.title { font-size: 38px; } h2 { font-size: 30px; } h3 { font-size: 24px; } h4 { font-size: 18px; } h5 { font-size: 16px; } h6 { font-size: 12px; } .</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/1/01/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/</guid>
+      <description>Ponto Fixo e Equlíbrio Geral MathJax.Hub.Config({ tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}, TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } } });   @font-face { font-style: normal; font-weight: 300; } @font-face { font-style: normal; font-weight: 400; } @font-face { font-style: normal; font-weight: 600; } html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -webkit-text-size-adjust: 100%; /* 2 */ } body { margin: 0; } article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; } audio, canvas, progress, video { display: inline-block; /* 1 */ vertical-align: baseline; /* 2 */ } audio:not([controls]) { display: none; height: 0; } [hidden], template { display: none; } a:active, a:hover { outline: 0; } abbr[title] { border-bottom: 1px dotted; } b, strong { font-weight: bold; } dfn { font-style: italic; } h1 { font-size: 2em; margin: 0.</description>
     </item>
     
   </channel>

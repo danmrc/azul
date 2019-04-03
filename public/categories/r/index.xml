@@ -6,19 +6,28 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 28 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Duopólio de Cournot no R com o pacote Recon</title>
-      <link>/2019/03/28/recon-comp-micro/</link>
-      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
+      <title>Será que Investimento Público é tudo isso? Estimando VARs no R</title>
+      <link>/2019/04/28/central-limit-theorem-r/</link>
+      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/03/28/recon-comp-micro/</guid>
-      <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;). Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
-O primeiro rascunho do Recon nasceu em agosto de 2018 com o nome de econ101 (que foi rapidamente abandonado por conta do bom senso do grande Flavio Abdenur) em um computador do Instituto de Pesquisa Econômica Aplicada no Rio de Janeiro durante um pós-expediente.</description>
+      <guid>/2019/04/28/central-limit-theorem-r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Verificando computacionalmente o Teorema Central do Limite no R</title>
+      <link>/2019/04/28/central-limit-theorem-r/</link>
+      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/04/28/central-limit-theorem-r/</guid>
+      <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Não é exagero dizer que sem ele não teríamos Econometria. E como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências.
+Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
     </item>
     
     <item>
@@ -37,7 +46,7 @@ O primeiro rascunho do Recon nasceu em agosto de 2018 com o nome de econ101 (que
       
       <guid>/2019/02/23/prouni-rf-svm/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines. Vou explicar breve e simplesmente o que são/ como funcionam essas duas técnicas e depois estimar tudo.
-Random ForestsPrimeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</description>
+Random Forests Primeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</description>
     </item>
     
     <item>
@@ -93,8 +102,8 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
-O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
@@ -124,7 +133,7 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
       
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
@@ -234,7 +243,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
