@@ -38,7 +38,7 @@ Como também é de praxe, a serventia da casa é falar de um assunto da maneira 
       <guid>/2019/04/05/lasso-adaptativo/</guid>
       <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
 \[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
-(Onde |.| é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
+(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
     </item>
     
     <item>

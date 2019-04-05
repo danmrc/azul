@@ -47,13 +47,11 @@
                     </h1>
                     <h2 class="headline">
                     Apr 5, 2019 00:00
-                    · 782 words
+                    · 814 words
                     · 4 minute read
                       <span class="tags">
                       
                       
-                          
-                              <a href="/tags/adalasso">adaLASSO</a>
                           
                               <a href="/tags/lasso">LASSO</a>
                           
@@ -68,7 +66,7 @@
                 <section id="post-body">
                     <p>Em um <a href="https://azul.netlify.com/2018/09/16/lasso/">post anterior</a>, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:</p>
 <p><span class="math display">\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]</span></p>
-<p>(Onde |.| é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não. Vamos fazer um pequeno teste com o LASSO: eu vou gerar 50 variáveis normais, independentes, e dessas dez - as dez primeiras - eu colocarei<span class="math inline">\(\beta=1\)</span>. As outra vão ser irrelevantes para o problema e vão ter <span class="math inline">\(\beta=0\)</span>. O tamanho da amostra vai ser igual a 100.</p>
+<p>(Onde <span class="math inline">\(|.|\)</span> é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não. Vamos fazer um pequeno teste com o LASSO: eu vou gerar 50 variáveis normais, independentes, e dessas dez - as dez primeiras - eu colocarei<span class="math inline">\(\beta=1\)</span>. As outra vão ser irrelevantes para o problema e vão ter <span class="math inline">\(\beta=0\)</span>. O tamanho da amostra vai ser igual a 100.</p>
 <p>Como de praxe, nós podemos ter diversos objetivos ao estimar um modelo. Eu vou comparar 3 coisas: a quantidade de vezes que o LASSO coloca as variáveis relevantes, a quantidade de vezes que ele exclui as variáveis irrelevantes e quando ele obtém o modelo certo - o que exige colocar todo mundo que é relevante <strong>e</strong> excluir todos os irrelevantes. Vou fazer só 500 replicações e usar o Cross Validation para escolher o <span class="math inline">\(\lambda\)</span>:</p>
 <pre class="r"><code>library(glmnet)
 
@@ -110,16 +108,16 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">84.28</td>
+<td align="right">84.29</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">1.20</td>
+<td align="right">0.80</td>
 </tr>
 </tbody>
 </table>
 <p>O LASSO sempre inclui as variáveis relevantes, e exclui as variáveis irrelevantes em 84% das vezes. Mesmo assim, a proporção de vezes que o LASSO consegue recuperar o modelo correto é um pocuo mais que 1%. Isso parece esquisito a primeira vez, mas lembre que recuperar o modelo certo envolve <em>acertar todas as relevantes e todas as irrelevantes</em>. Se tivermos 50 variáveis e 500 replicações e em toda replicação o LASSO colocar apenas umas variável irrelevante no modelo, nós teríamos 98% de zeros certos (<span class="math inline">\(49/50\)</span>) e exatamente 0 modelos certos.</p>
-<p>Parte do problema é que o LASSO penaliza todos os coeficientes igual, usando o <span class="math inline">\(\lambda\)</span>. Nós esperaríamos que algumas variáveis são mais importantes que outras - e isso pode vir a priori ou ser dito pelos dados. O LASSO adaptativo (adaLASSO) adiciona pesos (<span class="math inline">\(\omega\)</span>) para cada uma das variáveis na penalidade. Logo o novo problema a ser resolvido é:</p>
+<p>Parte do problema é que o LASSO penaliza todos os coeficientes igualmente, usando o <span class="math inline">\(\lambda\)</span>. Nós esperaríamos que algumas variáveis sejam mais importantes que outras - e isso pode vir a priori ou ser dito pelos dados. O LASSO adaptativo (adaLASSO) adiciona pesos (<span class="math inline">\(\omega\)</span>) para cada uma das variáveis na penalidade. Logo o novo problema a ser resolvido é:</p>
 <p><span class="math display">\[\hat{\beta}_{adaLASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p \frac{|\beta_k|}{\omega_k}\]</span></p>
 <p>A única exigência desses pesos é que eles sejam positivos. Veja que nós temos um novo parâmetro a escolher, os pesos. Eis um algoritmo muito simples que gera os pesos baseado nos dados e usa o LASSO:</p>
 <ol style="list-style-type: decimal">
@@ -166,18 +164,19 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <tbody>
 <tr class="odd">
 <td>Não zeros certos</td>
-<td align="right">100.00</td>
+<td align="right">100.000</td>
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">97.37</td>
+<td align="right">97.105</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">63.40</td>
+<td align="right">61.000</td>
 </tr>
 </tbody>
 </table>
+<p>A performance do LASSO adaptativo é muito melhor que a do LASSO: em 63% dos casos agora recuperamos o modelo correto, contra um pouco mais de 1% dos casos para o LASSO.</p>
 
                 </section>
             </article>

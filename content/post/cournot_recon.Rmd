@@ -16,7 +16,7 @@ tags:
   - Otimização
   - Competição Imperfeita
 authors: ["pedrocava"]
-draft: TRUE
+draft: false
 ---
 
 Dia desses eu [concluí o primeiro release estável do ``Recon``](https://twitter.com/PedrooCava/status/1109630732585058304) e inclusive já está disponível no CRAN para download, é só rodar ``install.packages("Recon")`` para instalar a última versão enviada ao repositório ou ``devtools::install_github("pedrocava/Recon")`` para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
