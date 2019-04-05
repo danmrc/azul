@@ -19,7 +19,7 @@ authors: ["pedrocava"]
 draft: TRUE
 ---
 
-Dia desses eu [concluí o primeiro release estável do ``Recon``](https://twitter.com/PedrooCava/status/1109630732585058304) e inclusive já está disponível no CRAN para download, é só rodar ``install.packages("Recon")``. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
+Dia desses eu [concluí o primeiro release estável do ``Recon``](https://twitter.com/PedrooCava/status/1109630732585058304) e inclusive já está disponível no CRAN para download, é só rodar ``install.packages("Recon")`` para instalar a última versão enviada ao repositório ou ``devtools::install_github("pedrocava/Recon")`` para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
 
 Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote. Em primeiro de setembro eu fiz um post aqui no [blog sobre alguns aspectos de dualidade em modelos de micro neoclássica](https://azul.netlify.com/2018/09/01/microeconomia/), onde mostrei o que depois se tornariam as funções ``cobb_douglas2()`` e ``grid2()``. Dez dias depois fiz um post [explorando o modelo de Solow](https://azul.netlify.com/2018/09/11/solow/) onde criei uma primeira versão do que hoje é a função ``solow_steady_state()``.  
 
