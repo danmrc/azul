@@ -7,8 +7,8 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
-		<title>LASSO Adaptativo  &middot; AZUL</title>
+		<meta name="generator" content="Hugo 0.48" />
+		<title>LASSO Adaptativo e Critérios de Informação para LASSO &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
 		<link rel="stylesheet" href="/css/highlight.css">
@@ -43,12 +43,12 @@
             <article>
                 <header>
                     <h1>
-                        LASSO Adaptativo 
+                        LASSO Adaptativo e Critérios de Informação para LASSO
                     </h1>
                     <h2 class="headline">
                     Apr 5, 2019 00:00
-                    · 814 words
-                    · 4 minute read
+                    · 942 words
+                    · 5 minute read
                       <span class="tags">
                       
                       
@@ -66,7 +66,7 @@
                 <section id="post-body">
                     <p>Em um <a href="https://azul.netlify.com/2018/09/16/lasso/">post anterior</a>, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:</p>
 <p><span class="math display">\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]</span></p>
-<p>(Onde <span class="math inline">\(|.|\)</span> é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não. Vamos fazer um pequeno teste com o LASSO: eu vou gerar 50 variáveis normais, independentes, e dessas dez - as dez primeiras - eu colocarei<span class="math inline">\(\beta=1\)</span>. As outra vão ser irrelevantes para o problema e vão ter <span class="math inline">\(\beta=0\)</span>. O tamanho da amostra vai ser igual a 100.</p>
+<p>(Onde <span class="math inline">\(|.|\)</span> é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não. Vamos fazer um pequeno teste com o LASSO: eu vou gerar 50 variáveis normais, independentes, e dessas dez - as dez primeiras - eu colocarei <span class="math inline">\(\beta=1\)</span>. As outra vão ser irrelevantes para o problema e vão ter <span class="math inline">\(\beta=0\)</span>. O tamanho da amostra vai ser igual a 100.</p>
 <p>Como de praxe, nós podemos ter diversos objetivos ao estimar um modelo. Eu vou comparar 3 coisas: a quantidade de vezes que o LASSO coloca as variáveis relevantes, a quantidade de vezes que ele exclui as variáveis irrelevantes e quando ele obtém o modelo certo - o que exige colocar todo mundo que é relevante <strong>e</strong> excluir todos os irrelevantes. Vou fazer só 500 replicações e usar o Cross Validation para escolher o <span class="math inline">\(\lambda\)</span>:</p>
 <pre class="r"><code>library(glmnet)
 
@@ -116,7 +116,7 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 </tr>
 </tbody>
 </table>
-<p>O LASSO sempre inclui as variáveis relevantes, e exclui as variáveis irrelevantes em 84% das vezes. Mesmo assim, a proporção de vezes que o LASSO consegue recuperar o modelo correto é um pocuo mais que 1%. Isso parece esquisito a primeira vez, mas lembre que recuperar o modelo certo envolve <em>acertar todas as relevantes e todas as irrelevantes</em>. Se tivermos 50 variáveis e 500 replicações e em toda replicação o LASSO colocar apenas umas variável irrelevante no modelo, nós teríamos 98% de zeros certos (<span class="math inline">\(49/50\)</span>) e exatamente 0 modelos certos.</p>
+<p>O LASSO sempre inclui as variáveis relevantes, e exclui as variáveis irrelevantes em 84% das vezes. Mesmo assim, a proporção de vezes que o LASSO consegue recuperar o modelo correto é um por volta de 1%. Isso parece esquisito a primeira vez, mas lembre que recuperar o modelo certo envolve <em>acertar todas as relevantes e todas as irrelevantes</em>. Se tivermos 50 variáveis e 500 replicações e em toda replicação o LASSO colocar apenas umas variável irrelevante no modelo, nós teríamos 98% de zeros certos (<span class="math inline">\(49/50\)</span>) e exatamente 0 modelos certos.</p>
 <p>Parte do problema é que o LASSO penaliza todos os coeficientes igualmente, usando o <span class="math inline">\(\lambda\)</span>. Nós esperaríamos que algumas variáveis sejam mais importantes que outras - e isso pode vir a priori ou ser dito pelos dados. O LASSO adaptativo (adaLASSO) adiciona pesos (<span class="math inline">\(\omega\)</span>) para cada uma das variáveis na penalidade. Logo o novo problema a ser resolvido é:</p>
 <p><span class="math display">\[\hat{\beta}_{adaLASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p \frac{|\beta_k|}{\omega_k}\]</span></p>
 <p>A única exigência desses pesos é que eles sejam positivos. Veja que nós temos um novo parâmetro a escolher, os pesos. Eis um algoritmo muito simples que gera os pesos baseado nos dados e usa o LASSO:</p>
@@ -127,7 +127,7 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 </ol>
 <p>A boa notícia é que o <em>glmnet</em> já nos oferece uma opção para colocar o peso, via o argumento <em>penalty.factor</em>. Nosso trabalho é basicamente reduzido a escrever umas duas linhas de código a mais: uma que faz o LASSO de “primeiro estágio” e outra que define os pesos.</p>
 <p>Uma coisa deve ficar evidente: da maneira que os pesos foram estabelecidos no meu algoritmo, coeficientes que são zerados pelo LASSO serão automaticamente excluídos pelo LASSO adaptativo: teremos como peso <span class="math inline">\(1/0\)</span> (com perdão aos matemáticos), que no limite é infinito. Como o LASSO não excluiu as variáveis relevantes em nenhum caso, não vamos nos preocupar. Mas é possível imaginar situações em que o LASSO poderia ter problemas (pense em coeficientes altissimamente correlacionados em uma amostra relativamente pequena). Outra coisa que deve ficar clara é que precisamos selecionar o <span class="math inline">\(\lambda\)</span> e agora duas vezes!</p>
-<p>Vamos repetir a simulação ali de cima, mas usando o adaLASSO. EM ambos os estágios eu vou usar o Cross Validation:</p>
+<p>Vamos repetir a simulação ali de cima, mas usando o adaLASSO. Em ambos os estágios eu vou usar o Cross Validation:</p>
 <pre class="r"><code>coeficientes_adalasso &lt;- Matrix(0,ncol=500,nrow=51)
 
 for(i in 1:500){
@@ -176,13 +176,19 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 </tr>
 </tbody>
 </table>
-<p>A performance do LASSO adaptativo é muito melhor que a do LASSO: em 63% dos casos agora recuperamos o modelo correto, contra um pouco mais de 1% dos casos para o LASSO.</p>
+<p>A performance do LASSO adaptativo é muito melhor que a do LASSO: em aproximadamente 60% dos casos agora recuperamos o modelo correto, contra um pouco mais de 1% dos casos para o LASSO. O adaLASSO é uma modificação extremamente simples do algoritmo do LASSO que gera excelente resultados. Veja que a escolha do Cross Validation aqui é apenas pela conveniência do glmnet já trazer o Cross Validation. Veja que implementar um critério de informação é extremamente simples. Eu vou descrever o algoritmo para o LASSO, e para o adaLASSO basta repetir o procedimento que eu descrevi acima:</p>
+<ol style="list-style-type: decimal">
+<li>Estime o modelo usando LASSO via o glmnet (não o cv.glmnet!). Isso vai devolver uma matriz de coeficientes, de dimensão <span class="math inline">\(p \times L\)</span>, onde <span class="math inline">\(L\)</span> é a quantidade de lambdas que a função usou.</li>
+<li>Calcule o resíduo para cada modelo estimado <span class="math inline">\(u_l = y - X\beta_l\)</span></li>
+<li>Crie um vetor que tem a quantidade de coeficientes não zeros para cada modelo estimado</li>
+<li>Calcule</li>
+</ol>
 
                 </section>
             </article>
 
             
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2019%2f04%2f05%2flasso-adaptativo%2f - LASSO%20Adaptativo%20 "><span class="icon-twitter"> tweet</span></a>
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2019%2f04%2f05%2flasso-adaptativo%2f - LASSO%20Adaptativo%20e%20Crit%c3%a9rios%20de%20Informa%c3%a7%c3%a3o%20para%20LASSO "><span class="icon-twitter"> tweet</span></a>
 
 <a class="facebook" href="#" onclick="
     window.open(

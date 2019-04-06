@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.48" />
 		<title>Aplicando Programação Dinâmica à Reforma da Previdência &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -47,7 +47,7 @@
                     </h1>
                     <h2 class="headline">
                     Mar 6, 2019 00:00
-                    · 2009 words
+                    · 2038 words
                     · 10 minute read
                       <span class="tags">
                       
@@ -66,7 +66,8 @@
                   
                 
                 <section id="post-body">
-                    <p>Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em <a href="https://azul.netlify.com/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/">outras ocasiões</a>.</p>
+                    <p><em>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava <span class="math inline">\(\beta\)</span> e não <span class="math inline">\(\beta^t\)</span>. Se tratava de um typo. Agradeço a Marcelo Moraes pela observação</em></p>
+<p>Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em <a href="https://azul.netlify.com/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/">outras ocasiões</a>.</p>
 <p>Vamos pensar em um agente que recebe um salário <span class="math inline">\(\omega\)</span> e pode escolher poupar ou consumir. Ele sabe que em uma certa idade ele vai se aposentar e passar a receber uma aposentadoria <span class="math inline">\(s\)</span>. Qual a escolha ótima desse agente? Nós nos fizemos uma pergunta similar em posts anteriores e lá - como aqui - eu vou adotar algumas hipóteses simplificadoras (como de praxe):</p>
 <ul>
 <li>O salário é um processo i.i.d. Eu vou usar a distribuição Gama(5,1), que tem suporte finito e nos números positivos - como se espera de um salário.</li>
@@ -75,7 +76,7 @@
 <li>O agente não pode se endividar. Isso facilita a vida na hora de resolver o problema de otimização (numericamente) e é uma maneira muito fácil de evitar esquemas em que o agente se endivida ao infinito. Relaxarei essa hipótese em outro post.</li>
 </ul>
 <p>Então o problema do agente é:</p>
-<p><span class="math display">\[Max_{\{c_t\}_{t=0}^T} \displaystyle \sum_{t=0}^T \beta E(u(c_t)) \text{ sujeito a } a_{t+1} = (1+r)a_t + W_t - c_t \]</span></p>
+<p><span class="math display">\[Max_{\{c_t\}_{t=0}^T} \displaystyle \sum_{t=0}^T \beta^t E(u(c_t)) \text{ sujeito a } a_{t+1} = (1+r)a_t + W_t - c_t \]</span></p>
 <p>Onde</p>
 <p><span class="math display">\[W_t = 
 \begin{cases}

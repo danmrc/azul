@@ -31,7 +31,7 @@ Como também é de praxe, a serventia da casa é falar de um assunto da maneira 
     </item>
     
     <item>
-      <title>LASSO Adaptativo </title>
+      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
       <link>/2019/04/05/lasso-adaptativo/</link>
       <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
       
@@ -66,8 +66,8 @@ Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.<
       <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</guid>
-      <description>Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.
-Vamos pensar em um agente que recebe um salário \(\omega\) e pode escolher poupar ou consumir.</description>
+      <description>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
+Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.</description>
     </item>
     
     <item>
