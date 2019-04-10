@@ -102,5 +102,9 @@ A performance do LASSO adaptativo é muito melhor que a do LASSO: em aproximadam
 
 1. Estime o modelo usando LASSO via o glmnet (não o cv.glmnet!). Isso vai devolver uma matriz de coeficientes, de dimensão $p \times L$, onde $L$ é a quantidade de lambdas que a função usou.
 2. Calcule o resíduo para cada modelo estimado $u_l = y - X\beta_l$
-3. Crie um vetor que tem a quantidade de coeficientes não zeros para cada modelo estimado
-4. Calcule 
+3. Crie um vetor que tem a quantidade de coeficientes não zeros para cada modelo estimado. Vamos nos referir a cada entrada desse modelo como $s$.
+4. Calcule a soma do quadrado dos erros para cada modelo $SSR = \sum_{i=1}^{n} u_i^2$. 
+5. Calcule $IC = n*ln(SSR) + c*s$ para cada modelo, onde c é o critério de informação escolhido
+6. Escolha o lambda que minimiza o valor de IC
+
+
