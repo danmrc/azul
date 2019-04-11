@@ -1,7 +1,7 @@
 ---
 title: 'LASSO Adaptativo e Critérios de Informação para LASSO'
 author: Daniel Coutinho
-date: '2019-04-05'
+date: '2019-04-11'
 slug: lasso-adaptativo
 categories:
   - Econometria
@@ -58,7 +58,7 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">84.29</td>
+<td align="right">83.74</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
@@ -72,7 +72,7 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <p>A única exigência desses pesos é que eles sejam positivos. Veja que nós temos um novo parâmetro a escolher, os pesos. Eis um algoritmo muito simples que gera os pesos baseado nos dados e usa o LASSO:</p>
 <ol style="list-style-type: decimal">
 <li>Estime o modelo usando LASSO. Guarde os coeficientes, que eu chamarei de <span class="math inline">\(\beta_{LASSO}\)</span></li>
-<li>Defina $_k = </li>
+<li>Defina <span class="math inline">\(\omega_k = \frac{1}{|\beta_{LASSO}|}\)</span></li>
 <li>Estime o adaLASSO usando os pesos definidos em 2.</li>
 </ol>
 <p>A boa notícia é que o <em>glmnet</em> já nos oferece uma opção para colocar o peso, via o argumento <em>penalty.factor</em>. Nosso trabalho é basicamente reduzido a escrever umas duas linhas de código a mais: uma que faz o LASSO de “primeiro estágio” e outra que define os pesos.</p>
@@ -114,22 +114,145 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <tbody>
 <tr class="odd">
 <td>Não zeros certos</td>
-<td align="right">100.000</td>
+<td align="right">100.00</td>
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">97.105</td>
+<td align="right">97.24</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">61.000</td>
+<td align="right">67.40</td>
 </tr>
 </tbody>
 </table>
-<p>A performance do LASSO adaptativo é muito melhor que a do LASSO: em aproximadamente 60% dos casos agora recuperamos o modelo correto, contra um pouco mais de 1% dos casos para o LASSO. O adaLASSO é uma modificação extremamente simples do algoritmo do LASSO que gera excelente resultados. Veja que a escolha do Cross Validation aqui é apenas pela conveniência do glmnet já trazer o Cross Validation. Veja que implementar um critério de informação é extremamente simples. Eu vou descrever o algoritmo para o LASSO, e para o adaLASSO basta repetir o procedimento que eu descrevi acima:</p>
+<p>A performance do LASSO adaptativo é muito melhor que a do LASSO: em aproximadamente 60% dos casos agora recuperamos o modelo correto, contra um pouco mais de 1% dos casos para o LASSO. O adaLASSO é uma modificação extremamente simples do algoritmo do LASSO que gera excelente resultados. Veja que a escolha do Cross Validation aqui é apenas pela conveniência do glmnet já trazer o Cross Validation. Veja que implementar um critério de informação é extremamente simples. Eu vou descrever o algoritmo para o LASSO, e para o adaLASSO basta juntar os dois procedimentos:</p>
 <ol style="list-style-type: decimal">
 <li>Estime o modelo usando LASSO via o glmnet (não o cv.glmnet!). Isso vai devolver uma matriz de coeficientes, de dimensão <span class="math inline">\(p \times L\)</span>, onde <span class="math inline">\(L\)</span> é a quantidade de lambdas que a função usou.</li>
 <li>Calcule o resíduo para cada modelo estimado <span class="math inline">\(u_l = y - X\beta_l\)</span></li>
-<li>Crie um vetor que tem a quantidade de coeficientes não zeros para cada modelo estimado</li>
-<li>Calcule</li>
+<li>Calcule a soma do quadrado dos erros para cada modelo <span class="math inline">\(SSR = \sum_{i=1}^{n} u_i^2\)</span>.</li>
+<li>Crie um vetor que tem a quantidade de coeficientes não zeros para cada modelo estimado. Vamos nos referir a cada entrada desse modelo como <span class="math inline">\(s\)</span>.</li>
+<li>Calcule <span class="math inline">\(IC = n \ln(SSR) + cs\)</span> para cada modelo, onde c é o critério de informação escolhido</li>
+<li>Escolha o lambda que minimiza o valor de IC</li>
 </ol>
+<p>Vamos escrever uma função que faz cada um dos passos. Eu vou permitir que o usuário escolha qualquer um dos 3 critérios, e para isso eu usarei uns if:</p>
+<pre class="r"><code>ic_glmnet &lt;- function(x,y,penalty.factor,ic){
+  require(glmnet)
+  n &lt;- length(y)
+  modelo &lt;- glmnet(x,y) #passo 1
+  #passo 2
+  x_aux &lt;- cbind(1,x)
+  u &lt;- y - x_aux%*%coef(modelo)
+  #passo 3
+  ssr &lt;- colSums(u^2)
+  #passo 4
+  conj_ativo &lt;- colSums(coef(modelo) !=0)
+  #vamos permitir o usuário escolha qual critério de informação vai ser usado
+  if(ic == &quot;aic&quot;|ic==&quot;AIC&quot;){
+    ic_val &lt;- 2} else if(ic==&quot;bic&quot;|ic==&quot;BIC&quot;){
+      ic_val &lt;- log(n)
+    } else if(ic == &quot;hqc&quot;|ic == &quot;HQC&quot;){
+      ic_val &lt;- 2* log(log(n))
+    } else{
+      stop(&quot;IC not implemented&quot;)
+    }
+  #passo 5
+  val &lt;- n*log(ssr)+ic_val*conj_ativo
+  #passo 6
+  selecionado &lt;- which.min(val)
+  return(list(&quot;modelo_selecionado&quot; = coef(modelo)[,selecionado],&quot;modelo_glmnet&quot; = modelo, &quot;lambda_selecionado&quot; = modelo$lambda[selecionado]))
+}</code></pre>
+<p>Veja que eu faço a função retorna os coeficientes escolhidos, o modelo inteiro escolhido e o <span class="math inline">\(\lambda\)</span> escolhido ( o motivo para isso vai ficar claro). Vamos fazer um pequeno teste da nossa função:</p>
+<pre class="r"><code>x &lt;- matrix(rnorm(50*100),ncol = 50) #gerando x
+betas &lt;- c(rep(1,10),rep(0,40)) #
+y &lt;- x%*%betas + rnorm(100)
+teste &lt;- ic_glmnet(x,y,ic=&quot;BIC&quot;)</code></pre>
+<pre><code>## Carregando pacotes exigidos: glmnet</code></pre>
+<pre><code>## Carregando pacotes exigidos: Matrix</code></pre>
+<pre><code>## Carregando pacotes exigidos: foreach</code></pre>
+<pre><code>## Loaded glmnet 2.0-16</code></pre>
+<pre class="r"><code>teste$modelo_selecionado</code></pre>
+<pre><code>##  (Intercept)           V1           V2           V3           V4 
+## -0.263703939  0.771264792  0.644337430  0.995145122  0.889296806 
+##           V5           V6           V7           V8           V9 
+##  1.057861885  0.647763825  0.758168446  0.631117851  0.948044717 
+##          V10          V11          V12          V13          V14 
+##  1.000992552 -0.102370022  0.000000000  0.069657494  0.042734262 
+##          V15          V16          V17          V18          V19 
+## -0.008155166  0.000000000 -0.039742314 -0.077116632  0.000000000 
+##          V20          V21          V22          V23          V24 
+##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
+##          V25          V26          V27          V28          V29 
+##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
+##          V30          V31          V32          V33          V34 
+##  0.139035575  0.000000000  0.000000000  0.038899619  0.000000000 
+##          V35          V36          V37          V38          V39 
+##  0.000000000 -0.048570439 -0.113370849  0.000000000  0.000000000 
+##          V40          V41          V42          V43          V44 
+##  0.131167782  0.000000000 -0.057339469  0.000000000  0.000000000 
+##          V45          V46          V47          V48          V49 
+##  0.000000000  0.000000000  0.000000000 -0.045311801  0.220495095 
+##          V50 
+##  0.000000000</code></pre>
+<p>E uma simulação, com uma mudança: nós não vamos escolher o <span class="math inline">\(\lambda\)</span> duas vezes. Nós vamos repetir o <span class="math inline">\(\lambda\)</span> escolhido no primeiro estágio para o segundo estágio. Isso tem dois objetivos:</p>
+<ol style="list-style-type: decimal">
+<li>Isola o efeito da seleção do lambda dos efeitos da pessagem do LASSO adaptativo</li>
+<li>Ao invés de termos de selecionar os paramêtros duas vezes, selecionamos apenas uma vez.</li>
+</ol>
+<p>Vamos a simulação:</p>
+<pre class="r"><code>coeficientes_adalasso_bic &lt;- Matrix(0,ncol=500,nrow=51)
+
+for(i in 1:500){
+  x &lt;- matrix(rnorm(50*100),ncol = 50) #gerando x
+  betas &lt;- c(rep(1,10),rep(0,40)) #
+  y &lt;- x%*%betas + rnorm(100)
+  primeiro_estagio &lt;- ic_glmnet(x,y,ic = &quot;BIC&quot;) #estimando usando LASSO e BIC
+  pesos &lt;- 1/abs(primeiro_estagio$modelo_selecionado[-1]) #veja que eu tenho que jogar fora o intercepto
+  adalasso &lt;- glmnet(x,y,lambda = primeiro_estagio$lambda_selecionado,penalty.factor = pesos)
+  coeficientes_adalasso_bic[,i] &lt;- coef(adalasso)
+}
+
+#Fim da simulação
+
+analise &lt;- matrix(0,ncol=3,nrow=500)
+colnames(analise)&lt;- c(&quot;Não zeros certos&quot;,&quot;Zeros certos&quot;, &quot;Modelo certo?&quot;)
+
+for(i in 1:500){
+  analise[i,1]&lt;- mean(coeficientes_adalasso_bic[2:11,i] != 0)
+  analise[i,2]&lt;- mean(coeficientes_adalasso_bic[12:51,i] == 0)
+  analise[i,3]&lt;- ifelse(analise[i,1]+analise[i,2] == 2,1,0)
+}
+
+tabela_final &lt;- colMeans(analise)*100
+knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-5">Table 3: </span>Os valores estão em porcentagem</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Não zeros certos</td>
+<td align="right">100.00</td>
+</tr>
+<tr class="even">
+<td>Zeros certos</td>
+<td align="right">94.75</td>
+</tr>
+<tr class="odd">
+<td>Modelo certo?</td>
+<td align="right">42.20</td>
+</tr>
+</tbody>
+</table>
+<p>Veja que o BIC é bastante bem sucedido em recuperar o modelo certo. Veja que como mantivemos a penalidade parada, todo o ganho vem de acertar os pesos melhor, ilustrando bem qual é o segredo do adaLASSO. Apesar disso, ele é pior do que o Cross Validation. Isso vem com duas observações:</p>
+<ol style="list-style-type: decimal">
+<li>CV é um processo computacionalmente intensivo: quebre em blocos os seus dados, estime o modelo repetidas vezes.</li>
+<li>Mais importante, Cross Validation supõe <em>independência</em> entre as observações, ou seja, não podemos usar ele para dados de séries temporais</li>
+</ol>
+<p>O BIC não sofre de nenhum desses problemas, o que faz dele uma alternativa atraente para selecionar modelos com LASSO adaptativo.</p>
+<p>Esse é um post que aborda duas coisas: LASSO adaptativo e seleção do parâmetro de penalidade via critérios de informação. Ambos tem aplicações interessantes e não precisam ser empregadas em conjunto.</p>
+<p>Mostramos como o adaLASSO é bastante superior ao LASSO em seleção de modelos. Uma pergunta justa é se a diferença de previsão dos modelos são tão diferentes assim…</p>
