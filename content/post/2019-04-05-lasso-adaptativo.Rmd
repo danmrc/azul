@@ -1,15 +1,16 @@
 ---
-title: 'LASSO Adaptativo e Critérios de Informação para LASSO'
-author: Daniel Coutinho
+title: "LASSO Adaptativo e Critérios de Informação para LASSO"
+author: "Daniel Coutinho"
 date: '2019-04-11'
-slug: lasso-adaptativo
+output: pdf_document
+draft: TRUE
 categories:
-  - Econometria
-  - Machine Learning
-tags:
-  - LASSO
-authors: ["danmrc"] 
-draft: true
+- Econometria
+- Machine Learning
+slug: lasso-adaptativo
+tags: LASSO
+authors: ["danmrc"]
+katex: yes
 ---
 
 Em um [post anterior](https://azul.netlify.com/2018/09/16/lasso/), eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia: 
@@ -20,7 +21,7 @@ $$\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_
 
 Como de praxe, nós podemos ter diversos objetivos ao estimar um modelo. Eu vou comparar 3 coisas: a quantidade de vezes que o LASSO coloca as variáveis relevantes, a quantidade de vezes que ele exclui as variáveis irrelevantes e quando ele obtém o modelo certo - o que exige colocar todo mundo que é relevante **e** excluir todos os irrelevantes. Vou fazer só 500 replicações e usar o Cross Validation para escolher o $\lambda$:
 
-```{r,cache=TRUE}
+```{r,cache=TRUE, message = FALSE, warning = FALSE}
 
 library(glmnet)
 
