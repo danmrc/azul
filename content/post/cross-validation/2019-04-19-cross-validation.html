@@ -1,0 +1,99 @@
+---
+title: Uma introdução à Cross Validation
+author: Daniel Coutinho
+date: '2019-04-19'
+slug: cross-validation
+categories:
+  - Computação
+  - Machine Learning
+  - Curtas 
+tags:
+  - Cross Validation
+draft: TRUE
+---
+
+
+
+<p>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro <a href="https://azul.netlify.com/2018/09/16/lasso/">post para o blog em que eu falei de LASSO</a>, onde tinhamos que selecionar o parâmetro de penalização <span class="math inline">\(\lambda\)</span>.</p>
+<p>A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k). Estime o seu modelo para um certo número de parâmetros que são razoáveis em um bloco e veja qual a perda em alguma métrica (Erro Quadrático Médico, Erro Absoluto Médio, você escolhe) para os dados nos outros k-1 blocos. Faça isso para todos os blocos. A imagem abaixo ilustra a ideia (não é nenhuma obra de arte) para 5 blocos: a linha preta representa o conjunto de dados e as linhas vermelhas separam os blocos do Cross Validation. <strong>T</strong> indica que usamos aquele bloco numa dada iteração para “treinar” (ou estimar) o modelo e <strong>V</strong> que usamos aquele bloco para avaliar o desempenho do modelo. O modelo selecionado é o que performa melhor na média de todos os blocos.</p>
+<div class="figure">
+<img src="/post/cross-validation/CV_ilustrado.png" />
+
+</div>
+<p>Veja que temos bons motivos para <em>não usar</em> o mesmo bloco que usamos para estimar o modelo para avaliar o modelo: dado o valor do parâmetro escolhido, em geral o algoritmo vai tentar escolher o melhor modelo para os dados. Nosso interesse é saber a performance do modelo em geral. Isso é verdade para várias aplicações: nós queremos bons modelos que façam previsão para o futuro, não para dentro da nossa amostra; queremos modelos explicativos em economia que não tenham válida apenas para aquela amostra de pessoas/período do tempo, mas sim para situações genéricas (o que é chamado de validade externa); etc.</p>
+<p>Como tudo na vida, existem problemas com Cross Validation:</p>
+<ol style="list-style-type: decimal">
+<li><p>É computacionalmente intensivo. Se fazemos k blocos e cada modelo leva t segundos para estimar, então temos <span class="math inline">\(tk\)</span> de tempo para estimar. Se ainda decidimos estimar um último modelo usando o parâmetro escolhido por CV e a amostra toda, acabamos gastando <span class="math inline">\(t(k+1)\)</span>.</p></li>
+<li><p>Se temos poucas observações, pode ser problemático deixar de fora um pedaço da amostra na hora de estimar. Com uma amostra de 100 e 5 blocos, teremos blocos de 20 observações. Um modelo com 10 variáveis nos deixaria com 10 graus de liberdade.</p></li>
+<li><p>Talvez mais importante, o processo requer que os dados sejam independentes: uma estrutura de depedência temporal não permite embaralhar os dados de qualquer forma, por exemplo. Felizmente existem algumas maneiras de fazer Cross Validation que levam isso em conta - que eu não irei explorar por este ser um post introdutório ao assunto.</p></li>
+</ol>
+<p>Vamos ilustrar o Cross Validation para o parâmetro de regularização <span class="math inline">\(\lambda\)</span>. Veja que <code>glmnet</code>tem um comando interno que faz isso automaticamente, o <code>cv.glmnet</code>, mas como o meu propósito é ilustrativo, eu implemento na mão: vamos gerar um modelo com 50 variáveis, 1000 observações, e as 10 primeiras são relevantes com coeficiente igual a 1 e o resto irrelevante:</p>
+<pre class="r"><code>X &lt;- matrix(rnorm(50*1000),ncol=50)
+betas &lt;- c(rep(1,10),rep(0,40))
+y &lt;- X%*%betas + rnorm(1000)</code></pre>
+<p>O código que vai escolher o <span class="math inline">\(\lambda\)</span> vai primeiro quebrar a amostra em 5 pedaços e depois fazer um for para estimar o modelo em cada um dos pedaços e testar a capacidade preditiva de cada um. Veja que precisamos usar os dados inteiros: não podemos misturar y[1] com x[10,], por exemplo. Para escolher os blocos, eu vou mandar o R fazer um sample de números 1:número de observações e quebrar isso em cinco blocos:</p>
+<pre class="r"><code>dados &lt;- cbind(y,X)
+
+valores_cv &lt;- sample(1:1000,size = 1000,replace = F)</code></pre>
+<p>Veja que se eu deixar o <code>glmnet</code> escolher o lambda automaticamente, ele vai escolher dependente dos dados e não poderemos comparar qual é o melhor. Então eu faço uma primeira passagem do glmnet por todo os dados com o objetivo de escolher um conjunto de lambdas que vai ser testado (isso é igual ao que o <code>cv.glmnet</code>faz, diga-se de passagem)</p>
+<pre class="r"><code>tic()
+
+modelo &lt;- glmnet(X,y)
+lambdas &lt;- modelo$lambda
+
+lambda_sel &lt;- rep(0,5)
+
+for(i in 1:5){
+  amostra &lt;- valores_cv[(1:200)+200*(i-1)]
+  dados_train &lt;- dados[amostra,]
+  dados_vali &lt;- dados[-amostra,] 
+  modelo_cv &lt;- glmnet(dados_train[,2:ncol(dados_train)],dados_train[,1],lambda = lambdas)
+  x_aux &lt;- cbind(1,dados_vali[,2:ncol(dados_vali)])
+  u &lt;- dados_vali[,1] - x_aux%*%coef(modelo_cv)
+  ssr &lt;- colSums(u^2)
+  sel_indice &lt;- which.min(ssr) #indice de qual modelo foi melhor
+  lambda_sel[i] &lt;- lambdas[sel_indice]
+}
+
+modelo_final &lt;- glmnet(X,y,lambda = mean(lambda_sel))
+
+tempo &lt;- toc()</code></pre>
+<pre><code>## 0.19 sec elapsed</code></pre>
+<pre class="r"><code>tempo &lt;- tempo$toc - tempo$tic</code></pre>
+<p>(A sugestão de usar o tictoc para pegar o tempo foi do Pedro). O tempo de execução é até bastante rápido, ficando em 0.19 segundos. Vamos fazer um plot dos coeficientes escolhidos:</p>
+<pre class="r"><code>plot(coef(modelo_final)[-1], ylab = &quot; &quot;)</code></pre>
+<p><img src="/post/cross-validation/2019-04-19-cross-validation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Aparentemente o cross validation conseguiu recuperar quase todos os coeficientes corretos. Vamos testar:</p>
+<pre class="r"><code>teste1 &lt;- mean(coef(modelo_final)[2:11] !=0)
+teste2 &lt;- mean(coef(modelo_final)[12:51] == 0)
+teste &lt;- ifelse(teste1 + teste2 ==2,1,0)
+
+tabela &lt;- c(teste1,teste2,teste)*100
+names(tabela) &lt;- c(&quot;Não Zeros certos&quot;, &quot;Zeros Certos&quot;, &quot;Modelo Certo?&quot;)
+
+knitr::kable(tabela,caption = &quot;Todos os valores em porcentagem&quot;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-6">Table 1: </span>Todos os valores em porcentagem</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Não Zeros certos</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td>Zeros Certos</td>
+<td align="right">85</td>
+</tr>
+<tr class="odd">
+<td>Modelo Certo?</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Veja que obviamente não podemos avaliar a qualidade do Cross Validation com base em uma única simulação. Nosso objetivo aqui é ilustrar a técnica. No post de <a href="https://azul.netlify.com/2018/09/16/lasso/">LASSO</a> e em post futuro sobre um irmão do LASSO, eu discuto a qualidade do CV para selecionar o parâmetro de regularização.</p>
+<p>Veja que Cross Validation não é usado apenas para escolher parâmetros de regularização do LASSO: quase qualquer hiperparâmetro de um modelo pode ser selecionado por cross validation. Mas como de praxe, existem hipóteses das quais o CV parte. Uma delas é independência entre as observações, que é inadequada em muitos casos com dados econômicos.</p>

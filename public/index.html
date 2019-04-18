@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.48" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -87,6 +87,22 @@ Como também é de praxe, a serventia da casa é falar de um assunto da maneira 
     
         
             <li>
+                <aside class="dates">Apr 19</aside>
+                <a href='/2019/04/19/cross-validation/'>
+                    Uma introdução à Cross Validation
+                    
+                        
+                            <h2>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
+A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
                 <aside class="dates">Apr 11</aside>
                 <a href='/2019/04/11/lasso-adaptativo/'>
                     LASSO Adaptativo e Critérios de Informação para LASSO
@@ -157,7 +173,7 @@ Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sit
                     
                         
                             <h2>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines. Vou explicar breve e simplesmente o que são/ como funcionam essas duas técnicas e depois estimar tudo.
-Random Forests Primeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</h2>
+Random ForestsPrimeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</h2>
                         
                     
                 </a>
@@ -191,21 +207,6 @@ Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida no
                             <h2>Um filtro (linear) é basicamente qualquer polinômio \(\alpha(B)\) a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:
 \[ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} \]
 Onde B é o operador backshift, logo para uma série temporal \(y_t\), \(By_t = y_{t-1}\) e \(B^ny_t = y_{t-n}\). A forma acima é conhecida como a representação no domínio temporal (time domain) do filtro. Filtros podem “existir” em duas formas, que carregam a mesma informação: a de time domain e a frequency domain (que, em tradução literal, é o domínio da frequência ou domínio frequencial.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Jan 7</aside>
-                <a href='/2019/01/07/prob-animate/'>
-                    Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate
-                    
-                        
-                            <h2>Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&#34;gganimate&#34;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R.</h2>
                         
                     
                 </a>

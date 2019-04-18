@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.48" />
 		<title>LASSO Adaptativo e Critérios de Informação para LASSO &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -104,15 +104,15 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <tbody>
 <tr class="odd">
 <td>Não zeros certos</td>
-<td align="right">100.00</td>
+<td align="right">100.000</td>
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">83.74</td>
+<td align="right">83.985</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">0.80</td>
+<td align="right">1.000</td>
 </tr>
 </tbody>
 </table>
@@ -164,15 +164,15 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <tbody>
 <tr class="odd">
 <td>Não zeros certos</td>
-<td align="right">100.00</td>
+<td align="right">100.000</td>
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">97.24</td>
+<td align="right">97.155</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">67.40</td>
+<td align="right">66.200</td>
 </tr>
 </tbody>
 </table>
@@ -217,31 +217,31 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 betas &lt;- c(rep(1,10),rep(0,40)) #
 y &lt;- x%*%betas + rnorm(100)
 teste &lt;- ic_glmnet(x,y,ic=&quot;BIC&quot;)</code></pre>
-<pre><code>## Carregando pacotes exigidos: glmnet</code></pre>
-<pre><code>## Carregando pacotes exigidos: Matrix</code></pre>
-<pre><code>## Carregando pacotes exigidos: foreach</code></pre>
+<pre><code>## Loading required package: glmnet</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Loading required package: foreach</code></pre>
 <pre><code>## Loaded glmnet 2.0-16</code></pre>
 <pre class="r"><code>teste$modelo_selecionado</code></pre>
 <pre><code>##  (Intercept)           V1           V2           V3           V4 
-## -0.263703939  0.771264792  0.644337430  0.995145122  0.889296806 
+##  0.007088430  0.972644032  0.813660574  0.830908526  1.020687784 
 ##           V5           V6           V7           V8           V9 
-##  1.057861885  0.647763825  0.758168446  0.631117851  0.948044717 
+##  0.839039203  1.018879497  0.931509940  0.862515077  0.841522778 
 ##          V10          V11          V12          V13          V14 
-##  1.000992552 -0.102370022  0.000000000  0.069657494  0.042734262 
+##  0.809725453  0.000000000  0.000000000  0.005047991  0.000000000 
 ##          V15          V16          V17          V18          V19 
-## -0.008155166  0.000000000 -0.039742314 -0.077116632  0.000000000 
+##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
 ##          V20          V21          V22          V23          V24 
 ##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
 ##          V25          V26          V27          V28          V29 
-##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
+## -0.120616578  0.000000000  0.000000000  0.000000000  0.000000000 
 ##          V30          V31          V32          V33          V34 
-##  0.139035575  0.000000000  0.000000000  0.038899619  0.000000000 
+##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
 ##          V35          V36          V37          V38          V39 
-##  0.000000000 -0.048570439 -0.113370849  0.000000000  0.000000000 
+## -0.040508549  0.000000000  0.000000000  0.000000000  0.000000000 
 ##          V40          V41          V42          V43          V44 
-##  0.131167782  0.000000000 -0.057339469  0.000000000  0.000000000 
+##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
 ##          V45          V46          V47          V48          V49 
-##  0.000000000  0.000000000  0.000000000 -0.045311801  0.220495095 
+##  0.000000000  0.000000000  0.000000000  0.000000000  0.035498581 
 ##          V50 
 ##  0.000000000</code></pre>
 <p>E uma simulação, com uma mudança: nós não vamos escolher o <span class="math inline">\(\lambda\)</span> duas vezes. Nós vamos repetir o <span class="math inline">\(\lambda\)</span> escolhido no primeiro estágio para o segundo estágio. Isso tem dois objetivos:</p>
@@ -286,15 +286,15 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <tbody>
 <tr class="odd">
 <td>Não zeros certos</td>
-<td align="right">100.00</td>
+<td align="right">100.000</td>
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">94.75</td>
+<td align="right">95.505</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">42.20</td>
+<td align="right">43.200</td>
 </tr>
 </tbody>
 </table>

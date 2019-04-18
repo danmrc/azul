@@ -2,14 +2,13 @@
 title: "LASSO Adaptativo e Critérios de Informação para LASSO"
 author: "Daniel Coutinho"
 date: '2019-04-11'
-output: pdf_document
 draft: TRUE
 categories:
-- Econometria
-- Machine Learning
+  - Econometria
+  - Machine Learning
 slug: lasso-adaptativo
-tags: LASSO
-authors: ["danmrc"]
+tags:
+  - LASSO
 katex: yes
 ---
 
