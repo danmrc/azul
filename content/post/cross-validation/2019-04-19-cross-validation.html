@@ -35,7 +35,7 @@ y &lt;- X%*%betas + rnorm(1000)</code></pre>
 <pre class="r"><code>dados &lt;- cbind(y,X)
 
 valores_cv &lt;- sample(1:1000,size = 1000,replace = F)</code></pre>
-<p>Veja que se eu deixar o <code>glmnet</code> escolher o lambda automaticamente, ele vai escolher dependente dos dados e não poderemos comparar qual é o melhor. Então eu faço uma primeira passagem do glmnet por todo os dados com o objetivo de escolher um conjunto de lambdas que vai ser testado (isso é igual ao que o <code>cv.glmnet</code>faz, diga-se de passagem)</p>
+<p>Veja que se eu deixar o <code>glmnet</code> escolher o lambda automaticamente em cada replicação do CV, ele vai escolher dependente dos dados e não poderemos comparar qual é o melhor. Então eu faço uma primeira passagem do glmnet por todo os dados com o objetivo de escolher um conjunto de lambdas que vai ser testado (isso é igual ao que o <code>cv.glmnet</code>faz, diga-se de passagem)</p>
 <pre class="r"><code>tic()
 
 modelo &lt;- glmnet(X,y)
@@ -58,9 +58,9 @@ for(i in 1:5){
 modelo_final &lt;- glmnet(X,y,lambda = mean(lambda_sel))
 
 tempo &lt;- toc()</code></pre>
-<pre><code>## 0.19 sec elapsed</code></pre>
+<pre><code>## 0.151 sec elapsed</code></pre>
 <pre class="r"><code>tempo &lt;- tempo$toc - tempo$tic</code></pre>
-<p>(A sugestão de usar o tictoc para pegar o tempo foi do Pedro). O tempo de execução é até bastante rápido, ficando em 0.19 segundos. Vamos fazer um plot dos coeficientes escolhidos:</p>
+<p>(A sugestão de usar o tictoc para pegar o tempo foi do Pedro). O tempo de execução é até bastante rápido, ficando em 0.151 segundos. Vamos fazer um plot dos coeficientes escolhidos:</p>
 <pre class="r"><code>plot(coef(modelo_final)[-1], ylab = &quot; &quot;)</code></pre>
 <p><img src="/post/cross-validation/2019-04-19-cross-validation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Aparentemente o cross validation conseguiu recuperar quase todos os coeficientes corretos. Vamos testar:</p>
@@ -83,17 +83,17 @@ knitr::kable(tabela,caption = &quot;Todos os valores em porcentagem&quot;)</code
 <tbody>
 <tr class="odd">
 <td>Não Zeros certos</td>
-<td align="right">100</td>
+<td align="right">100.0</td>
 </tr>
 <tr class="even">
 <td>Zeros Certos</td>
-<td align="right">85</td>
+<td align="right">87.5</td>
 </tr>
 <tr class="odd">
 <td>Modelo Certo?</td>
-<td align="right">0</td>
+<td align="right">0.0</td>
 </tr>
 </tbody>
 </table>
 <p>Veja que obviamente não podemos avaliar a qualidade do Cross Validation com base em uma única simulação. Nosso objetivo aqui é ilustrar a técnica. No post de <a href="https://azul.netlify.com/2018/09/16/lasso/">LASSO</a> e em post futuro sobre um irmão do LASSO, eu discuto a qualidade do CV para selecionar o parâmetro de regularização.</p>
-<p>Veja que Cross Validation não é usado apenas para escolher parâmetros de regularização do LASSO: quase qualquer hiperparâmetro de um modelo pode ser selecionado por cross validation. Mas como de praxe, existem hipóteses das quais o CV parte. Uma delas é independência entre as observações, que é inadequada em muitos casos com dados econômicos.</p>
+<p>Veja que Cross Validation não é usado apenas para escolher parâmetros de regularização do LASSO: quase qualquer hiperparâmetro de um modelo pode ser selecionado por cross validation. Árvores de regressão são outro contexto em que o Cross Validation é usado, por exemplo. Mas como de praxe, existem hipóteses das quais o CV parte. Uma delas é independência entre as observações, que é inadequada em muitos casos com dados econômicos.</p>

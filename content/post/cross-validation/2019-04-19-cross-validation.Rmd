@@ -51,7 +51,7 @@ valores_cv <- sample(1:1000,size = 1000,replace = F)
 
 ```
 
-Veja que se eu deixar o `glmnet` escolher o lambda automaticamente, ele vai escolher dependente dos dados e não poderemos comparar qual é o melhor. Então eu faço uma primeira passagem do glmnet por todo os dados com o objetivo de escolher um conjunto de lambdas que vai ser testado (isso é igual ao que o `cv.glmnet`faz, diga-se de passagem)
+Veja que se eu deixar o `glmnet` escolher o lambda automaticamente em cada replicação do CV, ele vai escolher dependente dos dados e não poderemos comparar qual é o melhor. Então eu faço uma primeira passagem do glmnet por todo os dados com o objetivo de escolher um conjunto de lambdas que vai ser testado (isso é igual ao que o `cv.glmnet`faz, diga-se de passagem)
 
 ```{r}
 
@@ -107,4 +107,4 @@ knitr::kable(tabela,caption = "Todos os valores em porcentagem")
 
 Veja que obviamente não podemos avaliar a qualidade do Cross Validation com base em uma única simulação. Nosso objetivo aqui é ilustrar a técnica. No post de [LASSO](https://azul.netlify.com/2018/09/16/lasso/) e em post futuro sobre um irmão do LASSO, eu discuto a qualidade do CV para selecionar o parâmetro de regularização.
 
-Veja que Cross Validation não é usado apenas para escolher parâmetros de regularização do LASSO: quase qualquer hiperparâmetro de um modelo pode ser selecionado por cross validation. Mas como de praxe, existem hipóteses das quais o CV parte. Uma delas é independência entre as observações, que é inadequada em muitos casos com dados econômicos. 
+Veja que Cross Validation não é usado apenas para escolher parâmetros de regularização do LASSO: quase qualquer hiperparâmetro de um modelo pode ser selecionado por cross validation. Árvores de regressão são outro contexto em que o Cross Validation é usado, por exemplo. Mas como de praxe, existem hipóteses das quais o CV parte. Uma delas é independência entre as observações, que é inadequada em muitos casos com dados econômicos. 

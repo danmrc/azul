@@ -17,7 +17,7 @@ katex: yes
 <p>Em um <a href="https://azul.netlify.com/2018/09/16/lasso/">post anterior</a>, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:</p>
 <p><span class="math display">\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]</span></p>
 <p>(Onde <span class="math inline">\(|.|\)</span> é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não. Vamos fazer um pequeno teste com o LASSO: eu vou gerar 50 variáveis normais, independentes, e dessas dez - as dez primeiras - eu colocarei <span class="math inline">\(\beta=1\)</span>. As outra vão ser irrelevantes para o problema e vão ter <span class="math inline">\(\beta=0\)</span>. O tamanho da amostra vai ser igual a 100.</p>
-<p>Como de praxe, nós podemos ter diversos objetivos ao estimar um modelo. Eu vou comparar 3 coisas: a quantidade de vezes que o LASSO coloca as variáveis relevantes, a quantidade de vezes que ele exclui as variáveis irrelevantes e quando ele obtém o modelo certo - o que exige colocar todo mundo que é relevante <strong>e</strong> excluir todos os irrelevantes. Vou fazer só 500 replicações e usar o Cross Validation para escolher o <span class="math inline">\(\lambda\)</span>:</p>
+<p>Como de praxe, nós podemos ter diversos objetivos ao estimar um modelo. Eu vou comparar 3 coisas: a quantidade de vezes que o LASSO coloca as variáveis relevantes, a quantidade de vezes que ele exclui as variáveis irrelevantes e quando ele obtém o modelo certo - o que exige colocar todo mundo que é relevante <strong>e</strong> excluir todos os irrelevantes. Vou fazer só 500 replicações e usar o Cross Validation (que eu já discuti aqui) para escolher o <span class="math inline">\(\lambda\)</span>:</p>
 <pre class="r"><code>library(glmnet)
 
 coeficientes &lt;- Matrix(0,ncol=500,nrow=51)
@@ -58,11 +58,11 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">83.985</td>
+<td align="right">83.525</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">1.000</td>
+<td align="right">0.600</td>
 </tr>
 </tbody>
 </table>
@@ -114,15 +114,15 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <tbody>
 <tr class="odd">
 <td>Não zeros certos</td>
-<td align="right">100.000</td>
+<td align="right">100.00</td>
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">97.155</td>
+<td align="right">96.81</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">66.200</td>
+<td align="right">61.00</td>
 </tr>
 </tbody>
 </table>
@@ -135,7 +135,7 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <li>Calcule <span class="math inline">\(IC = n \ln(SSR) + cs\)</span> para cada modelo, onde c é o critério de informação escolhido</li>
 <li>Escolha o lambda que minimiza o valor de IC</li>
 </ol>
-<p>Vamos escrever uma função que faz cada um dos passos. Eu vou permitir que o usuário escolha qualquer um dos 3 critérios, e para isso eu usarei uns if:</p>
+<p>Vamos escrever uma função que faz cada um dos passos. Veja que você não precis fazer isso: existe um pacote excelente que já implementa isso no GitHub chamado <a href="https://github.com/gabrielrvsc/HDeconometrics">HDeconometrics</a>, mantido pelo Gabriel Vasconcelos. Mas seguindo o espírito do blog, eu vou implementar “no braço”. Eu vou permitir que o usuário escolha qualquer um dos 3 critérios, e para isso eu usarei uns if:</p>
 <pre class="r"><code>ic_glmnet &lt;- function(x,y,penalty.factor,ic){
   require(glmnet)
   n &lt;- length(y)
@@ -167,33 +167,29 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 betas &lt;- c(rep(1,10),rep(0,40)) #
 y &lt;- x%*%betas + rnorm(100)
 teste &lt;- ic_glmnet(x,y,ic=&quot;BIC&quot;)</code></pre>
-<pre><code>## Loading required package: glmnet</code></pre>
-<pre><code>## Loading required package: Matrix</code></pre>
-<pre><code>## Loading required package: foreach</code></pre>
+<pre><code>## Carregando pacotes exigidos: glmnet</code></pre>
+<pre><code>## Carregando pacotes exigidos: Matrix</code></pre>
+<pre><code>## Carregando pacotes exigidos: foreach</code></pre>
 <pre><code>## Loaded glmnet 2.0-16</code></pre>
 <pre class="r"><code>teste$modelo_selecionado</code></pre>
-<pre><code>##  (Intercept)           V1           V2           V3           V4 
-##  0.007088430  0.972644032  0.813660574  0.830908526  1.020687784 
-##           V5           V6           V7           V8           V9 
-##  0.839039203  1.018879497  0.931509940  0.862515077  0.841522778 
-##          V10          V11          V12          V13          V14 
-##  0.809725453  0.000000000  0.000000000  0.005047991  0.000000000 
-##          V15          V16          V17          V18          V19 
-##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
-##          V20          V21          V22          V23          V24 
-##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
-##          V25          V26          V27          V28          V29 
-## -0.120616578  0.000000000  0.000000000  0.000000000  0.000000000 
-##          V30          V31          V32          V33          V34 
-##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
-##          V35          V36          V37          V38          V39 
-## -0.040508549  0.000000000  0.000000000  0.000000000  0.000000000 
-##          V40          V41          V42          V43          V44 
-##  0.000000000  0.000000000  0.000000000  0.000000000  0.000000000 
-##          V45          V46          V47          V48          V49 
-##  0.000000000  0.000000000  0.000000000  0.000000000  0.035498581 
-##          V50 
-##  0.000000000</code></pre>
+<pre><code>## (Intercept)          V1          V2          V3          V4          V5 
+##  0.02919496  0.80721826  0.72118478  1.03292107  1.01925350  1.02434786 
+##          V6          V7          V8          V9         V10         V11 
+##  0.88267714  0.97021225  1.02600355  0.82197093  1.04430256  0.00000000 
+##         V12         V13         V14         V15         V16         V17 
+##  0.00000000  0.00000000  0.00000000 -0.07179414 -0.02062124 -0.11321705 
+##         V18         V19         V20         V21         V22         V23 
+## -0.05150767 -0.07230270 -0.10303200  0.08321580  0.00000000 -0.04758250 
+##         V24         V25         V26         V27         V28         V29 
+##  0.00000000  0.13620516  0.01186514  0.00000000  0.00000000  0.04777503 
+##         V30         V31         V32         V33         V34         V35 
+##  0.15935506 -0.15618481  0.00000000  0.00000000  0.00000000  0.12979546 
+##         V36         V37         V38         V39         V40         V41 
+##  0.00000000 -0.07786625  0.00000000 -0.13100984 -0.11033866  0.00000000 
+##         V42         V43         V44         V45         V46         V47 
+##  0.00000000  0.00000000  0.18164362 -0.04883286  0.05119821  0.00000000 
+##         V48         V49         V50 
+##  0.00000000  0.20137211  0.03448675</code></pre>
 <p>E uma simulação, com uma mudança: nós não vamos escolher o <span class="math inline">\(\lambda\)</span> duas vezes. Nós vamos repetir o <span class="math inline">\(\lambda\)</span> escolhido no primeiro estágio para o segundo estágio. Isso tem dois objetivos:</p>
 <ol style="list-style-type: decimal">
 <li>Isola o efeito da seleção do lambda dos efeitos da pessagem do LASSO adaptativo</li>
@@ -240,15 +236,15 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 </tr>
 <tr class="even">
 <td>Zeros certos</td>
-<td align="right">95.505</td>
+<td align="right">95.375</td>
 </tr>
 <tr class="odd">
 <td>Modelo certo?</td>
-<td align="right">43.200</td>
+<td align="right">42.400</td>
 </tr>
 </tbody>
 </table>
-<p>Veja que o BIC é bastante bem sucedido em recuperar o modelo certo. Veja que como mantivemos a penalidade parada, todo o ganho vem de acertar os pesos melhor, ilustrando bem qual é o segredo do adaLASSO. Apesar disso, ele é pior do que o Cross Validation. Isso vem com duas observações:</p>
+<p>Veja que o BIC é bastante bem sucedido em recuperar o modelo certo. Veja que como mantivemos a penalidade parada, todo o ganho vem de acertar os pesos melhor, ilustrando bem qual é o segredo do adaLASSO. Apesar disso, ele é pior do que o Cross Validation. Isso vem com duas observações, que já foram discutidas no post de Cross Validation mas eu repito aqui:</p>
 <ol style="list-style-type: decimal">
 <li>CV é um processo computacionalmente intensivo: quebre em blocos os seus dados, estime o modelo repetidas vezes.</li>
 <li>Mais importante, Cross Validation supõe <em>independência</em> entre as observações, ou seja, não podemos usar ele para dados de séries temporais</li>
