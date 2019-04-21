@@ -1,7 +1,7 @@
 ---
 title: Uma introdução à Cross Validation
 author: Daniel Coutinho
-date: '2019-04-19'
+date: '2019-04-20'
 slug: cross-validation
 categories:
   - Computação
@@ -9,7 +9,6 @@ categories:
   - Curtas 
 tags:
   - Cross Validation
-draft: TRUE
 ---
 
 ```{r,include=FALSE}
@@ -107,4 +106,6 @@ knitr::kable(tabela,caption = "Todos os valores em porcentagem")
 
 Veja que obviamente não podemos avaliar a qualidade do Cross Validation com base em uma única simulação. Nosso objetivo aqui é ilustrar a técnica. No post de [LASSO](https://azul.netlify.com/2018/09/16/lasso/) e em post futuro sobre um irmão do LASSO, eu discuto a qualidade do CV para selecionar o parâmetro de regularização.
 
-Veja que Cross Validation não é usado apenas para escolher parâmetros de regularização do LASSO: quase qualquer hiperparâmetro de um modelo pode ser selecionado por cross validation. Árvores de regressão são outro contexto em que o Cross Validation é usado, por exemplo. Mas como de praxe, existem hipóteses das quais o CV parte. Uma delas é independência entre as observações, que é inadequada em muitos casos com dados econômicos. 
+Veja que Cross Validation não é usado apenas para escolher parâmetros de regularização do LASSO: quase qualquer hiperparâmetro de um modelo pode ser selecionado por cross validation. Árvores de regressão são outro contexto em que o Cross Validation é usado, por exemplo. Mas como de praxe, existem hipóteses das quais o CV parte. Uma delas é independência entre as observações, que é inadequada em muitos casos com dados econômicos.
+
+Com esse (relativamente) curto post, eu espero que o leitor tenha o mínimo de noção como o Cross Validation é usado e quais as suas limitações. Este post é introdutório: diversos livros falam de Cross Validation, inclusive o [Elements of Statistical Learning](https://web.stanford.edu/~hastie/ElemStatLearn/printings/ESLII_print12.pdf), que você pode baixar de maneira 100% legal pelo link. Cross Validation é muito comum em técnicas de Machine Learning e portanto serão frequentes no blog.  

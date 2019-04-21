@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.48" />
 		<title>Uma introdução à Cross Validation &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -47,7 +47,7 @@
                     </h1>
                     <h2 class="headline">
                     Apr 19, 2019 00:00
-                    · 960 words
+                    · 1028 words
                     · 5 minute read
                       <span class="tags">
                       
@@ -108,9 +108,9 @@ for(i in 1:5){
 modelo_final &lt;- glmnet(X,y,lambda = mean(lambda_sel))
 
 tempo &lt;- toc()</code></pre>
-<pre><code>## 0.151 sec elapsed</code></pre>
+<pre><code>## 0.2 sec elapsed</code></pre>
 <pre class="r"><code>tempo &lt;- tempo$toc - tempo$tic</code></pre>
-<p>(A sugestão de usar o tictoc para pegar o tempo foi do Pedro). O tempo de execução é até bastante rápido, ficando em 0.151 segundos. Vamos fazer um plot dos coeficientes escolhidos:</p>
+<p>(A sugestão de usar o tictoc para pegar o tempo foi do Pedro). O tempo de execução é até bastante rápido, ficando em 0.2 segundos. Vamos fazer um plot dos coeficientes escolhidos:</p>
 <pre class="r"><code>plot(coef(modelo_final)[-1], ylab = &quot; &quot;)</code></pre>
 <p><img src="/post/cross-validation/2019-04-19-cross-validation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Aparentemente o cross validation conseguiu recuperar quase todos os coeficientes corretos. Vamos testar:</p>
@@ -133,20 +133,21 @@ knitr::kable(tabela,caption = &quot;Todos os valores em porcentagem&quot;)</code
 <tbody>
 <tr class="odd">
 <td>Não Zeros certos</td>
-<td align="right">100.0</td>
+<td align="right">100</td>
 </tr>
 <tr class="even">
 <td>Zeros Certos</td>
-<td align="right">87.5</td>
+<td align="right">95</td>
 </tr>
 <tr class="odd">
 <td>Modelo Certo?</td>
-<td align="right">0.0</td>
+<td align="right">0</td>
 </tr>
 </tbody>
 </table>
 <p>Veja que obviamente não podemos avaliar a qualidade do Cross Validation com base em uma única simulação. Nosso objetivo aqui é ilustrar a técnica. No post de <a href="https://azul.netlify.com/2018/09/16/lasso/">LASSO</a> e em post futuro sobre um irmão do LASSO, eu discuto a qualidade do CV para selecionar o parâmetro de regularização.</p>
 <p>Veja que Cross Validation não é usado apenas para escolher parâmetros de regularização do LASSO: quase qualquer hiperparâmetro de um modelo pode ser selecionado por cross validation. Árvores de regressão são outro contexto em que o Cross Validation é usado, por exemplo. Mas como de praxe, existem hipóteses das quais o CV parte. Uma delas é independência entre as observações, que é inadequada em muitos casos com dados econômicos.</p>
+<p>Com esse (relativamente) curto post, eu espero que o leitor tenha o mínimo de noção como o Cross Validation é usado e quais as suas limitações. Este post é introdutório: diversos livros falam de Cross Validation, inclusive o <a href="https://web.stanford.edu/~hastie/ElemStatLearn/printings/ESLII_print12.pdf">Elements of Statistical Learning</a>, que você pode baixar de maneira 100% legal pelo link. Cross Validation é muito comum em técnicas de Machine Learning e portanto serão frequentes no blog.</p>
 
                 </section>
             </article>
