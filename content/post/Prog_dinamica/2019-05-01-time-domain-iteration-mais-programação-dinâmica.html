@@ -1,0 +1,90 @@
+---
+title: 'Time Domain Iteration: mais programação dinâmica'
+author: Daniel Coutinho
+date: '2019-05-01'
+slug: time-domain-iteration-mais-programação-dinâmica
+categories:
+  - Programação Dinâmica
+  - Computação
+  - Economia
+tags:
+  - Time Domain Iteration
+  - Coleman Operator
+draft: TRUE
+---
+
+
+
+<p>Em posts anteriores eu apresentei uma maneira de resolver o problema:</p>
+<p><span class="math display">\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a uma restrição orçamentária}\]</span></p>
+<p>O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de <em>Bellman Operator</em>, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de <em>value function iteration</em>, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</p>
+<p>No primeiro post da série eu dei a deixa que nós podiamos reescrever o problema usando La Grange e tirar as condições de primeira ordem e isso gerava um problema com infinitas variáveis a serem escolhidas, os valores de <span class="math inline">\(C_t\)</span> para cada período do tempo. Para deixar o problema bem concreto, vamos voltar ao problema que eu abordei originalmente, que eu repito aqui:</p>
+<p><span class="math display">\[\max_{\{C_t,K_{t+1}\}_t} \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a }k_{t+1} = (1-\delta)k_t + y_t - C_t\]</span></p>
+<p>Onde <span class="math inline">\(\delta\)</span> é a taxa de depreciação do capital, <span class="math inline">\(y_t\)</span> é uma função de produção que depende do capital. Podemos escrever isso como um La Grangeano onde a restrição orçamentária de cada período tem um multiplicador <span class="math inline">\(\lambda_t\)</span> associado:</p>
+<p><span class="math display">\[\mathcal{L} = \sum_{t=0}^\infty \beta^t u(C_t) - \lambda_t(k_{t+1} - (1-\delta)k_t - y_t + C_t)\]</span></p>
+<p>Nós podemos proceder como se esse problema não envolvesse infinitos controles e encontrar a condição de primeira ordem. Veja que nós temos duas variáveis a serem escolhidas, <span class="math inline">\(k_{t+1}\)</span> e <span class="math inline">\(C_t\)</span>, que são amarradas pela restrição. Reescreva a restrição como <span class="math inline">\(C_t = (1-\delta)k_t + y_t(k_t) - k_{t+1}\)</span> e substitua no problema para obter o problema de maximização sem restrição:</p>
+<p><span class="math display">\[\max_{\{k_{t+1}\}_t} \sum_{t=0}^\infty \beta^t u((1-\delta)k_t + y_t(k_t) - k_{t+1})\]</span></p>
+<p>Teremos como condição de primeira ordem (famosamente “deriva e iguala a zero”) para um dado período <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[-\beta^t u&#39;(C_t) + \beta^{t+1} u&#39;(C_{t+1})(1-\delta+y_t&#39;(k_{t+1}))=0\]</span></p>
+<p>(Abra o somatório para t e t+1 se você não entendeu de onde saiu isso). Podemos simplificar:</p>
+<p><span class="math display">\[u&#39;(C_t) = \beta u&#39;(C_{t+1})(1-\delta+y_t&#39;(k_{t+1}))\]</span></p>
+<p>Veja que essa é a equação de Euler, e que o problema que nós resolvemos nos posts anteriores precisa respeitar isso (é uma condição necessária, mas não suficiente). Mas nós não usamos ela em ponto algum. Seria possível construir um algoritmo que resolve o problema partindo dessa euqação? E isso seria vantajoso de alguma maneira?</p>
+<p>As respostas são sim e sim. Vamos primeiro ao algoritmo, que recebe variados nomes, inclusive <em>time domain iteration</em> ou <em>Coleman Operator</em>, em homenagem a Wilbur Coleman, que estudou esse problema a fundo. Enquanto no algoritmo anterior nós estipulavamos valores para a função valor, aqui nós vamos estipular valores para <span class="math inline">\(C_{t+1}\)</span>. Eis o passo a passo:</p>
+<ul>
+<li>Defina um grid para a variável de estado</li>
+<li>Comece com um chute inicial para como deve ser <span class="math inline">\(C_{t+1}\)</span> para cada valor da variável de estado</li>
+<li>Itere até convergência os seguintes passos:</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Para cada valor da variável de estado, encontre o valor de <span class="math inline">\(C_t\)</span> que faz <span class="math inline">\(u&#39;(C_t) - \beta u&#39;(C_{t+1})(1-\delta+y_t&#39;(k_{t+1})) = 0\)</span></li>
+<li>Estabeleça uma nova função que relaciona a variável de estado a $C_{t+1}, baseado no valor que maximiza <span class="math inline">\(C_t\)</span> na iteração anterior</li>
+</ol>
+<p>Veja que a ideia aqui é basicamente “operar” usando os mesmos valores que resolvem a condição de primeira ordem para sempre. Uma solução do problema é alcançada quando <span class="math inline">\(C_t = C_{t+1}\)</span>. Por incrível que possa parecer, é mais uma aplicação do <a href="https://azul.netlify.com/2018/10/31/banach/">teorema de ponto fixo que o Pedro descreveu faz um tempo aqui no blog</a>.</p>
+<p>Veja que para o caso onde <span class="math inline">\(\delta = 1\)</span>, <span class="math inline">\(u(C_t) = \ln(C_t)\)</span> e <span class="math inline">\(y_t = k_t ^\alpha\)</span>, o problema tem solução analítica. O código que implementa o problema e resolve no Julia segue abaixo:</p>
+<pre><code>
+using Interpolations
+using Plots
+using Roots
+using Distributions
+
+### Primeiro: caso com produção, utilidade log e função de produção Cobb Douglas
+## Esse caso tem solução analítica, que é implementada abaixo
+
+beta = 0.95
+alpha = 0.65
+
+grid_size = 300
+
+iter = 15
+
+k_grid = range(1e-5,8,length=grid_size) #grid para a variável de estado
+
+uline(c) = 1/c
+f(k) = k^alpha
+fline(k) = alpha*k^(alpha-1)
+
+c_val = zeros(grid_size,iter)
+c_val[:,1] =  f.(k_grid)
+
+for i in 2:iter
+    for j in 1:grid_size
+        foo_c = LinearInterpolation(k_grid,c_val[:,i-1],extrapolation_bc = Line()) #usando uma aproximação linear (por partes) para a função do consumo
+        function g(c)
+            y = f(k_grid[j])
+            return uline(c) - beta*fline(y-c)*uline(foo_c(y-c))
+        end
+        c_val[j,i] = find_zeros(g,1e-10,f(k_grid[j]))[1] #resolvendo a equação de euler
+    end
+end
+</code></pre>
+<p>Observe que meu chute inicial é “consuma tudo o que foi produzido”, que é um chute factível mas improvável de ser a verdadeira política ótima. Veja ainda que eu coloquei apenas 15 iterações do algoritmo, um número extremamente baixo - especialmente se considerarmos que a solução analítica do problema é não linear na variável de estado, já que <span class="math inline">\(c_t = (1-\alpha \beta) y_t = (1-\alpha \beta) k_t^\alpha\)</span>. Vamos ver qual a diferença entre a solução numérica e a analítica:</p>
+<div class="figure">
+<img src="/post/Prog_dinamica/conv_time_iteration.png" />
+
+</div>
+<p>A olho nu, os dois são indistiguíveis. Vamos ver o que acontece quando usamos apenas 15 iterações do método da função valor. O gráfico a seguir apresenta a diferença entre os valores da regra de decisão analítica para cada um dos métodos de resolução:</p>
+<div class="figure">
+<img src="/post/Prog_dinamica/difs_metodos2.png" />
+
+</div>
+<p>As diferenças são pequenas (0,01), mas veja que a diferença usando a <em>time iteration</em> é totalmente fora de escala com o método de <em>value function iteration</em>. O método apresento neste post tem ganhos claros sobre o método anterior, apesar de ser uma variação extremamente simples.</p>

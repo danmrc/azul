@@ -1,0 +1,104 @@
+---
+title: 'Time Domain Iteration: mais programação dinâmica'
+author: Daniel Coutinho
+date: '2019-05-01'
+slug: time-domain-iteration-mais-programação-dinâmica
+categories:
+  - Programação Dinâmica
+  - Computação
+  - Economia
+tags:
+  - Time Domain Iteration
+  - Coleman Operator
+draft: TRUE
+---
+
+Em posts anteriores eu apresentei uma maneira de resolver o problema:
+
+$$\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a uma restrição orçamentária}$$
+
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de _Bellman Operator_, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de _value function iteration_, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor. 
+
+No primeiro post da série eu dei a deixa que nós podiamos reescrever o problema usando La Grange e tirar as condições de primeira ordem e isso gerava um problema com infinitas variáveis a serem escolhidas, os valores de $C_t$ para cada período do tempo. Para deixar o problema bem concreto, vamos voltar ao problema que eu abordei originalmente, que eu repito aqui:
+
+$$\max_{\{C_t,K_{t+1}\}_t} \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a }k_{t+1} = (1-\delta)k_t + y_t - C_t$$
+
+Onde $\delta$ é a taxa de depreciação do capital, $y_t$ é uma função de produção que depende do capital. Podemos escrever isso como um La Grangeano onde a restrição orçamentária de cada período tem um multiplicador $\lambda_t$ associado: 
+
+$$\mathcal{L} = \sum_{t=0}^\infty \beta^t u(C_t) - \lambda_t(k_{t+1} - (1-\delta)k_t - y_t + C_t)$$
+
+
+Nós podemos proceder como se esse problema não envolvesse infinitos controles e encontrar a condição de primeira ordem. Veja que nós temos duas variáveis a serem escolhidas, $k_{t+1}$ e $C_t$, que são amarradas pela restrição. Reescreva a restrição como $C_t = (1-\delta)k_t + y_t(k_t) - k_{t+1}$ e substitua no problema para obter o problema de maximização sem restrição:
+
+$$\max_{\{k_{t+1}\}_t} \sum_{t=0}^\infty \beta^t u((1-\delta)k_t + y_t(k_t) - k_{t+1})$$
+
+Teremos como condição de primeira ordem (famosamente "deriva e iguala a zero") para um dado período $t$: 
+
+$$-\beta^t u'(C_t) + \beta^{t+1} u'(C_{t+1})(1-\delta+y_t'(k_{t+1}))=0$$
+
+(Abra o somatório para t e t+1 se você não entendeu de onde saiu isso). Podemos simplificar:
+
+$$u'(C_t) = \beta u'(C_{t+1})(1-\delta+y_t'(k_{t+1}))$$
+
+Veja que essa é a equação de Euler, e que o problema que nós resolvemos nos posts anteriores precisa respeitar isso (é uma condição necessária, mas não suficiente). Mas nós não usamos ela em ponto algum. Seria possível construir um algoritmo que resolve o problema partindo dessa euqação? E isso seria vantajoso de alguma maneira?
+
+As respostas são sim e sim. Vamos primeiro ao algoritmo, que recebe variados nomes, inclusive _time domain iteration_ ou _Coleman Operator_, em homenagem a Wilbur Coleman, que estudou esse problema a fundo. Enquanto no algoritmo anterior nós estipulavamos valores para a função valor, aqui nós vamos estipular valores para $C_{t+1}$. Eis o passo a passo:
+
+* Defina um grid para a variável de estado
+* Comece com um chute inicial para como deve ser $C_{t+1}$ para cada valor da variável de estado
+* Itere até convergência os seguintes passos:
+  1. Para cada valor da variável de estado, encontre o valor de $C_t$ que faz $u'(C_t) - \beta u'(C_{t+1})(1-\delta+y_t'(k_{t+1})) = 0$
+  2. Estabeleça uma nova função que relaciona a variável de estado a $C_{t+1}, baseado no valor que maximiza $C_t$ na iteração anterior
+
+Veja que a ideia aqui é basicamente "operar" usando os mesmos valores que resolvem a condição de primeira ordem para sempre. Uma solução do problema é alcançada quando $C_t = C_{t+1}$. Por incrível que possa parecer, é mais uma aplicação do [teorema de ponto fixo que o Pedro descreveu faz um tempo aqui no blog](https://azul.netlify.com/2018/10/31/banach/).    
+
+Veja que para o caso onde $\delta = 1$, $u(C_t) = \ln(C_t)$ e $y_t = k_t ^\alpha$, o problema tem solução analítica. O código que implementa o problema e resolve no Julia segue abaixo:
+
+```
+
+using Interpolations
+using Plots
+using Roots
+using Distributions
+
+### Primeiro: caso com produção, utilidade log e função de produção Cobb Douglas
+## Esse caso tem solução analítica, que é implementada abaixo
+
+beta = 0.95
+alpha = 0.65
+
+grid_size = 300
+
+iter = 15
+
+k_grid = range(1e-5,8,length=grid_size) #grid para a variável de estado
+
+uline(c) = 1/c
+f(k) = k^alpha
+fline(k) = alpha*k^(alpha-1)
+
+c_val = zeros(grid_size,iter)
+c_val[:,1] =  f.(k_grid)
+
+for i in 2:iter
+    for j in 1:grid_size
+        foo_c = LinearInterpolation(k_grid,c_val[:,i-1],extrapolation_bc = Line()) #usando uma aproximação linear (por partes) para a função do consumo
+        function g(c)
+            y = f(k_grid[j])
+            return uline(c) - beta*fline(y-c)*uline(foo_c(y-c))
+        end
+        c_val[j,i] = find_zeros(g,1e-10,f(k_grid[j]))[1] #resolvendo a equação de euler
+    end
+end
+
+```
+
+Observe que meu chute inicial é "consuma tudo o que foi produzido", que é um chute factível mas improvável de ser a verdadeira política ótima. Veja ainda que eu coloquei apenas 15 iterações do algoritmo, um número extremamente baixo - especialmente se considerarmos que a solução analítica do problema é não linear na variável de estado, já que $c_t = (1-\alpha \beta) y_t = (1-\alpha \beta) k_t^\alpha$. Vamos ver qual a diferença entre a solução numérica e a analítica:
+
+![](/post/Prog_dinamica/conv_time_iteration.png)
+
+A olho nu, os dois são indistiguíveis. Vamos ver o que acontece quando usamos apenas 15 iterações do método da função valor. O gráfico a seguir apresenta a diferença entre os valores da regra de decisão analítica para cada um dos métodos de resolução:
+
+![](/post/Prog_dinamica/difs_metodos2.png)
+
+As diferenças são pequenas (0,01), mas veja que a diferença usando a _time iteration_ é totalmente fora de escala com o método de _value function iteration_. O método apresento neste post tem ganhos claros sobre o método anterior, apesar de ser uma variação extremamente simples. 

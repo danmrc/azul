@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Coleman Operator on AZUL</title>
+    <link>/tags/coleman-operator/</link>
+    <description>Recent content in Coleman Operator on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Wed, 01 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/coleman-operator/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Time Domain Iteration: mais programação dinâmica</title>
+      <link>/2019/05/01/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/01/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a uma restrição orçamentária}\]
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
+    </item>
+    
+  </channel>
+</rss>
