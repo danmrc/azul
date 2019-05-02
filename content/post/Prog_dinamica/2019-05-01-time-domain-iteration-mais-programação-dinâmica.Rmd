@@ -115,10 +115,19 @@ $$\mathcal{L} = \sum_{t=0}^{\infty} \beta^{t} u((1+r)b_t + w_t - b_{t+1}) +\lamb
 
 A única variável de controle é $b_{t+1}$ e $\lambda_t > 0$ fica claro que na condição de primeira ordem vai ser:
 
-$$-u(c_t) + (1+r)\beta u(c_{t+1}) +\lambda_t$$
+$$-u(c_t) + (1+r)\beta u(c_{t+1}) +\lambda_t = 0$$
 
 Veja que, quando temos uma restrição em desigualdade, o seguinte tem que sempre valer:
 
 $$\lambda_t(b_{t+1} + \kappa w_t) = 0$$
 
-Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo entre parenteses é igual a 0; ou o multiplicador de la grange é igual a zero e a restrição não está ativa. Veja que juntando esse último fato com a condição de primeira ordem para este problema, 
+Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo entre parenteses é igual a 0; ou o multiplicador de la grange é igual a zero e a restrição não está ativa. Veja que juntando esse último fato com a condição de primeira ordem para este problema, nós temos que se a restrição de endividamento valer, então $-u(c_t) + (1+r)\beta u(c_{t+1}) >0$. E se a condição não valer, então $\lambda_t = 0$ e a equação fica $-u(c_t) + (1+r)\beta u(c_{t+1}) = 0$. Isso nós dá uma maneira fácil de checar se a restrição está ativa ou não: veja se a equação de Euler vale com desigualdade. Se sim, estamos no caso em que a restrição está ativa. Senão, procedemos normalmente. Vamos escrever o passo a passo do algoritmo. Lembre-se sempre que começamos dando algum chute inicial para o formato da função consumo e temos que definir um grid para os valores do título e do salário, que são as nossas variáveis de estado: 
+
+1. Compute qual é o máximo de dívida disponível para esse período usando a equação (3)
+2. Compute o quanto vai ser consumido se o agente pegar o máximo de dívida disponível usando o valor do passo anterior e (2). Chame esse valor de $c_{max}$.
+3. Compute o valor de $-u(c_{max}) + (1+r)\beta E(u(c(b_{t+1})))$. Se o valor for maior que 0, pule para o item 5
+4. Encontre o valor que faz com que $-u(c_t) + (1+r)\beta u(c(b_{t+1})) = 0$. 
+5. Salve o valor de c_t
+6. Proceda até convergência
+
+Veja que esse algoritmo é ligeiramente diferente do algoritmo do Bianchi em alguns pontos - e porque o problema que eu estou resolvendo aqui no blog é mais simples que o problema dele. 
