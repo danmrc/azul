@@ -15,7 +15,7 @@ draft: TRUE
 
 Em posts anteriores eu apresentei uma maneira de resolver o problema:
 
-$$\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a uma restrição orçamentária}$$
+$$\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}$$
 
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de _Bellman Operator_, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de _value function iteration_, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor. 
 
@@ -40,7 +40,7 @@ $$-\beta^t u'(C_t) + \beta^{t+1} u'(C_{t+1})(1-\delta+y_t'(k_{t+1}))=0$$
 
 $$u'(C_t) = \beta u'(C_{t+1})(1-\delta+y_t'(k_{t+1}))$$
 
-Veja que essa é a equação de Euler, e que o problema que nós resolvemos nos posts anteriores precisa respeitar isso (é uma condição necessária, mas não suficiente). Mas nós não usamos ela em ponto algum. Seria possível construir um algoritmo que resolve o problema partindo dessa euqação? E isso seria vantajoso de alguma maneira?
+Veja que essa é a equação de Euler, e que o problema que nós resolvemos nos posts anteriores precisa respeitar isso (é uma condição necessária, mas não suficiente). Mas nós não usamos ela em ponto algum. Seria possível construir um algoritmo que resolve o problema partindo dessa equação? E isso seria vantajoso de alguma maneira?
 
 As respostas são sim e sim. Vamos primeiro ao algoritmo, que recebe variados nomes, inclusive _time domain iteration_ ou _Coleman Operator_, em homenagem a Wilbur Coleman, que estudou esse problema a fundo. Enquanto no algoritmo anterior nós estipulavamos valores para a função valor, aqui nós vamos estipular valores para $C_{t+1}$. Eis o passo a passo:
 
@@ -102,3 +102,23 @@ A olho nu, os dois são indistiguíveis. Vamos ver o que acontece quando usamos 
 ![](/post/Prog_dinamica/difs_metodos2.png)
 
 As diferenças são pequenas (0,01), mas veja que a diferença usando a _time iteration_ é totalmente fora de escala com o método de _value function iteration_. O método apresento neste post tem ganhos claros sobre o método anterior, apesar de ser uma variação extremamente simples. 
+
+Mais existe uma razão extra para eu achar esse método interessante (e na verdade a razão pela qual eu aprendi ele em primeiro lugar): é fácil adaptar ele para situações na qual algumas vezes temos uma restrição que está ativa e em outras situações não. O exemplo simples disso requer um problema diferente que eu já ataquei aqui com programação dinâmica: suponha que, ao invés do agente ter acesso a uma tecnologia de produção que usa capital, ele recebe um salário, $w_t$, que segue um processo aleatório (possivelmente até dependente no tempo!). O agente pode cobrar um único ativo, que paga uma taxa de juros fixa,$r$. Além da restrição orçamentária, o agente também tem uma restrição a se endividar: às vezes o agente pode estar excessivamente endividado e a restrição a endividamento estar ativa; outras vezes o agente pode ter riqueza o suficiente que a restrição não esteja ativa. Eu vou escrever o problema formalmente matematicamente:
+
+$$\max_{\{c_t,b_{t+1}\}_t} \sum_{t=0}^{\infty} \beta^{t} u(c_t) \text{ sujeito a}\\
+(1+r)b_t + w_t = b_{t+1} + c_t \quad (2)\\
+b_{t+1} > -\kappa w_t \quad (3)$$
+
+A ideia de como adaptar o algoritmo e o formato da restrição foram retirados de (um pedaço) da tese de doutorado do [Javier Bianchi](http://www.javierbianchi.com/uploads/8/8/5/8/8858198/overborrowing.pdf). Lá ele apresenta uma justificativa para a restrição de envidamento como (3): se o sujeito "der o calote", devido as leis, o credor só consegue obter uma fração $\kappa$ do que devedor obtém .Para entender o algoritmo, vamos reescrever a equação (2) acima para colocar a $c_t$ em evidência e substituir no $c_t$ dentro da utilidade e reescrever tudo como um lagrangeano, obtendo:
+
+$$\mathcal{L} = \sum_{t=0}^{\infty} \beta^{t} u((1+r)b_t + w_t - b_{t+1}) +\lambda_t(b_{t+1} + \kappa w_t)$$
+
+A única variável de controle é $b_{t+1}$ e $\lambda_t > 0$ fica claro que na condição de primeira ordem vai ser:
+
+$$-u(c_t) + (1+r)\beta u(c_{t+1}) +\lambda_t$$
+
+Veja que, quando temos uma restrição em desigualdade, o seguinte tem que sempre valer:
+
+$$\lambda_t(b_{t+1} + \kappa w_t) = 0$$
+
+Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo entre parenteses é igual a 0; ou o multiplicador de la grange é igual a zero e a restrição não está ativa. Veja que juntando esse último fato com a condição de primeira ordem para este problema, 

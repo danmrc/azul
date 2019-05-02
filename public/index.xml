@@ -18,7 +18,7 @@
       
       <guid>/2019/05/01/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
-\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a uma restrição orçamentária}\]
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
     </item>
     

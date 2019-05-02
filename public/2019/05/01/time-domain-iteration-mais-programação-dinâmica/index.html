@@ -47,8 +47,8 @@
                     </h1>
                     <h2 class="headline">
                     May 1, 2019 00:00
-                    · 869 words
-                    · 5 minute read
+                    · 1246 words
+                    · 6 minute read
                       <span class="tags">
                       
                       
@@ -67,7 +67,7 @@
                 
                 <section id="post-body">
                     <p>Em posts anteriores eu apresentei uma maneira de resolver o problema:</p>
-<p><span class="math display">\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a uma restrição orçamentária}\]</span></p>
+<p><span class="math display">\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]</span></p>
 <p>O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de <em>Bellman Operator</em>, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de <em>value function iteration</em>, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</p>
 <p>No primeiro post da série eu dei a deixa que nós podiamos reescrever o problema usando La Grange e tirar as condições de primeira ordem e isso gerava um problema com infinitas variáveis a serem escolhidas, os valores de <span class="math inline">\(C_t\)</span> para cada período do tempo. Para deixar o problema bem concreto, vamos voltar ao problema que eu abordei originalmente, que eu repito aqui:</p>
 <p><span class="math display">\[\max_{\{C_t,K_{t+1}\}_t} \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{sujeito a }k_{t+1} = (1-\delta)k_t + y_t - C_t\]</span></p>
@@ -79,7 +79,7 @@
 <p><span class="math display">\[-\beta^t u&#39;(C_t) + \beta^{t+1} u&#39;(C_{t+1})(1-\delta+y_t&#39;(k_{t+1}))=0\]</span></p>
 <p>(Abra o somatório para t e t+1 se você não entendeu de onde saiu isso). Podemos simplificar:</p>
 <p><span class="math display">\[u&#39;(C_t) = \beta u&#39;(C_{t+1})(1-\delta+y_t&#39;(k_{t+1}))\]</span></p>
-<p>Veja que essa é a equação de Euler, e que o problema que nós resolvemos nos posts anteriores precisa respeitar isso (é uma condição necessária, mas não suficiente). Mas nós não usamos ela em ponto algum. Seria possível construir um algoritmo que resolve o problema partindo dessa euqação? E isso seria vantajoso de alguma maneira?</p>
+<p>Veja que essa é a equação de Euler, e que o problema que nós resolvemos nos posts anteriores precisa respeitar isso (é uma condição necessária, mas não suficiente). Mas nós não usamos ela em ponto algum. Seria possível construir um algoritmo que resolve o problema partindo dessa equação? E isso seria vantajoso de alguma maneira?</p>
 <p>As respostas são sim e sim. Vamos primeiro ao algoritmo, que recebe variados nomes, inclusive <em>time domain iteration</em> ou <em>Coleman Operator</em>, em homenagem a Wilbur Coleman, que estudou esse problema a fundo. Enquanto no algoritmo anterior nós estipulavamos valores para a função valor, aqui nós vamos estipular valores para <span class="math inline">\(C_{t+1}\)</span>. Eis o passo a passo:</p>
 <ul>
 <li>Defina um grid para a variável de estado</li>
@@ -139,6 +139,17 @@ end
 
 </div>
 <p>As diferenças são pequenas (0,01), mas veja que a diferença usando a <em>time iteration</em> é totalmente fora de escala com o método de <em>value function iteration</em>. O método apresento neste post tem ganhos claros sobre o método anterior, apesar de ser uma variação extremamente simples.</p>
+<p>Mais existe uma razão extra para eu achar esse método interessante (e na verdade a razão pela qual eu aprendi ele em primeiro lugar): é fácil adaptar ele para situações na qual algumas vezes temos uma restrição que está ativa e em outras situações não. O exemplo simples disso requer um problema diferente que eu já ataquei aqui com programação dinâmica: suponha que, ao invés do agente ter acesso a uma tecnologia de produção que usa capital, ele recebe um salário, <span class="math inline">\(w_t\)</span>, que segue um processo aleatório (possivelmente até dependente no tempo!). O agente pode cobrar um único ativo, que paga uma taxa de juros fixa,<span class="math inline">\(r\)</span>. Além da restrição orçamentária, o agente também tem uma restrição a se endividar: às vezes o agente pode estar excessivamente endividado e a restrição a endividamento estar ativa; outras vezes o agente pode ter riqueza o suficiente que a restrição não esteja ativa. Eu vou escrever o problema formalmente matematicamente:</p>
+<p><span class="math display">\[\max_{\{c_t,b_{t+1}\}_t} \sum_{t=0}^{\infty} \beta^{t} u(c_t) \text{ sujeito a}\\
+(1+r)b_t + w_t = b_{t+1} + c_t \quad (2)\\
+b_{t+1} &gt; -\kappa w_t \quad (3)\]</span></p>
+<p>A ideia de como adaptar o algoritmo e o formato da restrição foram retirados de (um pedaço) da tese de doutorado do <a href="http://www.javierbianchi.com/uploads/8/8/5/8/8858198/overborrowing.pdf">Javier Bianchi</a>. Lá ele apresenta uma justificativa para a restrição de envidamento como (3): se o sujeito “der o calote”, devido as leis, o credor só consegue obter uma fração <span class="math inline">\(\kappa\)</span> do que devedor obtém .Para entender o algoritmo, vamos reescrever a equação (2) acima para colocar a <span class="math inline">\(c_t\)</span> em evidência e substituir no <span class="math inline">\(c_t\)</span> dentro da utilidade e reescrever tudo como um lagrangeano, obtendo:</p>
+<p><span class="math display">\[\mathcal{L} = \sum_{t=0}^{\infty} \beta^{t} u((1+r)b_t + w_t - b_{t+1}) +\lambda_t(b_{t+1} + \kappa w_t)\]</span></p>
+<p>A única variável de controle é <span class="math inline">\(b_{t+1}\)</span> e <span class="math inline">\(\lambda_t &gt; 0\)</span> fica claro que na condição de primeira ordem vai ser:</p>
+<p><span class="math display">\[-u(c_t) + (1+r)\beta u(c_{t+1}) +\lambda_t\]</span></p>
+<p>Veja que, quando temos uma restrição em desigualdade, o seguinte tem que sempre valer:</p>
+<p><span class="math display">\[\lambda_t(b_{t+1} + \kappa w_t) = 0\]</span></p>
+<p>Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo entre parenteses é igual a 0; ou o multiplicador de la grange é igual a zero e a restrição não está ativa. Veja que juntando esse último fato com a condição de primeira ordem para este problema,</p>
 
                 </section>
             </article>
