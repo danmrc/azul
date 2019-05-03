@@ -49,7 +49,7 @@ knitr::kable(tabela_final,caption = "Os valores estão em porcentagem")
 
 ```
 
-O LASSO sempre inclui as variáveis relevantes, e exclui as variáveis irrelevantes em 84% das vezes. Mesmo assim, a proporção de vezes que o LASSO consegue recuperar o modelo correto é um por volta de 1%. Isso parece esquisito a primeira vez, mas lembre que recuperar o modelo certo envolve *acertar todas as relevantes e todas as irrelevantes*. Se tivermos 50 variáveis e 500 replicações e em toda replicação o LASSO colocar apenas umas variável irrelevante no modelo, nós teríamos 98% de zeros certos ($49/50$) e exatamente 0 modelos certos.
+O LASSO sempre inclui as variáveis relevantes, e exclui as variáveis irrelevantes em 84% das vezes. Mesmo assim, a proporção de vezes que o LASSO consegue recuperar o modelo correto é um por volta de 1%. Isso parece esquisito a primeira vista, mas lembre que recuperar o modelo certo envolve *acertar todas as relevantes e todas as irrelevantes*. Se tivermos 50 variáveis e 500 replicações e em toda replicação o LASSO colocar apenas umas variável irrelevante no modelo, nós teríamos 98% de zeros certos ($49/50$) e exatamente 0 modelos certos.
 
 Parte do problema é que o LASSO penaliza todos os coeficientes igualmente, usando o $\lambda$. Nós esperaríamos que algumas variáveis sejam mais importantes que outras - e isso pode vir a priori ou ser dito pelos dados. O LASSO adaptativo (adaLASSO) adiciona pesos ($\omega$) para cada uma das variáveis na penalidade. Logo o novo problema a ser resolvido é: 
 
@@ -63,7 +63,7 @@ A única exigência desses pesos é que eles sejam positivos. Veja que nós temo
 
 A boa notícia é que o *glmnet* já nos oferece uma opção para colocar o peso, via o argumento *penalty.factor*. Nosso trabalho é basicamente reduzido a escrever umas duas linhas de código a mais: uma que faz o LASSO de "primeiro estágio" e outra que define os pesos.
 
-Uma coisa deve ficar evidente: da maneira que os pesos foram estabelecidos no meu algoritmo, coeficientes que são zerados pelo LASSO serão automaticamente excluídos pelo LASSO adaptativo: teremos como peso $1/0$ (com perdão aos matemáticos), que no limite é infinito. Como o LASSO não excluiu as variáveis relevantes em nenhum caso, não vamos nos preocupar. Mas é possível imaginar situações em que o LASSO poderia ter problemas (pense em coeficientes altissimamente correlacionados em uma amostra relativamente pequena). Outra coisa que deve ficar clara é que precisamos selecionar o $\lambda$ e agora duas vezes!
+Uma coisa deve ficar evidente: da maneira que os pesos foram estabelecidos no meu algoritmo, coeficientes que são zerados pelo LASSO serão automaticamente excluídos pelo LASSO adaptativo: teremos como peso $1/0$ (com perdão aos matemáticos), que no limite é infinito. Como o LASSO não excluiu as variáveis relevantes em nenhum caso, não vamos nos preocupar. Mas é possível imaginar situações em que o LASSO poderia ter problemas (pense em coeficientes altissimamente correlacionados em uma amostra relativamente pequena). Outra coisa que deve ficar clara é que precisamos selecionar o $\lambda$ agora duas vezes, uma para o LASSO e outra para a etapa "adaptativa" do LASSO!
 
 Vamos repetir a simulação ali de cima, mas usando o adaLASSO. Em ambos os estágios eu vou usar o Cross Validation:
 
@@ -106,7 +106,7 @@ A performance do LASSO adaptativo é muito melhor que a do LASSO: em aproximadam
 5. Calcule $IC = n \ln(SSR) + cs$ para cada modelo, onde c é o critério de informação escolhido
 6. Escolha o lambda que minimiza o valor de IC
 
-Vamos escrever uma função que faz cada um dos passos. Veja que você não precis fazer isso: existe um pacote excelente que já implementa isso no GitHub chamado [HDeconometrics](https://github.com/gabrielrvsc/HDeconometrics), mantido pelo Gabriel Vasconcelos. Mas seguindo o espírito do blog, eu vou implementar "no braço". Eu vou permitir que o usuário escolha qualquer um dos 3 critérios, e para isso eu usarei uns if: 
+Vamos escrever uma função que faz cada um dos passos. Veja que você não precisa fazer isso: existe um pacote excelente que já implementa isso no GitHub chamado [HDeconometrics](https://github.com/gabrielrvsc/HDeconometrics), mantido pelo Gabriel Vasconcelos. Mas seguindo o espírito do blog, eu vou implementar "no braço". Eu vou permitir que o usuário escolha qualquer um dos 3 critérios, e para isso eu usarei uns if: 
 
 ```{r}
 
