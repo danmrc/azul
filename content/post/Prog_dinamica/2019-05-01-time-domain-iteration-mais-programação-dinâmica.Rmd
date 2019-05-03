@@ -127,7 +127,69 @@ Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo 
 2. Compute o quanto vai ser consumido se o agente pegar o máximo de dívida disponível usando o valor do passo anterior e (2). Chame esse valor de $c_{max}$.
 3. Compute o valor de $-u(c_{max}) + (1+r)\beta E(u(c(b_{t+1})))$. Se o valor for maior que 0, pule para o item 5
 4. Encontre o valor que faz com que $-u(c_t) + (1+r)\beta u(c(b_{t+1})) = 0$. 
-5. Salve o valor de c_t
+5. Salve o valor de $c_t$
 6. Proceda até convergência
 
-Veja que esse algoritmo é ligeiramente diferente do algoritmo do Bianchi em alguns pontos - e porque o problema que eu estou resolvendo aqui no blog é mais simples que o problema dele. 
+Veja que esse algoritmo é ligeiramente diferente do algoritmo do Bianchi em alguns pontos - e porque o problema que eu estou resolvendo aqui no blog é mais simples que o problema dele. Eu vou usar preferências log, que geram como derivada $u'(c)=1/c$. Além disso eu vou adotar uma hipótese simplificadora de que a dotação só pode adotar 4 valores: 2,3,4,5, todos com a mesma probabilidade (0.25). Isso é porque nós vamos ter duas variáveis de estado, a quantidade de títulos e a renda no período - já que um pedaço fundamental do problema é a restrição de endividamento, que depende da renda. Vamos ao algoritmo em si:
+
+```
+
+beta = 0.96
+r = 0.04
+sigma = 2
+kappa = 0.32
+
+bond_grid_size = 200
+y_grid_size = length(2:5)
+
+y_grid = collect(2:5)
+dist = DiscreteUniform(2,5)
+prob = pdf.(dist,y_grid)
+
+uline(c) = 1/c
+
+iter = 50
+bond_grid = range(-1.8,2,length=bond_grid_size)
+
+cons = zeros(iter,bond_grid_size,y_grid_size)
+cons[1,:,:] = [bonds + ys for bonds in bond_grid, ys in y_grid] #consome tudo o que tem hoje
+
+i=2
+err = 1  
+
+#o algoritmo em si
+
+while i <=iter&&err>1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+    foo_c = LinearInterpolation((bond_grid,y_grid),cons[i-1,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
+    for k in 1:y_grid_size
+        b_aux = -kappa*y_grid[k] #o maximo de endividamento
+        for j in 1:bond_grid_size
+            c_aux = (1+r)*bond_grid[j] + y_grid[k] - b_aux # o consumo no máximo de endividamento
+            teste = uline(c_aux) - beta*(1+r)*prob'*uline.(foo_c(b_aux,y_grid)) #aqui é o teste da etapa 3 do algoritmo
+            if teste > 0 #eis a etapa 3
+                cons[i,j,k] = max(c_aux,0)
+            else
+                function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
+                    bb = (1+r)*bond_grid[j] + y_grid[k] -c
+                    uline(c) - beta*(1+r)*prob'*uline.(foo_c(bb,y_grid))
+                end
+                cons[i,j,k] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + y_grid[k]+1)[1] #busca por um zero na equação de Euler e salva o valor que zera
+            end
+        end
+    end
+    global err = maximum(abs.(cons[i,:,:]-cons[i-1,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
+    println("iteration",i,"error",err) #só nos informa da evolução do algoritmo
+    global i = i+1
+end
+```
+Vamos ver como é a função consumo na última iteração:
+
+![](/post/Prog_dinamica/cons_rest_endiv.png)
+
+Veja que tem uma quebra ao redor do zero para o caso em que a dotação é mais baixa (y=2) e uma quebra parecida, mas bem mais a esquerda no caso y=3. 
+
+Um gráfico interessante que o Bianchi faz é ver como os títulos do próximo período dependem da quantidade de títulos hoje. Podemos fazer isso para cada nível de renda, mas é mais interessante para o valor mais baixo.
+
+![](/post/Prog_dinamica/bonds_next.png)
+
+Veja que podemos ver exatamente os valores de título em que a restrição de endividamento está ativa. 

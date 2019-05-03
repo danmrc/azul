@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Time Domain Iteration: mais programação dinâmica &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -47,8 +47,8 @@
                     </h1>
                     <h2 class="headline">
                     May 1, 2019 00:00
-                    · 1246 words
-                    · 6 minute read
+                    · 1885 words
+                    · 9 minute read
                       <span class="tags">
                       
                       
@@ -146,10 +146,79 @@ b_{t+1} &gt; -\kappa w_t \quad (3)\]</span></p>
 <p>A ideia de como adaptar o algoritmo e o formato da restrição foram retirados de (um pedaço) da tese de doutorado do <a href="http://www.javierbianchi.com/uploads/8/8/5/8/8858198/overborrowing.pdf">Javier Bianchi</a>. Lá ele apresenta uma justificativa para a restrição de envidamento como (3): se o sujeito “der o calote”, devido as leis, o credor só consegue obter uma fração <span class="math inline">\(\kappa\)</span> do que devedor obtém .Para entender o algoritmo, vamos reescrever a equação (2) acima para colocar a <span class="math inline">\(c_t\)</span> em evidência e substituir no <span class="math inline">\(c_t\)</span> dentro da utilidade e reescrever tudo como um lagrangeano, obtendo:</p>
 <p><span class="math display">\[\mathcal{L} = \sum_{t=0}^{\infty} \beta^{t} u((1+r)b_t + w_t - b_{t+1}) +\lambda_t(b_{t+1} + \kappa w_t)\]</span></p>
 <p>A única variável de controle é <span class="math inline">\(b_{t+1}\)</span> e <span class="math inline">\(\lambda_t &gt; 0\)</span> fica claro que na condição de primeira ordem vai ser:</p>
-<p><span class="math display">\[-u(c_t) + (1+r)\beta u(c_{t+1}) +\lambda_t\]</span></p>
+<p><span class="math display">\[-u(c_t) + (1+r)\beta u(c_{t+1}) +\lambda_t = 0\]</span></p>
 <p>Veja que, quando temos uma restrição em desigualdade, o seguinte tem que sempre valer:</p>
 <p><span class="math display">\[\lambda_t(b_{t+1} + \kappa w_t) = 0\]</span></p>
-<p>Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo entre parenteses é igual a 0; ou o multiplicador de la grange é igual a zero e a restrição não está ativa. Veja que juntando esse último fato com a condição de primeira ordem para este problema,</p>
+<p>Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo entre parenteses é igual a 0; ou o multiplicador de la grange é igual a zero e a restrição não está ativa. Veja que juntando esse último fato com a condição de primeira ordem para este problema, nós temos que se a restrição de endividamento valer, então <span class="math inline">\(-u(c_t) + (1+r)\beta u(c_{t+1}) &gt;0\)</span>. E se a condição não valer, então <span class="math inline">\(\lambda_t = 0\)</span> e a equação fica <span class="math inline">\(-u(c_t) + (1+r)\beta u(c_{t+1}) = 0\)</span>. Isso nós dá uma maneira fácil de checar se a restrição está ativa ou não: veja se a equação de Euler vale com desigualdade. Se sim, estamos no caso em que a restrição está ativa. Senão, procedemos normalmente. Vamos escrever o passo a passo do algoritmo. Lembre-se sempre que começamos dando algum chute inicial para o formato da função consumo e temos que definir um grid para os valores do título e do salário, que são as nossas variáveis de estado:</p>
+<ol style="list-style-type: decimal">
+<li>Compute qual é o máximo de dívida disponível para esse período usando a equação (3)</li>
+<li>Compute o quanto vai ser consumido se o agente pegar o máximo de dívida disponível usando o valor do passo anterior e (2). Chame esse valor de <span class="math inline">\(c_{max}\)</span>.</li>
+<li>Compute o valor de <span class="math inline">\(-u(c_{max}) + (1+r)\beta E(u(c(b_{t+1})))\)</span>. Se o valor for maior que 0, pule para o item 5</li>
+<li>Encontre o valor que faz com que <span class="math inline">\(-u(c_t) + (1+r)\beta u(c(b_{t+1})) = 0\)</span>.</li>
+<li>Salve o valor de <span class="math inline">\(c_t\)</span></li>
+<li>Proceda até convergência</li>
+</ol>
+<p>Veja que esse algoritmo é ligeiramente diferente do algoritmo do Bianchi em alguns pontos - e porque o problema que eu estou resolvendo aqui no blog é mais simples que o problema dele. Eu vou usar preferências log, que geram como derivada <span class="math inline">\(u&#39;(c)=1/c\)</span>. Além disso eu vou adotar uma hipótese simplificadora de que a dotação só pode adotar 4 valores: 2,3,4,5, todos com a mesma probabilidade (0.25). Isso é porque nós vamos ter duas variáveis de estado, a quantidade de títulos e a renda no período - já que um pedaço fundamental do problema é a restrição de endividamento, que depende da renda. Vamos ao algoritmo em si:</p>
+<pre><code>
+beta = 0.96
+r = 0.04
+sigma = 2
+kappa = 0.32
+
+bond_grid_size = 200
+y_grid_size = length(2:5)
+
+y_grid = collect(2:5)
+dist = DiscreteUniform(2,5)
+prob = pdf.(dist,y_grid)
+
+uline(c) = 1/c
+
+iter = 50
+bond_grid = range(-1.8,2,length=bond_grid_size)
+
+cons = zeros(iter,bond_grid_size,y_grid_size)
+cons[1,:,:] = [bonds + ys for bonds in bond_grid, ys in y_grid] #consome tudo o que tem hoje
+
+i=2
+err = 1  
+
+#o algoritmo em si
+
+while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+    foo_c = LinearInterpolation((bond_grid,y_grid),cons[i-1,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
+    for k in 1:y_grid_size
+        b_aux = -kappa*y_grid[k] #o maximo de endividamento
+        for j in 1:bond_grid_size
+            c_aux = (1+r)*bond_grid[j] + y_grid[k] - b_aux # o consumo no máximo de endividamento
+            teste = uline(c_aux) - beta*(1+r)*prob&#39;*uline.(foo_c(b_aux,y_grid)) #aqui é o teste da etapa 3 do algoritmo
+            if teste &gt; 0 #eis a etapa 3
+                cons[i,j,k] = max(c_aux,0)
+            else
+                function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
+                    bb = (1+r)*bond_grid[j] + y_grid[k] -c
+                    uline(c) - beta*(1+r)*prob&#39;*uline.(foo_c(bb,y_grid))
+                end
+                cons[i,j,k] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + y_grid[k]+1)[1] #busca por um zero na equação de Euler e salva o valor que zera
+            end
+        end
+    end
+    global err = maximum(abs.(cons[i,:,:]-cons[i-1,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
+    println(&quot;iteration&quot;,i,&quot;error&quot;,err) #só nos informa da evolução do algoritmo
+    global i = i+1
+end</code></pre>
+<p>Vamos ver como é a função consumo na última iteração:</p>
+<div class="figure">
+<img src="/post/Prog_dinamica/cons_rest_endiv.png" />
+
+</div>
+<p>Veja que tem uma quebra ao redor do zero para o caso em que a dotação é mais baixa (y=2) e uma quebra parecida, mas bem mais a esquerda no caso y=3.</p>
+<p>Um gráfico interessante que o Bianchi faz é ver como os títulos do próximo período dependem da quantidade de títulos hoje. Podemos fazer isso para cada nível de renda, mas é mais interessante para o valor mais baixo.</p>
+<div class="figure">
+<img src="/post/Prog_dinamica/bonds_next.png" />
+
+</div>
+<p>Veja que podemos ver exatamente os valores de título em que a restrição de endividamento está ativa.</p>
 
                 </section>
             </article>

@@ -6,10 +6,21 @@
     <description>Recent content in Machine Learning on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sat, 20 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
+      <link>/2019/05/02/lasso-adaptativo/</link>
+      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/02/lasso-adaptativo/</guid>
+      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
+\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
+(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
+    </item>
     
     <item>
       <title>Uma introdução à Cross Validation</title>
@@ -22,24 +33,13 @@ A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em 
     </item>
     
     <item>
-      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
-      <link>/2019/04/11/lasso-adaptativo/</link>
-      <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/11/lasso-adaptativo/</guid>
-      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
-\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
-(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
-    </item>
-    
-    <item>
       <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
       <link>/2019/02/23/prouni-rf-svm/</link>
       <pubDate>Sat, 23 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/02/23/prouni-rf-svm/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines. Vou explicar breve e simplesmente o que são/ como funcionam essas duas técnicas e depois estimar tudo.
-Random ForestsPrimeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</description>
+Random Forests Primeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</description>
     </item>
     
   </channel>

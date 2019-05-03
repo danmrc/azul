@@ -6,10 +6,21 @@
     <description>Recent content in Econometria on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 28 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/econometria/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
+      <link>/2019/05/02/lasso-adaptativo/</link>
+      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/02/lasso-adaptativo/</guid>
+      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
+\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
+(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
+    </item>
     
     <item>
       <title>Será que Investimento Público é tudo isso? Estimando VARs no R</title>
@@ -28,17 +39,6 @@
       <guid>/2019/04/28/central-limit-theorem-r/</guid>
       <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Não é exagero dizer que sem ele não teríamos Econometria. E como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências.
 Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
-    </item>
-    
-    <item>
-      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
-      <link>/2019/04/11/lasso-adaptativo/</link>
-      <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/11/lasso-adaptativo/</guid>
-      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
-\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
-(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
     </item>
     
     <item>
