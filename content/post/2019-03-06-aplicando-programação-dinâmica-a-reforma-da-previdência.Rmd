@@ -1,15 +1,15 @@
 ---
-title: Aplicando Programação Dinâmica à Reforma da Previdência
-author: Daniel Coutinho
+title: "Aplicando Programação Dinâmica à Reforma da Previdência"
+author: "Daniel Coutinho"
 date: '2019-03-06'
 slug: aplicando-programação-dinâmica-a-reforma-da-previdência
-categories:
-  - Programação Dinâmica
-  - Julia
-  - Computação
 tags:
-  - Reforma da Previdência
-  - Modelo de Ciclo de Vida
+- Reforma da Previdência
+- Modelo de Ciclo de Vida
+categories:
+- Programação Dinâmica
+- Julia
+- Computação
 ---
 
 *Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava $\beta$ e não $\beta^t$. Se tratava de um typo. Agradeço a Marcelo Moraes pela observação*
