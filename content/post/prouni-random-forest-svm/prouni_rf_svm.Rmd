@@ -1,7 +1,7 @@
 ---
 title: "Classificando cursos no ProUni com Random Forest"
 author: "Pedro Cavalcante"
-date: '2019-05-23'
+date: '2019-05-07'
 output:
   html_document:
     self_contained: FALSE
@@ -36,7 +36,7 @@ O artigo seminal, com uma exposição mais detalhada é [Breiman (2001)](https:/
 
 # Rodando Random Forests
 
-Agora que vamos à prática, aviso logo que vou omitir a análise exploratória dos dados. Já fiz isso aqui no [primeiro post em que usei esses dados](). Vamos usar o pacote ``randomForest``, que implementa os algoritmos de Breiman em R, para estimar nossas árvores, selecionar variáveis e fazer validação cruzada - um procedimento muito bem explicado [neste post do Daniel](). Vou definir a semente $1234$ que uso sempre. Prometo em outro post falar de sementes aleatórias, escolha e manipulação delas. Se você não é familiarizao com definição de sementes, não se preocupe, não vai fazer falta.
+Agora que vamos à prática, aviso logo que vou omitir a análise exploratória dos dados. Já fiz isso aqui no [primeiro post em que usei esses dados](https://azul.netlify.com/2018/08/11/prouni-clustering/). Vamos usar o pacote ``randomForest``, que implementa os algoritmos de Breiman em R, para estimar nossas árvores, selecionar variáveis e fazer validação cruzada - um procedimento muito bem explicado [neste post do Daniel](https://azul.netlify.com/2019/04/20/cross-validation/). Vou definir a semente $1234$ que uso sempre. Prometo em outro post falar de sementes aleatórias, escolha e manipulação delas. Se você não é familiarizao com definição de sementes, não se preocupe, não vai fazer falta.
 
 ```{R, echo = FALSE}
 prouni = readRDS("prouni_limpo.Rds")
@@ -79,7 +79,9 @@ resultadosRF = vector()
 
 tic("Estimando")
 for(i in 1:n) {
-
+  
+set.seed(i) # usamos sementes variadas para escolher subconjuntos diferentes dos dados
+  
 prouni$index = sample(2, 
                      nrow(prouni), 
                      replace = TRUE,
@@ -87,7 +89,6 @@ prouni$index = sample(2,
 
 sample = prouni[prouni$index == 1,] # grupo 1 será o grupo in-sample
 out.sample = prouni[prouni$index == 2,] # grupo 2 será o out-of-sample
-
 
 floresta = randomForest(medicina ~ mensalidade + nota + vagas + uf,
                         data = sample, 

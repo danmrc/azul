@@ -1,40 +1,338 @@
----
-title: "Usando Random Forest e SVMs para classificar cursos no ProUni"
-author: "Pedro Cavalcante"
-date: '2019-02-23'
-output:
-  html_document:
-    self_contained: FALSE
-draft: TRUE
-katex: TRUE
-categories:
-- R
-- Economia da Educação
-- Machine Learning
-slug: prouni-rf-svm
-tags:
-- Random Forest
-- SVM
-authors: ["pedrocava"]
----
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Pedro Cavalcante" />
+
+<meta name="date" content="2019-05-07" />
+
+<title>Classificando cursos no ProUni com Random Forest</title>
+
+<script src="prouni_rf_svm_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="prouni_rf_svm_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="prouni_rf_svm_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="prouni_rf_svm_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="prouni_rf_svm_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="prouni_rf_svm_files/navigation-1.1/tabsets.js"></script>
+<link href="prouni_rf_svm_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="prouni_rf_svm_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
 
 
 
-<p>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering <span class="math inline">\(k\)</span>-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines. Vou explicar breve e simplesmente o que são/ como funcionam essas duas técnicas e depois estimar tudo.</p>
-<div id="random-forests" class="section level1">
-<h1>Random Forests</h1>
-<p>Primeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação. Quem já teve algum contato com teoria dos grafos e estudou Árvores também deve conhecer isso de alguma maneira.</p>
-<p>Cada nodo representa um teste lógico que retorna algo como verdadeiro/falso, maior/menor/igual ou algum tipo de controle de fluxo. É um objeto bem flexível, útil tanto para criar algum esquema de decisão quanto classificar observações. Treinar uma árvore de decisão é essencialmente testar regras e aglutina-las.</p>
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Classificando cursos no ProUni com Random Forest</h1>
+<h4 class="author">Pedro Cavalcante</h4>
+<h4 class="date">2019-05-07</h4>
+
+</div>
+
+
+<p>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering <span class="math inline">\(k\)</span>-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.</p>
+<p>Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa. Também não vou falar em decisão dos hiperparâmetros do modelo, porque acho que esse assunto merece um post próprio.</p>
+<div id="arvore-de-decisao" class="section level1">
+<h1>Árvore de Decisão</h1>
+<p>Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação. Quem já teve algum contato com teoria dos grafos e estudou Árvores também deve conhecer isso de alguma maneira.</p>
+<p>Cada vértice representa um teste lógico que retorna algo como verdadeiro/falso, maior/menor/igual ou algum tipo de controle de fluxo. É um objeto bem flexível, útil tanto para criar algum esquema de decisão quanto classificar observações. Treinar uma árvore de decisão é essencialmente testar regras, heurísticas.</p>
 <div class="figure">
-<img src="https://cdn-images-1.medium.com/max/1200/0*Yclq0kqMAwCQcIV_.jpg" alt="Exemplo de Árvore de Decisão" />
+<img src="https://cdn-images-1.medium.com/max/1200/0*Yclq0kqMAwCQcIV_.jpg" alt="“Exemplo de Árvore de Decisão”" />
 <p class="caption">“Exemplo de Árvore de Decisão”</p>
 </div>
-<p>O que uma Random Forest faz é treinar <em>várias</em> árvores de decisão diferentes e ponderar os vários diagnósticos. Isso é tão amplo que podemos rodar regressões ou um algoritimo de classificação com a mesma técnica.</p>
-<p>Eu quero ser breve aqui então deixo uma explicação mais detalhada: <a href="https://www.stat.berkeley.edu/~breiman/randomforest2001.pdf">Breiman (2001)</a>.</p>
+<p>O que uma Random Forest faz é treinar <em>várias</em> árvores de decisão diferentes com subconjuntos aleatórios das variáveis explicativas. Tendo várias árvores de decisão treinadas em subconjuntos aleatórios, a <em>floresta</em> resultante devolve uma ponderação dos vários resultados. Isso abre novas fronteiras de flexbilidade e capa sutilezas e não-linearidades nos dados que <span class="math inline">\(k\)</span>-means e probits não captariam. Mais ainda, permite avaliar a <em>importância</em> das variáveis explicativas com noções diferentes de significância estatística. Basta avaliar em quantos nodos que usam uma certa explicativa reduzem o erro da floresta.</p>
+<p>O artigo seminal, com uma exposição mais detalhada é <a href="https://www.stat.berkeley.edu/~breiman/randomforest2001.pdf">Breiman (2001)</a>.</p>
 </div>
-<div id="support-vector-machines" class="section level1">
-<h1>Support Vector Machines</h1>
+<div id="rodando-random-forests" class="section level1">
+<h1>Rodando Random Forests</h1>
+<p>Agora que vamos à prática, aviso logo que vou omitir a análise exploratória dos dados. Já fiz isso aqui no <a href="https://azul.netlify.com/2018/08/11/prouni-clustering/">primeiro post em que usei esses dados</a>. Vamos usar o pacote <code>randomForest</code>, que implementa os algoritmos de Breiman em R, para estimar nossas árvores, selecionar variáveis e fazer validação cruzada - um procedimento muito bem explicado <a href="https://azul.netlify.com/2019/04/20/cross-validation/">neste post do Daniel</a>. Vou definir a semente <span class="math inline">\(1234\)</span> que uso sempre. Prometo em outro post falar de sementes aleatórias, escolha e manipulação delas. Se você não é familiarizao com definição de sementes, não se preocupe, não vai fazer falta.</p>
+<pre class="r"><code>library(randomForest)
+library(tictoc)
+set.seed(1234)
+
+head(prouni)</code></pre>
+<pre><code>##   mensalidade     medicina   nota vagas uf
+## 1     9999.99     Medicina 740.22    29 MS
+## 2     9836.40 Não-Medicina 663.36     1 CE
+## 3     9715.61     Medicina 739.62    23 SP
+## 4     9689.34 Não-Medicina 651.00     5 CE
+## 5     9674.34     Medicina 758.32    12 AC
+## 6     9650.00     Medicina 738.92    23 SP
+##                                         uni
+## 1         Universidade Anhanguera - UNIDERP
+## 2         Faculdade Princesa do Oeste - FPO
+## 3 Universidade Cidade de São Paulo - UNICID
+## 4         Faculdade Princesa do Oeste - FPO
+## 5       Faculdade Barão do Rio Branco - FAB
+## 6  Universidade do Oeste Paulista - UNOESTE
+##                                                                     campus
+## 1                                       CAMPO GRANDE - SEDE - Miguel Couto
+## 2                                               UNIDADE SEDE - São Vicente
+## 3               UNIVERSIDADE CIDADE DE SÃO PAULO - UNICID - SEDE - Tatuapé
+## 4                                               UNIDADE SEDE - São Vicente
+## 5               CAMPUS  - RIO BRANCO - JARDIM EUROPA II - Jardim Europa II
+## 6 CAMPUS I  SEDE ADMINISTRATIVA PRESIDENTE PRUDENTE - Cidade Universitária
+##        curso
+## 1   Medicina
+## 2 Enfermagem
+## 3   Medicina
+## 4 Psicologia
+## 5   Medicina
+## 6   Medicina</code></pre>
+<p>Como queremos classificar cursos entre Medicina, explicativas não incluirão campus nem nome do curso. Tirei o nome do curso em particular porque a implementação do <code>randomForest</code> não lida com preditores categóricos com mais de 53 níveis e temos aproximadamente 215 cursos diferentes na base.</p>
+<p>Vamos agora rodar repetidas vezes o modelo em um subconjutno aleatório dos dados, que chamaremos de <em>in-sample</em> e com o modelo treinado testaremos a performance dele classificando o outro subconjunto dos dados, que chamaremos de <em>out-of-sample</em>. É sempre importante fazer esse tipo de teste para se proteger de overfitting e ter uma ideia da precisão do seu modelo.</p>
+<pre class="r"><code>n = 100 # número de validações
+resultadosRF = vector()
+
+tic(&quot;Estimando&quot;)
+for(i in 1:n) {
+  
+set.seed(i) # usamos sementes variadas para escolher subconjuntos diferentes dos dados
+  
+prouni$index = sample(2, 
+                     nrow(prouni), 
+                     replace = TRUE,
+                     prob = c(0.5, 0.5)) # atribuímos às observações um status de grupo 1 ou 2
+
+sample = prouni[prouni$index == 1,] # grupo 1 será o grupo in-sample
+out.sample = prouni[prouni$index == 2,] # grupo 2 será o out-of-sample
+
+floresta = randomForest(medicina ~ mensalidade + nota + vagas + uf,
+                        data = sample, 
+                        importance = TRUE) # estimamos a floresta
+
+out.sample$predicaoRF = predict(floresta, 
+                                out.sample,
+                                type = &quot;response&quot;) # com a floresta estimada prevemos o curso
+
+resultRF = as.vector(table(out.sample$medicina, out.sample$predicaoRF))
+resultadosRF[i] = resultRF[1]/(resultRF[1] + resultRF[2]) # uma espécie de taxa de acerto
+}
+toc()</code></pre>
+<pre><code>## Estimando: 333.327 sec elapsed</code></pre>
+<pre class="r"><code>floresta #sumário da última floresta estimada</code></pre>
+<pre><code>## 
+## Call:
+##  randomForest(formula = medicina ~ mensalidade + nota + vagas +      uf, data = sample, importance = TRUE) 
+##                Type of random forest: classification
+##                      Number of trees: 500
+## No. of variables tried at each split: 2
+## 
+##         OOB estimate of  error rate: 0.01%
+## Confusion matrix:
+##              Medicina Não-Medicina  class.error
+## Medicina           59            0 0.000000e+00
+## Não-Medicina        1        16131 6.198859e-05</code></pre>
+<pre class="r"><code>mean(resultadosRF) # taxa média de acerto</code></pre>
+<pre><code>## [1] 0.9909667</code></pre>
+<p>Também podemos avaliar a importância das variáveis usando <code>randomForest::importance()</code> ou visualizar isso com <code>randomForest::varImpPlot()</code>. A métrica específica é diminuição média da acurácia classificatória da floresta.</p>
+<pre class="r"><code>varImpPlot(floresta) </code></pre>
+<p><img src="prouni_rf_svm_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>importance(floresta, 
+           type = 1,
+           scale = TRUE)</code></pre>
+<pre><code>##             MeanDecreaseAccuracy
+## mensalidade             45.92490
+## nota                    40.08904
+## vagas                   11.26562
+## uf                       4.72057</code></pre>
+<p>Eu juro que tentei achar maneiras claras e diretas de interpretar a importância das variáveis de uma Random Forest, mas pelo visto isso <em>não</em> existe. Achei alguns comentários legais sobre assunto <a href="https://stats.stackexchange.com/questions/197827/how-to-interpret-mean-decrease-in-accuracy-and-mean-decrease-gini-in-random-fore">nese post do CrossValidated</a> e aparentemente a melhor ideia é ler como utilidade, ordinalmente.</p>
 </div>
-<div id="rodando-tudo" class="section level1">
-<h1>Rodando tudo</h1>
+
+
+
+
 </div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
