@@ -1,200 +1,23 @@
-<!DOCTYPE html>
+---
+title: "Classificando cursos no ProUni com Random Forest"
+author: "Pedro Cavalcante"
+date: '2019-05-07'
+output:
+  html_document:
+    self_contained: FALSE
+draft: TRUE
+katex: TRUE
+categories:
+- R
+- Economia da Educação
+- Machine Learning
+slug: prouni-rf-classificacao
+tags:
+- Random Forest
+- Cross Validation
+authors: ["pedrocava"]
+---
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-
-<meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="pandoc" />
-
-
-<meta name="author" content="Pedro Cavalcante" />
-
-<meta name="date" content="2019-05-07" />
-
-<title>Classificando cursos no ProUni com Random Forest</title>
-
-<script src="prouni_rf_svm_files/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="prouni_rf_svm_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="prouni_rf_svm_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="prouni_rf_svm_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="prouni_rf_svm_files/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="prouni_rf_svm_files/navigation-1.1/tabsets.js"></script>
-<link href="prouni_rf_svm_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="prouni_rf_svm_files/highlightjs-9.12.0/highlight.js"></script>
-
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
-
-
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
-
-
-
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-  height: auto;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-summary {
-  display: list-item;
-}
-</style>
-
-
-
-<!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
-<!-- code folding -->
-
-
-
-
-</head>
-
-<body>
-
-
-<div class="container-fluid main-container">
-
-
-
-
-<div class="fluid-row" id="header">
-
-
-
-<h1 class="title toc-ignore">Classificando cursos no ProUni com Random Forest</h1>
-<h4 class="author">Pedro Cavalcante</h4>
-<h4 class="date">2019-05-07</h4>
-
-</div>
 
 
 <p>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering <span class="math inline">\(k\)</span>-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.</p>
@@ -276,7 +99,7 @@ resultRF = as.vector(table(out.sample$medicina, out.sample$predicaoRF))
 resultadosRF[i] = resultRF[1]/(resultRF[1] + resultRF[2]) # uma espécie de taxa de acerto
 }
 toc()</code></pre>
-<pre><code>## Estimando: 333.327 sec elapsed</code></pre>
+<pre><code>## Estimando: 335.348 sec elapsed</code></pre>
 <pre class="r"><code>floresta #sumário da última floresta estimada</code></pre>
 <pre><code>## 
 ## Call:
@@ -294,7 +117,7 @@ toc()</code></pre>
 <pre><code>## [1] 0.9909667</code></pre>
 <p>Também podemos avaliar a importância das variáveis usando <code>randomForest::importance()</code> ou visualizar isso com <code>randomForest::varImpPlot()</code>. A métrica específica é diminuição média da acurácia classificatória da floresta.</p>
 <pre class="r"><code>varImpPlot(floresta) </code></pre>
-<p><img src="prouni_rf_svm_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/prouni-random-forest-svm/prouni_rf_svm_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>importance(floresta, 
            type = 1,
            scale = TRUE)</code></pre>
@@ -305,34 +128,3 @@ toc()</code></pre>
 ## uf                       4.72057</code></pre>
 <p>Eu juro que tentei achar maneiras claras e diretas de interpretar a importância das variáveis de uma Random Forest, mas pelo visto isso <em>não</em> existe. Achei alguns comentários legais sobre assunto <a href="https://stats.stackexchange.com/questions/197827/how-to-interpret-mean-decrease-in-accuracy-and-mean-decrease-gini-in-random-fore">nese post do CrossValidated</a> e aparentemente a melhor ideia é ler como utilidade, ordinalmente.</p>
 </div>
-
-
-
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-
-</body>
-</html>

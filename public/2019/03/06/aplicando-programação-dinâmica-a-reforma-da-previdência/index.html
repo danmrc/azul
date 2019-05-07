@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.55.5" />
 		<title>Aplicando Programação Dinâmica à Reforma da Previdência &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -66,7 +66,10 @@
                   
                 
                 <section id="post-body">
-                    <p><em>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava <span class="math inline">\(\beta\)</span> e não <span class="math inline">\(\beta^t\)</span>. Se tratava de um typo. Agradeço a Marcelo Moraes pela observação</em></p>
+                    
+
+
+<p><em>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava <span class="math inline">\(\beta\)</span> e não <span class="math inline">\(\beta^t\)</span>. Se tratava de um typo. Agradeço a Marcelo Moraes pela observação</em></p>
 <p>Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em <a href="https://azul.netlify.com/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/">outras ocasiões</a>.</p>
 <p>Vamos pensar em um agente que recebe um salário <span class="math inline">\(\omega\)</span> e pode escolher poupar ou consumir. Ele sabe que em uma certa idade ele vai se aposentar e passar a receber uma aposentadoria <span class="math inline">\(s\)</span>. Qual a escolha ótima desse agente? Nós nos fizemos uma pergunta similar em posts anteriores e lá - como aqui - eu vou adotar algumas hipóteses simplificadoras (como de praxe):</p>
 <ul>
@@ -179,10 +182,7 @@ plot!(cons[85:-1:1], lab = &quot;Consumption&quot;)
 plot!(income[1:85], lab = &quot;Income&quot;)
 vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
 <p>Obtemos a seguinte imagem:</p>
-<div class="figure">
-<img src="/post/prev/exemplo.png" />
-
-</div>
+<p><img src="/post/prev/exemplo.png" /></p>
 <p>Várias coisas são interessantes nessa imagem e mostram como programação dinâmica formaliza a nossa intuição econômica:</p>
 <ol style="list-style-type: decimal">
 <li><p>O agente escolhe um nível de consumo que varia muito pouco ao longo da vida dele, apesar das largas variações na renda. Milton Friedman e Franco Modigliani são os “pais” dessa ideia, a hipótese de renda permanente</p></li>
@@ -190,18 +190,12 @@ vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
 <li><p>Também como consequência de (1), o agente poupa durante a vida de trabalho dele e despoupa na aposentadoria. Veja a inflexão dos ativos exatamente onde passa a linha de aposentadoria.</p></li>
 </ol>
 <p>Agora, podemos usar esse mesmo programa para nos perguntar como mudanças no esquema previdenciário afetam a decisão do agente. Por exemplo, o que acontece se eu mudar o valor que ele recebe aposentado para a média do que ele recebe na vida (5)? E para um valor maior, como 7? Nós vamos deixar o salário fixo em cada uma dessas simulações, ou seja, <em>usaremos exatamente os mesmos valores sorteados de salários que foram usados para gerar a imagem acima</em>. Assim, nós isolaremos o efeito de termos mudado apenas o valor pago na aposentadoria. Primeiro, como o consumo evolui para cada um dos casos:</p>
-<div class="figure">
-<img src="/post/prev/cons.png" />
-
-</div>
+<p><img src="/post/prev/cons.png" /></p>
 <p>Veja que até os 20 anos o consumo não é muito diferente entre os 3 processos. No processo em que <span class="math inline">\(s=7\)</span>, o que acontece é que o consumo <em>aumenta</em> depois da aposentadoria. Isso é uma consequência de nós impedirmos endividamento e termos colocado uma aposentadoria muito acima da média do salário ganho pelo agente. Veja que, em geral, o consumo durante a vida toda é maior quanto maior for a aposentadoria. Vamos ver os ativos:<br />
 <img src="/post/prev/assets.png" /></p>
 <p>Aqui a diferença entre os diferentes valores poupados aparece claramente. Veja que um agente que espera uma aposentadoria baixa poupa muito mais que um agente que espera uma aposentadoria na média que ele recebia durante o empregado. Veja que isso tem implicações diretas em desenvolvimento, por exemplo, onde uma poupança maior está associado a mais capital e mais produto no estado estacionário (como no modelo de Solow) ou pode servir para financiar investimento em capital humano.</p>
 <p>Outra maneira de vizualizar a mesma ideia é ver o consumo ótimo para cada nível de riqueza para cada um dos problemas. Eu escolhi um ponto arbitrário (a décima entrada em cada um deles, ou seja, faltando 10 anos para se aposentar) do tempo para comparar:</p>
-<div class="figure">
-<img src="/post/prev/otm_pol_comparada.png" />
-
-</div>
+<p><img src="/post/prev/otm_pol_comparada.png" /></p>
 <p>Veja que para valores maiores de <span class="math inline">\(s\)</span>, maior o nível de consumo dado a mesma riqueza. Veja que aqui o consumo ótimo depende da data que estamos olhando, ao contrário do problema em tempo infinito. Mas de forma geral as funções não mudam muito, e a imagem acima é bem representativa de se fossemos olhar período por período.</p>
 <div id="salarios-crescendo-no-tempo" class="section level2">
 <h2>Salários crescendo no tempo</h2>
@@ -209,10 +203,7 @@ vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
 <p>Eu vou adotar uma maneira curiosa, que vai envolver uma mudança de distribuição: a cada período o salário é distribuído usando uma <span class="math inline">\(Normal(\mu+\epsilon_t,\sigma)\)</span>, onde <span class="math inline">\(\epsilon_t\)</span> é um aumento determinístico da média. Eu uso a normal ao invés da Gama porque a variância da distribuição Gama depende dos dois paramêtros: aumentar a média assim aumentaria a variância. Eu vou definir <span class="math inline">\(\epsilon_t\)</span> de maneira que no último período a média seja 8, e vou colocar <span class="math inline">\(\mu = 5, \sigma = 1\)</span>. Isso coloca a probabilidade de um salário negativo virtualmente zero, já que exigiria mais de 5 desvios padrões para alcançarmos o zero. Veja que isso é equivalente a:</p>
 <p><span class="math display">\[\omega_t = \epsilon_t + \mu + \sigma z,\quad z \sim N(0,1)\]</span></p>
 <p>Eu escolho mudar direto na distribuição porque (a) eu testei inicialmente com a distribuição Gama onde a conta acima não é verdade (b) isso permite facilmente adicionar heterocedasticidade aos salários, o que eu não vou fazer. A animação abaixo (feita no Julia) mostra a ideia de como o salário vai mudar ao longo do tempo.</p>
-<div class="figure">
-<img src="/post/prev/teste.gif" />
-
-</div>
+<p><img src="/post/prev/teste.gif" /></p>
 <p>O código para estimar a melhor resposta nesse modelo muda apenas um pouco:</p>
 <pre><code>inc = range(0,stop=3,length=65) #esse é o epsilon_t da fórmula acima
 inc = inc[65:-1:1] #Lembrem que eu faço tudo de trás pra frente
@@ -270,26 +261,14 @@ for i in 65:-1:1
 end
 </code></pre>
 <p>E o resto do código envolve apenas mudar quais arrays serão preenchidas e desenhadas. Vamos ver a trajetória de consumo, ativo, e renda:</p>
-<div class="figure">
-<img src="/post/prev/sal_cresc.png" />
-
-</div>
+<p><img src="/post/prev/sal_cresc.png" /></p>
 <p>Veja que as principais características do problema se mantém. A trajetória dos ativos esconde quase toda a variação no consumo, então vamos fazer um gráfico sem os ativos:</p>
-<div class="figure">
-<img src="/post/prev/sal_cresc2.png" />
-
-</div>
+<p><img src="/post/prev/sal_cresc2.png" /></p>
 <p>Veja que o consumo cresce ao longo do tempo junto com os salários, outra vez resultado da limitação do endividamento. Veja que mesmo com um seguro desemprego baixissimo, o agente poupa o suficiente para manter o consumo inalterado comparado com o final da vida.</p>
 <p>Podemos fazer exercícios de estatíca comparativa e ver como o consumo e trajetória de acumulação de ativos se colocarmos uma aposentadoria maior (<span class="math inline">\(s=5\)</span>). Vamos começar fazendo o gráfico do consumo:</p>
-<div class="figure">
-<img src="/post/prev/cons2.png" />
-
-</div>
+<p><img src="/post/prev/cons2.png" /></p>
 <p>A diferença não é muito grande até por volta dos 40 anos, onde o consumo de quem tem uma aposentadoria maior fica maior do que o agente com aposentadoria <span class="math inline">\(s=1\)</span>. Vamos ver a trajetória dos ativos:</p>
-<div class="figure">
-<img src="/post/prev/asset2.png" />
-
-</div>
+<p><img src="/post/prev/asset2.png" /></p>
 <p>Assim como no caso i.i.d., a trajetória dos ativos dos os dois processos é a que mais chama atenção: o agente recebendo uma aposentadoria muito baixa poupa muito mais do que o agente que recebe aposentadoria alta.</p>
 <p>Previdência é um tema que se encaixa perfeitamente no arcabouço de programação dinâmica. A resposta matemática/computacional é coerente com a intuição econômica: benefícios de aposentadoria mais generosos geram menores incentivos a poupar. Os agentes vão procurar suavizar o consumo.</p>
 <p>Duas coisas ficaram faltando neste post: a primeira é permitir que o agente se endivide. Isso provavelmente terá repercuções no início da vida do agente, especialmente no caso em que o salário cresce ao longo do tempo: o agente vai querer suavizar o consumo tendo dívida hoje que serão pagas no futuro. Também faltou fazermos uma estática comparativa com a idade de aposentadoria: e se o agente vivesse 85 anos, mas só precisasse de 45 anos trabalhando para se aposentar? Quão brutal seriam as mudanças?</p>

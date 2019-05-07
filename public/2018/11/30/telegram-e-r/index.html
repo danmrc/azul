@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.55.5" />
 		<title>Integrando o Telegram e R &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -66,7 +66,10 @@
                   
                 
                 <section id="post-body">
-                    <p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por @azulblogbot na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
+                    
+
+
+<p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por @azulblogbot na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
 <p>O primeiro é criar um bot e unir ele com o R. Para isso, precisaremos do pacote <code>telegram.bot</code> no R. Segue o passo a passo que é uma tradução do post do R Bloggers:</p>
 <ul>
 <li>Procure o <span class="citation">@BotFather</span> no Telegram e digite /start e depois /newbot. Siga o passo a passo. No fim ele vai dar um token de acesso, que voce vai precisar e <em>não deve compartilhar com ninguém</em>.</li>
