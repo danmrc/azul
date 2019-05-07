@@ -117,4 +117,5 @@ importance(floresta,
            scale = TRUE)
 ```
 
+Eu juro que tentei achar maneiras claras e diretas de interpretar a importância das variáveis de uma Random Forest, mas pelo visto isso *não* existe. Achei alguns comentários legais sobre assunto [nese post do CrossValidated](https://stats.stackexchange.com/questions/197827/how-to-interpret-mean-decrease-in-accuracy-and-mean-decrease-gini-in-random-fore) e aparentemente a melhor ideia é ler como utilidade, ordinalmente.
 
