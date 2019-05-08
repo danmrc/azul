@@ -6,10 +6,23 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Tue, 07 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
+      <link>/2019/05/17/prouni-rf-classificacao/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/17/prouni-rf-classificacao/</guid>
+      <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
+blasndlikuasnidocsadv
+encher de coisas aqui
+set.seed(1234) n = 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
+library(tictoc) m = 10000000 n = 250 amostras = vector() tic(&amp;quot;sorteios&amp;quot;) for(i in 1:m) { set.seed(i) amostra = rbinom(n = n, size = 1, prob = .</description>
+    </item>
     
     <item>
       <title>Classificando cursos no ProUni com Random Forest</title>
@@ -236,7 +249,7 @@ Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais 
       
       <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
     </item>
     
     <item>

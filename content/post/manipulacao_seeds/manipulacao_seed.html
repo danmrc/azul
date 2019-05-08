@@ -1,0 +1,56 @@
+---
+title: "Manipulação de Sementes em Geradores Pseudoaleatórios"
+author: "Pedro Cavalcante"
+date: '2019-05-17'
+output:
+  html_document:
+    self_contained: FALSE
+draft: TRUE
+katex: TRUE
+categories:
+- R
+- Economia da Educação
+- Machine Learning
+slug: prouni-rf-classificacao
+tags:
+- PNG
+- Semestes Aleatórias
+authors: ["pedrocava"]
+---
+
+
+
+<p>Você já usou funções como <code>rnorm()</code>? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.</p>
+<p>blasndlikuasnidocsadv</p>
+<p>encher de coisas aqui</p>
+<pre class="r"><code>set.seed(1234)
+n = 5000
+
+amostra1 = rbinom(n= n,
+                  size = 1,
+                  prob = .5)
+
+mean(amostra1)</code></pre>
+<pre><code>## [1] 0.5014</code></pre>
+<p>Tivemos uma taxa de <code>0.5014</code>com a semente <span class="math inline">\(1234\)</span>. Como funciona com outras sementes?</p>
+<pre class="r"><code>library(tictoc)
+m = 10000000
+n = 250
+amostras = vector()
+
+tic(&quot;sorteios&quot;)
+for(i in 1:m) {
+  set.seed(i)
+  
+  amostra = rbinom(n = n,
+                   size = 1,
+                   prob = .5)
+  
+  amostras[i] = mean(amostra)
+    
+}
+toc()</code></pre>
+<pre><code>## sorteios: 276.345 sec elapsed</code></pre>
+<pre class="r"><code>summary(amostras)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.336   0.480   0.500   0.500   0.520   0.664</code></pre>

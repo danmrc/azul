@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Economia da Educação on AZUL</title>
+    <title>Economia Da Educação on AZUL</title>
     <link>/categories/economia-da-educa%C3%A7%C3%A3o/</link>
-    <description>Recent content in Economia da Educação on AZUL</description>
+    <description>Recent content in Economia Da Educação on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Tue, 07 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/economia-da-educa%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
+      <link>/2019/05/17/prouni-rf-classificacao/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/17/prouni-rf-classificacao/</guid>
+      <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
+blasndlikuasnidocsadv
+encher de coisas aqui
+set.seed(1234) n = 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
+library(tictoc) m = 10000000 n = 250 amostras = vector() tic(&amp;quot;sorteios&amp;quot;) for(i in 1:m) { set.seed(i) amostra = rbinom(n = n, size = 1, prob = .</description>
+    </item>
     
     <item>
       <title>Classificando cursos no ProUni com Random Forest</title>

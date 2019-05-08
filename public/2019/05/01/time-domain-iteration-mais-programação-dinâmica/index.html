@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.55.5" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Time Domain Iteration: mais programação dinâmica &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -47,8 +47,8 @@
                     </h1>
                     <h2 class="headline">
                     May 1, 2019 00:00
-                    · 1885 words
-                    · 9 minute read
+                    · 1993 words
+                    · 10 minute read
                       <span class="tags">
                       
                       
@@ -66,10 +66,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Em posts anteriores eu apresentei uma maneira de resolver o problema:</p>
+                    <p>Em posts anteriores eu apresentei uma maneira de resolver o problema:</p>
 <p><span class="math display">\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]</span></p>
 <p>O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de <em>Bellman Operator</em>, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de <em>value function iteration</em>, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</p>
 <p>No primeiro post da série eu dei a deixa que nós podiamos reescrever o problema usando La Grange e tirar as condições de primeira ordem e isso gerava um problema com infinitas variáveis a serem escolhidas, os valores de <span class="math inline">\(C_t\)</span> para cada período do tempo. Para deixar o problema bem concreto, vamos voltar ao problema que eu abordei originalmente, que eu repito aqui:</p>
@@ -87,12 +84,12 @@
 <ul>
 <li>Defina um grid para a variável de estado</li>
 <li>Comece com um chute inicial para como deve ser <span class="math inline">\(C_{t+1}\)</span> para cada valor da variável de estado</li>
-<li>Itere até convergência os seguintes passos:</li>
-</ul>
+<li>Itere até convergência os seguintes passos:
 <ol style="list-style-type: decimal">
 <li>Para cada valor da variável de estado, encontre o valor de <span class="math inline">\(C_t\)</span> que faz <span class="math inline">\(u&#39;(C_t) - \beta u&#39;(C_{t+1})(1-\delta+y_t&#39;(k_{t+1})) = 0\)</span></li>
-<li>Estabeleça uma nova função que relaciona a variável de estado a $C_{t+1}, baseado no valor que maximiza <span class="math inline">\(C_t\)</span> na iteração anterior</li>
-</ol>
+<li>Estabeleça uma nova função que relaciona a variável de estado a <span class="math inline">\(C_{t+1}\)</span>, baseado no valor que maximiza <span class="math inline">\(C_t\)</span> na iteração anterior</li>
+</ol></li>
+</ul>
 <p>Veja que a ideia aqui é basicamente “operar” usando os mesmos valores que resolvem a condição de primeira ordem para sempre. Uma solução do problema é alcançada quando <span class="math inline">\(C_t = C_{t+1}\)</span>. Por incrível que possa parecer, é mais uma aplicação do <a href="https://azul.netlify.com/2018/10/31/banach/">teorema de ponto fixo que o Pedro descreveu faz um tempo aqui no blog</a>.</p>
 <p>Veja que para o caso onde <span class="math inline">\(\delta = 1\)</span>, <span class="math inline">\(u(C_t) = \ln(C_t)\)</span> e <span class="math inline">\(y_t = k_t ^\alpha\)</span>, o problema tem solução analítica. O código que implementa o problema e resolve no Julia segue abaixo:</p>
 <pre><code>
@@ -132,31 +129,25 @@ for i in 2:iter
 end
 </code></pre>
 <p>Observe que meu chute inicial é “consuma tudo o que foi produzido”, que é um chute factível mas improvável de ser a verdadeira política ótima. Veja ainda que eu coloquei apenas 15 iterações do algoritmo, um número extremamente baixo - especialmente se considerarmos que a solução analítica do problema é não linear na variável de estado, já que <span class="math inline">\(c_t = (1-\alpha \beta) y_t = (1-\alpha \beta) k_t^\alpha\)</span>. Vamos ver qual a diferença entre a solução numérica e a analítica:</p>
-<div class="figure">
-<img src="/post/Prog_dinamica/conv_time_iteration.png" />
-
-</div>
+<p><img src="/post/Prog_dinamica/conv_time_iteration.png" /></p>
 <p>A olho nu, os dois são indistiguíveis. Vamos ver o que acontece quando usamos apenas 15 iterações do método da função valor. O gráfico a seguir apresenta a diferença entre os valores da regra de decisão analítica para cada um dos métodos de resolução:</p>
-<div class="figure">
-<img src="/post/Prog_dinamica/difs_metodos2.png" />
-
-</div>
+<p><img src="/post/Prog_dinamica/difs_metodos2.png" /></p>
 <p>As diferenças são pequenas (0,01), mas veja que a diferença usando a <em>time iteration</em> é totalmente fora de escala com o método de <em>value function iteration</em>. O método apresento neste post tem ganhos claros sobre o método anterior, apesar de ser uma variação extremamente simples.</p>
 <p>Mais existe uma razão extra para eu achar esse método interessante (e na verdade a razão pela qual eu aprendi ele em primeiro lugar): é fácil adaptar ele para situações na qual algumas vezes temos uma restrição que está ativa e em outras situações não. O exemplo simples disso requer um problema diferente que eu já ataquei aqui com programação dinâmica: suponha que, ao invés do agente ter acesso a uma tecnologia de produção que usa capital, ele recebe um salário, <span class="math inline">\(w_t\)</span>, que segue um processo aleatório (possivelmente até dependente no tempo!). O agente pode cobrar um único ativo, que paga uma taxa de juros fixa,<span class="math inline">\(r\)</span>. Além da restrição orçamentária, o agente também tem uma restrição a se endividar: às vezes o agente pode estar excessivamente endividado e a restrição a endividamento estar ativa; outras vezes o agente pode ter riqueza o suficiente que a restrição não esteja ativa. Eu vou escrever o problema formalmente matematicamente:</p>
 <p><span class="math display">\[\max_{\{c_t,b_{t+1}\}_t} \sum_{t=0}^{\infty} \beta^{t} u(c_t) \text{ sujeito a}\\
 (1+r)b_t + w_t = b_{t+1} + c_t \quad (2)\\
 b_{t+1} &gt; -\kappa w_t \quad (3)\]</span></p>
 <p>A ideia de como adaptar o algoritmo e o formato da restrição foram retirados de (um pedaço) da tese de doutorado do <a href="http://www.javierbianchi.com/uploads/8/8/5/8/8858198/overborrowing.pdf">Javier Bianchi</a>. Lá ele apresenta uma justificativa para a restrição de envidamento como (3): se o sujeito “der o calote”, devido as leis, o credor só consegue obter uma fração <span class="math inline">\(\kappa\)</span> do que devedor obtém .Para entender o algoritmo, vamos reescrever a equação (2) acima para colocar a <span class="math inline">\(c_t\)</span> em evidência e substituir no <span class="math inline">\(c_t\)</span> dentro da utilidade e reescrever tudo como um lagrangeano, obtendo:</p>
-<p><span class="math display">\[\mathcal{L} = \sum_{t=0}^{\infty} \beta^{t} u((1+r)b_t + w_t - b_{t+1}) +\lambda_t(b_{t+1} + \kappa w_t)\]</span></p>
+<p><span class="math display">\[\mathcal{L} = \sum_{t=0}^{\infty} \beta^{t} u((1+r)b_t + w_t - b_{t+1}) -mu_t(-b_{t+1} - \kappa w_t)\]</span></p>
 <p>A única variável de controle é <span class="math inline">\(b_{t+1}\)</span> e <span class="math inline">\(\lambda_t &gt; 0\)</span> fica claro que na condição de primeira ordem vai ser:</p>
-<p><span class="math display">\[-u(c_t) + (1+r)\beta u(c_{t+1}) +\lambda_t = 0\]</span></p>
+<p><span class="math display">\[-u(c_t) + (1+r)\beta u(c_{t+1}) +\mu_t = 0 \therefore \mu_t = u(c_t) - (1+r)\beta u(c_{t+1})\]</span></p>
 <p>Veja que, quando temos uma restrição em desigualdade, o seguinte tem que sempre valer:</p>
-<p><span class="math display">\[\lambda_t(b_{t+1} + \kappa w_t) = 0\]</span></p>
-<p>Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo entre parenteses é igual a 0; ou o multiplicador de la grange é igual a zero e a restrição não está ativa. Veja que juntando esse último fato com a condição de primeira ordem para este problema, nós temos que se a restrição de endividamento valer, então <span class="math inline">\(-u(c_t) + (1+r)\beta u(c_{t+1}) &gt;0\)</span>. E se a condição não valer, então <span class="math inline">\(\lambda_t = 0\)</span> e a equação fica <span class="math inline">\(-u(c_t) + (1+r)\beta u(c_{t+1}) = 0\)</span>. Isso nós dá uma maneira fácil de checar se a restrição está ativa ou não: veja se a equação de Euler vale com desigualdade. Se sim, estamos no caso em que a restrição está ativa. Senão, procedemos normalmente. Vamos escrever o passo a passo do algoritmo. Lembre-se sempre que começamos dando algum chute inicial para o formato da função consumo e temos que definir um grid para os valores do título e do salário, que são as nossas variáveis de estado:</p>
+<p><span class="math display">\[\mu_t(b_{t+1} + \kappa w_t) = 0\]</span></p>
+<p>Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo entre parenteses é igual a 0; ou o multiplicador de la grange é igual a zero e a restrição não está ativa. Veja que juntando esse último fato com a condição de primeira ordem para este problema, nós temos que se a restrição de endividamento valer, então <span class="math inline">\(u(c_t) - (1+r)\beta u(c_{t+1}) &gt;0\)</span>. E se a condição não valer, então <span class="math inline">\(\lambda_t = 0\)</span> e a equação fica <span class="math inline">\(u(c_t) - (1+r)\beta u(c_{t+1}) = 0\)</span>. Isso nós dá uma maneira fácil de checar se a restrição está ativa ou não: veja se a equação de Euler vale com desigualdade. Se sim, estamos no caso em que a restrição está ativa. Senão, procedemos normalmente. Vamos escrever o passo a passo do algoritmo. Lembre-se sempre que começamos dando algum chute inicial para o formato da função consumo e temos que definir um grid para os valores do título e do salário, que são as nossas variáveis de estado:</p>
 <ol style="list-style-type: decimal">
-<li>Compute qual é o máximo de dívida disponível para esse período usando a equação (3)</li>
+<li>Compute qual é o máximo de dívida disponível para esse período usando a equação (3). Esse valor vai ser <span class="math inline">\(b_{max}\)</span></li>
 <li>Compute o quanto vai ser consumido se o agente pegar o máximo de dívida disponível usando o valor do passo anterior e (2). Chame esse valor de <span class="math inline">\(c_{max}\)</span>.</li>
-<li>Compute o valor de <span class="math inline">\(-u(c_{max}) + (1+r)\beta E(u(c(b_{t+1})))\)</span>. Se o valor for maior que 0, pule para o item 5</li>
+<li>Compute o valor de <span class="math inline">\(u(c_{max}) - (1+r)\beta E(u(c(b_{max})))\)</span>. Se o valor for maior que 0, pule para o item 5</li>
 <li>Encontre o valor que faz com que <span class="math inline">\(-u(c_t) + (1+r)\beta u(c(b_{t+1})) = 0\)</span>.</li>
 <li>Salve o valor de <span class="math inline">\(c_t\)</span></li>
 <li>Proceda até convergência</li>
@@ -188,7 +179,7 @@ err = 1
 
 #o algoritmo em si
 
-while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política for maior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
     foo_c = LinearInterpolation((bond_grid,y_grid),cons[i-1,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
     for k in 1:y_grid_size
         b_aux = -kappa*y_grid[k] #o maximo de endividamento
@@ -211,17 +202,12 @@ while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política f
     global i = i+1
 end</code></pre>
 <p>Vamos ver como é a função consumo na última iteração:</p>
-<div class="figure">
-<img src="/post/Prog_dinamica/cons_rest_endiv.png" />
-
-</div>
+<p><img src="/post/Prog_dinamica/cons_rest_endiv.png" /></p>
 <p>Veja que tem uma quebra ao redor do zero para o caso em que a dotação é mais baixa (y=2) e uma quebra parecida, mas bem mais a esquerda no caso y=3.</p>
 <p>Um gráfico interessante que o Bianchi faz é ver como os títulos do próximo período dependem da quantidade de títulos hoje. Podemos fazer isso para cada nível de renda, mas é mais interessante para o valor mais baixo.</p>
-<div class="figure">
-<img src="/post/Prog_dinamica/bonds_next.png" />
-
-</div>
-<p>Veja que podemos ver exatamente os valores de título em que a restrição de endividamento está ativa.</p>
+<p><img src="/post/Prog_dinamica/bonds_next.png" /></p>
+<p>Veja que podemos ver exatamente os valores de título em que a restrição de endividamento está ativa. O caso dele é mais interessante porque ele coloca dois bens e o preço de um deles depende do preço do ativo. Isso gera espaço para <em>fire sales</em>, o fenômeno em que o preço dos ativos cai, o que leva as pessoas a venderem o ativo para terem liquides e portanto o preço do ativo cai mais. Isso foi algo observado na crise de 2008 e que encontra uma modelagem formal usando exatamente o tipo de ferramenta desse post.</p>
+<p>(Mais um post que o Sargent escreveu antes de mim e melhor (obviamente), <a href="https://lectures.quantecon.org/jl/coleman_policy_iter.html.%20Imitação%20é%20a%20mais%20forma%20mais%20sincera%20de%20aprovação">mas em inglês</a></p>
 
                 </section>
             </article>

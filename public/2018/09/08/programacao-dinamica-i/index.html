@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.55.5" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Programação Dinâmica I &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -68,10 +68,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos. Formalmente, o problema é:</p>
+                    <p>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos. Formalmente, o problema é:</p>
 <p><span class="math display">\[ \max_{c} \sum_{t=1}^\infty \beta^{t}u(c_t) \text{ sujeito a } c_t = f(k_t)\]</span></p>
 <p>Onde <span class="math inline">\(u()\)</span> é uma função utilidade, <span class="math inline">\(\beta\)</span> é uma taxa de desconto. A variável <span class="math inline">\(c\)</span> é conhecida como variável de controle e a variável <span class="math inline">\(k\)</span> é a variável de estado. Ou seja, escolhemos um valor de <span class="math inline">\(c\)</span> (por isso controle) e isso define a variável <span class="math inline">\(k\)</span>. Eu usei as letras <span class="math inline">\(c\)</span> e <span class="math inline">\(k\)</span> de propósito para sugerir que o agente escolhe o consumo e isso impacta em um valor do capital amanhã. Nesse caso, a restrição seria da forma:</p>
 <p><span class="math display">\[k_{t+1} = (1-\delta)k_t+I_t\]</span></p>

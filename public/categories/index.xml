@@ -6,44 +6,16 @@
     <description>Recent content in Categories on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Tue, 07 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Economia da Educação</title>
-      <link>/categories/economia-da-educa%C3%A7%C3%A3o/</link>
-      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
+      <title>Clustering</title>
+      <link>/categories/clustering/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/economia-da-educa%C3%A7%C3%A3o/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine Learning</title>
-      <link>/categories/machine-learning/</link>
-      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/machine-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Econometria</title>
-      <link>/categories/econometria/</link>
-      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/econometria/</guid>
+      <guid>/categories/clustering/</guid>
       <description></description>
     </item>
     
@@ -57,6 +29,24 @@
     </item>
     
     <item>
+      <title>Curtas</title>
+      <link>/categories/curtas/</link>
+      <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/curtas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Econometria</title>
+      <link>/categories/econometria/</link>
+      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/econometria/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Economia</title>
       <link>/categories/economia/</link>
       <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
@@ -66,11 +56,11 @@
     </item>
     
     <item>
-      <title>Programação Dinâmica</title>
-      <link>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
-      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
+      <title>Economia Da Educação</title>
+      <link>/categories/economia-da-educa%C3%A7%C3%A3o/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>/categories/economia-da-educa%C3%A7%C3%A3o/</guid>
       <description></description>
     </item>
     
@@ -84,47 +74,11 @@
     </item>
     
     <item>
-      <title>Macroeconomia</title>
-      <link>/categories/macroeconomia/</link>
-      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
+      <title>Geral</title>
+      <link>/categories/geral/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/macroeconomia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Curtas</title>
-      <link>/categories/curtas/</link>
-      <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/curtas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Microeconomia</title>
-      <link>/categories/microeconomia/</link>
-      <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/microeconomia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Julia</title>
-      <link>/categories/julia/</link>
-      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/julia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Meta</title>
-      <link>/categories/meta/</link>
-      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/meta/</guid>
+      <guid>/categories/geral/</guid>
       <description></description>
     </item>
     
@@ -138,11 +92,29 @@
     </item>
     
     <item>
-      <title>Tutoriais</title>
-      <link>/categories/tutoriais/</link>
-      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      <title>Julia</title>
+      <link>/categories/julia/</link>
+      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/tutoriais/</guid>
+      <guid>/categories/julia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>/categories/machine-learning/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Macroeconomia</title>
+      <link>/categories/macroeconomia/</link>
+      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/macroeconomia/</guid>
       <description></description>
     </item>
     
@@ -156,29 +128,20 @@
     </item>
     
     <item>
-      <title>Séries Temporais</title>
-      <link>/categories/s%C3%A9ries-temporais/</link>
-      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      <title>Meta</title>
+      <link>/categories/meta/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/s%C3%A9ries-temporais/</guid>
+      <guid>/categories/meta/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Tutorial</title>
-      <link>/categories/tutorial/</link>
-      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
+      <title>Microeconomia</title>
+      <link>/categories/microeconomia/</link>
+      <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/tutorial/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Clustering</title>
-      <link>/categories/clustering/</link>
-      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/clustering/</guid>
+      <guid>/categories/microeconomia/</guid>
       <description></description>
     </item>
     
@@ -192,11 +155,47 @@
     </item>
     
     <item>
-      <title>Geral</title>
-      <link>/categories/geral/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      <title>Programação Dinâmica</title>
+      <link>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/geral/</guid>
+      <guid>/categories/programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/categories/r/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Séries Temporais</title>
+      <link>/categories/s%C3%A9ries-temporais/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/s%C3%A9ries-temporais/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutoriais</title>
+      <link>/categories/tutoriais/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/tutoriais/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorial</title>
+      <link>/categories/tutorial/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/tutorial/</guid>
       <description></description>
     </item>
     
