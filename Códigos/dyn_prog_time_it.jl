@@ -36,8 +36,8 @@ end
 maximum(abs.(c_val[:,14]-c_val[:,15]))
 
 true_pol(k) = (1-alpha*beta)*f(k)
-plot(k_grid,true_pol.(k_grid), lab = "Sol Analítica")
-plot!(k_grid,c_val[:,15], lab = "Sol Numérica" ,line =:dash)
+plot(k_grid,true_pol.(k_grid), lab = "Sol Analítica",w=2)
+plot!(k_grid,c_val[:,15], lab = "Sol Numérica" ,line =:dash,w=2)
 
 #### Só para comparar, vamos ver o mesmo caso com iteração na função valor e só 15 iterações
 
@@ -136,6 +136,8 @@ plot!(bond_grid,c_val[:,4,30], label = string("y=",round(yt_grid[4],digits=3)))
 
 # Caso em que temos uma restrição de endividamento
 #Eu implemento o caso em que a dotação segue um processo i.i.d. discreto
+
+#Parametros
 
 beta = 0.96
 r = 0.04
