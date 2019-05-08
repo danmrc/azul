@@ -1,0 +1,65 @@
+---
+title: "Manipulação de Sementes em Geradores Pseudoaleatórios"
+author: "Pedro Cavalcante"
+date: '2019-05-17'
+output:
+  html_document:
+    self_contained: FALSE
+draft: TRUE
+katex: TRUE
+categories:
+- R
+- Economia da Educação
+- Machine Learning
+slug: prouni-rf-classificacao
+tags:
+- PNG
+- Semestes Aleatórias
+authors: ["pedrocava"]
+---
+
+Você já usou funções como ``rnorm()``? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
+
+
+blasndlikuasnidocsadv
+
+encher de coisas aqui
+
+
+
+
+```{R}
+set.seed(1234)
+n = 5000
+
+amostra1 = rbinom(n= n,
+                  size = 1,
+                  prob = .5)
+
+mean(amostra1)
+```
+
+Tivemos uma taxa de ```r mean(amostra1)```com a semente $1234$. Como funciona com outras sementes? 
+
+```{R}
+library(tictoc)
+m = 10000000
+n = 250
+amostras = vector()
+
+tic("sorteios")
+for(i in 1:m) {
+  set.seed(i)
+  
+  amostra = rbinom(n = n,
+                   size = 1,
+                   prob = .5)
+  
+  amostras[i] = mean(amostra)
+    
+}
+toc()
+
+summary(amostras)
+```
+
