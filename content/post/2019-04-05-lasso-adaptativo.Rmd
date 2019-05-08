@@ -49,7 +49,7 @@ knitr::kable(tabela_final,caption = "Os valores estão em porcentagem")
 
 ```
 
-O LASSO sempre inclui as variáveis relevantes, e exclui as variáveis irrelevantes em 84% das vezes. Mesmo assim, a proporção de vezes que o LASSO consegue recuperar o modelo correto é um por volta de 1%. Isso parece esquisito a primeira vista, mas lembre que recuperar o modelo certo envolve *acertar todas as relevantes e todas as irrelevantes*. Se tivermos 50 variáveis e 500 replicações e em toda replicação o LASSO colocar apenas umas variável irrelevante no modelo, nós teríamos 98% de zeros certos ($49/50$) e exatamente 0 modelos certos.
+O LASSO sempre inclui as variáveis relevantes, e exclui as variáveis irrelevantes em 84% das vezes. Mesmo assim, a proporção de vezes que o LASSO consegue recuperar o modelo correto é por volta de 1%. Isso parece esquisito a primeira vista, mas lembre que recuperar o modelo certo envolve *acertar todas as relevantes e todas as irrelevantes*. Se tivermos 50 variáveis e 500 replicações e em toda replicação o LASSO colocar apenas umas variável irrelevante no modelo, nós teríamos 98% de zeros certos ($49/50$) e exatamente 0 modelos certos.
 
 Parte do problema é que o LASSO penaliza todos os coeficientes igualmente, usando o $\lambda$. Nós esperaríamos que algumas variáveis sejam mais importantes que outras - e isso pode vir a priori ou ser dito pelos dados. O LASSO adaptativo (adaLASSO) adiciona pesos ($\omega$) para cada uma das variáveis na penalidade. Logo o novo problema a ser resolvido é: 
 

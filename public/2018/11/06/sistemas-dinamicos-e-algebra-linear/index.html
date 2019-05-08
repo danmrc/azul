@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.55.5" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Sistemas Dinâmicos e Álgebra Linear &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -68,10 +68,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.</p>
+                    <p>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.</p>
 <p>Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo. Ele pode ser descrito como <span class="math inline">\(x_{t+1} = Ax_{t}\)</span>, onde <span class="math inline">\(x_t\)</span> é o vetor de interesse e <span class="math inline">\(A\)</span> é a matriz que governa como as variáveis se relacionam. Também precisamos de uma condição inicial <span class="math inline">\(x_0\)</span>. Veja que calcular o valor do sistema no tempo <span class="math inline">\(T\)</span> é equivalente a fazer <span class="math inline">\(A^{T} x_0\)</span>, onde <span class="math inline">\(A^{T} = A \times A \times A\)</span>, <span class="math inline">\(T\)</span> vezes.</p>
 <p>Já encontramos uma situação similar a essa em um post anterior, no qual eu falei de Autoregressão vetorial (VAR). Lá, estavamos interessados em recuperar a matriz A, e o nosso sistema tinha um choque aleatório <span class="math inline">\(\epsilon_t\)</span>. Nosso interesse hoje é saber quando o sistema é estável. Ser estável quer dizer que o sistema não explode, como é o caso do exemplo abaixo:</p>
 <pre class="r"><code>A &lt;- rbind(c(0.8,0.7),c(0.6,0.7))

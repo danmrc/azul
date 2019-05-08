@@ -10,20 +10,18 @@ tags:
   - Modelo de McCall
   - Economia do Trabalho
 draft: true
+katex: true
 ---
 
 
 
 <p><em>(Sim, o título é uma referência a <a href="https://open.spotify.com/track/7gozgbG5EBTukCFWToTRA5?si=plTR7i5sQeir30avzMArgQ">música do U2</a>. Não só de economia vive um homem.)</em></p>
-<p>Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">posts anteriores</a><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário <span class="math inline">\(w\)</span>, onde <span class="math inline">\(w\)</span> sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?</p>
+<p>Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">posts anteriores</a><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário <span class="math inline">\(w\)</span>, onde <span class="math inline">\(w\)</span> sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?</p>
 <p>Nós partiremos de um modelo muito básico em que eu não permitirei demissão. Nesse caso, se o agente aceita o emprego com salário <span class="math inline">\(w\)</span> ele recebe <span class="math inline">\(\frac{w}{1-\beta}\)</span>, onde <span class="math inline">\(\beta\)</span> é a taxa de desconto do agente.</p>
 <p>Se o agente não aceita o emprego ele recebe um seguro desemprego (<span class="math inline">\(\bar{c}\)</span>) e enfrenta o mesmo problema no período seguinte. Nosso problema no formato de Bellman é:</p>
 <p><span class="math display">\[ V(w_t) = \max\left(\frac{w}{1-\beta},\bar{c}+E(V(w_{t+1}))\right)\]</span></p>
 <p>Veja que precisamos tirar a expectância da função valor e que eu vou proceder simplesmente sorteando alguma quantidade de números aleatórios da distribuição e calculando a média da função valor nestes pontos (como eu fiz em posts anteriores). Eu vou escolher a função Gama com paramêtros (5,1) e (5,2), que geram as distribuições abaixo:</p>
-<div class="figure">
-<img src="/post/search/densidade.png" />
-
-</div>
+<p><img src="/post/search/densidade.png" /></p>
 <p>Veja que essas funções tem um suporte limitado (a densidade depois de 30 é basicamente 0) e só aceitam valores positivos - como deveria ser em uma distribuição de salários.</p>
 <p>Vamos resolver o problema no computador. Eu vou colocar <span class="math inline">\(\beta = 0.9\)</span>, um consumidor relativamente paciente, e um seguro desemprego inicialmente baixo igual a 1. Eu vou representar a escolha de permanecer desempregado com um zero e de aceitar uma oferta de emprego igual a 1. Vamos ao código em Julia que faz isso:</p>
 <pre><code>using Distributions
@@ -62,21 +60,12 @@ for j in 2:3000
 end
 </code></pre>
 <p>Vamos a escolha do trabalhador:</p>
-<div class="figure">
-<img src="/post/search/escolha1.png" />
-
-</div>
+<p><img src="/post/search/escolha1.png" /></p>
 <p>Veja que a escolha faz sentido: abaixo de um certo valor o empregado não aceita o emprego, mas existe um salário reserva a partir do qual ele passa a aceitar o emprego.Vamos checar a convergência comparando a função valor da última iteração com a penúltima iteração:</p>
 <pre><code>plot(value[3000,:]-value[2999,:])</code></pre>
-<div class="figure">
-<img src="/post/search/conv_value1.png" />
-
-</div>
+<p><img src="/post/search/conv_value1.png" /></p>
 <p>Veja que a função valor oscila muito no intervalo aonde o trabalhador não aceita o emprego, o que mostra que não tivemos uma convergência muito boa. Mas como a decisão é discreta podemos ficar menos preocupados. Vamos fazer a mesma comparação para a escolha do trabalhador:</p>
-<div class="figure">
-<img src="/post/search/conv_pol1.png" />
-
-</div>
+<p><img src="/post/search/conv_pol1.png" /></p>
 <p>Veja que existe a mudança em apenas em um ponto. Não vamos nos preocupar excessivamente com isso - mesmo com 5 mil iterações, um grid mais fino para os salários e mais pontos para calcular a expectância nós teríamos os mesmos problemas - convido o leitor a testar isso.</p>
 <p>Esse modelo nos permite uma pergunta interessante de política: como um agente reage a um aumento no seguro desemprego? Vamos colocar <span class="math inline">\(\bar{c}=5\)</span>:</p>
 <pre><code>cbar = 5
@@ -102,10 +91,7 @@ for j in 2:3000
     end
 end</code></pre>
 <p>Obtemos como resultado:</p>
-<div class="figure">
-<img src="/post/search/escolha2.png" />
-
-</div>
+<p><img src="/post/search/escolha2.png" /></p>
 <p>Sem nenhuma surpresa, um aumento do seguro desemprego aumenta o salário de reserva do agente. Isso é o que a intuição econômica nos aponta, mas formalizado e simulado.</p>
 <p>Vamos experimentar as mesmas coisas usando a distribuição Gama(5,2). Começamos devolvendo o seguro desemprego para 1:</p>
 <pre><code>cbar = 1
@@ -154,22 +140,17 @@ for j in 2:3000
     end
 end</code></pre>
 <p>Vamos ver tanto o efeito de <span class="math inline">\(\bar{c} = 1\)</span> e <span class="math inline">\(\bar{c} = 5\)</span> em um único gráfico:</p>
-<div class="figure">
-<img src="/post/search/escolha3.png" />
-
-</div>
+<p><img src="/post/search/escolha3.png" /></p>
 <p>Sem surpresa, o efeito é muito semelhante ao do exemplo com a distribuição Gama(5,1). Mais interessante, podemos comparar a escolha com <span class="math inline">\(\bar{c} = 1\)</span>, mas distribuições diferentes para o salário:</p>
-<div class="figure">
-<img src="/post/search/escolha4.png" />
-
-</div>
+<p><img src="/post/search/escolha4.png" /></p>
 <p>Veja que com uma distribuição que tem uma probabilidade de salários maiores gera um salário de reserva mais alto. Isso não é exatamente surpreendente: se existe a possibilidade de ganhar um salário mais alto, o agente espera um salário mais alto. Isso provavelmente motiva a seguinte citação do Robert Lucas, que invariavelmente aparece quando tratamos de modelos de Search:</p>
 <blockquote>
-<p>“Questioning a McCall worker is like having a conversation with an out-of-work friend: ‘Maybe you are setting your sights too high’, or ‘Why did you quit your old job before you had a new one lined up?’ This is real social science: an attempt to model, to understand, human behavior by visualizing the situation people find themselves in, the options they face and the pros and cons as they themselves see them.” – Robert E. Lucas, Jr.</p>
+<p>“Questioning a McCall worker is like having a conversation with an out-of-work friend: ‘Maybe you are setting your sights too high’, or ‘Why did you quit your old job before you had a new one lined up?’ This is real social science: an attempt to model, to understand, human behavior by visualizing the situation people find themselves in, the options they face and the pros and cons as they themselves see them.”
+– Robert E. Lucas, Jr.</p>
 </blockquote>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Leia eles ou você ficará perdido no que segue!<a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p>Leia eles ou você ficará perdido no que segue!<a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
