@@ -1,0 +1,26 @@
+---
+title: "Fazendo previsões de séries com Random Forest"
+author: "Pedro Cavalcante"
+date: '2019-05-20'
+output:
+  html_document:
+    self_contained: FALSE
+draft: FALSE
+katex: TRUE
+categories:
+- R
+- Finanças
+- Machine Learning
+slug: forecasting-rf
+tags:
+- Random Forest
+authors: ["pedrocava"]
+---
+
+
+
+```{R}
+library(randomForest)
+library(BETS)
+```
+
