@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Finanças on AZUL</title>
+    <link>/categories/finan%C3%A7as/</link>
+    <description>Recent content in Finanças on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Mon, 20 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/finan%C3%A7as/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Fazendo previsões de séries com Random Forest</title>
+      <link>/2019/05/20/forecasting-rf/</link>
+      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/20/forecasting-rf/</guid>
+      <description>library(randomForest) ## randomForest 4.6-14 ## Type rfNews() to see new features/changes/bug fixes. library(BETS) ## ## Attaching package: &amp;#39;BETS&amp;#39; ## The following object is masked from &amp;#39;package:stats&amp;#39;: ## ## predict </description>
+    </item>
+    
+  </channel>
+</rss>

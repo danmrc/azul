@@ -137,6 +137,57 @@ plot!(bond_grid,c_val[:,4,30], label = string("y=",round(yt_grid[4],digits=3)))
 # Caso em que temos uma restrição de endividamento
 #Eu implemento o caso em que a dotação segue um processo i.i.d. discreto
 
+beta = 0.96
+r = 0.04
+sigma = 2
+kappa = 0.32
+
+bond_grid_size = 200
+y_grid_size = length(2:5)
+
+y_grid = collect(2:5)
+dist = DiscreteUniform(2,5)
+prob = pdf.(dist,y_grid)
+
+uline(c) = 1/c
+
+iter = 50
+bond_grid = range(-1.8,2,length=bond_grid_size)
+
+cons = zeros(iter,bond_grid_size,y_grid_size)
+cons[1,:,:] = [bonds + ys for bonds in bond_grid, ys in y_grid] #consome tudo o que tem hoje
+
+i=2
+err = 1
+
+#o algoritmo em si
+
+while i <=iter&&err>1e-9 #enquanto a maior mudança na política for maior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+    foo_c = LinearInterpolation((bond_grid,y_grid),cons[i-1,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
+    for k in 1:y_grid_size
+        b_aux = -kappa*y_grid[k] #o maximo de endividamento
+        for j in 1:bond_grid_size
+            c_aux = (1+r)*bond_grid[j] + y_grid[k] - b_aux # o consumo no máximo de endividamento
+            teste = uline(c_aux) - beta*(1+r)*prob'*uline.(foo_c(b_aux,y_grid)) #aqui é o teste da etapa 3 do algoritmo
+            if teste > 0 #eis a etapa 3
+                cons[i,j,k] = max(c_aux,0)
+            else
+                function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
+                    bb = (1+r)*bond_grid[j] + y_grid[k] -c
+                    uline(c) - beta*(1+r)*prob'*uline.(foo_c(bb,y_grid))
+                end
+                cons[i,j,k] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + y_grid[k]+1)[1] #busca por um zero na equação de Euler e salva o valor que zera
+            end
+        end
+    end
+    global err = maximum(abs.(cons[i,:,:]-cons[i-1,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
+    println("iteration",i,"error",err) #só nos informa da evolução do algoritmo
+    global i = i+1
+end
+
+#Exemplo com firesale
+#Temos 2 bens agora
+
 #Parametros
 
 beta = 0.96
@@ -209,18 +260,16 @@ while i <=iter&&err>1e-9 #enquanto a maior mudança na política formaior que 1e
     global i = i+1
 end
 
-plot(bond_grid,cons[50,:,1],lab = string("y = ",y_grid[1]), w=2)
-plot!(bond_grid,cons[50,:,2],lab = string("y = ",y_grid[2]), w=2)
-plot!(bond_grid,cons[50,:,3],lab = string("y = ",y_grid[3]), w=2)
-plot!(bond_grid,cons[50,:,4],lab = string("y = ",y_grid[4]), w=2)
+plot(bond_grid,cons[50,:,1,1],lab = string("y = ",y_grid[1]), w=2)
+plot!(bond_grid,cons[50,:,2,1],lab = string("y = ",y_grid[2]), w=2)
+plot!(bond_grid,cons[50,:,3,1],lab = string("y = ",y_grid[3]), w=2)
+plot!(bond_grid,cons[50,:,4,1],lab = string("y = ",y_grid[4]), w=2)
 
-next_bond1 = (1+r)*bond_grid .+ y_grid[1] - cons[50,:,1]
-debt_limit_val = -kappa*y_grid[1]
-debt_limit = similar(next_bond1)
-debt_limit .= debt_limit_val
+next_bond1 = (1+r)*bond_grid .+ x_grid[1] - cons[50,:,1,1]
+debt_limit = -kappa*(x_grid[1] .+py[50,:,1,1] .*y_grid[1])
 
-plot(bond_grid,next_bond1,w=2,label = "Bonds next period", legend = :topleft)
-plot!(bond_grid,debt_limit,w=2,line = :dash, label = "Debt Restriction")
+plot(bond_grid[1:100],next_bond1[1:100],w=2,label = "Bonds next period", legend = :topleft)
+plot!(bond_grid[1:50],debt_limit[1:50],w=2,line = :dash, label = "Debt Restriction")
 
 next_bond2 = (1+r)*bond_grid .+ y_grid[2] - cons[50,:,2]
 debt_limit_val2 = -kappa*y_grid[2]

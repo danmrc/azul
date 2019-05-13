@@ -1,5 +1,5 @@
 ---
-title: 'Time Domain Iteration: mais programação dinâmica'
+title: 'Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)'
 author: Daniel Coutinho
 date: '2019-05-10'
 slug: time-domain-iteration-mais-programação-dinâmica
@@ -7,10 +7,11 @@ categories:
   - Programação Dinâmica
   - Computação
   - Economia
+  - Macroeconomia
 tags:
   - Time Domain Iteration
   - Coleman Operator
-draft: TRUE
+  - Firesale
 ---
 
 
@@ -155,5 +156,87 @@ end</code></pre>
 <p>Veja que tem uma quebra ao redor do zero para o caso em que a dotação é mais baixa (y=2) e uma quebra parecida, mas bem mais a esquerda no caso y=3.</p>
 <p>Um gráfico interessante que o Bianchi faz é ver como os títulos do próximo período dependem da quantidade de títulos hoje. Podemos fazer isso para cada nível de renda, mas é mais interessante para o valor mais baixo.</p>
 <p><img src="/post/Prog_dinamica/bonds_next.png" /></p>
-<p>Veja que podemos ver exatamente os valores de título em que a restrição de endividamento está ativa. O caso dele é mais interessante porque ele coloca dois bens e o preço de um deles depende do preço do ativo. Isso gera espaço para <em>fire sales</em>, o fenômeno em que o preço dos ativos cai, o que leva as pessoas a venderem o ativo para terem liquides e portanto o preço do ativo cai mais. Isso foi algo observado na crise de 2008 e que encontra uma modelagem formal usando exatamente o tipo de ferramenta desse post.</p>
-<p>(Mais um post que o Sargent escreveu antes de mim e melhor (obviamente), <a href="https://lectures.quantecon.org/jl/coleman_policy_iter.html.%20Imitação%20é%20a%20mais%20forma%20mais%20sincera%20de%20aprovação">mas em inglês</a></p>
+<p>Veja que podemos ver exatamente os valores de título em que a restrição de endividamento está ativa. O caso dele é mais interessante porque ele coloca dois bens e o preço de um deles depende do ativo. Isso gera espaço para <em>fire sales</em>, o fenômeno em que o preço dos ativos cai, o que leva as pessoas a venderem o ativo para terem liquides e portanto o preço do ativo cai mais - uma das coisas observadas durante a crise financeira em 2008. É fácil adptar esse exemplo para permitir <em>firesales</em>, apesar de ter algumas etapas mais complicadas. O que eu vou fazer é seguir o exemplo do Bianchi (2011) mas simplificar a estrutura estocástica do problema: nós teremos dois bens agora, x e y. A nova função de utilidade é: <span class="math inline">\(\alpha \ln(x) + (1-\alpha)\ln(y)\)</span> (uma Cobb Douglas) e o problema a ser resolvido é:</p>
+<p><span class="math display">\[\max \sum_{t=0}^\infty \beta^t (\alpha \ln(x) + (1-\alpha)\ln(y)) \text{ sujeito a}\\
+x_t + p_y y_t +b_{t+1} = (1+r)b_t + \omega^x_t + p_y \omega^y_t\\
+b_{t+1} &gt; -\kappa(\omega^x_t + p_y \omega^y_t)\]</span></p>
+<p>Onde <span class="math inline">\(\omega^x_t\)</span> e <span class="math inline">\(\omega^y_t\)</span> são as dotações de x e y no períod t, respectivamente. Veja que como temos dois bens, normalizados o preço do bem <span class="math inline">\(x\)</span> para ser igual a 1. Veja que o preço do bem <span class="math inline">\(y\)</span> dependem não só das dotações agregadas como da quantidade de títulos que o agente mantém. Nós esperaríamos que um agente mais endividado vai estar mais interessado em vender o bem e com menos capacidade de comprar o bem: logo o preço do bem deve crescer conforme o agente fica mais rico. Veja que o agente não internaliza esse efeito de quantidade de títulos no preço do bem, o que gera uma “externalidade pecuniária”.</p>
+<p>Veja que para facilitar a vida eu vou impor que em equilíbrio <span class="math inline">\(y_t = w^y_t\)</span> - pense que isso pode ser a produção doméstica do agente (ou no caso de uma economia aberta, a produção de <em>non tradables</em>). Isso faz com que em equlíbrio, <span class="math inline">\(x_t + b_{t+1} = (1+r)b_t + \omega^x_t\)</span>.</p>
+<p>Um outro detalhe técnico é que como temos dois bens e eu vou fazer com que ambos sigam uma distribuição discreta uniforme entre 2 e 5 (ou seja, P(2) = P(3) = P(4) = P(5) = 0.25), nós teremos 16 estados possíveis - e nesse caso a probabilidade de cada estado é <span class="math inline">\(0.25 \times 0.25 = 0.0625\)</span> - e precisamos fazer todas as combinações possíveis de dotações dos dois bens (bem x com dotação 1 e bem y com dotação 1, bem x com dotação 1 e bem y com dotação 2, bem x com dotação 2 e bem y com dotação 1 etc). Felizmente a função <code>Product</code> do pacote Iterators (que já vem com o Julia) faz isso para gente. Só precisamos reorganizar porque ele devolve um objeto tuple e queremos arrumar isso em um array. Isso deixa o código um pouco mais indigesto, mas a ideia geral é igual ao do código anterior.</p>
+<p>O código em si:</p>
+<pre><code>beta = 0.96
+r = 0.04
+sigma = 2
+kappa = 0.32
+alpha = 0.5
+
+bond_grid_size = 200
+y_grid_size = length(2:5)
+x_grid_size = length(2:5)
+
+y_grid = collect(2:5)
+x_grid = collect(2:5)
+dist = DiscreteUniform(2,5)
+prob_y = pdf.(dist,y_grid)
+prob_x = pdf.(dist,x_grid)
+
+endow_aux = reshape(collect(Iterators.product(x_grid,y_grid)),16,1)
+endow = zeros(16,2)
+
+for i in 1:16
+    endow[i,1] = endow_aux[i][1]
+    endow[i,2] = endow_aux[i][2]
+end
+
+prob = repeat([prob_x[1]*prob_y[1]],16)
+
+uline(c) = alpha/c
+p(c,y) = (1-alpha)/alpha*c/y
+
+iter = 50
+bond_grid = range(-1,2,length=bond_grid_size)
+
+cons = zeros(iter,bond_grid_size,x_grid_size,y_grid_size)
+cons[1,:,:,:] = [bonds + xs for bonds in bond_grid, xs in x_grid,ys in y_grid] #consome tudo o que tem hoje
+
+py = zeros(iter,bond_grid_size,x_grid_size,y_grid_size)
+py[1,:,:,:] .= 1
+
+i=2
+err = 1
+
+while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+    foo_c = LinearInterpolation((bond_grid,y_grid,x_grid),cons[i-1,:,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
+    for k in 1:16
+        index_x = findfirst(x_grid .== endow[k,1])
+        index_y = findfirst(y_grid .== endow[k,2])
+        for j in 1:bond_grid_size
+            b_aux = -kappa*(x_grid[index_x] + py[i-1,j,index_x,index_y]*y_grid[index_y]) #o maximo de endividamento
+            c_aux = (1+r)*bond_grid[j] + x_grid[index_x] - b_aux # o consumo no máximo de endividamento
+            teste_aux = prob&#39;*reshape(uline.(foo_c(b_aux,x_grid,y_grid)),16,1)
+            teste = uline(c_aux) - beta*(1+r)*teste_aux[1] #aqui é o teste da etapa 3 do algoritmo
+            if teste &gt; 0 #eis a etapa 3
+                cons[i,j,index_x,index_y] = max(c_aux,0)
+                py[i,j,index_x,index_y] = p(cons[i,j,index_x,index_y],y_grid[index_y])
+            else
+                function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
+                    bb = (1+r)*bond_grid[j] + x_grid[index_x] -c
+                    aux = prob&#39;*reshape(uline.(foo_c(bb,x_grid,y_grid)),16,1)
+                    uline(c) - beta*(1+r)*aux[1]
+                end
+                cons[i,j,index_x,index_y] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + x_grid[index_x]+2)[1] #busca por um zero na equação de Euler e salva o valor que zera
+                py[i,j,index_x,index_y] = p(cons[i,j,index_x,index_y],y_grid[index_y])
+            end
+        end
+    end
+    global err = maximum(abs.(cons[i,:,:,:]-cons[i-1,:,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
+    println(&quot;iteration&quot;,i,&quot;error&quot;,err) #só nos informa da evolução do algoritmo
+    global i = i+1
+end</code></pre>
+<p>Vamos ver se o preço do bem y de fato cresce com a quantidade de títulos:</p>
+<p><img src="/post/Prog_dinamica/firesale3.png" /></p>
+<p>De fato cresce. Vamos ver o gráfico de qual a escolha de títulos amanhã dado os títulos hoje:</p>
+<p><img src="/post/Prog_dinamica/firesale2.png" /></p>
+<p>Veja que na ponta esquerda, quando a restrição está ativa, você vai escolher se endividar mais do que você se endividou hoje. Isso deprime os preços do bem y o que piora a restrição de endividamento do agente. Isso reduz o consumo dos agentes, o que deprime ainda mais os preços. O excesso de endividamento dos agentes leva a uma crise. Isso de forma alguma é uma ideia nova: Irving Fischer pós a crise de 1929 sugeriu esse mecanismo.</p>
+<p>O post apresentou um método diferente de resolver problemas de programção dinâmica. Ele é mais eficiente e pode ser facilmente alterado para permitir restrições que ocasionalmente estão ativas. Isso é essencial para entender problemas chaves em macroeconomia, como restrições de endividamento. O formalismo matemático dá substância a ideia econônomica.</p>
+<p>(Mais um post que o Sargent escreveu antes de mim e melhor (obviamente), <a href="https://lectures.quantecon.org/jl/coleman_policy_iter.html">mas em inglês</a>. Imitação é a mais forma mais sincera de admiração. A outra fonte é, obviamente, o artigo do <a href="http://www.javierbianchi.com/uploads/8/8/5/8/8858198/overborrowing.pdf">Bianchi</a>)</p>
