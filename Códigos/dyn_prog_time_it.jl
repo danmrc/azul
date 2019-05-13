@@ -143,44 +143,68 @@ beta = 0.96
 r = 0.04
 sigma = 2
 kappa = 0.32
+alpha = 0.5
 
 bond_grid_size = 200
 y_grid_size = length(2:5)
+x_grid_size = length(2:5)
 
 y_grid = collect(2:5)
+x_grid = collect(2:5)
 dist = DiscreteUniform(2,5)
-prob = pdf.(dist,y_grid)
+prob_y = pdf.(dist,y_grid)
+prob_x = pdf.(dist,x_grid)
 
-uline(c) = 1/c
+endow_aux = reshape(collect(Iterators.product(x_grid,y_grid)),16,1)
+endow = zeros(16,2)
+
+for i in 1:16
+    endow[i,1] = endow_aux[i][1]
+    endow[i,2] = endow_aux[i][2]
+end
+
+prob = repeat([prob_x[1]*prob_y[1]],16)
+
+uline(c) = alpha/c
+p(c,y) = (1-alpha)/alpha*c/y
 
 iter = 50
-bond_grid = range(-1.8,2,length=bond_grid_size)
+bond_grid = range(-1,2,length=bond_grid_size)
 
-cons = zeros(iter,bond_grid_size,y_grid_size)
-cons[1,:,:] = [bonds + ys for bonds in bond_grid, ys in y_grid] #consome tudo o que tem hoje
+cons = zeros(iter,bond_grid_size,x_grid_size,y_grid_size)
+cons[1,:,:,:] = [bonds + xs for bonds in bond_grid, xs in x_grid,ys in y_grid] #consome tudo o que tem hoje
+
+py = zeros(iter,bond_grid_size,x_grid_size,y_grid_size)
+py[1,:,:,:] .= 1
 
 i=2
 err = 1
 
 while i <=iter&&err>1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
-    foo_c = LinearInterpolation((bond_grid,y_grid),cons[i-1,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
-    for k in 1:y_grid_size
-        b_aux = -kappa*y_grid[k] #o maximo de endividamento
+    foo_c = LinearInterpolation((bond_grid,y_grid,x_grid),cons[i-1,:,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
+    for k in 1:16
+        index_x = findfirst(x_grid .== endow[k,1])
+        index_y = findfirst(y_grid .== endow[k,2])
         for j in 1:bond_grid_size
-            c_aux = (1+r)*bond_grid[j] + y_grid[k] - b_aux # o consumo no máximo de endividamento
-            teste = uline(c_aux) - beta*(1+r)*prob'*uline.(foo_c(b_aux,y_grid)) #aqui é o teste da etapa 3 do algoritmo
+            b_aux = -kappa*(x_grid[index_x] + py[i-1,j,index_x,index_y]*y_grid[index_y]) #o maximo de endividamento
+            c_aux = (1+r)*bond_grid[j] + x_grid[index_x] - b_aux # o consumo no máximo de endividamento
+            teste_aux = prob'*reshape(uline.(foo_c(b_aux,x_grid,y_grid)),16,1)
+            teste = uline(c_aux) - beta*(1+r)*teste_aux[1] #aqui é o teste da etapa 3 do algoritmo
             if teste > 0 #eis a etapa 3
-                cons[i,j,k] = max(c_aux,0)
+                cons[i,j,index_x,index_y] = max(c_aux,0)
+                py[i,j,index_x,index_y] = p(cons[i,j,index_x,index_y],y_grid[index_y])
             else
                 function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
-                    bb = (1+r)*bond_grid[j] + y_grid[k] -c
-                    uline(c) - beta*(1+r)*prob'*uline.(foo_c(bb,y_grid))
+                    bb = (1+r)*bond_grid[j] + x_grid[index_x] -c
+                    aux = prob'*reshape(uline.(foo_c(bb,x_grid,y_grid)),16,1)
+                    uline(c) - beta*(1+r)*aux[1]
                 end
-                cons[i,j,k] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + y_grid[k]+1)[1] #busca por um zero na equação de Euler e salva o valor que zera
+                cons[i,j,index_x,index_y] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + x_grid[index_x]+2)[1] #busca por um zero na equação de Euler e salva o valor que zera
+                py[i,j,index_x,index_y] = p(cons[i,j,index_x,index_y],y_grid[index_y])
             end
         end
     end
-    global err = maximum(abs.(cons[i,:,:]-cons[i-1,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
+    global err = maximum(abs.(cons[i,:,:,:]-cons[i-1,:,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
     println("iteration",i,"error",err) #só nos informa da evolução do algoritmo
     global i = i+1
 end
