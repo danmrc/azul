@@ -5,7 +5,7 @@ date: '2019-05-20'
 output:
   html_document:
     self_contained: FALSE
-draft: FALSE
+draft: TRUE
 katex: TRUE
 categories:
 - R
@@ -47,8 +47,6 @@ $$\pi_t = \phi_0 + \sum_{i=1}^{k} \phi_i \pi_{t-i} + \epsilon_t$$
 
 base = ipca
 
-
-
 for(i in 4:nrow(ipca)) {
   
 base$primeiro_lag[i] = base$value[i-1]
@@ -60,16 +58,30 @@ base = base[3:nrow(base),]
 
 
 coeficientes = vector()
-janela = 36 # número de meses em cada janela
-n = nrow(ipca) - janela - 1
+janela = 12*5 # número de meses em cada janela de 5 anos
+n = nrow(ipca) - janela
 
 for(i in 1:n) {
   
+  window = base[i:(i+janela),]
+  
   modelo = lm(value ~ primeiro_lag + segundo_lag,
-              data = base[i:i+janela,])
+              data = window)
   
+  coeficientes[i] = modelo$coefficients[2] + modelo$coefficients[3]
+
   
+  }
+
+coeficientes = data.frame(coef = coeficientes,
+                          tempo = base$date[1:length(coeficientes)])
+
+coeficientes %>%
+  ggplot(aes(y = coef, x = tempo)) +
+  geom_line(size = 1.2) +
+  labs(title = "Evolução das somas dos coeficientes de um AR(2)",
+       subtitle = "Variável explicada é variação mensal do IPCA, regressão em janelas de 5 anos") +
+  ylab("") 
   
-}
 
 ```
