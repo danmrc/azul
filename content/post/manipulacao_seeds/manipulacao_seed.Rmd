@@ -9,7 +9,6 @@ draft: TRUE
 katex: TRUE
 categories:
 - R
-- Economia da Educação
 - Machine Learning
 slug: prouni-rf-classificacao
 tags:
@@ -41,7 +40,7 @@ Tivemos uma taxa de ```r mean(amostra1)```com a semente $1234$. Como funciona co
 ```{R}
 library(tictoc)
 m = 10000000
-n = 250
+n = 100
 amostras = vector()
 
 tic("sorteios")
@@ -58,5 +57,10 @@ for(i in 1:m) {
 toc()
 
 summary(amostras)
+base = data.frame(dados = amostras) 
+
+base %>%
+  ggplot(aes(x = dados )) +
+  geom_histogram()
 ```
 
