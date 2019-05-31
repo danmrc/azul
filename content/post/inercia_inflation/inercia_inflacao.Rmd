@@ -70,7 +70,7 @@ for(i in 1:n) {
   
   coeficientes[i] = modelo$coefficients[2] + modelo$coefficients[3]
 
-  
+    
   }
 
 coeficientes = data.frame(coef = coeficientes,

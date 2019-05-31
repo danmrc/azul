@@ -38,12 +38,14 @@ mean(amostra1)
 Tivemos uma taxa de ```r mean(amostra1)```com a semente $1234$. Como funciona com outras sementes? 
 
 ```{R}
-library(tictoc)
+library(ggplot2)
+library(dplyr)
+library(gganimate)
+
 m = 10000000
 n = 100
 amostras = vector()
 
-tic("sorteios")
 for(i in 1:m) {
   set.seed(i)
   
@@ -54,13 +56,19 @@ for(i in 1:m) {
   amostras[i] = mean(amostra)
     
 }
-toc()
+
 
 summary(amostras)
-base = data.frame(dados = amostras) 
+  
+ngrupos = 20
+grupo = rep(seq(1, ngrupos), times = m/ngrupos)
+grupo = sort(grupo)
 
-base %>%
-  ggplot(aes(x = dados )) +
-  geom_histogram()
+base = data.frame(dados = amostras,
+                  grupo = grupo) 
+
+
+
 ```
 
+Note no entanto que escolhi um $n$ pequeno com uma certa malícia. Por quê? Convergência assintótica. 

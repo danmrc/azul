@@ -21,8 +21,64 @@ authors: ["pedrocava"]
 
 
 
-```{R}
+```{R, message = FALSE, warning = FALSE}
 library(randomForest)
 library(BETS)
+library(Quandl)
+library(dplyr)
+library(ggplot2)
 ```
+
+
+```{R}
+
+inicio = "2015-12-31"
+
+petroleo = Quandl("OPEC/ORB",
+                  start_date = inicio,
+                  collapse = "daily")
+
+petroleo = rename(petroleo, Preco = "Value")
+
+nasdaqoil = Quandl("NASDAQOMX/NQDMASPA0001AUD",
+                   start_date = inicio,
+                   collapse = "daily")
+
+nasdaqoil = rename(nasdaqoil, Date = "Trade Date")
+
+juros = Quandl("USTREASURY/REALYIELD", 
+               start_date = inicio,
+               collapse = "daily")
+
+dowjones = Quandl("BCB/7809",
+                  start_date = inicio,
+                  collapse = "daily")
+
+base = full_join(nasdaqoil,
+                 juros)
+
+base = full_join(base, petroleo) %>% as_tibble()
+
+base = full_join(base, dowjones)
+head(base)
+
+base = rename(base, 
+              juros = `5 YR`,
+              indice = `Index Value`)
+
+
+```
+
+
+
+```{R}
+insample = base[1:852,]
+outsample = base[852:882,]
+
+floresta = randomForest(indice ~ Preco + juros + Value,
+                        data = insample)
+
+```
+
+
 
