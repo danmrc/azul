@@ -6,10 +6,20 @@
     <description>Recent content in Posts on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Mon, 20 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</title>
+      <link>/2019/06/05/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
+      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/06/05/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
+      <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
+Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
+    </item>
     
     <item>
       <title>Fazendo previsões de séries com Random Forest</title>
@@ -21,16 +31,24 @@
     </item>
     
     <item>
+      <title>Medindo a inércia da inflação brasileira no R com Rolling Window Regression</title>
+      <link>/2019/05/20/inercia-inflacao-rolling-window/</link>
+      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/20/inercia-inflacao-rolling-window/</guid>
+      <description>library(ggplot2) library(dplyr) library(BETS) ipca = BETSget(433, from = &amp;quot;1998-09-01&amp;quot;, data.frame = TRUE) # IPCA desde outubro de 98 ipca %&amp;gt;% ggplot(aes(x = date, y = value)) + geom_line(size = 1.2) + xlab(&amp;quot;Tempo&amp;quot;) + ylab(&amp;quot;Variação Mensal do IPCA (em %)&amp;quot;) + geom_hline(yintercept = mean(ipca$value)) # linha horizontal na média Se notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</description>
+    </item>
+    
+    <item>
       <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
       <link>/2019/05/17/prouni-rf-classificacao/</link>
       <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/05/17/prouni-rf-classificacao/</guid>
       <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-blasndlikuasnidocsadv
 encher de coisas aqui
 set.seed(1234) n = 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
-library(tictoc) m = 10000000 n = 250 amostras = vector() tic(&amp;quot;sorteios&amp;quot;) for(i in 1:m) { set.seed(i) amostra = rbinom(n = n, size = 1, prob = .</description>
+library(ggplot2) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(gganimate) m = 10000000 n = 100 amostras = vector() for(i in 1:m) { set.</description>
     </item>
     
     <item>

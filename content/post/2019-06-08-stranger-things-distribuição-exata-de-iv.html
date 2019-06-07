@@ -1,0 +1,53 @@
+---
+title: 'Stranger things: Distribuição exata de IV em um exemplo extremamente simples'
+author: Daniel Coutinho
+date: '2019-06-05'
+slug: stranger-things-distribuição-exata-de-iv
+categories:
+  - Econometria
+tags:
+  - Variáveis Instrumentais
+draft: true
+---
+
+
+
+<p><em>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência</em></p>
+<p>Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. <em>Mas</em> a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre <a href="https://azul.netlify.com/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/">viés de IV com muitos instrumentos</a>.</p>
+<p>O post de hoje vai mostrar, analiticamente e através de simulações, que a distribuição do estimador de variáveis instrumentais pode ser bem aberrante. O modelo é extremamente simples (que é o que permite obter distribuição analítica). Eu vou fazer todas as continhas porque é um exercício bacana. Se você só quer ver “a mágica acontecer”, pule a seção entre as quebras de página.</p>
+<p>Nada aqui é original, mas o exemplo é tão fantasticamente simples e gera uma distribuição tão maluca para alguns parâmetros que vale o post. As referências estão no fim do artigo.</p>
+<p>O setup é extremamente simples, temos apenas duas equações:</p>
+<p><span class="math display">\[y = \beta{} x + u\\
+x = y + \gamma{}z\]</span></p>
+<p>Onde <span class="math inline">\(y,x,z\)</span> são escalares. Podemos usar <span class="math inline">\(z\)</span> como instrumento para identificar <span class="math inline">\(\beta\)</span>. <span class="math inline">\(u\)</span> é um erro com distribuição normal e variância <span class="math inline">\(\sigma^2_u\)</span>.</p>
+<hr />
+<p>Vamos escrever as equações acima de maneira a obter duas equações: uma que só depende de x e z e outra que só depende de y e z. Basta plugar uma dentro da outra e obter:</p>
+<p><span class="math display">\[y = \beta{}(y + \gamma{}z) + u\\
+x = \beta{}x + u + \gamma{}z\]</span></p>
+<p>E depois de alguma álgebra, nós temos:</p>
+<p><span class="math display">\[y = \frac{\beta{}\gamma{}}{1-\beta}z + \frac{u}{1-\beta}\\
+x = \frac{u}{1-\beta} + \frac{\gamma{}}{1-\beta}z\]</span></p>
+<p>Veja que se nós dividirmos o coeficiente de de z na primeira equação (de agora por diante <span class="math inline">\(\pi_{yz}\)</span>) pelo coeficiente de z na segunda equação (<span class="math inline">\(\pi_{xz}\)</span>), nós recuperamos <span class="math inline">\(\beta\)</span>. Isso é o resultado usual de estimação por variáveis instrumentais. Veja que podemos escrever esses coeficientes estimados por mínimos quadrados:</p>
+<p><span class="math display">\[\pi_{yz} = \frac{1/n\sum_i y_i z_i}{1/n\sum z_i^2}\\
+\pi_{xz} = \frac{1/n\sum_i x_i z_i}{1/n\sum z_i^2}\\\]</span></p>
+<p>E portanto, o nosso estimador de <span class="math inline">\(\beta\)</span> por IV é <span class="math inline">\(\pi_{yz}/\pi_{xz}\)</span>, e nós teremos:</p>
+<p><span class="math display">\[\hat{\beta} = \frac{1/n\sum_i z_i y_i}{1/n\sum_i z_i x_i}\]</span></p>
+<p>Vamos destrinchar cada um dos somatórios para obter tudo em função de <span class="math inline">\(\sum_i z_i^2\)</span> e <span class="math inline">\(\sum_i z_i u_i\)</span>. Vou começar com o somatório de cima. Ambos vão envolver substituir as expressões que nós encontramos de y e x como função de z e u no somatório, que é um passo bastante comum quando queremos provar várias coisas usando estimadores:</p>
+<p><span class="math display">\[\sum_i z_i y_i = \sum_i z_i \left(\frac{\beta{}\gamma{}}{1-\beta}z_i + \frac{u_i}{1-\beta}\right) = \frac{\beta{}\gamma{}}{1-\beta} \sum_i z_i^2 + \frac{1}{1-\beta} \sum_i z_i u_i = \frac{1}{1-\beta} \left(\beta{}\gamma{}\sum_i z_i^2 + \sum_i z_i u_i\right)\]</span>
+E equivalentemente para <span class="math inline">\(\sum_i z_i x_i\)</span>:</p>
+<p><span class="math display">\[\sum_i z_i x_i = \sum_i z_i \left(\frac{\gamma}{1-\beta} z_i + \frac{u_i}{1-\beta} \right) = \left(\frac{\gamma}{1-\beta} \sum_i z^2_i + \frac{1}{1-\beta} \sum_i z_i u_i \right) = \frac{1}{1-\beta} \left( \gamma \sum_i z_i^2 + \sum_i z_i u_i \right)\]</span></p>
+<p>Dividindo um pelo outro vamos obter:</p>
+<p><span class="math display">\[\hat{\beta} = \frac{\beta{}\gamma{}\sum_i z_i^2 + \sum_i z_i u_i}{\gamma \sum_i z_i^2 + \sum_i z_i u_i}\]</span></p>
+<p>Vamos colocar <span class="math inline">\(\sum_ z_i u_i\)</span> em evidência. Passe o denominador multiplicando e um pouco de álgebra:</p>
+<p><span class="math display">\[\hat{\beta}\left(\gamma \sum_i z_i^2 + \sum_i z_i u_i\right) = \beta{}\gamma{}\sum_i z_i^2 + \sum_i z_i u_i\\
+(\hat{\beta} -\beta) \gamma \sum_i z_i^2 = (1-\beta) \sum_i z_i u_i\\
+\sum_i z_i u_i = \frac{(\hat{\beta} - \beta)\gamma \sum_i z_i^2}{1 - \hat{\beta}}\]</span></p>
+<p>A grande sacada aqui é notar que a distribuição de <span class="math inline">\(\sum z_i u_i\)</span> condicional a é uma normal com variância <span class="math inline">\(\sum _i z^2_i\)</span>, então podemos usar o resultado acima para fazer uma mudança de variável na distribuição normal. Caso vocês não lembrem (ou não saibam), segue o teoreminha:</p>
+<blockquote>
+<p>Se <span class="math inline">\(y \sim g(y)\)</span> (ydistribuído com função de densidade g), e seja x = f(y), então x <span class="math inline">\(g(f^{-1}(x)) \left|\dfrac{df}{dy}\right|\)</span></p>
+</blockquote>
+<p>Ou seja, para encontrarmos a distribuição de <span class="math inline">\(x = f(y)\)</span> quando conhecemos a distribuição de y, basta plugar a inversa na função dentro da função densidade e multiplicar pelo módulo da derivada.</p>
+<p>Vamos começar computando a derivada :</p>
+<p><span class="math display">\[\dfrac{\partial \sum_i z_i u_i}{\partial \hat{\beta}} = \frac{\gamma \sum_i z^2_i(1-\hat{\beta}) + (\hat{beta} - \beta)\gamma \sum_i z^2_i}{(1-\hat{\beta})^2} = \frac{(1-\beta)\gamma \sum_i z_i ^2}{(1-\hat{\beta})^2}\]</span></p>
+<p>Vamos escrever a função de densidade</p>
+<hr />

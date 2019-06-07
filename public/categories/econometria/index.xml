@@ -6,10 +6,20 @@
     <description>Recent content in Econometria on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 02 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/econometria/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</title>
+      <link>/2019/06/05/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
+      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/06/05/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
+      <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
+Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
+    </item>
     
     <item>
       <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>

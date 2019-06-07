@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Política Monetária on AZUL</title>
+    <link>/categories/pol%C3%ADtica-monet%C3%A1ria/</link>
+    <description>Recent content in Política Monetária on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Mon, 20 May 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/pol%C3%ADtica-monet%C3%A1ria/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Medindo a inércia da inflação brasileira no R com Rolling Window Regression</title>
+      <link>/2019/05/20/inercia-inflacao-rolling-window/</link>
+      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/20/inercia-inflacao-rolling-window/</guid>
+      <description>library(ggplot2) library(dplyr) library(BETS) ipca = BETSget(433, from = &amp;quot;1998-09-01&amp;quot;, data.frame = TRUE) # IPCA desde outubro de 98 ipca %&amp;gt;% ggplot(aes(x = date, y = value)) + geom_line(size = 1.2) + xlab(&amp;quot;Tempo&amp;quot;) + ylab(&amp;quot;Variação Mensal do IPCA (em %)&amp;quot;) + geom_hline(yintercept = mean(ipca$value)) # linha horizontal na média Se notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</description>
+    </item>
+    
+  </channel>
+</rss>

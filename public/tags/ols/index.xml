@@ -6,10 +6,19 @@
     <description>Recent content in Ols on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 28 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/ols/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Medindo a inércia da inflação brasileira no R com Rolling Window Regression</title>
+      <link>/2019/05/20/inercia-inflacao-rolling-window/</link>
+      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/20/inercia-inflacao-rolling-window/</guid>
+      <description>library(ggplot2) library(dplyr) library(BETS) ipca = BETSget(433, from = &amp;quot;1998-09-01&amp;quot;, data.frame = TRUE) # IPCA desde outubro de 98 ipca %&amp;gt;% ggplot(aes(x = date, y = value)) + geom_line(size = 1.2) + xlab(&amp;quot;Tempo&amp;quot;) + ylab(&amp;quot;Variação Mensal do IPCA (em %)&amp;quot;) + geom_hline(yintercept = mean(ipca$value)) # linha horizontal na média Se notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</description>
+    </item>
     
     <item>
       <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
