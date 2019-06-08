@@ -47,8 +47,8 @@
                     </h1>
                     <h2 class="headline">
                     Jun 5, 2019 00:00
-                    · 692 words
-                    · 4 minute read
+                    · 1205 words
+                    · 6 minute read
                       <span class="tags">
                       
                       
@@ -67,7 +67,7 @@
                     <p><em>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência</em></p>
 <p>Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. <em>Mas</em> a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre <a href="https://azul.netlify.com/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/">viés de IV com muitos instrumentos</a>.</p>
 <p>O post de hoje vai mostrar, analiticamente e através de simulações, que a distribuição do estimador de variáveis instrumentais pode ser bem aberrante. O modelo é extremamente simples (que é o que permite obter distribuição analítica). Eu vou fazer todas as continhas porque é um exercício bacana. Se você só quer ver “a mágica acontecer”, pule a seção entre as quebras de página.</p>
-<p>Nada aqui é original, mas o exemplo é tão fantasticamente simples e gera uma distribuição tão maluca para alguns parâmetros que vale o post. As referências estão no fim do artigo.</p>
+<p>Nada aqui é original, mas o exemplo é tão fantasticamente simples e gera uma distribuição tão maluca para alguns parâmetros que vale o post. As referências estão no fim do post.</p>
 <p>O setup é extremamente simples, temos apenas duas equações:</p>
 <p><span class="math display">\[y = \beta{} x + u\\
 x = y + \gamma{}z\]</span></p>
@@ -90,19 +90,94 @@ E equivalentemente para <span class="math inline">\(\sum_i z_i x_i\)</span>:</p>
 <p><span class="math display">\[\sum_i z_i x_i = \sum_i z_i \left(\frac{\gamma}{1-\beta} z_i + \frac{u_i}{1-\beta} \right) = \left(\frac{\gamma}{1-\beta} \sum_i z^2_i + \frac{1}{1-\beta} \sum_i z_i u_i \right) = \frac{1}{1-\beta} \left( \gamma \sum_i z_i^2 + \sum_i z_i u_i \right)\]</span></p>
 <p>Dividindo um pelo outro vamos obter:</p>
 <p><span class="math display">\[\hat{\beta} = \frac{\beta{}\gamma{}\sum_i z_i^2 + \sum_i z_i u_i}{\gamma \sum_i z_i^2 + \sum_i z_i u_i}\]</span></p>
-<p>Vamos colocar <span class="math inline">\(\sum_ z_i u_i\)</span> em evidência. Passe o denominador multiplicando e um pouco de álgebra:</p>
+<p>Vamos colocar <span class="math inline">\(\sum_i z_i u_i\)</span> em evidência. Passe o denominador multiplicando e um pouco de álgebra:</p>
 <p><span class="math display">\[\hat{\beta}\left(\gamma \sum_i z_i^2 + \sum_i z_i u_i\right) = \beta{}\gamma{}\sum_i z_i^2 + \sum_i z_i u_i\\
 (\hat{\beta} -\beta) \gamma \sum_i z_i^2 = (1-\beta) \sum_i z_i u_i\\
 \sum_i z_i u_i = \frac{(\hat{\beta} - \beta)\gamma \sum_i z_i^2}{1 - \hat{\beta}}\]</span></p>
-<p>A grande sacada aqui é notar que a distribuição de <span class="math inline">\(\sum z_i u_i\)</span> condicional a é uma normal com variância <span class="math inline">\(\sum _i z^2_i\)</span>, então podemos usar o resultado acima para fazer uma mudança de variável na distribuição normal. Caso vocês não lembrem (ou não saibam), segue o teoreminha:</p>
+<p>A grande sacada aqui é notar que a distribuição de <span class="math inline">\(\sum z_i u_i\)</span> condicional a <span class="math inline">\(z\)</span> é uma normal com variância <span class="math inline">\(\sigma^2 \sum _i z^2_i\)</span>, então podemos usar o resultado acima para fazer uma mudança de variável na distribuição normal. Caso vocês não lembrem (ou não saibam), segue o teoreminha:</p>
 <blockquote>
-<p>Se <span class="math inline">\(y \sim g(y)\)</span> (ydistribuído com função de densidade g), e seja x = f(y), então x <span class="math inline">\(g(f^{-1}(x)) \left|\dfrac{df}{dy}\right|\)</span></p>
+<p>Se <span class="math inline">\(y \sim g(y)\)</span> (y distribuído com função de densidade g), e seja x = f(y), então <span class="math inline">\(x \sim g(f^{-1}(x)) \left|\dfrac{df}{dy}\right|\)</span></p>
 </blockquote>
 <p>Ou seja, para encontrarmos a distribuição de <span class="math inline">\(x = f(y)\)</span> quando conhecemos a distribuição de y, basta plugar a inversa na função dentro da função densidade e multiplicar pelo módulo da derivada.</p>
 <p>Vamos começar computando a derivada :</p>
-<p><span class="math display">\[\dfrac{\partial \sum_i z_i u_i}{\partial \hat{\beta}} = \frac{\gamma \sum_i z^2_i(1-\hat{\beta}) + (\hat{beta} - \beta)\gamma \sum_i z^2_i}{(1-\hat{\beta})^2} = \frac{(1-\beta)\gamma \sum_i z_i ^2}{(1-\hat{\beta})^2}\]</span></p>
-<p>Vamos escrever a função de densidade</p>
+<p><span class="math display">\[\dfrac{\partial \sum_i z_i u_i}{\partial \hat{\beta}} = \frac{\gamma \sum_i z^2_i(1-\hat{\beta}) + (\hat{\beta} - \beta)\gamma \sum_i z^2_i}{(1-\hat{\beta})^2} = \frac{(1-\beta)\gamma \sum_i z_i ^2}{(1-\hat{\beta})^2}\]</span></p>
+<p>Vamos escrever a função de densidade:</p>
+<p><span class="math display">\[f\left(\sum_i z_i u_i\right) = \frac{1}{\sqrt{2\pi\sigma^2_u}} \exp\left(-\frac{-(\sum_i z_i u_i)^2}{2\sum_i z_i^2 \sigma^2_u}\right)\]</span></p>
+<p>Vamos colocar <span class="math inline">\(\hat{\beta} - \beta\)</span>, a diferença do estimador de IV para o valor verdadeiro. Vamos escrever a distribuição de <span class="math inline">\(f(\hat{\beta}-\beta)\)</span>:</p>
+<p><span class="math display">\[f(\hat{\beta}-\beta) = \left|\frac{(1-\beta)\gamma \sum_i z_i^2}{(1-\hat{\beta})^2}\right| \frac{1}{\sqrt{2\pi\sigma^2_u}} \exp\left(-\frac{-((\hat{\beta}-\beta)\gamma \sum_i z_i^2)^2}{2(1-\hat{\beta})^2 \sum_i z_i^2 \sigma^2_u}\right)\]</span></p>
+<p>Nós podemos simplificar um pouco a expressão dentro do exponencial para:</p>
+<p><span class="math display">\[\exp\left(-\frac{\gamma \sum_i z_i^2}{2\sigma^2_u}\left(\frac{\hat{\beta} - \beta}{(1-\hat{\beta})}\right)^2\right)\]</span></p>
 <hr />
+<p>A distribuição do estimador é <span class="math inline">\(f(\hat{\beta}) = \frac{\lambda_n}{\sqrt{2\pi}\sigma_u}\frac{|1-\beta|}{(1-\hat{\beta})^2}\exp\left(-\frac{\gamma \sum_i z_i^2}{2\sigma^2_u}\left(\frac{\hat{\beta} - \beta}{(1-\hat{\beta})}\right)^2\right)\)</span>, onde <span class="math inline">\(\lambda_n = \gamma/n\sum_i z_i^2\)</span>. Veja que <span class="math inline">\(\lambda_n\)</span> mede o quão forte é o instrumentos: isso depende tanto da variância do <span class="math inline">\(z\)</span> (medido pelo <span class="math inline">\(\sum_i z_i^2\)</span>) e do valor de <span class="math inline">\(\gamma\)</span>.</p>
+<p>Vamos usar o R para olhar como é essa distribuição para diferentes valores de <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\beta\)</span> e <span class="math inline">\(\sigma^2_u\)</span>. Veja que <span class="math inline">\(\beta \neq 1\)</span> para o problema ser bem definido. Eu vou começar com <span class="math inline">\(\lambda =1\)</span> e vou fixar <span class="math inline">\(\sigma^2_u=1\)</span> e <span class="math inline">\(\beta = 0.6\)</span>.</p>
+<pre class="r"><code>dist &lt;- function(x,lambda,btrue,varu){
+  sqrt(lambda/(2*pi*varu))*abs(1-btrue)/(1-x)^2*exp(-lambda/(2*varu)*((x-btrue)/(1-x))^2)
+}
+
+xx &lt;- seq(-1,2,by = 0.01)
+yy &lt;- dist(xx,1,0.6,1)
+plot(xx,yy, type = &quot;l&quot;)</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Veja que a distribuição é bem exótica e que ela não está definida quando a estimativa é 1. Ela tem um pico em 0.6 (como deveria ser) e tem um máximo local logo depois de 1, que pode gerar problemas para a estimação. O mais divertido é quando a gente reduz <span class="math inline">\(\lambda_n\)</span>. Eu vou colocar 0.1:</p>
+<pre class="r"><code>yy &lt;- dist(xx,0.1,0.6,1)
+plot(xx,yy, type = &quot;l&quot;)</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Agora a bimodalidade é evidente e preocupante. Podemos reduzir ainda mais <span class="math inline">\(\lambda_n\)</span>, para 0.01:</p>
+<pre class="r"><code>yy &lt;- dist(xx,0.01,0.6,1)
+plot(xx,yy, type = &quot;l&quot;)</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>A distribuição é bimodal com duas modas perto de 1 - que não é o valor verdadeiro do parâmetro! Veja que mesmo mudando o valor verdadeiro do parâmetro e com um instrumento relativamente forte (<span class="math inline">\(\lambda_n = 1\)</span>), a distribuição não tem moda no valor verdadeiro do parâmetro.</p>
+<pre class="r"><code>library(latex2exp)
+yy &lt;- dist(xx,1,0,1)
+yy2 &lt;- dist(xx,1,0.6,1)
+plot(xx,yy2, type = &quot;l&quot;)
+lines(xx,yy,col=2)
+legend(&quot;topleft&quot;, legend = c(TeX(&#39;$\\beta = 0.6$&#39;),TeX(&#39;$\\beta = 0$&#39;)),lty=1,col=c(1,2))</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Os comandos LaTeX na legenda são processados pela função <code>TeX()</code>, do pacote <em>latex2exp</em> .Podemos fazer algumas simulações para testar isso. Eu vou escolher os parâmetros de maneira que o problema seja equivalente ao da distribuição que a gente usou e fazer amostras relativamente grandes:</p>
+<pre class="r"><code>library(AER)
+set.seed(9076)
+
+gama &lt;- 1
+beta &lt;- 0.6
+sigma_u &lt;- 1
+sigma_z &lt;- 1
+
+estimativas &lt;- rep(0,1000)
+
+for(i in 1:1000){
+  z &lt;- rnorm(1000,sd = sigma_z)
+  u &lt;- rnorm(1000,sd = sigma_u)
+  y &lt;- 1/(1-beta)*(beta*gama*z+u)
+  x &lt;- 1/(1-beta)*(u+gama*z)
+  
+  modelo &lt;- ivreg(y ~ x|z)
+  estimativas[i] &lt;- coef(modelo)[2]
+}
+
+hist(estimativas, freq = F)</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Apesar da distribuição do estimador ter um máximo local, o estimador até sobrevive bem. Vamos deixar o instrumento fraco reduzindo gama:</p>
+<pre class="r"><code>gama &lt;- 0.1
+beta &lt;- 0.6
+sigma_u &lt;- 1
+sigma_z &lt;- 1
+
+estimativas &lt;- rep(0,1000)
+
+for(i in 1:1000){
+  z &lt;- rnorm(1000,sd = sigma_z)
+  u &lt;- rnorm(1000,sd = sigma_u)
+  y &lt;- 1/(1-beta)*(beta*gama*z+u)
+  x &lt;- 1/(1-beta)*(u+gama*z)
+  
+  modelo &lt;- ivreg(y ~ x|z)
+  estimativas[i] &lt;- coef(modelo)[2]
+}
+
+hist(estimativas, freq = F)</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Como esperado, o resultado é catastrófico. A distribuição fica com toda a massa concentrada em 1, que sequer é o valor verdadeiro do parâmetro - na verdade, nesse ponto o estimador sequer está bem definido.</p>
 
                 </section>
             </article>
