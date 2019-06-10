@@ -13,18 +13,17 @@ categories:
 - Estatística
 slug: var-random-walks
 tags:
-  - Otimização
   - Econometria
   - OLS
   - Simulações
 authors: ["pedrocava"]
-draft: TRUE
+draft: FALSE
 ---
 
 Um processo estocástico autoregressivo com $1$ lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 
 $$y_t = \beta y_{t-1} + \mu_t$$ 
-Para algum $y_o = c$ e, no caso com que lidaremos hoje, $\beta \in \mathbb{R}$ e $\mu_t \sim N(0, 1)$, logo vale que $\mathbb{E}[\mu_t] = 0 $. 
+Para algum $y_o = c$ e, no caso com que lidaremos hoje, $\beta \in \mathbb{R}$ e $\mu_t \sim N(0, \sigma^2)$, logo vale que $\mathbb{E}[\mu_t] = 0 $. 
 
 # Variância e Esperança do Processo AR1
 
@@ -45,6 +44,11 @@ Espero que seja claro ao leitor também - ou que a verificação não tome muito
 
 ## Variância
 
+Note que variância de constantes dadas é $0$ e que variância de combinações lineares de variáveis aleatórias independentes é soma das variâncias de cada variável. Podemos reduzir a variância de $y_t$ à:
+
+$$\mathbb{V}[y_t] = \mathbb{V} [\sum_{i=1}^t \mu_i] $$
+$$ \mathbb{V} [\sum_{i=1}^t \mu_i]  = \sum_{i=1}^t\mathbb{V}[\mu_i]$$
+Como $\mathbb{V}[\mu_i] = \sigma^2$, vale que $\mathbb{V}[y_t] = t \sigma^2$. Esperamos variância crescente com o tempo, porém que sorteios diferentes do mesmo processo se cancelem perto de zero - ou melhor, que não exista alguma forte de viés para números positivos ou negativos. Será que podemos verificar isso acontecendo?
 
 # Simulando
 
@@ -118,5 +122,6 @@ processos %>%
   geom_point() 
 ```
 
+De fato, parece que conseguimos observar o comportamento previsto na teoria. Em breve revisitarei esse post falando de processos AR1 que regridem assintoticamente a um patamar e mostrar como isso está conectado com o Teorema do Ponto Fixo de Banach - de que já falei aqui no blog.
 
 
