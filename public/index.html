@@ -77,7 +77,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
                     Fazendo previsões de séries com Random Forest
                     
                         
-                            <h2>library(randomForest) ## randomForest 4.6-14 ## Type rfNews() to see new features/changes/bug fixes. library(BETS) ## ## Attaching package: &#39;BETS&#39; ## The following object is masked from &#39;package:stats&#39;: ## ## predict </h2>
+                            <h2>library(randomForest) library(BETS) library(Quandl) library(dplyr) inicio = &#34;2015-12-31&#34; petroleo = Quandl(&#34;OPEC/ORB&#34;, start_date = inicio, collapse = &#34;daily&#34;) petroleo = rename(petroleo, Preco = &#34;Value&#34;) nasdaqoil = Quandl(&#34;NASDAQOMX/NQDMASPA0001AUD&#34;, start_date = inicio, collapse = &#34;daily&#34;) nasdaqoil = rename(nasdaqoil, Date = &#34;Trade Date&#34;) juros = Quandl(&#34;USTREASURY/REALYIELD&#34;, start_date = inicio, collapse = &#34;daily&#34;) dowjones = Quandl(&#34;BCB/7809&#34;, start_date = inicio, collapse = &#34;daily&#34;) base = full_join(nasdaqoil, juros) base = full_join(base, petroleo) %&gt;% as_tibble() base = full_join(base, dowjones) head(base) base = rename(base, juros = `5 YR`, indice = `Index Value`) load(&#34;base.</h2>
                         
                     
                 </a>

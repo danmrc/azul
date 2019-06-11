@@ -2,29 +2,62 @@
 title: "Fazendo previsões de séries com Random Forest"
 author: "Pedro Cavalcante"
 date: '2019-05-20'
-output:
-  html_document:
-    self_contained: FALSE
-draft: FALSE
+draft: TRUE
 katex: TRUE
 categories:
-- R
-- Finanças
-- Machine Learning
+  - R
+  - Finanças
+  - Machine Learning
 slug: forecasting-rf
 tags:
-- Random Forest
+  - Random Forest
 authors: ["pedrocava"]
 ---
 
 
 
-<pre class="r"><code>library(randomForest)</code></pre>
-<pre><code>## randomForest 4.6-14</code></pre>
-<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
-<pre class="r"><code>library(BETS)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;BETS&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     predict</code></pre>
+<pre class="r"><code>library(randomForest)
+library(BETS)
+library(Quandl)
+library(dplyr)</code></pre>
+<pre class="r"><code>inicio = &quot;2015-12-31&quot;
+
+petroleo = Quandl(&quot;OPEC/ORB&quot;,
+                  start_date = inicio,
+                  collapse = &quot;daily&quot;)
+
+petroleo = rename(petroleo, Preco = &quot;Value&quot;)
+
+nasdaqoil = Quandl(&quot;NASDAQOMX/NQDMASPA0001AUD&quot;,
+                   start_date = inicio,
+                   collapse = &quot;daily&quot;)
+
+nasdaqoil = rename(nasdaqoil, Date = &quot;Trade Date&quot;)
+
+juros = Quandl(&quot;USTREASURY/REALYIELD&quot;, 
+               start_date = inicio,
+               collapse = &quot;daily&quot;)
+
+dowjones = Quandl(&quot;BCB/7809&quot;,
+                  start_date = inicio,
+                  collapse = &quot;daily&quot;)
+
+base = full_join(nasdaqoil,
+                 juros)
+
+base = full_join(base, petroleo) %&gt;% as_tibble()
+
+base = full_join(base, dowjones)
+head(base)
+
+base = rename(base, 
+              juros = `5 YR`,
+              indice = `Index Value`)</code></pre>
+<pre class="r"><code>load(&quot;base.Rdata&quot;)
+base &lt;- base[complete.cases(base),]
+
+insample = base[1:800,]
+outsample = base[800:840,]
+
+floresta = randomForest(indice ~ Preco + juros + Value,
+                        data = insample)</code></pre>

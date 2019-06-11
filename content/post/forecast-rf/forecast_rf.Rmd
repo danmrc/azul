@@ -2,18 +2,15 @@
 title: "Fazendo previsões de séries com Random Forest"
 author: "Pedro Cavalcante"
 date: '2019-05-20'
-output:
-  html_document:
-    self_contained: FALSE
-draft: FALSE
+draft: TRUE
 katex: TRUE
 categories:
-- R
-- Finanças
-- Machine Learning
+  - R
+  - Finanças
+  - Machine Learning
 slug: forecasting-rf
 tags:
-- Random Forest
+  - Random Forest
 authors: ["pedrocava"]
 ---
 
@@ -26,11 +23,10 @@ library(randomForest)
 library(BETS)
 library(Quandl)
 library(dplyr)
-library(ggplot2)
 ```
 
 
-```{R}
+```{R, eval = FALSE}
 
 inicio = "2015-12-31"
 
@@ -72,8 +68,11 @@ base = rename(base,
 
 
 ```{R}
-insample = base[1:852,]
-outsample = base[852:882,]
+load("base.Rdata")
+base <- base[complete.cases(base),]
+
+insample = base[1:800,]
+outsample = base[800:840,]
 
 floresta = randomForest(indice ~ Preco + juros + Value,
                         data = insample)
