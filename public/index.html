@@ -63,7 +63,7 @@
                         
                             <h2>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</h2>
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</h2>
                         
                     
                 </a>
@@ -94,7 +94,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
                     Fazendo previsões de séries com Random Forest
                     
                         
-                            <h2>library(randomForest) library(BETS) library(Quandl) library(dplyr) inicio = &#34;2015-12-31&#34; petroleo = Quandl(&#34;OPEC/ORB&#34;, start_date = inicio, collapse = &#34;daily&#34;) petroleo = rename(petroleo, Preco = &#34;Value&#34;) nasdaqoil = Quandl(&#34;NASDAQOMX/NQDMASPA0001AUD&#34;, start_date = inicio, collapse = &#34;daily&#34;) nasdaqoil = rename(nasdaqoil, Date = &#34;Trade Date&#34;) juros = Quandl(&#34;USTREASURY/REALYIELD&#34;, start_date = inicio, collapse = &#34;daily&#34;) dowjones = Quandl(&#34;BCB/7809&#34;, start_date = inicio, collapse = &#34;daily&#34;) base = full_join(nasdaqoil, juros) base = full_join(base, petroleo) %&gt;% as_tibble() base = full_join(base, dowjones) head(base) base = rename(base, juros = `5 YR`, indice = `Index Value`) load(&#34;base.</h2>
+                            <h2>library(randomForest)library(BETS)library(Quandl)library(dplyr)inicio = &#34;2015-12-31&#34;petroleo = Quandl(&#34;OPEC/ORB&#34;,start_date = inicio,collapse = &#34;daily&#34;)petroleo = rename(petroleo, Preco = &#34;Value&#34;)nasdaqoil = Quandl(&#34;NASDAQOMX/NQDMASPA0001AUD&#34;,start_date = inicio,collapse = &#34;daily&#34;)nasdaqoil = rename(nasdaqoil, Date = &#34;Trade Date&#34;)juros = Quandl(&#34;USTREASURY/REALYIELD&#34;, start_date = inicio,collapse = &#34;daily&#34;)dowjones = Quandl(&#34;BCB/7809&#34;,start_date = inicio,collapse = &#34;daily&#34;)base = full_join(nasdaqoil,juros)base = full_join(base, petroleo) %&gt;% as_tibble()base = full_join(base, dowjones)head(base)base = rename(base, juros = `5 YR`,indice = `Index Value`)load(&#34;base.</h2>
                         
                     
                 </a>
@@ -109,7 +109,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
                     Medindo a inércia da inflação brasileira no R com Rolling Window Regression
                     
                         
-                            <h2>library(ggplot2) library(dplyr) library(BETS) ipca = BETSget(433, from = &#34;1998-09-01&#34;, data.frame = TRUE) # IPCA desde outubro de 98 ipca %&gt;% ggplot(aes(x = date, y = value)) &#43; geom_line(size = 1.2) &#43; xlab(&#34;Tempo&#34;) &#43; ylab(&#34;Variação Mensal do IPCA (em %)&#34;) &#43; geom_hline(yintercept = mean(ipca$value)) # linha horizontal na média Se notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</h2>
+                            <h2>library(ggplot2)library(dplyr)library(BETS)ipca = BETSget(433,from = &#34;1998-09-01&#34;,data.frame = TRUE) # IPCA desde outubro de 98ipca %&gt;%ggplot(aes(x = date, y = value)) &#43;geom_line(size = 1.2) &#43;xlab(&#34;Tempo&#34;) &#43;ylab(&#34;Variação Mensal do IPCA (em %)&#34;) &#43;geom_hline(yintercept = mean(ipca$value)) # linha horizontal na médiaSe notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</h2>
                         
                     
                 </a>
@@ -126,8 +126,8 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
                         
                             <h2>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
 encher de coisas aqui
-set.seed(1234) n = 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) ## ## Attaching package: &#39;dplyr&#39; ## The following objects are masked from &#39;package:stats&#39;: ## ## filter, lag ## The following objects are masked from &#39;package:base&#39;: ## ## intersect, setdiff, setequal, union library(gganimate) m = 10000000 n = 100 amostras = vector() for(i in 1:m) { set.</h2>
+set.seed(1234)n = 5000amostra1 = rbinom(n= n,size = 1,prob = .5)mean(amostra1)## [1] 0.5014Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2)library(dplyr)## ## Attaching package: &#39;dplyr&#39;## The following objects are masked from &#39;package:stats&#39;:## ## filter, lag## The following objects are masked from &#39;package:base&#39;:## ## intersect, setdiff, setequal, unionlibrary(gganimate)m = 10000000n = 100amostras = vector()for(i in 1:m) {set.</h2>
                         
                     
                 </a>

@@ -47,7 +47,7 @@
                     </h1>
                     <h2 class="headline">
                     Jun 10, 2019 00:00
-                    · 532 words
+                    · 533 words
                     · 3 minute read
                       <span class="tags">
                       
@@ -69,17 +69,13 @@
                 
                 <section id="post-body">
                     <p>Um processo estocástico autoregressivo com <span class="math inline">\(1\)</span> lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:</p>
-<p><span class="math display">\[y_t = \beta y_{t-1} + \mu_t\]</span>
-Para algum <span class="math inline">\(y_o = c\)</span> e, no caso com que lidaremos hoje, <span class="math inline">\(\beta \in \mathbb{R}\)</span> e <span class="math inline">\(\mu_t \sim N(0, \sigma^2)\)</span>, logo vale que $[_t] = 0 $.</p>
+<p><span class="math display">\[y_t = \beta y_{t-1} + \mu_t\]</span> Para algum <span class="math inline">\(y_o = c\)</span> e, no caso com que lidaremos hoje, <span class="math inline">\(\beta \in \mathbb{R}\)</span> e <span class="math inline">\(\mu_t \sim N(0, \sigma^2)\)</span>, logo vale que $[_t] = 0 $.</p>
 <div id="variancia-e-esperanca-do-processo-ar1" class="section level1">
 <h1>Variância e Esperança do Processo AR1</h1>
 <div id="esperanca" class="section level2">
 <h2>Esperança</h2>
 <p>Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição. Note que o operador de Esperança é <em>linear</em>, isso é importante.</p>
-<p><span class="math display">\[\mathbb{E} [y_t] = \mathbb{E} [\beta y_{t-1} + \mu_t]\]</span>
-<span class="math display">\[\mathbb{E} [y_t] = \beta\mathbb{E} [ y_{t-1}] + \mathbb{E}[\mu_t]\]</span>
-<span class="math display">\[\mathbb{E} [y_t] = \beta\mathbb{E} [ \beta y_{t-2} + \mu_{t-1}] + 0\]</span>
-<span class="math display">\[\mathbb{E} [y_t] = \beta^2\mathbb{E} [y_{t-2}] + \mathbb{E}[\mu_{t-1}] + 0\]</span></p>
+<p><span class="math display">\[\mathbb{E} [y_t] = \mathbb{E} [\beta y_{t-1} + \mu_t]\]</span> <span class="math display">\[\mathbb{E} [y_t] = \beta\mathbb{E} [ y_{t-1}] + \mathbb{E}[\mu_t]\]</span> <span class="math display">\[\mathbb{E} [y_t] = \beta\mathbb{E} [ \beta y_{t-2} + \mu_{t-1}] + 0\]</span> <span class="math display">\[\mathbb{E} [y_t] = \beta^2\mathbb{E} [y_{t-2}] + \mathbb{E}[\mu_{t-1}] + 0\]</span></p>
 <p>Acho que o leitor já captou o padrão aqui. Se não, recomendo continuar o processo mais algumas vezes no papel. No final chegaremos em:</p>
 <p><span class="math display">\[\mathbb{E} [y_t] = \beta^t y_0\]</span></p>
 <p>Espero que seja claro ao leitor também - ou que a verificação não tome muito tempo - que se <span class="math inline">\(| \beta | &lt; 1\)</span> então <span class="math inline">\(\lim_{t \to \infty}\beta^t y_0 = 0\)</span>. No entanto o mesmo limite explode para infinito se o parâmetro for maior ou igual a <span class="math inline">\(1\)</span> em módulo.</p>
@@ -87,9 +83,7 @@ Para algum <span class="math inline">\(y_o = c\)</span> e, no caso com que lidar
 <div id="variancia" class="section level2">
 <h2>Variância</h2>
 <p>Note que variância de constantes dadas é <span class="math inline">\(0\)</span> e que variância de combinações lineares de variáveis aleatórias independentes é soma das variâncias de cada variável. Podemos reduzir a variância de <span class="math inline">\(y_t\)</span> à:</p>
-<p><span class="math display">\[\mathbb{V}[y_t] = \mathbb{V} [\sum_{i=1}^t \mu_i] \]</span>
-<span class="math display">\[ \mathbb{V} [\sum_{i=1}^t \mu_i]  = \sum_{i=1}^t\mathbb{V}[\mu_i]\]</span>
-Como <span class="math inline">\(\mathbb{V}[\mu_i] = \sigma^2\)</span>, vale que <span class="math inline">\(\mathbb{V}[y_t] = t \sigma^2\)</span>. Esperamos variância crescente com o tempo, porém que sorteios diferentes do mesmo processo se cancelem perto de zero - ou melhor, que não exista alguma forte de viés para números positivos ou negativos. Será que podemos verificar isso acontecendo?</p>
+<p><span class="math display">\[\mathbb{V}[y_t] = \mathbb{V} [\sum_{i=1}^t \mu_i] \]</span> <span class="math display">\[ \mathbb{V} [\sum_{i=1}^t \mu_i]  = \sum_{i=1}^t\mathbb{V}[\mu_i]\]</span> Como <span class="math inline">\(\mathbb{V}[\mu_i] = \sigma^2\)</span>, vale que <span class="math inline">\(\mathbb{V}[y_t] = t \sigma^2\)</span>. Esperamos variância crescente com o tempo, porém que sorteios diferentes do mesmo processo se cancelem perto de zero - ou melhor, que não exista alguma forte de viés para números positivos ou negativos. Será que podemos verificar isso acontecendo?</p>
 </div>
 </div>
 <div id="simulando" class="section level1">
@@ -149,7 +143,8 @@ processos = do.call(rbind, processos) # agregamos as listas</code></pre>
   ggplot(aes(x = t, y = processo)) +
   geom_point() </code></pre>
 <p><img src="/post/var_random_walks_files/figure-html/unnamed-chunk-4-1.png" width="1400" /></p>
-<p>De fato, parece que conseguimos observar o comportamento previsto na teoria. Em breve revisitarei esse post falando de processos AR1 que regridem assintoticamente a um patamar e mostrar como isso está conectado com o Teorema do Ponto Fixo de Banach - de que já falei aqui no blog.</p>
+<p>De fato, parece que conseguimos o</p>
+<p>bservar o comportamento previsto na teoria. Em breve revisitarei esse post falando de processos AR1 que regridem assintoticamente a um patamar e mostrar como isso está conectado com o Teorema do Ponto Fixo de Banach - de que já falei aqui no blog.</p>
 </div>
 
                 </section>
