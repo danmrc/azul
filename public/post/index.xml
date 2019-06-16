@@ -6,10 +6,20 @@
     <description>Recent content in Posts on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Mon, 10 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 15 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</title>
+      <link>/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
+      <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
+      <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
+Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
+    </item>
     
     <item>
       <title>Comportamento de Random Walks</title>
@@ -20,16 +30,6 @@
       <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
 Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
-    </item>
-    
-    <item>
-      <title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</title>
-      <link>/2019/06/05/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
-      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/06/05/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
-      <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
-Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
     </item>
     
     <item>
