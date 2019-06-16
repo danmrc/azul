@@ -7,14 +7,13 @@ categories:
   - Econometria
 tags:
   - Variáveis Instrumentais
-draft: true
 ---
 
 _Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência_ 
 
 Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. _Mas_ a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre [viés de IV com muitos instrumentos](https://azul.netlify.com/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/).
 
-O post de hoje vai mostrar, analiticamente e através de simulações, que a distribuição do estimador de variáveis instrumentais pode ser bem aberrante. O modelo é extremamente simples (que é o que permite obter distribuição analítica). Eu vou fazer todas as continhas porque é um exercício bacana. Se você só quer ver "a mágica acontecer", pule a seção entre as quebras de página. 
+O post de hoje vai mostrar, analiticamente e através de simulações, que a distribuição do estimador de variáveis instrumentais pode ser bem aberrante. O modelo é extremamente simples (que é o que permite obter distribuição analítica). Eu vou fazer todas as continhas porque é um exercício bacana. Se você só quer ver "a mágica acontecer", pule a seção entre "As contas". 
 
 Nada aqui é original, mas o exemplo é tão fantasticamente simples e gera uma distribuição tão maluca para alguns parâmetros que vale o post. As referências estão no fim do post. 
 
@@ -26,6 +25,8 @@ x = y + \gamma{}z$$
 Onde $y,x,z$ são escalares. Podemos usar $z$ como instrumento para identificar $\beta$. $u$ é um erro com distribuição normal e variância $\sigma^2_u$. 
 
 --- 
+
+## As contas
 
 Vamos escrever as equações acima de maneira a obter duas equações: uma que só depende de x e z e outra que só depende de y e z. Basta plugar uma dentro da outra e obter:
 
@@ -87,9 +88,11 @@ $$\exp\left(-\frac{\gamma \sum_i z_i^2}{2\sigma^2_u}\left(\frac{\hat{\beta} - \b
 
 ---
 
+## A distribuição
+
 A distribuição do estimador é $f(\hat{\beta}) = \frac{\lambda_n}{\sqrt{2\pi}\sigma_u}\frac{|1-\beta|}{(1-\hat{\beta})^2}\exp\left(-\frac{\gamma \sum_i z_i^2}{2\sigma^2_u}\left(\frac{\hat{\beta} - \beta}{(1-\hat{\beta})}\right)^2\right)$, onde $\lambda_n = \gamma/n\sum_i z_i^2$. Veja que $\lambda_n$ mede o quão forte é o instrumentos: isso depende tanto da variância do $z$ (medido pelo $\sum_i z_i^2$) e do valor de $\gamma$. 
 
-Vamos usar o R para olhar como é essa distribuição para diferentes valores de $\lambda$, $\beta$ e $\sigma^2_u$. Veja que $\beta \neq 1$ para o problema ser bem definido. Eu vou começar com $\lambda =1$ e vou fixar $\sigma^2_u=1$ e $\beta = 0.6$. 
+Vamos usar o R para olhar como é essa distribuição para diferentes valores de $\lambda$, $\beta$ e $\sigma^2_u$. Veja que se $\beta = 1$ o problema não vai ser bem definido. Eu vou começar com $\lambda =1$ e vou fixar $\sigma^2_u=1$ e $\beta = 0.6$. 
 
 ```{r}
 
@@ -181,4 +184,13 @@ hist(estimativas, freq = F)
 ```
 
 Como esperado, o resultado é catastrófico. A distribuição fica com toda a massa concentrada em 1, que sequer é o valor verdadeiro do parâmetro - na verdade, nesse ponto o estimador sequer está bem definido.
+
+Esse post serve como um belo exercício de estatística - como obter uma distribuição exata de um estimador que estamos acostumados a pensar apenas em termos assintóticos - e serve como um alerta sobre o uso de variáveis instrumentais: mesmo em uma situação extremamente simples, nós podemos ter sério problemas. Isso depende do tamanho da amostra e do fatos dos instrumentos serem fracos - o que nem sempre é corretamente diagnosticado. 
+
+## Referências
+
+Some Further Results on the Exact Small Sample Properties of the Instrumental Variable
+Estimator, Charles R. Nelson and Richard Startz, Econometrica, 1990
+
+A Remark on Bimodality and Weak Instrumentation in Structural Equation Estimation, Peter C.B. Phillips, Econometric Theory,2006
 
