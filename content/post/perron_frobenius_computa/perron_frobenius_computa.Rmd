@@ -1,0 +1,94 @@
+---
+title: "Verificando computacionalmente o Teorema de Perron-Frobenius"
+author: "Pedro Cavalcante"
+date: '2019-07-21'
+output:
+  html_document:
+    df_print: paged
+draft: yes
+katex: yes
+categories:
+- R
+- Econometria
+slug: perron-frobenius-verificando-comp
+tags:
+- Simulação
+- R
+- Monte Carlo
+authors: pedrocava
+---
+
+```{r echo=FALSE, message=FALSE}
+
+
+library(tibble)
+library(dplyr)
+
+
+
+```
+
+
+
+```{R}
+set.seed(1234)
+n = 100000
+m = 4
+
+autovalores1 = vector()
+autovalores2 = vector()
+
+for(i in 1:n) {
+  
+  tirada = runif(n = m) %>% round(digits = 3)
+  matriz = tirada %>% matrix(ncol = 2)
+  auto = eigen(matriz)
+  
+  autovalores1[i] = auto$values[1]
+  autovalores2[i] = auto$values[2]
+  
+  
+}
+
+dados = tibble(A = autovalores1,
+               B = autovalores2)
+
+medias = dados %>%
+  summarise(meanA = mean(A),
+            meanB = mean(B))
+
+medias %>% print()
+```
+
+
+asxzx
+
+```{R}
+set.seed(1234)
+n = 100000
+m = 4
+
+autovalores12 = vector()
+autovalores22 = vector()
+
+for(i in 1:n) {
+  
+  tirada2 = runif(n = m, min = 1, max = 2) %>% round(digits = 3)
+  matriz2 = tirada %>% matrix(ncol = 2)
+  auto2 = eigen(matriz2)
+  
+  autovalores12[i] = auto2$values[1]
+  autovalores22[i] = auto2$values[2]
+  
+  
+}
+
+dados2 = tibble(A2 = autovalores12,
+               B2 = autovalores22)
+
+medias2 = dados2 %>%
+  summarise(meanA2 = mean(A2),
+            meanB2 = mean(B2))
+
+medias2 %>% print()
+```
