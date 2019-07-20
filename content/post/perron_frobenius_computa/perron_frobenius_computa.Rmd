@@ -18,7 +18,7 @@ tags:
 authors: pedrocava
 ---
 
-```{r echo=FALSE, message=FALSE}
+```{r setup echo=FALSE, message=FALSE}
 
 
 library(tibble)
@@ -28,11 +28,20 @@ library(dplyr)
 
 ```
 
+# Matrizes Estocásticas, Operadores Lineares e Contrações
 
+
+# O Teorema de Perron-Frobenius
+
+
+# Verificando esse resultado computacionalmente
+
+
+Geramos para matrizes estocásticas
 
 ```{R}
 set.seed(1234)
-n = 100000
+n = 100000 
 m = 4
 
 autovalores1 = vector()
@@ -57,11 +66,11 @@ medias = dados %>%
   summarise(meanA = mean(A),
             meanB = mean(B))
 
-medias %>% print()
+medias 
 ```
 
 
-asxzx
+E para matrizes não-estocásticas
 
 ```{R}
 set.seed(1234)
@@ -90,5 +99,5 @@ medias2 = dados2 %>%
   summarise(meanA2 = mean(A2),
             meanB2 = mean(B2))
 
-medias2 %>% print()
+medias2 
 ```
