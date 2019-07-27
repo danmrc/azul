@@ -2,6 +2,7 @@
 title: "Verificando computacionalmente o Teorema de Perron-Frobenius"
 author: "Pedro Cavalcante"
 date: '2019-07-21'
+bibliography: "bib.bib"
 output:
   html_document:
     df_print: paged
@@ -18,26 +19,37 @@ tags:
 authors: pedrocava
 ---
 
-```{r setup echo=FALSE, message=FALSE}
+```{r setup}
 
 
 library(tibble)
 library(dplyr)
+library(tictoc)
+
 
 
 
 ```
 
-# Matrizes Estocásticas, Operadores Lineares e Contrações
+# Matrizes Estocásticas, Operadores Lineares, Contrações e Pontos Fixos
 
+
+* *Lema:* Seja $A$ uma matriz estocástica positiva $n x n$ e $\phi_n$ o conjunto de contrações do $\Delta_{n}$ em si mesmo. $A_{n x n} \in \phi_{n-1}$.
+
+*Prova:* Ver @shih2013positive.
 
 # O Teorema de Perron-Frobenius
 
+* *Teorema (Perron-Frobenius):* Seja $A$ um operador linear cuja matriz associada é positiva. Então $A$ tem um único autovetor positivo, cujo autovalor tem multiplicidade unitária e é maior em módulo que qualquer outro autovalor de $A$. 
+
+* *Prova:* 
+
+* *Corolário:* Seja $A$ uma matriz estocástica. Então existe um único $1$-autovetor associado à A. 
 
 # Verificando esse resultado computacionalmente
 
+A função ``eigen()`` faz a decomposição espectral de matrizes com métodos numéricos então a usaremos para aproximar os autovalores e vetores de várias matrizes simuladas. 
 
-Geramos para matrizes estocásticas
 
 ```{R}
 set.seed(1234)
@@ -47,9 +59,10 @@ m = 4
 autovalores1 = vector()
 autovalores2 = vector()
 
+tic("matrizes")
 for(i in 1:n) {
   
-  tirada = runif(n = m) %>% round(digits = 3)
+  tirada = runif(n = m) %>% round(digits = 2)
   matriz = tirada %>% matrix(ncol = 2)
   auto = eigen(matriz)
   
@@ -58,7 +71,7 @@ for(i in 1:n) {
   
   
 }
-
+toc()
 dados = tibble(A = autovalores1,
                B = autovalores2)
 
@@ -80,9 +93,12 @@ m = 4
 autovalores12 = vector()
 autovalores22 = vector()
 
+
+
+
 for(i in 1:n) {
   
-  tirada2 = runif(n = m, min = 1, max = 2) %>% round(digits = 3)
+  tirada2 = runif(n = m, min = -1, max = 1) %>% round(digits = 3)
   matriz2 = tirada %>% matrix(ncol = 2)
   auto2 = eigen(matriz2)
   
