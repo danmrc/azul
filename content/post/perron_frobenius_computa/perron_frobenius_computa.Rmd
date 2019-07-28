@@ -1,5 +1,5 @@
 ---
-title: "Verificando computacionalmente o Teorema de Perron-Frobenius"
+title: "Verificando Computacionalmente o Teorema de Perron-Frobenius Parte I: Três Provas para o Ponto Fixo de Brouwer"
 author: "Pedro Cavalcante"
 date: '2019-07-21'
 bibliography: "bib.bib"
@@ -10,33 +10,75 @@ draft: yes
 katex: yes
 categories:
 - R
-- Econometria
+- Matemática
 slug: perron-frobenius-verificando-comp
 tags:
 - Simulação
 - R
 - Monte Carlo
+- Ponto Fixo
 authors: pedrocava
 ---
 
-```{r setup}
+```{r setup, warning = FALSE, message = FALSE}
 
 
 library(tibble)
 library(dplyr)
 library(tictoc)
-
-
-
-
 ```
 
-# Matrizes Estocásticas, Operadores Lineares, Contrações e Pontos Fixos
+# Pontos Fixos
+
+Eu sou fascinado por um ramo de matemática que podemos chamar de _Teoria de Ponto Fixo_. É uma teoria surpreendenemte rica, com aplicações vastas e em áreas muito diferentes, de Geometria Algébrica e Ciência da Computação à Economia. As aplicações em economia são particularmente interessantes para quem estuda Equilíbrio Geral ou Teoria dos Jogos. Interessados podem conferir @border.
+
+Como eu quero que este post seja auto-contido, vou tentar introduzir os conceitos necessários aqui. Leitores já familiarizados podem pular para a próxima seção.
+
+* *Definição:* Diz-se que uma função $f: A \to B$ admite um _ponto fixo_ se existe $x \in A$ tal que $f(x) = x$. $x$ é dito *ponto fixo* de $f$. Notamos o conjunto de pontos fixos de $f$ por $\mathbb{F} (f)$.
+
+No plano cartesiano, nosso velho amigo, uma função admite ponto fixo se cruza o gráfico da *função identidade $g(x) = x$*. A cardinalidade do conjunto de pontos fixos (ou simplesmente o número de pontos fixos) de uma função qualquer nesse contexto é o número de vezes em que a identidade e esta função se cruzam. A função identidade $g(x) = x$ tem infinitos pontos fixos, algumas funções como $f(x) = 5 - x$ têm apenas um ponto fixo e outras como $f(x) = x + 2$ não têm pontos fixos. 
+
+Verificar a (in)existência de pontos fixos em funções afins é bem simples, mas essas funções são raramente interessantes. Procurando por padrões na existência ou não de pontos fixos nasceram vários teoremas. Eu já falei de um deles aqui no blog, o [Teorema do Ponto Fixo de Banach](https://azul.netlify.com/2018/10/31/banach/) que nos garante que se uma função é uma contração e tem domínio em um espaço métrico completo, então tem *um* e somente um ponto fixo. A caixinha de ferramentas de teoremas de ponto fixo é ampla, mas por enquanto vamos focar em um resultado:
+
+* *Teorema (Brouwer):* Seja $A$ um subconjunto fechado, limitado e convexo do $\mathbb{R}^n$ e $f: A \to B$ uma função contínua. Então $f$ admite pelo menos um ponto fixo. 
+
+O Teorema do Ponto Fixo de Brouwer é um dos fatos fundamentais da topologia. O enunciado é curiosamente simples para uma conclusão tão forte - embora possa não parecer a princípio. Imagine um disco que contenha a sua borda. Deforme ele como quiser desde que não faça buracos nem entradas. Deforme um disco até que vire um quadrado inscrito no disco original, vire-o ao contrário, crie uma versão menor dele, o que sua mente pensar. Se você não criar buracos nem entradas (portanto deformando-o continuamente e sem ferir a convexidade do conjunto), sempre haverá _pelo menos um ponto_ que fica parado. 
+
+Existem dezenas de maneiras conhecidas de provar este teorema. Algumas provas extremamente simples podem ser construídas se aceitarmos como verdadeiros alguns resultados como o Lema da Não-Retração (ver @coughlin). Outras muito curiosas podem usar o fato de que o jogo Hex não tem empates, como a de @gale. Como provar o caso geral pode fugir ao escopo de um post de blog, vou apresentar três demonstrações para casos particulares que ilustram facetas diferentes e interessantes do problema. O leitor interessado em demonstrações exaustivas deste resultado pode conferir @buxton.
+
+## O Teorema "Óbvio" de Ponto Fixo
+
+Este teorema é "óbvio" porque pode ser demonstado até mesmo com desenhos em um papel. Sua demonstração formal depende apenas de um fato muito simples do cálculo, o Teorema do Valor Intermediário, e daí decorre em uma sequência muito simples de encadeamentos lógicos. Neste contexto, demonstrar a proposição é equivalente a mostrar que nenhuma linha que vá de um lado de um quadrado até o oposto sem dar pulos necessariamente cruza a diagonal. 
 
 
-* *Lema:* Seja $A$ uma matriz estocástica positiva $n x n$ e $\phi_n$ o conjunto de contrações do $\Delta_{n}$ em si mesmo. $A_{n x n} \in \phi_{n-1}$.
 
-*Prova:* Ver @shih2013positive.
+O teorema que ajuda a amarrar a demonstração é razoavelmente simples também.
+
+* *Teorema (Valor Intermediário):* Seja $f$ uma função contínua, $a$ e $b$ números reais tal que $a < b$. Então para todo $d \in (f(a),f(b))$ existe $c \in (a,b)$ tal que $f(c) = d$.
+
+Este teorema tem uma interpretação visual bem simples: 
+
+
+
+Agora podemos prosseguir para a demonstração em si.
+
+* *Proposição (Brouwer no Fechado $[0,1]$):* Seja $I=[0,1]$ um intervalo unitário fechado. Suponha $f$ um mapeamento contínuo de $I$ em $I$. Então para pelo menos um $x \in I$ vale que $f(x)=x$.
+
+* *Demonstração:* Poderíamos ter dois casos "triviais", em que $f(0)=0$ ou $f(1)=1$. Se não tivermos tais casos, então temos um mapeamento que associa todos os pontos de $I$ a um subconjunto de $I$ tal que $f(0)>0$ e/ou $f(1) < 1$ . Se definirmos um mapeamento $g(x)= f(x) - x$, temos que $g(0) > 0$ e $g(1) < 0$. Segue do Teorema do Valor Intermediário que existe algum $p \in I$ tal que $g(p) = 0 \iff f(p) - p = 0$. Se $f(p) - p = 0$ então $f(p)=p$.   
+
+## Provando com o Lema da Não-Retração
+
+## Uma demonstração com Combinatória
+
+
+
+
+
+
+
+
+
+
 
 # O Teorema de Perron-Frobenius
 
@@ -44,14 +86,18 @@ library(tictoc)
 
 * *Prova:* 
 
-* *Corolário:* Seja $A$ uma matriz estocástica. Então existe um único $1$-autovetor associado à A. 
+
+
+* *Proposição:* Seja $A$ uma matriz estocástica positiva $n \times n$ e $\phi_n$ o conjunto de contrações do simplex $\Delta_{n}$ em si mesmo. $A_{n x n} \in \phi_{n-1}$.
+
+*Prova:* Ver @shih2013positive.
 
 # Verificando esse resultado computacionalmente
 
 A função ``eigen()`` faz a decomposição espectral de matrizes com métodos numéricos então a usaremos para aproximar os autovalores e vetores de várias matrizes simuladas. 
 
 
-```{R}
+```{R eval = FALSE}
 set.seed(1234)
 n = 100000 
 m = 4
@@ -85,7 +131,7 @@ medias
 
 E para matrizes não-estocásticas
 
-```{R}
+```{R eval = FALSE}
 set.seed(1234)
 n = 100000
 m = 4
