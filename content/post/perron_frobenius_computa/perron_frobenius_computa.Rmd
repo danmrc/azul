@@ -65,14 +65,22 @@ Agora podemos prosseguir para a demonstração em si.
 
 Primeiro preciso apresentar duas definições.
 
-* *Definição:* Nos referimos ao $n$-disco como $D^n$ e o definimos como $D^n = \{ x \in \mathbb{R}^n | ||x|| \leq 1\}$. Note então que o $n$-disco é sempre compacto, convexo e limitado, não importando em quantas dimesões estamos. Podemos nos refeir ao $n$-disco *aberto*, em que na definição trocamos a desigualdade fraca por uma desigualdade estrita. A partir daí podemos também definir a $n$-esfera como sendo a borda do $n$-disco. Notamos a $n$-esfera como $S^n$.
+* *Definição:* Nos referimos ao $n$-disco como $D^n$ e o definimos como $D^n = \{ x \in \mathbb{R}^n | ||x|| \leq 1\}$. Note então que o $n$-disco é sempre compacto, convexo e limitado, não importando em quantas dimesões estamos. Podemos nos refeir ao $n$-disco *aberto*, em que na definição trocamos a desigualdade fraca por uma desigualdade estrita. A partir daí podemos também definir a $n$-esfera como sendo a borda do $D^{n+1}$. Notamos a $n$-esfera como $S^n$.
 
-O $D^1$ é meramente o intervalo fechado da reta $[-1,1]$, o $S^1$ é apenas o conjunto $\{-1, 1\}$. 
+O $D^1$ é o intervalo fechado da reta $[-1,1]$, o $S^0$ é apenas o conjunto $\{-1, 1\}$.
+
 * *Definição:* Dizemos que uma função $\rho : A \to B \subset A$ é uma _retração_ se é (i) contínua e (ii) para todo $x \in B$ vale que $\rho(x) = x$. 
 
-Retrações são funções contínuas que mapeiam um conjunto em um subconjunto de si mesmo de forma que qualquer elemento que já pertença ao subconjunto em questão seja um ponto fixo. Tome a função $f: [-1,1] \to [0,1]$ definida por $f(x) = |x|$. Estamos falando de uma retração! Todos os elementos que já pertenciam ao subconjunto que é imagem de $f$ são pontos fixos e todos que não pertenciam são mapeados lá.
+Retrações são funções contínuas que mapeiam um conjunto em um subconjunto de si mesmo de forma que qualquer elemento que já pertença ao subconjunto em questão seja um ponto fixo. Tome a função $f: [-1,1] \to [0,1]$ definida por $f(x) = |x|$. Estamos falando de uma retração! Todos os elementos que já pertenciam ao subconjunto que é imagem de $f$ são pontos fixos e todos que não pertenciam são mapeados lá. Com essas duas definições, posso apresentar um resultado muito curioso:
+
+* *Lema (Não-Retração):* Não existe função $\rho : D^{n+1} \to S^n$ tal que $\rho$ seja uma retração. 
+
+Se uma função é contínua de um disco para sua fronteira, então necessariamente não pode ter todos os pontos da fronteira como pontos fixos e se apresenta todos os pontos da fronteira como pontos fixos necessariamente não é contínua. A prova que parece ser mais famosa usa argumentos topológicos que fogem ao escopo do que é apresentável em um só post, homotopias. A demonstração mais simples que encontrei é a de @kannai, que usa argumentos vindos do "cálculo de engenharia".
 
 
+* *Proposição (Brouwer no $D^2$):* Seja $f: D^2 \to D^2$ um mapa contínuo, então $#\mathbb{F}(f) > 0$ (e.g. $f$ admite pelo menos um ponto fixo).
+
+* *Demonstração*
 
 
 
