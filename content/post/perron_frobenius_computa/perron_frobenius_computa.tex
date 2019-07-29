@@ -1,0 +1,237 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Verificando Computacionalmente o Teorema de Perron-Frobenius Parte I: Três Provas para o Ponto Fixo de Brouwer},
+            pdfauthor={Pedro Cavalcante},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Verificando Computacionalmente o Teorema de Perron-Frobenius Parte I:
+Três Provas para o Ponto Fixo de Brouwer}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Pedro Cavalcante}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2019-07-21}
+
+
+\begin{document}
+\maketitle
+
+\section{Pontos Fixos}\label{pontos-fixos}
+
+Eu sou fascinado por um ramo de matemática que podemos chamar de
+\emph{Teoria de Ponto Fixo}. É uma teoria surpreendenemte rica, com
+aplicações vastas e em áreas muito diferentes, de Geometria Algébrica e
+Ciência da Computação à Economia. As aplicações em economia são
+particularmente interessantes para quem estuda Equilíbrio Geral ou
+Teoria dos Jogos. Interessados podem conferir Border (1989).
+
+Como eu quero que este post seja auto-contido, vou tentar introduzir os
+conceitos necessários aqui. Leitores já familiarizados podem pular para
+a próxima seção.
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Definição:} Diz-se que uma função \(f: A \to B\) admite um
+  \emph{ponto fixo} se existe \(x \in A\) tal que \(f(x) = x\). \(x\) é
+  dito \emph{ponto fixo} de \(f\). Notamos o conjunto de pontos fixos de
+  \(f\) por \(\mathbb{F} (f)\).
+\end{itemize}
+
+No plano cartesiano, nosso velho amigo, uma função admite ponto fixo se
+cruza o gráfico da \emph{função identidade \(g(x) = x\)}. A
+cardinalidade do conjunto de pontos fixos (ou simplesmente o número de
+pontos fixos) de uma função qualquer nesse contexto é o número de vezes
+em que a identidade e esta função se cruzam. A função identidade
+\(g(x) = x\) tem infinitos pontos fixos, algumas funções como
+\(f(x) = 5 - x\) têm apenas um ponto fixo e outras como \(f(x) = x + 2\)
+não têm pontos fixos.
+
+Verificar a (in)existência de pontos fixos em funções afins é bem
+simples, mas essas funções são raramente interessantes. Procurando por
+padrões na existência ou não de pontos fixos nasceram vários teoremas.
+Eu já falei de um deles aqui no blog, o
+\href{https://azul.netlify.com/2018/10/31/banach/}{Teorema do Ponto Fixo
+de Banach} que nos garante que se uma função é uma contração e tem
+domínio em um espaço métrico completo, então tem \emph{um} e somente um
+ponto fixo. A caixinha de ferramentas de teoremas de ponto fixo é ampla,
+mas por enquanto vamos focar em um resultado:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Teorema (Brouwer):} Seja \(A\) um subconjunto fechado, limitado
+  e convexo do \(\mathbb{R}^n\) e \(f: A \to B\) uma função contínua.
+  Então \(f\) admite pelo menos um ponto fixo.
+\end{itemize}
+
+O Teorema do Ponto Fixo de Brouwer é um dos fatos fundamentais da
+topologia. O enunciado é curiosamente simples para uma conclusão tão
+forte - embora possa não parecer a princípio. Imagine um disco que
+contenha a sua borda. Deforme ele como quiser desde que não faça buracos
+nem entradas. Deforme um disco até que vire um quadrado inscrito no
+disco original, vire-o ao contrário, crie uma versão menor dele, o que
+sua mente pensar. Se você não criar buracos nem entradas (portanto
+deformando-o continuamente e sem ferir a convexidade do conjunto),
+sempre haverá \emph{pelo menos um ponto} que fica parado.
+
+Existem dezenas de maneiras conhecidas de provar este teorema. Algumas
+provas extremamente simples podem ser construídas se aceitarmos como
+verdadeiros alguns resultados como o Lema da Não-Retração. Outras muito
+curiosas podem usar o fato de que o jogo Hex não tem empates, como a de
+Gale (1979). Como provar o caso geral pode fugir ao escopo de um post de
+blog, vou apresentar três demonstrações para casos particulares que
+ilustram facetas diferentes e interessantes do problema. O leitor
+interessado em demonstrações exaustivas deste resultado pode conferir
+Buxton (2016).
+
+\subsection{\texorpdfstring{O Teorema ``Óbvio'' de Ponto
+Fixo}{O Teorema Óbvio de Ponto Fixo}}\label{o-teorema-obvio-de-ponto-fixo}
+
+Este teorema é ``óbvio'' porque pode ser demonstrado até mesmo com
+desenhos em um papel. Sua demonstração formal depende apenas de um fato
+muito simples do cálculo, o Teorema do Valor Intermediário, e daí
+decorre em uma sequência muito simples de encadeamentos lógicos. Neste
+contexto, demonstrar a proposição é equivalente a mostrar que nenhuma
+linha que vá de um lado de um quadrado até o oposto sem dar pulos
+necessariamente cruza a diagonal.
+
+\begin{figure}
+\centering
+\includegraphics{http://i.imgur.com/Mfe1XJo.png}
+\caption{}
+\end{figure}
+
+O teorema que ajuda a amarrar a demonstração é razoavelmente simples
+também.
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Teorema (Valor Intermediário):} Seja \(f\) uma função contínua,
+  \(a\) e \(b\) números reais tal que \(a < b\). Então para todo
+  \(d \in (f(a),f(b))\) existe \(c \in (a,b)\) tal que \(f(c) = d\).
+\end{itemize}
+
+Este teorema tem uma interpretação visual bem simples:
+
+\begin{figure}
+\centering
+\includegraphics{https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Teorema_do_valor_intermediario.svg/1024px-Teorema_do_valor_intermediario.svg.png}
+\caption{}
+\end{figure}
+
+Agora podemos prosseguir para a demonstração em si.
+
+\begin{itemize}
+\item
+  \emph{Proposição (Brouwer no Fechado \([0,1]\)):} Seja \(I=[0,1]\) um
+  intervalo unitário fechado. Suponha \(f\) um mapeamento contínuo de
+  \(I\) em \(I\). Então para pelo menos um \(x \in I\) vale que
+  \(f(x)=x\).
+\item
+  \emph{Demonstração:} Poderíamos ter dois casos ``triviais'', em que
+  \(f(0)=0\) ou \(f(1)=1\). Se não tivermos tais casos, então temos um
+  mapeamento que associa todos os pontos de \(I\) a um subconjunto de
+  \(I\) tal que \(f(0)>0\) e/ou \(f(1) < 1\) . Se definirmos um
+  mapeamento \(g(x)= f(x) - x\), temos que \(g(0) > 0\) e \(g(1) < 0\).
+  Segue do Teorema do Valor Intermediário que existe algum \(p \in I\)
+  tal que \(g(p) = 0 \iff f(p) - p = 0\). Se \(f(p) - p = 0\) então
+  \(f(p)=p\).
+\end{itemize}
+
+\subsection{Provando com o Lema da
+Não-Retração}\label{provando-com-o-lema-da-nao-retracao}
+
+\subsection*{Uma demonstração com
+Combinatória}\label{uma-demonstracao-com-combinatoria}
+\addcontentsline{toc}{subsection}{Uma demonstração com Combinatória}
+
+\hypertarget{refs}{}
+\hypertarget{ref-border}{}
+Border, Kim C. 1989. \emph{Fixed Point Theorems with Applications to
+Economics and Game Theory}. Cambridge University Press.
+
+\hypertarget{ref-buxton}{}
+Buxton, Colin. 2016. ``Brouwer Fixed-Point Theorem.''
+
+\hypertarget{ref-gale}{}
+Gale, David. 1979. ``The Game of Hex and the Brouwer Fixed-Point
+Theorem.'' \emph{The American Mathematical Monthly} 86 (10). Taylor \&
+Francis: 818--27.
+
+
+\end{document}
