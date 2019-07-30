@@ -77,10 +77,17 @@ Retrações são funções contínuas que mapeiam um conjunto em um subconjunto 
 
 Se uma função é contínua de um disco para sua fronteira, então necessariamente não pode ter todos os pontos da fronteira como pontos fixos e se apresenta todos os pontos da fronteira como pontos fixos necessariamente não é contínua. A prova que parece ser mais famosa usa argumentos topológicos que fogem ao escopo do que é apresentável em um só post, homotopias. A demonstração mais simples que encontrei é a de @kannai, que usa argumentos vindos do "cálculo de engenharia".
 
+A prova a seguir é interessante porque ilustra o status de *fato* do Teorema do Ponto Fixo de Brouwer para os não-iniciados. Iremos supor, por questão de absurdo, que ele não é verdadeiro e a partir daí concluiremos que um outro fato - o Lema da Não-Retração - também não é verdadeiro. Ora, se criamos uma hipótese que implica em um fato provado ser falso, deve ser porque esta hipótese é falsa, não?
 
 * *Proposição (Brouwer no $D^2$):* Seja $f: D^2 \to D^2$ um mapa contínuo, então $#\mathbb{F}(f) > 0$ (e.g. $f$ admite pelo menos um ponto fixo).
 
-* *Demonstração*
+* *Demonstração:* Toma um mapa contínuo $f: D^2 \to D^2$ e suponha por absurdo que $f$ não admite ponto fixo. Defina a função $r:D^2 \to S^1$ da seguinte maneira: tome o ponto $f(x)$ e ligue-o a $x$ por uma reta. Extenda a reta até que toque a borda do $D^2$. $r(x)$ é o ponto em que esta reta toca a borda do disco. 
+
+Note que se $x$ já pertence à borda, $r(x) = x$. Como a função $r$ é apenas uma composição de retas, podemos concluir que é contínua *se* $x \neq f(x)$. Se tivermos $x = f(x)$, então não poderemos compor uma reta entre $x$ e $f(x)$, $r(x)$ não estaria definida e não teríamos uma retração. Como começamos nossa demonstração supondo que $f$ não admite ponto fixo, temos então que $r$ é uma retração do $D^2$ para o $S^1$, o que contraria o Lema da Não-Retração. Então nossa hipótese está claramente errada e $f$ deve admitir pelo menos um ponto fixo. 
+
+
+
+
 
 
 
