@@ -1,7 +1,7 @@
 ---
 title: "Verificando Computacionalmente o Teorema de Perron-Frobenius Parte I: Três Provas para o Ponto Fixo de Brouwer"
 author: "Pedro Cavalcante"
-date: '2019-07-21'
+date: '2019-08-05'
 output:
   pdf_document: default
   html_document:
@@ -21,11 +21,21 @@ tags:
 authors: pedrocava
 ---
 
+### Um Pequeno Aviso
+
+> Deixai toda esperança, vós que aqui entrais
+
+Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
+
+O que eu planejei a princípio consistia em 4 chunks curtos de código simulando matrizes, encontrando numericamente seus autovetores, diagnosticando um comportamento *bem específico* neles e terminar mostrando como isso é uma consequência do Teorema de Perron-Frobenius, um clássico resultado da Álgebra Linear. Logo eu percebi que o código em si ficava um tanto quanto árido sem um entendimento melhor do teorema, então decidi apresentar a prova dele - muito ilustrativa - no post. 
+
+Aí começou uma cadeia aparentemente interminável de pequenas adições ao humilde post original que acabou ficando tão grande que achei melhor dividi-lo em duas partes. A primeira dá o background matemático com o máximo de intuição que eu consegui. A segunda apresenta a tão aguardada prova do Teorema de Perron-Frobenius (na verdade um caso particular porém geral o suficiente para os nossos propósitos) e os iniciais pedacinhos de código. Um dos lados bons de ser longo é que é um post autocontido. O que o leitor precisa "chegar sabendo" é álgebra linear não-muito-sofisiticada. Se você sabe o que é um autovetor tem a base necessária. 
+
+Ficaria honrado se você embarcasse nessa pequena jornada pelo mundo dos teoremas de ponto fixo comigo, leitor. Se não, tudo bem. Eu já escrevi isso aqui mesmo.
+
 # Pontos Fixos
 
-Eu sou fascinado por um ramo de matemática que podemos chamar de _Teoria de Ponto Fixo_. É uma teoria surpreendenemte rica, com aplicações vastas e em áreas muito diferentes, de Geometria Algébrica e Ciência da Computação à Economia. As aplicações em economia são particularmente interessantes para quem estuda Equilíbrio Geral ou Teoria dos Jogos. Interessados podem conferir @border.
-
-Como eu quero que este post seja auto-contido, vou tentar introduzir os conceitos necessários aqui. Leitores já familiarizados podem pular para a próxima seção.
+Eu sou fascinado por um ramo de matemática que podemos chamar de _Teoria de Ponto Fixo_. É uma teoria surpreendenemte rica, com aplicações vastas e em áreas muito diferentes, de Geometria Algébrica e Ciência da Computação à Economia. As aplicações em economia são particularmente interessantes para quem estuda Equilíbrio Geral ou Teoria dos Jogos. Interessados podem conferir @border. Como eu quero que este post seja auto-contido, vou tentar introduzir os conceitos necessários aqui.
 
 * *Definição:* Diz-se que uma função $f: A \to B$ admite um _ponto fixo_ se existe $x \in A$ tal que $f(x) = x$. $x$ é dito *ponto fixo* de $f$. Notamos o conjunto de pontos fixos de $f$ por $\mathbb{F} (f)$.
 
@@ -33,25 +43,23 @@ No plano cartesiano, nosso velho amigo, uma função admite ponto fixo se cruza 
 
 Verificar a (in)existência de pontos fixos em funções afins é bem simples, mas essas funções são raramente interessantes. Procurando por padrões na existência ou não de pontos fixos nasceram vários teoremas. Eu já falei de um deles aqui no blog, o [Teorema do Ponto Fixo de Banach](https://azul.netlify.com/2018/10/31/banach/) que nos garante que se uma função é uma contração e tem domínio em um espaço métrico completo, então tem *um* e somente um ponto fixo. A caixinha de ferramentas de teoremas de ponto fixo é ampla, mas por enquanto vamos focar em um resultado:
 
-* *Teorema (Brouwer):* Seja $A$ um subconjunto fechado, limitado e convexo do $\mathbb{R}^n$ e $f: A \to B$ uma função contínua. Então $f$ admite pelo menos um ponto fixo. 
+* *Teorema (Brouwer):* Seja $A$ um subconjunto fechado, limitado e convexo do $\mathbb{R}^n$ e $f: A \to A$ uma função contínua. Então $f$ admite pelo menos um ponto fixo (ou em símbolos: $\# \mathbb{F} (f) \geq 1$). 
 
 O Teorema do Ponto Fixo de Brouwer é um dos fatos fundamentais da topologia. O enunciado é curiosamente simples para uma conclusão tão forte - embora possa não parecer a princípio. Imagine um disco que contenha a sua borda. Deforme ele como quiser desde que não faça buracos nem entradas. Deforme um disco até que vire um quadrado inscrito no disco original, vire-o ao contrário, crie uma versão menor dele, o que sua mente pensar. Se você não criar buracos nem entradas (portanto deformando-o continuamente e sem ferir a convexidade do conjunto), sempre haverá _pelo menos um ponto_ que fica parado. 
 
 Existem dezenas de maneiras conhecidas de provar este teorema. Algumas provas extremamente simples podem ser construídas se aceitarmos como verdadeiros alguns resultados como o Lema da Não-Retração. Outras muito curiosas podem usar o fato de que o jogo Hex não tem empates, como a de @gale. Como provar o caso geral pode fugir ao escopo de um post de blog, vou apresentar três demonstrações para casos particulares que ilustram facetas diferentes e interessantes do problema. O leitor interessado em demonstrações exaustivas deste resultado pode conferir @buxton.
 
-## O Teorema "Óbvio" de Ponto Fixo
+Eu escolhi as três demonstrações a seguir porque cada uma requer a introdução de conceitos que serão usados na demonstração do Teorema de Perron-Frobenius - além do próprio resultado de Brouwer. Não apenas isso, como também iluminam a conexão entre áreas aparentemente distintas da matemática. Apesar do Teorema do Ponto Fixo de Brouwer ser tipicamente considerado um resultado sobre Topologia, a primeira demonstração se baseia inteiramente em construções do Cálculo, carregando com si uma interpretação geométrica elegante. A segunda demonstração usa fatos de teoria de Homotopias e Geometria Algébrica. A terceira depende inteiramente de ferramentas da Combinatória.
 
-Este teorema é "óbvio" porque pode ser demonstrado até mesmo com desenhos em um papel. Sua demonstração formal depende apenas de um fato muito simples do cálculo, o Teorema do Valor Intermediário, e daí decorre em uma sequência muito simples de encadeamentos lógicos. Neste contexto, demonstrar a proposição é equivalente a mostrar que nenhuma linha que vá de um lado de um quadrado até o oposto sem dar pulos necessariamente cruza a diagonal. 
+## O Teorema Elementar de Ponto Fixo
 
-![](http://i.imgur.com/Mfe1XJo.png)
-
-O teorema que ajuda a amarrar a demonstração é razoavelmente simples também.
+Este caso particular do principal resultado é o melhor ponto de partida porque pode ser demonstrado até mesmo com desenhos em um papel. Sua demonstração formal depende apenas de um resultado do Cálculo que alunos de primeiro período conhecem, o Teorema do Valor Intermediário, e daí decorre em uma sequência muito simples de encadeamentos lógicos. Neste contexto, demonstrar a proposição é equivalente a mostrar que nenhuma linha que vá de um lado de um quadrado até o oposto sem dar pulos necessariamente cruza a diagonal. 
 
 * *Teorema (Valor Intermediário):* Seja $f$ uma função contínua, $a$ e $b$ números reais tal que $a < b$. Então para todo $d \in (f(a),f(b))$ existe $c \in (a,b)$ tal que $f(c) = d$.
 
 Este teorema tem uma interpretação visual bem simples: 
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Teorema_do_valor_intermediario.svg/1024px-Teorema_do_valor_intermediario.svg.png)
+imagem aqui
 
 Agora podemos prosseguir para a demonstração em si.
 
@@ -65,7 +73,7 @@ Agora podemos prosseguir para a demonstração em si.
 
 Primeiro preciso apresentar duas definições.
 
-* *Definição:* Nos referimos ao $n$-disco como $D^n$ e o definimos como $D^n = \{ x \in \mathbb{R}^n | ||x|| \leq 1\}$. Note então que o $n$-disco é sempre compacto, convexo e limitado, não importando em quantas dimesões estamos. Podemos nos refeir ao $n$-disco *aberto*, em que na definição trocamos a desigualdade fraca por uma desigualdade estrita. A partir daí podemos também definir a $n$-esfera como sendo a borda do $D^{n+1}$. Notamos a $n$-esfera como $S^n$.
+* *Definição:* Nos referimos ao $n$-disco como $D^n$ e o definimos como $D^n = \{ x \in \mathbb{R}^n ; ||x|| \leq 1\}$. Note então que o $n$-disco é sempre compacto, convexo e limitado, não importando em quantas dimesões estamos. Podemos nos refeir ao $n$-disco *aberto*, em que na definição trocamos a desigualdade fraca por uma desigualdade estrita. A partir daí podemos também definir a $n$-esfera como sendo a borda do $D^{n+1}$. Notamos a $n$-esfera como $S^n$.
 
 O $D^1$ é o intervalo fechado da reta $[-1,1]$, o $S^0$ é apenas o conjunto $\{-1, 1\}$.
 
@@ -79,24 +87,20 @@ Se uma função é contínua de um disco para sua fronteira, então necessariame
 
 A prova a seguir é interessante porque ilustra o status de *fato* do Teorema do Ponto Fixo de Brouwer para os não-iniciados. Iremos supor, por questão de absurdo, que ele não é verdadeiro e a partir daí concluiremos que um outro fato - o Lema da Não-Retração - também não é verdadeiro. Ora, se criamos uma hipótese que implica em um fato provado ser falso, deve ser porque esta hipótese é falsa, não?
 
-* *Proposição (Brouwer no $D^2$):* Seja $f: D^2 \to D^2$ um mapa contínuo, então $#\mathbb{F}(f) > 0$ (e.g. $f$ admite pelo menos um ponto fixo).
+* *Proposição (Brouwer no $D^2$):* Seja $f: D^2 \to D^2$ um mapa contínuo, então $\#\mathbb{F}(f) > 0$ (e.g. $f$ admite pelo menos um ponto fixo).
 
-* *Demonstração:* Toma um mapa contínuo $f: D^2 \to D^2$ e suponha por absurdo que $f$ não admite ponto fixo. Defina a função $r:D^2 \to S^1$ da seguinte maneira: tome o ponto $f(x)$ e ligue-o a $x$ por uma reta. Extenda a reta até que toque a borda do $D^2$. $r(x)$ é o ponto em que esta reta toca a borda do disco. 
-
-Note que se $x$ já pertence à borda, $r(x) = x$. Como a função $r$ é apenas uma composição de retas, podemos concluir que é contínua *se* $x \neq f(x)$. Se tivermos $x = f(x)$, então não poderemos compor uma reta entre $x$ e $f(x)$, $r(x)$ não estaria definida e não teríamos uma retração. Como começamos nossa demonstração supondo que $f$ não admite ponto fixo, temos então que $r$ é uma retração do $D^2$ para o $S^1$, o que contraria o Lema da Não-Retração. Então nossa hipótese está claramente errada e $f$ deve admitir pelo menos um ponto fixo. 
-
-
-
-
-
-
+* *Demonstração:* Toma um mapa contínuo $f: D^2 \to D^2$ e suponha por absurdo que $f$ não admite ponto fixo. Defina a função $r:D^2 \to S^1$ da seguinte maneira: tome o ponto $f(x)$ e ligue-o a $x$ por uma reta. Extenda a reta até que toque a borda do $D^2$. $r(x)$ é o ponto em que esta reta toca a borda do disco. Note que se $x$ já pertence à borda, $r(x) = x$. Como a função $r$ é apenas uma composição de retas, podemos concluir que é contínua *se* $x \neq f(x)$. Se tivermos $x = f(x)$, então não poderemos compor uma reta entre $x$ e $f(x)$, $r(x)$ não estaria definida e não teríamos uma retração. Como começamos nossa demonstração supondo que $f$ não admite ponto fixo, temos então que $r$ é uma retração do $D^2$ para o $S^1$, o que contraria o Lema da Não-Retração. Então nossa hipótese está claramente errada e $f$ deve admitir pelo menos um ponto fixo. 
 
 
 ## Uma demonstração com Combinatória
 
+Esta talvez seja, das três, a mais complicada - mas falo isso vindo de um passado de sofrimento com Combinatória. O contexto mais discreto e com menos apelos à Topologia ou Cálculo pode ser mais agradável para alguns leitores. Vamos primeiro generalizar a noção de polígono para dimensões mais altas (e mais baixas também) com polítopos, depois nos familiarizar com os polítopos mais amigáveis, os Simplexos. Depois vamos abordar as Colorações de Sperner - formas de categorizar vértices - e conhecer o Lema de Sperner, um resultado que garante certas propriedades de Colorações de Sperner. 
 
 
 
+
+
+# Referências
 
 
 
