@@ -12,7 +12,7 @@ katex: yes
 categories:
 - R
 - Matemática
-slug: perron-frobenius-verificando-comp
+slug: perron-frobenius-verificando-comp-1
 tags:
 - Simulações
 - R
@@ -95,6 +95,9 @@ A prova a seguir é interessante porque ilustra o status de *fato* do Teorema do
 ## Uma demonstração com Combinatória
 
 Esta talvez seja, das três, a mais complicada - mas falo isso vindo de um passado de sofrimento com Combinatória. O contexto mais discreto e com menos apelos à Topologia ou Cálculo pode ser mais agradável para alguns leitores. Vamos primeiro generalizar a noção de polígono para dimensões mais altas (e mais baixas também) com polítopos, depois nos familiarizar com os polítopos mais amigáveis, os Simplexos. Depois vamos abordar as Colorações de Sperner - formas de categorizar vértices - e conhecer o Lema de Sperner, um resultado que garante certas propriedades de Colorações de Sperner. 
+
+
+
 
 
 
