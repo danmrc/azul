@@ -29,7 +29,7 @@ library(tibble)
 library(gganimate)
 
 set.seed(1234)
-n = 100
+n = 1000
 m = 4
 t = 15
 ```
@@ -104,6 +104,13 @@ A função ``eigen()`` faz a decomposição espectral de matrizes com métodos n
 matriz = runif(n = m) %>% 
   round(digits = 2) %>% 
   matrix(ncol = 2)
+
+matriz = matriz/base::norm(matriz)
+
+
+### dividir pela norma
+
+
 
 
  DF = tibble(R1 = rep(NA, times = (n*t)),
