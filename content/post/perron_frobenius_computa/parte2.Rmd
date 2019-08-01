@@ -31,7 +31,7 @@ library(gganimate)
 set.seed(1234)
 n = 1000
 m = 4
-t = 15
+t = 20
 ```
 
 ### Um Pequeno Aviso
@@ -109,10 +109,6 @@ matriz = matriz/base::norm(matriz)
 
 
 ### dividir pela norma
-
-
-
-
  DF = tibble(R1 = rep(NA, times = (n*t)),
               R2 = rep(NA, times = (n*t)),
               t = rep(NA, times = (n*t)))
@@ -155,7 +151,6 @@ g = DF %>% ggplot(aes(x = R1, y = R2, colour = t)) +
   ease_aes('linear') +
   labs(x = "",
        y = "") 
-
 
 animate(g, fps = 30)
 
