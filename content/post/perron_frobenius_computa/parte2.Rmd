@@ -27,11 +27,6 @@ library(dplyr)
 library(ggplot2)
 library(tibble)
 library(gganimate)
-
-set.seed(1234)
-n = 1000
-m = 4
-t = 20
 ```
 
 ### Um Pequeno Aviso
@@ -162,6 +157,11 @@ Como diria um professor de física que tive no ensino médio, a matemática é s
 E podemos também *ver* a formualação de Kohlberg-Pratt funcionando. Afinal, o Teorema de Perron-Frobenius é sim uma espécie de teorema de ponto fixo. Como na parte anterior em que animamos o Ponto Fixo de Banach ocorrendo, veremos algo muito similar.
 
 ```{R eval = FALSE}
+set.seed(1234)
+n = 1000
+m = 4
+t = 20
+
 
 matriz = runif(n = m) %>% 
   round(digits = 2) %>% 
