@@ -1,11 +1,12 @@
 ---
-title: "Verificando Computacionalmente o Teorema de Perron-Frobenius Parte I: Três Provas para o Ponto Fixo de Brouwer"
+title: "A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois
+  Resultados Importantes"
 author: "Pedro Cavalcante"
 date: '2019-08-05'
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 bibliography: bib.bib
 draft: yes
 katex: yes
@@ -18,20 +19,19 @@ tags:
 - R
 - Monte Carlo
 - Ponto Fixo
-authors: pedrocava
+authors: ["pedrocava"]
 ---
 
 ### Um Pequeno Aviso
 
-> Deixai toda esperança, vós que aqui entrais
 
 Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
 
 O que eu planejei a princípio consistia em 4 chunks curtos de código simulando matrizes, encontrando numericamente seus autovetores, diagnosticando um comportamento *bem específico* neles e terminar mostrando como isso é uma consequência do Teorema de Perron-Frobenius, um clássico resultado da Álgebra Linear. Logo eu percebi que o código em si ficava um tanto quanto árido sem um entendimento melhor do teorema, então decidi apresentar a prova dele - muito ilustrativa - no post. 
 
-Aí começou uma cadeia aparentemente interminável de pequenas adições ao humilde post original que acabou ficando tão grande que achei melhor dividi-lo em duas partes. A primeira dá o background matemático com o máximo de intuição que eu consegui. A segunda apresenta a tão aguardada prova do Teorema de Perron-Frobenius (na verdade um caso particular porém geral o suficiente para os nossos propósitos) e os iniciais pedacinhos de código. Um dos lados bons de ser longo é que é um post autocontido. O que o leitor precisa "chegar sabendo" é álgebra linear não-muito-sofisiticada. Se você sabe o que é um autovetor tem a base necessária. 
+Aí começou uma cadeia aparentemente interminável de pequenas adições ao humilde post original que acabou ficando tão grande que achei melhor dividi-lo em duas partes. A primeira dá o background matemático com o máximo de intuição que eu consegui. A segunda apresenta a tão aguardada prova do Teorema de Perron-Frobenius (na verdade dois casos particulares porém gerais o suficiente para os nossos propósitos) e os iniciais pedacinhos de código. Um dos lados bons de ser longo é que é um post autocontido. O que o leitor precisa "chegar sabendo" é álgebra linear não-muito-sofisiticada. Se você sabe o que é um autovetor tem a base necessária. 
 
-Ficaria honrado se você embarcasse nessa pequena jornada pelo mundo dos teoremas de ponto fixo comigo, leitor. Se não, tudo bem. Eu já escrevi isso aqui mesmo.
+Ficaria honrado se você embarcasse nessa pequena jornada pelo mundo dos teoremas de ponto fixo comigo, leitor. 
 
 # Pontos Fixos
 
@@ -94,12 +94,114 @@ A prova a seguir é interessante porque ilustra o status de *fato* do Teorema do
 
 ## Uma demonstração com Combinatória
 
-Esta talvez seja, das três, a mais complicada - mas falo isso vindo de um passado de sofrimento com Combinatória. O contexto mais discreto e com menos apelos à Topologia ou Cálculo pode ser mais agradável para alguns leitores. Vamos primeiro generalizar a noção de polígono para dimensões mais altas (e mais baixas também) com polítopos, depois nos familiarizar com os polítopos mais amigáveis, os Simplexos. Depois vamos abordar as Colorações de Sperner - formas de categorizar vértices - e conhecer o Lema de Sperner, um resultado que garante certas propriedades de Colorações de Sperner. 
+Esta talvez seja, das três, a mais complicada - mas falo isso vindo de um passado de sofrimento com Combinatória. O contexto mais discreto e com menos apelos à Topologia ou Cálculo pode ser mais agradável para alguns leitores. Vamos primeiro generalizar a noção de polígono para dimensões mais altas, depois nos familiarizar com mais amigáveis Simplexos. Depois vamos abordar as Colorações de Sperner - formas de categorizar vértices - e conhecer o Lema de Sperner, um resultado que garante certas propriedades de Colorações de Sperner. 
 
 
 
+FALTA SÓ
+
+# Contrações e seu ponto fixo
+
+Eu já falei do [Teorema do Ponto Fixo de Banach](https://azul.netlify.com/2018/10/31/banach/) aqui no blog antes então irei brevemente recapitular do que se trata e não quebrar a tradição de sempre ilustrar a magia acontecendo com a ajuda do R.
+
+Dizemos que uma função contínua $f$ é uma *contração* se para qualquer par de pontos no domínio $D$ vale que a distância $d(x,y) > d(f(x), f(y))$. O Teorema do Ponto Fixo de Banach nos diz então que se estamos em um espaço métrico _completo_ (um espaço "sem buracos", como os números reais) então $\f$ tem um e apenas um ponto fixo. Mais ainda, podemos encontra-lo aplicando $phi$ repetidamente em um ponto inicial qualquer. A sequência com os resultados converge para o ponto fixo de $f$. 
+
+Vamos demonstrar este resultado:
+
+Tome $f$ contínua com derivada limitada superiormente por $k$ tal que $|k| <1$. $d(x,y)$ é a distância entre dois pontos. Pela desigualdade triangular, temos:
+
+$$d(x,y) \leq d(x, f(x)) + d(f(x), f(y)) + d(y, f(y))$$
+$$d(x,y) \leq d(x, f(x)) + kd(x, y) + d(y, f(y))$$
+Podemos então isolar $d(x,y)$:
+$$d(x,y) - kd(x, y) \leq d(x, f(x))  + d(y, f(y))$$
+$$d(x,y) \leq \frac{d(x, f(x))  + d(y, f(y))}{1 - k}$$
+
+Note que se $x$ e $y$ forem pontos fixos, então $d(x,y) = 0$, portanto, $x=y$. Podemos garantir que uma contração somente terá _um_ ponto fixo com essa observação. Resta mostrar agora que a sequência descrita no enunciado é de Cauchy - que a distância entre seus termos é cada vez menor, no informal português. Se $f^n(t)$ for a $n$-ésima aplicação de $f$ com ponto inicial em $t$, $x = f^n(x_0)$ e $y = f^m(x_0)$, então podemos substituir isso tudo na desigualdade anterior:
+
+$$d(f^n(x_0),f^m(x_0)) \leq \frac{d(f^n(x_0), f(f^n(x_0)))  + d(f^m(x_0), f(f^m(x_0)))}{1 - k}$$
+$$d(f^n(x_0),f^m(x_0)) \leq \frac{k^nd(f(x_0), x_0)  + k^md(f(x_0), x_0)}{1 - k}$$
+$$d(f^n(x_0),f^m(x_0)) \leq \frac{k^n + k^m}{1-k}d(f(x_0), x_0)$$
+
+Observe que isso converge a zero, à medida que $n,m \to \infty$. Afinal:
+
+$$\lim_{n,m \to \infty} \frac{k^n + k^m}{1-k} = 0$$
+
+Então a distância de quaisquer dois elementos daquela sequência descrita no enunciado converge a zero à medida que o índice da sequência aumenta - logo ela é Cauchy.
+
+Vamos ver esse resultado ocorrendo? Vamos simular vários vetores do $\mathbb{R}^2$ e aplicar uma contração neles.
+
+```{R message = FALSE, warning = FALSE, dpi = 180}
+
+library(dplyr)
+library(gganimate)
+
+f = function(x,k) k*x # função
+set.seed(1234)
+n = 1000 # quantos vetores
+t = 20 # quantas iterações
+
+lista = list() # lista vazia a ser preenchida
+  
+for(j in 1:n) {
+
+  vetor = rnorm(n = 2, sd = 4) %>% round(digits = 2) # inicializamos um vetor
+  
+  DF = data.frame(R1 = double(length = t),
+              R2 = double(length = t),
+              tempo = double(length = t))
+  
+  DF$R1[1] = vetor[1]
+  DF$R2[1] = vetor[2]
+  DF$t[1] = 1
+ 
+  for(i in 2:t) {
+
+  indice = i - 1  
+  
+  vlinha = double(length = 2)
+  vlinha[1] = DF$R1[indice]
+  vlinha[2] = DF$R2[indice]
+  
+  k = .9 # qualquer k positivo e menor que 1 implica que f é contração
+
+  vlinha = f(vlinha, k = k)  
+
+  R1 = vlinha[1]
+  R2 = vlinha[2]
+  
+
+  DF$R1[i] = R1 
+  DF$R2[i] = R2
+  DF$tempo[i] = indice + 1
+  
+  }
+  
+  lista[[j]] = DF
+  
+  rm(vetor) # nos livramos do vetor
+
+}
+ 
+DF = do.call(rbind, lista) # unimos tudo
 
 
+g = DF %>% ggplot(aes(x = R1, y = R2, colour = tempo)) + 
+  theme(legend.title = element_blank(),
+        legend.position = "none") +
+  geom_point() + 
+  geom_density_2d() +
+  transition_time(tempo) +   
+  ease_aes('linear') +
+  labs(x = "",
+       y = "")
+
+animate(g, fps = 30)
+```
+
+
+```{R echo = FALSE}
+anim_save("banach.gif")
+```
 
 
 
