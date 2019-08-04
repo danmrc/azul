@@ -104,7 +104,7 @@ FALTA SÓ
 
 Eu já falei do [Teorema do Ponto Fixo de Banach](https://azul.netlify.com/2018/10/31/banach/) aqui no blog antes então irei brevemente recapitular do que se trata e não quebrar a tradição de sempre ilustrar a magia acontecendo com a ajuda do R.
 
-Dizemos que uma função contínua $f$ é uma *contração* se para qualquer par de pontos no domínio $D$ vale que a distância $d(x,y) > d(f(x), f(y))$. O Teorema do Ponto Fixo de Banach nos diz então que se estamos em um espaço métrico _completo_ (um espaço "sem buracos", como os números reais) então $\f$ tem um e apenas um ponto fixo. Mais ainda, podemos encontra-lo aplicando $phi$ repetidamente em um ponto inicial qualquer. A sequência com os resultados converge para o ponto fixo de $f$. 
+Dizemos que uma função contínua $f$ é uma *contração* se para qualquer par de pontos no domínio $D$ vale que a distância $d(x,y) > d(f(x), f(y))$. O Teorema do Ponto Fixo de Banach nos diz então que se estamos em um espaço métrico _completo_ (um espaço "sem buracos", como os números reais) então $f$ tem um e apenas um ponto fixo. Mais ainda, podemos encontra-lo aplicando $\phi$ repetidamente em um ponto inicial qualquer. A sequência com os resultados converge para o ponto fixo de $f$. 
 
 Vamos demonstrar este resultado:
 

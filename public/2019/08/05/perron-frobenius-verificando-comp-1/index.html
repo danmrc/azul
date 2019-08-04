@@ -1,30 +1,76 @@
----
-title: "A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois
-  Resultados Importantes"
-author: "Pedro Cavalcante"
-date: '2019-08-05'
-output:
-  html_document:
-    df_print: paged
-  pdf_document: default
-bibliography: bib.bib
-draft: yes
-katex: yes
-categories:
-- R
-- Matemática
-slug: perron-frobenius-verificando-comp-1
-tags:
-- Simulações
-- R
-- Monte Carlo
-- Ponto Fixo
-authors: ["pedrocava"]
----
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.48" />
+		<title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
+  
+	
+
+	
+</nav>
 
 
-
-<div id="um-pequeno-aviso" class="section level3">
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes
+                    </h1>
+                    <h2 class="headline">
+                    Aug 5, 2019 00:00
+                    · 2504 words
+                    · 12 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/simula%C3%A7%C3%B5es">Simulações</a>
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/monte-carlo">Monte Carlo</a>
+                          
+                              <a href="/tags/ponto-fixo">Ponto Fixo</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    <div id="um-pequeno-aviso" class="section level3">
 <h3>Um Pequeno Aviso</h3>
 <p>Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</p>
 <p>O que eu planejei a princípio consistia em 4 chunks curtos de código simulando matrizes, encontrando numericamente seus autovetores, diagnosticando um comportamento <em>bem específico</em> neles e terminar mostrando como isso é uma consequência do Teorema de Perron-Frobenius, um clássico resultado da Álgebra Linear. Logo eu percebi que o código em si ficava um tanto quanto árido sem um entendimento melhor do teorema, então decidi apresentar a prova dele - muito ilustrativa - no post.</p>
@@ -189,3 +235,84 @@ animate(g, fps = 30)</code></pre>
 </div>
 </div>
 </div>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2019%2f08%2f05%2fperron-frobenius-verificando-comp-1%2f - A%20Abordagem%20de%20Ponto%20Fixo%20para%20o%20Teorema%20de%20Perron-Frobenius%20Parte%20I%3a%20Dois%20Resultados%20Importantes "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2019 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>
