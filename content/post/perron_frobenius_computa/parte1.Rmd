@@ -23,6 +23,9 @@ authors: ["pedrocava"]
 
 ### Um Pequeno Aviso
 
+```{R, echo = FALSE}
+setwd("~/Cava/azul/content/post/perron_frobenius_computa")
+```
 
 Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
 

@@ -156,10 +156,10 @@ Será que de fato $\text{min} \sum_j A_{ij} \leq \lambda \leq \text{max} \sum_j 
 table(DF$marcador) %>% knitr::kable()
 ```
 
-Como por questões de aproximação o R pode marcar falso para alguns vetores, vamos inspecio-los:
+Como por questões de aproximação o R pode marcar falso para alguns vetores, vamos inspeciona-los:
 
 ```{R}
-DF[DF$marcador == FALSE,] # seleciona apenas os vetores que retornaram falso
+DF %>% filter(marcador == FALSE) # seleciona apenas os vetores que retornaram falso
 ```
 
 Como diria um professor de física que tive no ensino médio, a matemática é soberana. De fato, o autovalor de Peron-Frobenius é limitado, superior e inferiormente, pelas somas em linhas da matriz $A$.
@@ -223,7 +223,7 @@ g = DF %>% ggplot(aes(x = R1, y = R2, colour = t)) +
 animate(g, fps = 30)
 ```
 
-```{R}
+```{R, echo = FALSE}
 anim_save("contracao.gif")
 
 ```

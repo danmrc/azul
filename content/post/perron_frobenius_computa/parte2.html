@@ -143,8 +143,8 @@ DF$marcador[i] = marcador
 </tr>
 </tbody>
 </table>
-<p>Como por questões de aproximação o R pode marcar falso para alguns vetores, vamos inspecio-los:</p>
-<pre class="r"><code>DF[DF$marcador == FALSE,] # seleciona apenas os vetores que retornaram falso</code></pre>
+<p>Como por questões de aproximação o R pode marcar falso para alguns vetores, vamos inspeciona-los:</p>
+<pre class="r"><code>DF %&gt;% filter(marcador == FALSE) # seleciona apenas os vetores que retornaram falso</code></pre>
 <pre><code>## # A tibble: 1 x 4
 ##   autovalor automin automax marcador
 ##       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;lgl&gt;   
@@ -204,7 +204,6 @@ g = DF %&gt;% ggplot(aes(x = R1, y = R2, colour = t)) +
 
 animate(g, fps = 30)</code></pre>
 <p><img src="/post/perron_frobenius_computa/parte2_files/figure-html/unnamed-chunk-4-1.gif" /><!-- --></p>
-<pre class="r"><code>anim_save(&quot;contracao.gif&quot;)</code></pre>
 </div>
 <div id="referencias" class="section level1 unnumbered">
 <h1>Referências</h1>
