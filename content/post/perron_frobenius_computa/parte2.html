@@ -1,7 +1,7 @@
 ---
-title: "A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação"
+title: "A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional"
 author: "Pedro Cavalcante"
-date: '2019-08-05'
+date: '2019-08-12'
 output:
   html_document:
     df_print: paged
@@ -18,21 +18,21 @@ tags:
 - R
 - Monte Carlo
 - Ponto Fixo
-authors: pedrocava
+authors: ["pedrocava"]
 ---
 
 
 
 <div id="um-pequeno-aviso" class="section level3">
 <h3>Um Pequeno Aviso</h3>
-<p>Este post é - como o nome indica - uma continuação de outro (Coloca o link aqui?). Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.</p>
+<p>Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.</p>
 </div>
 <div id="plano-de-voo" class="section level1">
 <h1>Plano de Voo</h1>
 <p>Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de <em>ponto fixo</em>. Depois de verificar que é relativamente simples encontrar pontos fixos em funções afins, percebemos que a tarefa fica bem complexa em pouco tempo e que por isso é interessante usar Teoremas de Ponto Fixo para garantir a existência destes objetos para certas funções que atendem a determinados critérios. Nos focamos no Teorema do Ponto Fixo de Brouwer, que garante que toda funções contínua com domínio fechado, limitado e convexo e imagem neste mesmo conjunto admite pelo menos um ponto fixo.</p>
 <p>Provamos esse resultado em três casos particulares, cada um se beneficiando de estratégias de provas bem diferentes. Primeiro vimos que com ferramentas simples do Cálculo conseguíamos demonstrar a existência de ponto fixo em funções que mapeiam o fechado <span class="math inline">\([0,1]\)</span> nele próprio - bem como a interpretação geométrica associada. Depois usamos o Lema da Não-Retração para mostrar que não é tão difícil provar a validade do teorema em duas dimensões. Pelo contrário, era uma decorrência bem intuitiva de compor retas entre pontos em um círculo. Por fim, depois de apresentados o conceito de Simplex e de Colorações de Sperner, usamos um argumento de Combinatória para mostrar que até em dimensões arbitrariamente grandes o resultado valia.</p>
 <p>E por que eu dediquei algumas páginas de texto e semanas da minha vida escrevendo a primeira parte? Bem, porque eu acho que demonstra-lo é (i) interessante em si e deixa tudo menos “caído dos céus” e (ii) porque no meio do caminho ganhei motivos para introduzir suave e contextualizadamente vários conceitos que usaremos na demonstração do Teorema de Perron-Frobenius.</p>
-<p>Depois da longa parte I, precisamos agora conhecer apenas mais um conceito e estamos prontos para ver a magia acontecendo.</p>
+<p>Depois da longa parte I, precisamos agora conhecer apenas mais um conceito e estamos prontos para chegar no Teorema de Perron-Frobenius.</p>
 </div>
 <div id="irredutibilidade" class="section level1">
 <h1>Irredutibilidade</h1>
@@ -81,7 +81,7 @@ b_{21} &amp;b_{22}  &amp;\ldots   &amp; b_{2n}  \\
 <p>Acabamos de provar existência de um autovetor positivo usando o Ponto Fixo de Brouwer para isso, mas observe que isso não implica <em>unicidade</em>. Afinal, o argumento se apoia no fato de que <span class="math inline">\(f:\Delta_n \to \Delta_n\)</span> admite <em>pelo menos</em> um ponto fixo, mas isso não nos garante que teremos <em>somente</em> um ponto fixo. <span class="math inline">\(A\)</span> terá exatamente <span class="math inline">\(\# \mathbb{F}(f)\)</span> autovetores positivos. Como podemos mostrar que teremos apenas um? Com o nosso amigo o Teorema do Ponto Fixo de Banach.</p>
 <ul>
 <li><em>Proposição (Unicidade do Autovetor de Perron-Frobenius):</em> <span class="math inline">\(v&#39;\)</span> é o único autovetor positivo de <span class="math inline">\(A\)</span>.</li>
-<li><em>Prova:</em> Defina <span class="math inline">\(P\)</span> como conjunto de vetores com todas as entradas não-negativas no <span class="math inline">\(\mathbb{R}^n\)</span>. Defina a transformação <span class="math inline">\(T\)</span> como sendo <span class="math inline">\(Av/||Av||\)</span>. Aplincando <span class="math inline">\(T\)</span> em <span class="math inline">\(P\)</span> teremos um subconjunto próprio de <span class="math inline">\(P\)</span>, então <span class="math inline">\(T\)</span> é uma contração que necessariamente tem um e <em>somente um</em> ponto fixo <span class="math inline">\(v&#39;\)</span>, então temos: <span class="math inline">\(T(v&#39;) = v&#39;\)</span>, o que implica <span class="math inline">\(Av&#39;/||Av&#39;|| = v&#39;\)</span> que por sua vez implica <span class="math inline">\(Av&#39; = ||Av&#39;||v&#39;\)</span>. <span class="math inline">\(v&#39;\)</span> é então o único autovetor positivo de <span class="math inline">\(A\)</span>.</li>
+<li><em>Prova:</em> Defina <span class="math inline">\(P\)</span> como conjunto de vetores com todas as entradas não-negativas no <span class="math inline">\(\mathbb{R}^n\)</span>. Defina a transformação <span class="math inline">\(T\)</span> como sendo <span class="math inline">\(Av/||Av||\)</span>. Aplincando <span class="math inline">\(T\)</span> em <span class="math inline">\(P\)</span> teremos um subconjunto próprio de <span class="math inline">\(P\)</span>, então <span class="math inline">\(T\)</span> é uma contração que necessariamente tem um e <em>somente um</em> ponto fixo <span class="math inline">\(v&#39;\)</span>, então temos: <span class="math inline">\(T(v&#39;) = v&#39;\)</span>, o que implica <span class="math inline">\(Av&#39;/||Av&#39;|| = v&#39;\)</span> que por sua vez implica <span class="math inline">\(Av&#39; = ||Av&#39;||v&#39;\)</span>. Então <span class="math inline">\(v&#39;\)</span> é o único autovetor positivo de <span class="math inline">\(A\)</span>.</li>
 </ul>
 <p>Note que encontramos o autovalor do nosso autovetor positivo, chamaremos esse autovalor de <span class="math inline">\(\lambda = ||Av&#39;||\)</span>. Temos outra proposição, agora uma que relaciona <span class="math inline">\(\lambda\)</span> aos outros autovalores de <span class="math inline">\(A\)</span>.</p>
 <ul>
@@ -89,9 +89,8 @@ b_{21} &amp;b_{22}  &amp;\ldots   &amp; b_{2n}  \\
 </ul>
 <p>A prova é um <em>brain-teaser</em> interessante, apesar de simples, então vou deixar apenas um esboço parcial aqui e deixo o resto como exercício<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
 <ul>
-<li><em>Esboço:</em> Escolha um autovetor <span class="math inline">\(w\)</span> de <span class="math inline">\(A\)</span> com autovalor <span class="math inline">\(\lambda&#39;\)</span>. Como mostramos, <span class="math inline">\(w\)</span> tem pelo menos alguma entrada negativa. Vamos nos referir ao vetor <span class="math inline">\(|w|\)</span> definido como <span class="math inline">\(|w|_i = |w_i|\)</span> de forma que <span class="math inline">\(|w|\)</span> sempre seja positivo. Temos <span class="math inline">\(\mu w_i = \sum_j A_{ij}w_j\)</span>.</li>
+<li><em>Esboço:</em> Escolha um autovetor <span class="math inline">\(w\)</span> de <span class="math inline">\(A\)</span> com autovalor <span class="math inline">\(\lambda&#39;\)</span>. Como mostramos, <span class="math inline">\(w\)</span> tem pelo menos alguma entrada negativa. Vamos nos referir ao vetor <span class="math inline">\(|w|\)</span> definido como <span class="math inline">\(|w|_i = |w_i|\)</span> de forma que <span class="math inline">\(|w|\)</span> sempre seja positivo. Temos <span class="math inline">\(\mu w_i = \sum_j A_{ij}w_j\)</span>. Para o leitor que quiser terminar: explore o fato de que <span class="math inline">\(A_{ij}\)</span> é sempre um número positivo e de que pelo menos uma entrada de <span class="math inline">\(w\)</span> é negativa. Use nosso velho amigo módulo.</li>
 </ul>
-<p>Para o leitor que quiser terminar: explore o fato de que <span class="math inline">\(A_{ij}\)</span> é sempre um número positivo e de que pelo menos uma entrada de <span class="math inline">\(w\)</span> é negativa. Use nosso velho amigo módulo.</p>
 </div>
 <div id="verificando-esse-resultado-computacionalmente" class="section level1">
 <h1>Verificando esse resultado computacionalmente</h1>
@@ -144,6 +143,12 @@ DF$marcador[i] = marcador
 </tr>
 </tbody>
 </table>
+<p>Como por questões de aproximação o R pode marcar falso para alguns vetores, vamos inspecio-los:</p>
+<pre class="r"><code>DF[DF$marcador == FALSE,] # seleciona apenas os vetores que retornaram falso</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   autovalor automin automax marcador
+##       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;lgl&gt;   
+## 1      1.49    1.49    1.49 FALSE</code></pre>
 <p>Como diria um professor de física que tive no ensino médio, a matemática é soberana. De fato, o autovalor de Peron-Frobenius é limitado, superior e inferiormente, pelas somas em linhas da matriz <span class="math inline">\(A\)</span>.</p>
 <p>E podemos também <em>ver</em> a formualação de Kohlberg-Pratt funcionando. Afinal, o Teorema de Perron-Frobenius é sim uma espécie de teorema de ponto fixo. Como na parte anterior em que animamos o Ponto Fixo de Banach ocorrendo, veremos algo muito similar.</p>
 <pre class="r"><code>matriz = runif(n = m) %&gt;% 
@@ -197,12 +202,15 @@ g = DF %&gt;% ggplot(aes(x = R1, y = R2, colour = t)) +
   labs(x = &quot;&quot;,
        y = &quot;&quot;) 
 
-animate(g, fps = 30)
-
-anim_save(&quot;contracao.gif&quot;)</code></pre>
+animate(g, fps = 30)</code></pre>
+<p><img src="/post/perron_frobenius_computa/parte2_files/figure-html/unnamed-chunk-4-1.gif" /><!-- --></p>
+<pre class="r"><code>anim_save(&quot;contracao.gif&quot;)</code></pre>
+</div>
+<div id="referencias" class="section level1 unnumbered">
+<h1>Referências</h1>
 <div id="refs" class="references">
 <div id="ref-kohlberg">
-<p>Kohlberg, Elon, and John W Pratt. 1982. “The Contraction Mapping Approach to the Perron-Frobenius Theory: Why Hilbert’s Metric?” <em>Mathematics of Operations Research</em> 7 (2): 198–210.</p>
+<p>Kohlberg, Elon, and John W Pratt. 1982. “The Contraction Mapping Approach to the Perron-Frobenius Theory: Why Hilbert’s Metric?” <em>Mathematics of Operations Research</em> 7 (2). INFORMS: 198–210.</p>
 </div>
 <div id="ref-meyer2000matrix">
 <p>Meyer, Carl D. 2000. <em>Matrix Analysis and Applied Linear Algebra</em>. Vol. 71. Siam.</p>

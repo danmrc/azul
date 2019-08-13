@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
+		<meta name="generator" content="Hugo 0.56.3" />
 		<title>LASSO Adaptativo e Critérios de Informação para LASSO &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -64,7 +64,10 @@
                   
                 
                 <section id="post-body">
-                    <p>Em um <a href="https://azul.netlify.com/2018/09/16/lasso/">post anterior</a>, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:</p>
+                    
+
+
+<p>Em um <a href="https://azul.netlify.com/2018/09/16/lasso/">post anterior</a>, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:</p>
 <p><span class="math display">\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]</span></p>
 <p>(Onde <span class="math inline">\(|.|\)</span> é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não. Vamos fazer um pequeno teste com o LASSO: eu vou gerar 50 variáveis normais, independentes, e dessas dez - as dez primeiras - eu colocarei <span class="math inline">\(\beta=1\)</span>. As outra vão ser irrelevantes para o problema e vão ter <span class="math inline">\(\beta=0\)</span>. O tamanho da amostra vai ser igual a 100.</p>
 <p>Como de praxe, nós podemos ter diversos objetivos ao estimar um modelo. Eu vou comparar 3 coisas: a quantidade de vezes que o LASSO coloca as variáveis relevantes, a quantidade de vezes que ele exclui as variáveis irrelevantes e quando ele obtém o modelo certo - o que exige colocar todo mundo que é relevante <strong>e</strong> excluir todos os irrelevantes. Vou fazer só 500 replicações e usar o Cross Validation (que eu já discuti aqui) para escolher o <span class="math inline">\(\lambda\)</span>:</p>

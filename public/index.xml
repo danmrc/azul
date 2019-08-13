@@ -20,27 +20,27 @@
       <description>I was born like this
 I had no choice
 I was born with the gift of a golden voice
-– Leonard Cohen
+ – Leonard Cohen
 Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</description>
     </item>
     
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</title>
-      <link>/2019/08/05/perron-frobenius-verificando-comp-1/</link>
-      <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
+      <link>/2019/08/12/perron-frobenius-verificando-comp-1/</link>
+      <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/05/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
+      <guid>/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
+      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
     </item>
     
     <item>
-      <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação</title>
-      <link>/2019/08/05/perron-frobenius-verificando-comp-2/</link>
-      <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
+      <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</title>
+      <link>/2019/08/12/perron-frobenius-verificando-comp-2/</link>
+      <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/05/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro (Coloca o link aqui?). Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
-Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+      <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
+      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+ Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
     </item>
     
     <item>
@@ -61,7 +61,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
       <guid>/2019/06/10/var-random-walks/</guid>
       <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
+Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
     </item>
     
     <item>
@@ -70,7 +70,7 @@ Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Va
       <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/05/20/forecasting-rf/</guid>
-      <description>library(randomForest)library(BETS)library(Quandl)library(dplyr)inicio = &amp;quot;2015-12-31&amp;quot;petroleo = Quandl(&amp;quot;OPEC/ORB&amp;quot;,start_date = inicio,collapse = &amp;quot;daily&amp;quot;)petroleo = rename(petroleo, Preco = &amp;quot;Value&amp;quot;)nasdaqoil = Quandl(&amp;quot;NASDAQOMX/NQDMASPA0001AUD&amp;quot;,start_date = inicio,collapse = &amp;quot;daily&amp;quot;)nasdaqoil = rename(nasdaqoil, Date = &amp;quot;Trade Date&amp;quot;)juros = Quandl(&amp;quot;USTREASURY/REALYIELD&amp;quot;, start_date = inicio,collapse = &amp;quot;daily&amp;quot;)dowjones = Quandl(&amp;quot;BCB/7809&amp;quot;,start_date = inicio,collapse = &amp;quot;daily&amp;quot;)base = full_join(nasdaqoil,juros)base = full_join(base, petroleo) %&amp;gt;% as_tibble()base = full_join(base, dowjones)head(base)base = rename(base, juros = `5 YR`,indice = `Index Value`)load(&amp;quot;base.</description>
+      <description>library(randomForest) library(BETS) library(Quandl) library(dplyr) inicio = &amp;quot;2015-12-31&amp;quot; petroleo = Quandl(&amp;quot;OPEC/ORB&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) petroleo = rename(petroleo, Preco = &amp;quot;Value&amp;quot;) nasdaqoil = Quandl(&amp;quot;NASDAQOMX/NQDMASPA0001AUD&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) nasdaqoil = rename(nasdaqoil, Date = &amp;quot;Trade Date&amp;quot;) juros = Quandl(&amp;quot;USTREASURY/REALYIELD&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) dowjones = Quandl(&amp;quot;BCB/7809&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) base = full_join(nasdaqoil, juros) base = full_join(base, petroleo) %&amp;gt;% as_tibble() base = full_join(base, dowjones) head(base) base = rename(base, juros = `5 YR`, indice = `Index Value`) load(&amp;quot;base.</description>
     </item>
     
     <item>
@@ -79,7 +79,7 @@ Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Va
       <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/05/20/inercia-inflacao-rolling-window/</guid>
-      <description>library(ggplot2)library(dplyr)library(BETS)ipca = BETSget(433,from = &amp;quot;1998-09-01&amp;quot;,data.frame = TRUE) # IPCA desde outubro de 98ipca %&amp;gt;%ggplot(aes(x = date, y = value)) +geom_line(size = 1.2) +xlab(&amp;quot;Tempo&amp;quot;) +ylab(&amp;quot;Variação Mensal do IPCA (em %)&amp;quot;) +geom_hline(yintercept = mean(ipca$value)) # linha horizontal na médiaSe notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</description>
+      <description>library(ggplot2) library(dplyr) library(BETS) ipca = BETSget(433, from = &amp;quot;1998-09-01&amp;quot;, data.frame = TRUE) # IPCA desde outubro de 98 ipca %&amp;gt;% ggplot(aes(x = date, y = value)) + geom_line(size = 1.2) + xlab(&amp;quot;Tempo&amp;quot;) + ylab(&amp;quot;Variação Mensal do IPCA (em %)&amp;quot;) + geom_hline(yintercept = mean(ipca$value)) # linha horizontal na média Se notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</description>
     </item>
     
     <item>
@@ -90,8 +90,8 @@ Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Va
       <guid>/2019/05/17/prouni-rf-classificacao/</guid>
       <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
 encher de coisas aqui
-set.seed(1234)n = 5000amostra1 = rbinom(n= n,size = 1,prob = .5)mean(amostra1)## [1] 0.5014Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2)library(dplyr)## ## Attaching package: &amp;#39;dplyr&amp;#39;## The following objects are masked from &amp;#39;package:stats&amp;#39;:## ## filter, lag## The following objects are masked from &amp;#39;package:base&amp;#39;:## ## intersect, setdiff, setequal, unionlibrary(gganimate)m = 10000000n = 100amostras = vector()for(i in 1:m) {set.</description>
+set.seed(1234) n = 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(gganimate) m = 10000000 n = 100 amostras = vector() for(i in 1:m) { set.</description>
     </item>
     
     <item>
@@ -269,7 +269,7 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
       
       <guid>/2018/12/10/julia-101/</guid>
       <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
+Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
     </item>
     
     <item>
@@ -298,8 +298,8 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
-O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
@@ -319,7 +319,7 @@ Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais 
       
       <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
     
     <item>
@@ -349,7 +349,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t+1} = (1-\delta)k_
       
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
@@ -488,7 +488,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
@@ -508,7 +508,7 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       
       <guid>/about/</guid>
       <description>Este blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três. A ideia é escrever de maneira replicável e acessível (na medida do possível) sobre assuntos que gostaríamos de ter visto de outra forma. Aqui acreditamos em aprender fazendo.
-Os AutoresDaniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.</description>
+Os Autores Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.</description>
     </item>
     
     <item>
@@ -537,7 +537,7 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/1/01/01/</guid>
-      <description>Ponto Fixo e Equlíbrio GeralMathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]},TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } }});@font-face {font-style: normal;font-weight: 300;}@font-face {font-style: normal;font-weight: 400;}@font-face {font-style: normal;font-weight: 600;}html {font-family: sans-serif; /* 1 */-ms-text-size-adjust: 100%; /* 2 */-webkit-text-size-adjust: 100%; /* 2 */}body {margin: 0;}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {display: block;}audio,canvas,progress,video {display: inline-block; /* 1 */vertical-align: baseline; /* 2 */}audio:not([controls]) {display: none;height: 0;}[hidden],template {display: none;}a:active,a:hover {outline: 0;}abbr[title] {border-bottom: 1px dotted;}b,strong {font-weight: bold;}dfn {font-style: italic;}h1 {font-size: 2em;margin: 0.</description>
+      <description>Ponto Fixo e Equlíbrio Geral MathJax.Hub.Config({ tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}, TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } } });   @font-face { font-style: normal; font-weight: 300; } @font-face { font-style: normal; font-weight: 400; } @font-face { font-style: normal; font-weight: 600; } html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -webkit-text-size-adjust: 100%; /* 2 */ } body { margin: 0; } article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; } audio, canvas, progress, video { display: inline-block; /* 1 */ vertical-align: baseline; /* 2 */ } audio:not([controls]) { display: none; height: 0; } [hidden], template { display: none; } a:active, a:hover { outline: 0; } abbr[title] { border-bottom: 1px dotted; } b, strong { font-weight: bold; } dfn { font-style: italic; } h1 { font-size: 2em; margin: 0.</description>
     </item>
     
   </channel>
