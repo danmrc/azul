@@ -23,9 +23,6 @@ authors: ["pedrocava"]
 
 ### Um Pequeno Aviso
 
-```{R, echo = FALSE}
-setwd("~/Cava/azul/content/post/perron_frobenius_computa")
-```
 
 Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
 
@@ -61,8 +58,8 @@ Este caso particular do principal resultado é o melhor ponto de partida porque 
 
 Este teorema tem uma interpretação visual bem simples: 
 
-```{r echo=FALSE, out.width='100%'}
-knitr::include_graphics('./Teorema_do_valor_intermediario.png')
+```{r echo=FALSE, out.width='100%', dpi = 180}
+knitr::include_graphics('Teorema_do_valor_intermediario.png')
 ```
 
 Agora podemos prosseguir para a demonstração em si.
@@ -73,8 +70,8 @@ Agora podemos prosseguir para a demonstração em si.
 
 É uma demonstração simples. Mostramos que se não tivermos casos triviais como $f(0) = 0$ ou $f(1) = 1$ então necessariamente precisamos ter algum ponto fixo no interior do conjunto. Este fato aparentemente algébrico tem uma consequência geométrica clara e um tanto quanto intuitiva: se quisermos traçar um caminho entre lados opostos de um quadrado precisamos tocar sua diagonal - nem que seja em algum vértice do lado oposto[^1].
 
-```{r echo=FALSE, out.width='100%'}
-knitr::include_graphics('./brouwer.png')
+```{r echo=FALSE, out.width='100%', dpi = 180}
+knitr::include_graphics('brouwer.png')
 ```
 
 ## Provando com o Lema da Não-Retração
