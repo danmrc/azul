@@ -8,7 +8,6 @@ output:
     df_print: paged
   pdf_document: default
 bibliography: bib.bib
-draft: yes
 katex: yes
 categories:
 - R
