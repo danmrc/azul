@@ -1,13 +1,13 @@
 ---
-title: "A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação"
+title: "A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional"
 author: "Pedro Cavalcante"
-date: '2019-08-05'
+date: '2019-08-12'
 output:
   html_document:
     df_print: paged
   pdf_document: default
 bibliography: bib.bib
-draft: yes
+draft: no
 katex: yes
 categories:
 - R
@@ -18,11 +18,11 @@ tags:
 - R
 - Monte Carlo
 - Ponto Fixo
-authors: pedrocava
+authors: ["pedrocava"]
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, dpi = 180)
 library(dplyr)
 library(ggplot2)
 library(tibble)
@@ -31,7 +31,7 @@ library(gganimate)
 
 ### Um Pequeno Aviso
 
-Este post é - como o nome indica - uma continuação de outro (Coloca o link aqui?). Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
 
 # Plano de Voo
 
@@ -41,7 +41,7 @@ Provamos esse resultado em três casos particulares, cada um se beneficiando de 
 
 E por que eu dediquei algumas páginas de texto e semanas da minha vida escrevendo a primeira parte? Bem, porque eu acho que demonstra-lo é (i) interessante em si e deixa tudo menos "caído dos céus" e (ii) porque no meio do caminho ganhei motivos para introduzir suave e contextualizadamente vários conceitos que usaremos na demonstração do Teorema de Perron-Frobenius. 
 
-Depois da longa parte I, precisamos agora conhecer apenas mais um conceito e estamos prontos para ver a magia acontecendo.
+Depois da longa parte I, precisamos agora conhecer apenas mais um conceito e estamos prontos para chegar no Teorema de Perron-Frobenius.
 
 
 # Irredutibilidade
@@ -99,7 +99,7 @@ Primeiro vamos usar o Teorema do Ponto Fixo de Brouwer para mostrar que necessar
 Acabamos de provar existência de um autovetor positivo usando o Ponto Fixo de Brouwer para isso, mas observe que isso não implica _unicidade_. Afinal, o argumento se apoia no fato de que $f:\Delta_n \to \Delta_n$ admite *pelo menos* um ponto fixo, mas isso não nos garante que teremos *somente* um ponto fixo. $A$ terá exatamente $\# \mathbb{F}(f)$ autovetores positivos. Como podemos mostrar que teremos apenas um? Com o nosso amigo o Teorema do Ponto Fixo de Banach. 
 
 * *Proposição (Unicidade do Autovetor de Perron-Frobenius):* $v'$ é o único autovetor positivo de $A$.
-* *Prova:* Defina $P$ como conjunto de vetores com todas as entradas não-negativas no $\mathbb{R}^n$. Defina a transformação $T$ como sendo $Av/||Av||$. Aplincando $T$ em $P$ teremos um subconjunto próprio de $P$, então $T$ é uma contração que necessariamente tem um e *somente um* ponto fixo $v'$, então temos: $T(v') = v'$, o que implica $Av'/||Av'|| = v'$ que por sua vez implica $Av' = ||Av'||v'$. $v'$ é então o único autovetor positivo de $A$.
+* *Prova:* Defina $P$ como conjunto de vetores com todas as entradas não-negativas no $\mathbb{R}^n$. Defina a transformação $T$ como sendo $Av/||Av||$. Aplincando $T$ em $P$ teremos um subconjunto próprio de $P$, então $T$ é uma contração que necessariamente tem um e *somente um* ponto fixo $v'$, então temos: $T(v') = v'$, o que implica $Av'/||Av'|| = v'$ que por sua vez implica $Av' = ||Av'||v'$. Então $v'$ é o único autovetor positivo de $A$.
 
 Note que encontramos o autovalor do nosso autovetor positivo, chamaremos esse autovalor de $\lambda = ||Av'||$. Temos outra proposição, agora uma que relaciona $\lambda$ aos outros autovalores de $A$.
 
@@ -107,9 +107,7 @@ Note que encontramos o autovalor do nosso autovetor positivo, chamaremos esse au
 
 A prova é um _brain-teaser_ interessante, apesar de simples, então vou deixar apenas um esboço parcial aqui e deixo o resto como exercício[^1].
 
-* *Esboço:* Escolha um autovetor $w$ de $A$ com autovalor $\lambda'$. Como mostramos, $w$ tem pelo menos alguma entrada negativa. Vamos nos referir ao vetor $|w|$ definido como $|w|_i = |w_i|$ de forma que $|w|$ sempre seja positivo. Temos $\mu w_i = \sum_j A_{ij}w_j$. 
-
-Para o leitor que quiser terminar: explore o fato de que $A_{ij}$ é sempre um número positivo e de que pelo menos uma entrada de $w$ é negativa. Use nosso velho amigo módulo.
+* *Esboço:* Escolha um autovetor $w$ de $A$ com autovalor $\lambda'$. Como mostramos, $w$ tem pelo menos alguma entrada negativa. Vamos nos referir ao vetor $|w|$ definido como $|w|_i = |w_i|$ de forma que $|w|$ sempre seja positivo. Temos $\mu w_i = \sum_j A_{ij}w_j$. Para o leitor que quiser terminar: explore o fato de que $A_{ij}$ é sempre um número positivo e de que pelo menos uma entrada de $w$ é negativa. Use nosso velho amigo módulo.
 
 # Verificando esse resultado computacionalmente
 
@@ -158,11 +156,17 @@ Será que de fato $\text{min} \sum_j A_{ij} \leq \lambda \leq \text{max} \sum_j 
 table(DF$marcador) %>% knitr::kable()
 ```
 
+Como por questões de aproximação o R pode marcar falso para alguns vetores, vamos inspeciona-los:
+
+```{R}
+DF %>% filter(marcador == FALSE) # seleciona apenas os vetores que retornaram falso
+```
+
 Como diria um professor de física que tive no ensino médio, a matemática é soberana. De fato, o autovalor de Peron-Frobenius é limitado, superior e inferiormente, pelas somas em linhas da matriz $A$.
 
 E podemos também *ver* a formualação de Kohlberg-Pratt funcionando. Afinal, o Teorema de Perron-Frobenius é sim uma espécie de teorema de ponto fixo. Como na parte anterior em que animamos o Ponto Fixo de Banach ocorrendo, veremos algo muito similar.
 
-```{R eval = FALSE}
+```{R}
 
 
 matriz = runif(n = m) %>% 
@@ -217,11 +221,14 @@ g = DF %>% ggplot(aes(x = R1, y = R2, colour = t)) +
        y = "") 
 
 animate(g, fps = 30)
+```
 
+```{R, echo = FALSE}
 anim_save("contracao.gif")
 
 ```
 
+# Referências 
 
 
 
