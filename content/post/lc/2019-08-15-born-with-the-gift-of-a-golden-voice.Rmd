@@ -185,18 +185,21 @@ Outro detalhe é que é comum tirar palavras como the, and, or etc. Eu vou mante
 E famosamente repetir o "e" acentua a ideia de esforço - trabalha, teima, lima, sofre e sua é muito mais rápido.^[Provando que eu aprendi _alguma coisa_ na aula de literatura!]
 
 
-O passo seguinte é retirar vírgulas, pontos e uns ocasionais caractéres especiais que aparecem entre chaves ou entre <>
+O passo seguinte é retirar vírgulas, pontos e uma meia dúzia de parênteses - todos esses são removidos com a keyword `[:punct:]`e uns ocasionais caractéres especiais que aparecem entre chaves ou entre <>. Eu também removo la (ou La), como em La La Land, e algum ocasional NA: 
 
 ```
 
 for(i in 1:length(lyrics)){
-    lyrics[[i]] <- str_remove(lyrics[[i]],"[,]")
-    lyrics[[i]] <- str_remove(lyrics[[i]],"[.]")
-    lyrics[[i]] <- str_remove(lyrics[[i]],"[{].*[}]")
-    lyrics[[i]] <- str_remove(lyrics[[i]],"[<].*[>]")
-    lyrics[[i]] <- str_remove(lyrics[[i]],"c[(]")
+    lyrics[[i]] <- str_remove_all(lyrics[[i]],"[:punct:]")
+    lyrics[[i]] <- str_remove_all(lyrics[[i]],"[{].*[}]")
+    lyrics[[i]] <- str_remove_all(lyrics[[i]],"[<].*[>]")
+    lyrics[[i]] <- str_remove_all(lyrics[[i]],"c[(]")
+    las <- match(lyrics[[i]],"la", nomatch = 0)
+    las <- las + match(lyrics[[i]],"La", nomatch = 0)
+    lyrics[[i]] <- lyrics[[i]][!las]
+    na <-  match(lyrics[[i]],"NA", nomatch = 0)
+    lyrics[[i]] <- lyrics[[i]][!na]
 }
-
 ```
 
 Finalmente, podemos pensar em fazer um modelo!
@@ -209,12 +212,57 @@ Eu vou usar o pacote `lda` para estimar o LDA. Esse pacote tem um comando `lexic
 lyrics_to_lda <- lexicalize(lyrics)
 ```
 
-Isso gera uma versão do documento em que as palavras são substituídas por um número(`documents`) e um dicionário que mapeia o número para a palavra(`$vocab`). Finalmente podemos estimar o modelo:
+O objeto `lyrics_to_lda` tem duas entradas: a primeira são os documentos - nesse caso, as letras de música - nas quais as palavras são substituídas por um número(`$documents`) e um dicionário que mapeia o número para a palavra(`$vocab`). Finalmente podemos estimar o modelo:
 
 ```
 
-modelo <- lda.collapsed.gibbs.sampler(lyrics_to_lda$documents,K = 15,vocab = lyrics_to_lda$vocab, num.iterations = 1000,alpha = 1,eta = 1)
+modelo <- lda.collapsed.gibbs.sampler(lyrics_to_lda$documents,K = 15,vocab = lyrics_to_lda$vocab, num.iterations = 5000,alpha = 1,eta = 1)
 
 ```
 
-A coisa realmente importante aqui é o K, que é a quantidade de tópicos. Até onde eu sei, a maneira de selecionar isso é testando, analisando os tópicos gerados e vendo se é razoável. 15 pareceu bom o bastante.
+A coisa realmente importante aqui é o K, que é a quantidade de tópicos. Até onde eu sei, a maneira de selecionar isso é testando, analisando os tópicos gerados e vendo se é razoável. 15 pareceu bom o bastante: eu tentei mais, tentei menos e fiquei satisfeito com 15.
+
+# Resultados
+
+Eu vou usar o pacote **wordcloud** para gerar wordclouds. Eu vou pintar de azul mais escuro palavras que aparecem mais frequentemente e de azul mais claro palavras menos frequentes. Eu não vou colocar todos os 15 tópicos - dado que vocês podem replicar usando o arquivo com dados que está no github e o código que tá aqui no post.
+
+Alguns pontos que vão ficar bem claros a seguir é que, apesar da ideia ter parecido boa inicialmente, ela sofre de dois problemas:
+
+1. Música - e poesia no geral - usam muitas metáforas. Se já é uma batalha fazer o computador entender um texto objetivo, um texto com significados subjetivos vai ser um senhor desafio.
+2. Ao contrário de um texto técnico, que nós esperamos que termos se repitam, aqui a repetição vai ser muito mais baixa. Voltando ao exemplo das atas do BC, nós esperaríamos que as palavras taxas, juros, inflação etc aparecessem em vários documentos. Aqui isso não ocorre tanto. 
+
+O código a seguir gera as 15 wordclouds em png e salva elas:
+
+```
+for(i in 1:15){
+  png(paste0("./content/post/lc/grupo_",i,".png"))
+  wordcloud(str_remove_all(names(word_and_topics[i,]),'["]'),word_and_topics[i,], scale = c(4,.5), colors = c("lightblue","blue","midnightblue"),min.freq = 2,max.words = 100)
+  dev.off()
+}
+```
+
+Veja que a ordem dos tópicos não importa muito. Um grupo curioso é um que envolve mulheres:
+
+![](/post/lc/grupo_8.png)
+
+Veja que parece man, womans, wife e chelsea - o que faz sentido já que Chelsea Hotel No. 2 é sobre o _one night stand_ que o Leonard Cohen teve com a Janis Joplin. 
+
+Um outro grupo envolve palavras como I, the, and etc
+
+![](/post/lc/grupo_10.png)
+
+Outro grupo interessante é o que envolve a música _Jazz Police_ **e** play (sendo que a palavra play não aparece na música _Jazz Police_):
+
+![](/post/lc/grupo_5.png)
+
+Mais um grupo curioso é esse aqui:
+
+![](/post/lc/grupo_13.png)
+
+_Repent_ domina totalmente a imagem, mas nós também conseguimos ver prayer e hope, wine e murder - todos temas comuns em religião. 
+
+Outra coisa bacana de fazer é ver quais músicas são representam melhor cada tópico - isso é, quantas vezes cada tópico aparece em cada música:
+
+```
+
+```
