@@ -105,7 +105,7 @@ Esta talvez seja, das três, a mais complicada - mas falo isso vindo de um passa
 
 A definição pode parecer seca, mas simplexos são objetos de fato objetos simples. O $0$-simplex é apenas um ponto, o $1$-simplex é um segmento de reta, o $2$-simplex é um triângulo e o $3$-simplex é um tetraedro, por exemplo. 
 
-* *Definição:* Uma subdivisão baricêntrica simplicial de um $n$-simplexo é uma partição de $\Delta_n$ em simplexos menores (que chamaremos de *células*) de forma que qualquer dos simplexos menores seja disjunto ou compartilhe apenas uma única face. 
+* *Definição:* Uma *divisão baricêntrica simplicial* de um $n$-simplexo é uma partição de $\Delta_n$ em simplexos menores (que chamaremos de *células*) de forma que quaisquer duas células sejam disjuntas ou compartilhem apenas uma única face. 
 
 ```{r echo=FALSE, out.width='100%', fig.cap= "O 2-simplexo e suas duas primeiras divisões baricêntricas simpliciais"}
 knitr::include_graphics('./divisao.png')
