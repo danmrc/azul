@@ -59,7 +59,7 @@ Este caso particular do principal resultado é o melhor ponto de partida porque 
 Este teorema tem uma interpretação visual bem simples: 
 
 ```{r echo=FALSE, out.width='100%', dpi = 180}
-knitr::include_graphics('Teorema_do_valor_intermediario.png')
+knitr::include_graphics('/post/perron_frobenius_computa/Teorema_do_valor_intermediario.png')
 ```
 
 Agora podemos prosseguir para a demonstração em si.
@@ -71,7 +71,7 @@ Agora podemos prosseguir para a demonstração em si.
 É uma demonstração simples. Mostramos que se não tivermos casos triviais como $f(0) = 0$ ou $f(1) = 1$ então necessariamente precisamos ter algum ponto fixo no interior do conjunto. Este fato aparentemente algébrico tem uma consequência geométrica clara e um tanto quanto intuitiva: se quisermos traçar um caminho entre lados opostos de um quadrado precisamos tocar sua diagonal - nem que seja em algum vértice do lado oposto[^1].
 
 ```{r echo=FALSE, out.width='100%', dpi = 180}
-knitr::include_graphics('brouwer.png')
+knitr::include_graphics('/post/perron_frobenius_computa/brouwer.png')
 ```
 
 ## Provando com o Lema da Não-Retração
@@ -108,7 +108,7 @@ A definição pode parecer seca, mas simplexos são objetos de fato objetos simp
 * *Definição:* Uma *divisão baricêntrica simplicial* de um $n$-simplexo é uma partição de $\Delta_n$ em simplexos menores (que chamaremos de *células*) de forma que quaisquer duas células sejam disjuntas ou compartilhem apenas uma única face. 
 
 ```{r echo=FALSE, out.width='100%', fig.cap= "O 2-simplexo e suas duas primeiras divisões baricêntricas simpliciais"}
-knitr::include_graphics('./divisao.png')
+knitr::include_graphics('/post/perron_frobenius_computa/divisao.png')
 ```
 
 * *Definição:* Uma *coloração de Sperner* de uma divisão baricêntrica simplicial é a associação de $n+1$ cores aos vértices da subdivisão de forma que pontos em cada face do simplexo original tenham apenas as cores dos vértices que definem a respectiva face.
@@ -122,7 +122,7 @@ A prova em uma dimensão divertida e perspicaz, a prova do caso geral já não m
 * *Prova (Caso $n=1$):* Tome o segmento de reta $(a,b)$, colora $a$ com uma cor e $b$ com outra. Agora tome uma divisão baricêntrica simplicial de $(a,b)$ e colora os vértices da subdivisão com $2$ cores. Como $a$ e $b$ têm cores diferentes, ao ir de $a$ para $b$ precisamos trocar de cor um número ímpar de vezes então existe algum número ímpar de células com cores diferentes.
 
 ```{r echo=FALSE, out.width='100%', fig.cap= "Uma coloração de Sperner para o $2$-simplexo. Note que existe um número ímpar de células cujos vértices tem todos cores diferentes: é uma consequência do Lema de Sperner."}
-knitr::include_graphics('./sperner.png')
+knitr::include_graphics('/post/perron_frobenius_computa/sperner.png')
 ```
 
 * *Prova (Esboço do Caso Geral):* Defina dois tipos de células, as que recebem todas as $n+1$ cores e as que não recebem - de forma que as que não recebam precisem repetir uma cor pelo menos uma vez. Considere agora as faces (que podem no máximo ser partilhadas por células) com $n-1$ dimensões que usam exatamente $n$ cores. Elas podem estar no exterior do simplexo ou no interior. Uma célula que use todas as $n+1$ cores contribui com apenas uma face de $n$ cores enquanto as células que repetem uma cor contribuem com duas. Podemos então definir uma identidade que relaciona a quantidade de faces e de células de cada tipo. Como cada face tem uma coloração de Sperner associada, cada face contém pelo menos um número ímpar de subcélulas com vértices todos de cores diferentes, então existe um número ímpar de faces no exterior do simplexo. Ao considerar este fato em conjunção com a identidade que relaciona os números de faces e de tipos de células, concluímos que existe um número ímpar de células que recebem todas as $n+1$ cores.

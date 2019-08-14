@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.56.3" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Sazonalidade, x13, e dummies: Muito barulho por nada &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -64,10 +64,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?</p>
+                    <p>Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?</p>
 <p>Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças. Obviamente, séries diferentes podem ter comportamentos diferentes, então esse post é ilustrativo. Mas uma imagem valem mais que mil palavras.</p>
 <p>Uma rápida revisão do que é dessazonalizar por dummies. Suponha que os dados estão em frequência mensal. Crie 11 dummies, uma para cada mês: a dummy novembro vai ser 1 se o mês é novembro e 0 caso contrário. Etc. Faça uma regressão que a série que queremos dessazonalizar como variável dependente e as dummies como regressores. O resíduo dessa regressão é justamente a série dessazonlizada. Veja que, dessa maneira, a sazonalidade é um valor determinístico: todo ano o efeito é igual para dezembro. Isso pode não ser muito satisfatório.</p>
 <p>Para esse post, eu vou usar o excelente pacote <em>BETS</em> para obter a série de capacidade utilizada, o pacote <em>seasonal</em> para usar o x13 e o <em>forecast</em> para fazer a dessazonalização com dummies.</p>

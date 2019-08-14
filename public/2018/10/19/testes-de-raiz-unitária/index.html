@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.56.3" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Testes de raiz unitária &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -68,10 +68,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?</p>
+                    <p>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?</p>
 <p>Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena. Infelizmente, este caso é frequente em macroeconomia.</p>
 <p>Neste exemplo eu usarei um AR(1) (<span class="math inline">\(y_t = \phi y_{t-1} + u_t\)</span>), onde <span class="math inline">\(u_t \sim N(0,\sigma)\)</span>. Como eu vou querer brincar com processos AR com coeficientes diferentes e tamanhos de amostra diferente, eu vou criar uma função que gera processos AR:</p>
 <pre class="r"><code>set.seed(2018)
