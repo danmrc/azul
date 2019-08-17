@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.56.3" />
 		<title>Prog Dinâmica IIA &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -68,7 +68,10 @@
                   
                 
                 <section id="post-body">
-                    <p>Em um <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">post anterior</a>, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.</p>
+                    
+
+
+<p>Em um <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">post anterior</a>, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.</p>
 <p>Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros <span class="math inline">\(r\)</span>. A incerteza vem do salário dele, que passa a ser uma variável aleatória. A nossa variável de estado é <span class="math inline">\(W\)</span>, a riqueza do indivíduo; e a variável de controle é <span class="math inline">\(c\)</span>, o consumo do indivíduo. Escrevendo no formato usando a função valor, o nosso problema para o período <span class="math inline">\(t\)</span> é:</p>
 <p><span class="math display">\[V_t(W_t,c_t) = U(c_t) + \beta E(V_{t+1}(W_{t+1},c_{t+1})) \text{ sujeito a } W_{t+1} = (1+r)(W_t + \omega_t - c_t)\]</span></p>
 <p>Onde <span class="math inline">\(U()\)</span> representa a função utilidade e <span class="math inline">\(\omega_t\)</span> o salário em t - que é uma variável aleatória. Veja que o problema aqui é muito similar ao problema do post anterior, só que agora temos um operador esperança na função valor. Poderiamos tentar calcular a esperança analiticamente, mas isso não é sempre possível. Nós vamos contornar isso simplesmente sorteando alguns valores da distribuição de <span class="math inline">\(\omega_t\)</span> e tirando a média da função valor para estes sorteios. Veja que o nosso grid, dessa vez, vai ser para a riqueza e não para o salário. O código em Julia que faz isso:</p>

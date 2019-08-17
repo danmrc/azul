@@ -6,10 +6,21 @@
     <description>Recent content in Econometria on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 15 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/econometria/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Visualizando um critério de estacionariedade em Processos AR</title>
+      <link>/2019/08/20/viz-estacionariedade-gganim/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
+      <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
+Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
+\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+    </item>
     
     <item>
       <title>Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen</title>

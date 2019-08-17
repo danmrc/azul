@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.56.3" />
 		<title>Still Haven&#39;t Found What I am looking for: modelos de search para emprego &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -68,7 +68,10 @@
                   
                 
                 <section id="post-body">
-                    <p><em>(Sim, o título é uma referência a <a href="https://open.spotify.com/track/7gozgbG5EBTukCFWToTRA5?si=plTR7i5sQeir30avzMArgQ">música do U2</a>. Não só de economia vive um homem.)</em></p>
+                    
+
+
+<p><em>(Sim, o título é uma referência a <a href="https://open.spotify.com/track/7gozgbG5EBTukCFWToTRA5?si=plTR7i5sQeir30avzMArgQ">música do U2</a>. Não só de economia vive um homem.)</em></p>
 <p>Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">posts anteriores</a><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário <span class="math inline">\(w\)</span>, onde <span class="math inline">\(w\)</span> sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?</p>
 <p>Nós partiremos de um modelo muito básico em que eu não permitirei demissão. Nesse caso, se o agente aceita o emprego com salário <span class="math inline">\(w\)</span> ele recebe <span class="math inline">\(\frac{w}{1-\beta}\)</span>, onde <span class="math inline">\(\beta\)</span> é a taxa de desconto do agente.</p>
 <p>Se o agente não aceita o emprego ele recebe um seguro desemprego (<span class="math inline">\(\bar{c}\)</span>) e enfrenta o mesmo problema no período seguinte. Nosso problema no formato de Bellman é:</p>

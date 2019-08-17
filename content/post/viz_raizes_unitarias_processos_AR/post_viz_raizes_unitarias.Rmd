@@ -1,0 +1,94 @@
+---
+title: "Visualizando um critério de estacionariedade em Processos AR"
+author: "Pedro Cavalcante"
+date: '2019-08-20'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: yes
+draft: no
+categories:
+- R
+- Econometria
+- Séries Temporais
+slug: viz-estacionariedade-gganim
+tags:
+- Simulações
+- R
+- Monte Carlo
+- AR
+- Séries Temporais
+authors: ["pedrocava"]
+---
+
+Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
+
+Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
+
+$$y_t = \beta y_{t-1} + \mu_t$$
+Dizemos que $y_t$ é $n$-estacionário se no limite quando $t$ tende a infinito seu $n$-ésimo momento incondicional converge^[Essa definição pode precisar de um pouco de polimento e carinho, mas nas CNTP é equivalente às que você já viu por aí]. Um processo $\infty$-estacionário é dito *fortemente* estacionário. Vamos avaliar o primeiro momento:
+
+$$\mathbb{E} [y_t] = \mathbb{E} [\beta y_{t-1} + \mu_t]$$
+$$\mathbb{E} [y_t] = \beta\mathbb{E} [ y_{t-1}] + \mathbb{E}[\mu_t]$$
+$$\mathbb{E} [y_t] = \beta\mathbb{E} [ \beta y_{t-2} + \mu_{t-1}] + 0$$
+$$\mathbb{E} [y_t] = \beta^2\mathbb{E} [y_{t-2}] + \mathbb{E}[\mu_{t-1}] + 0$$
+
+Acho que o leitor já captou o padrão aqui. Se não, recomendo continuar o processo mais algumas vezes no papel. No final chegaremos em:
+
+$$\mathbb{E} [y_t] = \beta^t y_0$$
+É bem claro então que se $|\beta| <1$ $y_t$ é pelo menos $1$-estacionário. $\beta$ dá uma espécie de medida da "inércia" da série. Uma proporção que diz o quanto dos eventos do passado no processo são repassados ao presente. Se $|\beta| \geq 1$ então os choques no passado da série são transmitidos pelo menos integralmente ao presente e por isso a série explode para o infinito, estamos somando tudo repetidamente. 
+
+Eu quero ilustrar este fato com um gif porque o R me deixa fazer isso com algumas poucas linhas de código. 
+
+
+```{R, warnings = FALSE, message = FALSE}
+library(gganimate)
+library(dplyr)
+library(tibble)
+
+set.seed(1234)
+
+n <- 100 # amostra por processo
+
+choques <- rnorm(n = n, sd = 10)
+
+beta <- seq(from = 0, to = 1.5, by = 0.02) 
+
+Processos <- list()
+
+
+y0 <- 0 # definindo condição inicial
+x <- seq(1, n) # um vetor para indexar a "passagem do tempo"
+
+for(i in 1:length(beta)) {
+  
+  y <- vector(length = n)
+  y[1] <- y0
+  
+  for(j in 2:n) {
+    
+    y[j] = beta[i]*y[(j-1)] + choques[j]
+    
+  } # termina o loop menor
+  
+  Processo <- tibble(beta = beta[i],
+                     x = x,
+                     y = y) # geramos um tibble com o Processo
+  
+  rm(y) # nos livramos do vetor
+  
+  Processos[[i]] <- Processo # preenchemos a lista com o Processo simulado na rodada
+  
+} # termina o loop maior
+
+Processos <- do.call(rbind, Processos) %>% as_tibble() # unimos todas as listas 
+
+anim <-Processos %>%
+  ggplot(aes(x = x, y = y, col = beta)) +
+  geom_line() +
+  transition_time(beta) +
+  ylim(-100,100) %>% suppressWarnings()
+
+animate(anim, fps = 60)
+```
