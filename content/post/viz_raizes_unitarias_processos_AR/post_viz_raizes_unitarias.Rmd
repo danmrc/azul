@@ -22,9 +22,6 @@ tags:
 authors: ["pedrocava"]
 ---
 
-```{R, echo = FALSE}
-knitr::opts_chunk(warnings = FALSE, message = FALSE)
-```
 
 Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 
