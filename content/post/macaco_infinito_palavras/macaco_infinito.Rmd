@@ -1,0 +1,82 @@
+---
+title: "O Teorema do Macaco Infito: quanto tempo até sair Hamlet?"
+author: "Pedro Cavalcante"
+date: '2019-08-30'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: yes
+draft: yes
+categories:
+- R
+slug: macaco-infinito-hamlet
+tags:
+- Simulações
+- R
+- Monte Carlo
+- Teorema do Macaco Infinito
+authors: ["pedrocava"]
+---
+
+```{R}
+library(dplyr)
+library(tibble)
+library(rio)
+
+palavras <- import("https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true") %>% 
+  as_tibble()
+palavras$tamanho <- stringr::str_length(palavras$a) # tamanho das palavras
+
+```
+
+
+```{R}
+
+k <- 5
+n <- 100
+
+matriz_tentativas <- rep(NA, each = k)
+
+tentativas <- double(length = k)
+
+
+for(a in 1:n) {
+
+for(i in 1:k) {
+  
+  seq(1:a*n) %>% sample(size = 1) %>% set.seed()
+  contador <- 1
+  indicador <- FALSE
+
+  while(indicador == FALSE) {
+  
+   palavra <- sample(letters, size = i) %>%
+     paste(collapse = '')
+ 
+     if(palavra %in% palavras$a) {
+   
+     indicador <- TRUE
+ 
+     } else {
+   
+     contador <- contador + 1
+   
+   }
+  
+  }
+
+    tentativas[i] <- contador
+    print(tentativas)
+    print(palavra)
+    
+    
+}
+
+
+matriz_tentativas <- cbind(matriz_tentativas, tentativas)
+
+tentativas <- double()
+
+}
+```
