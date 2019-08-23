@@ -18,6 +18,8 @@ tags:
 authors: ["pedrocava"]
 ---
 
+Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo _dentro de uma subamostra_ dos dados, movemos a subamostra em paralaleo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias. Vou mostrar isso funcionando estimando a inércia inflacionária no Brasil com um AR1.
+
 ```{R, warning = FALSE, message = FALSE}
 
 library(ggplot2)
@@ -38,50 +40,46 @@ ipca %>%
 
 ```
 
-Se notarmos a inflação no período $t$ como $\pi_t$, modela-la como um processo autoregressivo de ordem $k$ é estimar o seguinte modelo:
+Se notarmos a inflação no período $t$ como $\pi_t$, modela-la como um processo autoregressivo de ordem $k$ é estimar o seguinte modelo com $k=1$:
 
 $$\pi_t = \phi_0 + \sum_{i=1}^{k} \phi_i \pi_{t-i} + \epsilon_t$$
 
 
+
 ```{R}
 
-base = ipca
+base = ipca %>% as_tibble()
 
-for(i in 4:nrow(ipca)) {
-  
-base$primeiro_lag[i] = base$value[i-1]
-base$segundo_lag[i] = base$value[i-2]
-  
-}
-
-base = base[3:nrow(base),]
-
+base$primeiro_lag = base$value %>% dplyr::lag()
 
 coeficientes = vector()
-janela = 12*5 # número de meses em cada janela de 5 anos
-n = nrow(ipca) - janela
+janela = 12*5 # número de meses em cada janela 
 
-for(i in 1:n) {
+for(i in janela:nrow(base)) {
   
-  window = base[i:(i+janela),]
+  window = base[(i-janela):i,]
   
-  modelo = lm(value ~ primeiro_lag + segundo_lag,
+  modelo = lm(value ~ primeiro_lag,
               data = window)
   
-  coeficientes[i] = modelo$coefficients[2] + modelo$coefficients[3]
-
+  coeficientes[i] = modelo$coefficients[2] 
     
   }
 
-coeficientes = data.frame(coef = coeficientes,
-                          tempo = base$date[1:length(coeficientes)])
+coeficientes = tibble(coef = coeficientes,
+                      tempo = base$date[1:length(coeficientes)]) %>% 
+  filter(!is.na(coef))
 
 coeficientes %>%
   ggplot(aes(y = coef, x = tempo)) +
   geom_line(size = 1.2) +
-  labs(title = "Evolução das somas dos coeficientes de um AR(2)",
+  scale_x_date(limits = c(as.Date("2003-01-01"),as.Date("2020-01-01"))) +
+  labs(title = "Evolução das somas dos coeficientes de um AR(1)",
        subtitle = "Variável explicada é variação mensal do IPCA, regressão em janelas de 5 anos") +
-  ylab("") 
+  ylab("") +
+  geom_smooth(method = "loess")
   
 
 ```
+
+Como esperado a inércia segue uma tendência de alta nos anos da Nova Matriz.
