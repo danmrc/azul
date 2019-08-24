@@ -1,0 +1,149 @@
+---
+title: "Visualizando um critério de estacionariedade em Processos AR"
+author: "Pedro Cavalcante"
+date: '2019-08-20'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: yes
+draft: no
+categories:
+- R
+- Econometria
+- Séries Temporais
+slug: viz-estacionariedade-gganim
+tags:
+- Simulações
+- R
+- Monte Carlo
+- AR
+- Séries Temporais
+authors: ["pedrocava"]
+---
+
+
+
+<p>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.</p>
+<p>Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:</p>
+<p><span class="math display">\[y_t = \beta y_{t-1} + \mu_t\]</span>
+Dizemos que <span class="math inline">\(y_t\)</span> é <span class="math inline">\(n\)</span>-estacionário se no limite quando <span class="math inline">\(t\)</span> tende a infinito seu <span class="math inline">\(n\)</span>-ésimo momento incondicional converge<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Um processo <span class="math inline">\(\infty\)</span>-estacionário é dito <em>fortemente</em> estacionário. Vamos avaliar o primeiro momento:</p>
+<p><span class="math display">\[\mathbb{E} [y_t] = \mathbb{E} [\beta y_{t-1} + \mu_t]\]</span>
+<span class="math display">\[\mathbb{E} [y_t] = \beta\mathbb{E} [ y_{t-1}] + \mathbb{E}[\mu_t]\]</span>
+<span class="math display">\[\mathbb{E} [y_t] = \beta\mathbb{E} [ \beta y_{t-2} + \mu_{t-1}] + 0\]</span>
+<span class="math display">\[\mathbb{E} [y_t] = \beta^2\mathbb{E} [y_{t-2}] + \mathbb{E}[\mu_{t-1}] + 0\]</span></p>
+<p>Acho que o leitor já captou o padrão aqui. Se não, recomendo continuar o processo mais algumas vezes no papel. No final chegaremos em:</p>
+<p><span class="math display">\[\mathbb{E} [y_t] = \beta^t y_0\]</span>
+É bem claro então que se <span class="math inline">\(|\beta| &lt;1\)</span> <span class="math inline">\(y_t\)</span> é pelo menos <span class="math inline">\(1\)</span>-estacionário. <span class="math inline">\(\beta\)</span> dá uma espécie de medida da “inércia” da série. Uma proporção que diz o quanto dos eventos do passado no processo são repassados ao presente. Se <span class="math inline">\(|\beta| \geq 1\)</span> então os choques no passado da série são transmitidos pelo menos integralmente ao presente e por isso a série explode para o infinito, estamos somando tudo repetidamente.</p>
+<p>Eu quero ilustrar este fato com um gif porque o R me deixa fazer isso com algumas poucas linhas de código.</p>
+<pre class="r"><code>library(gganimate)
+library(dplyr)
+library(tibble)
+
+set.seed(1234)
+
+n &lt;- 100 # amostra por processo
+
+choques &lt;- rnorm(n = n, sd = 10)
+
+beta &lt;- seq(from = 0, to = 1.5, by = 0.02) 
+
+Processos &lt;- list()
+
+
+y0 &lt;- 0 # definindo condição inicial
+x &lt;- seq(1, n) # um vetor para indexar a &quot;passagem do tempo&quot;
+
+for(i in 1:length(beta)) {
+  
+  y &lt;- vector(length = n)
+  y[1] &lt;- y0
+  
+  for(j in 2:n) {
+    
+    y[j] = beta[i]*y[(j-1)] + choques[j]
+    
+  } # termina o loop menor
+  
+  Processo &lt;- tibble(beta = beta[i],
+                     x = x,
+                     y = y) # geramos um tibble com o Processo
+  
+  rm(y) # nos livramos do vetor
+  
+  Processos[[i]] &lt;- Processo # preenchemos a lista com o Processo simulado na rodada
+  
+} # termina o loop maior
+
+Processos &lt;- do.call(rbind, Processos) %&gt;% as_tibble() # unimos todas as listas 
+
+anim &lt;-Processos %&gt;%
+  ggplot(aes(x = x, y = y, col = beta)) +
+  geom_line() +
+  transition_time(beta) +
+  ylim(-100,100) %&gt;% suppressWarnings()
+
+animate(anim, fps = 60)</code></pre>
+<pre><code>## Warning: Removed 65 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 68 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 75 rows containing missing values (geom_path).
+
+## Warning: Removed 75 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 76 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 79 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 83 rows containing missing values (geom_path).
+
+## Warning: Removed 83 rows containing missing values (geom_path).
+
+## Warning: Removed 83 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 84 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 85 rows containing missing values (geom_path).
+
+## Warning: Removed 85 rows containing missing values (geom_path).
+
+## Warning: Removed 85 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 86 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).
+
+## Warning: Removed 87 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 86 rows containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 85 rows containing missing values (geom_path).</code></pre>
+<p><img src="/post/viz_raizes_unitarias_processos_AR/post_viz_raizes_unitarias_files/figure-html/unnamed-chunk-1-1.gif" /><!-- --></p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Essa definição pode precisar de um pouco de polimento e carinho, mas nas CNTP é equivalente às que você já viu por aí<a href="#fnref1" class="footnote-back">↩</a></p></li>
+</ol>
+</div>

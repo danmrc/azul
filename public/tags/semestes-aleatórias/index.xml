@@ -19,8 +19,8 @@
       <guid>/2019/05/17/prouni-rf-classificacao/</guid>
       <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
 encher de coisas aqui
-set.seed(1234)n = 5000amostra1 = rbinom(n= n,size = 1,prob = .5)mean(amostra1)## [1] 0.5014Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2)library(dplyr)## ## Attaching package: &amp;#39;dplyr&amp;#39;## The following objects are masked from &amp;#39;package:stats&amp;#39;:## ## filter, lag## The following objects are masked from &amp;#39;package:base&amp;#39;:## ## intersect, setdiff, setequal, unionlibrary(gganimate)m = 10000000n = 100amostras = vector()for(i in 1:m) {set.</description>
+set.seed(1234) n = 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39; ## The following objects are masked from &amp;#39;package:stats&amp;#39;: ## ## filter, lag ## The following objects are masked from &amp;#39;package:base&amp;#39;: ## ## intersect, setdiff, setequal, union library(gganimate) m = 10000000 n = 100 amostras = vector() for(i in 1:m) { set.</description>
     </item>
     
   </channel>

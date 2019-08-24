@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
+		<meta name="generator" content="Hugo 0.56.3" />
 		<title>Identificação em VAR e Price Puzzle I &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -68,7 +68,10 @@
                   
                 
                 <section id="post-body">
-                    <p>O VAR (<em>Vector Autoregression</em>, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis <span class="math inline">\(x_t,y_t\)</span> em um vetor <span class="math inline">\(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\)</span>. Um VAR seria:</p>
+                    
+
+
+<p>O VAR (<em>Vector Autoregression</em>, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis <span class="math inline">\(x_t,y_t\)</span> em um vetor <span class="math inline">\(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\)</span>. Um VAR seria:</p>
 <p><span class="math display">\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]</span></p>
 <p>Onde <span class="math inline">\(C\)</span> é uma matriz <span class="math inline">\(2 \times 2\)</span> e <span class="math inline">\(\mathbf{u_t}\)</span> é um vetor de choques, possivelmente correlacionados. Uma equação do VAR é uma das linhas da matriz. A primeira linha, por exemplo, tem a seguinte cara:</p>
 <p><span class="math display">\[x_t = c_{11}x_{t-1} + c_{12}y_{t-1} + u_{1t}\]</span></p>

@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
+		<meta name="generator" content="Hugo 0.56.3" />
 		<title>Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -47,8 +47,8 @@
                     </h1>
                     <h2 class="headline">
                     Aug 15, 2019 00:00
-                    · 1794 words
-                    · 9 minute read
+                    · 2200 words
+                    · 11 minute read
                       <span class="tags">
                       
                       
@@ -66,13 +66,16 @@
                   
                 
                 <section id="post-body">
-                    <blockquote>
+                    
+
+
+<blockquote>
 <p>I was born like this</p>
 <p>I had no choice</p>
 <p>I was born with the gift of a golden voice</p>
 </blockquote>
 <p>– Leonard Cohen</p>
-<p>Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um <a href="https://cran.r-project.org/view=NaturalLanguageProcessing">task view para pacotes relacionadas a análise de texto</a>. O modelo que eu vou usar é o extremamente popular <em>Latent Dirichelet Allocation</em> (LDA). A ideia básica do LDA é que textos são compostos de tópicos e que pedaços de texto devem ser alocados para cada tópico. O LDA é flexível o suficiente para entender que a mesma palavra pode ser alocada para mais de um tópico (o que é diferente de <em>k means</em>, que deixaria cada palavra para um tópico): um exemplo óbvio é a palavra manga, que pode ser alocado no tópico frutas ou no tópico partes de roupa.</p>
+<p>Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um <a href="https://cran.r-project.org/view=NaturalLanguageProcessing">task view para pacotes relacionadas a análise de texto</a>. O modelo que eu vou usar é o extremamente popular <em>Latent Dirichelet Allocation</em> (LDA). A ideia básica do LDA é que textos são compostos de tópicos e que pedaços de texto devem ser alocados para cada tópico. O LDA é flexível o suficiente para entender que a mesma palavra pode ser alocada para mais de um tópico (o que é diferente de <em>k means</em>, que deixaria cada palavra para um tópico): um exemplo simples é a palavra <strong>manga</strong>, que pode ser alocado no tópico frutas ou no tópico partes de roupa.</p>
 <p>A aplicação é um tanto inusitada: ao invés de atas do BC ou notícias de economia, eu vou analisar letras do Leonard Cohen. Você com certeza já ouviu Hallelujah - nem que tenha sido no filme do Shrek - que foi escrita por ele e tem uma história fascinante, mas que não cabe aqui. Diga-se de passagem, se esse post só servir para apresentar o leitor a Leonard Cohen, será o suficiente.</p>
 <p>Os motivos para eu escolher letras do Leonard Cohen são:</p>
 <ul>
@@ -180,27 +183,57 @@ for(i in 1:length(lyrics2)){
 <p>Trabalha e teima, e lima , e sofre, e sua!</p>
 </blockquote>
 <p>E famosamente repetir o “e” acentua a ideia de esforço - trabalha, teima, lima, sofre e sua é muito mais rápido.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
-<p>O passo seguinte é retirar vírgulas, pontos e uns ocasionais caractéres especiais que aparecem entre chaves ou entre &lt;&gt;</p>
+<p>O passo seguinte é retirar vírgulas, pontos e uma meia dúzia de parênteses - todos esses são removidos com a keyword <code>[:punct:]</code>e uns ocasionais caractéres especiais que aparecem entre chaves ou entre &lt;&gt;. Eu também removo la (ou La), como em La La Land, e algum ocasional NA:</p>
 <pre><code>
 for(i in 1:length(lyrics)){
-    lyrics[[i]] &lt;- str_remove(lyrics[[i]],&quot;[,]&quot;)
-    lyrics[[i]] &lt;- str_remove(lyrics[[i]],&quot;[.]&quot;)
-    lyrics[[i]] &lt;- str_remove(lyrics[[i]],&quot;[{].*[}]&quot;)
-    lyrics[[i]] &lt;- str_remove(lyrics[[i]],&quot;[&lt;].*[&gt;]&quot;)
-    lyrics[[i]] &lt;- str_remove(lyrics[[i]],&quot;c[(]&quot;)
-}
-</code></pre>
+    lyrics[[i]] &lt;- str_remove_all(lyrics[[i]],&quot;[:punct:]&quot;)
+    lyrics[[i]] &lt;- str_remove_all(lyrics[[i]],&quot;[{].*[}]&quot;)
+    lyrics[[i]] &lt;- str_remove_all(lyrics[[i]],&quot;[&lt;].*[&gt;]&quot;)
+    lyrics[[i]] &lt;- str_remove_all(lyrics[[i]],&quot;c[(]&quot;)
+    las &lt;- match(lyrics[[i]],&quot;la&quot;, nomatch = 0)
+    las &lt;- las + match(lyrics[[i]],&quot;La&quot;, nomatch = 0)
+    lyrics[[i]] &lt;- lyrics[[i]][!las]
+    na &lt;-  match(lyrics[[i]],&quot;NA&quot;, nomatch = 0)
+    lyrics[[i]] &lt;- lyrics[[i]][!na]
+}</code></pre>
 <p>Finalmente, podemos pensar em fazer um modelo!</p>
 </div>
 <div id="o-modelo" class="section level1">
 <h1>O modelo</h1>
 <p>Eu vou usar o pacote <code>lda</code> para estimar o LDA. Esse pacote tem um comando <code>lexicalize</code> que pega uma lista em que cada entrada na lista é um “documento” - no nosso caso, uma letra - e essa unidade contém um vetor com o texto quebrado de maneira que a unidade fundamental - palavra, bigrama ou n-grama - seja um elemento do vetor.</p>
 <pre><code>lyrics_to_lda &lt;- lexicalize(lyrics)</code></pre>
-<p>Isso gera uma versão do documento em que as palavras são substituídas por um número(<code>documents</code>) e um dicionário que mapeia o número para a palavra(<code>$vocab</code>). Finalmente podemos estimar o modelo:</p>
+<p>O objeto <code>lyrics_to_lda</code> tem duas entradas: a primeira são os documentos - nesse caso, as letras de música - nas quais as palavras são substituídas por um número(<code>$documents</code>) e um dicionário que mapeia o número para a palavra(<code>$vocab</code>). Finalmente podemos estimar o modelo:</p>
 <pre><code>
-modelo &lt;- lda.collapsed.gibbs.sampler(lyrics_to_lda$documents,K = 15,vocab = lyrics_to_lda$vocab, num.iterations = 1000,alpha = 1,eta = 1)
+modelo &lt;- lda.collapsed.gibbs.sampler(lyrics_to_lda$documents,K = 15,vocab = lyrics_to_lda$vocab, num.iterations = 5000,alpha = 1,eta = 1)
 </code></pre>
-<p>A coisa realmente importante aqui é o K, que é a quantidade de tópicos. Até onde eu sei, a maneira de selecionar isso é testando, analisando os tópicos gerados e vendo se é razoável. 15 pareceu bom o bastante.</p>
+<p>A coisa realmente importante aqui é o K, que é a quantidade de tópicos. Até onde eu sei, a maneira de selecionar isso é testando, analisando os tópicos gerados e vendo se é razoável. 15 pareceu bom o bastante: eu tentei mais, tentei menos e fiquei satisfeito com 15.</p>
+</div>
+<div id="resultados" class="section level1">
+<h1>Resultados</h1>
+<p>Eu vou usar o pacote <strong>wordcloud</strong> para gerar wordclouds. Eu vou pintar de azul mais escuro palavras que aparecem mais frequentemente e de azul mais claro palavras menos frequentes. Eu não vou colocar todos os 15 tópicos - dado que vocês podem replicar usando o arquivo com dados que está no github e o código que tá aqui no post.</p>
+<p>Alguns pontos que vão ficar bem claros a seguir é que, apesar da ideia ter parecido boa inicialmente, ela sofre de dois problemas:</p>
+<ol style="list-style-type: decimal">
+<li>Música - e poesia no geral - usam muitas metáforas. Se já é uma batalha fazer o computador entender um texto objetivo, um texto com significados subjetivos vai ser um senhor desafio.</li>
+<li>Ao contrário de um texto técnico, que nós esperamos que termos se repitam, aqui a repetição vai ser muito mais baixa. Voltando ao exemplo das atas do BC, nós esperaríamos que as palavras taxas, juros, inflação etc aparecessem em vários documentos. Aqui isso não ocorre tanto.</li>
+</ol>
+<p>O código a seguir gera as 15 wordclouds em png e salva elas:</p>
+<pre><code>for(i in 1:15){
+  png(paste0(&quot;./content/post/lc/grupo_&quot;,i,&quot;.png&quot;))
+  wordcloud(str_remove_all(names(word_and_topics[i,]),&#39;[&quot;]&#39;),word_and_topics[i,], scale = c(4,.5), colors = c(&quot;lightblue&quot;,&quot;blue&quot;,&quot;midnightblue&quot;),min.freq = 2,max.words = 100)
+  dev.off()
+}</code></pre>
+<p>Veja que a ordem dos tópicos não importa muito. Um grupo curioso é um que envolve mulheres:</p>
+<p><img src="/post/lc/grupo_8.png" /></p>
+<p>Veja que parece man, womans, wife e chelsea - o que faz sentido já que Chelsea Hotel No. 2 é sobre o <em>one night stand</em> que o Leonard Cohen teve com a Janis Joplin.</p>
+<p>Um outro grupo envolve palavras como I, the, and etc</p>
+<p><img src="/post/lc/grupo_10.png" /></p>
+<p>Outro grupo interessante é o que envolve a música <em>Jazz Police</em> <strong>e</strong> play (sendo que a palavra play não aparece na música <em>Jazz Police</em>):</p>
+<p><img src="/post/lc/grupo_5.png" /></p>
+<p>Mais um grupo curioso é esse aqui:</p>
+<p><img src="/post/lc/grupo_13.png" /></p>
+<p><em>Repent</em> domina totalmente a imagem, mas nós também conseguimos ver prayer e hope, wine e murder - todos temas comuns em religião.</p>
+<p>Outra coisa bacana de fazer é ver quais músicas são representam melhor cada tópico - isso é, quantas vezes cada tópico aparece em cada música:</p>
+<pre><code></code></pre>
 </div>
 <div class="footnotes">
 <hr />
