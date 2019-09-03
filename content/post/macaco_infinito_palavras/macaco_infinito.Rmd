@@ -1,7 +1,7 @@
 ---
 title: "O Teorema do Macaco Infito: quanto tempo até sair Hamlet?"
 author: "Pedro Cavalcante"
-date: '2019-08-30'
+date: '2019-09-08'
 output:
   html_document:
     df_print: paged
@@ -10,6 +10,7 @@ katex: yes
 draft: yes
 categories:
 - R
+- Matemática
 slug: macaco-infinito-hamlet
 tags:
 - Simulações
@@ -25,8 +26,9 @@ authors: ["pedrocava"]
 # Probabilidades de palavras em particular com alfabetos finitos
 
 
+# Simulação
 
-```{R}
+```{R, message = FALSE, warning = FALSE}
 library(dplyr)
 library(tibble)
 library(rio)
@@ -37,53 +39,59 @@ palavras$tamanho <- stringr::str_length(palavras$a) # tamanho das palavras
 
 ```
 
-
-```{R}
-
-k <- 5
-n <- 100
-
-matriz_tentativas <- rep(NA, each = k)
-
-tentativas <- double(length = k)
+Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:
 
 
-for(a in 1:n) {
+```{R, message = FALSE, warning = FALSE}
 
-for(i in 1:k) {
+k <- 5 # número máximo de letras em uma palavra a ser encontrada
+n <- 100 # número de tentativas de encontrar palavras entre 1 e k letras
+
+matriz_tentativas <- rep(NA, each = k) # matriz vazia
+
+tentativas <- double(length = k) # vetor vazio com tipo definido como de precisão dupla
+
+
+```
+
+
+
+
+```{R, eval = FALSE, message = FALSE, warning = FALSE}
+
+for(a in 1:n) { # primeiro loop, o em cima da amostra
+
+for(i in 1:k) { # segundo loop, onde tentamos encontrar as palavras
   
-  seq(1:a*n) %>% sample(size = 1) %>% set.seed()
+  seq(1:a*n) %>% sample(size = 1) %>% set.seed()  # semente nova sempre para evitar repetição
+  ## esse procedimento da semente é discutível, não reproduzir cegamente
+  
   contador <- 1
   indicador <- FALSE
 
   while(indicador == FALSE) {
   
    palavra <- sample(letters, size = i) %>%
-     paste(collapse = '')
+     paste(collapse = '')  # sorteando uma palavra
  
      if(palavra %in% palavras$a) {
    
-     indicador <- TRUE
+     indicador <- TRUE   # se a palavra está no corpus do português, paramos o loop
  
      } else {
    
-     contador <- contador + 1
+     contador <- contador + 1 # se não, contamos a tentativa e começamos de novo
    
    }
   
   }
 
-    tentativas[i] <- contador
-    print(tentativas)
-    print(palavra)
-    
-    
+    tentativas[i] <- contador # salvamos quantas tentativas foram precisas
+
 }
 
 
-matriz_tentativas <- cbind(matriz_tentativas, tentativas)
-
-tentativas <- double()
+matriz_tentativas <- cbind(matriz_tentativas, tentativas) # juntamos todos os vetores com números de tentativas
 
 }
 ```
