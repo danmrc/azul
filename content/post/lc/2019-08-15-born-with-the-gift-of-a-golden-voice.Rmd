@@ -24,9 +24,9 @@ authors: ["danmrc"]
 
 -- Leonard Cohen
 
-Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um [task view para pacotes relacionadas a análise de texto](https://cran.r-project.org/view=NaturalLanguageProcessing). O modelo que eu vou usar é o extremamente popular _Latent Dirichelet Allocation_ (LDA). A ideia básica do LDA é que textos são compostos de tópicos e que pedaços de texto devem ser alocados para cada tópico. O LDA é flexível o suficiente para entender que a mesma palavra pode ser alocada para mais de um tópico (o que é diferente de _k means_, que deixaria cada palavra para um tópico): um exemplo simples é a palavra **manga**, que pode ser alocado no tópico frutas ou no tópico partes de roupa. 
+Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um [task view para pacotes relacionadas a análise de texto](https://cran.r-project.org/view=NaturalLanguageProcessing). O modelo que eu vou usar é o extremamente popular _Latent Dirichelet Allocation_ (LDA). A ideia básica do LDA é que textos são compostos de tópicos e que pedaços de texto devem ser alocados para cada tópico. O LDA é flexível o suficiente para entender que a mesma palavra pode ser alocada para mais de um tópico (o que é diferente de _k means_, que deixaria cada palavra para um tópico): um exemplo simples é a palavra **manga**, que pode ser alocado no tópico frutas ou no tópico partes de roupa.
 
-A aplicação é um tanto inusitada: ao invés de atas do BC ou notícias de economia, eu vou analisar letras do Leonard Cohen. Você com certeza já ouviu Hallelujah - nem que tenha sido no filme do Shrek - que foi escrita por ele e tem uma história fascinante, mas que não cabe aqui. Diga-se de passagem, se esse post só servir para apresentar o leitor a Leonard Cohen, será o suficiente.  
+A aplicação é um tanto inusitada: ao invés de atas do BC ou notícias de economia, eu vou analisar letras do Leonard Cohen. Você com certeza já ouviu Hallelujah - nem que tenha sido no filme do Shrek - que foi escrita por ele e tem uma história fascinante, mas que não cabe aqui. Diga-se de passagem, se esse post só servir para apresentar o leitor a Leonard Cohen, será o suficiente.
 
 Os motivos para eu escolher letras do Leonard Cohen são:
 
@@ -112,7 +112,7 @@ tracks_clean[96,2] <- "Chelsea Hotel No. 2"
 
 A faixa 41 é uma versão ao vivo, e Chelsea Hotel No. 2 admite várias grafias diferentes - no Spotify vem Chelsea Hotel #2. O Genius usa a que eu coloquei acima no código. Por sinal,a ordem dos discos é de forma que os mais recentes estão no começo do dataframe, o que explica Chelsea Hotel, que é do quarto disco, estar quase no fim (o dataframe tem 132 linhas).
 
-Agora nós vamos puxar todas as letras, e aqui o pacote **genius** entra em ação. Não precisamos criar nenhum api para acessar o genius. A função `possible_lyrics` é esperta: se ela encontra a letra, ela puxa isso como um tibble que em cada linha tem um verso da música; caso contrário, ela retorna um tibble vazio e um warning não um erro. Isso impede que o nosso loop empaque em uma letra que não foi encontrada e agiliza bastante a vida. 
+Agora nós vamos puxar todas as letras, e aqui o pacote **genius** entra em ação. Não precisamos criar nenhum api para acessar o genius. A função `possible_lyrics` é esperta: se ela encontra a letra, ela puxa isso como um tibble que em cada linha tem um verso da música; caso contrário, ela retorna um tibble vazio e um warning não um erro. Isso impede que o nosso loop empaque em uma letra que não foi encontrada e agiliza bastante a vida.
 
 O `if` separa casos que a letra foi obtida com sucesso e casos em que o Genius não tem a letra. Eu pego a letra (a segunda coluna do tibble) e colo ela em uma única string: uma letra com 45 versos vira um objeto de um único elemento. Eu removo, usando o pacote **stringr**, o `c()` que marcam a divisão do vetor (isso entra entre colchetes para o R interpretar os parêntese literalmente), contrabarras com aspas (marcam a divisão de strings) e pulos de linha (\\n) e enfim armazeno isso numa lista `lyrics` (o motivo de ser uma lista vai ficar bem claro daqui a pouco):
 
@@ -130,7 +130,7 @@ for(i in 1:nrow(tracks_clean)){
     ly_aux <- str_remove_all(ly_aux,'\\n')
     lyrics[[i]] <- ly_aux
   } else{
-     lyrics[[i]] <- ly_aux 
+     lyrics[[i]] <- ly_aux
     }
   print(i)
   Sys.sleep(2+rnorm(1,sd = 0.5))
@@ -154,7 +154,7 @@ for(i in 1:length(lyrics)){
 
 ```
 
-Veja que no caso que eu não obtive nada, eu faço o R imprimir o nome da música faltante. Para a minha surpresa, não faltou nenhuma. 
+Veja que no caso que eu não obtive nada, eu faço o R imprimir o nome da música faltante. Para a minha surpresa, não faltou nenhuma.
 
 Neste ponto, dado o trabalho feito, me pareceu de bom tom salvar tudo:
 
@@ -175,7 +175,7 @@ for(i in 1:length(lyrics2)){
 
 ```
 
-Veja que essa _não é a única_ estratégia a ser adotada: eu podia querer agrupar as palavras dois a dois. Na citação no começo desse post, temos "golden voice". Separando da maneira que eu fiz, golden e voice ficam separados, apesar de elas juntas terem um significado diferente de cada uma delas separadas. E isso também é verdade para grupos de três palavras (had no choice), quatro (was born like this) etc etc. Esses conjunto são conhecidos como bigramas, trigamas e n-gramas. A minha escolha por palavras individuais se deve a duas coisas: 
+Veja que essa _não é a única_ estratégia a ser adotada: eu podia querer agrupar as palavras dois a dois. Na citação no começo desse post, temos "golden voice". Separando da maneira que eu fiz, golden e voice ficam separados, apesar de elas juntas terem um significado diferente de cada uma delas separadas. E isso também é verdade para grupos de três palavras (had no choice), quatro (was born like this) etc etc. Esses conjunto são conhecidos como bigramas, trigamas e n-gramas. A minha escolha por palavras individuais se deve a duas coisas:
 
 * Preguiça, uma vez que ou eu teria que separar todos os conjuntos relevantes no braço ou considerar todos os bigramas: isso geraria para "I was born like this" os bigramas "I was", "was born", "born like"...
 * Mais importante, isso são letras de música. É altamente improvável que trechos relevantes se repitam com frequência (eu acho). Isso não é verdade para situações como atas do BC, onde "taxa de juros" é um grupo significativo e que aparece diversas vezes.
@@ -187,7 +187,7 @@ Outro detalhe é que é comum tirar palavras como the, and, or etc. Eu vou mante
 E famosamente repetir o "e" acentua a ideia de esforço - trabalha, teima, lima, sofre e sua é muito mais rápido.^[Provando que eu aprendi _alguma coisa_ na aula de literatura!]
 
 
-O passo seguinte é retirar vírgulas, pontos e uma meia dúzia de parênteses - todos esses são removidos com a keyword `[:punct:]`e uns ocasionais caractéres especiais que aparecem entre chaves ou entre <>. Eu também removo la (ou La), como em La La Land, e algum ocasional NA: 
+O passo seguinte é retirar vírgulas, pontos e uma meia dúzia de parênteses - todos esses são removidos com a keyword `[:punct:]`e uns ocasionais caractéres especiais que aparecem entre chaves ou entre <>. Eu também removo la (ou La), como em La La Land, e algum ocasional NA:
 
 ```
 
@@ -208,7 +208,7 @@ Finalmente, podemos pensar em fazer um modelo!
 
 # O modelo
 
-Eu vou usar o pacote `lda` para estimar o LDA. Esse pacote tem um comando `lexicalize` que pega uma lista em que cada entrada na lista é um "documento" - no nosso caso, uma letra - e essa unidade contém um vetor com o texto quebrado de maneira que a unidade fundamental - palavra, bigrama ou n-grama - seja um elemento do vetor. 
+Eu vou usar o pacote `lda` para estimar o LDA. Esse pacote tem um comando `lexicalize` que pega uma lista em que cada entrada na lista é um "documento" - no nosso caso, uma letra - e essa unidade contém um vetor com o texto quebrado de maneira que a unidade fundamental - palavra, bigrama ou n-grama - seja um elemento do vetor.
 
 ```
 lyrics_to_lda <- lexicalize(lyrics)
@@ -231,7 +231,7 @@ Eu vou usar o pacote **wordcloud** para gerar wordclouds. Eu vou pintar de azul 
 Alguns pontos que vão ficar bem claros a seguir é que, apesar da ideia ter parecido boa inicialmente, ela sofre de dois problemas:
 
 1. Música - e poesia no geral - usam muitas metáforas. Se já é uma batalha fazer o computador entender um texto objetivo, um texto com significados subjetivos vai ser um senhor desafio.
-2. Ao contrário de um texto técnico, que nós esperamos que termos se repitam, aqui a repetição vai ser muito mais baixa. Voltando ao exemplo das atas do BC, nós esperaríamos que as palavras taxas, juros, inflação etc aparecessem em vários documentos. Aqui isso não ocorre tanto. 
+2. Ao contrário de um texto técnico, que nós esperamos que termos se repitam, aqui a repetição vai ser muito mais baixa. Voltando ao exemplo das atas do BC, nós esperaríamos que as palavras taxas, juros, inflação etc aparecessem em vários documentos. Aqui isso não ocorre tanto.
 
 O código a seguir gera as 15 wordclouds em png e salva elas:
 
@@ -247,7 +247,7 @@ Veja que a ordem dos tópicos não importa muito. Um grupo curioso é um que env
 
 ![](/post/lc/grupo_8.png)
 
-Veja que parece man, womans, wife e chelsea - o que faz sentido já que Chelsea Hotel No. 2 é sobre o _one night stand_ que o Leonard Cohen teve com a Janis Joplin. 
+Veja que parece man, womans, wife e chelsea - o que faz sentido já que Chelsea Hotel No. 2 é sobre o _one night stand_ que o Leonard Cohen teve com a Janis Joplin.
 
 Um outro grupo envolve palavras como I, the, and etc
 
@@ -261,10 +261,21 @@ Mais um grupo curioso é esse aqui:
 
 ![](/post/lc/grupo_13.png)
 
-_Repent_ domina totalmente a imagem, mas nós também conseguimos ver prayer e hope, wine e murder - todos temas comuns em religião. 
+_Repent_ domina totalmente a imagem, mas nós também conseguimos ver prayer e hope, wine e murder - todos temas comuns em religião.
 
 Outra coisa bacana de fazer é ver quais músicas são representam melhor cada tópico - isso é, quantas vezes cada tópico aparece em cada música:
 
+1. Música - e poesia no geral - usam muitas metáforas. Se já é uma batalha fazer o computador entender um texto objetivo, um texto com significados subjetivos vai ser um senhor desafio.
+2. Ao contrário de um texto técnico, que nós esperamos que termos se repitam, aqui a repetição vai ser muito mais baixa. Voltando ao exemplo das atas do BC, nós esperaríamos que as palavras taxas, juros, inflação etc aparecessem em vários documentos. Aqui isso não ocorre tanto.
+
+O código a seguir gera as 15 wordclouds em png e salva elas:
+
+```
+for(i in 1:15){
+  png(paste0("./content/post/lc/grupo_",i,".png"))
+  wordcloud(str_remove_all(names(word_and_topics[i,]),'["]'),word_and_topics[i,], scale = c(4,.5), colors = c("lightblue","blue","midnightblue"),min.freq = 2,max.words = 100)
+  dev.off()
+}
 ```
 
 ```
