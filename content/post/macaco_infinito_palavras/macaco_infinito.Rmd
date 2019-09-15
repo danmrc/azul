@@ -93,5 +93,9 @@ for(i in 1:k) { # segundo loop, onde tentamos encontrar as palavras
 
 matriz_tentativas <- cbind(matriz_tentativas, tentativas) # juntamos todos os vetores com números de tentativas
 
+print(paste("i =",i))
+print(paste("a =",a))
+
 }
+
 ```
