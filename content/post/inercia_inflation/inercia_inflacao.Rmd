@@ -1,15 +1,15 @@
 ---
-title: "Medindo a inércia da inflação brasileira no R com Rolling Window Regression"
+title: "Medindo a inércia da inflação brasileira com Rolling Window Regression"
 author: "Pedro Cavalcante"
 date: '2019-09-20'
 output:
   html_document:
     self_contained: FALSE
-draft: TRUE
+draft: FALSE
 katex: TRUE
 categories:
 - R
-- Finanças
+- Macroeconomia
 - Política Monetária
 slug: inercia-inflacao-rolling-window
 tags:
@@ -26,7 +26,7 @@ library(ggplot2)
 library(dplyr)
 library(BETS)
 
-ipca = BETSget(433,
+ipca <- BETSget(433,
                from = "1998-09-01",
                data.frame = TRUE) # IPCA desde outubro de 98
 
@@ -35,7 +35,8 @@ ipca %>%
   geom_line(size = 1.2) +
   xlab("Tempo") +
   ylab("Variação Mensal do IPCA (em %)") +
-  geom_hline(yintercept = mean(ipca$value)) # linha horizontal na média
+  geom_hline(yintercept = mean(ipca$value)) + # linha horizontal na média
+  labs(caption = "Elaboração: Pedro Cavalcante") 
 
 
 ```
@@ -48,33 +49,33 @@ $$\pi_t = \phi_0 + \sum_{i=1}^{k} \phi_i \pi_{t-i} + \epsilon_t$$
 
 ```{R}
 
-base = ipca %>% as_tibble()
+base <- ipca %>% as_tibble()
 
-base$primeiro_lag = base$value %>% dplyr::lag()
+base$primeiro_lag <- base$value %>% dplyr::lag()
 
-coeficientes = vector()
-janela = 12*5 # número de meses em cada janela 
+coeficientes <- vector()
+janela <- 12*5 # número de meses em cada janela 
 
 for(i in janela:nrow(base)) {
   
-  window = base[(i-janela):i,]
+  window <- base[(i-janela):i,] # pegamos uma janela
   
-  modelo = lm(value ~ primeiro_lag,
-              data = window)
+  modelo <- lm(value ~ primeiro_lag,
+              data = window) # estimamos o AR1
   
-  coeficientes[i] = modelo$coefficients[2] 
+  coeficientes[i] <- modelo$coefficients[2] # armazenamos o coeficiente estimado
     
   }
 
-coeficientes = tibble(coef = coeficientes,
+coeficientes <- tibble(coef = coeficientes,
                       tempo = base$date[1:length(coeficientes)]) %>% 
   filter(!is.na(coef))
 
 coeficientes %>%
   ggplot(aes(y = coef, x = tempo)) +
   geom_line(size = 1.2) +
-  scale_x_date(limits = c(as.Date("2003-01-01"),as.Date("2020-01-01"))) +
-  labs(title = "Evolução das somas dos coeficientes de um AR(1)",
+  scale_x_date(limits = c(as.Date("2003-01-01"), as.Date("2020-01-01"))) +
+  labs(title = "Evolução do coeficiente de um AR(1)",
        subtitle = "Variável explicada é variação mensal do IPCA, regressão em janelas de 5 anos") +
   ylab("") +
   geom_smooth(method = "loess")

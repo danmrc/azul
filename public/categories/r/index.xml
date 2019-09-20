@@ -6,10 +6,28 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 20 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Medindo a inércia da inflação brasileira com Rolling Window Regression</title>
+      <link>/2019/09/20/inercia-inflacao-rolling-window/</link>
+      <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/09/20/inercia-inflacao-rolling-window/</guid>
+      <description>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralaleo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</description>
+    </item>
+    
+    <item>
+      <title>O Teorema do Macaco Infito: quanto tempo até sair Hamlet?</title>
+      <link>/2019/09/08/macaco-infinito-hamlet/</link>
+      <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/09/08/macaco-infinito-hamlet/</guid>
+      <description>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
+    </item>
     
     <item>
       <title>Visualizando um critério de estacionariedade em Processos AR</title>
@@ -72,15 +90,6 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
       
       <guid>/2019/05/20/forecasting-rf/</guid>
       <description>library(randomForest) library(BETS) library(Quandl) library(dplyr) inicio = &amp;quot;2015-12-31&amp;quot; petroleo = Quandl(&amp;quot;OPEC/ORB&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) petroleo = rename(petroleo, Preco = &amp;quot;Value&amp;quot;) nasdaqoil = Quandl(&amp;quot;NASDAQOMX/NQDMASPA0001AUD&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) nasdaqoil = rename(nasdaqoil, Date = &amp;quot;Trade Date&amp;quot;) juros = Quandl(&amp;quot;USTREASURY/REALYIELD&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) dowjones = Quandl(&amp;quot;BCB/7809&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) base = full_join(nasdaqoil, juros) base = full_join(base, petroleo) %&amp;gt;% as_tibble() base = full_join(base, dowjones) head(base) base = rename(base, juros = `5 YR`, indice = `Index Value`) load(&amp;quot;base.</description>
-    </item>
-    
-    <item>
-      <title>Medindo a inércia da inflação brasileira no R com Rolling Window Regression</title>
-      <link>/2019/05/20/inercia-inflacao-rolling-window/</link>
-      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/20/inercia-inflacao-rolling-window/</guid>
-      <description>library(ggplot2) library(dplyr) library(BETS) ipca = BETSget(433, from = &amp;quot;1998-09-01&amp;quot;, data.frame = TRUE) # IPCA desde outubro de 98 ipca %&amp;gt;% ggplot(aes(x = date, y = value)) + geom_line(size = 1.2) + xlab(&amp;quot;Tempo&amp;quot;) + ylab(&amp;quot;Variação Mensal do IPCA (em %)&amp;quot;) + geom_hline(yintercept = mean(ipca$value)) # linha horizontal na média Se notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</description>
     </item>
     
     <item>

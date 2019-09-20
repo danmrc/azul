@@ -1,0 +1,85 @@
+---
+title: "O Teorema do Macaco Infito: quanto tempo até sair Hamlet?"
+author: "Pedro Cavalcante"
+date: '2019-09-08'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: yes
+draft: yes
+categories:
+- R
+- Matemática
+slug: macaco-infinito-hamlet
+tags:
+- Simulações
+- R
+- Monte Carlo
+- Teorema do Macaco Infinito
+authors: ["pedrocava"]
+---
+
+
+
+<div id="o-enunciado-e-quase-certeza" class="section level1">
+<h1>O Enunciado e Quase-Certeza</h1>
+</div>
+<div id="probabilidades-de-palavras-em-particular-com-alfabetos-finitos" class="section level1">
+<h1>Probabilidades de palavras em particular com alfabetos finitos</h1>
+</div>
+<div id="simulacao" class="section level1">
+<h1>Simulação</h1>
+<pre class="r"><code>library(dplyr)
+library(tibble)
+library(rio)
+
+palavras &lt;- import(&quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&quot;) %&gt;% 
+  as_tibble()
+palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavras</code></pre>
+<p>Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</p>
+<pre class="r"><code>k &lt;- 5 # número máximo de letras em uma palavra a ser encontrada
+n &lt;- 100 # número de tentativas de encontrar palavras entre 1 e k letras
+
+matriz_tentativas &lt;- rep(NA, each = k) # matriz vazia
+
+tentativas &lt;- double(length = k) # vetor vazio com tipo definido como de precisão dupla</code></pre>
+<pre class="r"><code>for(a in 1:n) { # primeiro loop, o em cima da amostra
+
+for(i in 1:k) { # segundo loop, onde tentamos encontrar as palavras
+  
+  seq(1:a*n) %&gt;% sample(size = 1) %&gt;% set.seed()  # semente nova sempre para evitar repetição
+  ## esse procedimento da semente é discutível, não reproduzir cegamente
+  
+  contador &lt;- 1
+  indicador &lt;- FALSE
+
+  while(indicador == FALSE) {
+  
+   palavra &lt;- sample(letters, size = i) %&gt;%
+     paste(collapse = &#39;&#39;)  # sorteando uma palavra
+ 
+     if(palavra %in% palavras$a) {
+   
+     indicador &lt;- TRUE   # se a palavra está no corpus do português, paramos o loop
+ 
+     } else {
+   
+     contador &lt;- contador + 1 # se não, contamos a tentativa e começamos de novo
+   
+   }
+  
+  }
+
+    tentativas[i] &lt;- contador # salvamos quantas tentativas foram precisas
+
+}
+
+
+matriz_tentativas &lt;- cbind(matriz_tentativas, tentativas) # juntamos todos os vetores com números de tentativas
+
+print(paste(&quot;i =&quot;,i))
+print(paste(&quot;a =&quot;,a))
+
+}</code></pre>
+</div>

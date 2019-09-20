@@ -56,6 +56,36 @@
     
         
             <li>
+                <aside class="dates">Sep 20</aside>
+                <a href='/2019/09/20/inercia-inflacao-rolling-window/'>
+                    Medindo a inércia da inflação brasileira com Rolling Window Regression
+                    
+                        
+                            <h2>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralaleo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Sep 8</aside>
+                <a href='/2019/09/08/macaco-infinito-hamlet/'>
+                    O Teorema do Macaco Infito: quanto tempo até sair Hamlet?
+                    
+                        
+                            <h2>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &lt;- import(&#34;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&#34;) %&gt;% as_tibble() palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
                 <aside class="dates">Aug 20</aside>
                 <a href='/2019/08/20/viz-estacionariedade-gganim/'>
                     Visualizando um critério de estacionariedade em Processos AR
@@ -171,21 +201,6 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
     
         
             <li>
-                <aside class="dates">May 20</aside>
-                <a href='/2019/05/20/inercia-inflacao-rolling-window/'>
-                    Medindo a inércia da inflação brasileira no R com Rolling Window Regression
-                    
-                        
-                            <h2>library(ggplot2) library(dplyr) library(BETS) ipca = BETSget(433, from = &#34;1998-09-01&#34;, data.frame = TRUE) # IPCA desde outubro de 98 ipca %&gt;% ggplot(aes(x = date, y = value)) &#43; geom_line(size = 1.2) &#43; xlab(&#34;Tempo&#34;) &#43; ylab(&#34;Variação Mensal do IPCA (em %)&#34;) &#43; geom_hline(yintercept = mean(ipca$value)) # linha horizontal na média Se notarmos a inflação no período \(t\) como \(\pi_t\), modela-la como um processo autoregressivo de ordem \(k\) é estimar o seguinte modelo:</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
                 <aside class="dates">May 17</aside>
                 <a href='/2019/05/17/prouni-rf-classificacao/'>
                     Manipulação de Sementes em Geradores Pseudoaleatórios
@@ -195,23 +210,6 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
 encher de coisas aqui
 set.seed(1234) n = 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
 library(ggplot2) library(dplyr) ## ## Attaching package: &#39;dplyr&#39; ## The following objects are masked from &#39;package:stats&#39;: ## ## filter, lag ## The following objects are masked from &#39;package:base&#39;: ## ## intersect, setdiff, setequal, union library(gganimate) m = 10000000 n = 100 amostras = vector() for(i in 1:m) { set.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">May 13</aside>
-                <a href='/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/'>
-                    Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)
-                    
-                        
-                            <h2>Em posts anteriores eu apresentei uma maneira de resolver o problema:
-\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
-O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</h2>
                         
                     
                 </a>

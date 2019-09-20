@@ -92,7 +92,7 @@ for(i in 1:nrow(tracks_clean)){
     ly_aux &lt;- str_remove_all(ly_aux,&#39;\\n&#39;)
     lyrics[[i]] &lt;- ly_aux
   } else{
-     lyrics[[i]] &lt;- ly_aux 
+     lyrics[[i]] &lt;- ly_aux
     }
   print(i)
   Sys.sleep(2+rnorm(1,sd = 0.5))
@@ -182,7 +182,17 @@ modelo &lt;- lda.collapsed.gibbs.sampler(lyrics_to_lda$documents,K = 15,vocab = 
 <p><img src="/post/lc/grupo_13.png" /></p>
 <p><em>Repent</em> domina totalmente a imagem, mas nós também conseguimos ver prayer e hope, wine e murder - todos temas comuns em religião.</p>
 <p>Outra coisa bacana de fazer é ver quais músicas são representam melhor cada tópico - isso é, quantas vezes cada tópico aparece em cada música:</p>
-<pre><code></code></pre>
+<ol style="list-style-type: decimal">
+<li>Música - e poesia no geral - usam muitas metáforas. Se já é uma batalha fazer o computador entender um texto objetivo, um texto com significados subjetivos vai ser um senhor desafio.</li>
+<li>Ao contrário de um texto técnico, que nós esperamos que termos se repitam, aqui a repetição vai ser muito mais baixa. Voltando ao exemplo das atas do BC, nós esperaríamos que as palavras taxas, juros, inflação etc aparecessem em vários documentos. Aqui isso não ocorre tanto.</li>
+</ol>
+<p>O código a seguir gera as 15 wordclouds em png e salva elas:</p>
+<pre><code>for(i in 1:15){
+  png(paste0(&quot;./content/post/lc/grupo_&quot;,i,&quot;.png&quot;))
+  wordcloud(str_remove_all(names(word_and_topics[i,]),&#39;[&quot;]&#39;),word_and_topics[i,], scale = c(4,.5), colors = c(&quot;lightblue&quot;,&quot;blue&quot;,&quot;midnightblue&quot;),min.freq = 2,max.words = 100)
+  dev.off()
+}</code></pre>
+<p>```</p>
 </div>
 <div class="footnotes">
 <hr />
