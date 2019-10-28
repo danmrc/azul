@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Macroeconomia on AZUL</title>
@@ -29,15 +29,6 @@
       <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
-    </item>
-    
-    <item>
-      <title>Será que Investimento Público é tudo isso? Estimando VARs no R</title>
-      <link>/2019/04/28/central-limit-theorem-r/</link>
-      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/28/central-limit-theorem-r/</guid>
-      <description></description>
     </item>
     
     <item>

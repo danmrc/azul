@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AZUL</title>
@@ -6,10 +6,19 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Fri, 20 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Regredindo séries temporais aleataórias para quem gosta de regressão</title>
+      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
+      <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries tempoaris que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries tepmorais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
+    </item>
     
     <item>
       <title>Medindo a inércia da inflação brasileira com Rolling Window Regression</title>
@@ -94,15 +103,6 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
     </item>
     
     <item>
-      <title>Fazendo previsões de séries com Random Forest</title>
-      <link>/2019/05/20/forecasting-rf/</link>
-      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/20/forecasting-rf/</guid>
-      <description>library(randomForest) library(BETS) library(Quandl) library(dplyr) inicio = &amp;quot;2015-12-31&amp;quot; petroleo = Quandl(&amp;quot;OPEC/ORB&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) petroleo = rename(petroleo, Preco = &amp;quot;Value&amp;quot;) nasdaqoil = Quandl(&amp;quot;NASDAQOMX/NQDMASPA0001AUD&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) nasdaqoil = rename(nasdaqoil, Date = &amp;quot;Trade Date&amp;quot;) juros = Quandl(&amp;quot;USTREASURY/REALYIELD&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) dowjones = Quandl(&amp;quot;BCB/7809&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) base = full_join(nasdaqoil, juros) base = full_join(base, petroleo) %&amp;gt;% as_tibble() base = full_join(base, dowjones) head(base) base = rename(base, juros = `5 YR`, indice = `Index Value`) load(&amp;quot;base.</description>
-    </item>
-    
-    <item>
       <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
       <link>/2019/05/17/prouni-rf-classificacao/</link>
       <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
@@ -144,15 +144,6 @@ Já aviso de antemão que a explicaçõe será muito superficial. É um assunto 
       <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
 \[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
 (Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
-    </item>
-    
-    <item>
-      <title>Será que Investimento Público é tudo isso? Estimando VARs no R</title>
-      <link>/2019/04/28/central-limit-theorem-r/</link>
-      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/28/central-limit-theorem-r/</guid>
-      <description></description>
     </item>
     
     <item>

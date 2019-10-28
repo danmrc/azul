@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on AZUL</title>
@@ -6,10 +6,19 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Fri, 20 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Regredindo séries temporais aleataórias para quem gosta de regressão</title>
+      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
+      <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries tempoaris que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries tepmorais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
+    </item>
     
     <item>
       <title>Medindo a inércia da inflação brasileira com Rolling Window Regression</title>
@@ -84,15 +93,6 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
     </item>
     
     <item>
-      <title>Fazendo previsões de séries com Random Forest</title>
-      <link>/2019/05/20/forecasting-rf/</link>
-      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/20/forecasting-rf/</guid>
-      <description>library(randomForest) library(BETS) library(Quandl) library(dplyr) inicio = &amp;quot;2015-12-31&amp;quot; petroleo = Quandl(&amp;quot;OPEC/ORB&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) petroleo = rename(petroleo, Preco = &amp;quot;Value&amp;quot;) nasdaqoil = Quandl(&amp;quot;NASDAQOMX/NQDMASPA0001AUD&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) nasdaqoil = rename(nasdaqoil, Date = &amp;quot;Trade Date&amp;quot;) juros = Quandl(&amp;quot;USTREASURY/REALYIELD&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) dowjones = Quandl(&amp;quot;BCB/7809&amp;quot;, start_date = inicio, collapse = &amp;quot;daily&amp;quot;) base = full_join(nasdaqoil, juros) base = full_join(base, petroleo) %&amp;gt;% as_tibble() base = full_join(base, dowjones) head(base) base = rename(base, juros = `5 YR`, indice = `Index Value`) load(&amp;quot;base.</description>
-    </item>
-    
-    <item>
       <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
       <link>/2019/05/17/prouni-rf-classificacao/</link>
       <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
@@ -112,15 +112,6 @@ library(ggplot2) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39;
       <guid>/2019/05/07/prouni-rf-classificacao/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
 Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
-    </item>
-    
-    <item>
-      <title>Será que Investimento Público é tudo isso? Estimando VARs no R</title>
-      <link>/2019/04/28/central-limit-theorem-r/</link>
-      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/28/central-limit-theorem-r/</guid>
-      <description></description>
     </item>
     
     <item>

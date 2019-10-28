@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on AZUL</title>
@@ -6,10 +6,37 @@
     <description>Recent content in Tags on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Fri, 20 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Econometria</title>
+      <link>/tags/econometria/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/econometria/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Processos Estocásticos</title>
+      <link>/tags/processos-estoc%C3%A1sticos/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/processos-estoc%C3%A1sticos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Séries Temporais</title>
+      <link>/tags/s%C3%A9ries-temporais/</link>
+      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/s%C3%A9ries-temporais/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>OLS</title>
@@ -75,15 +102,6 @@
     </item>
     
     <item>
-      <title>Séries Temporais</title>
-      <link>/tags/s%C3%A9ries-temporais/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/s%C3%A9ries-temporais/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>LDA</title>
       <link>/tags/lda/</link>
       <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
@@ -116,24 +134,6 @@
       <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/vari%C3%A1veis-instrumentais/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Econometria</title>
-      <link>/tags/econometria/</link>
-      <pubDate>Mon, 10 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/econometria/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Random Forest</title>
-      <link>/tags/random-forest/</link>
-      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/random-forest/</guid>
       <description></description>
     </item>
     
@@ -192,6 +192,15 @@
     </item>
     
     <item>
+      <title>Random Forest</title>
+      <link>/tags/random-forest/</link>
+      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/random-forest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>LASSO</title>
       <link>/tags/lasso/</link>
       <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
@@ -206,24 +215,6 @@
       <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/clt/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Macroeconomia</title>
-      <link>/tags/macroeconomia/</link>
-      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/macroeconomia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>VAR</title>
-      <link>/tags/var/</link>
-      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/var/</guid>
       <description></description>
     </item>
     
@@ -561,6 +552,15 @@
     </item>
     
     <item>
+      <title>VAR</title>
+      <link>/tags/var/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/var/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Sazonalidade</title>
       <link>/tags/sazonalidade/</link>
       <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
@@ -575,6 +575,15 @@
       <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Macroeconomia</title>
+      <link>/tags/macroeconomia/</link>
+      <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/macroeconomia/</guid>
       <description></description>
     </item>
     
