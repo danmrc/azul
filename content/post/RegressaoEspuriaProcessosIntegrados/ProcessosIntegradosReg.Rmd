@@ -1,5 +1,5 @@
 ---
-title: "Regredindo séries temporais aleataórias para quem gosta de regressão"
+title: "Regredindo séries temporais aleatórias para quem gosta de regressão"
 author: "Pedro Cavalcante"
 date: '2019-10-28'
 output:
@@ -117,7 +117,7 @@ simulacao <- tibble(R2 = double(length = m))
 
 simulacao %>%
   ggplot(aes(x = R2)) +
-  geom_histogram(aes(y = ..density..)) +
+  geom_histogram(aes(y = ..density..), binwidth = .05) +
   geom_vline(xintercept = mean(simulacao$R2), size = 1.2) + # veta vertical na média
   labs(title = "Distribuição dos R2 de regressões entre duas séries aleatórias com tendência",
        subtitle = "Simulação com 500 processos tendo 500 obs e parâmetros aleatórios",

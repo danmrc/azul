@@ -8,7 +8,7 @@
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
 		<meta name="generator" content="Hugo 0.59.0" />
-		<title>Regredindo séries temporais aleataórias para quem gosta de regressão &middot; AZUL</title>
+		<title>Regredindo séries temporais aleatórias para quem gosta de regressão &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
 		<link rel="stylesheet" href="/css/highlight.css">
@@ -43,11 +43,11 @@
             <article>
                 <header>
                     <h1>
-                        Regredindo séries temporais aleataórias para quem gosta de regressão
+                        Regredindo séries temporais aleatórias para quem gosta de regressão
                     </h1>
                     <h2 class="headline">
                     Oct 28, 2019 00:00
-                    · 679 words
+                    · 682 words
                     · 4 minute read
                       <span class="tags">
                       
@@ -114,19 +114,19 @@ summary(modeloRuim)</code></pre>
 ## lm(formula = y ~ x, data = dados)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -22.497  -5.217   0.276   5.217  31.631 
+##      Min       1Q   Median       3Q      Max 
+## -26.6067  -5.5145  -0.1698   5.8820  27.2550 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 1.303095   0.474448   2.747  0.00613 ** 
-## x           0.488887   0.008394  58.242  &lt; 2e-16 ***
+## (Intercept)  2.29726    0.50520   4.547  6.1e-06 ***
+## x            0.46105    0.00878  52.514  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 7.845 on 998 degrees of freedom
-## Multiple R-squared:  0.7727, Adjusted R-squared:  0.7724 
-## F-statistic:  3392 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 8.224 on 998 degrees of freedom
+## Multiple R-squared:  0.7343, Adjusted R-squared:  0.734 
+## F-statistic:  2758 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Um impressionante R2 e um coeficiente mais do que significante! Que curioso que duas séries que aleatórias com tendências se expliquem, aparentemente. Ora, só pode ser porque escolhi alguma combinação pecualiar de parâmetros, ou talvez os choques tenham sido aleatórios de maneira bem específica. Vamos sanar essa dúvida simulando uma penca de séries, regredindo-as e guardando o R2. Vamos fazer os parametros variarem aleatoriamente.</p>
 <pre class="r"><code>m &lt;- 500 # número de modelos
 n &lt;- 500 # tamanho da amostra
@@ -166,7 +166,7 @@ simulacao &lt;- tibble(R2 = double(length = m))
 
 simulacao %&gt;%
   ggplot(aes(x = R2)) +
-  geom_histogram(aes(y = ..density..)) +
+  geom_histogram(aes(y = ..density..), binwidth = .05) +
   geom_vline(xintercept = mean(simulacao$R2), size = 1.2) + # veta vertical na média
   labs(title = &quot;Distribuição dos R2 de regressões entre duas séries aleatórias com tendência&quot;,
        subtitle = &quot;Simulação com 500 processos tendo 500 obs e parâmetros aleatórios&quot;,
@@ -181,7 +181,7 @@ simulacao %&gt;%
             </article>
 
             
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f - Regredindo%20s%c3%a9ries%20temporais%20aleata%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o "><span class="icon-twitter"> tweet</span></a>
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f - Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o "><span class="icon-twitter"> tweet</span></a>
 
 <a class="facebook" href="#" onclick="
     window.open(
