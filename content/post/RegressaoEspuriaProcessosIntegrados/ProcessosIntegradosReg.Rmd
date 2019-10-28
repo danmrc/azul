@@ -23,7 +23,7 @@ draft: FALSE
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, dpi = 180)
 ```
 
-Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries tempoaris que ilustra muito bem o motivo por trás de perguntar: "essa série é estacionária?" ao ver uma regressão com dados observados *ao longo do tempo*. Se você não sabe o que são séries tepmorais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você [leia esse aqui](https://azul.netlify.com/2019/08/20/viz-estacionariedade-gganim/) ou [este outro](https://azul.netlify.com/2019/01/07/prob-animate/) no lugar.
+Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: "essa série é estacionária?" ao ver uma regressão com dados observados *ao longo do tempo*. Se você não sabe o que são séries tepmorais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você [leia esse aqui](https://azul.netlify.com/2019/08/20/viz-estacionariedade-gganim/) ou [este outro](https://azul.netlify.com/2019/01/07/prob-animate/) no lugar.
 
 Bem, vamos direto ao ponto. Vou simular dois processos, um $x_t = 0.02t + 0.8x_{t-1} + \epsilon_t$ e $y_t = 0.015t + 0.7y_{t-1} + \mu_t$ onde $\epsilon_t, \mu_t \sim N(0,0.5)$. Você pode observar que *não* são determinísticos, seus choques tem covariância nula e que geralmente falando não ficam parados com a passagem do tempo. Não é razoável supor que regridam a um patamar estável de longo prazo - PIB é um exemplo do mundo real com este tipo de comportamento.
 

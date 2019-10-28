@@ -47,7 +47,7 @@
                     </h1>
                     <h2 class="headline">
                     Oct 28, 2019 00:00
-                    · 678 words
+                    · 679 words
                     · 4 minute read
                       <span class="tags">
                       
@@ -71,7 +71,7 @@
                     
 
 
-<p>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries tempoaris que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados <em>ao longo do tempo</em>. Se você não sabe o que são séries tepmorais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você <a href="https://azul.netlify.com/2019/08/20/viz-estacionariedade-gganim/">leia esse aqui</a> ou <a href="https://azul.netlify.com/2019/01/07/prob-animate/">este outro</a> no lugar.</p>
+<p>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados <em>ao longo do tempo</em>. Se você não sabe o que são séries tepmorais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você <a href="https://azul.netlify.com/2019/08/20/viz-estacionariedade-gganim/">leia esse aqui</a> ou <a href="https://azul.netlify.com/2019/01/07/prob-animate/">este outro</a> no lugar.</p>
 <p>Bem, vamos direto ao ponto. Vou simular dois processos, um <span class="math inline">\(x_t = 0.02t + 0.8x_{t-1} + \epsilon_t\)</span> e <span class="math inline">\(y_t = 0.015t + 0.7y_{t-1} + \mu_t\)</span> onde <span class="math inline">\(\epsilon_t, \mu_t \sim N(0,0.5)\)</span>. Você pode observar que <em>não</em> são determinísticos, seus choques tem covariância nula e que geralmente falando não ficam parados com a passagem do tempo. Não é razoável supor que regridam a um patamar estável de longo prazo - PIB é um exemplo do mundo real com este tipo de comportamento.</p>
 <pre class="r"><code>library(tibble)
 library(ggplot2)
@@ -115,18 +115,18 @@ summary(modeloRuim)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -23.845  -5.156   0.005   5.279  29.759 
+## -30.606  -5.843  -0.361   5.681  24.493 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 0.820249   0.493531   1.662   0.0968 .  
-## x           0.475256   0.008323  57.102   &lt;2e-16 ***
+## (Intercept) 2.425777   0.530678   4.571 5.46e-06 ***
+## x           0.459258   0.009172  50.072  &lt; 2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.058 on 998 degrees of freedom
-## Multiple R-squared:  0.7657, Adjusted R-squared:  0.7654 
-## F-statistic:  3261 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 8.386 on 998 degrees of freedom
+## Multiple R-squared:  0.7153, Adjusted R-squared:  0.715 
+## F-statistic:  2507 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Um impressionante R2 e um coeficiente mais do que significante! Que curioso que duas séries que aleatórias com tendências se expliquem, aparentemente. Ora, só pode ser porque escolhi alguma combinação pecualiar de parâmetros, ou talvez os choques tenham sido aleatórios de maneira bem específica. Vamos sanar essa dúvida simulando uma penca de séries, regredindo-as e guardando o R2. Vamos fazer os parametros variarem aleatoriamente.</p>
 <pre class="r"><code>m &lt;- 500 # número de modelos
 n &lt;- 500 # tamanho da amostra
