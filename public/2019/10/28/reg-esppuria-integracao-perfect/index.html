@@ -47,7 +47,7 @@
                     </h1>
                     <h2 class="headline">
                     Oct 28, 2019 00:00
-                    · 682 words
+                    · 681 words
                     · 4 minute read
                       <span class="tags">
                       
@@ -115,18 +115,18 @@ summary(modeloRuim)</code></pre>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -26.6067  -5.5145  -0.1698   5.8820  27.2550 
+## -21.5360  -5.6746  -0.1285   5.6155  27.2958 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  2.29726    0.50520   4.547  6.1e-06 ***
-## x            0.46105    0.00878  52.514  &lt; 2e-16 ***
+## (Intercept) 4.144688   0.478827   8.656   &lt;2e-16 ***
+## x           0.430371   0.008147  52.826   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.224 on 998 degrees of freedom
-## Multiple R-squared:  0.7343, Adjusted R-squared:  0.734 
-## F-statistic:  2758 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
+## Residual standard error: 8.044 on 998 degrees of freedom
+## Multiple R-squared:  0.7366, Adjusted R-squared:  0.7363 
+## F-statistic:  2791 on 1 and 998 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Um impressionante R2 e um coeficiente mais do que significante! Que curioso que duas séries que aleatórias com tendências se expliquem, aparentemente. Ora, só pode ser porque escolhi alguma combinação pecualiar de parâmetros, ou talvez os choques tenham sido aleatórios de maneira bem específica. Vamos sanar essa dúvida simulando uma penca de séries, regredindo-as e guardando o R2. Vamos fazer os parametros variarem aleatoriamente.</p>
 <pre class="r"><code>m &lt;- 500 # número de modelos
 n &lt;- 500 # tamanho da amostra

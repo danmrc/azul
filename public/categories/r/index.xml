@@ -6,10 +6,19 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 03 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Simulando o Teorema Central do Limite no R</title>
+      <link>/2019/11/03/central-limit-theorem-r/</link>
+      <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/11/03/central-limit-theorem-r/</guid>
+      <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
+    </item>
     
     <item>
       <title>Regredindo séries temporais aleatórias para quem gosta de regressão</title>
@@ -112,16 +121,6 @@ library(ggplot2) library(dplyr) ## ## Attaching package: &amp;#39;dplyr&amp;#39;
       <guid>/2019/05/07/prouni-rf-classificacao/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
 Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
-    </item>
-    
-    <item>
-      <title>Verificando computacionalmente o Teorema Central do Limite no R</title>
-      <link>/2019/04/28/central-limit-theorem-r/</link>
-      <pubDate>Sun, 28 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/28/central-limit-theorem-r/</guid>
-      <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Não é exagero dizer que sem ele não teríamos Econometria. E como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências.
-Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
     </item>
     
     <item>
