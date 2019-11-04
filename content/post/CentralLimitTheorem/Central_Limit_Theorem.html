@@ -72,7 +72,7 @@ simulacao %&gt;%
        y = &quot;&quot;,
        caption = &quot;Elaboração: Pedro Cavalcante. Disponível em azul.netlify.com&quot;)</code></pre>
 <p><img src="/post/CentralLimitTheorem/Central_Limit_Theorem_files/figure-html/unnamed-chunk-4-1.png" width="1260" /></p>
-<p>A distribuição das médias parece bem normal. E mais, centrada justamente em <span class="math inline">\(1\)</span>, a média da exponencial que geramos. E as outras distribuiçÕes?</p>
+<p>A distribuição das médias parece bem normal. E mais, centrada justamente em <span class="math inline">\(1\)</span>, a média da exponencial que geramos. E as outras distribuições?</p>
 <pre class="r"><code>simulacao %&gt;% 
   ggplot(aes(x = tStudent)) +
   geom_histogram(aes(y = ..density..), fill = &quot;blue&quot;, alpha = .7) +
@@ -88,10 +88,9 @@ simulacao %&gt;%
                  pUniforme = double(length = n-2),
                  pT = double(length = n-2),
                  pF = double(length = n-2)
-                 )
-
-
-for(i in 3:nrow(testes)) {
+                 )</code></pre>
+<p>Com outro <code>tibble</code> pronto podemos preenche-lo:</p>
+<pre class="r"><code>for(i in 3:nrow(testes)) {
   
   janela &lt;- simulacao %&gt;% 
     filter(indice &lt;= i) %&gt;% # selecionamos apenas os índices até o atual
@@ -120,22 +119,7 @@ testes %&gt;%
        caption = &quot;Elaboração: Pedro Cavalcante. Disponível em azul.netlify.com&quot;) +
   theme_minimal() +
   scale_y_continuous(label = scales::percent)</code></pre>
-<p><img src="/post/CentralLimitTheorem/Central_Limit_Theorem_files/figure-html/unnamed-chunk-7-1.png" width="1260" /></p>
-<pre class="r"><code>testes %&gt;%
-  pivot_longer(pUniforme:pF, 
-               names_to = &quot;distro&quot;,
-               values_to = &quot;p&quot;) %&gt;%
-  filter(indice &lt; 5001) %&gt;%
-  ggplot(aes(x = indice, color = distro, y = p)) +
-  geom_line(size = 1.5, alpha = .7) +
-  labs(title = &quot;Evolução do p-valor do teste KS para normalidade&quot;,
-       subtitle = &quot;Apenas as primeiras 5000 tentativas&quot;,
-       x = &quot;Amostra&quot;,
-       y = &quot;p-valor&quot;,
-       caption = &quot;Elaboração: Pedro Cavalcante. Disponível em azul.netlify.com&quot;) +
-  theme_minimal() +
-  scale_y_continuous(label = scales::percent)</code></pre>
-<p><img src="/post/CentralLimitTheorem/Central_Limit_Theorem_files/figure-html/unnamed-chunk-7-2.png" width="1260" /></p>
+<p><img src="/post/CentralLimitTheorem/Central_Limit_Theorem_files/figure-html/unnamed-chunk-8-1.png" width="1260" /></p>
 <p>A convergência demora mais para algumas distribuições do que outras, mas a tendência de queda é mais do que clara!</p>
 </div>
 <div class="footnotes">
