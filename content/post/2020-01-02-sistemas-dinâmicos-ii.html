@@ -1,0 +1,44 @@
+---
+title: 'Sistemas dinâmicos II: Expectativas racionais'
+author: Daniel Coutinho
+date: '2020-01-02'
+slug: sistemas-dinâmicos-ii
+categories:
+  - Matemática
+  - Macroeconomia
+tags:
+  - Sistemas Dinâmicos
+  - Blanchard Khan
+  - Álgebra Linear
+draft: true
+---
+
+<script src="2020-01-02-sistemas-dinâmicos-ii_files/jquery/jquery.min.js"></script>
+<script src="2020-01-02-sistemas-dinâmicos-ii_files/elevate-section-attrs/elevate-section-attrs.js"></script>
+
+
+<p>Há muito tempo atrás eu escrevi sobre <a href="https://azul.netlify.com/2018/11/06/sistemas-dinamicos-e-algebra-linear/">Álgebra Linear e sistemas dinâmicos</a>. Lá, eu falava de um caso em que o sistema era <span class="math inline">\(x_t = Ax_{t-1}\)</span>, onde <span class="math inline">\(x_t\)</span> era um vetor e <span class="math inline">\(A\)</span> tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com <em>expectativas</em> e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente. Um caso “famoso” de expectativas racionais é a curva de Phillips novo keynesiana:</p>
+<p><span class="math display">\[\pi_t = \beta E_t \pi_{t+1} + \kappa \tilde{y}_t\]</span></p>
+<p>Onde <span class="math inline">\(\pi\)</span> é a inflação e <span class="math inline">\(\tilde{y}_t\)</span> é o hiato do produto.</p>
+<p>Eu me perguntei durante muito tempo “como diabos você se livra dessa expectância?”. Com expectativas adaptativas, a resposta é bem simples: <span class="math inline">\(E_t(\pi_{t+1}) = \pi_t\)</span>. Para entender como funciona, vamos dar um passo para trás.</p>
+<p>Suponha que você tem uma única equação, linear, <span class="math inline">\(x_t = \alpha x_{t-1}\)</span>. Podemos sempre iterar para trás e realizar substituição recursiva:</p>
+<p><span class="math display">\[
+x_t = \alpha x_{t-1}\\
+x_{t-1} = \alpha{}x_{t-2}\\
+x_{t-2} = \alpha x_{t-3}\\
+...\]</span></p>
+<p>E substitua a última na penúltima, …, a terceira na segunda e a segunda na primeira para obter:</p>
+<p><span class="math display">\[x_t = \alpha^tx_0\]</span></p>
+<p>Onde <span class="math inline">\(x_0\)</span> é uma condição inicial. Veja que se <span class="math inline">\(|\alpha| &gt; 1\)</span>, o sistema explode. Caso contrário, o processo colapse parazero. Normalmente, em economia, nós imaginamos que existe um choque aleatória <span class="math inline">\(\varepsilon_t\)</span> e o sistema é <span class="math inline">\(x_t = \alpha x_{t-1} + \varepsilon_t\)</span>. Isso é só um AR(1) usual e a representação recursiva funciona da mesma forma, mas agora com um termo extra:</p>
+<p><span class="math display">\[x_t = \alpha^t x_0 + \sum_{j=0}^t \alpha^j \varepsilon_{t-j}\]</span></p>
+<p>Até aqui, nada de extremamente novo: esse é o ferramental usual de equações em diferenças. Agora, considere que nós temos uma única equação que tem uma expectativa (que assumimos ser racional):</p>
+<p><span class="math display">\[E_t(y_{t+1}) = \lambda y_t\]</span></p>
+<p>Veja que se <span class="math inline">\(y_t = y_{t+1} = 0\)</span>, a equação está no “estado estacionário”.</p>
+<p>O truque aqui é ao invés de iterar para trás, nós iteramos para frente:</p>
+<p><span class="math display">\[
+E_t(y_{t+1}) = \lambda y_t\\
+E_t(y_{t+2}) = \lambda y_{t+1}\\
+...
+\]</span></p>
+<p>Agora, assuma que no <span class="math inline">\(\lim_{j \rightarrow \infty}E_t(y_{t+j}) = 0\)</span> ou seja, todo mundo espera que o sistema vai voltar ao equilíbrio.
+E agora <span class="math inline">\(s_t\)</span> é uma variável aleatória ou determinística. Note que se <span class="math inline">\(y_{t+1} = y_t = 0\)</span> e <span class="math inline">\(s_t = 0\)</span> também, a equação está no “estado estacionário”</p>

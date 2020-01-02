@@ -6,10 +6,19 @@
     <description>Recent content in Matemática on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 08 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/matem%C3%A1tica/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sistemas dinâmicos II: Expectativas racionais</title>
+      <link>/2020/01/02/sistemas-din%C3%A2micos-ii/</link>
+      <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/02/sistemas-din%C3%A2micos-ii/</guid>
+      <description>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</description>
+    </item>
     
     <item>
       <title>O Teorema do Macaco Infito: quanto tempo até sair Hamlet?</title>
