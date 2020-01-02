@@ -1,0 +1,58 @@
+---
+title: Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot
+author: Daniel Coutinho
+date: '2020-01-01'
+slug: linux-e-windows
+categories:
+  - Computação
+tags:
+  - Linux
+  - Dual Boot
+---
+
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<script src="/rmarkdown-libs/elevate-section-attrs/elevate-section-attrs.js"></script>
+
+
+<p>Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto <del>mais leve</del> menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!). É um tema que foge um pouco do usual do blog, mas dado a quantidade de mitos que as pessoas ainda acreditam sobre Linux, eu achei mais que justo voltar falando sobre Linux.</p>
+<p>De certa forma, fazer computação científica no Windows é uma ofensa. Por exemplo, se você quer instalar um pacote para o R que está no Github, no Windows você é obrigado a baixar um troço chamado Rtools. No Mac e no Linux, baixar um pacote direto do Github não requer nenhum passo desse tipo. Parece uma bobagem, mas diz bastante sobre como cada um dos sistemas funciona. (O Stan, uma linguagem de programação voltada para estimar modelos bayesianos, exige o Rtools para funcionar no Windows).</p>
+<p>Esse post também deve ajudar pessoas que tem computadores antigos, nos quais o Windows é uma tartaruga e abrir o blog e o spotify é o suficiente para travar o computador. Eu instalei o Linux em dois computadores: um Dell Vostro de 2012, que é o meu computador e que eu uso - e que a única peça que não é de fábrica é o HD - com tanto o Windows quanto o Linux instalados; e um outro Dell de 2009 (!) que eu só instalei o Linux e já tinha uma instalação do Windows.</p>
+<p>Antes de continuarmos lembrem sempre que, apesar de atualmente ser muito mais fácil instalar o Linux e fazer <em>dual boot</em> (ter tanto o Windows quanto o Linux na mesma máquina), <strong>esse tipo de operação envolve riscos, muitos com consequências catastróficas. Sempre faça backup antes de se comprometer com alguma coisa dessas</strong>.</p>
+<div id="mas-o-linux-é-terreno-exclusivo-dos-nerds" class="section level1">
+<h1>Mas o Linux é terreno exclusivo dos nerds…</h1>
+<p>A maioria das pessoas associam Linux a nerds trancados em salas escuras e usando um computador sem mouse. Esse certamente ainda é o maior público do Linux, mas atualmente muitas distribuições de Linux são bastante amigáveis. Linux vem em distribuições, e cada uma tem suas vantagens e desvantagens. A maioria dos recém chegados começam com o Ubutnu ou um derivado do Ubuntu, como o Lubuntu - que foi feito para computadores mais lentos, mas que tem uma excelente interface gráfica.</p>
+<p>Eu instalei no meu computador uma versão do Linux chamada EndeavourOS, que é absolutamente obscura. Eu não recomendo como primeiro contato, mas ela tem uma cara até bastante familiar para quem veio do Windows:</p>
+<p><img src="/post/linux/linux.png" /></p>
+<p>Distribuições como Ubuntu e o Lubuntu são ainda mais amigáveis em termos de interface do que essa distribuição. Comecem por elas.</p>
+<p>E não, o Linux não exige que você use o terminal - onde os nerds digitam palavras esquisitas em uma tela preta com o cursor do teclado e ctrl+c não copia as coisas. A interface gráfica é bastante amigável, até para instalar novos programas. Eis o terminal se você nunca viu um na vida:</p>
+<p><img src="/post/linux/terminal.png" /></p>
+<p>Ou seja, ao contrário de anos atrás, quando o Linux era o território de apenas alguns malucos, hoje em dia algumas distribuições de Linux tem interface gráfica e são relativamente fáceis de usar. Nada é perfeito e há um custo de entrada, mas ele caiu bastante.</p>
+</div>
+<div id="eu-realmente-preciso-escolher-entre-windows-e-linux" class="section level1">
+<h1>Eu realmente preciso escolher entre Windows e Linux?</h1>
+<p>A resposta aqui é <em>não</em>. Você pode ter no mesmo computador os dois sistemas. Isso se chama <em>dual boot</em>. No passado isso era outro pesadelo, mas hoje em dia ficou bem mais fácil. Eu bati um pouco de cabeça de como fazer o dual boot e por isso explico com algum detalhe o processo.</p>
+<ol style="list-style-type: decimal">
+<li>A primeira coisa a fazer é criar uma partição no disco. O nome é pomposo mas é simples. <strong>Primeiro, garanta que você tem bastante espaço livre no disco</strong>. De preferência o dobro do que você pretende usar pro Linux (o motivo vai ficar claro mais adiante). Veja que distribuições de Linux leve, como o Lubuntu e o Endeavour, usam pouco espaço em disco: 50 GB é mais que o suficiente para brincar.</li>
+</ol>
+<p>Para criar a partição, vá no menu iniciar e busque por partição. O Windows deve achar um criador de partição. Ele demora um pouco a carregar. Ele deve mostrar as partições do seu disco rígido (provavelmente duas ou três). A maior é onde você está acostumado a usar e salvar as coisas. A única coisa que você deve fazer nessa etapa é selecionar essa partição maior (que com um pouco de sorte se chama C:/) e pedir para reduzir ela. Reduza para o tamanho que você quer que o Linux tenha disponível.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Baixe a sua distribuição escolhida e o <a href="https://rufus.ie/">rufus</a>. Tenha um pen drive em mãos que você esteja disposto a apagar: ele nem precisa ser muito grande, 4 GB já resolvem. Use o rufus para gravar a distribuição no pen drive. Se você não achar o rufus fácil de usar, certamente existem tutoriais por ai que explicam como usar. Usem o rufus e não outra ferramenta, simplesmente porque o rufus funciona bem para a vasta maioria dos casos (o que não é verdade para outras ferramentas).</p></li>
+<li><p>Descubra como faz para mudar o disco de boot no seu computador. Isso varia de marca para marca e de modelo para modelo. Mais uma coisa que o google pode ajudar mais do que eu. As palavras mágicas são “how to change the boot disk on <em>modelo do seu computador</em>”</p></li>
+<li><p>Desligue o computador, coloque o pen drive na porta usb, religue e mande o computador iniciar pelo pen drive</p></li>
+<li><p>Deve demorar um pouco e ele vai te dar várias opções, inclusive iniciar o Linux via o pen drive. É isso que você quer. Aproveite e dê uma explorada no sistema.</p></li>
+</ol>
+<p>Veja que se você não gostar do que viu, basta desligar o computador, tirar o pen drive e religar ele (e mudar por onde ele incia de volta para o disco rígido, em alguns casos) e <em>nada</em> terá sido alterado. Você pode até mesmo desistir de instalar o Linux e abrir o gerenciador de partição, igual no passo 1, e mandar o Windows extender a partição do C:/ para o espaço que você abriu. Voltamos a estaca zero. Se você ainda está achando a experiência divertida, então:</p>
+<ol start="6" style="list-style-type: decimal">
+<li>Mande instalar o sistema. Normalmente existe um atalho bem óbvio na área de trabalho.</li>
+</ol>
+<p>Agora começa um passo a passo. Verifique que o teclado funciona quando ele te der a oportunidade (existe uma caixa para você digitar e ver se tudo funciona, teste especialmente os acentos).</p>
+<ol start="7" style="list-style-type: decimal">
+<li><p>Finalmente, ele vai te perguntar como deve ser instalado. Diga que é numa partição do disco. Ele vai te mostrar várias partições. Escolha a partição vazia que você criou com o Windows. Cheque com cuidado que você escolheu o lugar certo.</p></li>
+<li><p>Espere a instalação terminar. No fim, desligue, retire o pen drive e reinice.</p></li>
+</ol>
+<p>Agora, ao iniciar, ele vai te oferecer para escolher qual sistema iniciar. Escolha usando as setas. Você tem 10 segundos antes de ele iniciar o primeiro sistema na lista (normalmente o Linux). Usar a seta mata o contador.</p>
+<p><img src="/post/linux/grub.jpg" /></p>
+<p>E é isso!</p>
+<p>Quando eu fiz isso em julho eu achei que seria <em>bem</em> mais complicado, mas para a minha surpresa foi bastante simples - admito que eu bati um pouco de cabeça para descobrir como criar a partição da maneira certa.</p>
+<p>Em algum momento você vai se ver obrigado a usar o terminal: o R é instalado pelo terminal no Ubuntu, por exemplo. Apesar disso exigir um pouco de pesquisa e ler a explicação no cran com calma (e eu garanto, vai ser como ler uma língua estrangeira pela primeira vez).</p>
+</div>
