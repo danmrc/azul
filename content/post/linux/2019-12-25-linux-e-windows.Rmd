@@ -17,7 +17,7 @@ De certa forma, fazer computação científica no Windows é uma ofensa. Por exe
 
 Esse post também deve ajudar pessoas que tem computadores antigos, nos quais o Windows é uma tartaruga e abrir o blog e o spotify é o suficiente para travar o computador. Eu instalei o Linux em dois computadores: um Dell Vostro de 2012, que é o meu computador e que eu uso - e que a única peça que não é de fábrica é o HD - com tanto o Windows quanto o Linux instalados; e um outro Dell de 2009 (!) que eu só instalei o Linux e já tinha uma instalação do Windows. 
 
-Antes de continuarmos lembrem sempre que, apesar de atualmente ser muito mais fácil instalar o Linux e fazer _dual boot_ (ter tanto o Windows quanto o Linux na mesma máquina), **esse tipo de operação envolve riscos, muitos com consequências catastróficas. Sempre faça backup antes de se comprometer com alguma coisa dessas**.
+Antes de continuarmos lembrem sempre que, apesar de atualmente ser muito mais fácil instalar o Linux e fazer _dual boot_ (ter tanto o Windows quanto o Linux na mesma máquina), **esse tipo de operação envolve riscos, muitos com consequências catastróficas. Sempre faça backup antes de se comprometer com alguma coisa dessas. E de preferência, use um computador velho que se tiver um problema sério você não vai se arrepender.**
 
 # Mas o Linux é terreno exclusivo dos nerds...
 
@@ -75,9 +75,9 @@ Em algum momento você vai se ver obrigado a usar o terminal: o R é instalado p
 
 2. R, RStudio, Julia, Atom, LaTeX todas essas coisas estão disponíveis para serem instaladas na maioria das distribuições de Linux sem grandes surpresas.
 
-3. O Linux, como o Mac, tem um gerenciador de pacotes que deixa todo o processo de instalação e atualização muito mais simples. Nada de ter que ir em cada site e baixar diferentes programas e quando precisar atualizar ter de revisitar os sites etc etc etc
+3. O Linux, como o Mac, tem um gerenciador de pacotes que deixa todo o processo de instalação e atualização muito mais simples. Na verdade, o sistema de pacotes do Mac é _bastante limitado_ comparado ao do Linux. Nada de ter que ir em cada site e baixar diferentes programas e quando precisar atualizar ter de revisitar os sites etc etc etc
 
-4. 
+4. Um efeito colateral de usar um sistema que vai te forçar a usar o terminal de vez em quando é que você vai programar mais, e portanto vai (provavelmente) se tornar um programador melhor
 
 Seria injusto não apontar alguns problemas:
 
@@ -87,6 +87,12 @@ Seria injusto não apontar alguns problemas:
 
 ![](/post/linux/sudo_boo.jpg)
 
-3. 
+Isso tem um custo de entrada e mesmo para pessoas com alguma experiência pode ser um pouco de encheção de saco. 
 
-4. Você provavelmente se tornará o "cara esquisito do Linux"
+3. Fazer algumas coisas funcionarem podem exigir um pouco mais de trabalho que no Windows. Muitos pacotes do R exigem algum pacote do sistema que não veio pré instalado e você tem que instalar, ou para um pacote específico do LaTeX funcionar você tem que instalar um dos pacotes extras do LaTeX. 
+
+4. Existem alguns problemas de compatibilidade de hardware. Vale a pena checar se a distribuição que você escolheu funciona bem no seu computador. Isso melhorou bastante, mas ainda persiste em alguns computadores e pode gerar muita dor de cabeça.
+
+5. Você provavelmente se tornará o "cara esquisito do Linux"
+
+Como tudo na vida, há prós e contras. A beleza do Linux é que ele é bem mais leve que o Windows e é mantido por uma comunidade ampla, muitas vezes com foco em computação científica. Instalar e usar o Linux melhorou muito nos últimos 20 anos, e até mesmo distribuições obscuras, como a que este autor usa, tem uma interface gráfica bastante amigável. E no fim, você pode ter um computador com tanto Windows quanto Linux e isso não gera muita dor de cabeça adicional.  
