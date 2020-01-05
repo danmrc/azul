@@ -20,7 +20,7 @@ draft: true
 <p>Há muito tempo atrás eu escrevi sobre <a href="https://azul.netlify.com/2018/11/06/sistemas-dinamicos-e-algebra-linear/">Álgebra Linear e sistemas dinâmicos</a>. Lá, eu falava de um caso em que o sistema era <span class="math inline">\(x_t = Ax_{t-1}\)</span>, onde <span class="math inline">\(x_t\)</span> era um vetor e <span class="math inline">\(A\)</span> tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com <em>expectativas</em> e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente. Um caso “famoso” de expectativas racionais é a curva de Phillips novo keynesiana:</p>
 <p><span class="math display">\[\pi_t = \beta E_t \pi_{t+1} + \kappa \tilde{y}_t\]</span></p>
 <p>Onde <span class="math inline">\(\pi\)</span> é a inflação e <span class="math inline">\(\tilde{y}_t\)</span> é o hiato do produto.</p>
-<p>Eu me perguntei durante muito tempo “como diabos você se livra dessa expectância?”. Com expectativas adaptativas, a resposta é bem simples: <span class="math inline">\(E_t(\pi_{t+1}) = \pi_t\)</span>. Para entender como funciona, vamos dar um passo para trás.</p>
+<p>Eu me perguntei durante muito tempo “como diabos você se livra dessa expectância?”. Com expectativas adaptativas, a resposta é bem simples: <span class="math inline">\(E_t(\pi_{t+1}) = \pi_t\)</span>. Para entender como funciona o caso com expectativas racionais, vamos dar um passo para trás e relembrar o passo a passo da equação em diferenças linear sem expectativas.</p>
 <p>Suponha que você tem uma única equação, linear, <span class="math inline">\(x_t = \alpha x_{t-1}\)</span>. Podemos sempre iterar para trás e realizar substituição recursiva:</p>
 <p><span class="math display">\[
 x_t = \alpha x_{t-1}\\
@@ -29,16 +29,154 @@ x_{t-2} = \alpha x_{t-3}\\
 ...\]</span></p>
 <p>E substitua a última na penúltima, …, a terceira na segunda e a segunda na primeira para obter:</p>
 <p><span class="math display">\[x_t = \alpha^tx_0\]</span></p>
-<p>Onde <span class="math inline">\(x_0\)</span> é uma condição inicial. Veja que se <span class="math inline">\(|\alpha| &gt; 1\)</span>, o sistema explode. Caso contrário, o processo colapse parazero. Normalmente, em economia, nós imaginamos que existe um choque aleatória <span class="math inline">\(\varepsilon_t\)</span> e o sistema é <span class="math inline">\(x_t = \alpha x_{t-1} + \varepsilon_t\)</span>. Isso é só um AR(1) usual e a representação recursiva funciona da mesma forma, mas agora com um termo extra:</p>
+<p>Onde <span class="math inline">\(x_0\)</span> é uma condição inicial. Veja que se <span class="math inline">\(|\alpha| &gt; 1\)</span>, o sistema explode. Caso contrário, o processo colapse para zero. Normalmente, em economia, nós imaginamos que existe um choque aleatória <span class="math inline">\(\varepsilon_t\)</span> e o sistema é <span class="math inline">\(x_t = \alpha x_{t-1} + \varepsilon_t\)</span>. Isso é só um AR(1) usual e a representação recursiva funciona da mesma forma, mas agora com um termo extra:</p>
 <p><span class="math display">\[x_t = \alpha^t x_0 + \sum_{j=0}^t \alpha^j \varepsilon_{t-j}\]</span></p>
 <p>Até aqui, nada de extremamente novo: esse é o ferramental usual de equações em diferenças. Agora, considere que nós temos uma única equação que tem uma expectativa (que assumimos ser racional):</p>
 <p><span class="math display">\[E_t(y_{t+1}) = \lambda y_t\]</span></p>
-<p>Veja que se <span class="math inline">\(y_t = y_{t+1} = 0\)</span>, a equação está no “estado estacionário”.</p>
+<p>Veja que se <span class="math inline">\(y_t = y_{t+1} = 0\)</span>, a equação está no “estado estacionário”. Resscreva de maneira que <span class="math inline">\(y_t\)</span> esteja em evidência:</p>
+<p><span class="math display">\[y_t = \frac{1}{\lambda}E_t(y_{t+1})\]</span></p>
 <p>O truque aqui é ao invés de iterar para trás, nós iteramos para frente:</p>
 <p><span class="math display">\[
-E_t(y_{t+1}) = \lambda y_t\\
-E_t(y_{t+2}) = \lambda y_{t+1}\\
+y_t = \frac{1}{\lambda}E_t(y_{t+1})\\
+y_{t+1} = \frac{1}{\lambda}E_t(y_{t+2})\\
+y_{t+2} = \frac{1}{\lambda}E_t(y_{t+3})\\
 ...
 \]</span></p>
-<p>Agora, assuma que no <span class="math inline">\(\lim_{j \rightarrow \infty}E_t(y_{t+j}) = 0\)</span> ou seja, todo mundo espera que o sistema vai voltar ao equilíbrio.
-E agora <span class="math inline">\(s_t\)</span> é uma variável aleatória ou determinística. Note que se <span class="math inline">\(y_{t+1} = y_t = 0\)</span> e <span class="math inline">\(s_t = 0\)</span> também, a equação está no “estado estacionário”</p>
+<p>Logo, substituição recursiva nos dá:</p>
+<p><span class="math display">\[y_t = \frac{1}{\lambda^j}E_t(y_{t+j})\]</span></p>
+<p>Se <span class="math inline">\(|\frac{1}{\lambda}| &lt; 1\)</span>, então quando <span class="math inline">\(j \rightarrow \infty\)</span>, <span class="math inline">\(y_t = 0\)</span>. Veja que <span class="math inline">\(|\frac{1}{\lambda}| &lt; 1\)</span> é equivalente a <span class="math inline">\(|\lambda| &gt; 1\)</span>.</p>
+<p>O caso mais interessante é quando temos uma variável a mais no sistema, <span class="math inline">\(s_t\)</span> - que pode ser determinística ou estocástica. Nossa equação se torna:</p>
+<p><span class="math display">\[E_t(y_{t+1})  = \lambda y_t + s_t\]</span></p>
+<p>(Veja que podíamos ter algum coeficiente na frente de <span class="math inline">\(s_t\)</span>). Usando o mesmo truque que usamos acima, podemos reescrever isso:</p>
+<p><span class="math display">\[y_t = \frac{1}{\lambda}(E_t(y_{t+1}) - s_t)\]</span></p>
+<p>E iterando para frente:</p>
+<p><span class="math display">\[y_t = \frac{1}{\lambda^j}E_t(y_{t+j}) - \sum_{k=0}^j \frac{1}{\lambda^k} E_t(s_{t+k})\]</span></p>
+<p>Com <span class="math inline">\(j \rightarrow \infty\)</span>, obtemos <span class="math inline">\(y_t = -\sum_{k=0}^j \frac{1}{\lambda^k} E_t(s_{t+k})\)</span>.</p>
+<p>Então para resolver equações em diferenças com expectativas, nós <em>iteramos para frente</em> e portanto exigimos que o coeficiente associado a <span class="math inline">\(y_t\)</span> seja <strong>maior</strong> que 1.</p>
+<p>Em um sistema de equações lineares, isso se reflete de maneira bem simples: antes, para termos estabilidade, todos os autovalores deveriam ser menores que 1. Agora, quando tivermos expectâncias, precisamos de 1 autovalor maior do que 1 para cada equação que depender da expectância da variável (isso não é sem alguns <em>caveats</em> técnicos). Isso é conhecido como <strong>condições de Blanchard Khan</strong>. Verificar as condições de Blanchard Khan é basicamente um exercício de contar quantos autovalores são maiores que 1 e quantos são menores que 1 e quantas equações dependem de expectativas e quantas não dependem. Veja que, seguind a notação acima, teremos que escrever o sistema para termos:</p>
+<p><span class="math display">\[E_t(x_{t+1}) = Ax_t + \epsilon_t\]</span></p>
+<p>E checarmos os autovalores da matriz A:</p>
+<div id="um-exemplo" class="section level2">
+<h2>Um exemplo</h2>
+<p>Vamos olhar o modelo Novo Keynesiano mais simples possível: ele tem uma equação IS intertemporal - como os agentes escolhem consumo hoje e amanhã dado a taxa de juros reais; uma curva de Phillips com expectativas; uma regra de política monetária que escolhe juros como função da inflação, um <em>inflation target</em>. Aqui vão as três equações:</p>
+<p><span class="math display">\[
+\pi_t = \beta E_t(\pi_{t+1}) + \kappa \tilde{y}_t\\
+\tilde{y} = -\frac{1}{\sigma}(i_t - E_t(\pi_{t+1})) + E(\tilde{y}_{t+1})\\
+i_t = \phi \pi_t + \varepsilon_t
+\]</span></p>
+<p>Temos duas equações que dependem de expectativas e uma que não depende. Logo, precisamos de dois autovalores maiores que 1 em módulo e um menor que 1 em módulo. Vamos escrever do formato que eu coloquei acima, com todas as expectativas de um lado. Eu vou escrever o sistema na verdade como:</p>
+<p><span class="math display">\[BE_t(x_{t+1}) = Cx_t  + \varepsilon_t\]</span></p>
+<p>E <span class="math inline">\(A = B^{-1}C\)</span>, logo vamos precisar inverter <span class="math inline">\(B\)</span> (se ela for inversível). Temos:</p>
+<p><span class="math display">\[\begin{bmatrix}
+\beta &amp; 0 &amp; 0\\
+-1 &amp; 1 &amp; 1\\
+0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\begin{bmatrix}
+E_t(\pi_{t+1})\\
+E_t(\tilde{y}_{t+1})\\
+i_t\\
+\end{bmatrix} =
+\begin{bmatrix}
+1 &amp; -1 &amp; 0\\
+0 &amp; -\sigma &amp; 0\\
+\phi &amp; 0 &amp; 0\\
+\end{bmatrix}
+\begin{bmatrix}
+\pi_t\\
+\tilde{y}_t\\
+i_{t-1}\\
+\end{bmatrix} + \begin{bmatrix} 0 \\ 0\\ 1\\ \end{bmatrix} \varepsilon_t\]</span></p>
+<p>Se você lembra dos cursos de macro (e aprendeu isso), o princípio de Tayor impõe que <span class="math inline">\(\phi &gt; 1\)</span> para o Banco Central controlar a inflação. Isso se traduz no sistema acima como “para o sistema satisfazer as condições de Blanchard Khan, <span class="math inline">\(\phi &gt; 1\)</span>”. É possível verificar isso analiticamente, mas vamos usar o R para isso. Vamos montar as equações, colocar alguns valores para os parâmetros e checar o número de autovalores maiores que 1. Primeiro, vamos checar que com <span class="math inline">\(\phi &gt; 1\)</span> temos o número de autovalores certos:</p>
+<pre class="r"><code>bet = 0.99
+sig = 1
+phi = 1.5
+
+B = rbind(c(bet,0,0),c(-1,1,1),c(0,0,1))
+C = rbind(c(1,-1,0),c(0,-sig,0),c(phi,0,0))
+
+A = qr.solve(B)%*%C
+eigen(A)</code></pre>
+<pre><code>## eigen() decomposition
+## $values
+## [1] -2.165909  1.165909  0.000000
+## 
+## $vectors
+##            [,1]       [,2] [,3]
+## [1,] -0.2966180 -0.6109608    0
+## [2,] -0.9326410  0.0942406    0
+## [3,]  0.2054227 -0.7860316    1</code></pre>
+<p>Temos dois autovalores maiores que 1 em módulo (um deles é um -2) e um menor que 1 em módulo (0). Logo, o sistema tem uma única solução (“as condições de Blanchard Khan são atentidas” usando os jargões de macro). Vamos testar vários valores para <span class="math inline">\(\phi\)</span> e recuperar quantos autovalores são maiores que 1 em módulo:</p>
+<pre class="r"><code>bet = 0.99
+sig = 1
+
+phi_vals = seq(0,1.5, length.out = 100)
+eigs_maior_que_um &lt;- rep(0,length(phi_vals))
+
+for(i in 1:length(phi_vals)){
+
+  phi = phi_vals[i]
+
+  B = rbind(c(bet,0,0),c(-1,1,1),c(0,0,1))
+  C = rbind(c(1,-1,0),c(0,-sig,0),c(phi,0,0))
+
+  A = qr.solve(B)%*%C
+  eigg &lt;- eigen(A)
+  eigs_maior_que_um[i] &lt;- sum(abs(eigg$values) &gt; 1)
+}
+
+library(ggplot2)
+
+dados &lt;- data.frame(&quot;phi_vals&quot; = phi_vals,&quot;eigs&quot; = eigs_maior_que_um)
+
+g &lt;- ggplot(dados, aes(phi_vals,eigs))
+g + geom_line() + theme_bw() </code></pre>
+<p><img src="/post/2020-01-02-sistemas-din%C3%A2micos-ii_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+Veja que o número de autovalores maiores que 1 salta um pouquinho antes de <span class="math inline">\(\phi=1\)</span>, em <span class="math inline">\(0.9848\)</span>. Isso se deve a erros numéricos e basicamente valida o principio de Taylor: para estabilizar a economia, o BC precisa aumentar a taxa de juros mais que a inflação, efetivamente aumentando a taxa de juros reais.</p>
+<p>Uma pergunta justa é o que acontece quando o BC decide suavizar as mudanças na taxa de juros, tendo uma inércia de <span class="math inline">\(\rho\)</span>. O novo sistema se torna:</p>
+<p><span class="math display">\[\begin{bmatrix}
+\beta &amp; 0 &amp; 0\\
+-1 &amp; 1 &amp; 1\\
+0 &amp; 0 &amp; 1\\
+\end{bmatrix}
+\begin{bmatrix}
+E_t(\pi_{t+1})\\
+E_t(\tilde{y}_{t+1})\\
+i_t\\
+\end{bmatrix} =
+\begin{bmatrix}
+1 &amp; -1 &amp; 0\\
+0 &amp; -\sigma &amp; 0\\
+(1-\rho)\phi &amp; 0 &amp; \rho\\
+\end{bmatrix}
+\begin{bmatrix}
+\pi_t\\
+\tilde{y}_t\\
+i_{t-1}\\
+\end{bmatrix} + \begin{bmatrix} 0 \\ 0\\ 1\\ \end{bmatrix} \varepsilon_t\]</span></p>
+<p>Vamos repetir todo o experimento:</p>
+<pre class="r"><code>bet = 0.99
+sig = 1
+rho = 0.95
+
+phi_vals = seq(0,1.5, length.out = 100)
+eigs_maior_que_um &lt;- rep(0,length(phi_vals))
+
+for(i in 1:length(phi_vals)){
+
+  phi = phi_vals[i]
+
+  B = rbind(c(bet,0,0),c(-1,1,1),c(0,0,1))
+  C = rbind(c(1,-1,0),c(0,-sig,0),c((1-rho)*phi,0,rho))
+
+  A = qr.solve(B)%*%C
+  eigg &lt;- eigen(A)
+  eigs_maior_que_um[i] &lt;- sum(abs(eigg$values) &gt; 1)
+}
+
+dados_com_suav &lt;- data.frame(&quot;phi_vals&quot; = phi_vals,&quot;eigs&quot; = eigs_maior_que_um)
+
+g &lt;- ggplot(dados_com_suav, aes(phi_vals,eigs))
+g + geom_line() + theme_bw() </code></pre>
+<p><img src="/post/2020-01-02-sistemas-din%C3%A2micos-ii_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
