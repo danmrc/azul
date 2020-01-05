@@ -11,6 +11,8 @@ tags:
 draft: true
 ---
 
+_Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas_
+
 Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto ~~mais leve~~ menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!). É um tema que foge um pouco do usual do blog, mas dado a quantidade de mitos que as pessoas ainda acreditam sobre Linux, eu achei mais que justo voltar falando sobre Linux. 
 
 De certa forma, fazer computação científica no Windows é uma ofensa. Por exemplo, se você quer instalar um pacote para o R que está no Github, no Windows você é obrigado a baixar um troço chamado Rtools. No Mac e no Linux, baixar um pacote direto do Github não requer nenhum passo desse tipo. Parece uma bobagem, mas diz bastante sobre como cada um dos sistemas funciona. (O Stan, uma linguagem de programação voltada para estimar modelos bayesianos, exige o Rtools para funcionar no Windows). 
@@ -27,7 +29,11 @@ Eu instalei no meu computador uma versão do Linux chamada EndeavourOS, que é a
 
 ![](/post/linux/linux.png)
 
-Distribuições como Ubuntu e o Lubuntu são ainda mais amigáveis em termos de interface do que essa distribuição. Comecem por elas. [^1: o Pedro recomenda elementaryOS para quem gosta de Mac ou KDE Neon para quem ver de Windows]
+Depois de brincar um pouco com as opções do Endeavour, eu deixei o meu computador mais parecido com a interface da Apple. Eu particularmente prefiro não ter que voltar na área de trabalho para abrir aplicativos: 
+
+![](/post/linux/deepin.png)
+
+Distribuições como Ubuntu e o Lubuntu são ainda mais amigáveis em termos de interface do que essa distribuição. Comecem por elas. O Pedro recomenda elementaryOS para quem gosta de Mac ou KDE Neon para quem vêm de Windows. Nunca usei nenhuma das duas sugeridas pelo Pedro e acho que o Lubuntu ou Ubuntu são fáceis o suficiente e com uma comunidade ampla o suficiente para garantir que muito provavelmente você vai instalar sem sustos. 
 
 E não, o Linux não exige que você use o terminal - onde os nerds digitam palavras esquisitas em uma tela preta com o cursor do teclado e ctrl+c não copia as coisas. A interface gráfica é bastante amigável, até para instalar novos programas. Eis o terminal se você nunca viu um na vida: 
 
@@ -39,25 +45,25 @@ Ou seja, ao contrário de anos atrás, quando o Linux era o território de apena
 
 A resposta aqui é _não_. Você pode ter no mesmo computador os dois sistemas. Isso se chama _dual boot_. No passado isso era outro pesadelo, mas hoje em dia ficou bem mais fácil. Eu bati um pouco de cabeça de como fazer o dual boot e por isso explico com algum detalhe o processo.
 
-1. A primeira coisa a fazer é criar uma partição no disco. O nome é pomposo mas é simples. **Primeiro, garanta que você tem bastante espaço livre no disco**. De preferência o dobro do que você pretende usar pro Linux (o motivo vai ficar claro mais adiante). Veja que distribuições de Linux leve, como o Lubuntu e o Endeavour, usam pouco espaço em disco: 50 GB é mais que o suficiente para brincar. 
+1. A primeira coisa a fazer é criar uma partição no disco. O nome é pomposo mas o processo é simples. **Primeiro, garanta que você tem bastante espaço livre no disco**. De preferência o dobro do que você pretende usar pro Linux (o motivo vai ficar claro mais adiante). Veja que distribuições de Linux leve, como o Lubuntu e o Endeavour, usam pouco espaço em disco: 50 GB é mais que o suficiente para brincar. 
 
 Para criar a partição, vá no menu iniciar e busque por partição. O Windows deve achar um criador de partição. Ele demora um pouco a carregar. Ele deve mostrar as partições do seu disco rígido (provavelmente duas ou três). A maior é onde você está acostumado a usar e salvar as coisas. A única coisa que você deve fazer nessa etapa é selecionar essa partição maior (que com um pouco de sorte se chama C:/) e pedir para reduzir ela. Reduza para o tamanho que você quer que o Linux tenha disponível.
 
 2. Baixe a sua distribuição escolhida e o [rufus](https://rufus.ie/). Tenha um pen drive em mãos que você esteja disposto a apagar: ele nem precisa ser muito grande, 4 GB já resolvem. Use o rufus para gravar a distribuição no pen drive. Se você não achar o rufus fácil de usar, certamente existem tutoriais por ai que explicam como usar. Usem o rufus e não outra ferramenta, simplesmente porque o rufus funciona bem para a vasta maioria dos casos (o que não é verdade para outras ferramentas). 
 
-3. Descubra como faz para mudar o disco de boot no seu computador. Isso varia de marca para marca e de modelo para modelo. Mais uma coisa que o google pode ajudar mais do que eu. As palavras mágicas são "how to change the boot disk on _modelo do seu computador_" [^2: Pedro aqui: quase sempre você faz isso apertano `F2` ou `F8` enquanto o computador liga! Varia de fabricante para fabricante, mas quase sempre é uma dessas duas teclas.]
+3. Descubra como faz para mudar o disco de boot no seu computador. Isso varia de marca para marca e de modelo para modelo. Mais uma coisa que o google pode ajudar mais do que eu. As palavras mágicas são "how to change the boot disk on _modelo do seu computador_". O Pedro diz que quase sempre você faz isso apertando `F2` ou `F8` enquanto o computador liga! Varia de fabricante para fabricante, mas quase sempre é uma dessas duas teclas. Em amplo contraste, no Dell, é F12 - o que ilustra a variedade de maneiras de mudar essa configuração.
 
 4. Desligue o computador, coloque o pen drive na porta usb, religue e mande o computador iniciar pelo pen drive
 
 5. Deve demorar um pouco e ele vai te dar várias opções, inclusive iniciar o Linux via o pen drive. É isso que você quer. Aproveite e dê uma explorada no sistema. 
 
-Veja que se você não gostar do que viu, basta desligar o computador, tirar o pen drive e religar ele (e mudar por onde ele incia de volta para o disco rígido, em alguns casos) e _nada_ terá sido alterado. Você pode até mesmo desistir de instalar o Linux e abrir o gerenciador de partição, igual no passo 1, e mandar o Windows extender a partição do C:/ para o espaço que você abriu. Voltamos a estaca zero. Se você ainda está achando a experiência divertida, então:
+Veja que se você não gostar do que viu, basta desligar o computador, tirar o pen drive e religar ele (e mudar por onde ele incia de volta para o disco rígido, em alguns casos) e _nada_ terá sido alterado. Você pode até mesmo desistir de instalar o Linux e abrir o gerenciador de partição, igual no passo 1, e mandar o Windows extender a partição do C:/ para o espaço que você abriu. Voltamos a estaca zero. Se você ainda está achando a experiência divertida, então continuando do passo 5:
 
 6. Mande instalar o sistema. Normalmente existe um atalho bem óbvio na área de trabalho. 
 
-Agora começa um passo a passo. Verifique que o teclado funciona quando ele te der a oportunidade (existe uma caixa para você digitar e ver se tudo funciona, teste especialmente os acentos). 
+Agora começa um passo a passo. Você vai ter que acertar o fuso, acertar qual o layout do seu teclado e verificar que ele funciona (existe uma caixa para você digitar e ver se tudo funciona. Teste especialmente os acentos). 
 
-7. Finalmente, ele vai te perguntar como deve ser instalado. Diga que é numa partição do disco. Ele vai te mostrar várias partições. Escolha a partição vazia que você criou com o Windows. Cheque com cuidado que você escolheu o lugar certo. 
+7. Finalmente, ele vai te perguntar como deve ser instalado. Diga que é numa partição do disco. Ele vai te mostrar várias partições. Escolha a partição vazia que você criou no passo 1. **Cheque com cuidado que você escolheu o lugar certo.**
 
 8. Espere a instalação terminar. No fim, desligue, retire o pen drive e reinice.
 
@@ -69,15 +75,21 @@ E é isso!
 
 Quando eu fiz isso em julho eu achei que seria _bem_ mais complicado, mas para a minha surpresa foi bastante simples - admito que eu bati um pouco de cabeça para descobrir como criar a partição da maneira certa. 
 
-Em algum momento você vai se ver obrigado a usar o terminal: o R é instalado pelo terminal no Ubuntu, por exemplo. Apesar disso exigir um pouco de pesquisa e ler a explicação no CRAN com calma (e eu garanto, vai ser como ler uma língua estrangeira pela primeira vez). Apesar disso, usar o Linux e aprender a usar o terminal vai ter várias vantagens:
+Em algum momento você vai se ver obrigado a usar o terminal: o R é instalado pelo terminal no Ubuntu, por exemplo. Apesar disso exigir um pouco de pesquisa e ler a explicação no CRAN com calma - e eu garanto, vai ser como ler uma língua estrangeira pela primeira vez. Apesar disso, usar o Linux e aprender a usar o terminal vai ter várias vantagens:
 
 1. O Linux é bizarramente mais eficiente que o Windows. Windows sem nada aberto aqui consome uns 2/3 da memória. Linux consome 47% da memória com o navegador, rstudio e spotify aberto. Isso significa que seu computador vai "durar mais", demorar mais para ficar obsoleto.
 
 2. R, RStudio, Julia, Atom, LaTeX todas essas coisas estão disponíveis para serem instaladas na maioria das distribuições de Linux sem grandes surpresas.
 
-3. O Linux, como o Mac, tem um gerenciador de pacotes que deixa todo o processo de instalação e atualização muito mais simples. Na verdade, o sistema de pacotes do Mac é _bastante limitado_ comparado ao do Linux. Nada de ter que ir em cada site e baixar diferentes programas e quando precisar atualizar ter de revisitar os sites etc etc etc. [^3: Pedro de novo aqui. Existem alguns genreciadores de pacotes para Linux e cada distribuição vem com o seu (embora seja plenamente customizável). Os mais comuns são `apt`, `yum` e `snap`. Sempre que alguém manda você escrever `sudo apt install` seguido de um nome de programa, está te dizendo para executar algo no modo _sudo_ (no linguajar de Linux, quer dizer que você está mandando ele executar um comando com autoridade máxima), usar o `apt` para instalar algo.]
+3. O Linux, como o Mac, tem um gerenciador de pacotes que deixa todo o processo de instalação e atualização muito mais simples. Na verdade, o sistema de pacotes do Mac é _bastante limitado_ comparado ao do Linux. Nada de ter que ir em cada site e baixar diferentes programas e quando precisar atualizar ter de revisitar os sites etc etc etc.  
 
-4. Um efeito colateral de usar um sistema que vai te forçar a usar o terminal de vez em quando é que você vai programar mais, e portanto vai (provavelmente) se tornar um programador melhor.
+O Pedro acha de bom tom explicar como funciona o sistema de pacotes do Linux: Existem alguns gerenciadores de pacotes para Linux e cada distribuição vem com o seu (embora seja plenamente customizável). Os mais comuns são `apt`, `yum` e `snap`. Sempre que alguém manda você escrever no terminal `sudo apt install` seguido de um nome de programa, está te dizendo para executar algo no modo _sudo_ (sudo provavelmente é uma sigla para _super user do_: no linguajar de Linux, quer dizer que você está mandando ele executar um comando com autoridade máxima, e lembre-se que com grandes poderes vem grandes responsabilidades), usar o sistema de pacotes `apt` para instalar algo. Muitas distribuições vem com interface gráfica para o gerenciador, que são um pouco - ou muito, dependendo da distribuição - mais feias que a app store da Apple, mas funcionam igual: você escolhe o que você quer instalar e pronto. Um exemplo:
+
+![](/post/linux/package_ubuntu.png)
+
+_(Eu disse que era mais feio que o Apple)_
+
+4. Um efeito colateral de usar um sistema que vai te forçar a usar o terminal de vez em quando é que você vai programar mais, e portanto vai se tornar um programador melhor. Eu e Pedro observamos que nós atualmente fazemos coisas pelo terminal quando existe uma interface gráfica porque _é mais rápido_ usar o teclado que o mouse.  
 
 5. Você passa a se preocupar bem menos com vírus.
 
@@ -93,7 +105,7 @@ Seria injusto não apontar alguns problemas:
 
 Isso tem um custo de entrada e mesmo para pessoas com alguma experiência pode ser um pouco de encheção de saco. 
 
-3. Fazer algumas coisas funcionarem podem exigir um pouco mais de trabalho que no Windows. Muitos pacotes do R exigem algum pacote do sistema que não veio pré instalado e você tem que instalar, ou para um pacote específico do LaTeX funcionar você tem que instalar um dos pacotes extras do LaTeX. [^4 Pedro mais uma vez aqui. No começo isso é um *pesadelo*, mas você logo aprende a parar de entrar em pânico e ler o que o computador te diz. Nestes erros, *sempre* está na tela o nome da biblioteca que você precisa instalar. Eu sofri muito para instalar pacotes para lidar com dados espaciais porque eles exigem a biblioteca `libgdal-dev`, por exemplo. Foi só escrever `sudo apt-get install libgdal-dev` e pronto.]
+3. Fazer algumas coisas funcionarem podem exigir um pouco mais de trabalho que no Windows. Muitos pacotes do R exigem algum pacote do sistema que não veio pré instalado e você tem que instalar, ou para um pacote específico do LaTeX funcionar você tem que instalar um dos pacotes extras do LaTeX. No começo isso é um *pesadelo* - como os dois autores podem atestar - mas você logo aprende a parar de entrar em pânico e ler o que o computador te diz. Nestes erros, **_sempre_** (cada um de nós colocou um enfâse no sempre) está na tela o nome da biblioteca que você precisa instalar. Eu sofri muito para instalar pacotes para lidar com dados espaciais porque eles exigem a biblioteca `libgdal-dev`, por exemplo. Para instalar este pacote via o terminal e escreva `sudo apt-get install libgdal-dev`. Vai pedir a sua senha, e quando você digitar o cursor do teclado não vai se mover (para a surpresa do Daniel na primeira vez que usou). Isso `apt-get` funciona na maioria da distribuições (Ubuntu, Lubuntu, Elementary) usuais, mas distribuições mais malucas, como a que o Daniel usa, isso não funciona.  
 
 4. Existem alguns problemas de compatibilidade de hardware. Vale a pena checar se a distribuição que você escolheu funciona bem no seu computador. Isso melhorou bastante, mas ainda persiste em alguns computadores e pode gerar muita dor de cabeça.
 
