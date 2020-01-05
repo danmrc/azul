@@ -13,9 +13,9 @@ draft: true
 
 _Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas_
 
-Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto ~~mais leve~~ menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!). É um tema que foge um pouco do usual do blog, mas dado a quantidade de mitos que as pessoas ainda acreditam sobre Linux, eu achei mais que justo voltar falando sobre Linux. 
+Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto ~~mais leve~~ menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!). É um tema que foge um pouco do usual do blog, mas dado a quantidade de mitos que as pessoas ainda acreditam sobre Linux, somado ao fato que os dois autores deste blog são usuários assíduos de Linux, eu achei mais que justo voltar falando sobre Linux. 
 
-De certa forma, fazer computação científica no Windows é uma ofensa. Por exemplo, se você quer instalar um pacote para o R que está no Github, no Windows você é obrigado a baixar um troço chamado Rtools. No Mac e no Linux, baixar um pacote direto do Github não requer nenhum passo desse tipo. Parece uma bobagem, mas diz bastante sobre como cada um dos sistemas funciona. (O Stan, uma linguagem de programação voltada para estimar modelos bayesianos, exige o Rtools para funcionar no Windows). 
+De certa forma, fazer computação científica no Windows é uma ofensa. Por exemplo, se você quer instalar um pacote para o R que está no Github, no Windows você é obrigado a baixar o Rtools. No Mac e no Linux, baixar um pacote direto do Github não requer nenhum passo desse tipo. Parece uma bobagem, mas diz bastante sobre como cada um dos sistemas funciona. (O Stan, uma linguagem de programação voltada para estimar modelos bayesianos, exige o Rtools para funcionar no Window, mas funciona sem nenhum software extra no Linux). 
 
 Esse post também deve ajudar pessoas que tem computadores antigos, nos quais o Windows é uma tartaruga e abrir o blog e o spotify é o suficiente para travar o computador. Eu instalei o Linux em dois computadores: um Dell Vostro de 2012, que é o meu computador e que eu uso - e que a única peça que não é de fábrica é o HD - com tanto o Windows quanto o Linux instalados; e um outro Dell de 2009 (!) que eu só instalei o Linux e já tinha uma instalação do Windows. 
 
@@ -23,7 +23,7 @@ Antes de continuarmos lembrem sempre que, apesar de atualmente ser muito mais f�
 
 # Mas o Linux é terreno exclusivo dos nerds...
 
-A maioria das pessoas associam Linux a nerds trancados em salas escuras e usando um computador sem mouse. Esse certamente ainda é o maior público do Linux, mas atualmente muitas distribuições de Linux são bastante amigáveis. Linux vem em distribuições, e cada uma tem suas vantagens e desvantagens. A maioria dos recém chegados começam com o Ubutnu ou um derivado do Ubuntu, como o Lubuntu - que foi feito para computadores mais lentos, mas que tem uma excelente interface gráfica. 
+A maioria das pessoas associam Linux a nerds trancados em salas escuras e usando um computador sem mouse. Esse certamente ainda é o maior público do Linux, mas atualmente muitas distribuições de Linux são bastante amigáveis. Linux vem em distribuições, e cada uma tem suas vantagens e desvantagens. A maioria dos recém chegados começam com o Ubutnu ou um derivado do Ubuntu, como o Lubuntu - que é o irmão do Ubuntu para computadores mais lentos, mas que tem uma excelente interface gráfica. 
 
 Eu instalei no meu computador uma versão do Linux chamada EndeavourOS, que é absolutamente obscura. Eu não recomendo como primeiro contato, mas ela tem uma cara até bastante familiar para quem veio do Windows:
 
@@ -33,7 +33,7 @@ Depois de brincar um pouco com as opções do Endeavour, eu deixei o meu computa
 
 ![](/post/linux/deepin.png)
 
-Distribuições como Ubuntu e o Lubuntu são ainda mais amigáveis em termos de interface do que essa distribuição. Comecem por elas. O Pedro recomenda elementaryOS para quem gosta de Mac ou KDE Neon para quem vêm de Windows. Nunca usei nenhuma das duas sugeridas pelo Pedro e acho que o Lubuntu ou Ubuntu são fáceis o suficiente e com uma comunidade ampla o suficiente para garantir que muito provavelmente você vai instalar sem sustos. 
+Distribuições como Ubuntu e o Lubuntu são ainda mais amigáveis em termos de interface do que essa distribuição. Comecem por elas. O Pedro recomenda o elementaryOS para quem gosta de Mac ou KDE Neon para quem vêm de Windows. Nunca usei nenhuma das duas sugeridas pelo Pedro e acho que o Lubuntu ou Ubuntu são fáceis o suficiente e com uma comunidade ampla o suficiente para garantir que muito provavelmente você vai instalar sem sustos. 
 
 E não, o Linux não exige que você use o terminal - onde os nerds digitam palavras esquisitas em uma tela preta com o cursor do teclado e ctrl+c não copia as coisas. A interface gráfica é bastante amigável, até para instalar novos programas. Eis o terminal se você nunca viu um na vida: 
 
@@ -45,17 +45,17 @@ Ou seja, ao contrário de anos atrás, quando o Linux era o território de apena
 
 A resposta aqui é _não_. Você pode ter no mesmo computador os dois sistemas. Isso se chama _dual boot_. No passado isso era outro pesadelo, mas hoje em dia ficou bem mais fácil. Eu bati um pouco de cabeça de como fazer o dual boot e por isso explico com algum detalhe o processo.
 
-1. A primeira coisa a fazer é criar uma partição no disco. O nome é pomposo mas o processo é simples. **Primeiro, garanta que você tem bastante espaço livre no disco**. De preferência o dobro do que você pretende usar pro Linux (o motivo vai ficar claro mais adiante). Veja que distribuições de Linux leve, como o Lubuntu e o Endeavour, usam pouco espaço em disco: 50 GB é mais que o suficiente para brincar. 
+1. A primeira coisa a fazer é criar uma partição no disco. O nome é pomposo mas o processo é simples. **Primeiro, garanta que você tem bastante espaço livre no disco**. De preferência o dobro do que você pretende usar pro Linux (o motivo vai ficar claro mais adiante). Veja que distribuições de Linux leves, como o Lubuntu e o Endeavour, usam pouco espaço em disco: 50 GB é mais que o suficiente para brincar.  
 
 Para criar a partição, vá no menu iniciar e busque por partição. O Windows deve achar um criador de partição. Ele demora um pouco a carregar. Ele deve mostrar as partições do seu disco rígido (provavelmente duas ou três). A maior é onde você está acostumado a usar e salvar as coisas. A única coisa que você deve fazer nessa etapa é selecionar essa partição maior (que com um pouco de sorte se chama C:/) e pedir para reduzir ela. Reduza para o tamanho que você quer que o Linux tenha disponível.
 
 2. Baixe a sua distribuição escolhida e o [rufus](https://rufus.ie/). Tenha um pen drive em mãos que você esteja disposto a apagar: ele nem precisa ser muito grande, 4 GB já resolvem. Use o rufus para gravar a distribuição no pen drive. Se você não achar o rufus fácil de usar, certamente existem tutoriais por ai que explicam como usar. Usem o rufus e não outra ferramenta, simplesmente porque o rufus funciona bem para a vasta maioria dos casos (o que não é verdade para outras ferramentas). 
 
-3. Descubra como faz para mudar o disco de boot no seu computador. Isso varia de marca para marca e de modelo para modelo. Mais uma coisa que o google pode ajudar mais do que eu. As palavras mágicas são "how to change the boot disk on _modelo do seu computador_". O Pedro diz que quase sempre você faz isso apertando `F2` ou `F8` enquanto o computador liga! Varia de fabricante para fabricante, mas quase sempre é uma dessas duas teclas. Em amplo contraste, no Dell, é F12 - o que ilustra a variedade de maneiras de mudar essa configuração.
+3. Descubra como faz para mudar o disco de boot no seu computador. Isso varia de marca para marca e de modelo para modelo. Mais uma coisa que o google pode ajudar mais do que eu. As palavras mágicas são "how to change the boot disk on _modelo do seu computador_". O Pedro diz que quase sempre você faz isso apertando `F2` ou `F8` enquanto o computador liga! Varia de fabricante para fabricante, mas quase sempre é uma dessas duas teclas. Emntretanto no Dell a tecla é F12 - o que ilustra a variedade de maneiras de mudar essa configuração.
 
-4. Desligue o computador, coloque o pen drive na porta usb, religue e mande o computador iniciar pelo pen drive
+4. Desligue o computador, coloque o pen drive na porta usb, religue e mande o computador iniciar pelo pen drive.
 
-5. Deve demorar um pouco e ele vai te dar várias opções, inclusive iniciar o Linux via o pen drive. É isso que você quer. Aproveite e dê uma explorada no sistema. 
+5. Deve demorar um pouco e ele vai te dar várias opções, inclusive iniciar o Linux via o pen drive. É isso que você quer. Deixe o sistema iniciar e ele deve funcionar como se tivesse instalado, mas ele tá rodando pelo pen drive e nada no seu computador foi alterado. Aproveite e dê uma explorada no sistema. 
 
 Veja que se você não gostar do que viu, basta desligar o computador, tirar o pen drive e religar ele (e mudar por onde ele incia de volta para o disco rígido, em alguns casos) e _nada_ terá sido alterado. Você pode até mesmo desistir de instalar o Linux e abrir o gerenciador de partição, igual no passo 1, e mandar o Windows extender a partição do C:/ para o espaço que você abriu. Voltamos a estaca zero. Se você ainda está achando a experiência divertida, então continuando do passo 5:
 
