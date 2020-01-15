@@ -77,11 +77,11 @@ Com $j \rightarrow \infty$, obtemos $y_t = -\sum_{k=0}^j \frac{1}{\lambda^k} E_t
 
 Então para resolver equações em diferenças com expectativas, nós _iteramos para frente_ e portanto exigimos que o coeficiente associado a $y_t$ seja **maior** que 1. 
 
-Em um sistema de equações lineares, isso se reflete de maneira bem simples: antes, para termos estabilidade, todos os autovalores deveriam ser menores que 1. Agora, quando tivermos expectâncias, precisamos de 1 autovalor maior do que 1 para cada equação que depender da expectância da variável (isso não é sem alguns _caveats_ técnicos). Isso é conhecido como **condições de Blanchard Khan**. Verificar as condições de Blanchard Khan é basicamente um exercício de contar quantos autovalores são maiores que 1 e quantos são menores que 1 e quantas equações dependem de expectativas e quantas não dependem. Veja que, seguind a notação acima, teremos que escrever o sistema para termos:
+Em um sistema de equações lineares, isso se reflete de maneira bem simples: antes, para termos estabilidade, todos os autovalores deveriam ser menores que 1. Agora, quando tivermos expectâncias, precisamos de 1 autovalor maior do que 1 para cada equação que depender da expectância da variável (isso não é sem alguns _caveats_ técnicos). Isso é conhecido como **condições de Blanchard Khan**. Verificar as condições de Blanchard Khan é basicamente um exercício de contar quantos autovalores são maiores que 1 e quantos são menores que 1 e quantas equações dependem de expectativas e quantas não dependem. Veja que, seguindo a notação acima, teremos que escrever o sistema para termos:
 
 $$E_t(x_{t+1}) = Ax_t + \epsilon_t$$
 
-E checarmos os autovalores da matriz A: 
+E checarmos os autovalores da matriz A: precisamos de ter o mesmo número de autovalores maiores que 1 que equações que dependem de expectativas; e mesmo número de autovalores menores que um do que equações sem expectativas. Alguns autores usam a equação ao contrário e colocam $x_t$ do lado esquerdo e A acompanhando o vetor de expectativas. Nesse caso, as condições de Blanchard Khan se invertem.
 
 ## Um exemplo
 
@@ -89,7 +89,7 @@ Vamos olhar o modelo Novo Keynesiano mais simples possível: ele tem uma equaç�
 
 $$
 \pi_t = \beta E_t(\pi_{t+1}) + \kappa \tilde{y}_t\\
-\tilde{y} = -\frac{1}{\sigma}(i_t - E_t(\pi_{t+1})) + E(\tilde{y}_{t+1})\\
+\tilde{y}_t = -\frac{1}{\sigma}(i_t - E_t(\pi_{t+1})) + E(\tilde{y}_{t+1})\\
 i_t = \phi \pi_t + \varepsilon_t
 $$
 
@@ -135,7 +135,7 @@ A = qr.solve(B)%*%C
 eigen(A)
 
 ```
-Temos dois autovalores maiores que 1 em módulo (um deles é um -2) e um menor que 1 em módulo (0). Logo, o sistema tem uma única solução ("as condições de Blanchard Khan são atentidas" usando os jargões de macro). Vamos testar vários valores para $\phi$ e recuperar quantos autovalores são maiores que 1 em módulo:
+Temos dois autovalores maiores que 1 em módulo (um deles é um -2) e um menor que 1 em módulo (0). Logo, o sistema tem uma única solução ("as condições de Blanchard Khan são atentidas" usando os jargões de macro). Um pequeno detalhe: eu usei o comando `qr.solve` que faz a mesma coisa que o `solve`, mas é mais estável. Vamos testar vários valores para $\phi$ e recuperar quantos autovalores são maiores que 1 em módulo:
 
 ```{r}
 
@@ -220,3 +220,10 @@ g + geom_line() + theme_bw()
 
 ```
 
+Não há nenhuma grande mudança, aparentemente. 
+
+Veja que eu fui malandro e escrevi um modelo no qual temos uma matriz $B$:
+
+$$B E_t(x_{t+1}) = Cx_t + \varepsilon_t$$
+
+E portanto $A = B^{-1}C$. Como lidar com sistemas com $B$ singular é uma pergunta válida e não trivial de ser respondida - precisamos de usar decomposições espertas de Álgebra Linear. Mas o princípio básico de contar autovalores permance inalterado. Veja que esse método tem críticos e alternativas. Todos esses assuntos são bons temas para futuros posts do blog. 

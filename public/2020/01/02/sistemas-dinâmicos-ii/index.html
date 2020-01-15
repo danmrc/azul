@@ -48,7 +48,7 @@
                     <h3> Daniel Coutinho </h3>
                     <h2 class="headline">
                     Jan 2, 2020 00:00
-                    · 1293 words
+                    · 1458 words
                     · 7 minute read
                       <span class="tags">
                       
@@ -110,15 +110,15 @@ y_{t+2} = \frac{1}{\lambda}E_t(y_{t+3})\\
 <p><span class="math display">\[y_t = \frac{1}{\lambda^j}E_t(y_{t+j}) - \sum_{k=0}^j \frac{1}{\lambda^k} E_t(s_{t+k})\]</span></p>
 <p>Com <span class="math inline">\(j \rightarrow \infty\)</span>, obtemos <span class="math inline">\(y_t = -\sum_{k=0}^j \frac{1}{\lambda^k} E_t(s_{t+k})\)</span>.</p>
 <p>Então para resolver equações em diferenças com expectativas, nós <em>iteramos para frente</em> e portanto exigimos que o coeficiente associado a <span class="math inline">\(y_t\)</span> seja <strong>maior</strong> que 1.</p>
-<p>Em um sistema de equações lineares, isso se reflete de maneira bem simples: antes, para termos estabilidade, todos os autovalores deveriam ser menores que 1. Agora, quando tivermos expectâncias, precisamos de 1 autovalor maior do que 1 para cada equação que depender da expectância da variável (isso não é sem alguns <em>caveats</em> técnicos). Isso é conhecido como <strong>condições de Blanchard Khan</strong>. Verificar as condições de Blanchard Khan é basicamente um exercício de contar quantos autovalores são maiores que 1 e quantos são menores que 1 e quantas equações dependem de expectativas e quantas não dependem. Veja que, seguind a notação acima, teremos que escrever o sistema para termos:</p>
+<p>Em um sistema de equações lineares, isso se reflete de maneira bem simples: antes, para termos estabilidade, todos os autovalores deveriam ser menores que 1. Agora, quando tivermos expectâncias, precisamos de 1 autovalor maior do que 1 para cada equação que depender da expectância da variável (isso não é sem alguns <em>caveats</em> técnicos). Isso é conhecido como <strong>condições de Blanchard Khan</strong>. Verificar as condições de Blanchard Khan é basicamente um exercício de contar quantos autovalores são maiores que 1 e quantos são menores que 1 e quantas equações dependem de expectativas e quantas não dependem. Veja que, seguindo a notação acima, teremos que escrever o sistema para termos:</p>
 <p><span class="math display">\[E_t(x_{t+1}) = Ax_t + \epsilon_t\]</span></p>
-<p>E checarmos os autovalores da matriz A:</p>
+<p>E checarmos os autovalores da matriz A: precisamos de ter o mesmo número de autovalores maiores que 1 que equações que dependem de expectativas; e mesmo número de autovalores menores que um do que equações sem expectativas. Alguns autores usam a equação ao contrário e colocam <span class="math inline">\(x_t\)</span> do lado esquerdo e A acompanhando o vetor de expectativas. Nesse caso, as condições de Blanchard Khan se invertem.</p>
 <div id="um-exemplo" class="section level2">
 <h2>Um exemplo</h2>
 <p>Vamos olhar o modelo Novo Keynesiano mais simples possível: ele tem uma equação IS intertemporal - como os agentes escolhem consumo hoje e amanhã dado a taxa de juros reais; uma curva de Phillips com expectativas; uma regra de política monetária que escolhe juros como função da inflação, um <em>inflation target</em>. Aqui vão as três equações:</p>
 <p><span class="math display">\[
 \pi_t = \beta E_t(\pi_{t+1}) + \kappa \tilde{y}_t\\
-\tilde{y} = -\frac{1}{\sigma}(i_t - E_t(\pi_{t+1})) + E(\tilde{y}_{t+1})\\
+\tilde{y}_t = -\frac{1}{\sigma}(i_t - E_t(\pi_{t+1})) + E(\tilde{y}_{t+1})\\
 i_t = \phi \pi_t + \varepsilon_t
 \]</span></p>
 <p>Temos duas equações que dependem de expectativas e uma que não depende. Logo, precisamos de dois autovalores maiores que 1 em módulo e um menor que 1 em módulo. Vamos escrever do formato que eu coloquei acima, com todas as expectativas de um lado. Eu vou escrever o sistema na verdade como:</p>
@@ -163,7 +163,7 @@ eigen(A)</code></pre>
 ## [1,] -0.2966180 -0.6109608    0
 ## [2,] -0.9326410  0.0942406    0
 ## [3,]  0.2054227 -0.7860316    1</code></pre>
-<p>Temos dois autovalores maiores que 1 em módulo (um deles é um -2) e um menor que 1 em módulo (0). Logo, o sistema tem uma única solução (“as condições de Blanchard Khan são atentidas” usando os jargões de macro). Vamos testar vários valores para <span class="math inline">\(\phi\)</span> e recuperar quantos autovalores são maiores que 1 em módulo:</p>
+<p>Temos dois autovalores maiores que 1 em módulo (um deles é um -2) e um menor que 1 em módulo (0). Logo, o sistema tem uma única solução (“as condições de Blanchard Khan são atentidas” usando os jargões de macro). Um pequeno detalhe: eu usei o comando <code>qr.solve</code> que faz a mesma coisa que o <code>solve</code>, mas é mais estável. Vamos testar vários valores para <span class="math inline">\(\phi\)</span> e recuperar quantos autovalores são maiores que 1 em módulo:</p>
 <pre class="r"><code>bet = 0.99
 sig = 1
 
@@ -236,6 +236,10 @@ dados_com_suav &lt;- data.frame(&quot;phi_vals&quot; = phi_vals,&quot;eigs&quot;
 g &lt;- ggplot(dados_com_suav, aes(phi_vals,eigs))
 g + geom_line() + theme_bw() </code></pre>
 <p><img src="/post/2020-01-02-sistemas-din%C3%A2micos-ii_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Não há nenhuma grande mudança, aparentemente.</p>
+<p>Veja que eu fui malandro e escrevi um modelo no qual temos uma matriz <span class="math inline">\(B\)</span>:</p>
+<p><span class="math display">\[B E_t(x_{t+1}) = Cx_t + \varepsilon_t\]</span></p>
+<p>E portanto <span class="math inline">\(A = B^{-1}C\)</span>. Como lidar com sistemas com <span class="math inline">\(B\)</span> singular é uma pergunta válida e não trivial de ser respondida - precisamos de usar decomposições espertas de Álgebra Linear. Mas o princípio básico de contar autovalores permance inalterado. Veja que esse método tem críticos e alternativas. Todos esses assuntos são bons temas para futuros posts do blog.</p>
 </div>
 
                 </section>
