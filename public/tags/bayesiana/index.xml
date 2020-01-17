@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bayesiana on AZUL</title>
+    <link>/tags/bayesiana/</link>
+    <description>Recent content in Bayesiana on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Thu, 16 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/bayesiana/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Amostrando de distribuições difíceis: o Markov Chain Monte Carlo</title>
+      <link>/2020/01/16/markov-chain-monte-carlo/</link>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/16/markov-chain-monte-carlo/</guid>
+      <description>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,10 +6,28 @@
     <description>Recent content in Posts on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 05 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sistemas dinâmicos II: Expectativas racionais</title>
+      <link>/2020/01/17/sistemas-din%C3%A2micos-ii/</link>
+      <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/17/sistemas-din%C3%A2micos-ii/</guid>
+      <description>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</description>
+    </item>
+    
+    <item>
+      <title>Amostrando de distribuições difíceis: o Markov Chain Monte Carlo</title>
+      <link>/2020/01/16/markov-chain-monte-carlo/</link>
+      <pubDate>Thu, 16 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/16/markov-chain-monte-carlo/</guid>
+      <description>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</description>
+    </item>
     
     <item>
       <title>Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot</title>
@@ -19,15 +37,6 @@
       <guid>/2020/01/05/linux-e-windows/</guid>
       <description>Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
 Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!</description>
-    </item>
-    
-    <item>
-      <title>Sistemas dinâmicos II: Expectativas racionais</title>
-      <link>/2020/01/02/sistemas-din%C3%A2micos-ii/</link>
-      <pubDate>Thu, 02 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/01/02/sistemas-din%C3%A2micos-ii/</guid>
-      <description>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</description>
     </item>
     
     <item>

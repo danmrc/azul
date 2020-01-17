@@ -21,7 +21,9 @@ $$p(\theta|x) = \frac{p(\theta)\ell(x|\theta)}{p(x)}$$
 
 Onde $p(\theta)$ é a _prior_ do parâmetro - a distribuição que específica a crença do pesquisador antes de ver os dados - $\ell(x|\theta)$ é a verossimelhança e $p(x)$ é a distribuição de x. Veja que os dois primeiros elementos são fáceis de especificar; $p(x)$ requer a distribuição de x marginalizando para o parâmetro, o que pode ser impossível de obter - se temos dez parâmetros isso requer dez integrais. 
 
-A primeira sacada esperta é notar que, dado duas propostas de parâmetros, $\theta$ e $\theta^{\prime}$, $p(\theta|x)/p(\theta^\prime|x)$ cancela o $p(x)$. Assim, se conseguirmos uma maneira de amostrar a distribuição usando a razão, nos livramos de uma integral. 
+Existem vários algoritmos que fazem isso, e eu vou discutir um deles neste post. Mas todos basicamente partem da mesma ideia: sorteie números aleatórios de alguma distribuição que a gente sabe sortear. Use a densidade da distribuição que queremos de fato obter uma amostra para decidir se o parâmetro sorteado deve ser aceito ou não. Se quisermos uma estatística específica da distribuição - média, moda, mediana, desvio padrão - basta calcular a estatística empírica a partir da amostra e deixar a Lei dos Grandes Números agir. 
+
+A primeira sacada esperta é notar que, dado duas propostas de parâmetros, $\theta$ e $\theta^{\prime}$, $p(\theta|x)/p(\theta^\prime|x)$ cancela o $p(x)$. Assim, se conseguirmos uma maneira de amostrar a distribuição usando a razão, nos livramos da integral. 
 
 A segunda sacada é notar que, já que estamos usando uma razão, podemos usar se migrarmos de um ponto de menor probabilidade na _posterior_ para um de maior probabilidade, então a razão será maior que 1. 
 
@@ -31,4 +33,28 @@ A terceira sacada é que se a gente rejeitar toda vez que a _posterior_ diminuir
 
 2. Pior, ele pode convergir para um máximo local e ficar preso lá. 
 
-Então nós queremos não rejeitar um ponto potencial só porque ele reduz a _posterior_ - queremos aceitar ele, de vez em quando. A ideia aqui é aceitar ele com maior probabilidade quanto mais próxima de 1 for a razão $p(\theta^\prime|x)/p(\theta|x)$. 
+Para entender o segundo ponto, dê uma olhada na seguinte função:
+
+```{r}
+xx <- seq(-2,2,by = 0.05)
+yy <- dnorm(xx,mean = -1,sd = 0.7) + dnorm(xx,mean=1, sd = 0.5)
+plot(xx,yy, type = "l", xlab = " ", ylab = " ")
+dm1 <- dnorm(-1,mean=-1,sd = 0.7)
+d1 <- dnorm(1,mean=1,sd = 0.5)
+d0 <- dnorm(0,mean=1,sd = 0.5)+dnorm(0,mean=-1,sd = 0.7) 
+points(-1,dm1, pch = 17,col = 2, cex = 2)
+points(1,d1, pch = 17,col = 4, cex = 2)
+points(0,d0, pch = 17,col = 3, cex = 2)
+arrows(x0 = -1, y0 = dm1, x1 = 0, y1 = d0, lty = 2, lwd = 2)
+arrows(x0 = 0, y0 = d0, x1 = 1, y1 = d1, lty = 2, lwd = 2)
+```
+
+Se começamos no triângulo vermelho, qualquer ponto ao redor reduz a densidade. Mas veja que o triângulo vermelho é um máximo local e o triângulo azul o máximo global. Nós potencialmente gostaríamos de aceitar até mesmo o ponto verde se nós fizermos o caminho indicado pelas setas. Obviamente, dificilmente teremos uma situação tão evidente como essa, mas é bastante ilustrativo. 
+
+Então nós não queremos rejeitar um ponto potencial só porque ele reduz a _posterior_ - queremos aceitar ele, de vez em quando. A ideia aqui é aceitar ele com maior probabilidade quanto mais próxima de 1 for a razão $p(\theta^\prime|x)/p(\theta|x)$. 
+
+Espero ter convencido o leitor que é útil trabalhar com a razão $p(\theta^\prime|x)/p(\theta|x)$ para _aceitar ou rejeitar_ um valor como representativo da distribuição. Mas ainda não atacamos sobre o problema fundamental de _como_ escolher esse valor. O procedimento é bem simples: escolha a distribuição _kernel_ e sorteie um valor dela. Esse vai ser o valor que a ser testado.
+
+A distribuição _kernel_ tem que ser espertamente escolhida, porque existem várias condições sobre o _kernel_ para garantir que a distribuição do algoritmo é a distribuição alvo. Para todos os efeitos, a normal centrada no último valor aceito é perfeito para os própositos - a escolha da variância é muito importante e eu vou discutir abaixo. Usar a distribuição centrada no último valor aceito gera o algoritmo chamado _Random Walk Metropolis Hasting_ - a parte do Random Walk se deve ao fato da distribuição do sorteio ser centrado no último valor aceito. 
+
+Nós também vamos querer corrigir a probabilidade de aceitação e rejeição pelo _kernel_. A intuição é que não só importa o quão provável é o novo parâmetro dado a posterior, mas o quão provável é o parâmetro dado o _kernel_. Isso

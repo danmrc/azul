@@ -1,7 +1,7 @@
 ---
 title: 'Sistemas dinâmicos II: Expectativas racionais'
 author: Daniel Coutinho
-date: '2020-01-02'
+date: '2020-01-17'
 slug: sistemas-dinâmicos-ii
 categories:
   - Matemática
@@ -10,7 +10,6 @@ tags:
   - Sistemas Dinâmicos
   - Blanchard Khan
   - Álgebra Linear
-draft: true
 ---
 
 Há muito tempo atrás eu escrevi sobre [Álgebra Linear e sistemas dinâmicos](https://azul.netlify.com/2018/11/06/sistemas-dinamicos-e-algebra-linear/). Lá, eu falava de um caso em que o sistema era $x_t = Ax_{t-1}$, onde $x_t$ era um vetor e $A$ tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com _expectativas_ e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente. Um caso "famoso" de expectativas racionais é a curva de Phillips novo keynesiana:
@@ -33,7 +32,7 @@ E substitua a última na penúltima, ..., a terceira na segunda e a segunda na p
 
 $$x_t = \alpha^tx_0$$
 
-Onde $x_0$ é uma condição inicial. Veja que se $|\alpha| > 1$, o sistema explode. Caso contrário, o processo colapse para zero. Normalmente, em economia, nós imaginamos que existe um choque aleatória $\varepsilon_t$ e o sistema é $x_t = \alpha x_{t-1} + \varepsilon_t$. Isso é só um AR(1) usual e a representação recursiva funciona da mesma forma, mas agora com um termo extra:
+Onde $x_0$ é uma condição inicial. Veja que se $|\alpha| > 1$, o sistema explode. Caso contrário, o processo colapsa para zero. Normalmente, em economia, nós imaginamos que existe um choque aleatória $\varepsilon_t$ e o sistema é $x_t = \alpha x_{t-1} + \varepsilon_t$. Isso é só um AR(1) usual e a representação recursiva funciona da mesma forma, mas agora com um termo extra:
 
 $$x_t = \alpha^t x_0 + \sum_{j=0}^t \alpha^j \varepsilon_{t-j}$$
 
@@ -227,3 +226,7 @@ Veja que eu fui malandro e escrevi um modelo no qual temos uma matriz $B$:
 $$B E_t(x_{t+1}) = Cx_t + \varepsilon_t$$
 
 E portanto $A = B^{-1}C$. Como lidar com sistemas com $B$ singular é uma pergunta válida e não trivial de ser respondida - precisamos de usar decomposições espertas de Álgebra Linear. Mas o princípio básico de contar autovalores permance inalterado. Veja que esse método tem críticos e alternativas. Todos esses assuntos são bons temas para futuros posts do blog. 
+
+## Bibliografia
+
+Esse post se deve basicamente a aulas que eu tive e ao excelente livro do Jianjun Miao, _Economic Dynamics in Discrete Time_ - que eu nunca canso de recomendar.
