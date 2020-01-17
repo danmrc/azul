@@ -1,0 +1,34 @@
+---
+title: 'Amostrando de distribuições difíceis: o Markov Chain Monte Carlo'
+author: Daniel Coutinho
+date: '2020-01-16'
+slug: markov-chain-monte-carlo
+categories:
+  - R
+  - Econometria
+tags:
+  - Monte Carlo
+  - Markov Chain Monte Carlo
+  - Bayesiana
+draft: true
+---
+
+Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de _porque_ funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana. 
+
+O algoritmo tem várias etapas e vai requerer que a gente tenha uma (a) distribuição alvo e (b) um _kernel_. A ideia é que é difícil retirar números aleatórios da distribuição alvo e nós queremos obter esses números por algum motivo. No caso bayesiano, eles querem obter a distribuição do parâmetro dada a regra de Bayes. Vamos temporariamente fingir que somos bayesianos. Seja $x$ os dados e $\theta$ os parâmetros, portanto queremos a _posterior_:
+
+$$p(\theta|x) = \frac{p(\theta)\ell(x|\theta)}{p(x)}$$
+
+Onde $p(\theta)$ é a _prior_ do parâmetro - a distribuição que específica a crença do pesquisador antes de ver os dados - $\ell(x|\theta)$ é a verossimelhança e $p(x)$ é a distribuição de x. Veja que os dois primeiros elementos são fáceis de especificar; $p(x)$ requer a distribuição de x marginalizando para o parâmetro, o que pode ser impossível de obter - se temos dez parâmetros isso requer dez integrais. 
+
+A primeira sacada esperta é notar que, dado duas propostas de parâmetros, $\theta$ e $\theta^{\prime}$, $p(\theta|x)/p(\theta^\prime|x)$ cancela o $p(x)$. Assim, se conseguirmos uma maneira de amostrar a distribuição usando a razão, nos livramos de uma integral. 
+
+A segunda sacada é notar que, já que estamos usando uma razão, podemos usar se migrarmos de um ponto de menor probabilidade na _posterior_ para um de maior probabilidade, então a razão será maior que 1. 
+
+A terceira sacada é que se a gente rejeitar toda vez que a _posterior_ diminuir, nós teremos dois problemas:
+
+1. Naturalmente o algoritmo vai convergir para o máximo e ficar preso lá
+
+2. Pior, ele pode convergir para um máximo local e ficar preso lá. 
+
+Então nós queremos não rejeitar um ponto potencial só porque ele reduz a _posterior_ - queremos aceitar ele, de vez em quando. A ideia aqui é aceitar ele com maior probabilidade quanto mais próxima de 1 for a razão $p(\theta^\prime|x)/p(\theta|x)$. 
