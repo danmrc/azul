@@ -38,13 +38,19 @@ Para entender o segundo ponto, dê uma olhada na seguinte função:
 ```{r}
 xx <- seq(-2,2,by = 0.05)
 yy <- dnorm(xx,mean = -1,sd = 0.7) + dnorm(xx,mean=1, sd = 0.5)
-plot(xx,yy, type = "l", xlab = " ", ylab = " ")
-dm1 <- dnorm(-1,mean=-1,sd = 0.7)
-d1 <- dnorm(1,mean=1,sd = 0.5)
-d0 <- dnorm(0,mean=1,sd = 0.5)+dnorm(0,mean=-1,sd = 0.7) 
-points(-1,dm1, pch = 17,col = 2, cex = 2)
-points(1,d1, pch = 17,col = 4, cex = 2)
-points(0,d0, pch = 17,col = 3, cex = 2)
+
+plot(xx,yy, type = "l", 
+     xlab = " ", 
+     ylab = " ")
+
+dm1 <- dnorm(-1, mean = -1, sd = 0.7)
+d1 <- dnorm(1, mean = 1, sd = 0.5)
+d0 <- dnorm(0,mean = 1, sd = 0.5) + dnorm(0, mean = -1, sd = 0.7) 
+
+points(-1, dm1, pch = 17, col = 2, cex = 2)
+points(1, d1, pch = 17,col = 4, cex = 2)
+points(0, d0, pch = 17,col = 3, cex = 2)
+
 arrows(x0 = -1, y0 = dm1, x1 = 0, y1 = d0, lty = 2, lwd = 2)
 arrows(x0 = 0, y0 = d0, x1 = 1, y1 = d1, lty = 2, lwd = 2)
 ```
