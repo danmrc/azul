@@ -4,25 +4,26 @@ author: "Pedro Cavalcante"
 date: '2019-05-17'
 output:
   html_document:
-    self_contained: FALSE
-draft: TRUE
-katex: TRUE
+    self_contained: false
+draft: true
+katex: true
 categories:
-- R
-- Machine Learning
+  - R
+  - Machine Learning
 slug: prouni-rf-classificacao
 tags:
-- PNG
-- Semestes Aleatórias
+  - PNG
+  - Semestes Aleatórias
 authors: ["pedrocava"]
 ---
 
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<script src="/rmarkdown-libs/elevate-section-attrs/elevate-section-attrs.js"></script>
 
 
 <p>Você já usou funções como <code>rnorm()</code>? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.</p>
-<p>encher de coisas aqui</p>
 <pre class="r"><code>set.seed(1234)
-n = 5000
+n &lt;- 5000
 
 amostra1 = rbinom(n= n,
                   size = 1,
@@ -30,42 +31,40 @@ amostra1 = rbinom(n= n,
 
 mean(amostra1)</code></pre>
 <pre><code>## [1] 0.5014</code></pre>
-<p>Tivemos uma taxa de <code>0.5014</code>com a semente <span class="math inline">\(1234\)</span>. Como funciona com outras sementes?</p>
+<p>Tivemos uma taxa de 0.5014 com a semente <span class="math inline">\(1234\)</span>. Como funciona com outras sementes?</p>
 <pre class="r"><code>library(ggplot2)
-library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(gganimate)
+library(dplyr)
+library(gganimate)
 
-m = 10000000
-n = 100
-amostras = vector()
+m &lt;- 100000
+n &lt;- 100
+amostras &lt;- double(length = 0)
 
 for(i in 1:m) {
+  
   set.seed(i)
   
-  amostra = rbinom(n = n,
+  amostra &lt;- rbinom(n = n,
                    size = 1,
                    prob = .5)
   
-  amostras[i] = mean(amostra)
+  amostras[i] &lt;- mean(amostra)
     
 }
 
 
 summary(amostras)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    0.23    0.47    0.50    0.50    0.53    0.75</code></pre>
-<pre class="r"><code>ngrupos = 20
-grupo = rep(seq(1, ngrupos), times = m/ngrupos)
-grupo = sort(grupo)
+##  0.2900  0.4700  0.5000  0.4997  0.5300  0.7100</code></pre>
+<pre class="r"><code>ngrupos &lt;- 20
+grupo &lt;- rep(seq(1, ngrupos), times = m/ngrupos)
+grupo &lt;- sort(grupo)
 
-base = data.frame(dados = amostras,
-                  grupo = grupo) </code></pre>
+base &lt;- data.frame(dados = amostras,
+                  grupo = grupo) 
+
+base %&gt;%
+  ggplot(aes(x = dados, fill = as.factor(grupo))) +
+  geom_histogram(alpha = .9, aes(y = ..density..)) #+</code></pre>
+<p><img src="/post/ManipulacaoDeSeeds/manipulacao_seed_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Note no entanto que escolhi um <span class="math inline">\(n\)</span> pequeno com uma certa malícia. Por quê? Convergência assintótica.</p>

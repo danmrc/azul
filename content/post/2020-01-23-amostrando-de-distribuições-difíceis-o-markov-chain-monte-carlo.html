@@ -20,10 +20,10 @@ draft: true
 <p>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de <em>porque</em> funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</p>
 <p>O algoritmo tem várias etapas e vai requerer que a gente tenha uma (a) distribuição alvo e (b) um <em>kernel</em>. A ideia é que é difícil retirar números aleatórios da distribuição alvo e nós queremos obter esses números por algum motivo. No caso bayesiano, eles querem obter a distribuição do parâmetro dada a regra de Bayes. Vamos temporariamente fingir que somos bayesianos. Seja <span class="math inline">\(x\)</span> os dados e <span class="math inline">\(\theta\)</span> os parâmetros, portanto queremos a <em>posterior</em>:</p>
 <p><span class="math display">\[p(\theta|x) = \frac{p(\theta)\ell(x|\theta)}{p(x)}\]</span></p>
-<p>Onde <span class="math inline">\(p(\theta)\)</span> é a <em>prior</em> do parâmetro - a distribuição que específica a crença do pesquisador antes de ver os dados - <span class="math inline">\(\ell(x|\theta)\)</span> é a verossimelhança e <span class="math inline">\(p(x)\)</span> é a distribuição de x. Veja que os dois primeiros elementos são fáceis de especificar; <span class="math inline">\(p(x)\)</span> requer a distribuição de x marginalizando para o parâmetro, o que pode ser impossível de obter - se temos dez parâmetros isso requer dez integrais.</p>
+<p>Onde <span class="math inline">\(p(\theta)\)</span> é a <em>prior</em> do parâmetro - a distribuição que específica a crença do pesquisador antes de ver os dados - <span class="math inline">\(\ell(x|\theta)\)</span> é a verossimelhança e <span class="math inline">\(p(x)\)</span> é a distribuição de x. Veja que os dois primeiros elementos são fáceis de especificar; <span class="math inline">\(p(x)\)</span> requer a distribuição de x marginalizando para o parâmetro, o que pode ser impossível de obter - se temos dez parâmetros isso requer dez integrais e nós passamos a conhecer a maldição da dimensionalidade.</p>
 <p>Existem vários algoritmos que fazem isso, e eu vou discutir um deles neste post. Mas todos basicamente partem da mesma ideia: sorteie números aleatórios de alguma distribuição que a gente sabe sortear. Use a densidade da distribuição que queremos de fato obter uma amostra para decidir se o parâmetro sorteado deve ser aceito ou não. Se quisermos uma estatística específica da distribuição - média, moda, mediana, desvio padrão - basta calcular a estatística empírica a partir da amostra e deixar a Lei dos Grandes Números agir.</p>
 <p>A primeira sacada esperta é notar que, dado duas propostas de parâmetros, <span class="math inline">\(\theta\)</span> e <span class="math inline">\(\theta^{\prime}\)</span>, <span class="math inline">\(p(\theta|x)/p(\theta^\prime|x)\)</span> cancela o <span class="math inline">\(p(x)\)</span>. Assim, se conseguirmos uma maneira de amostrar a distribuição usando a razão, nos livramos da integral.</p>
-<p>A segunda sacada é notar que, já que estamos usando uma razão, podemos usar se migrarmos de um ponto de menor probabilidade na <em>posterior</em> para um de maior probabilidade, então a razão será maior que 1.</p>
+<p>A segunda sacada é notar que, já que estamos usando uma razão, podemos usar o fato que se migrarmos de um ponto de menor probabilidade na <em>posterior</em> para um de maior probabilidade, então a razão será maior que 1.</p>
 <p>A terceira sacada é que se a gente rejeitar toda vez que a <em>posterior</em> diminuir, nós teremos dois problemas:</p>
 <ol style="list-style-type: decimal">
 <li><p>Naturalmente o algoritmo vai convergir para o máximo e ficar preso lá</p></li>
@@ -32,13 +32,19 @@ draft: true
 <p>Para entender o segundo ponto, dê uma olhada na seguinte função:</p>
 <pre class="r"><code>xx &lt;- seq(-2,2,by = 0.05)
 yy &lt;- dnorm(xx,mean = -1,sd = 0.7) + dnorm(xx,mean=1, sd = 0.5)
-plot(xx,yy, type = &quot;l&quot;, xlab = &quot; &quot;, ylab = &quot; &quot;)
-dm1 &lt;- dnorm(-1,mean=-1,sd = 0.7)
-d1 &lt;- dnorm(1,mean=1,sd = 0.5)
-d0 &lt;- dnorm(0,mean=1,sd = 0.5)+dnorm(0,mean=-1,sd = 0.7) 
-points(-1,dm1, pch = 17,col = 2, cex = 2)
-points(1,d1, pch = 17,col = 4, cex = 2)
-points(0,d0, pch = 17,col = 3, cex = 2)
+
+plot(xx,yy, type = &quot;l&quot;, 
+     xlab = &quot; &quot;, 
+     ylab = &quot; &quot;)
+
+dm1 &lt;- dnorm(-1, mean = -1, sd = 0.7)
+d1 &lt;- dnorm(1, mean = 1, sd = 0.5)
+d0 &lt;- dnorm(0,mean = 1, sd = 0.5) + dnorm(0, mean = -1, sd = 0.7) 
+
+points(-1, dm1, pch = 17, col = 2, cex = 2)
+points(1, d1, pch = 17,col = 4, cex = 2)
+points(0, d0, pch = 17,col = 3, cex = 2)
+
 arrows(x0 = -1, y0 = dm1, x1 = 0, y1 = d0, lty = 2, lwd = 2)
 arrows(x0 = 0, y0 = d0, x1 = 1, y1 = d1, lty = 2, lwd = 2)</code></pre>
 <p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
@@ -46,4 +52,32 @@ arrows(x0 = 0, y0 = d0, x1 = 1, y1 = d1, lty = 2, lwd = 2)</code></pre>
 <p>Então nós não queremos rejeitar um ponto potencial só porque ele reduz a <em>posterior</em> - queremos aceitar ele, de vez em quando. A ideia aqui é aceitar ele com maior probabilidade quanto mais próxima de 1 for a razão <span class="math inline">\(p(\theta^\prime|x)/p(\theta|x)\)</span>.</p>
 <p>Espero ter convencido o leitor que é útil trabalhar com a razão <span class="math inline">\(p(\theta^\prime|x)/p(\theta|x)\)</span> para <em>aceitar ou rejeitar</em> um valor como representativo da distribuição. Mas ainda não atacamos sobre o problema fundamental de <em>como</em> escolher esse valor. O procedimento é bem simples: escolha a distribuição <em>kernel</em> e sorteie um valor dela. Esse vai ser o valor que a ser testado.</p>
 <p>A distribuição <em>kernel</em> tem que ser espertamente escolhida, porque existem várias condições sobre o <em>kernel</em> para garantir que a distribuição do algoritmo é a distribuição alvo. Para todos os efeitos, a normal centrada no último valor aceito é perfeito para os própositos - a escolha da variância é muito importante e eu vou discutir abaixo. Usar a distribuição centrada no último valor aceito gera o algoritmo chamado <em>Random Walk Metropolis Hasting</em> - a parte do Random Walk se deve ao fato da distribuição do sorteio ser centrado no último valor aceito.</p>
-<p>Nós também vamos querer corrigir a probabilidade de aceitação e rejeição pelo <em>kernel</em>. A intuição é que não só importa o quão provável é o novo parâmetro dado a posterior, mas o quão provável é o parâmetro dado o <em>kernel</em>. Isso</p>
+<p>Nós também vamos querer corrigir a probabilidade de aceitação e rejeição pelo <em>kernel</em>. A intuição é que não só importa o quão provável é o novo parâmetro dado a posterior, mas o quão provável é o parâmetro dado o <em>kernel</em>: se nós sorteamos um parâmetro na ponta do kernel isso tem que ser levado em conta. Uma explicação um pouco mais séria: o importante é que a probabilidade de passar do ponto x para o ponto y seja igual. Uma distribuição qualquer não garante isso, mas corrigir a razão pelo kernel faz com que isso seja satisfeito. Então, seja <span class="math inline">\(\mathcal{K}(\theta^\prime|\theta)\)</span> a probabilidade de passar do ponto <span class="math inline">\(\theta\)</span> para <span class="math inline">\(\theta^\prime\)</span>. A razão que vamos nos preocupar é:</p>
+<p><span class="math display">\[\frac{p(\theta|x)\mathcal{K}(\theta^\prime|\theta)}{p(\theta^\prime|x)\mathcal{K}(\theta|\theta^\prime)}\]</span></p>
+<p>Veja que se o kernel faz com que a probabilidade de passar do ponto x para o ponto y é igual a de passar do ponto y para o ponto x, então <span class="math inline">\(\mathcal{K}(\theta^\prime|\theta)\)</span> = <span class="math inline">\(\mathcal{K}(\theta|\theta^\prime)\)</span>, os termos se cancelam e voltamos a nossa razão que eu coloquei no começo.</p>
+<p>Eu escrevi bastante coisa e parece justo fazer um resumo do passo a passo do discutido até aqui:</p>
+<p>Defina a função <em>kernel</em>, a <em>posterior</em> (que depende da verossimelhança e das <em>priors</em>) e um ponto inicial do espaço paramétrico, <span class="math inline">\(\theta\)</span></p>
+<ol style="list-style-type: decimal">
+<li>Sorteie um possível valor possível do parâmetro da distribuição <em>kernel</em>. Chame esse valor de <span class="math inline">\(\theta^\prime\)</span></li>
+<li>Compute <span class="math inline">\(r = \max \left(1,\frac{p(\theta|x)\mathcal{K}(\theta^\prime|\theta)}{p(\theta^\prime|x)\mathcal{K}(\theta|\theta^\prime)}\right)\)</span></li>
+<li>Sorteie u ~ Uniforme(0,1)</li>
+<li>Se <span class="math inline">\(r &gt; u\)</span>, aceite e <span class="math inline">\(\theta = \theta^\prime\)</span>. Caso contrário, rejeite e <span class="math inline">\(\theta = \theta\)</span></li>
+<li>Itere n vezes</li>
+</ol>
+<p>Veja que se o parâmetro for rejeitado, <em>o valor antigo vai ser repetido</em> na base. Isso vai garantir com que pontos de alta probabilidade apareçam mais na distribuição empírica.</p>
+<div id="um-exemplo" class="section level1">
+<h1>Um exemplo</h1>
+<p>Como de praxe, um exemplo vai ajudar muito a entender tudo que eu escrevi. Vamos fazer uma situação super simples onde eu tenho uma regressão <span class="math inline">\(y = \beta{}x + \varepsilon\)</span> e <span class="math inline">\(\beta = 1,5\)</span>, 100 observações e <span class="math inline">\(\varepsilon \sim N(0,1)\)</span></p>
+<pre class="r"><code>x &lt;- rnorm(100)
+y &lt;- 1.5*x + rnorm(100)</code></pre>
+<p>Vamos fazer a função de verossimelhança. Como o erro é normal, então <span class="math inline">\(y|x \sim N(\beta{}x,1)\)</span>. Eu vou escrever direto a <em>log</em> verossimelhança</p>
+<pre class="r"><code>loglike &lt;- function(y,x,beta){
+  sum(log(dnorm(y-beta*x)))
+}</code></pre>
+<p>Para a prior, eu vou colocar uma Normal de média 0 e desvio padrão 3, e com isso temos a posterior:</p>
+<pre class="r"><code>posterior &lt;- function(y,x,beta){
+  loglike(y,x,beta) + log(dnorm(beta,mean=0,sd=3))
+}</code></pre>
+<p>Note que como eu estou trabalhando com o log de tudo, ao invés de multiplicar a verossimelhança pela prior, eu somo as duas.</p>
+<p>Agora sim podemos passar para o MCMC</p>
+</div>

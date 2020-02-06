@@ -111,9 +111,8 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
                     
                         
                             <h2>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-encher de coisas aqui
-set.seed(1234) n = 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) ## ## Attaching package: &#39;dplyr&#39; ## The following objects are masked from &#39;package:stats&#39;: ## ## filter, lag ## The following objects are masked from &#39;package:base&#39;: ## ## intersect, setdiff, setequal, union library(gganimate) m = 10000000 n = 100 amostras = vector() for(i in 1:m) { set.</h2>
+set.seed(1234) n &lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2) library(dplyr) library(gganimate) m &lt;- 100000 n &lt;- 100 amostras &lt;- double(length = 0) for(i in 1:m) { set.</h2>
                         
                     
                 </a>

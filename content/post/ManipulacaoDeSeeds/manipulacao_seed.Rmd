@@ -4,16 +4,16 @@ author: "Pedro Cavalcante"
 date: '2019-05-17'
 output:
   html_document:
-    self_contained: FALSE
-draft: TRUE
-katex: TRUE
+    self_contained: false
+draft: true
+katex: true
 categories:
-- R
-- Machine Learning
+  - R
+  - Machine Learning
 slug: prouni-rf-classificacao
 tags:
-- PNG
-- Semestes Aleatórias
+  - PNG
+  - Semestes Aleatórias
 authors: ["pedrocava"]
 ---
 
@@ -31,9 +31,10 @@ amostra1 = rbinom(n= n,
 mean(amostra1)
 ```
 
-Tivemos uma taxa de ```r mean(amostra1)```com a semente $1234$. Como funciona com outras sementes? 
+Tivemos uma taxa de `r mean(amostra1)` com a semente $1234$. Como funciona com outras sementes? 
 
 ```{R, warning = FALSE, message = FALSE}
+
 library(ggplot2)
 library(dplyr)
 library(gganimate)
@@ -66,7 +67,7 @@ base <- data.frame(dados = amostras,
 
 base %>%
   ggplot(aes(x = dados, fill = as.factor(grupo))) +
-  geom_histogram(alpha = .9, aes(y = ..density..)) +
+  geom_histogram(alpha = .9, aes(y = ..density..)) #+
   
 
 
