@@ -59,7 +59,7 @@ arrows(x0 = 0, y0 = d0, x1 = 1, y1 = d1, lty = 2, lwd = 2)</code></pre>
 <p>Defina a função <em>kernel</em>, a <em>posterior</em> (que depende da verossimelhança e das <em>priors</em>) e um ponto inicial do espaço paramétrico, <span class="math inline">\(\theta\)</span></p>
 <ol style="list-style-type: decimal">
 <li>Sorteie um possível valor possível do parâmetro da distribuição <em>kernel</em>. Chame esse valor de <span class="math inline">\(\theta^\prime\)</span></li>
-<li>Compute <span class="math inline">\(r = \max \left(1,\frac{p(\theta|x)\mathcal{K}(\theta^\prime|\theta)}{p(\theta^\prime|x)\mathcal{K}(\theta|\theta^\prime)}\right)\)</span></li>
+<li>Compute <span class="math inline">\(r = \max \left(1,\frac{p(\theta^\prime|x)\mathcal{K}(\theta^\prime|\theta)}{p(\theta|x)\mathcal{K}(\theta|\theta^\prime)}\right)\)</span></li>
 <li>Sorteie u ~ Uniforme(0,1)</li>
 <li>Se <span class="math inline">\(r &gt; u\)</span>, aceite e <span class="math inline">\(\theta = \theta^\prime\)</span>. Caso contrário, rejeite e <span class="math inline">\(\theta = \theta\)</span></li>
 <li>Itere n vezes</li>
@@ -72,12 +72,131 @@ arrows(x0 = 0, y0 = d0, x1 = 1, y1 = d1, lty = 2, lwd = 2)</code></pre>
 y &lt;- 1.5*x + rnorm(100)</code></pre>
 <p>Vamos fazer a função de verossimelhança. Como o erro é normal, então <span class="math inline">\(y|x \sim N(\beta{}x,1)\)</span>. Eu vou escrever direto a <em>log</em> verossimelhança</p>
 <pre class="r"><code>loglike &lt;- function(y,x,beta){
-  sum(log(dnorm(y-beta*x)))
+  sum(dnorm(y-beta*x,log = T))
 }</code></pre>
 <p>Para a prior, eu vou colocar uma Normal de média 0 e desvio padrão 3, e com isso temos a posterior:</p>
 <pre class="r"><code>posterior &lt;- function(y,x,beta){
-  loglike(y,x,beta) + log(dnorm(beta,mean=0,sd=3))
+  loglike(y,x,beta) + dnorm(beta,mean=0,sd=3,log = T)
 }</code></pre>
-<p>Note que como eu estou trabalhando com o log de tudo, ao invés de multiplicar a verossimelhança pela prior, eu somo as duas.</p>
-<p>Agora sim podemos passar para o MCMC</p>
+<p>Note que como eu estou trabalhando com o log de tudo, ao invés de multiplicar a verossimelhança pela prior, eu somo as duas. Há bons motivos para trabalhar com a soma ao invés de multiplicação: <em>thou shall not multiply two small numbers</em> é um dos mandamentos de computação numérica.</p>
+<p>Agora sim podemos passar para o MCMC. Eu vou fazer 5000 passos e iniciar em zero:</p>
+<pre class="r"><code>set.seed(19965)
+
+n &lt;- 10000
+
+params_mcmc &lt;- rep(0,n)
+
+for(i in 2:n){
+  par_novo &lt;- rnorm(1,mean = params_mcmc[i-1], sd = 0.5)
+  kernel_velho &lt;- dnorm(par_novo,mean = params_mcmc[i-1], sd = 0.5, log = T)
+  kernel_novo &lt;- dnorm(params_mcmc[i-1],mean = par_novo, sd = 0.5, log = T)
+  r_denom &lt;- posterior(y,x,par_novo) + kernel_novo
+  r_nomi &lt;- posterior(y,x,params_mcmc[i-1]) + kernel_velho
+  r &lt;- r_denom - r_nomi
+  u &lt;- runif(1)
+  r &lt;- max(exp(r),0)
+  if(r &gt; u){
+    params_mcmc[i] &lt;- par_novo
+  } else{
+    params_mcmc[i] &lt;- params_mcmc[i-1]
+  }
+}</code></pre>
+<p>Usualmente, demora algum tempo até a cadeia de markov convergir para a distribuição que queremos - isso depende uma série de coisas, como o quão perto é o nosso chute inicial da moda e da complexidade do modelo. Em geral, se descarta algumas observações iniciais enquanto a cadeia ainda está convergindo, chamado <em>burn-in</em>. Eu vou jogar as 4 mil primeiras fora e ver o histograma da distribuição:</p>
+<pre class="r"><code>library(ggplot2)
+
+pars &lt;- params_mcmc[4001:10000]
+
+ggplot(data.frame(pars = pars),aes(pars)) + geom_histogram(bins = 30) + scale_x_continuous(breaks = seq(1,2,by = 0.1)) + theme_bw() </code></pre>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Veja que o histograma não é muito suave e nem está centrado no valor verdadeiro do parâmetro. Temos vários possíveis suspeitos, mas eu imagino que o problema seja que nós temos apenas 100 observações. Observe que se rodarmos o bom e velho Mínimos Quadrados, obtemos o coeficiente 1.5422136 - próximo da moda do histograma. Vamos aumentar o tamanho da amostra e repetir o MCMC:</p>
+<pre class="r"><code>x &lt;- rnorm(1000)
+y &lt;- 1.5*x + rnorm(1000)
+
+n &lt;- 10000
+
+params_mcmc &lt;- rep(0,n)
+
+for(i in 2:n){
+  par_novo &lt;- rnorm(1,mean = params_mcmc[i-1], sd = 0.5)
+  kernel_velho &lt;- dnorm(par_novo,mean = params_mcmc[i-1], sd = 0.5, log = T)
+  kernel_novo &lt;- dnorm(params_mcmc[i-1],mean = par_novo, sd = 0.5, log = T)
+  r_denom &lt;- posterior(y,x,par_novo) + kernel_novo
+  r_nomi &lt;- posterior(y,x,params_mcmc[i-1]) + kernel_velho
+  r &lt;- r_denom - r_nomi
+  u &lt;- runif(1)
+  r &lt;- max(exp(r),0)
+  if(r &gt; u){
+    params_mcmc[i] &lt;- par_novo
+  } else{
+    params_mcmc[i] &lt;- params_mcmc[i-1]
+  }
+}
+
+pars &lt;- params_mcmc[4000:10000]
+
+ggplot(data.frame(pars = pars),aes(pars)) + geom_histogram(bins = 30) + scale_x_continuous(breaks = seq(1,2,by = 0.05)) + theme_bw() </code></pre>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Agora o histograma nos mostra bem perto de 1.5!</p>
+<p>Veja que eu falei que a variância do Kernel é bem importante. Em geral, a variância é escolhida de maneira que a aceitação fique perto dos 20% - esse é o valor ótimo de aceitação para o MCMC. Vamos aumentar a variância e ver o que acontece:</p>
+<pre class="r"><code>x &lt;- rnorm(1000)
+y &lt;- 1.5*x + rnorm(1000)
+
+n &lt;- 10000
+
+params_mcmc &lt;- rep(0,n)
+
+for(i in 2:n){
+  par_novo &lt;- rnorm(1,mean = params_mcmc[i-1], sd = 1.5)
+  kernel_velho &lt;- dnorm(par_novo,mean = params_mcmc[i-1], sd = 1.5, log = T)
+  kernel_novo &lt;- dnorm(params_mcmc[i-1],mean = par_novo, sd = 1.5, log = T)
+  r_denom &lt;- posterior(y,x,par_novo) + kernel_novo
+  r_nomi &lt;- posterior(y,x,params_mcmc[i-1]) + kernel_velho
+  r &lt;- r_denom - r_nomi
+  u &lt;- runif(1)
+  r &lt;- max(exp(r),0)
+  if(r &gt; u){
+    params_mcmc[i] &lt;- par_novo
+  } else{
+    params_mcmc[i] &lt;- params_mcmc[i-1]
+  }
+}
+
+pars &lt;- params_mcmc[2000:10000]
+
+
+ggplot(data.frame(pars = pars),aes(pars)) + geom_histogram(bins = 30) + scale_x_continuous(breaks = seq(1,2,by = 0.05)) + theme_bw() </code></pre>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>A variância muito alta faz a distribuição ficar esquisita. A intuição é simples: como é um passeio aleatório, a distribuição vai passear por uma região muito maior, possivelmente visitando pontos com uma probabilidade muito baixa de ser aceita.</p>
+<p>Podemos ter o problema oposto: a variância ser muito baixa e o algoritmo demorar um tempo enorme para visitar a distribuição:</p>
+<pre class="r"><code>x &lt;- rnorm(1000)
+y &lt;- 1.5*x + rnorm(1000)
+
+n &lt;- 10000
+
+params_mcmc &lt;- rep(0,n)
+
+for(i in 2:n){
+  par_novo &lt;- rnorm(1,mean = params_mcmc[i-1], sd = 1e-8)
+  kernel_velho &lt;- dnorm(par_novo,mean = params_mcmc[i-1], sd = 1e-8, log = T)
+  kernel_novo &lt;- dnorm(params_mcmc[i-1],mean = par_novo, sd = 1e-8, log = T)
+  r_denom &lt;- posterior(y,x,par_novo) + kernel_novo
+  r_nomi &lt;- posterior(y,x,params_mcmc[i-1]) + kernel_velho
+  r &lt;- r_denom - r_nomi
+  u &lt;- runif(1)
+  r &lt;- max(exp(r),0)
+  if(r &gt; u){
+    params_mcmc[i] &lt;- par_novo
+  } else{
+    params_mcmc[i] &lt;- params_mcmc[i-1]
+  }
+}
+
+pars &lt;- params_mcmc[2000:10000]
+
+
+ggplot(data.frame(pars = pars),aes(pars)) + geom_histogram(bins = 30) + theme_bw() </code></pre>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Na prática, como colocamos 10 mil passos, a distribuição fica uma bagunça perto de zero. Ou seja, errar a variância tem efeitos perturbadores no algoritmo.</p>
+<p>Isso ilustra como MCMC funciona. Longe de ser uma caixa preta, é um algoritmo relativamente simples, fácil de implementar. A taxa de aceitação ótima e o tamanho do <em>burn-in</em> são problemáticos, com modelos grandes exigindo um milhão de passos e quase a metade sendo descartados (!). Ainda temos um parâmetro para escolher, a variância do <em>Kernel</em>. Veja que ainda temos uma limitação que eu nem toquei: como a distribuição é Normal, os parâmetros devem ser definidos nos Reais. É comum em modelos, inclusive modelos DSGE, definir um pedaço dos reais para os parâmetros - a taxa de desconto intertemporal está entra 0 e 1, por exemplo. Nesse caso, temos que fazer transformações nos parâmetros e alterar a distribuição via o jacobiano… um pouco mais confuso! Mas os fundamentos não mudam.</p>
+<p>Um excelente livro sobre MCMC e algoritmos correlatos é o <em>Bayesian Data Analysis</em>, de Andrew Gelman e (muitos) coautores.</p>
 </div>
