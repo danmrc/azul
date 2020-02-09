@@ -40,13 +40,12 @@ library(gganimate)
 n &lt;- 500
 t &lt;- 500
 
-dataList &lt;- matrix(runif(n = 2*n),
+data &lt;- matrix(runif(n = 2*n),
                    ncol = 2) %&gt;%
-  list()
-
-data &lt;- accumulate(rep(dataList, t),
-                   ~ .x + matrix(rnorm(n = 2*n , sd = .02),
-                                 ncol = 2)) %&gt;% # gera uma lista que aplica cumulativamente a soma dos termos gaussianos
+  list() %&gt;%
+  rep(t) %&gt;%
+  accumulate(~ .x + matrix(rnorm(n = 2*n , sd = .02),
+                           ncol = 2)) %&gt;% # gera uma lista que aplica cumulativamente a soma dos termos gaussianos
   invoke(.f = rbind) %&gt;% # empilha tudo em um dataframe
   as_tibble() %&gt;% # converte em um tibble
   rename(x = V1, y = V2) %&gt;% # renomeia as colunas
