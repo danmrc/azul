@@ -1,0 +1,87 @@
+---
+title: "Gerando um padrão de difusão com soma de um termo gaussiano"
+author: "Pedro Cavalcante"
+date: '2020-02-09'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: yes
+draft: no 
+categories:
+- R
+- Estatística
+- Matemática
+slug: difusao-gaussiana
+tags:
+  - R
+  - Matemática
+  - Estatística
+  - Simulações
+authors: ["pedrocava"]
+---
+
+
+
+<p>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no <span class="math inline">\(\mathbb{R}^2\)</span>. Bem, vamos usar o <code>purrr</code> e o <code>dplyr</code> para gerar de maneira concisa um <code>tibble</code> pronto para ser passado ao <code>ggplot2</code>.</p>
+<p>Geraremos um conjunto de vetores representando a random walk, que por simplicidade terá os choques independentes. Matematicamente temos uma operação de aplicação acumulada de uma soma em uma sequência de matrizes. Teremos um conjunto de matrizes <span class="math inline">\(\Lambda\)</span>, começamos com <span class="math inline">\(\Lmabda_1 = A\)</span>, onde <span class="math inline">\(A_{ij} \sim U(a, b)\)</span> e a partir daí:</p>
+<p><span class="math display">\[
+\Lambda_{ \, i \, &gt; \, 1} := B\,\Lambda_{i-1}, \\
+B \sim N(\mu, \Sigma), \\
+\Sigma = \pmatrix{\sigma &amp; 0 \\
+                  0 &amp; \sigma}
+\]</span></p>
+<pre class="r"><code>library(dplyr)
+library(purrr)
+library(ggplot2)
+library(gganimate)
+
+n &lt;- 500
+t &lt;- 500
+
+dataList &lt;- matrix(runif(n = 2*n),
+                   ncol = 2) %&gt;%
+  list()
+
+data &lt;- accumulate(rep(dataList, t),
+                   ~ .x + matrix(rnorm(n = 2*n , sd = .02),
+                                 ncol = 2)) %&gt;% # gera uma lista que aplica cumulativamente a soma dos termos gaussianos
+  invoke(.f = rbind) %&gt;% # empilha tudo em um dataframe
+  as_tibble() %&gt;% # converte em um tibble
+  rename(x = V1, y = V2) %&gt;% # renomeia as colunas
+  mutate(time = sort(rep(1:n, t)), # adiciona um termo de passagem do &quot;tempo&quot;
+         walk = factor(rep(1:n, t)))  # identifica a caminhada</code></pre>
+<pre class="r"><code>data %&gt;%
+  ggplot(aes(x = x, y = y, color = t)) +
+  geom_point(size = 2, alpha = .7) +
+  lims(x = c(-1, 2),
+       y = c(-1.5, 2.5)) +
+  labs(title = &quot;Vetores Aleatórios com Distribuição Uniforme em Difusão&quot;,
+       subtitle = &quot;Difusão ocorre com a soma de termos gaussianos&quot;,
+       x = &quot;&quot;,
+       y = &quot;&quot;)</code></pre>
+<p><img src="/post/randomWalkEmDoisD/randomWalksEm2D_files/figure-html/unnamed-chunk-2-1.png" width="1260" /></p>
+<pre class="r"><code>data %&gt;%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size = 2) +
+  lims(x = c(-1, 2),
+       y = c(-1.5, 2.5)) +
+  labs(title = &quot;Vetores Aleatórios com Distribuição Uniforme em Difusão&quot;,
+       subtitle = &quot;Difusão ocorre com a soma de termos gaussianos&quot;,
+       x = &quot;&quot;,
+       y = &quot;&quot;) +
+  transition_time(time) +
+  shadow_trail()</code></pre>
+<p><img src="/post/randomWalkEmDoisD/randomWalksEm2D_files/figure-html/unnamed-chunk-3-1.gif" /><!-- --></p>
+<pre class="r"><code>data %&gt;%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size = 2) +
+  lims(x = c(-1, 2),
+       y = c(-1.5, 2.5)) +
+  labs(title = &quot;Vetores Aleatórios com Distribuição Uniforme em Difusão&quot;,
+       subtitle = &quot;Difusão ocorre com a soma de termos gaussianos&quot;,
+       x = &quot;&quot;,
+       y = &quot;&quot;) +
+  transition_states(walk) +
+  shadow_trail()</code></pre>
+<p><img src="/post/randomWalkEmDoisD/randomWalksEm2D_files/figure-html/unnamed-chunk-4-1.gif" /><!-- --></p>
