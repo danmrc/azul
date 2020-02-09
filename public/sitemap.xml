@@ -3,22 +3,72 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/estat%C3%ADstica/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/estat%C3%ADstica/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2020/02/09/difusao-gaussiana/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/matem%C3%A1tica/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/matem%C3%A1tica/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/simula%C3%A7%C3%B5es/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-02-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2020/02/08/markov-chain-monte-carlo/</loc>
     <lastmod>2020-02-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/</loc>
-    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/bayesiana/</loc>
-    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
     <lastmod>2020-02-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -38,32 +88,12 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-02-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/blanchard-khan/</loc>
     <lastmod>2020-01-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/macroeconomia/</loc>
-    <lastmod>2020-01-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/matem%C3%A1tica/</loc>
     <lastmod>2020-01-17T00:00:00+00:00</lastmod>
   </url>
   
@@ -118,17 +148,7 @@
   </url>
   
   <url>
-    <loc>/categories/estat%C3%ADstica/</loc>
-    <lastmod>2019-11-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/2019/11/03/central-limit-theorem-r/</loc>
-    <lastmod>2019-11-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/simula%C3%A7%C3%B5es/</loc>
     <lastmod>2019-11-03T00:00:00+00:00</lastmod>
   </url>
   
@@ -169,11 +189,6 @@
   
   <url>
     <loc>/2019/09/08/macaco-infinito-hamlet/</loc>
-    <lastmod>2019-09-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
     <lastmod>2019-09-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -503,12 +518,12 @@
   </url>
   
   <url>
-    <loc>/tags/infer%C3%AAncia-causal/</loc>
+    <loc>/categories/infer%C3%AAncia-causal/</loc>
     <lastmod>2018-12-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/infer%C3%AAncia-causal/</loc>
+    <loc>/tags/infer%C3%AAncia-causal/</loc>
     <lastmod>2018-12-13T00:00:00+00:00</lastmod>
   </url>
   
@@ -738,12 +753,12 @@
   </url>
   
   <url>
-    <loc>/tags/clustering/</loc>
+    <loc>/categories/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/clustering/</loc>
+    <loc>/tags/clustering/</loc>
     <lastmod>2018-08-19T00:00:00+00:00</lastmod>
   </url>
   

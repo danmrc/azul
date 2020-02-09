@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Estatística on AZUL</title>
+    <link>/tags/estat%C3%ADstica/</link>
+    <description>Recent content in Estatística on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Sun, 09 Feb 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/estat%C3%ADstica/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Gerando um padrão de difusão com soma de um termo gaussiano</title>
+      <link>/2020/02/09/difusao-gaussiana/</link>
+      <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/09/difusao-gaussiana/</guid>
+      <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
+Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
+    </item>
+    
+  </channel>
+</rss>

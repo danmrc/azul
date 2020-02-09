@@ -6,10 +6,20 @@
     <description>Recent content in Matemática on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Fri, 17 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 09 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/matem%C3%A1tica/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Gerando um padrão de difusão com soma de um termo gaussiano</title>
+      <link>/2020/02/09/difusao-gaussiana/</link>
+      <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/09/difusao-gaussiana/</guid>
+      <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
+Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
+    </item>
     
     <item>
       <title>Sistemas dinâmicos II: Expectativas racionais</title>
@@ -26,7 +36,7 @@
       <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/09/08/macaco-infinito-hamlet/</guid>
-      <description>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
+      <description>O Enunciado e Quase-CertezaProbabilidades de palavras em particular com alfabetos finitosSimulaçãolibrary(dplyr)library(tibble)library(rio)palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble()palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavrasExistem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
     </item>
     
     <item>
@@ -35,7 +45,7 @@
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
+      <description>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
     </item>
     
     <item>
@@ -44,8 +54,8 @@
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+      <description>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
     </item>
     
     <item>
@@ -75,7 +85,7 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
       
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
   </channel>

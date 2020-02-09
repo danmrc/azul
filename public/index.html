@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.62.0" />
+		<meta name="generator" content="Hugo 0.64.1" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -52,6 +52,22 @@
 
     <section id="wrapper" class="home">
         <ul id="post-list">
+    
+    
+        
+            <li>
+                <aside class="dates">Feb 9</aside>
+                <a href='/2020/02/09/difusao-gaussiana/'>
+                    Gerando um padrão de difusão com soma de um termo gaussiano
+                    
+                        
+                            <h2>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
+Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</h2>
+                        
+                    
+                </a>
+            </li>
+        
     
     
         
@@ -152,7 +168,7 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
                     O Teorema do Macaco Infito: quanto tempo até sair Hamlet?
                     
                         
-                            <h2>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &lt;- import(&#34;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&#34;) %&gt;% as_tibble() palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</h2>
+                            <h2>O Enunciado e Quase-CertezaProbabilidades de palavras em particular com alfabetos finitosSimulaçãolibrary(dplyr)library(tibble)library(rio)palavras &lt;- import(&#34;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&#34;) %&gt;% as_tibble()palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavrasExistem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</h2>
                         
                     
                 </a>
@@ -169,7 +185,7 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
                         
                             <h2>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} &#43; \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</h2>
+\[y_t = \beta y_{t-1} &#43; \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</h2>
                         
                     
                 </a>
@@ -187,23 +203,8 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
                             <h2>I was born like this
 I had no choice
 I was born with the gift of a golden voice
- – Leonard Cohen
+– Leonard Cohen
 Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Aug 12</aside>
-                <a href='/2019/08/12/perron-frobenius-verificando-comp-1/'>
-                    A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes
-                    
-                        
-                            <h2>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</h2>
                         
                     
                 </a>
