@@ -6,8 +6,8 @@ output:
   html_document:
     df_print: paged
   pdf_document: default
-katex: yes
-draft: no 
+katex: true
+draft: false
 categories:
 - R
 - Estatística
@@ -26,7 +26,9 @@ authors: ["pedrocava"]
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, dpi = 180)
 ```
 
-Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um "padrão de difusão", na minha intuição mais econométrica vem como uma random walk no $\mathbb{R}^2$. Bem, vamos usar o ``purrr`` e o ``dplyr`` para gerar de maneira concisa um ``tibble`` pronto para ser passado ao ``ggplot2``. 
+Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um "padrão de difusão", na minha intuição mais econométrica vem como uma random walk no $\mathbb{R}^2$. 
+
+Bem, vamos usar o ``purrr`` e o ``dplyr`` para gerar de maneira concisa um ``tibble`` pronto para ser passado ao ``ggplot2``. A parte mais interessante desse post é mostrar como a abordagem funcional gera código mais compreensível. Compare o código deste post com os do Teorema de Perron-Frobenius, que se baiseam em iteração, por exemplo. 
 
 Geraremos um conjunto de vetores representando a random walk, que por simplicidade terá os choques independentes. Matematicamente temos uma operação de aplicação acumulada de uma soma em uma sequência de matrizes. Teremos um conjunto de matrizes $\Lambda$, começamos com $\Lmabda_1 = A$, onde $A_{ij} \sim U(a, b)$ e a partir daí: 
 
@@ -67,12 +69,11 @@ data <- accumulate(rep(dataList, t),
 ```{R}
 
 data %>%
-  ggplot(aes(x = x, y = y, color = t)) +
+  ggplot(aes(x = x, y = y, color = time)) +
   geom_point(size = 2, alpha = .7) +
   lims(x = c(-1, 2),
        y = c(-1.5, 2.5)) +
   labs(title = "Vetores Aleatórios com Distribuição Uniforme em Difusão",
-       subtitle = "Difusão ocorre com a soma de termos gaussianos",
        x = "",
        y = "")
 
@@ -102,15 +103,14 @@ data %>%
 
 data %>%
   ggplot(aes(x = x, y = y)) +
-  geom_point(size = 2) +
+  geom_point(size = 2, color = "light blue") +
   lims(x = c(-1, 2),
        y = c(-1.5, 2.5)) +
   labs(title = "Vetores Aleatórios com Distribuição Uniforme em Difusão",
-       subtitle = "Difusão ocorre com a soma de termos gaussianos",
+       subtitle = "Caminhadas individuais",
        x = "",
        y = "") +
-  transition_states(walk) +
-  shadow_trail()
+  transition_states(walk)
 
 ```
 

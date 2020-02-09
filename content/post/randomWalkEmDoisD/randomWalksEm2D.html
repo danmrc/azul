@@ -6,8 +6,8 @@ output:
   html_document:
     df_print: paged
   pdf_document: default
-katex: yes
-draft: no 
+katex: true
+draft: false
 categories:
 - R
 - Estatística
@@ -23,7 +23,8 @@ authors: ["pedrocava"]
 
 
 
-<p>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no <span class="math inline">\(\mathbb{R}^2\)</span>. Bem, vamos usar o <code>purrr</code> e o <code>dplyr</code> para gerar de maneira concisa um <code>tibble</code> pronto para ser passado ao <code>ggplot2</code>.</p>
+<p>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no <span class="math inline">\(\mathbb{R}^2\)</span>.</p>
+<p>Bem, vamos usar o <code>purrr</code> e o <code>dplyr</code> para gerar de maneira concisa um <code>tibble</code> pronto para ser passado ao <code>ggplot2</code>. A parte mais interessante desse post é mostrar como a abordagem funcional gera código mais compreensível. Compare o código deste post com os do Teorema de Perron-Frobenius, que se baiseam em iteração, por exemplo.</p>
 <p>Geraremos um conjunto de vetores representando a random walk, que por simplicidade terá os choques independentes. Matematicamente temos uma operação de aplicação acumulada de uma soma em uma sequência de matrizes. Teremos um conjunto de matrizes <span class="math inline">\(\Lambda\)</span>, começamos com <span class="math inline">\(\Lmabda_1 = A\)</span>, onde <span class="math inline">\(A_{ij} \sim U(a, b)\)</span> e a partir daí:</p>
 <p><span class="math display">\[
 \Lambda_{ \, i \, &gt; \, 1} := B\,\Lambda_{i-1}, \\
@@ -52,12 +53,11 @@ data &lt;- accumulate(rep(dataList, t),
   mutate(time = sort(rep(1:n, t)), # adiciona um termo de passagem do &quot;tempo&quot;
          walk = factor(rep(1:n, t)))  # identifica a caminhada</code></pre>
 <pre class="r"><code>data %&gt;%
-  ggplot(aes(x = x, y = y, color = t)) +
+  ggplot(aes(x = x, y = y, color = time)) +
   geom_point(size = 2, alpha = .7) +
   lims(x = c(-1, 2),
        y = c(-1.5, 2.5)) +
   labs(title = &quot;Vetores Aleatórios com Distribuição Uniforme em Difusão&quot;,
-       subtitle = &quot;Difusão ocorre com a soma de termos gaussianos&quot;,
        x = &quot;&quot;,
        y = &quot;&quot;)</code></pre>
 <p><img src="/post/randomWalkEmDoisD/randomWalksEm2D_files/figure-html/unnamed-chunk-2-1.png" width="1260" /></p>
@@ -75,13 +75,12 @@ data &lt;- accumulate(rep(dataList, t),
 <p><img src="/post/randomWalkEmDoisD/randomWalksEm2D_files/figure-html/unnamed-chunk-3-1.gif" /><!-- --></p>
 <pre class="r"><code>data %&gt;%
   ggplot(aes(x = x, y = y)) +
-  geom_point(size = 2) +
+  geom_point(size = 2, color = &quot;light blue&quot;) +
   lims(x = c(-1, 2),
        y = c(-1.5, 2.5)) +
   labs(title = &quot;Vetores Aleatórios com Distribuição Uniforme em Difusão&quot;,
-       subtitle = &quot;Difusão ocorre com a soma de termos gaussianos&quot;,
+       subtitle = &quot;Caminhadas individuais&quot;,
        x = &quot;&quot;,
        y = &quot;&quot;) +
-  transition_states(walk) +
-  shadow_trail()</code></pre>
+  transition_states(walk)</code></pre>
 <p><img src="/post/randomWalkEmDoisD/randomWalksEm2D_files/figure-html/unnamed-chunk-4-1.gif" /><!-- --></p>
