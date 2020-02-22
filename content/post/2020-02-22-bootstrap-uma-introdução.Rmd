@@ -9,6 +9,7 @@ categories:
 tags:
   - Bootstrap
   - Monte Carlo
+draft: true
 ---
 
 _Bootstrap_ é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja $x$ representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
