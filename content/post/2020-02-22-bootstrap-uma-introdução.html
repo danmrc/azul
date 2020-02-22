@@ -1,0 +1,59 @@
+---
+title: 'Bootstrap: uma introdução'
+author: Daniel Coutinho
+date: '2020-02-22'
+slug: bootstrap-uma-introdução
+categories:
+  - Estatística
+  - R
+tags:
+  - Bootstrap
+  - Monte Carlo
+---
+
+<script src="2020-02-22-bootstrap-uma-introdução_files/jquery/jquery.min.js"></script>
+<script src="2020-02-22-bootstrap-uma-introdução_files/elevate-section-attrs/elevate-section-attrs.js"></script>
+
+
+<p><em>Bootstrap</em> é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja <span class="math inline">\(x\)</span> representar a coleção dos dados com amostra de tamanho N. O algoritmo é:</p>
+<ol style="list-style-type: decimal">
+<li>Faça uma reamostragem <strong>com resposição</strong> de x com a amostra de algum tamanho (usualmente N)</li>
+<li>Calcule a estatística de interesse nessa nova amostra</li>
+<li>Repita 1 e 2 várias vezes</li>
+</ol>
+<p>Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1). A gente sabe esse intervalo de cabeça, mas eu vou fazer o exemplo usando bootstrap como ilustração. Eu vou <em>literalmente</em> computar o intervalo de confiança: não vou usar <span class="math inline">\(\bar{x} \pm 1.96\sigma/\sqrt{N}\)</span> e sim pedir pro R me retornar quem nas replicações é o quantil 2.5% e 0 97.5%:</p>
+<pre class="r"><code>set.seed(2222020)
+
+N &lt;- 100
+
+amostra &lt;- rnorm(N)
+med_amostra &lt;- mean(amostra)
+sd_amostra &lt;- sd(amostra)/sqrt(N)
+
+media_boot &lt;- rep(NA,5000)
+
+for(i in 1:5000){
+  reamostra &lt;- sample(amostra,size=N,replace = T)
+  media_boot[i] &lt;- (mean(reamostra) - med_amostra)/sd_amostra
+}
+
+quantile(media_boot,probs = c(0.025,0.975))</code></pre>
+<pre><code>##      2.5%     97.5% 
+## -2.002599  1.928780</code></pre>
+<p>Veja que eu roubei e usei a fórmula do intervalo de confiança para corrigir o desvio padrão e a média da estatística de teste para a estatística ter distribuição Normal(0,1). Veja que eu fiz isso de uma maneira super suja - eu usei a média e o desvio padrão <em>amostral</em> e mesmo com N = 100 a estatística ficou perto de 1.96 (pro meu gosto).</p>
+<p>A graça de bootstrap obviamente não é calcular intervalo de confiança de uma amostra da Normal, mas sim calcular intervalos de confiança mais difíceis. Um exemplo é da log-normal: uma variável x tem distribuição lognormal se <span class="math inline">\(x = exp(z)\)</span> e <span class="math inline">\(z \sim Normal\)</span>. Eu vou fazer uma amostra de tamanho 10, <strong>mas pelo amor de Deus, nunca conduzam inferência com amostra de tamanho 10, isso é um exemplo</strong>:</p>
+<pre class="r"><code>N &lt;- 10
+
+amostra &lt;- exp(rnorm(N))
+
+media_boot &lt;- rep(NA,5000)
+
+for(i in 1:5000){
+  reamostra &lt;- sample(amostra,size=N,replace = T)
+  media_boot[i] &lt;- mean(reamostra)
+}
+
+quantile(media_boot,probs = c(0.025,0.975))</code></pre>
+<pre><code>##      2.5%     97.5% 
+## 0.6172898 2.9671246</code></pre>
+<p>Veja que a variância da amostra é 2.066108 e isso nos dá um intervalo de confiança usando a regra de bolso da normal de 0.4192072 até 2.9803813. Veja que o intervalo superior até fica bem perto, mas o inferior dá uma diferença de 0.2.</p>

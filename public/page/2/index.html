@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.64.1" />
+		<meta name="generator" content="Hugo 0.62.0" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -56,12 +56,31 @@
     
         
             <li>
+                <aside class="dates">Aug 15</aside>
+                <a href='/2019/08/15/born-with-the-gift-of-a-golden-voice/'>
+                    Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen
+                    
+                        
+                            <h2>I was born like this
+I had no choice
+I was born with the gift of a golden voice
+ – Leonard Cohen
+Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
                 <aside class="dates">Aug 12</aside>
                 <a href='/2019/08/12/perron-frobenius-verificando-comp-1/'>
                     A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes
                     
                         
-                            <h2>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</h2>
+                            <h2>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</h2>
                         
                     
                 </a>
@@ -76,8 +95,8 @@
                     A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional
                     
                         
-                            <h2>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
-Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</h2>
+                            <h2>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+ Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</h2>
                         
                     
                 </a>
@@ -110,7 +129,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
                         
                             <h2>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</h2>
+Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</h2>
                         
                     
                 </a>
@@ -126,8 +145,8 @@ Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Va
                     
                         
                             <h2>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234)n &lt;- 5000amostra1 = rbinom(n= n,size = 1,prob = .5)mean(amostra1)## [1] 0.5014Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2)library(dplyr)library(gganimate)m &lt;- 100000n &lt;- 100amostras &lt;- double(length = 0)for(i in 1:m) {set.</h2>
+set.seed(1234) n &lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2) library(dplyr) library(gganimate) m &lt;- 100000 n &lt;- 100 amostras &lt;- double(length = 0) for(i in 1:m) { set.</h2>
                         
                     
                 </a>
@@ -194,22 +213,6 @@ Já aviso de antemão que a explicaçõe será muito superficial. É um assunto 
                         
                             <h2>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
 A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Apr 4</aside>
-                <a href='/2019/04/04/recon-comp-micro/'>
-                    Modelo de Cournot no R com o pacote Recon
-                    
-                        
-                            <h2>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&#34;Recon&#34;) para instalar a última versão enviada ao repositório ou devtools::install_github(&#34;pedrocava/Recon&#34;) para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
-Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.</h2>
                         
                     
                 </a>

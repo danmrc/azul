@@ -10,3 +10,55 @@ tags:
   - Bootstrap
   - Monte Carlo
 ---
+
+_Bootstrap_ é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja $x$ representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
+
+1. Faça uma reamostragem **com resposição** de x com a amostra de algum tamanho (usualmente N)
+2. Calcule a estatística de interesse nessa nova amostra
+3. Repita 1 e 2 várias vezes
+
+Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1). A gente sabe esse intervalo de cabeça, mas eu vou fazer o exemplo usando bootstrap como ilustração. Eu vou _literalmente_ computar o intervalo de confiança: não vou usar $\bar{x} \pm 1.96\sigma/\sqrt{N}$ e sim pedir pro R me retornar quem nas replicações é o quantil 2.5% e 0 97.5%:
+
+```{r}
+
+set.seed(2222020)
+
+N <- 100
+
+amostra <- rnorm(N)
+med_amostra <- mean(amostra)
+sd_amostra <- sd(amostra)/sqrt(N)
+
+media_boot <- rep(NA,5000)
+
+for(i in 1:5000){
+  reamostra <- sample(amostra,size=N,replace = T)
+  media_boot[i] <- (mean(reamostra) - med_amostra)/sd_amostra
+}
+
+quantile(media_boot,probs = c(0.025,0.975))
+
+```
+
+Veja que eu roubei e usei a fórmula do intervalo de confiança para corrigir o desvio padrão e a média da estatística de teste para a estatística ter distribuição Normal(0,1). Veja que eu fiz isso de uma maneira super suja - eu usei a média e o desvio padrão _amostral_ e mesmo com N = 100 a estatística ficou perto de 1.96 (pro meu gosto).
+
+A graça de bootstrap obviamente não é calcular intervalo de confiança de uma amostra da Normal, mas sim calcular intervalos de confiança mais difíceis. Um exemplo é da log-normal: uma variável x tem distribuição lognormal se $x = exp(z)$ e $z \sim Normal$. Eu vou fazer uma amostra de tamanho 10, **mas pelo amor de Deus, nunca conduzam inferência com amostra de tamanho 10, isso é um exemplo**:
+
+```{r}
+
+N <- 10
+
+amostra <- exp(rnorm(N))
+
+media_boot <- rep(NA,5000)
+
+for(i in 1:5000){
+  reamostra <- sample(amostra,size=N,replace = T)
+  media_boot[i] <- mean(reamostra)
+}
+
+quantile(media_boot,probs = c(0.025,0.975))
+
+```
+
+Veja que a variância da amostra é `r sd(amostra)` e isso nos dá um intervalo de confiança usando a regra de bolso da normal de `r mean(amostra) - 1.96*sd(amostra)/sqrt(10)` até `r mean(amostra) + 1.96*sd(amostra)/sqrt(10)`. Veja que o intervalo superior até fica bem perto, mas o inferior dá uma diferença de 0.2. 

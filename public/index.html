@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.64.1" />
+		<meta name="generator" content="Hugo 0.62.0" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -52,6 +52,22 @@
 
     <section id="wrapper" class="home">
         <ul id="post-list">
+    
+    
+        
+            <li>
+                <aside class="dates">Feb 22</aside>
+                <a href='/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/'>
+                    Bootstrap: uma introdução
+                    
+                        
+                            <h2>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
+Faça uma reamostragem com resposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</h2>
+                        
+                    
+                </a>
+            </li>
+        
     
     
         
@@ -168,7 +184,7 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
                     O Teorema do Macaco Infito: quanto tempo até sair Hamlet?
                     
                         
-                            <h2>O Enunciado e Quase-CertezaProbabilidades de palavras em particular com alfabetos finitosSimulaçãolibrary(dplyr)library(tibble)library(rio)palavras &lt;- import(&#34;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&#34;) %&gt;% as_tibble()palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavrasExistem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</h2>
+                            <h2>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &lt;- import(&#34;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&#34;) %&gt;% as_tibble() palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</h2>
                         
                     
                 </a>
@@ -185,26 +201,7 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
                         
                             <h2>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} &#43; \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Aug 15</aside>
-                <a href='/2019/08/15/born-with-the-gift-of-a-golden-voice/'>
-                    Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen
-                    
-                        
-                            <h2>I was born like this
-I had no choice
-I was born with the gift of a golden voice
-– Leonard Cohen
-Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</h2>
+\[y_t = \beta y_{t-1} &#43; \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</h2>
                         
                     
                 </a>
