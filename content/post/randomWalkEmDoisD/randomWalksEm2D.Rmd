@@ -1,0 +1,121 @@
+---
+title: "Gerando um padrão de difusão com soma de um termo gaussiano"
+author: "Pedro Cavalcante"
+date: '2020-02-09'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+- R
+- Estatística
+- Matemática
+slug: difusao-gaussiana
+tags:
+  - R
+  - Matemática
+  - Estatística
+  - Simulações
+authors: ["pedrocava"]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, dpi = 180)
+```
+
+Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um "padrão de difusão", na minha intuição mais econométrica vem como uma random walk no $\mathbb{R}^2$. 
+
+Bem, vamos usar o ``purrr`` e o ``dplyr`` para gerar de maneira concisa um ``tibble`` pronto para ser passado ao ``ggplot2``. A parte mais interessante desse post é mostrar como a abordagem funcional gera código mais compreensível. Compare o código deste post com os do Teorema de Perron-Frobenius, que se baiseam em iteração, por exemplo. 
+
+Geraremos um conjunto de vetores representando a random walk, que por simplicidade terá os choques independentes. Matematicamente temos uma operação de aplicação acumulada de uma soma em uma sequência de matrizes. Teremos um conjunto de matrizes $\Lambda$, começamos com $\Lmabda_1 = A$, onde $A_{ij} \sim U(a, b)$ e a partir daí: 
+
+$$
+\Lambda_{i \, > \, 1} := B\,\Lambda_{i-1}
+$$
+
+$$
+B \sim N(\mu, \Sigma)
+$$
+
+$$
+\Sigma = \pmatrix{\sigma & 0 \\
+                  0 & \sigma}
+$$
+
+
+```{R}
+
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(gganimate)
+
+n <- 500
+t <- 500
+
+data <- matrix(runif(n = 2*n),
+                   ncol = 2) %>%
+  list() %>%
+  rep(t) %>%
+  accumulate(~ .x + matrix(rnorm(n = 2*n , sd = .02),
+                           ncol = 2)) %>% # gera uma lista que aplica cumulativamente a soma dos termos gaussianos
+  invoke(.f = rbind) %>% # empilha tudo em um dataframe
+  as_tibble() %>% # converte em um tibble
+  rename(x = V1, y = V2) %>% # renomeia as colunas
+  mutate(time = sort(rep(1:n, t)), # adiciona um termo de passagem do "tempo"
+         walk = factor(rep(1:n, t)))  # identifica a caminhada
+  
+```
+
+
+```{R}
+
+data %>%
+  ggplot(aes(x = x, y = y, color = time)) +
+  geom_point(size = 2, alpha = .7) +
+  lims(x = c(-1, 2),
+       y = c(-1.5, 2.5)) +
+  labs(title = "Vetores Aleatórios com Distribuição Uniforme em Difusão",
+       x = "",
+       y = "")
+
+```
+
+
+
+```{R}
+
+data %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size = 2) +
+  lims(x = c(-1, 2),
+       y = c(-1.5, 2.5)) +
+  labs(title = "Vetores Aleatórios com Distribuição Uniforme em Difusão",
+       subtitle = "Difusão ocorre com a soma de termos gaussianos",
+       x = "",
+       y = "") +
+  transition_time(time) +
+  shadow_trail()
+
+```
+
+
+
+```{R}
+
+data %>%
+  ggplot(aes(x = x, y = y)) +
+  geom_point(size = 2, color = "light blue") +
+  lims(x = c(-1, 2),
+       y = c(-1.5, 2.5)) +
+  labs(title = "Vetores Aleatórios com Distribuição Uniforme em Difusão",
+       subtitle = "Caminhadas individuais",
+       x = "",
+       y = "") +
+  transition_states(walk)
+
+```
+
