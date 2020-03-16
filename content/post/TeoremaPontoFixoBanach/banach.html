@@ -56,7 +56,7 @@ Observe que isso converge a zero, à medida que <span class="math inline">\(n,m 
 <div id="vendo-a-magia-funcionar" class="section level1">
 <h1>Vendo a magia funcionar</h1>
 <p>Vamos definir uma função:</p>
-<pre class="r"><code>contracao = function(c, A, n, soma = 0) {
+<pre class="r"><code>contracao &lt;- function(c, A, n, soma = 0) {
   x &lt;- vector()
   x[1] &lt;- c
   
@@ -68,26 +68,19 @@ Observe que isso converge a zero, à medida que <span class="math inline">\(n,m 
   
 }
 
-n = 40
-s = 1
-A = .9
+contracao &lt;- purrr::partial(contracao, n = 40, s = 1, A = .9)
 
-dados &lt;- tibble::tibble(
-                primeiro = contracao(c = 1, A = A, n = n, soma = s),
-                segundo = contracao(c = 3, A = A, n = n, soma = s),
-                terceiro = contracao(c = 8, A = A, n = n, soma = s), 
-                quarto = contracao(c = 14, A = A, n = n, soma = s),
-                x = seq(0, n-1, by = 1)
-                )
-
-
+library(magrittr)
 library(ggplot2)
 
-ggplot(dados, aes(x = x)) +
- geom_line(aes(y = primeiro), size = 2) +
-  geom_line(aes(y = segundo), color = &quot;blue&quot;, size = 2) +
-  geom_line(aes(y = terceiro), color = &quot;green&quot;, size = 2) +
-  geom_line(aes(y = quarto), color = &quot;yellow&quot;, size = 2)</code></pre>
+purrr::map_dfc(1:20, ~ contracao(.x)) %&gt;%
+  dplyr::mutate(x = 1:nrow(.)) %&gt;%
+  tidyr::pivot_longer(- x, names_to = &quot;C0&quot;) %&gt;%
+  ggplot(aes(x = x, y = value, color = C0)) +
+  geom_line() +
+  theme(legend.position = &quot;none&quot;) +
+  labs(x = &quot;Passo da iteração&quot;,
+       y = &quot;Condição Inicial/ valor da função&quot;)</code></pre>
 <p><img src="/post/TeoremaPontoFixoBanach/banach_files/figure-html/unnamed-chunk-1-1.png" width="5250" /></p>
 <p>Fica o convite ao leitor: pegue esta função e altere os parâmetros como quiser. Se <span class="math inline">\(A &lt; 1\)</span>, não importa a condição inicial, as sequências sempre vão convergir para o mesmo ponto.</p>
 </div>

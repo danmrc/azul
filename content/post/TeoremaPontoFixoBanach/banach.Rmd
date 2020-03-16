@@ -71,7 +71,7 @@ Vamos definir uma função:
 
 ```{R, dpi = 750}
 
-contracao = function(c, A, n, soma = 0) {
+contracao <- function(c, A, n, soma = 0) {
   x <- vector()
   x[1] <- c
   
@@ -83,26 +83,19 @@ contracao = function(c, A, n, soma = 0) {
   
 }
 
-n = 40
-s = 1
-A = .9
+contracao <- purrr::partial(contracao, n = 40, s = 1, A = .9)
 
-dados <- tibble::tibble(
-                primeiro = contracao(c = 1, A = A, n = n, soma = s),
-                segundo = contracao(c = 3, A = A, n = n, soma = s),
-                terceiro = contracao(c = 8, A = A, n = n, soma = s), 
-                quarto = contracao(c = 14, A = A, n = n, soma = s),
-                x = seq(0, n-1, by = 1)
-                )
-
-
+library(magrittr)
 library(ggplot2)
 
-ggplot(dados, aes(x = x)) +
- geom_line(aes(y = primeiro), size = 2) +
-  geom_line(aes(y = segundo), color = "blue", size = 2) +
-  geom_line(aes(y = terceiro), color = "green", size = 2) +
-  geom_line(aes(y = quarto), color = "yellow", size = 2)
+purrr::map_dfc(1:20, ~ contracao(.x)) %>%
+  dplyr::mutate(x = 1:nrow(.)) %>%
+  tidyr::pivot_longer(- x, names_to = "C0") %>%
+  ggplot(aes(x = x, y = value, color = C0)) +
+  geom_line() +
+  theme(legend.position = "none") +
+  labs(x = "Passo da iteração",
+       y = "Condição Inicial/ valor da função")
 
 ```
 
