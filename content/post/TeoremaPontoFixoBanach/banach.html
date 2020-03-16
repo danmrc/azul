@@ -30,19 +30,26 @@ katex: true
 <p>Essa proposição deve ter uma infinidade de provas diferentes. Eu particularente gosto da prova que me veio à mente quando um professor de análise apresenteou esse problema em sala. Um mapa <span class="math inline">\(f\)</span> só tem ponto fixo se cruza a função identidade, a famosa <span class="math inline">\(g(x)=x\)</span>, cuja derivada sempre é <span class="math inline">\(1\)</span> e tem infinitos pontos fixos. Então queremos mostrar que se uma função real <em>nunca</em> tem derivada igual a <span class="math inline">\(1\)</span>, ela só pode cruzar a função identidade no máximo uma vez. Segue aqui um esboço:</p>
 <p>Suponha por absurdo que <span class="math inline">\(f\)</span> tenha dois pontos fixos, logo duas interseções com a identidade. Digamos que são <span class="math inline">\(u\)</span> e <span class="math inline">\(v\)</span>. Agora usamos um “lema”, o Teorema do Valor Médio. Ele nos garante que dada uma função contínua definida num intervalo fechado <span class="math inline">\([a,b]\)</span>, existe algum ponto <span class="math inline">\(c \in [a,b]\)</span> tal que <span class="math inline">\(f&#39;(c) = \frac{f(b)-f(a)}{b-a}\)</span>. Em bom português: uma função contínua que varia a uma certa taxa média em um intervalo vai ter derivada igual a essa taxa média em algum ponto desse intervalo. Opa opa, então estamos dizendo que <span class="math inline">\(f\)</span> passou por um intervalo fechado <span class="math inline">\([u, v]\)</span> em que teve taxa de variação média de <span class="math inline">\(1\)</span> - já que <span class="math inline">\(f(u)\)</span> e <span class="math inline">\(f(v)\)</span> estão ambos sobre a reta da identidade. Pelo Teorema do Valor Médio, a derivada de <span class="math inline">\(f\)</span> necessariamente assumiu o valor <span class="math inline">\(1\)</span> em algum ponto desse intervalo, o que contradiz nossa hipótese inicial. Temos então um absurdo e aqui termina a “prova”.</p>
 <p>Vamos pular o item B porque ele não é muito interessante para o nosso assunto e eu não posso deixar o leitor morrer de sono.</p>
-<p><em>Item C</em>) Se existe uma constante <em>A &lt; 1</em> tal que <span class="math inline">\(|f`(t)\leq A|\)</span> para todo <span class="math inline">\(t\)</span> real, prove que um ponto fixo <span class="math inline">\(x\)</span> de <span class="math inline">\(f\)</span> existe e que <span class="math inline">\(x = \lim x_n\)</span>, onde <span class="math inline">\(x_1\)</span> é um número real arbitrário e <span class="math inline">\(x_{n+1} = f(x_n)\)</span>.</p>
-<p>Vamos quebrar um pouco o enunciado. Se existe o <span class="math inline">\(A\)</span> descrito, então <span class="math inline">\(f\)</span> é dita uma <em>contração</em>. A distância da imagem de quaisquer dois pontos do domínio é sempre menor ou igual a distância entre os próprios pontos. <span class="math inline">\(f\)</span> é um mapa que comprime distâncias. Se <span class="math inline">\(x_1\)</span> é um número real arbitrário e a sequência definida daquela maneira tem um limite, então estamos dizendo que se aplicarmos uma contração repetidas vezes e montarmos uma sequência com os resultados, essa sequência de imagens converge para um ponto - e mais interessante ainda - <em>somente</em> para esse ponto, independente da condição inicial. Essa proposição diz que se <span class="math inline">\(f\)</span> é uma contração, ela não só tem ponto fixo, como tem <em>um único</em> ponto fixo e que podemos encontra-lo aplicando a função repetidas vezes a um ponto inicial qualquer. Pois, este é o Teorema do Ponto Fixo de Banach - também chamado de <em>Contraction Mapping Theorem</em>. Segue um esboço da prova:</p>
-<p><span class="math inline">\(d(x,y)\)</span> é a distância euclidiana entre dois pontos. Pela desigualdade triangular, temos:</p>
-<p><span class="math display">\[d(x,y) \leq d(x, f(x)) + d(f(x), f(y)) + d(y, f(y))\]</span> <span class="math display">\[d(x,y) \leq d(x, f(x)) + Ad(x, y) + d(y, f(y))\]</span> Podemos então isolar <span class="math inline">\(d(x,y)\)</span>: <span class="math display">\[d(x,y) - Ad(x, y) \leq d(x, f(x))  + d(y, f(y))\]</span> <span class="math display">\[d(x,y) \leq \frac{d(x, f(x))  + d(y, f(y))}{1 - A}\]</span></p>
+<p><em>Item C</em>) Se existe uma constante <em>A &lt; 1</em> tal que <span class="math inline">\(|f(t)| \leq A\)</span> para todo <span class="math inline">\(t\)</span> real, prove que um ponto fixo <span class="math inline">\(x\)</span> de <span class="math inline">\(f\)</span> existe e que <span class="math inline">\(x = \lim x_n\)</span>, onde <span class="math inline">\(x_1\)</span> é um número real arbitrário e <span class="math inline">\(x_{n+1} = f(x_n)\)</span>.</p>
+<p>Vamos quebrar um pouco o enunciado. Se existe a constante <span class="math inline">\(A\)</span> descrita e <span class="math inline">\(f\)</span> é contínua, então <span class="math inline">\(f\)</span> é dita uma <em>contração</em>. A distância da imagem de quaisquer dois pontos do domínio é sempre menor ou igual a distância entre os próprios pontos. <span class="math inline">\(f\)</span> é um mapa que comprime distâncias. Se <span class="math inline">\(x_1\)</span> é um número real arbitrário e a sequência definida daquela maneira tem um limite, então estamos dizendo que se aplicarmos uma contração repetidas vezes e montarmos uma sequência com os resultados, essa sequência de imagens converge para um ponto - e mais interessante ainda - <em>somente</em> para esse ponto, independente da condição inicial. Essa proposição diz que se <span class="math inline">\(f\)</span> é uma contração, ela não só tem ponto fixo, como tem <em>um único</em> ponto fixo e que podemos encontra-lo aplicando a função repetidas vezes a um ponto inicial qualquer. Pois, em um espaço métrico completo este é o Teorema do Ponto Fixo de Banach - também chamado de <em>Contraction Mapping Theorem</em>. Segue um esboço da prova:</p>
+<p><span class="math inline">\(d(x,y)\)</span> é a distância entre dois pontos. Pela desigualdade triangular, temos:</p>
+<p><span class="math display">\[d(x,y) \leq d(x, f(x)) + d(f(x), f(y)) + d(y, f(y))\]</span>
+<span class="math display">\[d(x,y) \leq d(x, f(x)) + Ad(x, y) + d(y, f(y))\]</span>
+Podemos então isolar <span class="math inline">\(d(x,y)\)</span>:
+<span class="math display">\[d(x,y) - Ad(x, y) \leq d(x, f(x))  + d(y, f(y))\]</span>
+<span class="math display">\[d(x,y) \leq \frac{d(x, f(x))  + d(y, f(y))}{1 - A}\]</span></p>
 <p>Note que se <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> forem pontos fixos, então <span class="math inline">\(d(x,y) = 0\)</span>, portanto, <span class="math inline">\(x=y\)</span>. Podemos garantir que uma contração somente terá <em>um</em> ponto fixo com essa observação. Resta mostrar agora que a sequência descrita no enunciado é de Cauchy - que a distância entre seus termos é cada vez menor, no informal português. Se <span class="math inline">\(f^n(t)\)</span> for a <span class="math inline">\(n\)</span>-ésima aplicação de <span class="math inline">\(f\)</span> com ponto inicial em <span class="math inline">\(t\)</span>, <span class="math inline">\(x = f^n(x_0)\)</span> e <span class="math inline">\(y = f^m(x_0)\)</span>, então podemos substituir isso tudo na desigualdade anterior:</p>
-<p><span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{d(f^n(x_0), f(f^n(x_0)))  + d(f^m(x_0), f(f^m(x_0)))}{1 - A}\]</span> <span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{A^nd(f(x_0), x_0)  + A^md(f(x_0), x_0)}{1 - A}\]</span> <span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{A^n + A^m}{1-A}d(f(x_0), x_0)\]</span> Observe que isso converge a zero, à medida que <span class="math inline">\(n,m \to \infty\)</span>. Então a distância de quaisquer dois elementos daquela sequência descrita no enunciado converge a zero à medida que o índice da sequência aumenta - logo ela é Cauchy.</p>
+<p><span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{d(f^n(x_0), f(f^n(x_0)))  + d(f^m(x_0), f(f^m(x_0)))}{1 - A}\]</span>
+<span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{A^nd(f(x_0), x_0)  + A^md(f(x_0), x_0)}{1 - A}\]</span>
+<span class="math display">\[d(f^n(x_0),f^m(x_0)) \leq \frac{A^n + A^m}{1-A}d(f(x_0), x_0)\]</span>
+Observe que isso converge a zero, à medida que <span class="math inline">\(n,m \to \infty\)</span>. Então a distância de quaisquer dois elementos daquela sequência descrita no enunciado converge a zero à medida que o índice da sequência aumenta - logo ela é Cauchy.</p>
 <p>Esse teorema é um resultado muito importante para economia, especialmente porque garante que várias técnicas de programação dinâmica têm solução. Agora vamos sair da teoria, ver brevemente algumas aplicações de pontos fixos e depois e por as mãos na massa, observar ele acontecendo na prática.</p>
 </div>
-<div id="por-que-pontos-fixos-sao-interessantes" class="section level1">
+<div id="por-que-pontos-fixos-são-interessantes" class="section level1">
 <h1>Por que pontos fixos são interessantes?</h1>
 <p>Idealmente essa seria a primeira seção do post, mas eu queria ter certeza que o leitor sabia o <em>o que é</em> um ponto fixo. Agora sabe. Os familiarizados com álgebra linear vão se lembrar do conceito de autovetor. Pois, um ponto fixo é essencialmente um autovetor cujo autovalor é <span class="math inline">\(1\)</span>. São “locais estáveis”, por assim dizer, de funções. Kim Border, em seu livro <em>Fixed Point Theorems with Applications to Economics and Game Theory</em> diz:</p>
 <blockquote>
-<p>“In a large market economy the number of prices determined is enormous. Aside from the practical difficulty of computing and communicating all those prices, how can we even be sure that it is possible to find prices that will equate supply and demand in all markets at once? Mathematicians will recognize the problem as one of proving the existence of a solution to a set of (nonlinear) equations. The first successful efforts by mathematicians toward answering this question took place in the 1930’s, in a workshop conducted by Karl Menger in Vienna. The seminars were attended by many of the finest mathematicians of the period and produced the path breaking papers of Wald [1935; 1936]. Also published in the proceedings of Menger’s seminar was an important piece by von Neumann [1937]. At about the same time, mathematicians began an intensive study of games and what outcomes ought to be expected from a game played by rational players. Most of the proposed outcomes are characterized as some form of”equilibrium.&quot; That is, the outcome of a game ought to be a situation where no player (or perhaps no group of players) wants to change his play. Again the question arises as to. if and when such a combination of plays exist. The notion of mixed strategy had been developed by Borel [1921], but the first major result in the field, the minimax theorem, is due to von Neumann [1928]. It turns out that the same mathematical tools are useful in value theory and game theory, at least for proving the existence of equilibrium.&quot;</p>
+<p>“In a large market economy the number of prices determined is enormous. Aside from the practical difficulty of computing and communicating all those prices, how can we even be sure that it is possible to find prices that will equate supply and demand in all markets at once? Mathematicians will recognize the problem as one of proving the existence of a solution to a set of (nonlinear) equations. The first successful efforts by mathematicians toward answering this question took place in the 1930’s, in a workshop conducted by Karl Menger in Vienna. The seminars were attended by many of the finest mathematicians of the period and produced the path breaking papers of Wald [1935; 1936]. Also published in the proceedings of Menger’s seminar was an important piece by von Neumann [1937]. At about the same time, mathematicians began an intensive study of games and what outcomes ought to be expected from a game played by rational players. Most of the proposed outcomes are characterized as some form of”equilibrium." That is, the outcome of a game ought to be a situation where no player (or perhaps no group of players) wants to change his play. Again the question arises as to. if and when such a combination of plays exist. The notion of mixed strategy had been developed by Borel [1921], but the first major result in the field, the minimax theorem, is due to von Neumann [1928]. It turns out that the same mathematical tools are useful in value theory and game theory, at least for proving the existence of equilibrium."</p>
 </blockquote>
 <p>Teoremas de Ponto Fixo são extremamente úteis porque são ferramentas propícias para provar existência de equilíbrios. É por isso que quem abrir as <a href="https://economics.mit.edu/files/8753">notas de aula de Economia Política de Daron Acemoglu</a> vai ver que um governo é dito estável se é ponto fixo de uma função particular, ou quem pesquisar as contribuições do Nobel John Nash vai logo descobrir que ele usou o Teorema do Ponto Fixo de Kakutani para provar existência de “equilíbrios” para uma série de jogos.</p>
 </div>
@@ -50,37 +57,37 @@ katex: true
 <h1>Vendo a magia funcionar</h1>
 <p>Vamos definir uma função:</p>
 <pre class="r"><code>contracao = function(c, A, n, soma = 0) {
-  x = vector()
-  x[1] = c
+  x &lt;- vector()
+  x[1] &lt;- c
   
-  for(i in 2:n){
-    x[i] = A*x[i-1] + soma
+  for(i in 2:n) {
+    x[i] &lt;- A*x[i-1] + soma
   }
   
-  return(x)
+  x
+  
 }
 
 n = 40
 s = 1
 A = .9
-# A dá a taxa de convergência ao ponto fixo
 
-obj1 = contracao(c = 1, A = A, n = n, soma = s) 
-obj2 = contracao(c = 3, A = A, n = n, soma = s)
-obj3 = contracao(c = 8, A = A, n = n, soma = s)
-obj4 = contracao(c = 14, A = A, n = n, soma = s)
-x = seq(0, n-1, by = 1)
+dados &lt;- tibble::tibble(
+                primeiro = contracao(c = 1, A = A, n = n, soma = s),
+                segundo = contracao(c = 3, A = A, n = n, soma = s),
+                terceiro = contracao(c = 8, A = A, n = n, soma = s), 
+                quarto = contracao(c = 14, A = A, n = n, soma = s),
+                x = seq(0, n-1, by = 1)
+                )
 
-dados = data.frame(primeiro = obj1, segundo = obj2,
-                   terceiro = obj3, quarto = obj4,
-                   x = x)
-library(ggplot2)</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 3.4.4</code></pre>
-<pre class="r"><code>ggplot(dados, aes(x = x))+
- geom_line(aes(y = obj1), size = 2)+
-  geom_line(aes(y = obj2), color = &quot;blue&quot;, size = 2)+
-  geom_line(aes(y = obj3), color = &quot;green&quot;, size = 2)+
-  geom_line(aes(y = obj4), color = &quot;yellow&quot;, size = 2)</code></pre>
-<p><img src="/post/banach/banach_files/figure-html/unnamed-chunk-1-1.png" width="5250" /></p>
+
+library(ggplot2)
+
+ggplot(dados, aes(x = x)) +
+ geom_line(aes(y = primeiro), size = 2) +
+  geom_line(aes(y = segundo), color = &quot;blue&quot;, size = 2) +
+  geom_line(aes(y = terceiro), color = &quot;green&quot;, size = 2) +
+  geom_line(aes(y = quarto), color = &quot;yellow&quot;, size = 2)</code></pre>
+<p><img src="/post/TeoremaPontoFixoBanach/banach_files/figure-html/unnamed-chunk-1-1.png" width="5250" /></p>
 <p>Fica o convite ao leitor: pegue esta função e altere os parâmetros como quiser. Se <span class="math inline">\(A &lt; 1\)</span>, não importa a condição inicial, as sequências sempre vão convergir para o mesmo ponto.</p>
 </div>

@@ -7,7 +7,7 @@ output:
     df_print: paged
   pdf_document: default
 katex: true
-draft: false
+draft: true
 categories:
 - R
 - Economia
