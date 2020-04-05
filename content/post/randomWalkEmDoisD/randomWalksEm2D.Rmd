@@ -30,7 +30,7 @@ Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão
 
 Bem, vamos usar o ``purrr`` e o ``dplyr`` para gerar de maneira concisa um ``tibble`` pronto para ser passado ao ``ggplot2``. A parte mais interessante desse post é mostrar como a abordagem funcional gera código mais compreensível. Compare o código deste post com os do Teorema de Perron-Frobenius, que se baiseam em iteração, por exemplo. 
 
-Geraremos um conjunto de vetores representando a random walk, que por simplicidade terá os choques independentes. Matematicamente temos uma operação de aplicação acumulada de uma soma em uma sequência de matrizes. Teremos um conjunto de matrizes $\Lambda$, começamos com $\Lmabda_1 = A$, onde $A_{ij} \sim U(a, b)$ e a partir daí: 
+Geraremos um conjunto de vetores representando a random walk, que por simplicidade terá os choques independentes. Matematicamente temos uma operação de aplicação acumulada de uma soma em uma sequência de matrizes. Teremos um conjunto de matrizes $\Lambda$, começamos com $\Lambda_1 = A$, onde $A_{ij} \sim U(a, b)$ e a partir daí: 
 
 $$
 \Lambda_{i \, > \, 1} := B\,\Lambda_{i-1}

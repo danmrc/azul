@@ -18,8 +18,8 @@
       
       <guid>/2019/05/17/prouni-rf-classificacao/</guid>
       <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.</description>
+set.seed(1234)n &amp;lt;- 5000amostra1 = rbinom(n= n,size = 1,prob = .5)mean(amostra1)## [1] 0.5014Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2)library(dplyr)library(gganimate)m &amp;lt;- 100000n &amp;lt;- 100amostras &amp;lt;- double(length = 0)for(i in 1:m) {set.</description>
     </item>
     
     <item>

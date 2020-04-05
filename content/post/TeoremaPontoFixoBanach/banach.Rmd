@@ -36,11 +36,11 @@ Suponha por absurdo que $f$ tenha dois pontos fixos, logo duas interseções com
 
 Vamos pular o item B porque ele não é muito interessante para o nosso assunto e eu não posso deixar o leitor morrer de sono.
 
-_Item C_) Se existe uma constante _A < 1_ tal que $|f`(t)\leq A|$ para todo $t$ real, prove que um ponto fixo $x$ de $f$ existe e que $x = \lim x_n$, onde $x_1$ é um número real arbitrário e $x_{n+1} = f(x_n)$.
+_Item C_) Se existe uma constante _A < 1_ tal que $|f'(t)| \leq A$ para todo $t$ real, prove que um ponto fixo $x$ de $f$ existe e que $x = \lim x_n$, onde $x_1$ é um número real arbitrário e $x_{n+1} = f(x_n)$.
 
-Vamos quebrar um pouco o enunciado. Se existe o $A$ descrito, então $f$ é dita uma _contração_. A distância da imagem de quaisquer dois pontos do domínio é sempre menor ou igual a distância entre os próprios pontos. $f$ é um mapa que comprime distâncias. Se $x_1$ é um número real arbitrário e a sequência definida daquela maneira tem um limite, então estamos dizendo que se aplicarmos uma contração repetidas vezes e montarmos uma sequência com os resultados, essa sequência de imagens converge para um ponto - e mais interessante ainda - _somente_ para esse ponto, independente da condição inicial. Essa proposição diz que se $f$ é uma contração, ela não só tem ponto fixo, como tem _um único_ ponto fixo e que podemos encontra-lo aplicando a função repetidas vezes a um ponto inicial qualquer. Pois, este é o Teorema do Ponto Fixo de Banach - também chamado de _Contraction Mapping Theorem_. Segue um esboço da prova:
+Vamos quebrar um pouco o enunciado. Se existe a constante $A$ descrita e $f$ é contínua, então $f$ é dita uma _contração_. A distância da imagem de quaisquer dois pontos do domínio é sempre menor ou igual a distância entre os próprios pontos. $f$ é um mapa que comprime distâncias. Se $x_1$ é um número real arbitrário e a sequência definida daquela maneira tem um limite, então estamos dizendo que se aplicarmos uma contração repetidas vezes e montarmos uma sequência com os resultados, essa sequência de imagens converge para um ponto - e mais interessante ainda - _somente_ para esse ponto, independente da condição inicial. Essa proposição diz que se $f$ é uma contração, ela não só tem ponto fixo, como tem _um único_ ponto fixo e que podemos encontra-lo aplicando a função repetidas vezes a um ponto inicial qualquer. Pois, em um espaço métrico completo este é o Teorema do Ponto Fixo de Banach - também chamado de _Contraction Mapping Theorem_. Segue um esboço da prova:
 
-$d(x,y)$ é a distância euclidiana entre dois pontos. Pela desigualdade triangular, temos:
+$d(x,y)$ é a distância entre dois pontos. Pela desigualdade triangular, temos:
 
 $$d(x,y) \leq d(x, f(x)) + d(f(x), f(y)) + d(y, f(y))$$
 $$d(x,y) \leq d(x, f(x)) + Ad(x, y) + d(y, f(y))$$
@@ -67,41 +67,33 @@ Teoremas de Ponto Fixo são extremamente úteis porque são ferramentas propíci
 
 # Vendo a magia funcionar
 
-Vamos definir uma função:
+Vamos definir uma função chamada ``contracao`` que realizar a operação de aplicar sucessivamente um múltiplo e devolver uma sequência com as imagens. Se formos fiéis à definição de *contração* essa função não faria muito sentido, mas ilustra o ponto de qualquer jeito. 
 
 ```{R, dpi = 750}
-contracao = function(c, A, n, soma = 0) {
-  x = vector()
-  x[1] = c
+
+contracao <- function(c, A, n, soma = 0) {
+
+  x <- rep(0, each = n)
+  x[1] <- c
+
+  purrr::accumulate(x, ~ A*.x + soma) %>%
+    unlist()
   
-  for(i in 2:n){
-    x[i] = A*x[i-1] + soma
-  }
-  
-  return(x)
 }
 
-n = 40
-s = 1
-A = .9
-# A dá a taxa de convergência ao ponto fixo
+contracao <- purrr::partial(contracao, n = 40, s = 1, A = .9)
 
-obj1 = contracao(c = 1, A = A, n = n, soma = s) 
-obj2 = contracao(c = 3, A = A, n = n, soma = s)
-obj3 = contracao(c = 8, A = A, n = n, soma = s)
-obj4 = contracao(c = 14, A = A, n = n, soma = s)
-x = seq(0, n-1, by = 1)
-
-dados = data.frame(primeiro = obj1, segundo = obj2,
-                   terceiro = obj3, quarto = obj4,
-                   x = x)
+library(magrittr)
 library(ggplot2)
 
-ggplot(dados, aes(x = x))+
- geom_line(aes(y = obj1), size = 2)+
-  geom_line(aes(y = obj2), color = "blue", size = 2)+
-  geom_line(aes(y = obj3), color = "green", size = 2)+
-  geom_line(aes(y = obj4), color = "yellow", size = 2)
+purrr::map_dfc(1:20, ~ contracao(.x)) %>% # aplicando aos números 1,2,..., 20 a função contração e juntando todas as saídas em listas por coluna em um dataframe
+  dplyr::mutate(x = 1:nrow(.)) %>% # o estado do objeto é alterado com uma coluna nova contendo o número da linha
+  tidyr::pivot_longer(- x, names_to = "C0") %>% # as colunas são convertidas em uma variável só, mantendo x fixo
+  ggplot(aes(x = x, y = value, color = C0), size = 1.5) + # gera o gráfico
+  geom_line() +
+  theme(legend.position = "none") +
+  labs(x = "Passo da iteração",
+       y = "Condição Inicial/ valor da função")
 
 ```
 

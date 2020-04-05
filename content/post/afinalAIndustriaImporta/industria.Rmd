@@ -1,0 +1,153 @@
+---
+title: "Mas afinal, indústria importa?"
+author: "Pedro Cavalcante"
+date: '2020-03-09'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: true
+categories:
+- R
+- Economia
+- Crescimento Econômico
+slug: 
+tags:
+  - R
+  - Matemática
+  - Estatística
+  - Simulações
+authors: ["pedrocava"]
+---
+
+Dia desses eu vi um certo professor duvidoso de uma certa instituição de São Paulo falando que sem indústria não vamos para frente, seja lá o que isso queria dizer. A narrativa é que alguns setores são por alguma propriedade vinda dos céus (alguns dirão _ah mas e a complexidade..._ e eu direi que são eles os que invejam os físicos) mais "importantes" que outros e que, de fato, o processo de desenvolvimento econômico é  de substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips... Viúvas do regime militar. 
+
+Este blogueiro discorda e gostaria de apresentar alguns fatos estilizados e narrativas sobre o assunto, mostrando como R (e mais geralmente, programação) facilitam nossa vida. 
+
+Vamos importar os dados? Vamos usar a 10-Sector Database. Ela tem um formato bem esquisito. Você recebe um dataset em que cada linha é uma combinação de ano-país-variável, em que as variáveis podem ser algumas medidas de valor adicionado ou população empregada no setor. Ela entrega 10 colunas em paralelo, cada uma representando um setor.
+
+O leitor rapidamente percebe que são dados com uma estrutura um tanto quanto curiosa, nem um pouco _tidy_ em que cada coluna é uma variável e cada linha uma observação. Vamos tomar o cuidado de antes de qualquer coisa, ter dados neste formato. Antes de mais nada, vamos inspecionar a documentação, contida na primeira planilha do arquivo de excel em que a base é disponibilizada. 
+
+```{R, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, dpi = 320)
+
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(tidyr)
+library(rlang)
+library(rio)
+library(magrittr)
+library(knitr)
+library(pwt9)
+
+
+rio::import("https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx", sheet = 1) %>%
+  as_tibble() %>%
+  head(n = nrow(.)) %>%
+  kable() # inspecionando a documentação
+
+```
+
+Beleza, sabemos agora que a variável de Valor Adicionado a Preços Constantes de 2005 está na moeda local e que a variável com nível de emprego está em milhares. Estamos interessados nelas. 
+
+```{R}
+
+(tenSector <- rio::import("https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx", sheet = 2) %>%
+  as_tibble() %>%
+  filter(Variable == "VA_Q05" | Variable == "EMP") %>% # mantém nível de emprego e valor adicionado 
+  select(-`Region code`) %>% # redundante e com nome não-regular, melhor tirar
+  gather("Sector", "Measure", -Country, -Region, -Year, -Variable) %>% # traz colunas de setores para linhas
+  spread("Variable", "Measure") %>% # joga as variáveis para colunas
+  mutate(EMP = EMP * 1000,
+         VA_Q05 = VA_Q05 * 1000000) %>% # aplica a escala
+  rename(VA = VA_Q05)) # apenas deixando o nome mais limpo
+
+```
+
+Já tratamos a variável com nível de emprego, agora vamos pega a taxa de câmbio real da Penn World Table, que vem no pacote ``pwt9``. Note também que temos dados que deveriam ser a nível de país-ano-setor, mas um dos setores aqui é o total, o PIB. Vamos tira-lo das linhas e dedicar colunas para isso, assim teremos dados consistentes.
+
+```{R}
+
+data("pwt9.1")
+
+(pwt <- pwt9.1 %>%
+  filter(year == 2005) %>% 
+  select(isocode, pl_gdpo, xr) %>% # queremos país, nível de preços e taxa de câmbio 
+  as_tibble() %>%
+  filter(pl_gdpo > 0) %>% # removendo dados duvidosos
+  rename(Country = isocode) %>%
+  mutate(PPP = pl_gdpo * xr) %>% # obtendo o PPP 
+  select(-pl_gdpo, -xr)) # temos um par país-câmbio real em 2005
+
+left_join(tenSector, pwt) %>%
+  mutate(VA = VA/PPP) %>% { # abrindo um subescopo
+    
+    GDP <- filter(., Sector == "Summation of sector GDP") %>%
+      select(Country, Year, EMP, VA) %>%
+      rename(totEMP = EMP,
+             totVA = VA) # criando uma tabela com dados de PIB
+    
+    Prelim <- filter(., Sector != "Summation of sector GDP") # criando uma com dados de setor
+    
+    dados <<- left_join(Prelim, GDP) %>% # importante usar <<- para que "dados" seja gerado no escopo acima
+      mutate(empShare = EMP / totEMP,
+             vaShare = VA / totVA,
+             VAperCapita = VA / EMP) # criamos colunas de paritição do setor no agregado
+    
+  } # fechando o subescopo
+
+```
+
+
+```{R}
+
+dados %>%
+  filter(Country == "BRA") %>%
+  ggplot(aes(x = Year, y = log(VAperCapita), color = strtrim(Sector, 20))) +
+  geom_line(size = 2) +
+  labs(color = "Setor",
+       x = "Ano",
+       y = "Log do VA per Capita",
+       title = "Evolução da Produtividade Setorial no Brasil") +
+  theme_minimal()
+
+dados %>%
+  filter(Country == "BRA") %>%
+  ggplot(aes(x = Year, y = vaShare, color = strtrim(Sector, 20))) +
+  geom_line(size = 2) +
+  labs(color = "Setor",
+       x = "Ano",
+       y = "Participação no Valor Adicionado Agregado",
+       title = "Evolução da Produtividade Setorial no Brasil") +
+  theme_minimal() +
+  scale_y_continuous(label = scales::percent)
+
+
+dados %>%
+  filter(Country == "BRA") %>%
+  ggplot(aes(x = Year, y = empShare, color = strtrim(Sector, 20))) +
+  geom_line(size = 2) +
+  labs(color = "Setor",
+       x = "Ano",
+       y = "Participação no nível de emprego",
+       title = "Evolução da Produtividade Setorial no Brasil") +
+  theme_minimal() +
+  scale_y_continuous(label = scales::percent)
+
+dados %>%
+  filter(Country == "BRA" & Year == 2011) %>%
+  ggplot(aes(x = reorder(Sector, -VAperCapita), y = VAperCapita)) +
+  geom_bar(stat = "identity") + 
+  labs(x = "Setores",
+       y = "Valor Adicionado per capita") +
+  coord_flip()
+
+
+```
+
+
+
+
