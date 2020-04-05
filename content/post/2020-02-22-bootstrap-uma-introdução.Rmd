@@ -62,4 +62,40 @@ quantile(media_boot,probs = c(0.025,0.975))
 
 ```
 
-Veja que a variância da amostra é `r sd(amostra)` e isso nos dá um intervalo de confiança usando a regra de bolso da normal de `r mean(amostra) - 1.96*sd(amostra)/sqrt(10)` até `r mean(amostra) + 1.96*sd(amostra)/sqrt(10)`. Veja que o intervalo superior até fica bem perto, mas o inferior dá uma diferença de 0.2. 
+Veja que a variância da amostra é `r sd(amostra)` e isso nos dá um intervalo de confiança usando a regra de bolso da normal de `r mean(amostra) - 1.96*sd(amostra)/sqrt(10)` até `r mean(amostra) + 1.96*sd(amostra)/sqrt(10)`. Veja que o intervalo superior até fica bem perto, mas o inferior dá uma diferença de 0.2. Para mostrar que o intervalo bootstrap é melhor, vamos fazer uma simulação monte carlo:
+
+```{r}
+
+media_mc <- rep(NA,50000)
+
+for(i in 1:50000){
+  media_mc[i] <- mean(exp(rnorm(10)))
+}
+
+quantile(media_mc,probs = c(0.025,0.975))
+
+```
+
+
+Os dois métodos parecem errar o maior valor do intervalo de confiança, mas o bootstrap chega mais perto do valor no intervalo inferior. Veja que se eu aumentar a amostra para 100 o intervalo de confiança dos dois se aproximam:
+
+```{r}
+
+N <- 100
+
+amostra <- exp(rnorm(N))
+
+media_boot <- rep(NA,5000)
+
+for(i in 1:5000){
+  reamostra <- sample(amostra,size=N,replace = T)
+  media_boot[i] <- mean(reamostra)
+}
+
+quantile(media_boot,probs = c(0.025,0.975))
+
+```
+
+Veja que a variância da amostra é `r sd(amostra)` e isso nos dá um intervalo de confiança usando a regra de bolso da normal de `r mean(amostra) - 1.96*sd(amostra)/sqrt(100)` até `r mean(amostra) + 1.96*sd(amostra)/sqrt(100)`.
+
+Bootstrap é bem útil, **mas não é uma panacéia**. Existem várias situações em que o bootstrap não funciona: a mais famosa é matching. Outros casos precisam de um bootstrap diferente - por exemplo, aqui a reamostragem funciona bem porque é i.i.d., mas se tivessemos dados dependentes a gente precisaria de outra estratégia. 

@@ -57,4 +57,30 @@ for(i in 1:5000){
 quantile(media_boot,probs = c(0.025,0.975))</code></pre>
 <pre><code>##      2.5%     97.5% 
 ## 0.6172898 2.9671246</code></pre>
-<p>Veja que a variância da amostra é 2.066108 e isso nos dá um intervalo de confiança usando a regra de bolso da normal de 0.4192072 até 2.9803813. Veja que o intervalo superior até fica bem perto, mas o inferior dá uma diferença de 0.2.</p>
+<p>Veja que a variância da amostra é 2.066108 e isso nos dá um intervalo de confiança usando a regra de bolso da normal de 0.4192072 até 2.9803813. Veja que o intervalo superior até fica bem perto, mas o inferior dá uma diferença de 0.2. Para mostrar que o intervalo bootstrap é melhor, vamos fazer uma simulação monte carlo:</p>
+<pre class="r"><code>media_mc &lt;- rep(NA,50000)
+
+for(i in 1:50000){
+  media_mc[i] &lt;- mean(exp(rnorm(10)))
+}
+
+quantile(media_mc,probs = c(0.025,0.975))</code></pre>
+<pre><code>##      2.5%     97.5% 
+## 0.7518483 3.3449742</code></pre>
+<p>Os dois métodos parecem errar o maior valor do intervalo de confiança, mas o bootstrap chega mais perto do valor no intervalo inferior. Veja que se eu aumentar a amostra para 100 o intervalo de confiança dos dois se aproximam:</p>
+<pre class="r"><code>N &lt;- 100
+
+amostra &lt;- exp(rnorm(N))
+
+media_boot &lt;- rep(NA,5000)
+
+for(i in 1:5000){
+  reamostra &lt;- sample(amostra,size=N,replace = T)
+  media_boot[i] &lt;- mean(reamostra)
+}
+
+quantile(media_boot,probs = c(0.025,0.975))</code></pre>
+<pre><code>##     2.5%    97.5% 
+## 1.254199 1.863691</code></pre>
+<p>Veja que a variância da amostra é 1.5364845 e isso nos dá um intervalo de confiança usando a regra de bolso da normal de 1.2407038 até 1.8430058.</p>
+<p>Bootstrap é bem útil, <strong>mas não é uma panacéia</strong>. Existem várias situações em que o bootstrap não funciona: a mais famosa é matching. Outros casos precisam de um bootstrap diferente - por exemplo, aqui a reamostragem funciona bem porque é i.i.d., mas se tivessemos dados dependentes a gente precisaria de outra estratégia.</p>
