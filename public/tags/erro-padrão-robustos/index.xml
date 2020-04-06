@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Erro Padrão Robustos on AZUL</title>
+    <link>/tags/erro-padr%C3%A3o-robustos/</link>
+    <description>Recent content in Erro Padrão Robustos on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/erro-padr%C3%A3o-robustos/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Erros padrões HAC</title>
+      <link>/2020/04/05/erros-padr%C3%B5es-hac/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/05/erros-padr%C3%B5es-hac/</guid>
+      <description>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
+Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</description>
+    </item>
+    
+  </channel>
+</rss>

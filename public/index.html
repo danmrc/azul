@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.64.1" />
+		<meta name="generator" content="Hugo 0.68.3" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -56,6 +56,22 @@
     
         
             <li>
+                <aside class="dates">Apr 5</aside>
+                <a href='/2020/04/05/erros-padr%C3%B5es-hac/'>
+                    Erros padrões HAC
+                    
+                        
+                            <h2>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
+Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
                 <aside class="dates">Mar 9</aside>
                 <a href='/2020/03/09/mas-afinal-ind%C3%BAstria-importa/'>
                     Mas afinal, indústria importa?
@@ -77,7 +93,7 @@
                     
                         
                             <h2>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com resposição de x com a amostra de algum tamanho (usualmente N)Calcule a estatística de interesse nessa nova amostraRepita 1 e 2 várias vezesEu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</h2>
+Faça uma reamostragem com resposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</h2>
                         
                     
                 </a>
@@ -185,21 +201,6 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
                     
                         
                             <h2>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Sep 8</aside>
-                <a href='/2019/09/08/macaco-infinito-hamlet/'>
-                    O Teorema do Macaco Infito: quanto tempo até sair Hamlet?
-                    
-                        
-                            <h2>O Enunciado e Quase-CertezaProbabilidades de palavras em particular com alfabetos finitosSimulaçãolibrary(dplyr)library(tibble)library(rio)palavras &lt;- import(&#34;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&#34;) %&gt;% as_tibble()palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavrasExistem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</h2>
                         
                     
                 </a>
