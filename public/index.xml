@@ -6,7 +6,7 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Wed, 18 Jul 2018 21:48:51 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -37,7 +37,7 @@ Para começar, suponha que temos um processo estocástico \(u_t\) que é autocor
       
       <guid>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</guid>
       <description>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com resposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</description>
+Faça uma reamostragem com resposição de x com a amostra de algum tamanho (usualmente N)Calcule a estatística de interesse nessa nova amostraRepita 1 e 2 várias vezesEu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</description>
     </item>
     
     <item>
@@ -111,7 +111,7 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
       <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/09/08/macaco-infinito-hamlet/</guid>
-      <description>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
+      <description>O Enunciado e Quase-CertezaProbabilidades de palavras em particular com alfabetos finitosSimulaçãolibrary(dplyr)library(tibble)library(rio)palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble()palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavrasExistem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
     </item>
     
     <item>
@@ -122,7 +122,7 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
       <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
       <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+\[y_t = \beta y_{t-1} + \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
     </item>
     
     <item>
@@ -134,7 +134,7 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
       <description>I was born like this
 I had no choice
 I was born with the gift of a golden voice
- – Leonard Cohen
+– Leonard Cohen
 Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</description>
     </item>
     
@@ -144,7 +144,7 @@ Este post vai fazer uma coisa que está na moda atualmente: análise textual. A 
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
+      <description>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
     </item>
     
     <item>
@@ -153,8 +153,8 @@ Este post vai fazer uma coisa que está na moda atualmente: análise textual. A 
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+      <description>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
     </item>
     
     <item>
@@ -175,7 +175,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
       <guid>/2019/06/10/var-random-walks/</guid>
       <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
     </item>
     
     <item>
@@ -185,8 +185,8 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
       
       <guid>/2019/05/17/prouni-rf-classificacao/</guid>
       <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.</description>
+set.seed(1234)n &amp;lt;- 5000amostra1 = rbinom(n= n,size = 1,prob = .5)mean(amostra1)## [1] 0.5014Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2)library(dplyr)library(gganimate)m &amp;lt;- 100000n &amp;lt;- 100amostras &amp;lt;- double(length = 0)for(i in 1:m) {set.</description>
     </item>
     
     <item>
@@ -345,7 +345,7 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
       
       <guid>/2018/12/10/julia-101/</guid>
       <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
+InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
     </item>
     
     <item>
@@ -374,8 +374,8 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
@@ -425,7 +425,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)
       
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
@@ -564,7 +564,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
@@ -584,7 +584,7 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       
       <guid>/about/</guid>
       <description>Este blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três. A ideia é escrever de maneira replicável e acessível (na medida do possível) sobre assuntos que gostaríamos de ter visto de outra forma, o que estamos estudando ou o que nos chamou a atenção. Acreditamos em aprender fazendo.
-Os Autores Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
+Os AutoresDaniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
     </item>
     
     <item>
@@ -605,6 +605,15 @@ Os Autores Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mest
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/1/01/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/</guid>
+      <description></description>
     </item>
     
   </channel>

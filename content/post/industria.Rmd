@@ -1,0 +1,182 @@
+---
+title: "Mas e a indústria..."
+author: "Pedro Cavalcante"
+date: '2020-04-15'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+- R
+- Economia
+- Crescimento Econômico
+slug: 
+tags:
+  - R
+  - Matemática
+  - Estatística
+  - Simulações
+authors: ["pedrocava"]
+---
+
+Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão _ah mas e a complexidade..._ e eu direi que são eles os que invejam os físicos) mais "importantes" que outros e que, de fato, o processo de desenvolvimento econômico é  de substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips... Qualquer semelhança com as viúvas do regime militar ~não~ é coincidência. 
+
+Este blogueiro discorda e gostaria de mostrar (i) como R (e mais geralmente, programação) facilitam nossa vida e (ii) que composição setorial não é lá grandes coisas. Decidi usar a 10-Sector Database com dados de emprego e produto a nível de setor em vários países e a Penn World Tables, com algumas explicativas macroeconômicas. A 10-Sector tem um formato bem esquisito. Você recebe um dataset em que cada linha é uma combinação de ano-país-variável, em que as variáveis podem ser algumas medidas de valor adicionado ou população empregada no setor. Ela entrega 11 colunas, 10 representando setores e uma o agregado.
+
+O leitor rapidamente percebe que são dados com uma estrutura um tanto quanto curiosa, nem um pouco _tidy_ em que cada coluna é uma variável e cada linha uma observação. Vamos tomar o cuidado de antes de qualquer coisa, ter dados neste formato. Antes de mais nada, vamos inspecionar a documentação, contida na primeira planilha do arquivo de excel em que a base é disponibilizada. 
+
+```{R, message = FALSE, warning = FALSE}
+
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, dpi = 320)
+
+library(dplyr)
+library(purrr)
+library(ggplot2)
+library(tidyr)
+library(rlang)
+library(rio)
+library(magrittr)
+library(knitr)
+library(pwt9)
+  
+
+rio::import("https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx",
+            sheet = 1) %>%
+  as_tibble() %>%
+  head(n = nrow(.)) %>%
+  kable() # inspecionando a documentação
+
+```
+
+Beleza, sabemos agora que a variável de Valor Adicionado a Preços Constantes de 2005 está na moeda local e que a variável com nível de emprego está em milhares. Estamos interessados nelas. 
+
+```{R}
+
+(tenSector <- rio::import("https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx", sheet = 2) %>%
+  as_tibble() %>%
+  filter(Variable == "VA_Q05" | Variable == "EMP") %>% # mantém nível de emprego e valor adicionado 
+  select(-`Region code`) %>% # redundante e com nome não-regular, melhor tirar
+  gather("Sector", "Measure", -Country, -Region, -Year, -Variable) %>% # traz colunas de setores para linhas
+  spread("Variable", "Measure") %>% # joga as variáveis para colunas
+  mutate(EMP = EMP * 1000,
+         VA_Q05 = VA_Q05 * 1000000,
+         Sector = abbreviate(Sector, minlength = 7)) %>% # aplica a escala
+  rename(VA = VA_Q05)) # apenas deixando o nome mais limpo
+
+```
+
+Já tratamos a variável com nível de emprego, agora vamos pega a taxa de câmbio real da Penn World Table, que vem no pacote ``pwt9``. Note também que temos dados que deveriam ser a nível de país-ano-setor, mas um dos setores aqui é o total, o PIB. Vamos tira-lo das linhas e dedicar colunas para isso, assim teremos dados consistentes.
+
+```{R}
+
+data("pwt9.1")
+
+# TODO adicionar explicativas
+
+(pwt <- pwt9.1 %>%
+  filter(year == 2005) %>% 
+  select(isocode, pl_gdpo, xr) %>% # queremos país, nível de preços e taxa de câmbio 
+  as_tibble() %>%
+  filter(pl_gdpo > 0) %>% # removendo dados duvidosos
+  rename(Country = isocode) %>%
+  mutate(PPP = pl_gdpo * xr) %>% # obtendo o PPP 
+  select(-pl_gdpo, -xr)) # temos um par país-câmbio real em 2005
+
+(dados <- left_join(tenSector, pwt) %>%
+  filter(Sector != "SmosGDP") %>% # retirando o agregado
+  mutate(VA = VA/PPP) %>% 
+  select(-PPP) %>%
+  group_by(Year, Country) %>%
+  mutate(totVA = sum(VA, na.rm = TRUE),
+         totEMP = sum(EMP, na.rm = TRUE),
+         VAperCapitaAgg = totVA / totEMP) %>% # valor adicionado per capita AGREGADO
+  ungroup() %>%
+  mutate(empShare = EMP / totEMP,
+         vaShare = VA / totVA,
+         VAperCapita = VA / EMP, # VA per capita do setor
+         perCapitaShare = empShare*VAperCapita / VAperCapitaAgg) # partilha no VA per capita agregado do setor
+)  
+```
+
+Com dados em mãos podemos plotar verdadeiras cenas de horror. Atenção, cenas fortes seguirão. Leitores viúvas do regime militar podem ficar abalados:
+
+```{R}
+dados %>%
+  filter(Country %in% c("BRA", "KOR"), Sector == "Mnfctrn") %>%
+  ggplot(aes(x = Year, y = empShare, color = Country)) +
+  geom_line(size = 1.2) +
+  labs(x = "Ano",
+       y = "% da força de trabalho na Manufatura",
+       color = "País") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+```
+
+
+Piadinhas à parte, vamos fazer um experimento? Vamos pegar a Coréia do Sul de 2005 (limitações de dados da base, eu queria ter algo detalhado assim mais recente), manter a produtividade de cada setor igual, mas deixar a distribuição do trabalho igual à do Brasil, um país menos industrializado. O que acontece com a renda per capita?
+
+Primeiro eu vou abstrair a operação em uma função:
+
+```{R}
+
+contrafactual <- function(.data, country1, country2, year = 2005, type) {
+  
+  country1 <- .data %>%
+  filter(Country == country1, Year == year) %>%
+  select(Year, empShare, Sector, VAperCapita) %>%
+  rename(empShare1 = empShare,
+         VAperCapita1 = VAperCapita)
+  
+  country2 <- .data %>%
+  filter(Country == country2, Year == year) %>%
+  select(Year, Sector,  VAperCapitaAgg, VAperCapita, empShare) %>%
+  left_join(country1)
+
+  if(type == "structure") {
+    
+  country2 %>%
+  group_by(VAperCapitaAgg) %>%
+  summarise(contrafactual = sum(VAperCapita*empShare1, na.rm = TRUE)) %>%
+      mutate(type = "Structure",
+             var = contrafactual - VAperCapitaAgg,
+             varPerc = abs(var)/VAperCapitaAgg) %>%
+      return()
+    
+  } else {
+    
+  country2 %>%
+  group_by(VAperCapitaAgg) %>%
+  summarise(contrafactual = sum(VAperCapita1*empShare, na.rm = TRUE)) %>%
+      mutate(type = "Productivity",
+             var = contrafactual - VAperCapitaAgg,
+             varPerc = abs(var)/VAperCapitaAgg) %>%
+      return()
+    
+  }
+  
+}
+
+```
+
+
+Agora vemos os dois cenários. O primeiro, em que a Coréia do Sul mantém sua produtividade em cada setor, mas vira uma economia menos industrializada. O segundo, em que mantém sua estrutura produtiva atual, mas ganha em cada setor a produtividade brasileira naquele setor.
+
+```{R}
+
+bind_rows(contrafactual(dados, "BRA", "KOR", type = "structure"),
+          contrafactual(dados, "BRA", "KOR", type = "productivity"))
+
+```
+
+Note que desindustrializar tomou um custo em termos de valor adicionado de um trabalhador médio, mas nada perto da destruição que foi adquirir a produtividade brasileira em todos os setores. E se invertermos o exercício?
+
+```{R}
+bind_rows(contrafactual(dados, "KOR", "BRA", type = "structure"),
+          contrafactual(dados, "KOR", "BRA", type = "productivity"))
+```
+
+
+Manter a produtividade em cada setor como está, porém industrializar rapidamente leva a uma queda pequena no valor adicionado per capita. Agora, manter a estrutura produtiva exatamente como está, porém adquirindo a produtividade coreana em cada setor, nosso valor adicionado médio sobe ~$158 \,\%$. 
+
