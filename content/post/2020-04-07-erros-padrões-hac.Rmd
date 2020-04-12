@@ -9,7 +9,6 @@ categories:
 tags:
   - HAC
   - Erro Padrão Robustos
-draft: true
 ---
 
 ```{r, echo=FALSE,include=FALSE}
@@ -42,7 +41,17 @@ O mais incrível é que nós também temos que considerar as covariâncias para 
 
 $$Var(1/T\sum_{t=1}^T u_t) = 1/T^2(TVar(u_t)+2(T-1)Cov(u_t,u_{t-1}) + ...)$$
 
-Ou seja, a variância da média de $u_t$ depende da soma das covariâncias do processo. Isso gera o seguinte problema: podemos ter auto-covariâncias negativas (um ar(1) com parâmetro negativo vai gerar autocorrelações pares que são positivas mas ímpares negativas). Usando a autocovariância amostral, podemos ter isso. Por exemplo, vamos trabalhar com um AR(1) com parâmetro 0.5 e a inovação tem variância 1. Eu vou usar 50 observações. Veja que se truncassemos entre os lags 10 e 20, teríamos uma variância negativa:
+Ou seja, a variância da média de $u_t$ depende da soma das covariâncias do processo. Antes de prosseguirmos, só um pequeno _detour_. Para deixar a notação menos carregada, faça $\gamma_0 = var(u_t)$, $\gamma_1 = cov(u_t,u_{t-1})$,..., $\gamma_j = cov(u_t,u_{t-j})$, e a expressão acima pode ser reescrita como:
+
+$$\frac{2}{T}\left(\sum_{t=0}^{T-1} \gamma_t - 1/T\sum_{j=0}^{T-1} j\gamma_j\right)$$
+
+Reescale tudo por $T$, que é o equivalente a multiplicar o somatório por $1/\sqrt{T}$, como a gente faria para aplicar o teorema central do limite, para obter:
+
+$$2\left(\sum_{t=0}^{T-1} \gamma_t - 1/T\sum_{j=0}^{T-1} j\gamma_j\right)$$
+
+Logo a variância assintótica ($T \rightarrow \infty) depende do somatório das auto-covariâncias - e das covariâncias daqui até o infinito! Obviamente, nós não temos nenhuma chance de conseguir isso.
+
+Isso gera também o seguinte problema: podemos ter auto-covariâncias negativas (um ar(1) com parâmetro negativo vai gerar autocorrelações pares que são positivas mas ímpares negativas). Usando a autocovariância amostral, podemos ter isso. Por exemplo, vamos trabalhar com um AR(1) com parâmetro 0.5 e a inovação tem variância 1. Eu vou usar 50 observações. Veja que se truncassemos entre os lags 10 e 20, teríamos uma variância negativa:
 
 ```{r}
 
@@ -223,4 +232,6 @@ Veja que de maneira geral, os testes no caso de erros autocorrelacionados tem pr
 
 Veja que os efeitos no mundo real disso são bem simples: nós rejeitamos a hipótese nula com frequência diferente da que estamos controlando. 
 
+# Bibliografia
 
+Como de praxe, o blog é minha tentativa de transmitir para um outro público coisas que eu aprendi com excelentes professores. O [curso do Mark Watson e do Jim Stock no NBER em 2008](https://www.nber.org/minicourse_2008.html#) é uma excelente fonte. O livro do Hamilton de Time Series é uma fonte padrão.

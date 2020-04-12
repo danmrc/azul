@@ -48,8 +48,8 @@
                     <h3> Daniel Coutinho </h3>
                     <h2 class="headline">
                     Apr 5, 2020 00:00
-                    · 1233 words
-                    · 6 minute read
+                    · 1380 words
+                    · 7 minute read
                       <span class="tags">
                       
                       
@@ -81,7 +81,12 @@
 <p>Que teremos T covariâncias parece simples, mas como eu sei que teremos T-1 covariâncias entre dois períodos sequenciais? Veja que como a amostra está limitada até T, todos os períodos menos o T tem um vizinho seguinte: portanto T-1 covariâncias seguintes. Já para <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>, tanto o período <span class="math inline">\(T\)</span> quanto o período <span class="math inline">\(T-1\)</span> não tem vizinhos para frente: logo temos $(T-2) <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>. Etc etc. Isso exige uma certa imaginação, eu admito.</p>
 <p>O mais incrível é que nós também temos que considerar as covariâncias para trás, ou seja <span class="math inline">\(Cov(u_t,u_{t-1})\)</span>, <span class="math inline">\(Cov(u_t,u_{t-2})\)</span> etc. Felizmente, graças ao fato de o processo ser estacionário de segunda ordem, temos que <span class="math inline">\(Cov(u_t,u_{t-1}) = Cov(u_t,u_{t+1})\)</span> e portanto:</p>
 <p><span class="math display">\[Var(1/T\sum_{t=1}^T u_t) = 1/T^2(TVar(u_t)+2(T-1)Cov(u_t,u_{t-1}) + ...)\]</span></p>
-<p>Ou seja, a variância da média de <span class="math inline">\(u_t\)</span> depende da soma das covariâncias do processo. Isso gera o seguinte problema: podemos ter auto-covariâncias negativas (um ar(1) com parâmetro negativo vai gerar autocorrelações pares que são positivas mas ímpares negativas). Usando a autocovariância amostral, podemos ter isso. Por exemplo, vamos trabalhar com um AR(1) com parâmetro 0.5 e a inovação tem variância 1. Eu vou usar 50 observações. Veja que se truncassemos entre os lags 10 e 20, teríamos uma variância negativa:</p>
+<p>Ou seja, a variância da média de <span class="math inline">\(u_t\)</span> depende da soma das covariâncias do processo. Antes de prosseguirmos, só um pequeno <em>detour</em>. Para deixar a notação menos carregada, faça <span class="math inline">\(\gamma_0 = var(u_t)\)</span>, <span class="math inline">\(\gamma_1 = cov(u_t,u_{t-1})\)</span>,…, <span class="math inline">\(\gamma_j = cov(u_t,u_{t-j})\)</span>, e a expressão acima pode ser reescrita como:</p>
+<p><span class="math display">\[\frac{2}{T}\left(\sum_{t=0}^{T-1} \gamma_t - 1/T\sum_{j=0}^{T-1} j\gamma_j\right)\]</span></p>
+<p>Reescale tudo por <span class="math inline">\(T\)</span>, que é o equivalente a multiplicar o somatório por <span class="math inline">\(1/\sqrt{T}\)</span>, como a gente faria para aplicar o teorema central do limite, para obter:</p>
+<p><span class="math display">\[2\left(\sum_{t=0}^{T-1} \gamma_t - 1/T\sum_{j=0}^{T-1} j\gamma_j\right)\]</span></p>
+<p>Logo a variância assintótica ($T ) depende do somatório das auto-covariâncias - e das covariâncias daqui até o infinito! Obviamente, nós não temos nenhuma chance de conseguir isso.</p>
+<p>Isso gera também o seguinte problema: podemos ter auto-covariâncias negativas (um ar(1) com parâmetro negativo vai gerar autocorrelações pares que são positivas mas ímpares negativas). Usando a autocovariância amostral, podemos ter isso. Por exemplo, vamos trabalhar com um AR(1) com parâmetro 0.5 e a inovação tem variância 1. Eu vou usar 50 observações. Veja que se truncassemos entre os lags 10 e 20, teríamos uma variância negativa:</p>
 <pre class="r"><code>set.seed(9872)
 
 T &lt;- 50 #numero de periodos
@@ -332,6 +337,10 @@ knitr::kable(tab3)</code></pre>
 </table>
 <p>Veja que de maneira geral, os testes no caso de erros autocorrelacionados tem problemas de tamanho. Newey West gera resultados preocupantes - no nosso primeiro e segundo exemplo, a porcentagem de erros tipo I foi 8% quando estavamos usando o teste para obter um erro de tipo I em 5% dos testes. Ignorar o problema não parece uma boa estratégia, apesar de os resultados serem razoáveis em muitos casos. Eu fiz só alguns exemplos muito simples e isso pode gerar resultados que parecem bons. O padrão do <strong>sandwich</strong> nos dá resultados razoáveis para quase todos os DGPs.</p>
 <p>Veja que os efeitos no mundo real disso são bem simples: nós rejeitamos a hipótese nula com frequência diferente da que estamos controlando.</p>
+<div id="bibliografia" class="section level1">
+<h1>Bibliografia</h1>
+<p>Como de praxe, o blog é minha tentativa de transmitir para um outro público coisas que eu aprendi com excelentes professores. O <a href="https://www.nber.org/minicourse_2008.html#">curso do Mark Watson e do Jim Stock no NBER em 2008</a> é uma excelente fonte. O livro do Hamilton de Time Series é uma fonte padrão.</p>
+</div>
 
                 </section>
             </article>
