@@ -35,7 +35,7 @@ $$=1/T^2(TVar(u_t) + (T-1) Cov(u_t,u_{t-1}) + (T-2)Cov(u_t,u_{t-2}) + ...)$$
 
 Veja que eu estou trabalhando com processos estacionários, e isso me permite dizer que $Cov(u_t,u_{t+1}) = Cov(u_{t+1},u_{t+2})$ etc.
 
-Que teremos T covariâncias parece simples, mas como eu sei que teremos T-1 covariâncias entre dois períodos sequenciais? Veja que como a amostra está limitada até T, todos os períodos menos o T tem um vizinho seguinte: portanto T-1 covariâncias seguintes. Já para $Cov(u_t,u_{t+2})$, tanto o período $T$ quanto o período $T-1$ não tem vizinhos para frente: logo temos $(T-2) $Cov(u_t,u_{t+2})$. Etc etc. Isso exige uma certa imaginação, eu admito.
+Que teremos T covariâncias parece simples, mas como eu sei que teremos T-1 covariâncias entre dois períodos sequenciais? Veja que como a amostra está limitada até T, todos os períodos menos o T tem um vizinho seguinte: portanto T-1 covariâncias seguintes. Já para $Cov(u_t,u_{t+2})$, tanto o período $T$ quanto o período $T-1$ não tem vizinhos para frente: logo temos $(T-2) Cov(u_t,u_{t+2})$. Etc etc. Isso exige uma certa imaginação, eu admito.
 
 O mais incrível é que nós também temos que considerar as covariâncias para trás, ou seja $Cov(u_t,u_{t-1})$, $Cov(u_t,u_{t-2})$ etc. Felizmente, graças ao fato de o processo ser estacionário de segunda ordem, temos que $Cov(u_t,u_{t-1}) = Cov(u_t,u_{t+1})$ e portanto:
 
