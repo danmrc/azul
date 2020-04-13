@@ -21,12 +21,11 @@ tags:
 authors: ["pedrocava"]
 ---
 
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão <em>ah mas e a complexidade…</em> e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico ? de substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhan?a com as vi?vas do regime militar <sub>não</sub> ? coincidência.</p>
-<p>Este blogueiro discorda e gostaria de mostrar (i) como R (e mais geralmente, programação) facilitam nossa vida e (ii) que composição setorial não ? lá grandes coisas. Decidi usar a 10-Sector Database com dados de emprego e produto a nível de setor em vários países e a Penn World Tables, com algumas explicativas macroeconômicas. A 10-Sector tem um formato bem esquisito. Você recebe um dataset em que cada linha é uma combinação de ano-país-variável, em que as variáveis podem ser algumas medidas de valor adicionado ou população empregada no setor. Ela entrega 11 colunas, 10 representando setores e uma o agregado.</p>
-<p>O leitor rapidamente percebe que s?o dados com uma estrutura um tanto quanto curiosa, nem um pouco <em>tidy</em> em que cada coluna é uma variável e cada linha uma observação. Vamos tomar o cuidado de antes de qualquer coisa, ter dados neste formato. Antes de mais nada, vamos inspecionar a documentação, contida na primeira planilha do arquivo de excel em que a base é disponibilizada.</p>
+<p>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão <em>ah mas e a complexidade…</em> e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar <sub>não</sub> é coincidência.</p>
+<p>Este blogueiro discorda e gostaria de mostrar (i) como R (e mais geralmente, programação) facilitam nossa vida e (ii) que composição setorial não é lá grandes coisas. Decidi usar a 10-Sector Database com dados de emprego e produto a nível de setor em vários países e a Penn World Tables para calcular o câmbio real. A 10-Sector tem um formato bem esquisito. Você recebe um dataset em que cada linha é uma combinação de ano-país-variável, em que as variáveis podem ser algumas medidas de valor adicionado ou população empregada no setor. Ela entrega 11 colunas, 10 representando setores e uma o agregado.</p>
+<p>O leitor rapidamente percebe que são dados com uma estrutura um tanto quanto curiosa, nem um pouco <em>tidy</em> em que cada coluna é uma variável e cada linha uma observação. Tomeremos o cuidado de colocar os dados neste formato. Vamos antes inspecionar a documentação, contida na primeira planilha do arquivo de excel em que a base é disponibilizada.</p>
 <pre class="r"><code>knitr::opts_chunk$set(message = FALSE, warning = FALSE, dpi = 320)
 
 library(dplyr)
@@ -175,7 +174,7 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
 </tr>
 </tbody>
 </table>
-<p>Beleza, sabemos agora que a vari?vel de Valor Adicionado a Preços Constantes de 2005 está na moeda local e que a variável com nível de emprego está em milhares. Estamos interessados nelas.</p>
+<p>Beleza, sabemos agora que a variável de Valor Adicionado a Preços Constantes de 2005 está na moeda local e que a variável com nível de emprego está em milhares. Estamos interessados nelas.</p>
 <pre class="r"><code>(tenSector &lt;- rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;, sheet = 2) %&gt;%
   as_tibble() %&gt;%
   filter(Variable == &quot;VA_Q05&quot; | Variable == &quot;EMP&quot;) %&gt;% # mant?m n?vel de emprego e valor adicionado 
@@ -199,20 +198,20 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
 ##  8 ARG     Latin America  1950 SmosGDP 6543872. 137555524612.
 ##  9 ARG     Latin America  1950 Trd,rah  889967.  24402991371.
 ## 10 ARG     Latin America  1950 Trn,sac  425352.   7549840286.
-## # … with 27,875 more rows</code></pre>
-<p>Já tratamos a variável com n?vel de emprego, agora vamos pega a taxa de câmbio real da Penn World Table, que vem no pacote <code>pwt9</code>. Note também que temos dados que deveriam ser a nível de país-ano-setor, mas um dos setores aqui é o total, o PIB. Vamos tira-lo das linhas e dedicar colunas para isso, assim teremos dados consistentes.</p>
+## # ... with 27,875 more rows</code></pre>
+<p>Já tratamos a variável com nível de emprego, agora vamos pegar a taxa de câmbio real da Penn World Table, que vem no pacote <code>pwt9</code>. Note também que temos dados que deveriam ser a nível de país-ano-setor, mas um dos setores aqui é o total, o PIB. Vamos tira-lo das linhas e dedicar colunas para isso, assim teremos dados consistentes.</p>
 <pre class="r"><code>data(&quot;pwt9.1&quot;)
 
 # TODO adicionar explicativas
 
 (pwt &lt;- pwt9.1 %&gt;%
   filter(year == 2005) %&gt;% 
-  select(isocode, pl_gdpo, xr) %&gt;% # queremos pa?s, n?vel de pre?os e taxa de c?mbio 
+  select(isocode, pl_gdpo, xr) %&gt;% # queremos país, nível de preços e taxa de câmbio 
   as_tibble() %&gt;%
   filter(pl_gdpo &gt; 0) %&gt;% # removendo dados duvidosos
   rename(Country = isocode) %&gt;%
   mutate(PPP = pl_gdpo * xr) %&gt;% # obtendo o PPP 
-  select(-pl_gdpo, -xr)) # temos um par pa?s-c?mbio real em 2005</code></pre>
+  select(-pl_gdpo, -xr)) # temos um par país-câmbio real em 2005</code></pre>
 <pre><code>## # A tibble: 182 x 2
 ##    Country     PPP
 ##    &lt;fct&gt;     &lt;dbl&gt;
@@ -226,7 +225,7 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
 ##  8 ATG       2.54 
 ##  9 AUS       1.20 
 ## 10 AUT       0.798
-## # … with 172 more rows</code></pre>
+## # ... with 172 more rows</code></pre>
 <pre class="r"><code>(dados &lt;- left_join(tenSector, pwt) %&gt;%
   filter(Sector != &quot;SmosGDP&quot;) %&gt;% # retirando o agregado
   mutate(VA = VA/PPP) %&gt;% 
@@ -244,18 +243,18 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
 <pre><code>## # A tibble: 25,350 x 13
 ##    Country Region  Year Sector    EMP      VA   totVA totEMP VAperCapitaAgg
 ##    &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;          &lt;dbl&gt;
-##  1 ARG     Latin…  1950 Agrcl… 1.80e6 1.36e10 1.15e11 6.54e6         17640.
-##  2 ARG     Latin…  1950 Cm,sa… 4.11e5 5.89e 9 1.15e11 6.54e6         17640.
-##  3 ARG     Latin…  1950 Cnstr… 3.14e5 7.70e 9 1.15e11 6.54e6         17640.
-##  4 ARG     Latin…  1950 Firea… 2.04e5 5.34e 9 1.15e11 6.54e6         17640.
-##  5 ARG     Latin…  1950 Gvrnm… 8.25e5 2.00e10 1.15e11 6.54e6         17640.
-##  6 ARG     Latin…  1950 Mnfct… 1.60e6 3.39e10 1.15e11 6.54e6         17640.
-##  7 ARG     Latin…  1950 Mining 3.27e4 1.67e 9 1.15e11 6.54e6         17640.
-##  8 ARG     Latin…  1950 Trd,r… 8.90e5 2.05e10 1.15e11 6.54e6         17640.
-##  9 ARG     Latin…  1950 Trn,s… 4.25e5 6.34e 9 1.15e11 6.54e6         17640.
-## 10 ARG     Latin…  1950 Utili… 3.93e4 4.82e 8 1.15e11 6.54e6         17640.
-## # … with 25,340 more rows, and 4 more variables: empShare &lt;dbl&gt;, vaShare &lt;dbl&gt;,
-## #   VAperCapita &lt;dbl&gt;, perCapitaShare &lt;dbl&gt;</code></pre>
+##  1 ARG     Latin~  1950 Agrcl~ 1.80e6 1.36e10 1.15e11 6.54e6         17640.
+##  2 ARG     Latin~  1950 Cm,sa~ 4.11e5 5.89e 9 1.15e11 6.54e6         17640.
+##  3 ARG     Latin~  1950 Cnstr~ 3.14e5 7.70e 9 1.15e11 6.54e6         17640.
+##  4 ARG     Latin~  1950 Firea~ 2.04e5 5.34e 9 1.15e11 6.54e6         17640.
+##  5 ARG     Latin~  1950 Gvrnm~ 8.25e5 2.00e10 1.15e11 6.54e6         17640.
+##  6 ARG     Latin~  1950 Mnfct~ 1.60e6 3.39e10 1.15e11 6.54e6         17640.
+##  7 ARG     Latin~  1950 Mining 3.27e4 1.67e 9 1.15e11 6.54e6         17640.
+##  8 ARG     Latin~  1950 Trd,r~ 8.90e5 2.05e10 1.15e11 6.54e6         17640.
+##  9 ARG     Latin~  1950 Trn,s~ 4.25e5 6.34e 9 1.15e11 6.54e6         17640.
+## 10 ARG     Latin~  1950 Utili~ 3.93e4 4.82e 8 1.15e11 6.54e6         17640.
+## # ... with 25,340 more rows, and 4 more variables: empShare &lt;dbl&gt;,
+## #   vaShare &lt;dbl&gt;, VAperCapita &lt;dbl&gt;, perCapitaShare &lt;dbl&gt;</code></pre>
 <p>Com dados em mãos podemos plotar verdadeiras cenas de horror. Atenção, cenas fortes seguirão. Leitores viúvas do regime militar podem ficar abalados:</p>
 <pre class="r"><code>dados %&gt;%
   filter(Country %in% c(&quot;BRA&quot;, &quot;KOR&quot;), Sector == &quot;Mnfctrn&quot;) %&gt;%
@@ -267,7 +266,7 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
   scale_y_continuous(labels = scales::percent) +
   theme_minimal()</code></pre>
 <p><img src="/post/industria_files/figure-html/unnamed-chunk-4-1.png" width="2240" /></p>
-<p>Piadinhas à parte, vamos fazer um experimento? Vamos pegar a Coréia do Sul de 2005 (limitações de dados da base, eu queria ter algo detalhado assim mais recente), manter a produtividade de cada setor igual, mas deixar a distribuição do trabalho igual à do Brasil, um país menos industrializado. O que acontece com a renda per capita?</p>
+<p>Piadinhas à parte, vamos fazer um experimento? Tomar a Coréia do Sul de 2005 (limitações de dados da base, eu queria ter algo detalhado assim mais recente), manter a produtividade de cada setor igual, mas deixar a distribuição do trabalho igual à do Brasil, um país menos industrializado. O que acontece com a renda per capita?</p>
 <p>Primeiro eu vou abstrair a operação em uma função:</p>
 <pre class="r"><code>contrafactual &lt;- function(.data, country1, country2, year = 2005, type) {
   
@@ -289,7 +288,7 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
   summarise(contrafactual = sum(VAperCapita*empShare1, na.rm = TRUE)) %&gt;%
       mutate(type = &quot;Structure&quot;,
              var = contrafactual - VAperCapitaAgg,
-             varPerc = abs(var)/VAperCapitaAgg) %&gt;%
+             varPerc = var/VAperCapitaAgg) %&gt;%
       return()
     
   } else {
@@ -299,7 +298,7 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
   summarise(contrafactual = sum(VAperCapita1*empShare, na.rm = TRUE)) %&gt;%
       mutate(type = &quot;Productivity&quot;,
              var = contrafactual - VAperCapitaAgg,
-             varPerc = abs(var)/VAperCapitaAgg) %&gt;%
+             varPerc = var/VAperCapitaAgg) %&gt;%
       return()
     
   }
@@ -311,14 +310,14 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
 <pre><code>## # A tibble: 2 x 5
 ##   VAperCapitaAgg contrafactual type             var varPerc
 ##            &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;   &lt;dbl&gt;
-## 1         44329.        35861. Structure     -8468.   0.191
-## 2         44329.        13553. Productivity -30776.   0.694</code></pre>
+## 1         44329.        35861. Structure     -8468.  -0.191
+## 2         44329.        13553. Productivity -30776.  -0.694</code></pre>
 <p>Note que desindustrializar tomou um custo em termos de valor adicionado de um trabalhador médio, mas nada perto da destruição que foi adquirir a produtividade brasileira em todos os setores. E se invertermos o exercício?</p>
 <pre class="r"><code>bind_rows(contrafactual(dados, &quot;KOR&quot;, &quot;BRA&quot;, type = &quot;structure&quot;),
           contrafactual(dados, &quot;KOR&quot;, &quot;BRA&quot;, type = &quot;productivity&quot;))</code></pre>
 <pre><code>## # A tibble: 2 x 5
 ##   VAperCapitaAgg contrafactual type            var varPerc
 ##            &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt;
-## 1         13864.        13553. Structure     -311.  0.0224
+## 1         13864.        13553. Structure     -311. -0.0224
 ## 2         13864.        35861. Productivity 21997.  1.59</code></pre>
 <p>Manter a produtividade em cada setor como está, porém industrializar rapidamente leva a uma queda pequena no valor adicionado per capita. Agora, manter a estrutura produtiva exatamente como está, porém adquirindo a produtividade coreana em cada setor, nosso valor adicionado médio sobe ~<span class="math inline">\(158 \,\%\)</span>.</p>
