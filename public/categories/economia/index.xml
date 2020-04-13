@@ -6,10 +6,19 @@
     <description>Recent content in Economia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 15 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/economia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mas e a indústria...</title>
+      <link>/2020/04/15/mas-e-a-ind%C3%BAstria.../</link>
+      <pubDate>Wed, 15 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/15/mas-e-a-ind%C3%BAstria.../</guid>
+      <description>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico ? de substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhan?</description>
+    </item>
     
     <item>
       <title>Erros padrões HAC</title>
@@ -19,15 +28,6 @@
       <guid>/2020/04/05/erros-padr%C3%B5es-hac/</guid>
       <description>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
 Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</description>
-    </item>
-    
-    <item>
-      <title>Mas afinal, indústria importa?</title>
-      <link>/2020/03/09/mas-afinal-ind%C3%BAstria-importa/</link>
-      <pubDate>Mon, 09 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/03/09/mas-afinal-ind%C3%BAstria-importa/</guid>
-      <description>Dia desses eu vi um certo professor duvidoso de uma certa instituição de São Paulo falando que sem indústria não vamos para frente, seja lá o que isso queria dizer. A narrativa é que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é de substituir participação de setores menos complexos por outros mais complexos.</description>
     </item>
     
     <item>
@@ -57,8 +57,8 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
-O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>

@@ -17,7 +17,7 @@
       <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/09/08/macaco-infinito-hamlet/</guid>
-      <description>O Enunciado e Quase-CertezaProbabilidades de palavras em particular com alfabetos finitosSimulaçãolibrary(dplyr)library(tibble)library(rio)palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble()palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavrasExistem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
+      <description>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
     </item>
     
   </channel>
