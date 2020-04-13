@@ -6,17 +6,17 @@
     <description>Recent content in HAC on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/hac/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Erros padrões HAC</title>
-      <link>/2020/04/05/erros-padr%C3%B5es-hac/</link>
-      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      <link>/2020/04/12/erros-padr%C3%B5es-hac/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/05/erros-padr%C3%B5es-hac/</guid>
+      <guid>/2020/04/12/erros-padr%C3%B5es-hac/</guid>
       <description>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
 Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</description>
     </item>
