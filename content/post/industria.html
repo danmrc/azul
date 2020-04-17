@@ -1,5 +1,5 @@
 ---
-title: "Mas e a indústria..."
+title: "Mas e a indústria?"
 author: "Pedro Cavalcante"
 date: '2020-04-12'
 output:
@@ -198,7 +198,7 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
 ##  8 ARG     Latin America  1950 SmosGDP 6543872. 137555524612.
 ##  9 ARG     Latin America  1950 Trd,rah  889967.  24402991371.
 ## 10 ARG     Latin America  1950 Trn,sac  425352.   7549840286.
-## # ... with 27,875 more rows</code></pre>
+## # … with 27,875 more rows</code></pre>
 <p>Já tratamos a variável com nível de emprego, agora vamos pegar a taxa de câmbio real da Penn World Table, que vem no pacote <code>pwt9</code>. Note também que temos dados que deveriam ser a nível de país-ano-setor, mas um dos setores aqui é o total, o PIB. Vamos tira-lo das linhas e dedicar colunas para isso, assim teremos dados consistentes.</p>
 <pre class="r"><code>data(&quot;pwt9.1&quot;)
 
@@ -225,7 +225,7 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
 ##  8 ATG       2.54 
 ##  9 AUS       1.20 
 ## 10 AUT       0.798
-## # ... with 172 more rows</code></pre>
+## # … with 172 more rows</code></pre>
 <pre class="r"><code>(dados &lt;- left_join(tenSector, pwt) %&gt;%
   filter(Sector != &quot;SmosGDP&quot;) %&gt;% # retirando o agregado
   mutate(VA = VA/PPP) %&gt;% 
@@ -243,18 +243,18 @@ rio::import(&quot;https://www.rug.nl/ggdc/docs/10sd_jan15_2014.xlsx&quot;,
 <pre><code>## # A tibble: 25,350 x 13
 ##    Country Region  Year Sector    EMP      VA   totVA totEMP VAperCapitaAgg
 ##    &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;          &lt;dbl&gt;
-##  1 ARG     Latin~  1950 Agrcl~ 1.80e6 1.36e10 1.15e11 6.54e6         17640.
-##  2 ARG     Latin~  1950 Cm,sa~ 4.11e5 5.89e 9 1.15e11 6.54e6         17640.
-##  3 ARG     Latin~  1950 Cnstr~ 3.14e5 7.70e 9 1.15e11 6.54e6         17640.
-##  4 ARG     Latin~  1950 Firea~ 2.04e5 5.34e 9 1.15e11 6.54e6         17640.
-##  5 ARG     Latin~  1950 Gvrnm~ 8.25e5 2.00e10 1.15e11 6.54e6         17640.
-##  6 ARG     Latin~  1950 Mnfct~ 1.60e6 3.39e10 1.15e11 6.54e6         17640.
-##  7 ARG     Latin~  1950 Mining 3.27e4 1.67e 9 1.15e11 6.54e6         17640.
-##  8 ARG     Latin~  1950 Trd,r~ 8.90e5 2.05e10 1.15e11 6.54e6         17640.
-##  9 ARG     Latin~  1950 Trn,s~ 4.25e5 6.34e 9 1.15e11 6.54e6         17640.
-## 10 ARG     Latin~  1950 Utili~ 3.93e4 4.82e 8 1.15e11 6.54e6         17640.
-## # ... with 25,340 more rows, and 4 more variables: empShare &lt;dbl&gt;,
-## #   vaShare &lt;dbl&gt;, VAperCapita &lt;dbl&gt;, perCapitaShare &lt;dbl&gt;</code></pre>
+##  1 ARG     Latin…  1950 Agrcl… 1.80e6 1.36e10 1.15e11 6.54e6         17640.
+##  2 ARG     Latin…  1950 Cm,sa… 4.11e5 5.89e 9 1.15e11 6.54e6         17640.
+##  3 ARG     Latin…  1950 Cnstr… 3.14e5 7.70e 9 1.15e11 6.54e6         17640.
+##  4 ARG     Latin…  1950 Firea… 2.04e5 5.34e 9 1.15e11 6.54e6         17640.
+##  5 ARG     Latin…  1950 Gvrnm… 8.25e5 2.00e10 1.15e11 6.54e6         17640.
+##  6 ARG     Latin…  1950 Mnfct… 1.60e6 3.39e10 1.15e11 6.54e6         17640.
+##  7 ARG     Latin…  1950 Mining 3.27e4 1.67e 9 1.15e11 6.54e6         17640.
+##  8 ARG     Latin…  1950 Trd,r… 8.90e5 2.05e10 1.15e11 6.54e6         17640.
+##  9 ARG     Latin…  1950 Trn,s… 4.25e5 6.34e 9 1.15e11 6.54e6         17640.
+## 10 ARG     Latin…  1950 Utili… 3.93e4 4.82e 8 1.15e11 6.54e6         17640.
+## # … with 25,340 more rows, and 4 more variables: empShare &lt;dbl&gt;, vaShare &lt;dbl&gt;,
+## #   VAperCapita &lt;dbl&gt;, perCapitaShare &lt;dbl&gt;</code></pre>
 <p>Com dados em mãos podemos plotar verdadeiras cenas de horror. Atenção, cenas fortes seguirão. Leitores viúvas do regime militar podem ficar abalados:</p>
 <pre class="r"><code>dados %&gt;%
   filter(Country %in% c(&quot;BRA&quot;, &quot;KOR&quot;), Sector == &quot;Mnfctrn&quot;) %&gt;%
