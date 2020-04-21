@@ -6,10 +6,19 @@
     <description>Recent content in Machine Learning on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Fri, 17 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Jogo da Velha com Q-Learning</title>
+      <link>/2020/04/21/jogo-da-velha-com-q-learning/</link>
+      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/21/jogo-da-velha-com-q-learning/</guid>
+      <description>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</description>
+    </item>
     
     <item>
       <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
@@ -18,8 +27,8 @@
       
       <guid>/2019/05/17/prouni-rf-classificacao/</guid>
       <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.</description>
+set.seed(1234)n &amp;lt;- 5000amostra1 = rbinom(n= n,size = 1,prob = .5)mean(amostra1)## [1] 0.5014Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2)library(dplyr)library(gganimate)m &amp;lt;- 100000n &amp;lt;- 100amostras &amp;lt;- double(length = 0)for(i in 1:m) {set.</description>
     </item>
     
     <item>
