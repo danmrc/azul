@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.69.0" />
+		<title>Jogo da Velha com Q-Learning &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
+  
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Jogo da Velha com Q-Learning
+                    </h1>
+                    <h3> Pedro Cavalcante </h3>
+                    <h2 class="headline">
+                    Apr 21, 2020 00:00
+                    · 953 words
+                    · 5 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/matem%C3%A1tica">Matemática</a>
+                          
+                              <a href="/tags/reinforcement-learning">Reinforcement Learning</a>
+                          
+                              <a href="/tags/simula%C3%A7%C3%B5es">Simulações</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    
+
+
+<p>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu <em>não</em> fui introduzido a esse mundo, não de verdade. Tenho estudado por conta própria para atacar um problema interessantíssimo no trabalho e pensei em deixar uma introdução prática, um cheiro do assunto, aqui.</p>
+<p>Qual é a nossa motivação? Bem, uma série de situações podem ser descritas como: suponha que você observe um sistema com estados variáveis e um agente, a quem podemos associar em cada momento do tempo duas grandezas, a ação <em>no próximo período</em> e a recompensa <em>no período atual</em>. A recompensa é uma função do estado da natureza e da ação. Queremos agora aprender qual regra de comportamento induz alguma forma de maximização de recompensa. Os paralelos com microeconomia já estão surgindo na sua mente, leitor? A ideia de Aprendizado por Reforço (e mais especificamente, <span class="math inline">\(Q\)</span>-learning, a técnica que usarei) é expor um agente a uma série potencialmente repetida de trios estado-ação-recompensa e daí aprender a resposta ótima.</p>
+<p>Temos um conjunto de estados <span class="math inline">\(S\)</span>, um conjunto de ponteciais ações <span class="math inline">\(A\)</span>, um conjunto de pontenciais recompensas <span class="math inline">\(R\)</span>. Cada iteração <span class="math inline">\(i\)</span> do sistema tem um estado <span class="math inline">\(s_i \in S\)</span>, uma ação <span class="math inline">\(a_i\)</span> dentre as ações possíveis para o estado, <span class="math inline">\(A(s_i)\)</span>, e <span class="math inline">\(a_i\)</span> determina uma recompensa <span class="math inline">\(r_{i+1}\)</span> e um estado <span class="math inline">\(s_{i+1}\)</span>. Vamos então definir a função <span class="math inline">\(Q \, : S \times A \to \mathbb{R}\)</span> que associa a cada par <span class="math inline">\((s_i, a_i)\)</span> uma recompensa esperada.</p>
+<p>Felizmente a página da Wikipedia sobre <span class="math inline">\(Q\)</span>-learning tem uma excelente “equação comentada” descrevendo o algoritimo e vou reproduzi-la com algumas alterações aqui embaixo.</p>
+<p><span class="math display">\[ \underbrace{Q(s_{t},a_{t})}_{\text{valor antigo}} + \underbrace{\alpha}_{\text{taxa de aprendizado}} \cdot  \bigg( \underbrace{r_{t}}_{\text{recompensa}} + \underbrace{\gamma}_{\text{fator de desconto}} \cdot \underbrace{\max_{a}Q(s_{t+1}, a)}_{\text{melhor ação no próximo período}} - \,\underbrace{Q(s_{t},a_{t})}_{\text{valor antigo}} \bigg)  \rightarrow Q(s_{t},a_{t})  \]</span></p>
+<p>Apareceram dois parâmetros novos:</p>
+<ul>
+<li>Taxa de Aprendizado, <span class="math inline">\(\alpha\)</span></li>
+</ul>
+<p>Um número real entre <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span> que determina que fração do “aprendizado” com alternativas não tomadas é incorporado.</p>
+<ul>
+<li>Fator de Desconto, <span class="math inline">\(\gamma\)</span></li>
+</ul>
+<p>Outro escalar entre <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span>, determina o peso associado ao futuro. Treinar com um <span class="math inline">\(\gamma\)</span> mais próximo de <span class="math inline">\(1\)</span> implica ponderar mais nas regras de resposta o longo prazo.</p>
+<p>Em breve aparecerá outro parâmetro, <span class="math inline">\(\epsilon\)</span>. A ideia é que podemos, de vez em quando, aleatoriezar a ação a ser tomada pelo algoritmo para tentar conhecer melhor as consequências de cursos alternativos. A cada iteração, com probabilidade <span class="math inline">\(1-\epsilon\)</span> podemos aleatorizar a ação, por exemplo.</p>
+<p>Os dados são adaptados de <span class="citation">Sutton and Barto (2018)</span>. Todos são coletados da perspectiva do jogador X - que está contra B e jogou primeiro. X ganha <span class="math inline">\(+1\)</span> se ganha, <span class="math inline">\(0\)</span> se empata e <span class="math inline">\(-1\)</span> se perde. O quadro é preenchido lendo da esquerda para a direita. As primeiras três entradas da <em>string</em> <code>State</code> representam as três primeiras entradas, as três seguintes representam a segunda linha e as últimas três entradas, a última linha do tabuleiro. As ações são sempre “c” seguido de um número. O número sinaliza em qual altura da string devemos inserir a letra. “c3” implica por a letra no canto direito superior do tabuleiro, “c7” no canto inferior esquerdo, “c5” no meio, “c9” no canto inferior direito, etc…</p>
+<pre class="r"><code>library(dplyr)
+library(ReinforcementLearning)
+
+data(&quot;tictactoe&quot;)
+
+(dados &lt;- as_tibble(tictactoe))</code></pre>
+<pre><code>## # A tibble: 406,541 x 4
+##    State     Action NextState Reward
+##    &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;
+##  1 ......... c7     ......X.B      0
+##  2 ......X.B c6     ...B.XX.B      0
+##  3 ...B.XX.B c2     .XBB.XX.B      0
+##  4 .XBB.XX.B c8     .XBBBXXXB      0
+##  5 .XBBBXXXB c1     XXBBBXXXB      0
+##  6 ......... c1     X...B....      0
+##  7 X...B.... c4     X..XB.B..      0
+##  8 X..XB.B.. c3     XBXXB.B..      0
+##  9 XBXXB.B.. c8     XBXXBBBX.      0
+## 10 XBXXBBBX. c9     XBXXBBBXX      0
+## # ... with 406,531 more rows</code></pre>
+<pre class="r"><code>model &lt;- ReinforcementLearning(dados, 
+                               s = &quot;State&quot;, 
+                               a = &quot;Action&quot;, 
+                               r = &quot;Reward&quot;, 
+                               s_new = &quot;NextState&quot;, 
+                               iter = 1, # quantas vezes repetimos os dados 
+                               control = list(alpha = 0.2, 
+                                              gamma = 0.4, 
+                                              epsilon = 0.1)) # aqui damos os parâmetros</code></pre>
+<p>Agora podemos simular situações nunca antes vistas e a melhor resposta. O algoritmo, inclusive, aprendeu a tática comum de começar pelo meio:</p>
+<pre class="r"><code>predict(model, &quot;.........&quot;)</code></pre>
+<pre><code>## [1] &quot;c5&quot;</code></pre>
+<p>É uma boa ideia se ater ao paradigma funcional de R, então vamos fazer uma função que receba um modelo e um estado em forma de string. Ela irá computar a resposta, dar uma resposta (aleatória) do <em>outro</em> jogador e devolver o tabuleiro atualizado em uma string.</p>
+<pre class="r"><code>move &lt;- function(model, state) {
+  
+  policy &lt;- predict(model, state) %&gt;%
+    stringr::str_sub(2) %&gt;%
+    as.numeric()
+  
+  stringr::str_sub(state, policy, policy) &lt;- &quot;X&quot;
+  
+  bPolicy &lt;- stringr::str_split(state, &quot;&quot;)[[1]] %&gt;%
+    stringr::str_which(&#39;\\.&#39;) %&gt;%
+    sample(1)
+  
+  stringr::str_sub(state, bPolicy, bPolicy) &lt;- &quot;B&quot;
+
+  state
+    
+}</code></pre>
+<p>Agora podemos simular um jogo. Observe que a função foi feita para compor recursivamente, mas isso não é lá muito elegante… Note também que podemos gerar alguns estados inválidos caso a escolha do jogador B tenha sido particularmente estranha.</p>
+<pre class="r"><code>set.seed(12345)
+move(model, &quot;.........&quot;)</code></pre>
+<pre><code>## [1] &quot;....X.B..&quot;</code></pre>
+<pre class="r"><code>move(model, move(model, &quot;.........&quot;))</code></pre>
+<pre><code>## [1] &quot;X.BBX....&quot;</code></pre>
+<pre class="r"><code>move(model, move(model, move(model, &quot;.........&quot;)))</code></pre>
+<pre><code>## [1] &quot;BXBBX..X.&quot;</code></pre>
+<p>Um exercício legal a partir daqui é usar <code>purrr::accumulate</code>, como eu mostro no post <a href="https://azul.netlify.app/2020/02/09/difusao-gaussiana/">Gerando um Padrão de Difusão</a>, para compor recursivamente <code>move</code> de maneira programática e declarativa e obter a trajetória do jogo, ou <code>purrr::reduce</code> para fazer a mesma operação, porém reduzindo uma condição inicial à uma final, perdendo a trajetória do jogo.</p>
+<div id="bibliografia" class="section level1 unnumbered">
+<h1>Bibliografia</h1>
+<div id="refs" class="references">
+<div id="ref-sutton2018">
+<p>Sutton, Richard S, and Andrew G Barto. 2018. <em>Reinforcement Learning: An Introduction</em>. MIT press.</p>
+</div>
+</div>
+</div>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2020%2f04%2f21%2fjogo-da-velha-com-q-learning%2f - Jogo%20da%20Velha%20com%20Q-Learning "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>

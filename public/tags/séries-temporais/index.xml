@@ -28,7 +28,7 @@
       <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
       <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+\[y_t = \beta y_{t-1} + \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
     </item>
     
   </channel>

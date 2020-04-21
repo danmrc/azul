@@ -6,10 +6,19 @@
     <description>Recent content in Simulações on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/simula%C3%A7%C3%B5es/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Jogo da Velha com Q-Learning</title>
+      <link>/2020/04/21/jogo-da-velha-com-q-learning/</link>
+      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/21/jogo-da-velha-com-q-learning/</guid>
+      <description>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</description>
+    </item>
     
     <item>
       <title>Mas e a indústria?</title>
@@ -45,7 +54,7 @@ Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto
       <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/09/08/macaco-infinito-hamlet/</guid>
-      <description>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
+      <description>O Enunciado e Quase-CertezaProbabilidades de palavras em particular com alfabetos finitosSimulaçãolibrary(dplyr)library(tibble)library(rio)palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble()palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavrasExistem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
     </item>
     
     <item>
@@ -56,7 +65,7 @@ Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto
       <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
       <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+\[y_t = \beta y_{t-1} + \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
     </item>
     
     <item>
@@ -65,7 +74,7 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
+      <description>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
     </item>
     
     <item>
@@ -74,8 +83,8 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+      <description>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
     </item>
     
     <item>
@@ -86,7 +95,7 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
       <guid>/2019/06/10/var-random-walks/</guid>
       <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
     </item>
     
     <item>
