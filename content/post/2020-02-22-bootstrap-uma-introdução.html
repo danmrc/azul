@@ -6,23 +6,23 @@ slug: bootstrap-uma-introdução
 categories:
   - Estatística
   - R
+  - Curtas
 tags:
   - Bootstrap
   - Monte Carlo
 draft: true
 ---
 
-<script src="2020-02-22-bootstrap-uma-introdução_files/jquery/jquery.min.js"></script>
-<script src="2020-02-22-bootstrap-uma-introdução_files/elevate-section-attrs/elevate-section-attrs.js"></script>
+<script src="2020-02-22-bootstrap-uma-introdução_files/header-attrs/header-attrs.js"></script>
 
 
 <p><em>Bootstrap</em> é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja <span class="math inline">\(x\)</span> representar a coleção dos dados com amostra de tamanho N. O algoritmo é:</p>
 <ol style="list-style-type: decimal">
-<li>Faça uma reamostragem <strong>com resposição</strong> de x com a amostra de algum tamanho (usualmente N)</li>
+<li>Faça uma reamostragem <strong>com reposição</strong> de x com a amostra de algum tamanho (usualmente N)</li>
 <li>Calcule a estatística de interesse nessa nova amostra</li>
 <li>Repita 1 e 2 várias vezes</li>
 </ol>
-<p>Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1). A gente sabe esse intervalo de cabeça, mas eu vou fazer o exemplo usando bootstrap como ilustração. Eu vou <em>literalmente</em> computar o intervalo de confiança: não vou usar <span class="math inline">\(\bar{x} \pm 1.96\sigma/\sqrt{N}\)</span> e sim pedir pro R me retornar quem nas replicações é o quantil 2.5% e 0 97.5%:</p>
+<p>Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1). A gente sabe esse intervalo de cabeça, mas eu vou fazer o exemplo usando bootstrap como ilustração. Eu vou <em>literalmente</em> computar o intervalo de confiança: não vou usar <span class="math inline">\(\bar{x} \pm 1.96\sigma/\sqrt{N}\)</span> e sim pedir pro R me retornar quem nas replicações é o quantil 2.5% e 0 97.5%. Eu poderia muito bem ter calculado <span class="math inline">\(\sigma\)</span> via <em>bootstrap</em> e usando a fórmula usando a Normal, mas vamos ignorar totalmente esse fato.</p>
 <pre class="r"><code>set.seed(2222020)
 
 N &lt;- 100
@@ -83,4 +83,4 @@ quantile(media_boot,probs = c(0.025,0.975))</code></pre>
 <pre><code>##     2.5%    97.5% 
 ## 1.254199 1.863691</code></pre>
 <p>Veja que a variância da amostra é 1.5364845 e isso nos dá um intervalo de confiança usando a regra de bolso da normal de 1.2407038 até 1.8430058.</p>
-<p>Bootstrap é bem útil, <strong>mas não é uma panacéia</strong>. Existem várias situações em que o bootstrap não funciona: a mais famosa é matching. Outros casos precisam de um bootstrap diferente - por exemplo, aqui a reamostragem funciona bem porque é i.i.d., mas se tivessemos dados dependentes a gente precisaria de outra estratégia.</p>
+<p>Bootstrap é bem útil, <strong>mas não é uma panacéia</strong>. Um exemplo de quando é usado é em intervalo de confiação da função resposta a impulso do VAR - as fórmulas analíticas são absolutamente pavorosas. <strong>Entretanto</strong>, existem várias situações em que o bootstrap não funciona: uma delas é matching. Outros casos precisam de um bootstrap diferente - por exemplo, aqui a reamostragem funciona bem porque é i.i.d., mas se tivessemos dados dependentes a gente precisaria de outra estratégia.</p>

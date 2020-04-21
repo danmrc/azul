@@ -6,6 +6,7 @@ slug: bootstrap-uma-introdução
 categories:
   - Estatística
   - R
+  - Curtas
 tags:
   - Bootstrap
   - Monte Carlo
@@ -14,11 +15,11 @@ draft: true
 
 _Bootstrap_ é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja $x$ representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
 
-1. Faça uma reamostragem **com resposição** de x com a amostra de algum tamanho (usualmente N)
+1. Faça uma reamostragem **com reposição** de x com a amostra de algum tamanho (usualmente N)
 2. Calcule a estatística de interesse nessa nova amostra
 3. Repita 1 e 2 várias vezes
 
-Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1). A gente sabe esse intervalo de cabeça, mas eu vou fazer o exemplo usando bootstrap como ilustração. Eu vou _literalmente_ computar o intervalo de confiança: não vou usar $\bar{x} \pm 1.96\sigma/\sqrt{N}$ e sim pedir pro R me retornar quem nas replicações é o quantil 2.5% e 0 97.5%:
+Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1). A gente sabe esse intervalo de cabeça, mas eu vou fazer o exemplo usando bootstrap como ilustração. Eu vou _literalmente_ computar o intervalo de confiança: não vou usar $\bar{x} \pm 1.96\sigma/\sqrt{N}$ e sim pedir pro R me retornar quem nas replicações é o quantil 2.5% e 0 97.5%. Eu poderia muito bem ter calculado $\sigma$ via _bootstrap_ e usando a fórmula usando a Normal, mas vamos ignorar totalmente esse fato. 
 
 ```{r}
 
@@ -98,4 +99,4 @@ quantile(media_boot,probs = c(0.025,0.975))
 
 Veja que a variância da amostra é `r sd(amostra)` e isso nos dá um intervalo de confiança usando a regra de bolso da normal de `r mean(amostra) - 1.96*sd(amostra)/sqrt(100)` até `r mean(amostra) + 1.96*sd(amostra)/sqrt(100)`.
 
-Bootstrap é bem útil, **mas não é uma panacéia**. Existem várias situações em que o bootstrap não funciona: a mais famosa é matching. Outros casos precisam de um bootstrap diferente - por exemplo, aqui a reamostragem funciona bem porque é i.i.d., mas se tivessemos dados dependentes a gente precisaria de outra estratégia. 
+Bootstrap é bem útil, **mas não é uma panacéia**. Um exemplo de quando é usado é em intervalo de confiação da função resposta a impulso do VAR - as fórmulas analíticas são absolutamente pavorosas. **Entretanto**, existem várias situações em que o bootstrap não funciona: uma delas é matching. Outros casos precisam de um bootstrap diferente - por exemplo, aqui a reamostragem funciona bem porque é i.i.d., mas se tivessemos dados dependentes a gente precisaria de outra estratégia. 

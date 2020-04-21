@@ -56,6 +56,21 @@
     
         
             <li>
+                <aside class="dates">Sep 20</aside>
+                <a href='/2019/09/20/inercia-inflacao-rolling-window/'>
+                    Medindo a inércia da inflação brasileira com Rolling Window Regression
+                    
+                        
+                            <h2>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
                 <aside class="dates">Sep 8</aside>
                 <a href='/2019/09/08/macaco-infinito-hamlet/'>
                     O Teorema do Macaco Infito: quanto tempo até sair Hamlet?
@@ -196,22 +211,6 @@ library(ggplot2) library(dplyr) library(gganimate) m &lt;- 100000 n &lt;- 100 am
                             <h2>Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">May 7</aside>
-                <a href='/2019/05/07/prouni-rf-classificacao/'>
-                    Classificando cursos no ProUni com Random Forest
-                    
-                        
-                            <h2>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
-Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</h2>
                         
                     
                 </a>

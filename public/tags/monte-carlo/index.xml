@@ -18,7 +18,7 @@
       
       <guid>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</guid>
       <description>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com resposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</description>
+Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</description>
     </item>
     
     <item>
