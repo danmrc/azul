@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.69.0" />
+		<title>Double Selection &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
+  
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Double Selection
+                    </h1>
+                    <h3> Daniel Coutinho </h3>
+                    <h2 class="headline">
+                    Apr 28, 2020 00:00
+                    · 418 words
+                    · 2 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/double-selection">Double Selection</a>
+                          
+                              <a href="/tags/efeito-de-tratamento">Efeito de Tratamento</a>
+                          
+                              <a href="/tags/sele%C3%A7%C3%A3o-de-modelos">Seleção de Modelos</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.</p>
+<p>Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.</p>
+<p>Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</p>
+<p>Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável <span class="math inline">\(x\)</span> e uma variável <span class="math inline">\(trat\)</span>. No fim a gente vai querer saber o efeito do tratamento sobre a variável <span class="math inline">\(y\)</span>, que é afetado por x e pelo trtamento. A variável <span class="math inline">\(trat\)</span> vai ser influenciada por x, e eu vou fazer a regressão <span class="math inline">\(y ~ x + trat\)</span>, mas vou excluir <span class="math inline">\(x\)</span> quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.</p>
+<p>Eu vou replicar isso umas 2000 vezes e vamos olhar o histograma do coeficiente de tratamento:</p>
+<pre class="r"><code>set.seed(2126111)
+
+cofs &lt;- rep(NA,2000)
+dropped &lt;- rep(NA,2000)
+
+for(i in 1:2000){
+  x &lt;- rnorm(100)
+  trat &lt;- 2*x + rnorm(100)
+  trat  &lt;- trat &gt; 0
+  y &lt;- 1.5*trat + 0.5*x + rnorm(100,sd=2)
+  reg &lt;- lm(y ~ x + trat)
+  p_val &lt;- summary(reg)$coefficients[2,4] 
+  if(p_val &lt; 0.05){
+    cofs[i] &lt;- coef(reg)[3]
+    dropped[i] &lt;- 0
+  } else {
+    reg &lt;- lm(y ~ trat)
+    cofs[i] &lt;- coef(reg)[2]
+    dropped[i] &lt;- 1
+  }
+}</code></pre>
+<p>Tem bastante coisa acontecendo nas linhas acima, então vamos passar as coisas com calma: primeiro, 0 tratamento começa como uma variável contínua que depende de x e de um erro com variância 2. Na linha seguinte, eu transformo essa variável em uma coisa binária: se for maior que 0, o sujeito é tratado. O problema seguinte é o p-valor de x na regressão para avaliar o efeito de tratamento: se for abaixo de 0.05, a regressão segue inalterada. Senão, ai a gente faz só a regressão de y no tratamento. O efeito real do tratamento é 1.5. Veja que eu tenho uma variável que diz quantas vezes a variável x foi excluida. Na simulação acima isso ocorreu em 1189 casos. Vamos ver o histograma do efeito de tratamento:</p>
+<pre class="r"><code>cofs_df &lt;- data.frame(cofs = cofs)
+
+ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2020%2f04%2f28%2fdouble-selection%2f - Double%20Selection "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>

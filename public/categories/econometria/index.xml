@@ -6,10 +6,30 @@
     <description>Recent content in Econometria on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 28 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/econometria/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Double Selection</title>
+      <link>/2020/04/28/double-selection/</link>
+      <pubDate>Tue, 28 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/28/double-selection/</guid>
+      <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
+Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
+Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
+    </item>
+    
+    <item>
+      <title>Viés de Atenuação</title>
+      <link>/2020/04/22/vi%C3%A9s-de-atenuacao/</link>
+      <pubDate>Wed, 22 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/22/vi%C3%A9s-de-atenuacao/</guid>
+      <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y e decide fazer a regressão. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação.</description>
+    </item>
     
     <item>
       <title>Erros padrões HAC</title>
@@ -56,7 +76,7 @@ Para começar, suponha que temos um processo estocástico \(u_t\) que é autocor
       <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
       <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
     </item>
     
     <item>
@@ -68,7 +88,7 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
       <description>I was born like this
 I had no choice
 I was born with the gift of a golden voice
-– Leonard Cohen
+ – Leonard Cohen
 Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</description>
     </item>
     
@@ -90,7 +110,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
       <guid>/2019/06/10/var-random-walks/</guid>
       <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
+Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
     </item>
     
     <item>

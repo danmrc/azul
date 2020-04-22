@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Efeito de Tratamento on AZUL</title>
+    <link>/tags/efeito-de-tratamento/</link>
+    <description>Recent content in Efeito de Tratamento on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Tue, 28 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/efeito-de-tratamento/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Double Selection</title>
+      <link>/2020/04/28/double-selection/</link>
+      <pubDate>Tue, 28 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/28/double-selection/</guid>
+      <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
+Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
+Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
+    </item>
+    
+  </channel>
+</rss>
