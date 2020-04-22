@@ -48,8 +48,8 @@
                     <h3> Daniel Coutinho </h3>
                     <h2 class="headline">
                     Apr 28, 2020 00:00
-                    · 418 words
-                    · 2 minute read
+                    · 875 words
+                    · 5 minute read
                       <span class="tags">
                       
                       
@@ -76,7 +76,7 @@
 <p>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.</p>
 <p>Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.</p>
 <p>Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</p>
-<p>Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável <span class="math inline">\(x\)</span> e uma variável <span class="math inline">\(trat\)</span>. No fim a gente vai querer saber o efeito do tratamento sobre a variável <span class="math inline">\(y\)</span>, que é afetado por x e pelo trtamento. A variável <span class="math inline">\(trat\)</span> vai ser influenciada por x, e eu vou fazer a regressão <span class="math inline">\(y ~ x + trat\)</span>, mas vou excluir <span class="math inline">\(x\)</span> quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.</p>
+<p>Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável <span class="math inline">\(x\)</span> e uma variável <span class="math inline">\(trat\)</span>. No fim a gente vai querer saber o efeito do tratamento sobre a variável <span class="math inline">\(y\)</span>, que é afetado por x e pelo trtamento. A variável <span class="math inline">\(trat\)</span> vai ser influenciada por x, e eu vou fazer a regressão <span class="math inline">\(y ~ x + trat\)</span>, mas vou excluir <span class="math inline">\(x\)</span> quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira de selecionar as variáveis vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.</p>
 <p>Eu vou replicar isso umas 2000 vezes e vamos olhar o histograma do coeficiente de tratamento:</p>
 <pre class="r"><code>set.seed(2126111)
 
@@ -105,6 +105,86 @@ for(i in 1:2000){
 ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Essa distribuição é bastante esquisita. Como isso afeta os testes de hipótese?</p>
+<pre class="r"><code>p_vals &lt;- rep(NA,2000)
+dropped &lt;- rep(NA,2000)
+
+for(i in 1:2000){
+  x &lt;- rnorm(100)
+  trat &lt;- 2*x + rnorm(100)
+  trat  &lt;- trat &gt; 0
+  y &lt;- 0.5*x + rnorm(100,sd=2)
+  reg &lt;- lm(y ~ x + trat)
+  p_val &lt;- summary(reg)$coefficients[2,4] 
+  if(p_val &lt; 0.05){
+    p_vals[i] &lt;- summary(reg)$coefficients[3,4]
+    dropped[i] &lt;- 0
+  } else {
+    reg &lt;- lm(y ~ trat)
+    p_vals[i] &lt;- summary(reg)$coefficients[2,4]
+    dropped[i] &lt;- 1
+  }
+}
+
+pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
+<p>Nós rejeitamos a hipótese nula quando ela é verdadeira em 28.4% dos casos, quando nós deveríamos rejeitar para apenas 5% dos casos.</p>
+<p>Como contornar isso? Bom, você sempre pode encher de todos os controles possíveis e imagináveis. É claro que podemos ter um caso em que o número de controles é maior que o número de observações, isso não funciona. É ai que entra o double selection: no lugar de você olhar só se a variável de controle só na regressão de y no tratamento, <em>também olhe se o controle é significativo na regressão do tratamento</em>. Esse procedimento é chamado de <em>double selection</em>. O procedimento anterior que eu fiz é chamado de <em>single selection</em>. Vamos testar isso:</p>
+<pre class="r"><code>cofs &lt;- rep(NA,2000)
+dropped &lt;- rep(NA,2000)
+
+for(i in 1:2000){
+  x &lt;- rnorm(100)
+  trat &lt;- 2*x + rnorm(100)
+  trat  &lt;- trat &gt; 0
+  y &lt;- 1.5*trat + 0.5*x + rnorm(100,sd=2)
+  reg &lt;- lm(y ~ x + trat)
+  p_val &lt;- summary(reg)$coefficients[2,4] 
+  reg2 &lt;- lm(trat ~ x)
+  p_val2 &lt;- summary(reg2)$coefficients[2,4] 
+  if(p_val &lt; 0.05 || p_val2 &lt; 0.05){
+    cofs[i] &lt;- coef(reg)[3]
+    dropped[i] &lt;- 0
+  } else {
+    reg &lt;- lm(y ~ trat)
+    cofs[i] &lt;- coef(reg)[2]
+    dropped[i] &lt;- 1
+  }
+}</code></pre>
+<pre class="r"><code>cofs_ds_df &lt;- data.frame(cofs = cofs)
+
+ggplot(cofs_ds_df,aes(cofs)) + geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>A distribuição fica bem melhor. Vamos ver como fica o erro de tipo I a 5% quando o tratamento não tem efeito:</p>
+<pre class="r"><code>p_vals &lt;- rep(NA,2000)
+dropped &lt;- rep(NA,2000)
+
+for(i in 1:2000){
+  x &lt;- rnorm(100)
+  trat &lt;- 2*x + rnorm(100)
+  trat  &lt;- trat &gt; 0
+  y &lt;- 0.5*x + rnorm(100,sd=2)
+  reg &lt;- lm(y ~ x + trat)
+  p_val &lt;- summary(reg)$coefficients[2,4] 
+  reg2 &lt;- lm(trat ~ x)
+  p_val2 &lt;- summary(reg2)$coefficients[2,4] 
+  if(p_val &lt; 0.05 || p_val2 &lt; 0.05){
+    p_vals[i] &lt;- summary(reg)$coefficients[3,4]
+    dropped[i] &lt;- 0
+  } else {
+    reg &lt;- lm(y ~ trat)
+    p_vals[i] &lt;- summary(reg)$coefficients[2,4]
+    dropped[i] &lt;- 1
+  }
+}
+
+pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
+<p>Nós rejeitamos a hipótese nula quando ela é verdadeira em 4.65% dos casos.</p>
+<div id="bibliografia" class="section level2">
+<h2>Bibliografia</h2>
+<p>O Gabriel Vasconcelos fez <a href="https://insightr.wordpress.com/2017/05/12/problems-of-causal-inference-after-selection-of-controls/">um post muito bom no blog dele</a>. Está em inglês. (Gabriel já “apareceu” aqui por ser autor do pacote que usa critério de informação no LASSO).</p>
+<p>O artigo que gerou <em>double selection</em> é do <a href="https://arxiv.org/abs/1201.0224https://arxiv.org/abs/1201.0224">Victor Chernozhukov, Alexandre Belloni e Christian Hensen, no arxiv</a></p>
+</div>
 
                 </section>
             </article>

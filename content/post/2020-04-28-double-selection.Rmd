@@ -26,7 +26,7 @@ Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável 
 
 Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida. 
 
-Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável $x$ e uma variável $trat$. No fim a gente vai querer saber o efeito do tratamento sobre a variável $y$, que é afetado por x e pelo trtamento. A variável $trat$ vai ser influenciada por x, e eu vou fazer a regressão $y ~ x + trat$, mas vou excluir $x$ quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.
+Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável $x$ e uma variável $trat$. No fim a gente vai querer saber o efeito do tratamento sobre a variável $y$, que é afetado por x e pelo trtamento. A variável $trat$ vai ser influenciada por x, e eu vou fazer a regressão $y ~ x + trat$, mas vou excluir $x$ quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira de selecionar as variáveis vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.
 
 Eu vou replicar isso umas 2000 vezes e vamos olhar o histograma do coeficiente de tratamento:
 
@@ -66,3 +66,106 @@ ggplot(cofs_df,aes(cofs)) + geom_histogram()
 
 ```
 
+Essa distribuição é bastante esquisita. Como isso afeta os testes de hipótese?
+
+```{r,cache = TRUE}
+
+p_vals <- rep(NA,2000)
+dropped <- rep(NA,2000)
+
+for(i in 1:2000){
+  x <- rnorm(100)
+  trat <- 2*x + rnorm(100)
+  trat  <- trat > 0
+  y <- 0.5*x + rnorm(100,sd=2)
+  reg <- lm(y ~ x + trat)
+  p_val <- summary(reg)$coefficients[2,4] 
+  if(p_val < 0.05){
+    p_vals[i] <- summary(reg)$coefficients[3,4]
+    dropped[i] <- 0
+  } else {
+    reg <- lm(y ~ trat)
+    p_vals[i] <- summary(reg)$coefficients[2,4]
+    dropped[i] <- 1
+  }
+}
+
+pp <- mean(p_vals < 0.05)
+
+```
+
+Nós rejeitamos a hipótese nula quando ela é verdadeira em `r pp*100`% dos casos, quando nós deveríamos rejeitar para apenas 5% dos casos.  
+
+Como contornar isso? Bom, você sempre pode encher de todos os controles possíveis e imagináveis. É claro que podemos ter um caso em que o número de controles é maior que o número de observações, isso não funciona. É ai que entra o double selection: no lugar de você olhar só se a variável de controle só na regressão de y no tratamento, _também olhe se o controle é significativo na regressão do tratamento_. Esse procedimento é chamado de _double selection_. O procedimento anterior que eu fiz é chamado de _single selection_. Vamos testar isso:
+
+```{r, cache = TRUE}
+
+cofs <- rep(NA,2000)
+dropped <- rep(NA,2000)
+
+for(i in 1:2000){
+  x <- rnorm(100)
+  trat <- 2*x + rnorm(100)
+  trat  <- trat > 0
+  y <- 1.5*trat + 0.5*x + rnorm(100,sd=2)
+  reg <- lm(y ~ x + trat)
+  p_val <- summary(reg)$coefficients[2,4] 
+  reg2 <- lm(trat ~ x)
+  p_val2 <- summary(reg2)$coefficients[2,4] 
+  if(p_val < 0.05 || p_val2 < 0.05){
+    cofs[i] <- coef(reg)[3]
+    dropped[i] <- 0
+  } else {
+    reg <- lm(y ~ trat)
+    cofs[i] <- coef(reg)[2]
+    dropped[i] <- 1
+  }
+}
+
+```
+
+```{r}
+
+cofs_ds_df <- data.frame(cofs = cofs)
+
+ggplot(cofs_ds_df,aes(cofs)) + geom_histogram()
+
+```
+
+A distribuição fica bem melhor. Vamos ver como fica o erro de tipo I a 5% quando o tratamento não tem efeito: 
+
+```{r,cache = TRUE}
+
+p_vals <- rep(NA,2000)
+dropped <- rep(NA,2000)
+
+for(i in 1:2000){
+  x <- rnorm(100)
+  trat <- 2*x + rnorm(100)
+  trat  <- trat > 0
+  y <- 0.5*x + rnorm(100,sd=2)
+  reg <- lm(y ~ x + trat)
+  p_val <- summary(reg)$coefficients[2,4] 
+  reg2 <- lm(trat ~ x)
+  p_val2 <- summary(reg2)$coefficients[2,4] 
+  if(p_val < 0.05 || p_val2 < 0.05){
+    p_vals[i] <- summary(reg)$coefficients[3,4]
+    dropped[i] <- 0
+  } else {
+    reg <- lm(y ~ trat)
+    p_vals[i] <- summary(reg)$coefficients[2,4]
+    dropped[i] <- 1
+  }
+}
+
+pp <- mean(p_vals < 0.05)
+
+```
+
+Nós rejeitamos a hipótese nula quando ela é verdadeira em `r pp*100`% dos casos.
+
+## Bibliografia
+
+O Gabriel Vasconcelos fez [um post muito bom no blog dele](https://insightr.wordpress.com/2017/05/12/problems-of-causal-inference-after-selection-of-controls/). Está em inglês. (Gabriel já "apareceu" aqui por ser autor do pacote que usa critério de informação no LASSO).   
+
+O artigo que gerou _double selection_ é do [Victor Chernozhukov, Alexandre Belloni e Christian Hensen, no arxiv](https://arxiv.org/abs/1201.0224https://arxiv.org/abs/1201.0224)
