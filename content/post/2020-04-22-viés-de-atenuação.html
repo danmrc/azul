@@ -1,7 +1,7 @@
 ---
 title: Viés de Atenuação
 author: Daniel Coutinho
-date: '2020-04-22'
+date: '2020-04-24'
 slug: viés-de-atenuacao
 categories:
   - Econometria
@@ -9,7 +9,6 @@ categories:
 tags:
   - Viés de Atenuação
   - Variáveis Instrumentais
-draft: true
 ---
 
 <script src="2020-04-22-viés-de-atenuação_files/header-attrs/header-attrs.js"></script>
@@ -34,7 +33,7 @@ ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
 <p><img src="/post/2020-04-22-vi%C3%A9s-de-atenua%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>A moda está em 0.5. Por que? Bom, considere o estimador que estamos usando:</p>
 <p><span class="math display">\[\hat{\beta} = \frac{\sum_{i=1}^N \tilde{x}_i y_i}{\sum_{i=1}^N \tilde{x}_i^2}\]</span></p>
-<p>Note que Substitua <span class="math inline">\(y_i\)</span> pelo modelo verdadeiro:</p>
+<p>Note que a média de <span class="math inline">\(\tilde{x}_i\)</span> é zero. Substitua <span class="math inline">\(y_i\)</span> pelo modelo verdadeiro:</p>
 <p><span class="math display">\[\hat{\beta} = \frac{\sum_{i=1}^N \tilde{x}_i (x_i + \varepsilon_i)}{\sum_{i=1}^N \tilde{x}_i^2}\]</span></p>
 <p><span class="math display">\[\hat{\beta} = \frac{\sum_{i=1}^N (x_i + u_i) (x_i + \varepsilon_i)}{\sum_{i=1}^N \tilde{x}_i^2}\]</span></p>
 <p><span class="math display">\[\hat{\beta} = \frac{\sum_{i=1}^N x^2_i}{\sum_{i=1}^N \tilde{x}_i^2}\]</span></p>
@@ -45,7 +44,7 @@ ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
 for(i in 1:2000){
   x &lt;- rnorm(1000)
   y &lt;- x + rnorm(1000)
-  x_til &lt;- x+ rnorm(1000)
+  x_til &lt;- x + rnorm(1000)
   z &lt;- x + rnorm(1000)
   reg &lt;- ivreg(y ~x_til|z)
   cofs[i] &lt;- coef(reg)[2]
@@ -56,4 +55,4 @@ cofs_iv_df &lt;- data.frame(cofs = cofs)
 ggplot(cofs_iv_df,aes(cofs)) + geom_histogram()</code></pre>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2020-04-22-vi%C3%A9s-de-atenua%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>Esse é um uso bem legal de IV. Quem quiser referências: Eu imagino que quase todo livro de econometria básica deve ter isso. O Stock &amp; Watson e Wooldridge muito provavelmente tem.</p>
+<p>Esse é um uso bem legal de IV. Quem quiser referências: Eu imagino que quase todo livro de econometria básica deve ter isso. O Stock &amp; Watson e Wooldridge muito provavelmente tem. O livro do Hayashi tem.</p>

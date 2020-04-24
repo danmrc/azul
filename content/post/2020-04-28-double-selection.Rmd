@@ -162,10 +162,10 @@ pp <- mean(p_vals < 0.05)
 
 ```
 
-Nós rejeitamos a hipótese nula quando ela é verdadeira em `r pp*100`% dos casos.
+Nós rejeitamos a hipótese nula quando ela é verdadeira em `r pp*100`% dos casos, muito mais próximo do ideal.
 
 ## Bibliografia
 
-O Gabriel Vasconcelos fez [um post muito bom no blog dele](https://insightr.wordpress.com/2017/05/12/problems-of-causal-inference-after-selection-of-controls/). Está em inglês. (Gabriel já "apareceu" aqui por ser autor do pacote que usa critério de informação no LASSO).   
+O Gabriel Vasconcelos fez [um post muito bom no blog dele](https://insightr.wordpress.com/2017/05/12/problems-of-causal-inference-after-selection-of-controls/). Está em inglês. (Gabriel já "apareceu" aqui por ser autor de um pacote que usa critério de informação no LASSO).   
 
 O artigo que gerou _double selection_ é do [Victor Chernozhukov, Alexandre Belloni e Christian Hensen, no arxiv](https://arxiv.org/abs/1201.0224https://arxiv.org/abs/1201.0224)

@@ -1,7 +1,7 @@
 ---
 title: Viés de Atenuação
 author: Daniel Coutinho
-date: '2020-04-22'
+date: '2020-04-24'
 slug: viés-de-atenuacao
 categories:
   - Econometria
@@ -9,7 +9,6 @@ categories:
 tags:
   - Viés de Atenuação
   - Variáveis Instrumentais
-draft: true
 ---
 
 ```{r, include=FALSE,echo=FALSE}
@@ -50,7 +49,7 @@ A moda está em 0.5. Por que? Bom, considere o estimador que estamos usando:
 
 $$\hat{\beta} = \frac{\sum_{i=1}^N \tilde{x}_i y_i}{\sum_{i=1}^N \tilde{x}_i^2}$$
 
-Note que Substitua $y_i$ pelo modelo verdadeiro: 
+Note que a média de $\tilde{x}_i$ é zero. Substitua $y_i$ pelo modelo verdadeiro: 
 
 $$\hat{\beta} = \frac{\sum_{i=1}^N \tilde{x}_i (x_i + \varepsilon_i)}{\sum_{i=1}^N \tilde{x}_i^2}$$
 
@@ -69,7 +68,7 @@ cofs <- rep(NA,2000)
 for(i in 1:2000){
   x <- rnorm(1000)
   y <- x + rnorm(1000)
-  x_til <- x+ rnorm(1000)
+  x_til <- x + rnorm(1000)
   z <- x + rnorm(1000)
   reg <- ivreg(y ~x_til|z)
   cofs[i] <- coef(reg)[2]
@@ -82,4 +81,4 @@ ggplot(cofs_iv_df,aes(cofs)) + geom_histogram()
 
 ```
 
-Esse é um uso bem legal de IV. Quem quiser referências: Eu imagino que quase todo livro de econometria básica deve ter isso. O Stock & Watson e Wooldridge muito provavelmente tem. 
+Esse é um uso bem legal de IV. Quem quiser referências: Eu imagino que quase todo livro de econometria básica deve ter isso. O Stock & Watson e Wooldridge muito provavelmente tem. O livro do Hayashi tem. 
