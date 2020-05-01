@@ -1,7 +1,7 @@
 ---
 title: Double Selection
 author: Daniel Coutinho
-date: '2020-04-28'
+date: '2020-05-01'
 slug: double-selection
 categories:
   - Econometria
@@ -10,7 +10,6 @@ tags:
   - Double Selection
   - Efeito de Tratamento
   - Seleção de Modelos
-draft: true
 ---
 
 ```{r,include=FALSE,echo=FALSE}
@@ -26,7 +25,7 @@ Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável 
 
 Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida. 
 
-Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável $x$ e uma variável $trat$. No fim a gente vai querer saber o efeito do tratamento sobre a variável $y$, que é afetado por x e pelo trtamento. A variável $trat$ vai ser influenciada por x, e eu vou fazer a regressão $y ~ x + trat$, mas vou excluir $x$ quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira de selecionar as variáveis vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.
+Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável $x$ e uma variável $trat$. No fim a gente vai querer saber o efeito do tratamento sobre a variável $y$, que é afetado por x e pelo trtamento. A variável $trat$ vai ser influenciada por x, e eu vou fazer a regressão $y \sim x + trat$, mas vou excluir $x$ quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira de selecionar as variáveis vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.
 
 Eu vou replicar isso umas 2000 vezes e vamos olhar o histograma do coeficiente de tratamento:
 
@@ -96,7 +95,7 @@ pp <- mean(p_vals < 0.05)
 
 Nós rejeitamos a hipótese nula quando ela é verdadeira em `r pp*100`% dos casos, quando nós deveríamos rejeitar para apenas 5% dos casos.  
 
-Como contornar isso? Bom, você sempre pode encher de todos os controles possíveis e imagináveis. É claro que podemos ter um caso em que o número de controles é maior que o número de observações, isso não funciona. É ai que entra o double selection: no lugar de você olhar só se a variável de controle só na regressão de y no tratamento, _também olhe se o controle é significativo na regressão do tratamento_. Esse procedimento é chamado de _double selection_. O procedimento anterior que eu fiz é chamado de _single selection_. Vamos testar isso:
+Como contornar isso? Bom, você sempre pode encher de todos os controles possíveis e imagináveis. É claro que podemos ter um caso em que o número de controles é maior que o número de observações, isso não funciona. É ai que entra uma ideia simples e super esperta: no lugar de você olhar só se a variável de controle só na regressão de y no tratamento, _também olhe se o controle é significativo na regressão do tratamento_. Esse procedimento é chamado de _double selection_. O procedimento anterior que eu fiz é chamado de _single selection_. Vamos testar isso:
 
 ```{r, cache = TRUE}
 

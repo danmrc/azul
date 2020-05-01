@@ -6,17 +6,17 @@
     <description>Recent content in Posts on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Tue, 28 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 01 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Double Selection</title>
-      <link>/2020/04/28/double-selection/</link>
-      <pubDate>Tue, 28 Apr 2020 00:00:00 +0000</pubDate>
+      <link>/2020/05/01/double-selection/</link>
+      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/28/double-selection/</guid>
+      <guid>/2020/05/01/double-selection/</guid>
       <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
 Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
 Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
@@ -38,7 +38,7 @@ Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais 
       <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
-      <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y e decide fazer a regressão. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação.</description>
+      <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</description>
     </item>
     
     <item>
