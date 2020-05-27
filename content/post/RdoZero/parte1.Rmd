@@ -1,0 +1,30 @@
+---
+title: R do Zero (1): manipulando dados com {dplyr}
+author: "Pedro Cavalcante"
+date: '2020-06-15'
+slug: r-zero-1
+categories:
+  - R do Zero
+tags:
+  - R
+  - Programação
+---
+
+# Contexto
+
+Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio uma pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, vou disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.
+
+Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno. Os conteúdos serão disponibilizados em fases, a medida que eu tenho tempo de consolidar o material e o pensamento em posts aproximadamente rápidos e digeríveis. A ordem de apresentação reflete uma tentativa de equilibrar (i) pré-requisitos, (ii) relevância prática, (iii) complexidade do assunto e (iv) elegância inerente do tópico. O ponto iv em particular tem um problema próprio de equilíbrio. Existe uma audiência razoavelmente heterogênea em busca de material nesse campo e motivar alguém com apelos à uma suposta elegância matemática para muitos leitores pode ser seco, inútil e desmotivante. Para outros - eu sou culpado de estar nesse grupo - motivação de sobra. Eu tento balancear esses problemas simultâneos e apresentar algo que seja compreensivo-porém-não-exaustivo, que tente descascar as crostas bloqueando a percepção de por quê as coisas são como são.
+
+# Motivação
+
+Por quê por a cara à tapa, sentir um assalto à autoestima e aprender uma linguagem de programação? Porque existem retornos de variados tipos:
+
+* Nós, humanos, produzimos dados aos montes todo dia. Eles estão por aí em diferentes formas, sabores, estruturas e qualidades, mas *estão por aí*. Dominar ferramentas como uma linguagem de programação te habilita a lidar com essa montanha de informação de maneira clara, reprodutível e escalável. Essas habilidades são úteis em empresas, universidades e centros de pesquisa pelos mais variados motivos. Aprender a programar não é um passaporte para emprego estável, ganhos de produtividade ou pesquisa de qualidade, mas ajuda.
+
+* Existe um ganho imaterial em programar que é a satisfação de aprender como uma finalidade em si. Vários leitores podem achar isso nada demais, mas eu tendo a observar que quem se diverte resolvendo problemas se dá melhor com programação.
+
+# data data data
+
+
+

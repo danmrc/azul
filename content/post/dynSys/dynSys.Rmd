@@ -1,0 +1,54 @@
+---
+title: {purrr} para simular Sistemas Dinâmicos
+author: Pedro Cavalcante
+date: '2020-05-25'
+slug: funprog-dyn-sys
+categories:
+  - Matemática
+  - Programação
+tags:
+  - R
+  - Programação Funcional
+  - Matemática
+---
+
+Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com $n$ objetos sob o efeito de algum campo de vetores.
+
+# $n = 1$ é por onde se começa
+
+Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem `double` e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico. Então queremos algo como: 
+
+```{R}
+
+library(purrr)
+library(tibble)
+
+move <- function(v) c(2*cos(v[1]) + rnorm(n = 1, sd = .1), -1.5*sin(v[2]) + rnorm(n = 1, sd = .1))
+
+path <- function(v, t) {
+  
+  x <- rep(v, t)
+  
+  
+}
+  
+
+```
+
+Beleza, agora queremos algo que receba (i) uma posição inicial, (ii) uma quantidade de períodos até onde simular o sistema. 
+
+```{R}
+
+system_sim <- function(v0 = c(0,0), t = 100) {
+  
+  .data <- tibble(x = rep(v0[1], t), y = rep(v0[2], t), t = 0)
+  
+  .data %>%
+    accumulate(.init = c(.data$x, .data$y), move)
+  
+  
+  
+  
+}
+
+```
