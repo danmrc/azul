@@ -1,0 +1,276 @@
+---
+title: "R do Zero (2): Manipulando dados com {dplyr}"
+author: "Pedro Cavalcante"
+slug: "r-zero-2"
+categories:
+  - R do Zero
+tags:
+  - R
+  - Programação
+  - R do Zero
+---
+
+Qual é a ideia do ``dplyr``? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o ``%>%`` para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.
+
+Os que já tiveram contato com python se lembrarão de várias funções do ``pandas``. Por uma série de pequenas vantagens vocês perceberão que o ``dplyr`` oferece uma solução mais ergonômica e concisa de manipulação de dados - graças à magia da _tidy evaluation_, assunto que visitaremos no futuro. 
+
+Pacotes trazem dados e funções novas, que por vezes têm o mesmo nome. Para evitar ambiguidade usamos o sinal ``::``. ``tibble::glimpse()`` é a função ``glimpse()`` vinda do pacote ``tibble``
+
+```{R, warnings = FALSE, message = FALSE}
+library(dplyr)
+library(nycflights13)
+
+airports # dados de aeroportos
+glimpse(airports)
+```
+
+``select`` e ``pull`` servem para filtrar colunas, a diferença sendo que ``pull`` devolve a coluna escolhida como vetor e não como tibble.
+
+```{R}
+select(airports, faa, name, lat, lon, alt) # selecionando apenas código, nome e coordenadas
+select(airports, -name, -alt) # tirando o nome e altitude do aeroporto com o sinal -
+
+is.vector(select(airports, name)) # select() devolve um dataframe
+is.vector(pull(airports, name)) # pull() devolve um vetor!
+```
+
+``filter``, como o nome sugere, filtra os dados dadas condições. ``mutate`` altera/mutaciona o estado dos dados e serve para criar ou modificar colunas. ``slice`` fatia os dados e devolve apenas certas linhas pedidas. A função ``ifelse`` recebe (i) um teste lógico, (ii) o que devolver caso seja verdadeiro e (iii) o que devolver caso seja falso. Usuário de Excel devem reconhecer o funcionamento da função ``IF/SE``.
+
+```{R}
+filter(select(airports,
+              name, alt), alt > 500) # apenas aeroportos acima de 500 pés
+
+mutate(select(airports,
+              name, alt),
+       acima500 = if_else(alt > 500, 
+                         "Aeroporto está acima de 500 pés", 
+                         "Aeroport NÃO está acima de 500 pés"))
+
+slice(airports, 1:5) # as primeiras 5 linhas de airports
+slice(airports, 100:105) # as linhas entre 100 e 105
+```
+
+Note que ao combinarmos verbos começamos a complicar legibidade. É desagradável escrever ``select(airports, name, alt)`` como argumento de uma função. Para isso existe o operador ``%>%``, que chamamos de _pipe_. A ideia é que ele opere como um cano. 
+
+Imagine que temos um objeto ``a`` e queremos aplicar uma série de funções nele. Podemos:
+
+```
+funcao4(funcao3(funcao2(funcao1(a))))
+```
+
+Ou usar o pipe, que recebe um objeto e passa ele como _primeiro parâmetro_ na função seguinte:
+
+```
+a %>%
+funcao1() %>%
+funcao2() %>%
+funcao3() %>%
+funcao4()
+```
+
+Se quisermos, por exemplo, o nome e fuso-horário apenas dos aeroportos a mais de 500 pés de altitude, então:
+
+```{R}
+airports %>%
+  filter(alt > 500) %>%
+  select(name, tz)
+```
+
+A função ``stringr::str_detect`` detecta padrões dentro de strings. Por exemplo: ``str_detect("texto", "x")`` retorna ``TRUE`` porque de fato a letra "x" aparece em "texto". Se quisermos classificar os aeroportos anteriores entre internacionais ou não poderíamos fazer:
+
+```{R}
+library(stringr)
+
+airports %>%
+  filter(alt > 500) %>%
+  select(name, tz) %>%
+  mutate(tipo = if_else(condition = str_detect(name, "Int"),
+                        true = "Internacional",
+                        false = "Doméstico")) 
+
+```
+
+``arrange`` recebe nomes de colunas do dataframe e rearranja os dados em ordem crescente. Se quisermos em ordem decrescente, precisamos de ``desc()``.
+
+
+```{R}
+airports %>%
+  filter(alt > 500) %>%
+  select(name, tz) %>%
+  mutate(tipo = if_else(condition = str_detect(name, "Int"),
+                        true = "Internacional",
+                        false = "Doméstico")) %>%
+  arrange(name) # ordenados alfabeticamente
+
+airports %>%
+  filter(alt > 500) %>%
+  select(name, tz) %>%
+  mutate(tipo = if_else(condition = str_detect(name, "Int"),
+                        true = "Internacional",
+                        false = "Doméstico")) %>%
+  arrange(desc(name)) # em ordem inversa à alfabética
+```
+
+E se quisermos uma descrição mais fina? Bem, quando temos várias condições, podemos usar ``case_when`` no lugar de ``if_else``. Damos uma condição, um til e um valor caso a condição prossiga.
+
+```{R, error = TRUE}
+airports %>%
+  filter(alt > 500) %>%
+  select(name, tz) %>%
+  mutate(tipo = case_when(
+    str_detect(name, "Int") ~ "Internacional",
+    str_detect(name, "Regional") ~ "Regional",
+    str_detect(name, "County") ~ "Condado",
+    str_detect(name, "Municipal") ~ "Municipal",
+    # e agora, uma condição caso nenhum anterior bata, atenção ao ! de negação
+    !str_detect(name, c("Int", "Regional", "County", "Municipal")) ~ FALSE 
+    )) 
+```
+
+Note que recebemos um erro e a mensagem é _um pouco_ clara: precisamos de texto e não valores lógicos. Por quê? ``case_when`` e ``if_else`` forçam o usuário a aderir a boas práticas - o  ``dplyr`` e suas bibliotecas irmãs como um todo fazem isso. Em todo caso o retorno deve ser _do mesmo tipo_. Não posso pedir para que seja retornado texto como "Internacional" em alguns casos e o valor ``FALSE`` em outros porque vetores guardam dados do mesmo tipo. 
+
+```{R}
+airports %>%
+  filter(alt > 500) %>% # apenas aeroportos acima de 500 pés de altitude
+  select(name, tz) %>% 
+  mutate(tipo = case_when(
+    str_detect(name, "Int") ~ "Internacional",
+    str_detect(name, "Regional") ~ "Regional",
+    str_detect(name, "County") ~ "Condado",
+    str_detect(name, "Municipal") ~ "Municipal",
+    # e agora, uma condição caso nenhum anterior bata, atenção ao ! de negação
+    !str_detect(name, c("Int", "Regional", "County", "Municipal")) ~ "Pequeno" 
+    )) 
+```
+
+Podemos também sumarisar dados com ``summarise``, que devolve um dataframe com uma linha resumindo os dados:
+
+```{R}
+
+flights %>%
+  summarise(atraso_medio = mean(arr_delay, na.rm = TRUE), # em minutos
+            desviopadrao_atraso = sd(arr_delay, na.rm = TRUE),
+            atraso_partida_medio = mean(dep_delay, na.rm = TRUE), # em minutos
+            distancia_media = mean(distance, na.rm = TRUE)) # em milhas
+
+```
+
+# Advérbios
+
+Verbos como ``mutate`` e ``filter`` realizam operações em um dataframe inteiro, mas de vez em quando queremos sumários ou transformações de dados sensíveis em recortes específicos. O advérbio mais importante do ``dplyr`` - e o único que abordaremos por um tempo - é ``group_by()``. 
+
+```{R}
+flights %>%
+  group_by(origin) 
+```
+Agora nós não somos apenas informados de que temos $336776$ registros de vôos, como também que temos $3$ grupos únicos que dividem perfeitamente os dados. Podemos agrupar por mais variáveis:
+
+```{R}
+flights %>%
+  group_by(origin, tailnum) # aeroporto de origem do vôo e número de cauda da aeronave 
+```
+
+Temos agora $7944$ combinações únicas de aeroporto de saída e aeronave. 
+
+Com operações agrupadas podemos encontrar o aeroporto que mais atrasa partidas:
+
+```{R}
+flights %>%
+  group_by(origin) %>%
+  summarise(atraso_medio = mean(dep_delay, na.rm = TRUE),
+            tempo_medio_voo = mean(air_time, na.rm = TRUE),
+            distancia_media_voo = mean(distance)) %>%
+  arrange(desc(atraso_medio))
+```
+No caso, é o Aeroporto Internacional de Newark o mais atrasado e o Internacional John F. Kennedy o com vôos mais longos e demorados. 
+
+E qual aeronave teve mais saídas? Para isso precisamos da função ``n()`` que nos diz quantas observações pertencem ao mesmo grupo.
+
+```{R}
+
+flights %>%
+  group_by(tailnum) %>%
+  filter(!is.na(tailnum)) %>% # apenas vôos com o número de aeronave registrado
+  summarise(saidas = n()) %>%
+  arrange(desc(saidas)) %>% # em ordem decrescente de voos
+  slice(1:10) # apenas os 10 aviões que mais voaram
+
+```
+
+Quantas aeronaves distintas operam um mesmo vôo? Podemos usar o verbo ``distinct`` para resolver esse tipo de pergunta. Os 10 vôos com mais aeronaves distintas operando são:
+
+```{R}
+
+flights %>%
+  group_by(flight) %>% # agrupe por vôo
+  distinct(tailnum) %>% # apenas aeronaves distintas
+  summarise(aeronaves_distintas = n()) %>% # conte as aeronaves distintas
+  arrange(desc(aeronaves_distintas)) %>% # ordene
+  slice(1:10) # apenas os 10 voos com mais aeronaves distintas
+
+```
+
+E parabéns para o vôo 301 que foi operado por 417 aeronaves diferentes em 2013. Como é o inverso, quais aeronaves operam mais vôos?
+
+```{R}
+
+flights %>%
+  filter(!is.na(tailnum)) %>% # apenas registros com o código da aeronave
+  group_by(tailnum) %>% # agrupe pela aeronave
+  distinct(flight) %>% # apenas voos distintos
+  summarise(voos_distintos = n()) %>% # conte os voos
+  arrange(desc(voos_distintos)) %>% # ordene em ordem decrescente
+  slice(1:10) # pegue os 10 primeiros
+
+```
+
+Digamos que você esteja interessado apenas em recuperar a identificação dessas aeronaves que cumprem os requisitos - neste caso, estarem entre as 10 primeiras em números de vôos distintos. Esse tipo de operação em que manipulamos dados, filtramos por certos critérios e então pegamos algum tipo de identificação de quem/o que cumpre tais critérios é particularmente comum trabalhando em grandes bancos de dados. 
+
+Note que temos outro dataframe apenas com dados das aeronaves em si:
+
+```{R}
+planes
+```
+
+Se por acaso estamos interessados em localizar aeronaves específicas com a tabela ``flights`` e depois pegar informações que estão na ``planes``, como fazemos?
+
+# Joins e Pareamento
+
+Joins são operações que pareaiam dataframes. Existem sabores variados então vamos começar com um exemplo lúdico antes de voltar para os dados de aeroportos.
+
+```{R}
+(A <- tibble(id = sample(letters, 10),
+                valor = rnorm(n = 10)))
+
+(B <- tibble(id = sample(letters, 10),
+                 medida = runif(n = 10)))
+
+```
+
+Podemos ligar os dois dataframes pela variável ``id`` pelas seguintes operações:
+
+* ``left_join(A, B)`` mantém todas as observações de A e liga todas as que tiverem uma chave em comum em B
+* ``right_join(A, B)`` faz o exato oposto
+* ``full_join(A, B)`` junta os dois, tendo pareamento ou não. Cuidado ao usar.
+* ``inner_join(A, B)`` mantém apenas observações com chaves tanto em A quanto em B
+* ``anti_join(A, B)`` retorna as linhas de A que _não_ tem um par em B
+
+Com os nossos dados inventados:
+
+```{R}
+left_join(A, B)
+right_join(A, B)
+full_join(A, B)
+inner_join(A, B)
+anti_join(A, B)
+```
+
+As funções de join pareiam variáveis de nomes iguais para fazer a ligação, então eu sempre recomendo ter a atenção de nomear tudo apropriadamente. Você sempre pode especificar com quais variáveis o join deve ser feito usando o argumento ``by=``, mas eu tendo a preferir (sem nenhum motivo real para isso além de preguiça) o pareamento automatico por nomes. 
+
+
+
+
+
+
+
+
