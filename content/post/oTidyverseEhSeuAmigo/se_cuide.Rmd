@@ -179,16 +179,15 @@ expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) %>%
       ~ rnorm(n = 5, mean = .x, sd = .y))
   ) %>%
   unnest(sims)
-
 ```
 
 Bem, afinal qual é o problema? Bem, alguns projetos de lei estão sendo mapeados de acordo com seu risco de votação e impacto fiscal:
 
-![title](dani1.jpeg)
+![](https://i.imgur.com/I8ELFsN.jpg)
 
 E queremos uma matriz listando os projetos em grupo:
 
-![title](dani2.jpeg)
+![title](https://i.imgur.com/e6O0Dn5.jpg)
 
 Antes de prosseguir, pense um pouco em como você resolveria isso com loops. Se estiver com paciência, esboce algumas soluções. Vamos gerar dados falsos:
 
