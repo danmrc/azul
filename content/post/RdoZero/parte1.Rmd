@@ -2,6 +2,7 @@
 title: "R do Zero (1): Sintaxe Básica"
 author: "Pedro Cavalcante"
 slug: "r-zero-1"
+draft: true
 categories:
   - R do Zero
 tags:
@@ -250,13 +251,12 @@ Compare suas intuições com os resultados reais.
 
 #### Exercício 2
 
-Gere um tibble com 4 colunas:
+Gere um tibble chamado ``tibble_exercicio`` com 4 colunas:
 
 * Mil números tirados de uma normal com média 0 e variância 1 (use a função ``rnorm()``)
 * Mil números tirados de uma uniforme (``runif()``)
 * A soma dos elementos nas duas primeiras colunas
 * A terceira coluna arredondada para nenhuma casa decimal (use ``round()``)
-
 
 #### Exercício 3
 

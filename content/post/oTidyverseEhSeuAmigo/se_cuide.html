@@ -1,0 +1,522 @@
+---
+title: "Cuide da saúde, pare de fazer loops"
+author: "Pedro Cavalcante"
+date: '2020-06-06'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+  - R
+  - Programação
+slug: 
+tags:
+  - R
+  - Programação Funcional
+authors: ["pedrocava"]
+---
+
+
+
+<p>O querido <a href="https://twitter.com/dannielduque">Daniel Duque</a> trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.</p>
+<p>Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação. Digamos que nós queremos simular várias normais com médias diferentes. Com loops:</p>
+<pre class="r"><code>library(tidyverse)
+
+n &lt;- 1000
+
+(dados_medias &lt;- tibble(media = seq(-5, 5, .01)))</code></pre>
+<pre><code>## # A tibble: 1,001 x 1
+##    media
+##    &lt;dbl&gt;
+##  1 -5   
+##  2 -4.99
+##  3 -4.98
+##  4 -4.97
+##  5 -4.96
+##  6 -4.95
+##  7 -4.94
+##  8 -4.93
+##  9 -4.92
+## 10 -4.91
+## # … with 991 more rows</code></pre>
+<pre class="r"><code>lista &lt;- as.list(rep(0, nrow(dados_medias)))
+
+for(i in 1:nrow(dados_medias)) {
+  
+ lista[[i]] &lt;- rnorm(n = n, 
+                     mean = dados_medias$media[i])
+
+}
+
+dados_medias$sims &lt;- lista
+
+(dados_finais &lt;- unnest(dados_medias, sims))</code></pre>
+<pre><code>## # A tibble: 1,001,000 x 2
+##    media  sims
+##    &lt;dbl&gt; &lt;dbl&gt;
+##  1    -5 -5.49
+##  2    -5 -4.98
+##  3    -5 -4.25
+##  4    -5 -8.70
+##  5    -5 -4.01
+##  6    -5 -4.93
+##  7    -5 -4.28
+##  8    -5 -4.59
+##  9    -5 -6.31
+## 10    -5 -5.49
+## # … with 1,000,990 more rows</code></pre>
+<p>Tenha em mente que com <code>tibbles</code> podemos usar listas como colunas, o que não acontece com os dataframes nativos do R então o código poderia ser ainda menos conciso.</p>
+<p>Existe outra abordagem para isso. Se entendermos que estamos na verdade aplicando funções várias vezes. <code>lista[[i]]] &lt;- ...</code> é a composição de duas funções no objeto lista: primeiro localize o i-ésimo elemento em lista e depois atributa o valor `<code>...</code>.</p>
+<p>Nós temos dificuldade em enxergar isso de primeira porque está tudo coberto de <a href="https://pt.stackoverflow.com/questions/12964/o-que-%C3%A9-syntax-sugar-e-como-ela-funciona"><em>açúcar sintático</em></a>. Elementos como <code>[[]]</code> e <code>&lt;-</code>, desenhados para trazer certas comodidades, mas que fazem essas operações parecerem se tratar de algo diferente.</p>
+<p>Levando essa raciocínio mais adiante, <code>for</code> não é exatamente uma função. Estamos apenas declarando uma uma operação deve ser repetida uma certa quantidade de vezes passando um valor (que usualmente nos referimos como <code>i</code>) tirado de uma lista ou vetor de valores. O que nos impede, no entanto, de pensar em funções que recebem outras funções e as aplicam em elementos variados?</p>
+<p>Se por um lado com loops estamos acessando objetos exteriores ao loop o tempo todo - por isso criamos objetos a serem preenchidos no começo do código - não pensamos apenas em uma função que recebe funções? Desse jeito não somos mais obrigados a preparar o terreno antes de um loop, nem mais pensar em índices. Se nomes de funções forem descritivos, é muito mais legível ler declarações do que acompanhar índices. Essas funções que recebem outras se chamam <em>funções de alta ordem</em> e existem em variados sabores. A que reproduz o comportamento de um loop é a <code>map()</code> do pacote <code>purrr</code>.</p>
+<p>Três coisas importantes para se ter em mente:</p>
+<ul>
+<li><p>R tem jeitos elegantes de lidar com funções que não precisam ser nomeadas, as anônimas. Podemos usar o construtor <code>~</code> das fórmulas e deixar o pacote se encarregar de traduzir isso numa função, ou explicitamente usar <code>function(.x) { ... }</code>. Como regra de bolso: se a operação a ser repetida é simples e cabe em uma sequencia curta de código, vale usar a fórmula, se não é melhor construir uma função.</p></li>
+<li><p>O substituto do <code>i</code> do loop aqui é <code>.x</code>. Isso pode parecer pior no começo, mas tem dois motivos: o ponto no início do nome serve para esse objeto não ir para o seu ambiente global, te poupando alguma dor de cabeça e também porque facilita iterar em objetos diferentes - que você usualmente faria com loops dentro de loops.</p></li>
+<li><p><code>map()</code> por si só <em>sempre devolve uma lista</em>. De vez em quando queremos vetores e fazemos isso especificando o tipo do qual queremos. <code>map_dbl()</code> devolve números reais de precisão dupla, <code>map_chr()</code> devolve caracteres, <code>map_lgl()</code> devolve lógicos, <code>map_dfr()</code> e <code>map_dfc()</code> devolvem dataframes empilhados, respectivamente, por linha e por coluna.</p></li>
+</ul>
+<p>Alguns exemplos:</p>
+<pre class="r"><code>map(1:10, # dos números de 1 a 10
+    ~ rnorm(n = 5, mean = .x)) # tire 5 números da normal com a média dada</code></pre>
+<pre><code>## [[1]]
+## [1]  0.2418169 -0.6673606  1.4925004  0.4253114  1.9634796
+## 
+## [[2]]
+## [1] 1.853540 3.475459 3.007426 3.231898 1.520549
+## 
+## [[3]]
+## [1] 2.249879 4.166061 3.487851 2.978859 2.478228
+## 
+## [[4]]
+## [1] 3.625051 4.109957 4.580837 3.234903 5.300984
+## 
+## [[5]]
+## [1] 4.695361 4.822951 4.106761 4.771939 4.106751
+## 
+## [[6]]
+## [1] 4.810434 5.204756 4.149236 5.515760 7.153169
+## 
+## [[7]]
+## [1] 7.036337 7.231143 6.006470 8.699318 6.347082
+## 
+## [[8]]
+## [1] 8.173739 7.587317 8.546867 7.219151 8.204414
+## 
+## [[9]]
+## [1] 10.699101  7.936811 10.189465  9.051544  9.636840
+## 
+## [[10]]
+## [1] 11.118897  9.422313  9.194769  8.892377 10.072334</code></pre>
+<pre class="r"><code>map(1:10, function(.x) rnorm(n = 5, mean = .x) ) # mesmo resultado que a abordagem com fórmulas</code></pre>
+<pre><code>## [[1]]
+## [1] -1.3210978  2.0111510  0.2361618 -0.2187596  0.2240176
+## 
+## [[2]]
+## [1] 1.351063 2.386086 3.225698 2.348116 1.016020
+## 
+## [[3]]
+## [1] 1.669888 4.318200 3.409835 2.930201 1.889964
+## 
+## [[4]]
+## [1] 3.970363 3.153852 4.234107 1.903766 4.758310
+## 
+## [[5]]
+## [1] 4.539948 6.758581 5.880556 6.095642 4.156837
+## 
+## [[6]]
+## [1] 6.246760 5.581703 6.131990 5.692813 6.049553
+## 
+## [[7]]
+## [1] 6.121728 6.767461 7.127548 6.321986 7.911833
+## 
+## [[8]]
+## [1] 8.380913 7.954342 7.935966 9.190862 8.733019
+## 
+## [[9]]
+## [1]  7.461310  9.083938 10.543307  9.521090  7.565780
+## 
+## [[10]]
+## [1]  8.891039 12.430766  9.029214 10.601676 10.369089</code></pre>
+<pre class="r"><code>map_dfc(1:10,
+        ~ rnorm(n = 100, mean = .x))</code></pre>
+<pre><code>## # A tibble: 100 x 10
+##       V1    V2    V3    V4    V5    V6    V7    V8    V9   V10
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 1.50  2.41   2.20  3.45  5.12  5.59  7.49  8.21  9.89 11.9 
+##  2 0.360 0.702  3.47  4.34  5.41  5.69  7.05  7.27  9.51  8.33
+##  3 0.334 3.11   2.80  5.80  4.58  7.53  7.39  9.03  7.60  9.45
+##  4 0.589 1.05   1.12  7.62  4.75  6.85  6.95  9.77  7.12  8.77
+##  5 0.982 0.510  3.31  5.55  6.44  4.99  7.83  8.65  9.40 11.2 
+##  6 2.82  0.689  2.34  3.20  6.59  5.25  7.54  8.75  9.94  8.91
+##  7 2.94  0.704  4.18  4.98  4.80  7.09  6.50  8.66  7.73 10.2 
+##  8 2.65  2.06   2.48  3.38  7.17  7.24  5.83  8.16 10.7  11.2 
+##  9 1.28  2.80   4.89  3.56  3.82  6.80  6.85  7.78  9.34  9.05
+## 10 0.284 3.48   3.26  5.94  4.87  6.24  6.52  9.77  9.49 11.1 
+## # … with 90 more rows</code></pre>
+<pre class="r"><code>map_dbl(1:10,
+        ~ rnorm(n = 100, mean = .x))</code></pre>
+<pre><code>## Error: Result 1 must be a single double, not a double vector of length 100</code></pre>
+<p>Note que nem toda conversão a certo tipo de saída funciona. Não podemos pedir que uma lista de vetores saia como um vetor, mas obviamente podemos falar de colar vetores de mesmo comprimento em colunas de um dataframe. Se quisermos uma saída com menos dimensões que uma lista precisamos de outra função de alta ordem, <code>reduce</code>. Esse padrão <a href="https://www.guru99.com/introduction-to-mapreduce.html"><em>map-reduce</em></a> é muito comum e tem aplicações interessantes para quem lida com volumes grandes de dados. Alguns exemplos:</p>
+<pre class="r"><code>map(1:10,
+    ~ rnorm(n = 5, mean = .x)) # lista de vetores</code></pre>
+<pre><code>## [[1]]
+## [1] -0.4330424 -0.1594975  0.7863272  1.1921037  1.5959092
+## 
+## [[2]]
+## [1] 0.6099253 2.0889569 2.4646364 2.1097524 0.3043645
+## 
+## [[3]]
+## [1] 3.794307 2.760123 1.745425 1.983135 1.605556
+## 
+## [[4]]
+## [1] 5.420115 3.512572 4.871448 4.462145 3.452676
+## 
+## [[5]]
+## [1] 4.781409 4.523160 6.032443 3.629964 4.326658
+## 
+## [[6]]
+## [1] 6.417156 8.010198 7.642516 7.179572 7.990632
+## 
+## [[7]]
+## [1] 7.157624 6.811923 8.313202 7.495494 4.039080
+## 
+## [[8]]
+## [1]  9.538458  8.360992 10.051623 10.021931  6.990258
+## 
+## [[9]]
+## [1] 9.788811 9.227459 9.771519 8.464346 8.848624
+## 
+## [[10]]
+## [1] 10.114914 11.974473  9.177927 11.088160  9.144650</code></pre>
+<pre class="r"><code>map(1:10,
+    ~ rnorm(n = 5, mean = .x)) %&gt;%
+  reduce(c) # a função c() que combina vetores, apenas um vetor de saída</code></pre>
+<pre><code>##  [1]  3.1220196  0.6672512  0.2474989 -1.5633749  1.6381009  1.3217115
+##  [7]  2.0772531  1.9710970  1.4382098  3.7634787  3.1378881  2.8515176
+## [13]  3.7182436  0.9693700  1.7787202  3.0127394  4.9881517  2.8645295
+## [19]  5.5819187  5.4955192  4.6117213  4.4438133  4.5011664  5.1791594
+## [25]  4.2078521  4.9652890  3.3558453  6.7259018  6.2895360  5.1815176
+## [31]  6.5079335  7.8048376  6.7080219  6.0386718  7.3915643  7.8215038
+## [37]  8.2877972  8.5365772  8.5324739  5.4994979  8.2102590  8.0942497
+## [43]  7.8129706 10.1459399  8.2772287 10.2018697  9.9366082 11.1726381
+## [49]  9.8858476 10.1845988</code></pre>
+<pre class="r"><code>map(1:10,
+    ~ rnorm(n = 5, mean = .x)) %&gt;%
+  reduce(cbind) # a função que une coluna a coluna</code></pre>
+<pre><code>##             out      elt      elt      elt      elt      elt      elt      elt
+## [1,] 0.07271996 2.479115 2.621136 4.240729 4.690385 6.121971 6.967721 6.866228
+## [2,] 1.19737774 3.333452 4.814324 3.950185 4.703591 6.913200 8.703715 6.229532
+## [3,] 1.04124545 2.056790 2.400435 3.885037 6.519905 6.431223 6.539889 7.808472
+## [4,] 0.37815265 1.290800 3.868002 4.301981 5.227960 6.691073 5.977145 8.737973
+## [5,] 0.71436796 2.627523 2.911055 5.986555 5.370171 6.722246 6.746695 7.967453
+##            elt       elt
+## [1,]  9.023254  9.633395
+## [2,] 11.183241  9.568682
+## [3,] 10.077192 11.363611
+## [4,]  7.200671 10.561722
+## [5,]  8.513504 10.600765</code></pre>
+<pre class="r"><code>map(1:10,
+    ~ rnorm(n = 5, mean = .x)) %&gt;%
+  reduce(rbind) # a função que une linha a linha (do ingles, row)</code></pre>
+<pre><code>##          [,1]        [,2]       [,3]      [,4]      [,5]
+## out  1.086385  0.01270188  0.8150988  2.176471 -1.564938
+## elt  2.647022  1.11876690  2.2565472  2.795528  1.661090
+## elt  3.330821  2.04498773  1.6808900  1.279285  2.907752
+## elt  2.804165  3.33923240  3.6899787  4.230356  4.043703
+## elt  4.598981  4.15743853  5.9033004  4.259957  5.052270
+## elt  7.125477  6.50803282  6.2544250  5.802932  4.973591
+## elt  6.815700  6.42187022  6.2831019  5.956085  7.359773
+## elt  7.376246  6.93847290  7.0828861  6.007103 10.441883
+## elt  8.311106  8.64019041  9.2930480 10.477942 10.327643
+## elt 11.977850 10.03280012 10.6438559  8.372533  9.316511</code></pre>
+<pre class="r"><code>as.list(1:10) </code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 2
+## 
+## [[3]]
+## [1] 3
+## 
+## [[4]]
+## [1] 4
+## 
+## [[5]]
+## [1] 5
+## 
+## [[6]]
+## [1] 6
+## 
+## [[7]]
+## [1] 7
+## 
+## [[8]]
+## [1] 8
+## 
+## [[9]]
+## [1] 9
+## 
+## [[10]]
+## [1] 10</code></pre>
+<pre class="r"><code>as.list(1:10) %&gt;%
+  reduce(c)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>as.list(1:10) %&gt;%
+  reduce(`+`) # podemos usar operadores com aspas</code></pre>
+<pre><code>## [1] 55</code></pre>
+<pre class="r"><code>letters</code></pre>
+<pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;
+## [20] &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
+<pre class="r"><code>letters %&gt;%
+  length() # 26 letras do alfabeto</code></pre>
+<pre><code>## [1] 26</code></pre>
+<pre class="r"><code>letters %&gt;%
+  reduce(paste(.x)) # reduce também aceita fórmulas</code></pre>
+<pre><code>## Error in paste(.x): object &#39;.x&#39; not found</code></pre>
+<pre class="r"><code>letters %&gt;%
+  reduce(~ paste(.x)) %&gt;% # reduce também aceita fórmulas
+  length() # apenas uma entrada, agora com todas as letras juntas</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>Antes avançar, é importante notar um propriedade muito boa de R: funções são cidadãs de primeira classe e isso explica por que coisas como <code>%&gt;% reduce(cbind)</code> funcionam. Assim como tibbles, listas, vetores e outras formas de armazenar dados, funções também são objetos e podemos notar isso ao parar de usar <code>()</code> para sinalizar que aquela função deve ser aplicada (outro açúcar sintático por sinal).</p>
+<pre class="r"><code>Sys.time()</code></pre>
+<pre><code>## [1] &quot;2020-06-06 21:01:39 -03&quot;</code></pre>
+<pre class="r"><code>Sys.time</code></pre>
+<pre><code>## function () 
+## .POSIXct(.Internal(Sys.time()))
+## &lt;bytecode: 0x559e305d9b40&gt;
+## &lt;environment: namespace:base&gt;</code></pre>
+<pre class="r"><code>rnorm(10)</code></pre>
+<pre><code>##  [1] -0.2504821 -0.9062117  0.9463719 -1.4958547  0.5560517 -0.6560119
+##  [7]  0.7776581  0.9324775  1.5046132 -0.5865063</code></pre>
+<pre class="r"><code>rnorm</code></pre>
+<pre><code>## function (n, mean = 0, sd = 1) 
+## .Call(C_rnorm, n, mean, sd)
+## &lt;bytecode: 0x559e3206df18&gt;
+## &lt;environment: namespace:stats&gt;</code></pre>
+<pre class="r"><code>is.function(`+`) # o operador de soma é uma função?</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.function(`&lt;-`) # o operador de designação é uma função?</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.function(`%&gt;%`) # pipe é uma função?</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>E bem, como podemos substituir o nosso loop de exemplo com esse raciocínio? <code>mutate</code> do dplyr recebe um dataframe e causa uma mutação em seu estado (adiciona ou mata variáveis, em bom português), já <code>unnest</code> puxa dados <em>aninhados</em> para fora. Vamos construir então passo a passo:</p>
+<pre class="r"><code>tibble(media = seq(1, 5, .001)) </code></pre>
+<pre><code>## # A tibble: 4,001 x 1
+##    media
+##    &lt;dbl&gt;
+##  1  1   
+##  2  1.00
+##  3  1.00
+##  4  1.00
+##  5  1.00
+##  6  1.00
+##  7  1.01
+##  8  1.01
+##  9  1.01
+## 10  1.01
+## # … with 3,991 more rows</code></pre>
+<pre class="r"><code>tibble(media = seq(1, 5, .001)) %&gt;%
+  mutate(sims = map(media, ~ rnorm(1000, .x)))</code></pre>
+<pre><code>## # A tibble: 4,001 x 2
+##    media sims         
+##    &lt;dbl&gt; &lt;list&gt;       
+##  1  1    &lt;dbl [1,000]&gt;
+##  2  1.00 &lt;dbl [1,000]&gt;
+##  3  1.00 &lt;dbl [1,000]&gt;
+##  4  1.00 &lt;dbl [1,000]&gt;
+##  5  1.00 &lt;dbl [1,000]&gt;
+##  6  1.00 &lt;dbl [1,000]&gt;
+##  7  1.01 &lt;dbl [1,000]&gt;
+##  8  1.01 &lt;dbl [1,000]&gt;
+##  9  1.01 &lt;dbl [1,000]&gt;
+## 10  1.01 &lt;dbl [1,000]&gt;
+## # … with 3,991 more rows</code></pre>
+<pre class="r"><code>tibble(media = seq(1, 5, .001)) %&gt;%
+  mutate(sims = map(media, ~ rnorm(1000, .x))) %&gt;%
+  unnest(sims)</code></pre>
+<pre><code>## # A tibble: 4,001,000 x 2
+##    media  sims
+##    &lt;dbl&gt; &lt;dbl&gt;
+##  1     1 0.224
+##  2     1 2.28 
+##  3     1 0.500
+##  4     1 1.83 
+##  5     1 1.24 
+##  6     1 0.935
+##  7     1 0.577
+##  8     1 1.84 
+##  9     1 1.08 
+## 10     1 1.99 
+## # … with 4,000,990 more rows</code></pre>
+<p>Não é tão mais simples que fazer um loop? Existe um custo mental inicial de pensar sobre o código de outro jeito, mas ele logo se paga em soluções mais rápidas e baratas para problemas de todo tipo. Programação funcional te permite ser mais expressivo, fazer mais falando menos.</p>
+<p>Lembra que ao invés de usar <code>i</code> para nos referir ao valor da iteração, usamos <code>.x</code>? Eu já te dei os motivos, antes de mostrar como isso tudo se aplica num problema prático muito típico, quero mostrar por quê o <code>.x</code> faz sentido.</p>
+<p>Digamos que agora, para cada média sendo usada na simulação dos dados eu queria variar também o desvio-padrão? Estamos simulando dados de uma normal tirado de uma “grade” contendo as combinações de médias e desvios-padrão. Pense um pouco em como abordar esse problema com loops. Você vai adicionar mais uma camada de loop, provavelmente irá se referir ao segundo índice como <code>j</code> e terá que acompanhar mentalmente duas camadas de peças móveis. Não é muito agradável e o problema piora exponencialmente com cada camada extra adicionada.</p>
+<p>Uma solução muito mais elegante te aguarda usando <code>map2()</code>, que serve para - como o nome entrga - iterar em dois objetos, <code>pmap()</code> faz isso para um número arbitrário. Para criar a grade com os dados usamos <code>expand_grid()</code>, que gera as combinações. Construindo passo a passo:</p>
+<pre class="r"><code>expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) # as combinações</code></pre>
+<pre><code>## # A tibble: 1,681 x 2
+##    media    sd
+##    &lt;dbl&gt; &lt;dbl&gt;
+##  1     1   1  
+##  2     1   1.1
+##  3     1   1.2
+##  4     1   1.3
+##  5     1   1.4
+##  6     1   1.5
+##  7     1   1.6
+##  8     1   1.7
+##  9     1   1.8
+## 10     1   1.9
+## # … with 1,671 more rows</code></pre>
+<pre class="r"><code>expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) %&gt;%
+  mutate(
+    sims = map2(
+      .x = media,
+      .y = sd,
+      ~ rnorm(n = 100, mean = .x, sd = .y))
+  ) # criando a coluna</code></pre>
+<pre><code>## # A tibble: 1,681 x 3
+##    media    sd sims       
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;     
+##  1     1   1   &lt;dbl [100]&gt;
+##  2     1   1.1 &lt;dbl [100]&gt;
+##  3     1   1.2 &lt;dbl [100]&gt;
+##  4     1   1.3 &lt;dbl [100]&gt;
+##  5     1   1.4 &lt;dbl [100]&gt;
+##  6     1   1.5 &lt;dbl [100]&gt;
+##  7     1   1.6 &lt;dbl [100]&gt;
+##  8     1   1.7 &lt;dbl [100]&gt;
+##  9     1   1.8 &lt;dbl [100]&gt;
+## 10     1   1.9 &lt;dbl [100]&gt;
+## # … with 1,671 more rows</code></pre>
+<pre class="r"><code>expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) %&gt;%
+  mutate(
+    sims = map2(
+      .x = media,
+      .y = sd,
+      ~ rnorm(n = 5, mean = .x, sd = .y))
+  ) %&gt;%
+  unnest(sims)</code></pre>
+<pre><code>## # A tibble: 8,405 x 3
+##    media    sd   sims
+##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1     1   1    1.26 
+##  2     1   1    1.97 
+##  3     1   1   -0.732
+##  4     1   1    1.84 
+##  5     1   1   -0.181
+##  6     1   1.1  2.15 
+##  7     1   1.1  0.601
+##  8     1   1.1  0.539
+##  9     1   1.1  1.61 
+## 10     1   1.1  0.322
+## # … with 8,395 more rows</code></pre>
+<p>Bem, afinal qual é o problema? Bem, alguns projetos de lei estão sendo mapeados de acordo com seu risco de votação e impacto fiscal:</p>
+<div class="figure">
+<img src="dani1.jpeg" alt="" />
+<p class="caption">title</p>
+</div>
+<p>E queremos uma matriz listando os projetos em grupo:</p>
+<div class="figure">
+<img src="dani2.jpeg" alt="" />
+<p class="caption">title</p>
+</div>
+<p>Antes de prosseguir, pense um pouco em como você resolveria isso com loops. Se estiver com paciência, esboce algumas soluções. Vamos gerar dados falsos:</p>
+<pre class="r"><code>library(lorem)
+library(glue)
+
+(tabela &lt;- tibble(PL = glue(&quot;{ipsum_starts(30)} {ipsum_starts(30)}&quot;),
+                  risco = sample(c(&quot;alto&quot;, &quot;baixo&quot;, &quot;médio&quot;), 
+                                 size = length(PL), 
+                                 replace = TRUE),
+                  impacto = sample(c(&quot;alto&quot;, &quot;baixo&quot;, &quot;médio&quot;), 
+                                   size = length(PL),
+                                   replace = TRUE)
+                  ))</code></pre>
+<pre><code>## # A tibble: 30 x 3
+##    PL                risco impacto
+##    &lt;glue&gt;            &lt;chr&gt; &lt;chr&gt;  
+##  1 sit ipsum         alto  alto   
+##  2 adipiscing sit    baixo alto   
+##  3 consectetur elit  baixo baixo  
+##  4 amet amet         baixo alto   
+##  5 amet consectetur  alto  médio  
+##  6 sit amet          baixo baixo  
+##  7 amet adipiscing   médio médio  
+##  8 adipiscing amet   médio alto   
+##  9 consectetur dolor médio baixo  
+## 10 elit sit          médio baixo  
+## # … with 20 more rows</code></pre>
+<p>Vamos passo a passo construir a solução:</p>
+<pre class="r"><code>expand_grid(risco = unique(tabela$risco), 
+              impacto = unique(tabela$impacto))  # primeiro uma grade</code></pre>
+<pre><code>## # A tibble: 9 x 2
+##   risco impacto
+##   &lt;chr&gt; &lt;chr&gt;  
+## 1 alto  alto   
+## 2 alto  baixo  
+## 3 alto  médio  
+## 4 baixo alto   
+## 5 baixo baixo  
+## 6 baixo médio  
+## 7 médio alto   
+## 8 médio baixo  
+## 9 médio médio</code></pre>
+<pre class="r"><code>expand_grid(risco = unique(tabela$risco), 
+              impacto = unique(tabela$impacto)) %&gt;%
+  mutate(PLs = 
+      map2(.x = risco, 
+           .y = impacto,
+           function(.x, .y) {
+              tabela %&gt;% # acessamos a tabela
+                filter(risco == .x,  # filtramos para as condições
+                       impacto == .y) %&gt;%
+                pull(PL) # puxamos o vetor com os nomes de PLs
+           })
+  ) </code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   risco impacto PLs       
+##   &lt;chr&gt; &lt;chr&gt;   &lt;list&gt;    
+## 1 alto  alto    &lt;glue [1]&gt;
+## 2 alto  baixo   &lt;glue [5]&gt;
+## 3 alto  médio   &lt;glue [6]&gt;
+## 4 baixo alto    &lt;glue [4]&gt;
+## 5 baixo baixo   &lt;glue [4]&gt;
+## 6 baixo médio   &lt;glue [2]&gt;
+## 7 médio alto    &lt;glue [1]&gt;
+## 8 médio baixo   &lt;glue [4]&gt;
+## 9 médio médio   &lt;glue [3]&gt;</code></pre>
+<pre class="r"><code>expand_grid(risco = unique(tabela$risco), 
+              impacto = unique(tabela$impacto)) %&gt;%
+  mutate(PLs = 
+    map_chr( # colocamos aquela lista anterior dentro de OUTRO MAP
+      map2(.x = risco, 
+           .y = impacto,
+           function(.x, .y) {
+              tabela %&gt;%
+                filter(risco == .x, 
+                       impacto == .y) %&gt;%
+                pull(PL)
+           }),
+      ~ paste0(.x, collapse = &quot;, &quot;)) # aplicamos paste com collapse
+              # dessa forma, os elementos em cada entrada da lista
+              # são colapsados no mesmo texto, separados pela &quot;, &quot; 
+  ) </code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   risco impacto PLs                                                             
+##   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                                                           
+## 1 alto  alto    sit ipsum                                                       
+## 2 alto  baixo   ipsum amet, amet lorem, lorem lorem, adipiscing ipsum, consecte…
+## 3 alto  médio   amet consectetur, consectetur consectetur, lorem elit, amet sit…
+## 4 baixo alto    adipiscing sit, amet amet, consectetur amet, dolor adipiscing   
+## 5 baixo baixo   consectetur elit, sit amet, ipsum elit, elit dolor              
+## 6 baixo médio   sit lorem, elit lorem                                           
+## 7 médio alto    adipiscing amet                                                 
+## 8 médio baixo   consectetur dolor, elit sit, lorem sit, consectetur consectetur 
+## 9 médio médio   amet adipiscing, adipiscing sit, consectetur consectetur</code></pre>
+<p>Algumas vantagens não são óvbias. A primeira é que é apenas uma expressão a ser executada então você pode ter certeza que nunca terá erros em pedaços específicos do código então <em>todo</em> dado resultado dessa operação é válido. Se uma peça móvel falhar, a avaliação toda é cancelada e está claro que há um problema. A segunda é que - apesar de parecer mais difícil no começo - essa abordagem te faz precisar acompanhar menos detalhes da operação si, te liberado para focar no resultado desejado.</p>
+<p>A terceira é que se você inicia uma expressão atribuindo o resultado dessa solução a um objeto, é uma operação <em>idempotente</em>, no sentido de que ao ser repetida sempre gera a mesma saída. Se você está sobreescrevendo o mesmo objeto várias vezes, então só terá o mesmo dado se repetir <em>todas as operações</em>. Essa é uma preocupação desnecessária se seu código for idempotente. Idempotência é uma propriedade especialmente importante quando se lida com código de execução automática (algo que rode todo dia às 9h da manhã por exemplo). Você <em>não quer</em> que um erro no sistema de filas ou execução do código altere o resultado do seus programas.</p>
+<p>Se faça um favor, largue os loops.</p>

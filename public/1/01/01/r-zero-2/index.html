@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.71.0" />
+		<title>R do Zero (2): Manipulando dados com {dplyr} &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
+  
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        R do Zero (2): Manipulando dados com {dplyr}
+                    </h1>
+                    <h3> Pedro Cavalcante </h3>
+                    <h2 class="headline">
+                    Jan 1, 0001 00:00
+                    · 4080 words
+                    · 20 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/programa%C3%A7%C3%A3o">Programação</a>
+                          
+                              <a href="/tags/r-do-zero">R do Zero</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    
+
+
+<p>Qual é a ideia do <code>dplyr</code>? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o <code>%&gt;%</code> para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.</p>
+<p>Os que já tiveram contato com python se lembrarão de várias funções do <code>pandas</code>. Por uma série de pequenas vantagens vocês perceberão que o <code>dplyr</code> oferece uma solução mais ergonômica e concisa de manipulação de dados - graças à magia da <em>tidy evaluation</em>, assunto que visitaremos no futuro.</p>
+<p>Pacotes trazem dados e funções novas, que por vezes têm o mesmo nome. Para evitar ambiguidade usamos o sinal <code>::</code>. <code>tibble::glimpse()</code> é a função <code>glimpse()</code> vinda do pacote <code>tibble</code></p>
+<pre class="r"><code>library(dplyr)
+library(nycflights13)
+
+airports # dados de aeroportos</code></pre>
+<pre><code>## # A tibble: 1,458 x 8
+##    faa   name                       lat    lon   alt    tz dst   tzone          
+##    &lt;chr&gt; &lt;chr&gt;                    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;          
+##  1 04G   Lansdowne Airport         41.1  -80.6  1044    -5 A     America/New_Yo…
+##  2 06A   Moton Field Municipal A…  32.5  -85.7   264    -6 A     America/Chicago
+##  3 06C   Schaumburg Regional       42.0  -88.1   801    -6 A     America/Chicago
+##  4 06N   Randall Airport           41.4  -74.4   523    -5 A     America/New_Yo…
+##  5 09J   Jekyll Island Airport     31.1  -81.4    11    -5 A     America/New_Yo…
+##  6 0A9   Elizabethton Municipal …  36.4  -82.2  1593    -5 A     America/New_Yo…
+##  7 0G6   Williams County Airport   41.5  -84.5   730    -5 A     America/New_Yo…
+##  8 0G7   Finger Lakes Regional A…  42.9  -76.8   492    -5 A     America/New_Yo…
+##  9 0P2   Shoestring Aviation Air…  39.8  -76.6  1000    -5 U     America/New_Yo…
+## 10 0S9   Jefferson County Intl     48.1 -123.    108    -8 A     America/Los_An…
+## # … with 1,448 more rows</code></pre>
+<pre class="r"><code>glimpse(airports)</code></pre>
+<pre><code>## Rows: 1,458
+## Columns: 8
+## $ faa   &lt;chr&gt; &quot;04G&quot;, &quot;06A&quot;, &quot;06C&quot;, &quot;06N&quot;, &quot;09J&quot;, &quot;0A9&quot;, &quot;0G6&quot;, &quot;0G7&quot;, &quot;0P2&quot;, …
+## $ name  &lt;chr&gt; &quot;Lansdowne Airport&quot;, &quot;Moton Field Municipal Airport&quot;, &quot;Schaumbu…
+## $ lat   &lt;dbl&gt; 41.13047, 32.46057, 41.98934, 41.43191, 31.07447, 36.37122, 41.…
+## $ lon   &lt;dbl&gt; -80.61958, -85.68003, -88.10124, -74.39156, -81.42778, -82.1734…
+## $ alt   &lt;dbl&gt; 1044, 264, 801, 523, 11, 1593, 730, 492, 1000, 108, 409, 875, 1…
+## $ tz    &lt;dbl&gt; -5, -6, -6, -5, -5, -5, -5, -5, -5, -8, -5, -6, -5, -5, -5, -5,…
+## $ dst   &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;U&quot;, &quot;A&quot;, &quot;A&quot;, &quot;U&quot;, &quot;A&quot;…
+## $ tzone &lt;chr&gt; &quot;America/New_York&quot;, &quot;America/Chicago&quot;, &quot;America/Chicago&quot;, &quot;Amer…</code></pre>
+<p><code>select</code> e <code>pull</code> servem para filtrar colunas, a diferença sendo que <code>pull</code> devolve a coluna escolhida como vetor e não como tibble.</p>
+<pre class="r"><code>select(airports, faa, name, lat, lon, alt) # selecionando apenas código, nome e coordenadas</code></pre>
+<pre><code>## # A tibble: 1,458 x 5
+##    faa   name                             lat    lon   alt
+##    &lt;chr&gt; &lt;chr&gt;                          &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1 04G   Lansdowne Airport               41.1  -80.6  1044
+##  2 06A   Moton Field Municipal Airport   32.5  -85.7   264
+##  3 06C   Schaumburg Regional             42.0  -88.1   801
+##  4 06N   Randall Airport                 41.4  -74.4   523
+##  5 09J   Jekyll Island Airport           31.1  -81.4    11
+##  6 0A9   Elizabethton Municipal Airport  36.4  -82.2  1593
+##  7 0G6   Williams County Airport         41.5  -84.5   730
+##  8 0G7   Finger Lakes Regional Airport   42.9  -76.8   492
+##  9 0P2   Shoestring Aviation Airfield    39.8  -76.6  1000
+## 10 0S9   Jefferson County Intl           48.1 -123.    108
+## # … with 1,448 more rows</code></pre>
+<pre class="r"><code>select(airports, -name, -alt) # tirando o nome e altitude do aeroporto com o sinal -</code></pre>
+<pre><code>## # A tibble: 1,458 x 6
+##    faa     lat    lon    tz dst   tzone              
+##    &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;              
+##  1 04G    41.1  -80.6    -5 A     America/New_York   
+##  2 06A    32.5  -85.7    -6 A     America/Chicago    
+##  3 06C    42.0  -88.1    -6 A     America/Chicago    
+##  4 06N    41.4  -74.4    -5 A     America/New_York   
+##  5 09J    31.1  -81.4    -5 A     America/New_York   
+##  6 0A9    36.4  -82.2    -5 A     America/New_York   
+##  7 0G6    41.5  -84.5    -5 A     America/New_York   
+##  8 0G7    42.9  -76.8    -5 A     America/New_York   
+##  9 0P2    39.8  -76.6    -5 U     America/New_York   
+## 10 0S9    48.1 -123.     -8 A     America/Los_Angeles
+## # … with 1,448 more rows</code></pre>
+<pre class="r"><code>is.vector(select(airports, name)) # select() devolve um dataframe</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>is.vector(pull(airports, name)) # pull() devolve um vetor!</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p><code>filter</code>, como o nome sugere, filtra os dados dadas condições. <code>mutate</code> altera/mutaciona o estado dos dados e serve para criar ou modificar colunas. <code>slice</code> fatia os dados e devolve apenas certas linhas pedidas. A função <code>ifelse</code> recebe (i) um teste lógico, (ii) o que devolver caso seja verdadeiro e (iii) o que devolver caso seja falso. Usuário de Excel devem reconhecer o funcionamento da função <code>IF/SE</code>.</p>
+<pre class="r"><code>filter(select(airports,
+              name, alt), alt &gt; 500) # apenas aeroportos acima de 500 pés</code></pre>
+<pre><code>## # A tibble: 718 x 2
+##    name                                   alt
+##    &lt;chr&gt;                                &lt;dbl&gt;
+##  1 Lansdowne Airport                     1044
+##  2 Schaumburg Regional                    801
+##  3 Randall Airport                        523
+##  4 Elizabethton Municipal Airport        1593
+##  5 Williams County Airport                730
+##  6 Shoestring Aviation Airfield          1000
+##  7 Galt Field Airport                     875
+##  8 Port Bucyrus-Crawford County Airport  1003
+##  9 Jackson County Airport                 951
+## 10 Martin Campbell Field Airport         1789
+## # … with 708 more rows</code></pre>
+<pre class="r"><code>mutate(select(airports,
+              name, alt),
+       acima500 = if_else(alt &gt; 500, 
+                         &quot;Aeroporto está acima de 500 pés&quot;, 
+                         &quot;Aeroport NÃO está acima de 500 pés&quot;))</code></pre>
+<pre><code>## # A tibble: 1,458 x 3
+##    name                             alt acima500                          
+##    &lt;chr&gt;                          &lt;dbl&gt; &lt;chr&gt;                             
+##  1 Lansdowne Airport               1044 Aeroporto está acima de 500 pés   
+##  2 Moton Field Municipal Airport    264 Aeroport NÃO está acima de 500 pés
+##  3 Schaumburg Regional              801 Aeroporto está acima de 500 pés   
+##  4 Randall Airport                  523 Aeroporto está acima de 500 pés   
+##  5 Jekyll Island Airport             11 Aeroport NÃO está acima de 500 pés
+##  6 Elizabethton Municipal Airport  1593 Aeroporto está acima de 500 pés   
+##  7 Williams County Airport          730 Aeroporto está acima de 500 pés   
+##  8 Finger Lakes Regional Airport    492 Aeroport NÃO está acima de 500 pés
+##  9 Shoestring Aviation Airfield    1000 Aeroporto está acima de 500 pés   
+## 10 Jefferson County Intl            108 Aeroport NÃO está acima de 500 pés
+## # … with 1,448 more rows</code></pre>
+<pre class="r"><code>slice(airports, 1:5) # as primeiras 5 linhas de airports</code></pre>
+<pre><code>## # A tibble: 5 x 8
+##   faa   name                          lat   lon   alt    tz dst   tzone         
+##   &lt;chr&gt; &lt;chr&gt;                       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;         
+## 1 04G   Lansdowne Airport            41.1 -80.6  1044    -5 A     America/New_Y…
+## 2 06A   Moton Field Municipal Airp…  32.5 -85.7   264    -6 A     America/Chica…
+## 3 06C   Schaumburg Regional          42.0 -88.1   801    -6 A     America/Chica…
+## 4 06N   Randall Airport              41.4 -74.4   523    -5 A     America/New_Y…
+## 5 09J   Jekyll Island Airport        31.1 -81.4    11    -5 A     America/New_Y…</code></pre>
+<pre class="r"><code>slice(airports, 100:105) # as linhas entre 100 e 105</code></pre>
+<pre><code>## # A tibble: 6 x 8
+##   faa   name                        lat    lon   alt    tz dst   tzone          
+##   &lt;chr&gt; &lt;chr&gt;                     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;          
+## 1 ADW   Andrews Afb                38.8  -76.9   280    -5 A     America/New_Yo…
+## 2 AET   Allakaket Airport          66.6 -153.    441    -9 A     America/Anchor…
+## 3 AEX   Alexandria Intl            31.3  -92.5    89    -6 A     America/Chicago
+## 4 AFE   Kake Airport               57.0 -134.    172    -9 A     America/Anchor…
+## 5 AFW   Fort Worth Alliance Airp…  33.0  -97.3   722    -6 A     America/Chicago
+## 6 AGC   Allegheny County Airport   40.4  -79.9  1252    -5 A     America/New_Yo…</code></pre>
+<p>Note que ao combinarmos verbos começamos a complicar legibidade. É desagradável escrever <code>select(airports, name, alt)</code> como argumento de uma função. Para isso existe o operador <code>%&gt;%</code>, que chamamos de <em>pipe</em>. A ideia é que ele opere como um cano.</p>
+<p>Imagine que temos um objeto <code>a</code> e queremos aplicar uma série de funções nele. Podemos:</p>
+<pre><code>funcao4(funcao3(funcao2(funcao1(a))))</code></pre>
+<p>Ou usar o pipe, que recebe um objeto e passa ele como <em>primeiro parâmetro</em> na função seguinte:</p>
+<pre><code>a %&gt;%
+funcao1() %&gt;%
+funcao2() %&gt;%
+funcao3() %&gt;%
+funcao4()</code></pre>
+<p>Se quisermos, por exemplo, o nome e fuso-horário apenas dos aeroportos a mais de 500 pés de altitude, então:</p>
+<pre class="r"><code>airports %&gt;%
+  filter(alt &gt; 500) %&gt;%
+  select(name, tz)</code></pre>
+<pre><code>## # A tibble: 718 x 2
+##    name                                    tz
+##    &lt;chr&gt;                                &lt;dbl&gt;
+##  1 Lansdowne Airport                       -5
+##  2 Schaumburg Regional                     -6
+##  3 Randall Airport                         -5
+##  4 Elizabethton Municipal Airport          -5
+##  5 Williams County Airport                 -5
+##  6 Shoestring Aviation Airfield            -5
+##  7 Galt Field Airport                      -6
+##  8 Port Bucyrus-Crawford County Airport    -5
+##  9 Jackson County Airport                  -5
+## 10 Martin Campbell Field Airport           -5
+## # … with 708 more rows</code></pre>
+<p>A função <code>stringr::str_detect</code> detecta padrões dentro de strings. Por exemplo: <code>str_detect("texto", "x")</code> retorna <code>TRUE</code> porque de fato a letra “x” aparece em “texto”. Se quisermos classificar os aeroportos anteriores entre internacionais ou não poderíamos fazer:</p>
+<pre class="r"><code>library(stringr)
+
+airports %&gt;%
+  filter(alt &gt; 500) %&gt;%
+  select(name, tz) %&gt;%
+  mutate(tipo = if_else(condition = str_detect(name, &quot;Int&quot;),
+                        true = &quot;Internacional&quot;,
+                        false = &quot;Doméstico&quot;)) </code></pre>
+<pre><code>## # A tibble: 718 x 3
+##    name                                    tz tipo     
+##    &lt;chr&gt;                                &lt;dbl&gt; &lt;chr&gt;    
+##  1 Lansdowne Airport                       -5 Doméstico
+##  2 Schaumburg Regional                     -6 Doméstico
+##  3 Randall Airport                         -5 Doméstico
+##  4 Elizabethton Municipal Airport          -5 Doméstico
+##  5 Williams County Airport                 -5 Doméstico
+##  6 Shoestring Aviation Airfield            -5 Doméstico
+##  7 Galt Field Airport                      -6 Doméstico
+##  8 Port Bucyrus-Crawford County Airport    -5 Doméstico
+##  9 Jackson County Airport                  -5 Doméstico
+## 10 Martin Campbell Field Airport           -5 Doméstico
+## # … with 708 more rows</code></pre>
+<p><code>arrange</code> recebe nomes de colunas do dataframe e rearranja os dados em ordem crescente. Se quisermos em ordem decrescente, precisamos de <code>desc()</code>.</p>
+<pre class="r"><code>airports %&gt;%
+  filter(alt &gt; 500) %&gt;%
+  select(name, tz) %&gt;%
+  mutate(tipo = if_else(condition = str_detect(name, &quot;Int&quot;),
+                        true = &quot;Internacional&quot;,
+                        false = &quot;Doméstico&quot;)) %&gt;%
+  arrange(name) # ordenados alfabeticamente</code></pre>
+<pre><code>## # A tibble: 718 x 3
+##    name                                         tz tipo         
+##    &lt;chr&gt;                                     &lt;dbl&gt; &lt;chr&gt;        
+##  1 Aberdeen Regional Airport                    -6 Doméstico    
+##  2 Abilene Rgnl                                 -6 Doméstico    
+##  3 Abraham Lincoln Capital                      -6 Doméstico    
+##  4 Addison                                      -6 Doméstico    
+##  5 Adirondack Regional Airport                  -5 Doméstico    
+##  6 Akron Canton Regional Airport                -5 Doméstico    
+##  7 Akron Fulton Intl                            -5 Internacional
+##  8 Alamogordo White Sands Regional Airport      -7 Doméstico    
+##  9 Albuquerque International Sunport            -7 Internacional
+## 10 Alexander Field South Wood County Airport    -6 Doméstico    
+## # … with 708 more rows</code></pre>
+<pre class="r"><code>airports %&gt;%
+  filter(alt &gt; 500) %&gt;%
+  select(name, tz) %&gt;%
+  mutate(tipo = if_else(condition = str_detect(name, &quot;Int&quot;),
+                        true = &quot;Internacional&quot;,
+                        false = &quot;Doméstico&quot;)) %&gt;%
+  arrange(desc(name)) # em ordem inversa à alfabética</code></pre>
+<pre><code>## # A tibble: 718 x 3
+##    name                                    tz tipo     
+##    &lt;chr&gt;                                &lt;dbl&gt; &lt;chr&gt;    
+##  1 Youngstown Warren Rgnl                  -5 Doméstico
+##  2 Youngstown Elser Metro Airport          -5 Doméstico
+##  3 Yellowstone Rgnl                        -7 Doméstico
+##  4 Yellowstone Airport                     -7 Doméstico
+##  5 Yeager                                  -5 Doméstico
+##  6 Yampa Valley                            -7 Doméstico
+##  7 Yakima Air Terminal McAllister Field    -8 Doméstico
+##  8 Wright Patterson Afb                    -5 Doméstico
+##  9 Worland Municipal Airport               -7 Doméstico
+## 10 Worcester Regional Airport              -5 Doméstico
+## # … with 708 more rows</code></pre>
+<p>E se quisermos uma descrição mais fina? Bem, quando temos várias condições, podemos usar <code>case_when</code> no lugar de <code>if_else</code>. Damos uma condição, um til e um valor caso a condição prossiga.</p>
+<pre class="r"><code>airports %&gt;%
+  filter(alt &gt; 500) %&gt;%
+  select(name, tz) %&gt;%
+  mutate(tipo = case_when(
+    str_detect(name, &quot;Int&quot;) ~ &quot;Internacional&quot;,
+    str_detect(name, &quot;Regional&quot;) ~ &quot;Regional&quot;,
+    str_detect(name, &quot;County&quot;) ~ &quot;Condado&quot;,
+    str_detect(name, &quot;Municipal&quot;) ~ &quot;Municipal&quot;,
+    # e agora, uma condição caso nenhum anterior bata, atenção ao ! de negação
+    !str_detect(name, c(&quot;Int&quot;, &quot;Regional&quot;, &quot;County&quot;, &quot;Municipal&quot;)) ~ FALSE 
+    )) </code></pre>
+<pre><code>## Warning in stri_detect_regex(string, pattern, negate = negate, opts_regex =
+## opts(pattern)): longer object length is not a multiple of shorter object length</code></pre>
+<pre><code>## Error: must be a character vector, not a logical vector</code></pre>
+<p>Note que recebemos um erro e a mensagem é <em>um pouco</em> clara: precisamos de texto e não valores lógicos. Por quê? <code>case_when</code> e <code>if_else</code> forçam o usuário a aderir a boas práticas - o <code>dplyr</code> e suas bibliotecas irmãs como um todo fazem isso. Em todo caso o retorno deve ser <em>do mesmo tipo</em>. Não posso pedir para que seja retornado texto como “Internacional” em alguns casos e o valor <code>FALSE</code> em outros porque vetores guardam dados do mesmo tipo.</p>
+<pre class="r"><code>airports %&gt;%
+  filter(alt &gt; 500) %&gt;% # apenas aeroportos acima de 500 pés de altitude
+  select(name, tz) %&gt;% 
+  mutate(tipo = case_when(
+    str_detect(name, &quot;Int&quot;) ~ &quot;Internacional&quot;,
+    str_detect(name, &quot;Regional&quot;) ~ &quot;Regional&quot;,
+    str_detect(name, &quot;County&quot;) ~ &quot;Condado&quot;,
+    str_detect(name, &quot;Municipal&quot;) ~ &quot;Municipal&quot;,
+    # e agora, uma condição caso nenhum anterior bata, atenção ao ! de negação
+    !str_detect(name, c(&quot;Int&quot;, &quot;Regional&quot;, &quot;County&quot;, &quot;Municipal&quot;)) ~ &quot;Pequeno&quot; 
+    )) </code></pre>
+<pre><code>## Warning in stri_detect_regex(string, pattern, negate = negate, opts_regex =
+## opts(pattern)): longer object length is not a multiple of shorter object length</code></pre>
+<pre><code>## # A tibble: 718 x 3
+##    name                                    tz tipo     
+##    &lt;chr&gt;                                &lt;dbl&gt; &lt;chr&gt;    
+##  1 Lansdowne Airport                       -5 Pequeno  
+##  2 Schaumburg Regional                     -6 Regional 
+##  3 Randall Airport                         -5 Pequeno  
+##  4 Elizabethton Municipal Airport          -5 Municipal
+##  5 Williams County Airport                 -5 Condado  
+##  6 Shoestring Aviation Airfield            -5 Pequeno  
+##  7 Galt Field Airport                      -6 Pequeno  
+##  8 Port Bucyrus-Crawford County Airport    -5 Condado  
+##  9 Jackson County Airport                  -5 Condado  
+## 10 Martin Campbell Field Airport           -5 Pequeno  
+## # … with 708 more rows</code></pre>
+<p>Podemos também sumarisar dados com <code>summarise</code>, que devolve um dataframe com uma linha resumindo os dados:</p>
+<pre class="r"><code>flights %&gt;%
+  summarise(atraso_medio = mean(arr_delay, na.rm = TRUE), # em minutos
+            desviopadrao_atraso = sd(arr_delay, na.rm = TRUE),
+            atraso_partida_medio = mean(dep_delay, na.rm = TRUE), # em minutos
+            distancia_media = mean(distance, na.rm = TRUE)) # em milhas</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   atraso_medio desviopadrao_atraso atraso_partida_medio distancia_media
+##          &lt;dbl&gt;               &lt;dbl&gt;                &lt;dbl&gt;           &lt;dbl&gt;
+## 1         6.90                44.6                 12.6           1040.</code></pre>
+<div id="advérbios" class="section level1">
+<h1>Advérbios</h1>
+<p>Verbos como <code>mutate</code> e <code>filter</code> realizam operações em um dataframe inteiro, mas de vez em quando queremos sumários ou transformações de dados sensíveis em recortes específicos. O advérbio mais importante do <code>dplyr</code> - e o único que abordaremos por um tempo - é <code>group_by()</code>.</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(origin) </code></pre>
+<pre><code>## # A tibble: 336,776 x 19
+## # Groups:   origin [3]
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # … with 336,766 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,
+## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
+## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>Agora nós não somos apenas informados de que temos <span class="math inline">\(336776\)</span> registros de vôos, como também que temos <span class="math inline">\(3\)</span> grupos únicos que dividem perfeitamente os dados. Podemos agrupar por mais variáveis:</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(origin, tailnum) # aeroporto de origem do vôo e número de cauda da aeronave </code></pre>
+<pre><code>## # A tibble: 336,776 x 19
+## # Groups:   origin, tailnum [7,944]
+##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+##  1  2013     1     1      517            515         2      830            819
+##  2  2013     1     1      533            529         4      850            830
+##  3  2013     1     1      542            540         2      923            850
+##  4  2013     1     1      544            545        -1     1004           1022
+##  5  2013     1     1      554            600        -6      812            837
+##  6  2013     1     1      554            558        -4      740            728
+##  7  2013     1     1      555            600        -5      913            854
+##  8  2013     1     1      557            600        -3      709            723
+##  9  2013     1     1      557            600        -3      838            846
+## 10  2013     1     1      558            600        -2      753            745
+## # … with 336,766 more rows, and 11 more variables: arr_delay &lt;dbl&gt;,
+## #   carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;,
+## #   air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</code></pre>
+<p>Temos agora <span class="math inline">\(7944\)</span> combinações únicas de aeroporto de saída e aeronave.</p>
+<p>Com operações agrupadas podemos encontrar o aeroporto que mais atrasa partidas:</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(origin) %&gt;%
+  summarise(atraso_medio = mean(dep_delay, na.rm = TRUE),
+            tempo_medio_voo = mean(air_time, na.rm = TRUE),
+            distancia_media_voo = mean(distance)) %&gt;%
+  arrange(desc(atraso_medio))</code></pre>
+<pre><code>## # A tibble: 3 x 4
+##   origin atraso_medio tempo_medio_voo distancia_media_voo
+##   &lt;chr&gt;         &lt;dbl&gt;           &lt;dbl&gt;               &lt;dbl&gt;
+## 1 EWR            15.1            153.               1057.
+## 2 JFK            12.1            178.               1266.
+## 3 LGA            10.3            118.                780.</code></pre>
+<p>No caso, é o Aeroporto Internacional de Newark o mais atrasado e o Internacional John F. Kennedy o com vôos mais longos e demorados.</p>
+<p>E qual aeronave teve mais saídas? Para isso precisamos da função <code>n()</code> que nos diz quantas observações pertencem ao mesmo grupo.</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(tailnum) %&gt;%
+  filter(!is.na(tailnum)) %&gt;% # apenas vôos com o número de aeronave registrado
+  summarise(saidas = n()) %&gt;%
+  arrange(desc(saidas)) %&gt;% # em ordem decrescente de voos
+  slice(1:10) # apenas os 10 aviões que mais voaram</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    tailnum saidas
+##    &lt;chr&gt;    &lt;int&gt;
+##  1 N725MQ     575
+##  2 N722MQ     513
+##  3 N723MQ     507
+##  4 N711MQ     486
+##  5 N713MQ     483
+##  6 N258JB     427
+##  7 N298JB     407
+##  8 N353JB     404
+##  9 N351JB     402
+## 10 N735MQ     396</code></pre>
+<p>Quantas aeronaves distintas operam um mesmo vôo? Podemos usar o verbo <code>distinct</code> para resolver esse tipo de pergunta. Os 10 vôos com mais aeronaves distintas operando são:</p>
+<pre class="r"><code>flights %&gt;%
+  group_by(flight) %&gt;% # agrupe por vôo
+  distinct(tailnum) %&gt;% # apenas aeronaves distintas
+  summarise(aeronaves_distintas = n()) %&gt;% # conte as aeronaves distintas
+  arrange(desc(aeronaves_distintas)) %&gt;% # ordene
+  slice(1:10) # apenas os 10 voos com mais aeronaves distintas</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    flight aeronaves_distintas
+##     &lt;int&gt;               &lt;int&gt;
+##  1    301                 417
+##  2    327                 389
+##  3    695                 383
+##  4    745                 351
+##  5   1271                 351
+##  6    359                 345
+##  7    161                 343
+##  8    353                 327
+##  9    345                 324
+## 10    371                 313</code></pre>
+<p>E parabéns para o vôo 301 que foi operado por 417 aeronaves diferentes em 2013. Como é o inverso, quais aeronaves operam mais vôos?</p>
+<pre class="r"><code>flights %&gt;%
+  filter(!is.na(tailnum)) %&gt;% # apenas registros com o código da aeronave
+  group_by(tailnum) %&gt;% # agrupe pela aeronave
+  distinct(flight) %&gt;% # apenas voos distintos
+  summarise(voos_distintos = n()) %&gt;% # conte os voos
+  arrange(desc(voos_distintos)) %&gt;% # ordene em ordem decrescente
+  slice(1:10) # pegue os 10 primeiros</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    tailnum voos_distintos
+##    &lt;chr&gt;            &lt;int&gt;
+##  1 N19554             190
+##  2 N15980             187
+##  3 N12921             186
+##  4 N15572             185
+##  5 N14573             182
+##  6 N18557             182
+##  7 N14558             180
+##  8 N11536             179
+##  9 N13914             178
+## 10 N13949             178</code></pre>
+<p>Digamos que você esteja interessado apenas em recuperar a identificação dessas aeronaves que cumprem os requisitos - neste caso, estarem entre as 10 primeiras em números de vôos distintos. Esse tipo de operação em que manipulamos dados, filtramos por certos critérios e então pegamos algum tipo de identificação de quem/o que cumpre tais critérios é particularmente comum trabalhando em grandes bancos de dados.</p>
+<p>Note que temos outro dataframe apenas com dados das aeronaves em si:</p>
+<pre class="r"><code>planes</code></pre>
+<pre><code>## # A tibble: 3,322 x 9
+##    tailnum  year type          manufacturer   model  engines seats speed engine 
+##    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;          &lt;chr&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  
+##  1 N10156   2004 Fixed wing m… EMBRAER        EMB-1…       2    55    NA Turbo-…
+##  2 N102UW   1998 Fixed wing m… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
+##  3 N103US   1999 Fixed wing m… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
+##  4 N104UW   1999 Fixed wing m… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
+##  5 N10575   2002 Fixed wing m… EMBRAER        EMB-1…       2    55    NA Turbo-…
+##  6 N105UW   1999 Fixed wing m… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
+##  7 N107US   1999 Fixed wing m… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
+##  8 N108UW   1999 Fixed wing m… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
+##  9 N109UW   1999 Fixed wing m… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
+## 10 N110UW   1999 Fixed wing m… AIRBUS INDUST… A320-…       2   182    NA Turbo-…
+## # … with 3,312 more rows</code></pre>
+<p>Se por acaso estamos interessados em localizar aeronaves específicas com a tabela <code>flights</code> e depois pegar informações que estão na <code>planes</code>, como fazemos?</p>
+</div>
+<div id="joins-e-pareamento" class="section level1">
+<h1>Joins e Pareamento</h1>
+<p>Joins são operações que pareaiam dataframes. Existem sabores variados então vamos começar com um exemplo lúdico antes de voltar para os dados de aeroportos.</p>
+<pre class="r"><code>(A &lt;- tibble(id = sample(letters, 10),
+                valor = rnorm(n = 10)))</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    id       valor
+##    &lt;chr&gt;    &lt;dbl&gt;
+##  1 w      0.0262 
+##  2 i     -0.508  
+##  3 y     -0.271  
+##  4 g      2.54   
+##  5 c      0.927  
+##  6 q      0.0707 
+##  7 l      0.139  
+##  8 v     -0.737  
+##  9 e      0.881  
+## 10 d      0.00423</code></pre>
+<pre class="r"><code>(B &lt;- tibble(id = sample(letters, 10),
+                 medida = runif(n = 10)))</code></pre>
+<pre><code>## # A tibble: 10 x 2
+##    id    medida
+##    &lt;chr&gt;  &lt;dbl&gt;
+##  1 b     0.639 
+##  2 s     0.334 
+##  3 y     0.0980
+##  4 k     0.358 
+##  5 r     0.352 
+##  6 n     0.189 
+##  7 h     0.985 
+##  8 j     0.0961
+##  9 a     0.189 
+## 10 o     0.877</code></pre>
+<p>Podemos ligar os dois dataframes pela variável <code>id</code> pelas seguintes operações:</p>
+<ul>
+<li><code>left_join(A, B)</code> mantém todas as observações de A e liga todas as que tiverem uma chave em comum em B.</li>
+<li><code>right_join(A, B)</code> faz o exato oposto - evite usar, já que o resultado de <code>left_join(A, B)</code> é o mesmo que o de <code>right_join(B, A)</code>.</li>
+<li><code>full_join(A, B)</code> mantém todas as linhas e colunas, tendo pareamento ou não. Cuidado ao usar.</li>
+<li><code>inner_join(A, B)</code> mantém apenas observações com chaves tanto em A quanto em B.</li>
+<li><code>anti_join(A, B)</code> retorna as linhas de A que <em>não</em> tem um par em B.</li>
+</ul>
+<p>Com os nossos dados inventados:</p>
+<pre class="r"><code>left_join(A, B)</code></pre>
+<pre><code>## Joining, by = &quot;id&quot;</code></pre>
+<pre><code>## # A tibble: 10 x 3
+##    id       valor  medida
+##    &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1 w      0.0262  NA     
+##  2 i     -0.508   NA     
+##  3 y     -0.271    0.0980
+##  4 g      2.54    NA     
+##  5 c      0.927   NA     
+##  6 q      0.0707  NA     
+##  7 l      0.139   NA     
+##  8 v     -0.737   NA     
+##  9 e      0.881   NA     
+## 10 d      0.00423 NA</code></pre>
+<pre class="r"><code>right_join(A, B)</code></pre>
+<pre><code>## Joining, by = &quot;id&quot;</code></pre>
+<pre><code>## # A tibble: 10 x 3
+##    id     valor medida
+##    &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 b     NA     0.639 
+##  2 s     NA     0.334 
+##  3 y     -0.271 0.0980
+##  4 k     NA     0.358 
+##  5 r     NA     0.352 
+##  6 n     NA     0.189 
+##  7 h     NA     0.985 
+##  8 j     NA     0.0961
+##  9 a     NA     0.189 
+## 10 o     NA     0.877</code></pre>
+<pre class="r"><code>full_join(A, B)</code></pre>
+<pre><code>## Joining, by = &quot;id&quot;</code></pre>
+<pre><code>## # A tibble: 19 x 3
+##    id       valor  medida
+##    &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1 w      0.0262  NA     
+##  2 i     -0.508   NA     
+##  3 y     -0.271    0.0980
+##  4 g      2.54    NA     
+##  5 c      0.927   NA     
+##  6 q      0.0707  NA     
+##  7 l      0.139   NA     
+##  8 v     -0.737   NA     
+##  9 e      0.881   NA     
+## 10 d      0.00423 NA     
+## 11 b     NA        0.639 
+## 12 s     NA        0.334 
+## 13 k     NA        0.358 
+## 14 r     NA        0.352 
+## 15 n     NA        0.189 
+## 16 h     NA        0.985 
+## 17 j     NA        0.0961
+## 18 a     NA        0.189 
+## 19 o     NA        0.877</code></pre>
+<pre class="r"><code>inner_join(A, B)</code></pre>
+<pre><code>## Joining, by = &quot;id&quot;</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##   id     valor medida
+##   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 y     -0.271 0.0980</code></pre>
+<pre class="r"><code>anti_join(A, B)</code></pre>
+<pre><code>## Joining, by = &quot;id&quot;</code></pre>
+<pre><code>## # A tibble: 9 x 2
+##   id       valor
+##   &lt;chr&gt;    &lt;dbl&gt;
+## 1 w      0.0262 
+## 2 i     -0.508  
+## 3 g      2.54   
+## 4 c      0.927  
+## 5 q      0.0707 
+## 6 l      0.139  
+## 7 v     -0.737  
+## 8 e      0.881  
+## 9 d      0.00423</code></pre>
+<p>As funções de join pareiam variáveis de nomes iguais para fazer a ligação, então eu sempre recomendo ter a atenção de nomear tudo apropriadamente. Você sempre pode especificar com quais variáveis o join deve ser feito usando o argumento <code>by=</code>, mas eu tendo a preferir (sem nenhum motivo real para isso além de preguiça) o pareamento automatico por nomes.</p>
+</div>
+<div id="fixando" class="section level1">
+<h1>Fixando</h1>
+</div>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fr-zero-2%2f - R%20do%20Zero%20%282%29%3a%20Manipulando%20dados%20com%20%7bdplyr%7d "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>

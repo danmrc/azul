@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.69.0" />
+		<meta name="generator" content="Hugo 0.71.0" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -52,6 +52,53 @@
 
     <section id="wrapper" class="home">
         <ul id="post-list">
+    
+    
+        
+            <li>
+                <aside class="dates">Jun 6</aside>
+                <a href='/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/'>
+                    Cuide da saúde, pare de fazer loops
+                    
+                        
+                            <h2>O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
+Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação. Digamos que nós queremos simular várias normais com médias diferentes.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Jun 2</aside>
+                <a href='/2020/06/02/modelagem-com-tidymodels/'>
+                    Modelagem com {tidymodels}
+                    
+                        
+                            <h2></h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">May 25</aside>
+                <a href='/2020/05/25/funprog-dyn-sys/'>
+                    {purrr} para simular Sistemas Dinâmicos
+                    
+                        
+                            <h2>Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
+\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.</h2>
+                        
+                    
+                </a>
+            </li>
+        
     
     
         
@@ -157,52 +204,6 @@ Para começar, suponha que temos um processo estocástico \(u_t\) que é autocor
                         
                             <h2>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
 Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Feb 9</aside>
-                <a href='/2020/02/09/difusao-gaussiana/'>
-                    Gerando um padrão de difusão com soma de um termo gaussiano
-                    
-                        
-                            <h2>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
-Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Feb 8</aside>
-                <a href='/2020/02/08/markov-chain-monte-carlo/'>
-                    Amostrando de distribuições difíceis: o Markov Chain Monte Carlo
-                    
-                        
-                            <h2>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Jan 17</aside>
-                <a href='/2020/01/17/sistemas-din%C3%A2micos-ii/'>
-                    Sistemas dinâmicos II: Expectativas racionais
-                    
-                        
-                            <h2>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</h2>
                         
                     
                 </a>

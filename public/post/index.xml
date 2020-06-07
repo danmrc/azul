@@ -6,10 +6,39 @@
     <description>Recent content in Posts on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Fri, 01 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 06 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cuide da saúde, pare de fazer loops</title>
+      <link>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</link>
+      <pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</guid>
+      <description>O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
+Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação. Digamos que nós queremos simular várias normais com médias diferentes.</description>
+    </item>
+    
+    <item>
+      <title>Modelagem com {tidymodels}</title>
+      <link>/2020/06/02/modelagem-com-tidymodels/</link>
+      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/02/modelagem-com-tidymodels/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>{purrr} para simular Sistemas Dinâmicos</title>
+      <link>/2020/05/25/funprog-dyn-sys/</link>
+      <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/05/25/funprog-dyn-sys/</guid>
+      <description>Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
+\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.</description>
+    </item>
     
     <item>
       <title>Double Selection</title>
@@ -624,6 +653,26 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</description>
+    </item>
+    
+    <item>
+      <title>R do Zero (1): Sintaxe Básica</title>
+      <link>/1/01/01/r-zero-1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/r-zero-1/</guid>
+      <description>Contexto Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio a pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, que tal disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.
+Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno.</description>
+    </item>
+    
+    <item>
+      <title>R do Zero (2): Manipulando dados com {dplyr}</title>
+      <link>/1/01/01/r-zero-2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/r-zero-2/</guid>
+      <description>Qual é a ideia do dplyr? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o %&amp;gt;% para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.
+Os que já tiveram contato com python se lembrarão de várias funções do pandas.</description>
     </item>
     
   </channel>

@@ -2,6 +2,7 @@
 title: "R do Zero (2): Manipulando dados com {dplyr}"
 author: "Pedro Cavalcante"
 slug: "r-zero-2"
+draft: true
 categories:
   - R do Zero
 tags:
@@ -249,11 +250,11 @@ Joins são operações que pareaiam dataframes. Existem sabores variados então 
 
 Podemos ligar os dois dataframes pela variável ``id`` pelas seguintes operações:
 
-* ``left_join(A, B)`` mantém todas as observações de A e liga todas as que tiverem uma chave em comum em B
-* ``right_join(A, B)`` faz o exato oposto
-* ``full_join(A, B)`` junta os dois, tendo pareamento ou não. Cuidado ao usar.
-* ``inner_join(A, B)`` mantém apenas observações com chaves tanto em A quanto em B
-* ``anti_join(A, B)`` retorna as linhas de A que _não_ tem um par em B
+* ``left_join(A, B)`` mantém todas as observações de A e liga todas as que tiverem uma chave em comum em B.
+* ``right_join(A, B)`` faz o exato oposto - evite usar, já que o resultado de ``left_join(A, B)`` é o mesmo que o de ``right_join(B, A)``.
+* ``full_join(A, B)`` mantém todas as linhas e colunas, tendo pareamento ou não. Cuidado ao usar.
+* ``inner_join(A, B)`` mantém apenas observações com chaves tanto em A quanto em B.
+* ``anti_join(A, B)`` retorna as linhas de A que _não_ tem um par em B.
 
 Com os nossos dados inventados:
 
@@ -266,6 +267,11 @@ anti_join(A, B)
 ```
 
 As funções de join pareiam variáveis de nomes iguais para fazer a ligação, então eu sempre recomendo ter a atenção de nomear tudo apropriadamente. Você sempre pode especificar com quais variáveis o join deve ser feito usando o argumento ``by=``, mas eu tendo a preferir (sem nenhum motivo real para isso além de preguiça) o pareamento automatico por nomes. 
+
+
+
+
+# Fixando
 
 
 

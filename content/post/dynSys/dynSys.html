@@ -1,0 +1,46 @@
+---
+title: "{purrr} para simular Sistemas Dinâmicos"
+author: "Pedro Cavalcante"
+date: '2020-05-25'
+slug: funprog-dyn-sys
+draft: true
+katex: true
+categories:
+  - Matemática
+  - Programação
+tags:
+  - R
+  - Programação Funcional
+  - Matemática
+---
+
+
+
+<p>Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com <span class="math inline">\(n\)</span> objetos sob o efeito de algum campo de vetores.</p>
+<div id="n-1-é-por-onde-se-começa" class="section level1">
+<h1><span class="math inline">\(n = 1\)</span> é por onde se começa</h1>
+<p>Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem <code>double</code> e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico. Então queremos algo como:</p>
+<pre class="r"><code>library(purrr)
+library(tibble)
+
+move &lt;- function(v) c(2*cos(v[1]) + rnorm(n = 1, sd = .1), -1.5*sin(v[2]) + rnorm(n = 1, sd = .1))
+
+path &lt;- function(v, t) {
+  
+  x &lt;- rep(v, t)
+  
+  
+}</code></pre>
+<p>Beleza, agora queremos algo que receba (i) uma posição inicial, (ii) uma quantidade de períodos até onde simular o sistema.</p>
+<pre class="r"><code>system_sim &lt;- function(v0 = c(0,0), t = 100) {
+  
+  .data &lt;- tibble(x = rep(v0[1], t), y = rep(v0[2], t), t = 0)
+  
+  .data %&gt;%
+    accumulate(.init = c(.data$x, .data$y), move)
+  
+  
+  
+  
+}</code></pre>
+</div>

@@ -6,10 +6,29 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 06 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cuide da saúde, pare de fazer loops</title>
+      <link>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</link>
+      <pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</guid>
+      <description>O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
+Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação. Digamos que nós queremos simular várias normais com médias diferentes.</description>
+    </item>
+    
+    <item>
+      <title>Modelagem com {tidymodels}</title>
+      <link>/2020/06/02/modelagem-com-tidymodels/</link>
+      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/02/modelagem-com-tidymodels/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Workflow - Como funciona o AZUL</title>

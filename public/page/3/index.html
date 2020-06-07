@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.69.0" />
+		<meta name="generator" content="Hugo 0.71.0" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -52,6 +52,53 @@
 
     <section id="wrapper" class="home">
         <ul id="post-list">
+    
+    
+        
+            <li>
+                <aside class="dates">Aug 12</aside>
+                <a href='/2019/08/12/perron-frobenius-verificando-comp-1/'>
+                    A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes
+                    
+                        
+                            <h2>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Aug 12</aside>
+                <a href='/2019/08/12/perron-frobenius-verificando-comp-2/'>
+                    A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional
+                    
+                        
+                            <h2>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+ Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Jun 15</aside>
+                <a href='/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/'>
+                    Stranger things: Distribuição exata de IV em um exemplo extremamente simples
+                    
+                        
+                            <h2>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
+Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</h2>
+                        
+                    
+                </a>
+            </li>
+        
     
     
         
@@ -163,53 +210,6 @@ A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em 
                         
                             <h2>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&#34;Recon&#34;) para instalar a última versão enviada ao repositório ou devtools::install_github(&#34;pedrocava/Recon&#34;) para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
 Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Mar 28</aside>
-                <a href='/2019/03/28/consistencia-assintotica-ols/'>
-                    Verificando algumas propriedades de Mínimos Quadrados com o R
-                    
-                        
-                            <h2>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Mar 6</aside>
-                <a href='/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/'>
-                    Aplicando Programação Dinâmica à Reforma da Previdência
-                    
-                        
-                            <h2>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
-Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Feb 18</aside>
-                <a href='/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/'>
-                    Still Haven&#39;t Found What I am looking for: modelos de search para emprego
-                    
-                        
-                            <h2>(Sim, o título é uma referência a música do U2. Não só de economia vive um homem.)
-Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos posts anteriores1 para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário \(w\), onde \(w\) sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?</h2>
                         
                     
                 </a>

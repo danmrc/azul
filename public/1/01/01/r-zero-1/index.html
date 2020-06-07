@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.71.0" />
+		<title>R do Zero (1): Sintaxe Básica &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
+  
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        R do Zero (1): Sintaxe Básica
+                    </h1>
+                    <h3> Pedro Cavalcante </h3>
+                    <h2 class="headline">
+                    Jan 1, 0001 00:00
+                    · 3030 words
+                    · 15 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/programa%C3%A7%C3%A3o">Programação</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    
+
+
+<div id="contexto" class="section level1">
+<h1>Contexto</h1>
+<p>Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio a pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, que tal disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.</p>
+<p>Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno. Os conteúdos serão disponibilizados em fases, a medida que eu tenho tempo de consolidar o material e o pensamento em posts mais ou menos rápidos e digeríveis. A ordem de apresentação reflete uma tentativa de equilibrar (i) pré-requisitos, (ii) relevância prática, (iii) complexidade do assunto e (iv) elegância inerente do tópico. O ponto iv em particular tem um problema próprio de equilíbrio.</p>
+<p>Existe uma audiência bastante heterogênea em busca de material nesse campo e motivar alguém com apelos à uma suposta elegância matemática para muitos leitores pode ser seco, inútil e desmotivante. Para outros - eu sou culpado de estar nesse grupo - motivação de sobra. Eu tento balancear esses problemas simultâneos e apresentar algo que seja compreensivo-porém-não-exaustivo, que tente descascar as crostas bloqueando a percepção de por quê as coisas são como são.</p>
+</div>
+<div id="motivação" class="section level1">
+<h1>Motivação</h1>
+<p>Por quê por a cara a tapa, sentir um assalto à autoestima e aprender uma linguagem de programação? Porque existem retornos de variados tipos:</p>
+<ul>
+<li>Nós produzimos dados aos montes todo dia. Eles estão por aí em diferentes formas, sabores, estruturas e qualidades, mas <em>estão por aí</em>. Dominar ferramentas como uma linguagem de programação te habilita a lidar com essa montanha de informação de maneira clara, reprodutível e escalável. Essas habilidades são úteis em empresas, universidades e centros de pesquisa pelos mais variados motivos. Aprender a programar não é um passaporte para emprego estável, ganhos de produtividade ou pesquisa de qualidade, mas ajuda.</li>
+</ul>
+<p>Que tal escrever programas que transcrevem áudio de entrevista, digitalizam imagens em texto, reproduzam artigos, executem rotinas de limpeza e análise de dados, geração de gráficos, animações e mapas automatizadas, reprodutíveis e que podem ser aplicadas em dados novos sem problemas? Essa tarefas podem todas serem realizadas com algum carinho, foco e trabalho manual, mas que tal dedicar o seu tempo mais no que você de fato faz? Elas também são automatizáveis com algumas linhas de código.</p>
+<ul>
+<li>Existe um ganho imaterial em programar que é a satisfação de aprender como uma finalidade em si. Vários leitores podem achar isso nada demais, mas eu tendo a observar que quem se diverte resolvendo problemas tende a ser dar melhor com programação.</li>
+</ul>
+</div>
+<div id="o-que-você-deve-esperar" class="section level1">
+<h1>O que você deve esperar</h1>
+<p>Espero passar ao leitor o vocabulário mínimo que é necessário para formular dúvidas independentes que possam ser respondidas online. Uso R há mais ou menos 4 anos e boa parte do tempo gasto não foi escrevendo código em si, foi lendo respostas de perguntas em fóruns como o <a href="https://stackoverflow.com/">stack overflow</a>. Programar, especialmente no começo, é a arte de não entrar em pânico com mensagens de erro. Creio que essa abordagem seja a melhor porque (i) não pune quem nunca teve contato com programação e (ii) permite uma introdução compreensiva à sintaxe e peculiaridades da linguagem sem martelar pontos provavelmente já claros ao programador de segunda viagem.</p>
+</div>
+<div id="o-que-pretendo-abordar" class="section level1">
+<h1>O que pretendo abordar</h1>
+<ul>
+<li>Sintaxe</li>
+<li>Manipulação de dados com dplyr</li>
+<li>Gráficos com ggplot2</li>
+<li>Reestruturação de dados com tidyr</li>
+<li>Pipes do magrittr</li>
+<li>Funções: o que são, onde vivem, o que comem, como faze-las</li>
+<li>Iteração e programação funcional com purrr</li>
+<li>Modelos de regressão linear clássica e bayesiana com tidymodels</li>
+<li>Modelos de machine learning para classificação com tidymodels</li>
+<li>Modelos de séries temporais com tidyverts</li>
+</ul>
+</div>
+<div id="filosofia-e-escolhas" class="section level1">
+<h1>Filosofia e escolhas</h1>
+<p>Algumas linhas de raciocínio e pequenas sabedorias tiaradas lá sabe de onde guiam o que estou fazendo aqui. O assunto pode ficar técnico e deve fazer muito mais sentido para quem já leu tudo do que para quem está no primeiro contato, mas aqui fica:</p>
+<ul>
+<li><p><code>tidyverse</code> é o caminho. Temos de respeitar o base R e reconhecer que onde existem alternativas seguindo os princípios de deisgn do tidyverse é provavelmente melhor usa-las. De fato, as soluções fora do tidyverse são quase sempre mais complexas, com sintaxe menos limpa e por isso, pouco amigáveis com iniciantes. Quando necessário olharemos para o base R.</p></li>
+<li><p>O alvo de material de ensino de uma linguagem de programação deveria ser expressividade na linguagem, não ensinar o passo a passo minucioso e mecânico de uma série de técnicas. Empodere o seu programador interior.</p></li>
+</ul>
+<div id="aviso" class="section level3">
+<h3>Aviso</h3>
+<p>Vou partir do absoluto zero aqui. Se você já é familizariado com a sintaxe, talvez seja melhor pular direto para a <a href="https://azul.netlify.app/r-zero-2">parte 2</a>.</p>
+</div>
+</div>
+<div id="sintaxe" class="section level1">
+<h1>Sintaxe</h1>
+<p>Vou assumir que você já tem a linguagem R instalada, bem como o RStudio. O seu console deve mostrar algo como:</p>
+<pre><code>R version 4.0.0 (2020-04-24) -- &quot;Arbor Day&quot;
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)</code></pre>
+<p>Antes de mais nada. Olhe para o canto direito superior do Rstudio. Lá deve estar algo como <code>no project</code>. Clique e na caixinha que abrir clique em <code>New Project</code>. Você vai ser guiado a escolher uma pasta no computar (ou criar uma nova) e dar um nome ao projeto. Toda atividade autocontida é um projeto. Trabalho de faculdade, tarefa no trabalho, pacote de R, qualquer grupo coeso de código, texto, arquivos e dados que servem a uma finalidade comum.</p>
+<p>Projetos são muito importantes para não termos que nos preocupar em dar endereços completos para arquivos no computador - gerenciar o sistema de diretórios de trabalho feito nos anos 90 do R é sempre desagradável e não precisamos disso. Projetos farão esse trabalho sujo por nós e tornarão sua experiência muito mais cômoda. Sempre que quiser trabalhar em um projeto, basta abrir o arquivo <code>.Rproj</code> na pasta dele ou usar o seletor na caixa do canto direito superior.</p>
+<p>Por fim, se você sabe o que é git: sim, você pode <em>e deve</em> usar projetos de R junto com git. O lembrete do amigo é tome cuidado com repositórios públicos, eles idealmente não deveriam conter o seu arquivo <code>.Rproj</code>. Vamos agora nos familiarizar com a sintaxe básica. Podemos usar R como uma calculadora potente:</p>
+<pre class="r"><code>2 + 2</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>2 - 3</code></pre>
+<pre><code>## [1] -1</code></pre>
+<pre class="r"><code>3^2</code></pre>
+<pre><code>## [1] 9</code></pre>
+<pre class="r"><code>4^2</code></pre>
+<pre><code>## [1] 16</code></pre>
+<pre class="r"><code>3^3</code></pre>
+<pre><code>## [1] 27</code></pre>
+<pre class="r"><code>2*3</code></pre>
+<pre><code>## [1] 6</code></pre>
+<pre class="r"><code>2/3</code></pre>
+<pre><code>## [1] 0.6666667</code></pre>
+<p>Podemos usar funções, que são unidades reaproveitaveis de certas operações. Executar o comando <code>Sys.Date()</code> irá printar a data do sistema, assim como <code>Sys.time()</code> irá printar o horário. Essas funções não recebem parâmetros, não podemos alterar seu comportamento. No entanto, funções como <code>seq()</code>, que geram sequências, dependem de argumentos informados, como de onde para onde a sequência deve ir.</p>
+<p>Alguns argumentos são tidos como padrão. Por exemplo, se não informarmos o argumento <code>by =</code>, a sequência é gerada com passos de 1 unidade. Como sabemos disso? Usando o comando <code>help(seq)</code>, que exibe a documentação da função apresentada.</p>
+<pre class="r"><code>1:5 # os números de 1 a 5</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>seq(1, 5) # equivalente ao anterior</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>seq(from = 1, to = 5, by = 0.5) # espaçamento de .5 e argumetnos nomeados</code></pre>
+<pre><code>## [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0</code></pre>
+<pre class="r"><code>exp(3) # exponencial de 3</code></pre>
+<pre><code>## [1] 20.08554</code></pre>
+<pre class="r"><code>sqrt(3) # raiz quadrada de 3</code></pre>
+<pre><code>## [1] 1.732051</code></pre>
+<pre class="r"><code>log(3) # log natural de 3</code></pre>
+<pre><code>## [1] 1.098612</code></pre>
+<pre class="r"><code>log(3, base = 10) # base 10</code></pre>
+<pre><code>## [1] 0.4771213</code></pre>
+<p>Mais importante, podemos testar se certas proposições têm validade lógica. É o que torna uma linguagem de programação uma caixinha de areia em que proposições podem ser enunciadas, testadas e com base nisso executar comandos. O sinal que usamos para testar a noção de <em>igualdade</em> é <code>==</code>. Dois sinais iguais seguidos.</p>
+<pre class="r"><code>2 == 2</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Vamos entender o que se passou aqui. Executamos uma <em>expressão</em>, um enunciado sintaticamente válido. E recebemos um <em>retorno</em>, o valor <code>TRUE</code>, a maneira da linguagem de se referir à noção abstrata de que uma expressão carrega um enunciado verdadeiro. O inverso de <code>==</code> é <code>!=</code>, o sinal para testar falsidade.</p>
+<pre class="r"><code>2 == 3 # enunciado: dois é igual a três</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>2 != 3 # dois é diferente de três</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>2 != 2 # dois é diferente de dois</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>2 &lt; 3 # 2 é menor que 3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>2 &gt; 3 # 2 é maior que 3</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>2 &gt;= 3 # 2 é maior ou igual a 3 (nem maior nem igual, portanto falso)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>2 &lt;= 2 # 2 é menor ou igual a 2 (de fato, pois apesar de não ser menor é igual)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Texto no R sempre está entre aspas, simples ou duplas.</p>
+<pre class="r"><code>&quot;a&quot; == &quot;b&quot; # a letra &quot;a&quot; é igual à letra &quot;b&quot;</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>&quot;a&quot; == &#39;a&#39;</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>&quot;palavra maior&quot; != &quot;apenas testando igualdades&quot;</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Podemos também testar proposições conjuntamente. O operador <code>|</code> liga duas expressões e irá retornar verdadeiro se pelo menos uma das duas retornas verdadeiro. É o operador do <em>OU</em>. `<code>A | B</code> é lido como “A ou B”.</p>
+<pre class="r"><code>TRUE | FALSE # uma ou outra é verdadeira?</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>!TRUE | (2 == 3) # negação de verdadeiro ou 2 é igual a 3 são verdadeiros?</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>!TRUE | (2 == 2) </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>FALSE | FALSE</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>!FALSE | FALSE</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>2 == 2 | 3 == 3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Já o operador <code>&amp;</code> é mais forte. É o operador do <em>E</em>. Ele requer que as duas expressões sejam verdadeiras.</p>
+<pre class="r"><code>TRUE &amp; FALSE # uma ou outra é verdadeira?</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>!TRUE &amp; (2 == 3) # negação de verdadeiro ou 2 é igual a 3 são verdadeiros?</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>!TRUE &amp; (2 == 2) </code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>FALSE &amp; FALSE</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>!FALSE &amp; FALSE</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>2 == 2 &amp; 3 == 3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>Observe que encontramos três tipos de dado até agora: números, texto e verdadeiro/falso. Chamamos isso de <em>tipo</em> do dado. Dado em texto é normalmente chamado de <em>string</em> (por ser um “fio” de letras) e em números é comum se refeir como <em>double</em> (do inglês, <em>double precision</em>, já que, ao contrário de números inteiros, aceitam casas decimais). Podemos armazenar dados do mesmo tipo em estruturas chamadas vetores, são listas de valores do mesmo tipo. A função <code>c()</code> - do inglês, <em>combine</em> - recebe valores e devolve um vetor.</p>
+<pre class="r"><code>c(2, 2, 2.5)</code></pre>
+<pre><code>## [1] 2.0 2.0 2.5</code></pre>
+<pre class="r"><code>c(2, 2, 2.5) == 2</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
+<pre class="r"><code>c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;) == &quot;b&quot;</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE</code></pre>
+<p>Mas de pouco adianta termos “dados soltos”. Precisamos poder nos referir a um conjunto de dados por nomes. Para isso usamos um operador, <code>&lt;-</code>. A “seta de designação”, como é chamada, atribui a um símbolo um valor.</p>
+<pre class="r"><code>a &lt;- 1 
+
+a # apenas nome do objeto printa ele no console</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>(b &lt;- 1:5 + 2) # uma expressão entre parênteses é avaliada e seu resultado é printado</code></pre>
+<pre><code>## [1] 3 4 5 6 7</code></pre>
+<pre class="r"><code>(c &lt;- letters) # alguns objetos com constantes já vêm carregados na memória, como as letras</code></pre>
+<pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;
+## [20] &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
+<pre class="r"><code>(d &lt;- c(2, 4, 7) / 2)</code></pre>
+<pre><code>## [1] 1.0 2.0 3.5</code></pre>
+<p>Funções são operações prontas - normalmente nos referimos a isso como <em>abstrair</em> a operação em uma função. Funções geralmente recebem valores, que chamamos de <em>parâmetros</em> ou <em>argumentos</em>. Separamos parâmetros por vírgulas e, quando quisermos nomea-los, usamos o sinal <code>=</code>. Valores de parâmetros vão dentro de parênteses e podemos passar funções como argumentos de outras funções - isso será muito útil mais à frente.</p>
+<pre class="r"><code>print(b)</code></pre>
+<pre><code>## [1] 3 4 5 6 7</code></pre>
+<pre class="r"><code>(vetor_amigo &lt;- c(1, 2, 3)) # se a expressão toda está em parêntes o resultado dela também sai no console</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>(vetor_deboas &lt;- c(primeiro = TRUE, segundo = FALSE, terceiro = TRUE)) # elementos de vetores podem ser nomeados</code></pre>
+<pre><code>## primeiro  segundo terceiro 
+##     TRUE    FALSE     TRUE</code></pre>
+<pre class="r"><code>is.vector(vetor_amigo) # testando se é um vetor</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>vetor_amigo == 2 # igualdade elemento a elemento</code></pre>
+<pre><code>## [1] FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code>names(vetor_deboas) </code></pre>
+<pre><code>## [1] &quot;primeiro&quot; &quot;segundo&quot;  &quot;terceiro&quot;</code></pre>
+<p>Note que vetores são homogêneos no tipo e irão converter dados se possível para garantir isso.</p>
+<pre class="r"><code>(vetor_feao &lt;- c(1.243, &quot;feao&quot;, &quot;vetores seguram dados apenas de um tipo&quot;)) # o número 1.243 é convertido para texto</code></pre>
+<pre><code>## [1] &quot;1.243&quot;                                  
+## [2] &quot;feao&quot;                                   
+## [3] &quot;vetores seguram dados apenas de um tipo&quot;</code></pre>
+<pre class="r"><code>(vetor_erro &lt;- c(TRUE, TRUE, &quot;texto&quot;)) # de novo, convertido para texto</code></pre>
+<pre><code>## [1] &quot;TRUE&quot;  &quot;TRUE&quot;  &quot;texto&quot;</code></pre>
+<p>Para quando precisamos de algo como um vetor que carregue dados de varios tipos, usamos listas.</p>
+<pre class="r"><code>(lista1 &lt;- list(A = 1, B = &quot;já listas seguram qualquer tipo&quot;, C = FALSE))  </code></pre>
+<pre><code>## $A
+## [1] 1
+## 
+## $B
+## [1] &quot;já listas seguram qualquer tipo&quot;
+## 
+## $C
+## [1] FALSE</code></pre>
+<pre class="r"><code>str(lista1) # a estrutura da lista</code></pre>
+<pre><code>## List of 3
+##  $ A: num 1
+##  $ B: chr &quot;já listas seguram qualquer tipo&quot;
+##  $ C: logi FALSE</code></pre>
+<pre class="r"><code>lista1$B # acessamos elementos nomeados de listas com o operador $</code></pre>
+<pre><code>## [1] &quot;já listas seguram qualquer tipo&quot;</code></pre>
+<pre class="r"><code>(lista2 &lt;- list(D = &quot;e até mesmo:&quot;, E = list(Fa = &quot;outras&quot;, G = &quot;listas&quot;)))</code></pre>
+<pre><code>## $D
+## [1] &quot;e até mesmo:&quot;
+## 
+## $E
+## $E$Fa
+## [1] &quot;outras&quot;
+## 
+## $E$G
+## [1] &quot;listas&quot;</code></pre>
+<pre class="r"><code>str(lista2) </code></pre>
+<pre><code>## List of 2
+##  $ D: chr &quot;e até mesmo:&quot;
+##  $ E:List of 2
+##   ..$ Fa: chr &quot;outras&quot;
+##   ..$ G : chr &quot;listas&quot;</code></pre>
+<pre class="r"><code>lista2$E</code></pre>
+<pre><code>## $Fa
+## [1] &quot;outras&quot;
+## 
+## $G
+## [1] &quot;listas&quot;</code></pre>
+<p>Vetores seguram apenas um tipo de dado, mas a maioria dos conjuntos de dados do mundo é multi-tipo. Para isso usamos “Data Frames”, ou <em>tibbles</em> como eles são chamados em R moderno. Para isso instalamos o pacote <code>tibble</code> com o comando <code>install.packages("tibble", dependencies = TRUE)</code>.</p>
+<pre class="r"><code>library(tibble)
+
+citation(&quot;tibble&quot;) # citação do pacote</code></pre>
+<pre><code>## 
+## To cite package &#39;tibble&#39; in publications use:
+## 
+##   Kirill Müller and Hadley Wickham (2020). tibble: Simple Data Frames.
+##   R package version 3.0.1. https://CRAN.R-project.org/package=tibble
+## 
+## A BibTeX entry for LaTeX users is
+## 
+##   @Manual{,
+##     title = {tibble: Simple Data Frames},
+##     author = {Kirill Müller and Hadley Wickham},
+##     year = {2020},
+##     note = {R package version 3.0.1},
+##     url = {https://CRAN.R-project.org/package=tibble},
+##   }</code></pre>
+<pre class="r"><code>(tib &lt;- tibble(a = 1:10, 
+               B = list(10:13), # tibbles podem carregar listas
+               c = 100*a/a^2, # e receber vetores sem nomes 
+               D = sample(letters, size = 10), # chamando uma função
+               e = 2.56*a/3*a + pi))</code></pre>
+<pre><code>## # A tibble: 10 x 5
+##        a B             c D         e
+##    &lt;int&gt; &lt;list&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1     1 &lt;int [4]&gt; 100   a      3.99
+##  2     2 &lt;int [4]&gt;  50   w      6.55
+##  3     3 &lt;int [4]&gt;  33.3 d     10.8 
+##  4     4 &lt;int [4]&gt;  25   c     16.8 
+##  5     5 &lt;int [4]&gt;  20   f     24.5 
+##  6     6 &lt;int [4]&gt;  16.7 r     33.9 
+##  7     7 &lt;int [4]&gt;  14.3 e     45.0 
+##  8     8 &lt;int [4]&gt;  12.5 o     57.8 
+##  9     9 &lt;int [4]&gt;  11.1 l     72.3 
+## 10    10 &lt;int [4]&gt;  10   i     88.5</code></pre>
+<pre class="r"><code>nrow(tib) # número de linhas</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>ncol(tib) # número de colunas</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>glimpse(tib) # descrição da estrutura</code></pre>
+<pre><code>## Rows: 10
+## Columns: 5
+## $ a &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+## $ B &lt;list&gt; [&lt;10, 11, 12, 13&gt;, &lt;10, 11, 12, 13&gt;, &lt;10, 11, 12, 13&gt;, &lt;10, 11, 12…
+## $ c &lt;dbl&gt; 100.00000, 50.00000, 33.33333, 25.00000, 20.00000, 16.66667, 14.285…
+## $ D &lt;chr&gt; &quot;a&quot;, &quot;w&quot;, &quot;d&quot;, &quot;c&quot;, &quot;f&quot;, &quot;r&quot;, &quot;e&quot;, &quot;o&quot;, &quot;l&quot;, &quot;i&quot;
+## $ e &lt;dbl&gt; 3.994926, 6.554926, 10.821593, 16.794926, 24.474926, 33.861593, 44.…</code></pre>
+<p>E falando neles, como são os dados do mundo real? No próximo post. Agora é hora de sedimentar um pouco as coisas.</p>
+<div id="fixando-algumas-ideias" class="section level3">
+<h3>Fixando algumas ideias</h3>
+<div id="exercício-1" class="section level4">
+<h4>Exercício 1</h4>
+<p>R tem pouca/nenhuma <em>type safety</em>, a ideia de que não se deve alterar o tipo de dado por pouca bobagem. Comparações entre tipos diferentes levam a conversões entre tipos, com graus variados de sucesso. Por exemplo, o resultado de <code>TRUE + 1</code> ou de <code>FALSE + 0</code>. Note que <code>TRUE + "1"</code> retorna um erro. Você consegue, sem rodar o código das seguintes expressões e tendo como referência o resultado dos exemplos anteriores, achar o resultado?</p>
+<ul>
+<li><code>FALSE + TRUE</code></li>
+<li><code>TRUE + TRUE</code></li>
+<li><code>3 + FALSE</code></li>
+<li><code>5 - TRUE - TRUE</code></li>
+</ul>
+<p>Compare suas intuições com os resultados reais.</p>
+</div>
+<div id="exercício-2" class="section level4">
+<h4>Exercício 2</h4>
+<p>Gere um tibble chamado <code>tibble_exercicio</code> com 4 colunas:</p>
+<ul>
+<li>Mil números tirados de uma normal com média 0 e variância 1 (use a função <code>rnorm()</code>)</li>
+<li>Mil números tirados de uma uniforme (<code>runif()</code>)</li>
+<li>A soma dos elementos nas duas primeiras colunas</li>
+<li>A terceira coluna arredondada para nenhuma casa decimal (use <code>round()</code>)</li>
+</ul>
+</div>
+<div id="exercício-3" class="section level4">
+<h4>Exercício 3</h4>
+<ul>
+<li>[<em>Matemática</em>] A função <code>rnorm()</code> gera números aleatórios com distribuição normal. Já <code>matrix()</code> recebe um vetor, um número de linhas e/ou colunas e devolve uma matriz. Algumas funções como <code>det</code>, <code>eigen</code> e <code>t</code> trazem as construções típicas da Álgebra Linear. Por exemplo, se eu quiser uma matriz 2x3 com números tirados de uma normal com média 0 e desvio-padrão <span class="math inline">\(3\)</span> e multiplica-la pela sua transposta:</li>
+</ul>
+<pre class="r"><code>(A &lt;- matrix(rnorm(n = 6, sd = 3), # 6 números tirados de uma N(0,3)
+             nrow = 2)) # em duas linhas</code></pre>
+<pre><code>##            [,1]      [,2]      [,3]
+## [1,] -1.8230199 -0.224257 1.8095370
+## [2,] -0.7461899 -3.077754 0.2864189</code></pre>
+<pre class="r"><code>A %*% t(A) # %*% é o operador para multiplicar matrizes</code></pre>
+<pre><code>##          [,1]      [,2]
+## [1,] 6.648117  2.568813
+## [2,] 2.568813 10.111405</code></pre>
+<p>Sabendo que <code>help(funcao)</code> abre a documentação da função informando os nomes de parametros e seus efeitos sobre o resultado da função:</p>
+<ul>
+<li>Crie uma matriz 8x8 cujas entradas são tiradas de uma normal com média <span class="math inline">\(0.5\)</span> e desvio-padrão <span class="math inline">\(2\)</span>.</li>
+<li>Ache seu determinante</li>
+<li>Ache a soma de seus autovalores</li>
+</ul>
+<p><a href="https://azul.netlify.app/r-zero-2"><em>PRÓXIMO POST</em></a></p>
+</div>
+</div>
+</div>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f1%2f01%2f01%2fr-zero-1%2f - R%20do%20Zero%20%281%29%3a%20Sintaxe%20B%c3%a1sica "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>
