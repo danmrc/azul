@@ -50,7 +50,7 @@ dados_medias$sims <- lista
 
 Tenha em mente que com ``tibbles`` podemos usar listas como colunas, o que não acontece com os dataframes nativos do R então o código poderia ser ainda menos conciso.
 
-Existe outra abordagem para isso. Se entendermos que estamos na verdade aplicando funções várias vezes. ``lista[[i]]] <- ...`` é a composição de duas funções no objeto lista: primeiro localize o i-ésimo elemento em lista e depois atributa o valor ```...``.  
+Existe outra abordagem para isso. Se entendermos que estamos na verdade aplicando funções várias vezes. ``lista[[i]]] <- ...`` é a composição de duas funções no objeto lista: primeiro localize o i-ésimo elemento em lista e depois atributa o valor ``...``.  
 
 Nós temos dificuldade em enxergar isso de primeira porque está tudo coberto de [_açúcar sintático_](https://pt.stackoverflow.com/questions/12964/o-que-%C3%A9-syntax-sugar-e-como-ela-funciona). Elementos como ``[[]]`` e ``<-``, desenhados para trazer certas comodidades, mas que fazem essas operações parecerem se tratar de algo diferente. 
 
@@ -114,7 +114,7 @@ letters %>%
   length() # 26 letras do alfabeto
 
 letters %>%
-  reduce(paste(.x)) # reduce também aceita fórmulas
+  reduce(paste) # reduce também aceita fórmulas
 
 letters %>%
   reduce(~ paste(.x)) %>% # reduce também aceita fórmulas
