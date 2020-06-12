@@ -73,13 +73,14 @@ Alguns exemplos:
 map(1:10, # dos números de 1 a 10
     ~ rnorm(n = 5, mean = .x)) # tire 5 números da normal com a média dada
 
-map(1:10, function(.x) rnorm(n = 5, mean = .x) ) # mesmo resultado que a abordagem com fórmulas
+map(1:10, 
+    function(.x) rnorm(n = 5, mean = .x) ) # mesmo resultado que a abordagem com fórmulas
 
 map_dfc(1:10,
-        ~ rnorm(n = 100, mean = .x))
+        ~ rnorm(n = 10, mean = .x))
 
 map_dbl(1:10,
-        ~ rnorm(n = 100, mean = .x))
+        ~ rnorm(n = 10, mean = .x))
 
 ```
 Note que nem toda conversão a certo tipo de saída funciona. Não podemos pedir que uma lista de vetores saia como um vetor, mas obviamente podemos falar de colar vetores de mesmo comprimento em colunas de um dataframe. Se quisermos uma saída com menos dimensões que uma lista precisamos de outra  função de alta ordem, ``reduce``. Esse padrão [_map-reduce_](https://www.guru99.com/introduction-to-mapreduce.html) é muito comum e tem aplicações interessantes para quem lida com volumes grandes de dados. Alguns exemplos:
@@ -100,28 +101,37 @@ map(1:10,
     ~ rnorm(n = 5, mean = .x)) %>%
   reduce(rbind) # a função que une linha a linha (do ingles, row)
 
-as.list(1:10) 
+```
 
-as.list(1:10) %>%
-  reduce(c)
+Importante deixar claro que *não* precisamos nos limitar ao fluxo do map-reduce - e operadores podem ser chamados se usarmos as aspas backtick.
 
-as.list(1:10) %>%
-  reduce(`+`) # podemos usar operadores com aspas
+```{R}
+reduce(1:10, c) # a função c, de novo
 
+reduce(1:10, `+`) # podemos usar operadores com aspas
+```
+
+Vamos olhar a constante ``letters``, com o alfabateo latino. A princípio temos um vetor com 26 entradas.
+
+```{R}
 letters
 
 letters %>%
   length() # 26 letras do alfabeto
+```
 
+E sendo um vetor de texto, podemos reduzi-lo a um vetor com menos entradas e apenas texto.
+
+```{R}
 letters %>%
-  reduce(paste) # reduce também aceita fórmulas
+  reduce(paste) # colando todas as entradas em uma
 
 letters %>%
   reduce(~ paste(.x)) %>% # reduce também aceita fórmulas
   length() # apenas uma entrada, agora com todas as letras juntas
 ```
 
-Antes avançar, é importante notar um propriedade muito boa de R: funções são cidadãs de primeira classe e isso explica por que coisas como ``%>% reduce(cbind)`` funcionam. Assim como tibbles, listas, vetores e outras formas de armazenar dados, funções também são objetos e podemos notar isso ao parar de usar ``()`` para sinalizar que aquela função deve ser aplicada (outro açúcar sintático por sinal).
+Antes avançar, vamos apreciar um propriedade muito boa de R: funções são cidadãs de primeira classe e isso explica por que coisas como ``%>% reduce(cbind)`` funcionam. Assim como tibbles, listas, vetores e outras formas de armazenar dados, funções também são objetos e podemos notar isso ao parar de usar ``()`` para sinalizar que aquela função deve ser aplicada (outro açúcar sintático por sinal).
 
 ```{R}
 Sys.time()
@@ -130,13 +140,22 @@ Sys.time
 rnorm(10)
 rnorm
 
+```
+
+R é uma linguagem inspirada no paradigma funcional e as marcas estão por todo canto. Até os insuspeitos operadores são funções.
+
+```{R}
 is.function(`+`) # o operador de soma é uma função?
 
 is.function(`<-`) # o operador de designação é uma função?
 
 is.function(`%>%`) # pipe é uma função?
 
+is.function(`%*%`) # multiplicação por matrizes é uma função
+
 ```
+
+# O exemplo revisitado
 
 E bem, como podemos substituir o nosso loop de exemplo com esse raciocínio? ``mutate`` do dplyr recebe um dataframe e causa uma mutação em seu estado (adiciona ou mata variáveis, em bom português), já ``unnest`` puxa dados _aninhados_ para fora. Vamos construir então passo a passo:
 
@@ -155,7 +174,7 @@ Não é tão mais simples que fazer um loop? Existe um custo mental inicial de p
 
 Lembra que ao invés de usar ``i`` para nos referir ao valor da iteração, usamos ``.x``? Eu já te dei os motivos, antes de mostrar como isso tudo se aplica num problema prático muito típico, quero mostrar por quê o ``.x`` faz sentido.
 
-Digamos que agora, para cada média sendo usada na simulação dos dados eu queria variar também o desvio-padrão? Estamos simulando dados de uma normal tirado de uma "grade" contendo as combinações de médias e desvios-padrão. Pense um pouco em como abordar esse problema com loops. Você vai adicionar mais uma camada de loop, provavelmente irá se referir ao segundo índice como ``j`` e terá que acompanhar mentalmente duas camadas de peças móveis. Não é muito agradável e o problema piora exponencialmente com cada camada extra adicionada. 
+Digamos que agora, para cada média sendo usada na simulação dos dados eu queira variar também o desvio-padrão? Estamos simulando dados de uma normal tirado de uma "grade" contendo as combinações de médias e desvios-padrão. Pense um pouco em como abordar esse problema com loops. Você vai adicionar mais uma camada de loop, provavelmente irá se referir ao segundo índice como ``j`` e terá que acompanhar mentalmente duas camadas de peças móveis. Não é muito agradável e o problema piora exponencialmente com cada camada extra adicionada. 
 
 Uma solução muito mais elegante te aguarda usando ``map2()``, que serve para - como o nome entrga - iterar em dois objetos, ``pmap()`` faz isso para um número arbitrário. Para criar a grade com os dados usamos ``expand_grid()``, que gera as combinações. Construindo passo a passo:
 
@@ -181,13 +200,17 @@ expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) %>%
   unnest(sims)
 ```
 
+Iterando sobre mais variáveis padrões mais sofisiticados podem ser escritos com pouco trabalho adicional. Em um loop cada camada extra requer a mesma quantidade de "infraestrutura" em código e cada vez mais atenção para acompanhar todos os procedimentos.  Perceba, trabalhar com processos aninhados é muito menos intuitivo que acompanhar o varrimento uniforme de uma grade de parâmetros.
+
+# Um caso
+
 Bem, afinal qual é o problema? Bem, alguns projetos de lei estão sendo mapeados de acordo com seu risco de votação e impacto fiscal:
 
 ![](https://i.imgur.com/I8ELFsN.jpg)
 
 E queremos uma matriz listando os projetos em grupo:
 
-![title](https://i.imgur.com/e6O0Dn5.jpg)
+![](https://i.imgur.com/e6O0Dn5.jpg)
 
 Antes de prosseguir, pense um pouco em como você resolveria isso com loops. Se estiver com paciência, esboce algumas soluções. Vamos gerar dados falsos:
 
@@ -195,7 +218,7 @@ Antes de prosseguir, pense um pouco em como você resolveria isso com loops. Se 
 library(lorem)
 library(glue)
 
-(tabela <- tibble(PL = glue("{ipsum_starts(30)} {ipsum_starts(30)}"),
+(tabela <- tibble(PL = as.character(glue("{ipsum_starts(30)} {ipsum_starts(30)}")),
                   risco = sample(c("alto", "baixo", "médio"), 
                                  size = length(PL), 
                                  replace = TRUE),
@@ -205,12 +228,16 @@ library(glue)
                   ))
 ```
 
-Vamos passo a passo construir a solução:
+Vamos passo a passo construir a solução. Primeiro construímos a grade:
 
 ```{R}
 expand_grid(risco = unique(tabela$risco), 
               impacto = unique(tabela$impacto))  # primeiro uma grade
+```
 
+Agora adicionamos ``mutate`` e dentro definimos a coluna ``PLs`` que é resultado da iteração sobre risco e impacto fiscal e filtra, na tabela original, apenas os nomes de projetos de lei que atendem simultaneamente a terem um certo risco e um certo impacto fiscal. Como estamos iterando sobre a grade, sabemos que todas as combinações serão avalidas.
+
+```{R}
 expand_grid(risco = unique(tabela$risco), 
               impacto = unique(tabela$impacto)) %>%
   mutate(PLs = 
@@ -223,7 +250,12 @@ expand_grid(risco = unique(tabela$risco),
                 pull(PL) # puxamos o vetor com os nomes de PLs
            })
   ) 
+```
 
+Agora precisamos desaninhar essa lista em texto. Passamos a execução de ``map2()`` como argumento de outro mapeamento, agora com saída definida como vetor de texto, que a cada elemento da lista recebida colapsa todos, separando os elementos com uma vírgula e espaço.
+
+
+```{R}
 expand_grid(risco = unique(tabela$risco), 
               impacto = unique(tabela$impacto)) %>%
   mutate(PLs = 
@@ -240,7 +272,6 @@ expand_grid(risco = unique(tabela$risco),
               # dessa forma, os elementos em cada entrada da lista
               # são colapsados no mesmo texto, separados pela ", " 
   ) 
-
 ```
 
 Algumas vantagens não são óvbias. A primeira é que é apenas uma expressão a ser executada então você pode ter certeza que nunca terá erros em pedaços específicos do código então *todo* dado resultado dessa operação é válido. Se uma peça móvel falhar, a avaliação toda é cancelada e está claro que há um problema. A segunda é que - apesar de parecer mais difícil no começo - essa abordagem te faz precisar acompanhar menos detalhes da operação si, te liberado para focar no resultado desejado. 
