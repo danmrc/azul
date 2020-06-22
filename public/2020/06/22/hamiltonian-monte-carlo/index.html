@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.69.0" />
+		<title>Hamiltonian Monte Carlo &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
+  
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Hamiltonian Monte Carlo
+                    </h1>
+                    <h3> Daniel Coutinho </h3>
+                    <h2 class="headline">
+                    Jun 22, 2020 00:00
+                    · 904 words
+                    · 5 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/hamiltonian-monte-carlo">Hamiltonian Monte Carlo</a>
+                          
+                              <a href="/tags/metropolis-hasting">Metropolis hasting</a>
+                          
+                              <a href="/tags/bayesiana">Bayesiana</a>
+                          
+                              <a href="/tags/markov-chain-monte-carlo">Markov Chain Monte Carlo</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>No milênio passado (ou seja, antes de maio), eu falei sobre <a href="https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/">MCMC</a>, que é um método muito usado pela galera de bayesiana para amostrar a <em>posterior</em> de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é muito simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa. Sim, ele é super simples, é só um random walk. Mas a ideia de sair por ai passeando no espaço de parâmetros e finalmente esbarrar no lugar certo parece um tanto o quanto ruim. A taxa de rejeição do RWMH também sempre me causou arrepios: a taxa ótima de aceitação se a dimensão do espaço é maior do que 5 é de 23%. Ou seja, a cada 3 passos que você dá, só um é aceito.</p>
+<p>Bayesianos: Não me levem a mal. Tudo isso é muito bem construído de maneira que você obtém a distribuição correta no final, e funciona muito bem! Eu só não gosto do Random Walk.</p>
+<p>Felizmente eu não sou o único com problemas com o Random Walk na proposta, e em 1996 apareceu o primeiro <em>review</em> de um algoritmo que evita o random walk justamente por ele ser ineficiente, especialmente em alta dimensão. O nome é <em>Hamiltonian Monte Carlo</em> (originalmente, <em>Hybrid Monte Carlo</em>). A ideia é bem esperta e felizmente já tem uma dúzia de implementações: a mais robusta e bem trabalhada é o <a href="https://mc-stan.org/">stan</a>.</p>
+<p>A ideia: no lugar de um random walk, nós usamos o gradiente da distribuição para nos informar aonde ir. Veja que a maioria das ditribuições bem comportadas tem muita massa perto do máximo, então se a gente mapear perto do máximo nós vamos mapear um bom pedaço da distribuição. Obviamente, se nós seguirmos o gradiente nós vamos achar o máximo. Nosso objetivo não é encontrar o máximo e sim mapear a distribuição. O truque é converter o gradiente em algo que informe a gente como passear na distribuição.</p>
+<p>Veja que a ideia de passear ao redor da distribuição de maneira estável quando tem um ponto que atrai a massa é basicamente entrar em órbita: o planeta vai tentar te puxar para baixo, e o seu objetivo é não cair. Assim como um foguete, nosso algoritmo pode passear se tiver impulso o suficiente. O Hamiltoniano é uma maneira de formalizar isso. Nós não temos nada naturalmente similar a um impulso na hora de amostrar uma distribuição. Em tempo, o Hamilton do Hamiltoniano não é o mesmo do musical.</p>
+<p>A ideia é bem simples, mas o diabo está nos detalhes:</p>
+<ol style="list-style-type: decimal">
+<li>Amostre um valor para o momento</li>
+<li>Simule a dinâmica do sistema</li>
+<li>Faça um aceita-rejeita Metropolis Hasting</li>
+</ol>
+<p>A gente tem que se preocupar em simular a dinâmica. Felizmente a dinâmica é bem simples: estamos no esapço (sideral), então não há atrito. Nós temos um momento (no sentido físico) e ele vai ser atualizado conforme o campo gravitacional - o gradiente. Mas, a simulação tem que ser estável suficiente para o erro numérico não dominar rapidamente. A boa notícia é que tem um algoritmo super simples para fazer isso, o <em>leapfrog integrator</em>. Basicamente, dentro de um loop (Pedro provavelmente vai ficar insatisfeito com isso), faça:</p>
+<ol style="list-style-type: decimal">
+<li>Atualize o valor do momento <span class="math inline">\(m\)</span>, para <span class="math inline">\(m&#39; = m + 1/2\epsilon\bigtriangledown\ell\)</span>, onde <span class="math inline">\(\ell\)</span> é a posterior e <span class="math inline">\(\epsilon\)</span> é um hiperparâmetro</li>
+<li>Atualize o valor dos parâmetros <span class="math inline">\(p = p + \epsilon Mm\)</span>, onde <span class="math inline">\(M\)</span> é uma matriz e um outros “hiperparâmetro”</li>
+<li>Atualize o valor do momento <span class="math inline">\(m\)</span>, para <span class="math inline">\(m&#39; = m + 1/2\epsilon\bigtriangledown\ell\)</span></li>
+</ol>
+<p>Noutras palavras, dê meio passo no momento, veja a sua posição e dê mais meio passo. Um <em>leapfrong integrator</em> tem a seguinte cara (eu vou implementar tudo em Julia por motivos que já já vão ficar claros):</p>
+<pre><code>mom_dist = MvNormal(M)
+
+psi = rand(mom_dist)
+for i = 1:L
+        psi = psi + 1/2*leap_step*grad(new_par)
+        new_par = new_par + inv(M)*leap_step*psi
+        psi = psi + 1/2*leap_step*grad(new_par)
+    end
+</code></pre>
+<p>Onde <code>grad</code> é o gradiente da nossa função alvo, i.e. a posterior. Veja que nós temos 3 hiperparâmetros que precisam ser definidos: <span class="math inline">\(L\)</span>, o número de etapas do leapfrog; <span class="math inline">\(\epsilon\)</span> o tamanho de cada passo do <em>leapfrog</em>, também conhecido como stepsize; e M, que é uma matriz de variância dos momentos. Para facilitar a vida, eu vou fazer <span class="math inline">\(\min(1/\epsilon,20)\)</span>, que é inspirado em uma sugestão do Bayesian Data Analysis. A matriz de variância dos momentos, no ótimo, deve ser a inversa da variância dos parâmetros. Em geral, as pessoas usam uma matriz diagonal e eu vou usar a diagonal da inversa da variância covariância dos parâmetros no ótimo (que eu calculei usando o Optim). Os momentos vão seguir uma Normal. Para escolher o tamanho de cada passo, <span class="math inline">\(\epsilon\)</span>, eu procedi usando a velha tentativa e erro para atingir o ótimo de aceitação do HMC, que é 65%: uma aceitação acima disso eu aumento o tamanho do stepsize; abaixo diso eu reduzo. O stepsize controla o quão longe nós vamos buscar a nova proposta de parâmetro.</p>
+<p>Veja que o gradiente é essencial aqui, já que ele é computado a cada passo do <em>leapfrog</em>. Eu preciso dele computado rápido e precisamente. A melhor maneira de fazer isso é usando um procedimento chamado <em>automatic differentiation</em>, que tem várias implementações em Julia - enquanto isso, no R, a opção é justamente chamar o Julia para lidar com isso.</p>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2020%2f06%2f22%2fhamiltonian-monte-carlo%2f - Hamiltonian%20Monte%20Carlo "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>

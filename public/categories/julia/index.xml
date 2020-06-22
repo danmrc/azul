@@ -6,10 +6,19 @@
     <description>Recent content in Julia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/julia/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hamiltonian Monte Carlo</title>
+      <link>/2020/06/22/hamiltonian-monte-carlo/</link>
+      <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
+      <description>No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é muito simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa.</description>
+    </item>
     
     <item>
       <title>Workflow - Como funciona o AZUL</title>

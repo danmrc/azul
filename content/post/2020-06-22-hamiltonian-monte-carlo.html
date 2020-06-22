@@ -1,0 +1,49 @@
+---
+title: Hamiltonian Monte Carlo
+author: Daniel Coutinho
+date: '2020-06-22'
+slug: hamiltonian-monte-carlo
+categories:
+  - Econometria
+  - Julia
+  - Machine Learning
+tags:
+  - Hamiltonian Monte Carlo
+  - Metropolis hasting
+  - Bayesiana
+  - Markov Chain Monte Carlo
+drfat: true
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>No milênio passado (ou seja, antes de maio), eu falei sobre <a href="https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/">MCMC</a>, que é um método muito usado pela galera de bayesiana para amostrar a <em>posterior</em> de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é muito simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa. Sim, ele é super simples, é só um random walk. Mas a ideia de sair por ai passeando no espaço de parâmetros e finalmente esbarrar no lugar certo parece um tanto o quanto ruim. A taxa de rejeição do RWMH também sempre me causou arrepios: a taxa ótima de aceitação se a dimensão do espaço é maior do que 5 é de 23%. Ou seja, a cada 3 passos que você dá, só um é aceito.</p>
+<p>Bayesianos: Não me levem a mal. Tudo isso é muito bem construído de maneira que você obtém a distribuição correta no final, e funciona muito bem! Eu só não gosto do Random Walk.</p>
+<p>Felizmente eu não sou o único com problemas com o Random Walk na proposta, e em 1996 apareceu o primeiro <em>review</em> de um algoritmo que evita o random walk justamente por ele ser ineficiente, especialmente em alta dimensão. O nome é <em>Hamiltonian Monte Carlo</em> (originalmente, <em>Hybrid Monte Carlo</em>). A ideia é bem esperta e felizmente já tem uma dúzia de implementações: a mais robusta e bem trabalhada é o <a href="https://mc-stan.org/">stan</a>.</p>
+<p>A ideia: no lugar de um random walk, nós usamos o gradiente da distribuição para nos informar aonde ir. Veja que a maioria das ditribuições bem comportadas tem muita massa perto do máximo, então se a gente mapear perto do máximo nós vamos mapear um bom pedaço da distribuição. Obviamente, se nós seguirmos o gradiente nós vamos achar o máximo. Nosso objetivo não é encontrar o máximo e sim mapear a distribuição. O truque é converter o gradiente em algo que informe a gente como passear na distribuição.</p>
+<p>Veja que a ideia de passear ao redor da distribuição de maneira estável quando tem um ponto que atrai a massa é basicamente entrar em órbita: o planeta vai tentar te puxar para baixo, e o seu objetivo é não cair. Assim como um foguete, nosso algoritmo pode passear se tiver impulso o suficiente. O Hamiltoniano é uma maneira de formalizar isso. Nós não temos nada naturalmente similar a um impulso na hora de amostrar uma distribuição. Em tempo, o Hamilton do Hamiltoniano não é o mesmo do musical.</p>
+<p>A ideia é bem simples, mas o diabo está nos detalhes:</p>
+<ol style="list-style-type: decimal">
+<li>Amostre um valor para o momento</li>
+<li>Simule a dinâmica do sistema</li>
+<li>Faça um aceita-rejeita Metropolis Hasting</li>
+</ol>
+<p>A gente tem que se preocupar em simular a dinâmica. Felizmente a dinâmica é bem simples: estamos no esapço (sideral), então não há atrito. Nós temos um momento (no sentido físico) e ele vai ser atualizado conforme o campo gravitacional - o gradiente. Mas, a simulação tem que ser estável suficiente para o erro numérico não dominar rapidamente. A boa notícia é que tem um algoritmo super simples para fazer isso, o <em>leapfrog integrator</em>. Basicamente, dentro de um loop (Pedro provavelmente vai ficar insatisfeito com isso), faça:</p>
+<ol style="list-style-type: decimal">
+<li>Atualize o valor do momento <span class="math inline">\(m\)</span>, para <span class="math inline">\(m&#39; = m + 1/2\epsilon\bigtriangledown\ell\)</span>, onde <span class="math inline">\(\ell\)</span> é a posterior e <span class="math inline">\(\epsilon\)</span> é um hiperparâmetro</li>
+<li>Atualize o valor dos parâmetros <span class="math inline">\(p = p + \epsilon Mm\)</span>, onde <span class="math inline">\(M\)</span> é uma matriz e um outros “hiperparâmetro”</li>
+<li>Atualize o valor do momento <span class="math inline">\(m\)</span>, para <span class="math inline">\(m&#39; = m + 1/2\epsilon\bigtriangledown\ell\)</span></li>
+</ol>
+<p>Noutras palavras, dê meio passo no momento, veja a sua posição e dê mais meio passo. Um <em>leapfrong integrator</em> tem a seguinte cara (eu vou implementar tudo em Julia por motivos que já já vão ficar claros):</p>
+<pre><code>mom_dist = MvNormal(M)
+
+psi = rand(mom_dist)
+for i = 1:L
+        psi = psi + 1/2*leap_step*grad(new_par)
+        new_par = new_par + inv(M)*leap_step*psi
+        psi = psi + 1/2*leap_step*grad(new_par)
+    end
+</code></pre>
+<p>Onde <code>grad</code> é o gradiente da nossa função alvo, i.e. a posterior. Veja que nós temos 3 hiperparâmetros que precisam ser definidos: <span class="math inline">\(L\)</span>, o número de etapas do leapfrog; <span class="math inline">\(\epsilon\)</span> o tamanho de cada passo do <em>leapfrog</em>, também conhecido como stepsize; e M, que é uma matriz de variância dos momentos. Para facilitar a vida, eu vou fazer <span class="math inline">\(\min(1/\epsilon,20)\)</span>, que é inspirado em uma sugestão do Bayesian Data Analysis. A matriz de variância dos momentos, no ótimo, deve ser a inversa da variância dos parâmetros. Em geral, as pessoas usam uma matriz diagonal e eu vou usar a diagonal da inversa da variância covariância dos parâmetros no ótimo (que eu calculei usando o Optim). Os momentos vão seguir uma Normal. Para escolher o tamanho de cada passo, <span class="math inline">\(\epsilon\)</span>, eu procedi usando a velha tentativa e erro para atingir o ótimo de aceitação do HMC, que é 65%: uma aceitação acima disso eu aumento o tamanho do stepsize; abaixo diso eu reduzo. O stepsize controla o quão longe nós vamos buscar a nova proposta de parâmetro.</p>
+<p>Veja que o gradiente é essencial aqui, já que ele é computado a cada passo do <em>leapfrog</em>. Eu preciso dele computado rápido e precisamente. A melhor maneira de fazer isso é usando um procedimento chamado <em>automatic differentiation</em>, que tem várias implementações em Julia - enquanto isso, no R, a opção é justamente chamar o Julia para lidar com isso.</p>

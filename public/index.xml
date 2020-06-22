@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Hamiltonian Monte Carlo</title>
+      <link>/2020/06/22/hamiltonian-monte-carlo/</link>
+      <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
+      <description>No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é muito simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa.</description>
+    </item>
+    
+    <item>
       <title>Cuide da saúde, pare de fazer loops</title>
       <link>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</link>
       <pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate>

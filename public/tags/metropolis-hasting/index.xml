@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Metropolis hasting on AZUL</title>
+    <link>/tags/metropolis-hasting/</link>
+    <description>Recent content in Metropolis hasting on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <lastBuildDate>Mon, 22 Jun 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/metropolis-hasting/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hamiltonian Monte Carlo</title>
+      <link>/2020/06/22/hamiltonian-monte-carlo/</link>
+      <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
+      <description>No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é muito simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa.</description>
+    </item>
+    
+  </channel>
+</rss>
