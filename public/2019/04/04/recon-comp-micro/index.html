@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.69.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Modelo de Cournot no R com o pacote Recon &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -69,10 +69,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Dia desses eu <a href="https://twitter.com/PedrooCava/status/1109630732585058304">concluí o primeiro release estável do <code>Recon</code></a> e inclusive já está disponível no CRAN para download, é só rodar <code>install.packages(&quot;Recon&quot;)</code> para instalar a última versão enviada ao repositório ou <code>devtools::install_github(&quot;pedrocava/Recon&quot;)</code> para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.</p>
+                    <p>Dia desses eu <a href="https://twitter.com/PedrooCava/status/1109630732585058304">concluí o primeiro release estável do <code>Recon</code></a> e inclusive já está disponível no CRAN para download, é só rodar <code>install.packages(&quot;Recon&quot;)</code> para instalar a última versão enviada ao repositório ou <code>devtools::install_github(&quot;pedrocava/Recon&quot;)</code> para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.</p>
 <p>Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote. Em primeiro de setembro eu fiz um post aqui no <a href="https://azul.netlify.com/2018/09/01/microeconomia/">blog sobre alguns aspectos de dualidade em modelos de micro neoclássica</a>, onde mostrei o que depois se tornariam as funções <code>cobb_douglas2()</code> e <code>grid2()</code>. Dez dias depois fiz um post <a href="https://azul.netlify.com/2018/09/11/solow/">explorando o modelo de Solow</a> onde criei uma primeira versão do que hoje é a função <code>solow_steady_state()</code>.</p>
 <p>No entanto, essas são funções razoavelmente simples e modelam problemas não muito complicados. Depois de solucionado o modelo de Solow, as equações que governam o estado estacionário são bem diretas e curtas. Computar uma função do tipo Cobb-Douglas também é muito simples. Até agora só vimos funções que implementam fórmulas conhecidas. O que eu acho interessante no <code>Recon</code> é que ele implementa soluções de problemas que envolvem problemas de otimização com restrições e não somente substituir letras por números. Usando alguns métodos numéricos de localização de raízes do pacote <code>rootSolve</code> o <code>Recon</code> consegue lidar com curvas de custo e demanda não-lineares, além de oferecer diagnósticos sobre existência de solução para um dado problema.</p>
 <div id="cournot-condicoes-de-primeira-ordem-e-achar-raizes" class="section level1">

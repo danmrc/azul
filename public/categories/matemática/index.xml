@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Matemática on AZUL</title>
@@ -65,7 +65,7 @@ Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
       <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+ Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo. Depois de verificar que é relativamente simples encontrar pontos fixos em funções afins, percebemos que a tarefa fica bem complexa em pouco tempo e que por isso é interessante usar Teoremas de Ponto Fixo para garantir a existência destes objetos para certas funções que atendem a determinados critérios.</description>
     </item>
     
     <item>
@@ -75,7 +75,7 @@ Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto
       
       <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
     </item>
     
     <item>

@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.69.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -65,10 +65,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p><em>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência</em></p>
+                    <p><em>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência</em></p>
 <p>Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. <em>Mas</em> a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre <a href="https://azul.netlify.com/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/">viés de IV com muitos instrumentos</a>.</p>
 <p>O post de hoje vai mostrar, analiticamente e através de simulações, que a distribuição do estimador de variáveis instrumentais pode ser bem aberrante. O modelo é extremamente simples (que é o que permite obter distribuição analítica). Eu vou fazer todas as continhas porque é um exercício bacana. Se você só quer ver “a mágica acontecer”, pule a seção entre “As contas”.</p>
 <p>Nada aqui é original, mas o exemplo é tão fantasticamente simples e gera uma distribuição tão maluca para alguns parâmetros que vale o post. As referências estão no fim do post.</p>

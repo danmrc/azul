@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Economia on AZUL</title>
@@ -6,7 +6,7 @@
     <description>Recent content in Economia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Mon, 18 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 27 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/economia/index.xml" rel="self" type="application/rss+xml" />
     
@@ -28,7 +28,7 @@
       
       <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
       <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
+$$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
     </item>
     
     <item>

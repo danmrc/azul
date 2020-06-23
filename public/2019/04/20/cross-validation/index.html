@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.69.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Uma introdução à Cross Validation &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -65,10 +65,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro <a href="https://azul.netlify.com/2018/09/16/lasso/">post para o blog em que eu falei de LASSO</a>, onde tinhamos que selecionar o parâmetro de penalização <span class="math inline">\(\lambda\)</span>.</p>
+                    <p>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro <a href="https://azul.netlify.com/2018/09/16/lasso/">post para o blog em que eu falei de LASSO</a>, onde tinhamos que selecionar o parâmetro de penalização <span class="math inline">\(\lambda\)</span>.</p>
 <p>A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k). Estime o seu modelo para um certo número de parâmetros que são razoáveis em um bloco e veja qual a perda em alguma métrica (Erro Quadrático Médico, Erro Absoluto Médio, você escolhe) para os dados nos outros k-1 blocos. Faça isso para todos os blocos. A imagem abaixo ilustra a ideia (não é nenhuma obra de arte) para 5 blocos: a linha preta representa o conjunto de dados e as linhas vermelhas separam os blocos do Cross Validation. <strong>T</strong> indica que usamos aquele bloco numa dada iteração para “treinar” (ou estimar) o modelo e <strong>V</strong> que usamos aquele bloco para avaliar o desempenho do modelo. O modelo selecionado é o que performa melhor na média de todos os blocos.</p>
 <div class="figure">
 <img src="/post/cross-validation/CV_ilustrado.png" />

@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.69.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>{purrr} para simular Sistemas Dinâmicos &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -69,10 +69,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com <span class="math inline">\(n\)</span> objetos sob o efeito de algum campo de vetores.</p>
+                    <p>Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com <span class="math inline">\(n\)</span> objetos sob o efeito de algum campo de vetores.</p>
 <div id="n-1-é-por-onde-se-começa" class="section level1">
 <h1><span class="math inline">\(n = 1\)</span> é por onde se começa</h1>
 <p>Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem <code>double</code> e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico. Então queremos algo como:</p>

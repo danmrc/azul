@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.69.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Medindo a inércia da inflação brasileira com Rolling Window Regression &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -67,10 +67,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo <em>dentro de uma subamostra</em> dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias. Vou mostrar isso funcionando estimando a inércia inflacionária no Brasil com um AR1.</p>
+                    <p>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo <em>dentro de uma subamostra</em> dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias. Vou mostrar isso funcionando estimando a inércia inflacionária no Brasil com um AR1.</p>
 <pre class="r"><code>library(ggplot2)
 library(dplyr)
 library(BETS)

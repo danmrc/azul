@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.69.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>R do Zero (2): Manipulando dados com {dplyr} &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -69,10 +69,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Qual é a ideia do <code>dplyr</code>? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o <code>%&gt;%</code> para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.</p>
+                    <p>Qual é a ideia do <code>dplyr</code>? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o <code>%&gt;%</code> para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.</p>
 <p>Os que já tiveram contato com python se lembrarão de várias funções do <code>pandas</code>. Por uma série de pequenas vantagens vocês perceberão que o <code>dplyr</code> oferece uma solução mais ergonômica e concisa de manipulação de dados - graças à magia da <em>tidy evaluation</em>, assunto que visitaremos no futuro.</p>
 <p>Pacotes trazem dados e funções novas, que por vezes têm o mesmo nome. Para evitar ambiguidade usamos o sinal <code>::</code>. <code>tibble::glimpse()</code> é a função <code>glimpse()</code> vinda do pacote <code>tibble</code></p>
 <pre class="r"><code>library(dplyr)

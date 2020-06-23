@@ -21,7 +21,7 @@ library(ggplot2)
 ```
 
 
-No milênio passado (ou seja, antes de maio), eu falei sobre [MCMC](https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/), que é um método muito usado pela galera de bayesiana para amostrar a _posterior_ de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é muito simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa. Sim, ele é super simples, é só um random walk. Mas a ideia de sair por ai passeando no espaço de parâmetros e finalmente esbarrar no lugar certo parece um tanto o quanto ruim. A taxa de rejeição do RWMH também sempre me causou arrepios: a taxa ótima de aceitação se a dimensão do espaço é maior do que 5 é de 23%. Ou seja, a cada 3 passos que você dá, só um é aceito. 
+No milênio passado (ou seja, antes de maio), eu falei sobre [MCMC](https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/), que é um método muito usado pela galera de bayesiana para amostrar a _posterior_ de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é muito simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa. Sim, ele é super simples, é só um random walk. Mas a ideia de sair por ai passeando no espaço de parâmetros e finalmente esbarrar no lugar certo parece um tanto o quanto ruim. A taxa de rejeição do RWMH também sempre me causou arrepios: a taxa ótima de aceitação se a dimensão do espaço é maior do que 5 é de 23%. Ou seja, a cada 3 passos que você dá, menos de um é aceito. 
 
 Bayesianos: Não me levem a mal. Tudo isso é muito bem construído de maneira que você obtém a distribuição correta no final, e funciona muito bem! Eu só não gosto do Random Walk. 
 
@@ -31,19 +31,19 @@ A ideia: no lugar de um random walk, nós usamos o gradiente da distribuição p
 
 Veja que a ideia de passear ao redor da distribuição de maneira estável quando tem um ponto que atrai a massa é basicamente entrar em órbita: o planeta vai tentar te puxar para baixo, e o seu objetivo é não cair. Assim como um foguete, nosso algoritmo pode passear se tiver impulso o suficiente. O Hamiltoniano é uma maneira de formalizar isso. Nós não temos nada naturalmente similar a um impulso na hora de amostrar uma distribuição. Em tempo, o Hamilton do Hamiltoniano não é o mesmo do musical. 
 
-A ideia é bem simples, mas o diabo está nos detalhes:
+A ideia é bem simples:
 
 1. Amostre um valor para o momento
 2. Simule a dinâmica do sistema
 3. Faça um aceita-rejeita Metropolis Hasting
 
-A gente tem que se preocupar em simular a dinâmica. Felizmente a dinâmica é bem simples: estamos no esapço (sideral), então não há atrito. Nós temos um momento (no sentido físico) e ele vai ser atualizado conforme o campo gravitacional - o gradiente. Mas, a simulação tem que ser estável suficiente para o erro numérico não dominar rapidamente. A boa notícia é que tem um algoritmo super simples para fazer isso, o _leapfrog integrator_. Basicamente, dentro de um loop (Pedro provavelmente vai ficar insatisfeito com isso), faça:
+O diabo está nos detalhes: A gente tem que se preocupar em simular a dinâmica. Felizmente a dinâmica é bem simples: estamos no esapço (sideral), então não há atrito. Nós temos um momento (no sentido físico) e ele vai ser atualizado conforme o campo gravitacional - o gradiente. Mas, a simulação tem que ser estável suficiente para o erro numérico não dominar rapidamente. A boa notícia é que tem um algoritmo super simples para fazer isso, o _leapfrog integrator_. Basicamente, dentro de um loop (Pedro provavelmente vai ficar insatisfeito com isso), faça:
 
 1. Atualize o valor do momento $m$, para $m' = m + 1/2\epsilon\bigtriangledown\ell$, onde $\ell$ é a posterior e $\epsilon$ é um hiperparâmetro 
 2. Atualize o valor dos parâmetros $p = p + \epsilon Mm$, onde $M$ é uma matriz e um outros "hiperparâmetro"
 3. Atualize o valor do momento $m$, para $m' = m + 1/2\epsilon\bigtriangledown\ell$
 
-Noutras palavras, dê meio passo no momento, veja a sua posição e dê mais meio passo. Um _leapfrong integrator_ tem a seguinte cara (eu vou implementar tudo em Julia por motivos que já já vão ficar claros):
+Noutras palavras, dê meio passo no momento, veja a sua posição e dê mais meio passo. Um _leapfrong integrator_ tem a seguinte cara - eu vou implementar tudo em Julia por motivos que já já vão ficar claros:
 
 ```
 mom_dist = MvNormal(M)
@@ -61,7 +61,7 @@ Onde `grad` é o gradiente da nossa função alvo, i.e. a posterior. Veja que n�
 
 Veja que o gradiente é essencial aqui, já que ele é computado a cada passo do _leapfrog_. Eu preciso dele computado rápido e precisamente. A melhor maneira de fazer isso é usando um procedimento chamado _automatic differentiation_, que tem várias implementações em Julia - enquanto isso, no R, a opção é justamente chamar o Julia para lidar com isso. 
 
-Um truque maravilhoso que eu vou usar é que, apesar de calibrar o $\epsilon$, eu vou deixar o stepsize em cada passagem do algoritmo ser aleatório, centrado no valor que eu calibrei e com uma variância rídicula. O problema de deixar fixo é que em regiões com muita curvatura o stepsize que colocamos pode ser muito alto e a gente nunca aceitar nenhum ponto daquela região. Veja que alterar dinamicamente o tamanho do passo é complicado porque isso pode destruir a distribuição estacionária - o mesmo motivo para gente escolher os hiperparâmetros e jogar fora os parâmetros amostrados enquanto nós mudamos o algoritmo. 
+Um truque maravilhoso que eu vou usar é que, apesar de calibrar o $\epsilon$, eu vou deixar o stepsize em cada passagem do algoritmo ser aleatório, centrado no valor que eu calibrei e com uma variância baixa. O problema de deixar fixo é que em regiões com muita curvatura o stepsize que colocamos pode ser muito alto e a gente nunca aceitar nenhum ponto daquela região. Veja que alterar dinamicamente o tamanho do passo é complicado porque isso pode destruir a distribuição estacionária - o mesmo motivo para gente escolher os hiperparâmetros e jogar fora os parâmetros amostrados enquanto nós mudamos o algoritmo. 
 
 Para esse exemplo eu vou arrebentar logo e jogar um problema que tem 100 observações e 50 parâmetros. Eu vou colocar todas as priors com distribuição de laplace, que tem a seguinte cara:
 
@@ -74,4 +74,123 @@ ggplot(df,aes(xx,yy)) + geom_line()
 
 ```
 
-A densidade dela é $1/2b*exp(-|x-\mu|/b)$. Com uma verossimelhança normal, a _posterior_ é exatamente o estimador do LASSO - fica como exercício para o leitor (dica: log). Vamos começar 
+A densidade dela é $1/2b*exp(-|x-\mu|/b)$. Com uma verossimelhança normal, a _posterior_ é exatamente o estimador do LASSO - fica como exercício para o leitor (dica: log). Vamos começar carregando os pacotes e criando as funções que precisamos:
+
+```
+
+using Distributions,StatsPlots, ForwardDiff, LinearAlgebra, PositiveFactorizations, Optim
+
+n_samples = 2000
+
+n = 100
+
+x = randn(n,50)
+theta = [repeat([1],10); repeat([0],40)]
+y = x*theta + randn(n)
+
+prior = Laplace(0,2)
+
+ll(theta) = logpdf(MvNormal(I(n)),y-x*theta)
+
+post(theta) = ll(theta) + sum(logpdf.(prior,theta))
+
+init = rand(prior,50)
+
+grad(theta) = ForwardDiff.gradient(post,theta)
+
+```
+
+Eu vou procurar o máximo para obter a matriz de variância covariância dos parâmetros:
+
+```
+
+ot = optimize(x->-1*ll(x),zeros(50),BFGS(), autodiff=:forward)
+
+M = grad(ot.minimizer)*grad(ot.minimizer)'#mass matrix
+M = inv(diagm(diag(M)))
+
+```
+
+Veja que eu já garanti que a matriz é diagonal com `diagm(diag())`. Vamos definir a distribuição do momento:
+
+```
+
+mom_dist = MvNormal(M)
+
+```
+
+Agora, o momento depende do gradiente da função. Nós podemos gerar, propostas que jogam a gente em regiões que o gradiente é muito alto e isso vai envolver um valor da energia altíssimo. Usando nossa analogia física, seria equivalente a dar tanto impulso ao nosso foguete que ele vai dar um passeio no sistema solar. Uma coisa que gera isso são erros numéricos na simulação da trajetória. Para evitar isso, eu vou colocar um limite superior do momento. Mais alto que isso é sinal que tem alguma coisa profundamente errada na simulação.
+
+```
+
+tol_psi = 1e15
+
+```
+
+O setup básico: um array para receber os parâmetros, a distribuição uniforme entre 0 e 1 para decidir se aceita ou não na etapa do metropolis, o valor de $\epsilon$, de L, um parâmetro para monitorar a aceitação e um chute inicial:
+
+```
+
+pars = zeros(n_samples,50)
+
+uni = Uniform(0,1)
+
+leap_step = 0.1
+
+L = max(Int(ceil(1/leap_step)),20)
+
+accept = 0
+
+old_par = init#repeat([0],50)
+
+leap_dist = Normal(leap_step,0.05)
+
+```
+
+Veja que a última linha cria uma distribuição centrada no valor de `leap_step` que sorteia aleatoriamente o tamanho do _stepsize_. Eu faço uns 500 passos para fazer fine tunning do _stepsize_ e obter um ponto um pouquinho melhor que o chute inicial. Eu poderia usar o valor do ótimo que eu obtive otimização a máxima verossimelhança, mas eu não vou fazer:
+
+```
+
+for j = 1:n_samples
+    psi = rand(mom_dist)
+    old_psi = psi
+    new_par = old_par
+    for i = 1:L
+        psi = psi + 1/2*leap_step*grad(new_par)
+        new_par = new_par + inv(M)*leap_step*psi
+        psi = psi + 1/2*leap_step*grad(new_par)
+    end
+    if any(psi .> tol_psi)
+        @info "Energy diverging. Quitting"
+        break
+    end
+    r = post(new_par) + logpdf(mom_dist,psi) - (post(old_par)+ logpdf(mom_dist,old_psi))
+    a = rand(uni)
+    r = min(1,exp(r))
+    if r > a
+        pars[j,:] = new_par
+        global old_par = new_par
+        global accept = accept + 1
+    else
+        pars[j,:] = old_par
+    end
+    println("Iteration ", j, " Accept ratio ", accept/j*100, "%")
+end
+
+```
+
+Como tem 50 parâmetros, eu não vou fazer a maldade de colocar aqui os 50 gráficos - mas eles estão no github. Só vou escolher alguns:
+
+![](/post/mcmc/par3.png)
+
+![](/post/mcmc/par9.png)
+
+![](/post/mcmc/par12.png)
+
+![](/post/mcmc/par15.png)
+![](/post/mcmc/par18.png)
+![](/post/mcmc/par24.png)
+
+Eles não estão perfeitamente centrados nem super bonitos, mas funciona bastante bem. O último gráfico claramente tem um pequeno problema. Veja que nesse exemplo de brincadeira o RWMH usual deve funcionar muito bem, mas eu tenho as minhas dúvidas se um espaço com 500 parâmetros ia transmitir melhor as ideias (e meu computador ia sofrer um bocado). 
+
+Veja que o stan não usa esse algoritmo exatamente: ele usa uma variação do HMC chamado NUTS - No U turns. A ideia em uma frase: toda vez que a gente começa a virar para voltar para o início da trajetória - um U turn - o algoritmo para. Fazer isso exatamente como eu escrevi destroi as propriedades da distribuição estacionária ser a distribuição alvo, então tem vários passos intermediários que implementam isso. 
