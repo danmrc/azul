@@ -48,7 +48,7 @@
                     <h3> Daniel Coutinho </h3>
                     <h2 class="headline">
                     Jun 22, 2020 00:00
-                    · 1651 words
+                    · 1650 words
                     · 8 minute read
                       <span class="tags">
                       
@@ -196,8 +196,8 @@ end
 <p><img src="/post/mcmc/par15.png" />
 <img src="/post/mcmc/par18.png" />
 <img src="/post/mcmc/par24.png" /></p>
-<p>Eles não estão perfeitamente centrados nem super bonitos, mas funciona bastante bem. O último gráfico claramente tem um pequeno problema. Veja que nesse exemplo de brincadeira o RWMH usual deve funcionar muito bem, mas eu tenho as minhas dúvidas se um espaço com 500 parâmetros ia transmitir melhor as ideias (e meu computador ia sofrer um bocado).</p>
-<p>Veja que o stan não usa esse algoritmo exatamente: ele usa uma variação do HMC chamado NUTS - No U turns. A ideia em uma frase: toda vez que a gente começa a virar para voltar para o início da trajetória - um U turn - o algoritmo para. Fazer isso exatamente como eu escrevi destroi as propriedades da distribuição estacionária ser a distribuição alvo, então tem vários passos intermediários que implementam isso.</p>
+<p>Eles não estão perfeitamente centrados nem super bonitos, mas funciona bastante bem. O último gráfico claramente tem um pequeno problema. Veja que nesse exemplo de brincadeira o RWMH usual deve funcionar bem, mas eu tenho as minhas dúvidas se um espaço com 500 parâmetros ia transmitir melhor as ideias (e meu computador ia sofrer um bocado).</p>
+<p>Veja que o stan não usa esse algoritmo exatamente: ele usa uma variação do HMC chamado NUTS - No U Turns. A ideia em uma frase: toda vez que a gente começa a virar para voltar para o início da trajetória - um U turn - o algoritmo para. Fazer isso exatamente como eu escrevi destroi as propriedades da distribuição estacionária ser a distribuição alvo, então tem vários passos intermediários que implementam isso.</p>
 
                 </section>
             </article>
