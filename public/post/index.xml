@@ -17,7 +17,8 @@
       <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
-      <description>No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é muito simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa.</description>
+      <description>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
+No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.</description>
     </item>
     
     <item>
