@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.73.0" />
 		<title>Hamiltonian Monte Carlo &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -48,7 +48,7 @@
                     <h3> Daniel Coutinho </h3>
                     <h2 class="headline">
                     Jun 22, 2020 00:00
-                    · 1920 words
+                    · 1929 words
                     · 10 minute read
                       <span class="tags">
                       
@@ -71,8 +71,12 @@
                   
                 
                 <section id="post-body">
-                    <p><em>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia</em></p>
-<p>No milênio passado (ou seja, antes de maio), eu falei sobre <a href="https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/">MCMC</a>, que é um método muito usado pela galera de bayesiana para amostrar a <em>posterior</em> de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa. Sim, ele é super simples, é só um random walk. Mas a ideia de sair por ai passeando no espaço de parâmetros e finalmente esbarrar no lugar certo parece um tanto o quanto ruim. A taxa de rejeição do RWMH também sempre me causou arrepios: a taxa ótima de aceitação se a dimensão do espaço é maior do que 5 é de 23%. Ou seja, a cada 3 passos que você dá, menos de um é aceito.</p>
+                    
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><em>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia</em></p>
+<p>No milênio passado (ou seja, antes de maio), eu falei sobre <a href="https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/">MCMC</a>, que é um método muito usado pela galera de bayesiana para amostrar a <em>posterior</em> de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa. Sim, ele é super simples, é só um random walk. Mas a ideia de sair por ai passeando no espaço de parâmetros e finalmente esbarrar no lugar certo parece um tanto o quanto ruim. A taxa de rejeição do RWMH também sempre me causou arrepios: a taxa ótima de aceitação se a dimensão do espaço de parâmetros é maior do que 5 é de 23%. Ou seja, a cada 3 passos que você dá, menos de um é aceito.</p>
 <p>Bayesianos: Não me levem a mal. Tudo isso é muito bem construído de maneira que você obtém a distribuição correta no final, e funciona muito bem! Eu só não gosto do Random Walk.</p>
 <p>Felizmente eu não sou o único com problemas com o Random Walk na proposta, e em 1996 apareceu um uso (em estatística) de um algoritmo que evita o random walk justamente por ele ser ineficiente, especialmente em alta dimensão. O nome é <em>Hamiltonian Monte Carlo</em> (originalmente, <em>Hybrid Monte Carlo</em>). A ideia é bem esperta e felizmente já tem uma dúzia de implementações: a mais robusta e bem trabalhada é o <a href="https://mc-stan.org/">stan</a>.</p>
 <p>A ideia: no lugar de um random walk, nós usamos o gradiente da distribuição para nos informar aonde ir. Veja que a maioria das distribuições bem comportadas tem muita massa perto do máximo, então se a gente mapear perto do máximo nós vamos mapear um bom pedaço da distribuição. Obviamente, se nós seguirmos o gradiente nós vamos achar o máximo. Nosso objetivo não é encontrar o máximo e sim mapear a distribuição. O truque é converter o gradiente em algo que informe a gente como passear na distribuição.</p>
@@ -85,7 +89,7 @@
 </ol>
 <p>O diabo está nos detalhes: A gente tem que se preocupar em simular a dinâmica. Felizmente a dinâmica é bem simples: estamos no espaço (sideral), então não há atrito. Nós temos um momento (no sentido físico) e ele vai ser atualizado conforme o campo gravitacional - o gradiente. Mas, a simulação tem que ser estável suficiente para o erro numérico não dominar rapidamente. A boa notícia é que tem um algoritmo super simples para fazer isso, o <em>leapfrog integrator</em>. Basicamente, dentro de um loop (Pedro provavelmente vai ficar insatisfeito com isso), faça:</p>
 <ol style="list-style-type: decimal">
-<li>Atualize o valor do momento <span class="math inline">\(\phi\)</span>, para <span class="math inline">\(\phi = \phi + 1/2\epsilon\bigtriangledown\mathcal{P}\)</span>, onde <span class="math inline">\(\mathcal{P}\)</span> é a posterior e <span class="math inline">\(\epsilon\)</span> é um hiperparâmetro</li>
+<li>Atualize o valor do momento <span class="math inline">\(\phi\)</span>, para <span class="math inline">\(\phi = \phi + 1/2\epsilon\bigtriangledown\mathcal{P}\)</span>, onde <span class="math inline">\(\mathcal{P}\)</span> é a posterior, <span class="math inline">\(\bigtriangledown \mathcal{P}\)</span> é o gradiente de <span class="math inline">\(\mathcal{P}\)</span> e <span class="math inline">\(\epsilon\)</span> é um hiperparâmetro</li>
 <li>Atualize o valor dos parâmetros <span class="math inline">\(\theta = \theta + \epsilon M\phi\)</span>, onde <span class="math inline">\(M\)</span> é uma matriz de hiperparâmetros</li>
 <li>Atualize o valor do momento <span class="math inline">\(\phi\)</span>, para <span class="math inline">\(\phi = \phi + 1/2\epsilon\bigtriangledown\mathcal{P}\)</span></li>
 </ol>

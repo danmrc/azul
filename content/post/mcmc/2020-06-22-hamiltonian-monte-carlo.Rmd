@@ -12,7 +12,7 @@ tags:
   - Metropolis hasting
   - Bayesiana
   - Markov Chain Monte Carlo
-draft: true
+katex: true
 ---
 
 ```{r, echo=FALSE,include=FALSE}
@@ -22,7 +22,7 @@ library(ggplot2)
 
 _Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia_
 
-No milênio passado (ou seja, antes de maio), eu falei sobre [MCMC](https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/), que é um método muito usado pela galera de bayesiana para amostrar a _posterior_ de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa. Sim, ele é super simples, é só um random walk. Mas a ideia de sair por ai passeando no espaço de parâmetros e finalmente esbarrar no lugar certo parece um tanto o quanto ruim. A taxa de rejeição do RWMH também sempre me causou arrepios: a taxa ótima de aceitação se a dimensão do espaço é maior do que 5 é de 23%. Ou seja, a cada 3 passos que você dá, menos de um é aceito. 
+No milênio passado (ou seja, antes de maio), eu falei sobre [MCMC](https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/), que é um método muito usado pela galera de bayesiana para amostrar a _posterior_ de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta. O Random Walk sempre me soou particularmente problemático. Sim, ele é necessário para garantir que a convergência da distribuição ocorre para a distribuição certa. Sim, ele é super simples, é só um random walk. Mas a ideia de sair por ai passeando no espaço de parâmetros e finalmente esbarrar no lugar certo parece um tanto o quanto ruim. A taxa de rejeição do RWMH também sempre me causou arrepios: a taxa ótima de aceitação se a dimensão do espaço de parâmetros é maior do que 5 é de 23%. Ou seja, a cada 3 passos que você dá, menos de um é aceito. 
 
 Bayesianos: Não me levem a mal. Tudo isso é muito bem construído de maneira que você obtém a distribuição correta no final, e funciona muito bem! Eu só não gosto do Random Walk. 
 
@@ -40,7 +40,7 @@ O passo a passo:
 
 O diabo está nos detalhes: A gente tem que se preocupar em simular a dinâmica. Felizmente a dinâmica é bem simples: estamos no espaço (sideral), então não há atrito. Nós temos um momento (no sentido físico) e ele vai ser atualizado conforme o campo gravitacional - o gradiente. Mas, a simulação tem que ser estável suficiente para o erro numérico não dominar rapidamente. A boa notícia é que tem um algoritmo super simples para fazer isso, o _leapfrog integrator_. Basicamente, dentro de um loop (Pedro provavelmente vai ficar insatisfeito com isso), faça:
 
-1. Atualize o valor do momento $\phi$, para $\phi = \phi + 1/2\epsilon\bigtriangledown\mathcal{P}$, onde $\mathcal{P}$ é a posterior e $\epsilon$ é um hiperparâmetro 
+1. Atualize o valor do momento $\phi$, para $\phi = \phi + 1/2\epsilon\bigtriangledown\mathcal{P}$, onde $\mathcal{P}$ é a posterior, $\bigtriangledown \mathcal{P}$ é o gradiente de $\mathcal{P}$ e $\epsilon$ é um hiperparâmetro 
 2. Atualize o valor dos parâmetros $\theta = \theta + \epsilon M\phi$, onde $M$ é uma matriz de hiperparâmetros
 3. Atualize o valor do momento $\phi$, para $\phi = \phi + 1/2\epsilon\bigtriangledown\mathcal{P}$
 
