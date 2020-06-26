@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.73.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -56,6 +56,23 @@
     
         
             <li>
+                <aside class="dates">Aug 20</aside>
+                <a href='/2019/08/20/viz-estacionariedade-gganim/'>
+                    Visualizando um critério de estacionariedade em Processos AR
+                    
+                        
+                            <h2>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
+Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
+\[y_t = \beta y_{t-1} &#43; \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
                 <aside class="dates">Aug 15</aside>
                 <a href='/2019/08/15/born-with-the-gift-of-a-golden-voice/'>
                     Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen
@@ -96,7 +113,7 @@ Este post vai fazer uma coisa que está na moda atualmente: análise textual. A 
                     
                         
                             <h2>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</h2>
+ Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo. Depois de verificar que é relativamente simples encontrar pontos fixos em funções afins, percebemos que a tarefa fica bem complexa em pouco tempo e que por isso é interessante usar Teoremas de Ponto Fixo para garantir a existência destes objetos para certas funções que atendem a determinados critérios.</h2>
                         
                     
                 </a>
@@ -197,22 +214,6 @@ Já aviso de antemão que a explicaçõe será muito superficial. É um assunto 
                             <h2>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
 \[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 &#43; \lambda \sum_{k=0}^p |\beta_k|\]
 (Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Apr 20</aside>
-                <a href='/2019/04/20/cross-validation/'>
-                    Uma introdução à Cross Validation
-                    
-                        
-                            <h2>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
-A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</h2>
                         
                     
                 </a>

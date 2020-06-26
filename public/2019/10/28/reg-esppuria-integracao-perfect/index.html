@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.73.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Regredindo séries temporais aleatórias para quem gosta de regressão &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -69,10 +69,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados <em>ao longo do tempo</em>. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você <a href="https://azul.netlify.com/2019/08/20/viz-estacionariedade-gganim/">leia esse aqui</a> ou <a href="https://azul.netlify.com/2019/01/07/prob-animate/">este outro</a> no lugar.</p>
+                    <p>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados <em>ao longo do tempo</em>. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você <a href="https://azul.netlify.com/2019/08/20/viz-estacionariedade-gganim/">leia esse aqui</a> ou <a href="https://azul.netlify.com/2019/01/07/prob-animate/">este outro</a> no lugar.</p>
 <p>Bem, vamos direto ao ponto. Vou simular dois processos, um <span class="math inline">\(x_t = 0.02t + 0.8x_{t-1} + \epsilon_t\)</span> e <span class="math inline">\(y_t = 0.015t + 0.7y_{t-1} + \mu_t\)</span> onde <span class="math inline">\(\epsilon_t, \mu_t \sim N(0,0.5)\)</span>. Você pode observar que <em>não</em> são determinísticos, seus choques tem covariância nula e que geralmente falando não ficam parados com a passagem do tempo. Não é razoável supor que regridam a um patamar estável de longo prazo - PIB é um exemplo do mundo real com este tipo de comportamento.</p>
 <pre class="r"><code>library(tibble)
 library(ggplot2)
