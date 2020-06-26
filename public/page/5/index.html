@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.73.0" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -157,7 +157,7 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
                     
                         
                             <h2>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</h2>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</h2>
                         
                     
                 </a>
@@ -189,7 +189,7 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
                     
                         
                             <h2>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$</h2>
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$</h2>
                         
                     
                 </a>

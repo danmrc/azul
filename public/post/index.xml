@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on AZUL</title>
@@ -18,7 +18,7 @@
       
       <guid>/2020/06/25/r-mais-r%C3%A1pido/</guid>
       <description>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.
-Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usam paralelismo sem nenhuma intervenção direta do usuário. Uma outra opção, absolutamente obscura, é o pqR - pretty quick R.</description>
+Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usam paralelismo sem nenhuma intervenção direta do usuário.</description>
     </item>
     
     <item>
@@ -243,7 +243,7 @@ Este post vai fazer uma coisa que está na moda atualmente: análise textual. A 
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
       <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo. Depois de verificar que é relativamente simples encontrar pontos fixos em funções afins, percebemos que a tarefa fica bem complexa em pouco tempo e que por isso é interessante usar Teoremas de Ponto Fixo para garantir a existência destes objetos para certas funções que atendem a determinados critérios.</description>
+ Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
     </item>
     
     <item>
@@ -474,7 +474,7 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
       
       <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
     
     <item>
@@ -494,7 +494,7 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
       
       <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
       <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
     </item>
     
     <item>
@@ -674,15 +674,6 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/1/01/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/</guid>
-      <description>Ponto Fixo e Equlíbrio Geral MathJax.Hub.Config({ tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]}, TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } } });   @font-face { font-style: normal; font-weight: 300; } @font-face { font-style: normal; font-weight: 400; } @font-face { font-style: normal; font-weight: 600; } html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -webkit-text-size-adjust: 100%; /* 2 */ } body { margin: 0; } article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; } audio, canvas, progress, video { display: inline-block; /* 1 */ vertical-align: baseline; /* 2 */ } audio:not([controls]) { display: none; height: 0; } [hidden], template { display: none; } a:active, a:hover { outline: 0; } abbr[title] { border-bottom: 1px dotted; } b, strong { font-weight: bold; } dfn { font-style: italic; } h1 { font-size: 2em; margin: 0.</description>
     </item>
     
     <item>

@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.73.0" />
 		<title>Filtros: Uma Introdução &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -67,7 +67,10 @@
                   
                 
                 <section id="post-body">
-                    <p>Um filtro (linear) é basicamente qualquer polinômio <span class="math inline">\(\alpha(B)\)</span> a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:</p>
+                    
+
+
+<p>Um filtro (linear) é basicamente qualquer polinômio <span class="math inline">\(\alpha(B)\)</span> a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:</p>
 <p><span class="math display">\[ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} \]</span></p>
 <p>Onde B é o operador <em>backshift</em>, logo para uma série temporal <span class="math inline">\(y_t\)</span>, <span class="math inline">\(By_t = y_{t-1}\)</span> e <span class="math inline">\(B^ny_t = y_{t-n}\)</span>. A forma acima é conhecida como a <em>representação no domínio temporal (time domain)</em> do filtro. Filtros podem “existir” em duas formas, que carregam a mesma informação: a de <em>time domain</em> e a <em>frequency domain</em> (que, em tradução literal, é o domínio da frequência ou domínio frequencial. E vou adotar a primeira tradução). Em alguns casos, transformar o filtro para o domínio da frequência ajuda a realçar certos aspectos do filtro que são mais difíceis de entender no domínio temporal.</p>
 <div id="do-dominio-temporal-para-o-dominio-frequencia" class="section level1">

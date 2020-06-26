@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on AZUL</title>
@@ -6,53 +6,26 @@
     <description>Recent content in Categories on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Thu, 15 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Análise Textual</title>
-      <link>/categories/an%C3%A1lise-textual/</link>
-      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
+      <title>Programação</title>
+      <link>/categories/programa%C3%A7%C3%A3o/</link>
+      <pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/categories/an%C3%A1lise-textual/</guid>
+      <guid>/categories/programa%C3%A7%C3%A3o/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Clustering</title>
-      <link>/categories/clustering/</link>
-      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      <title>R</title>
+      <link>/categories/r/</link>
+      <pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/categories/clustering/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Computação</title>
-      <link>/categories/computa%C3%A7%C3%A3o/</link>
-      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/computa%C3%A7%C3%A3o/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Crescimento Econômico</title>
-      <link>/categories/crescimento-econ%C3%B4mico/</link>
-      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/crescimento-econ%C3%B4mico/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Curtas</title>
-      <link>/categories/curtas/</link>
-      <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/curtas/</guid>
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
     
@@ -62,51 +35,6 @@
       <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/econometria/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Economia</title>
-      <link>/categories/economia/</link>
-      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/economia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Economia Da Educação</title>
-      <link>/categories/economia-da-educa%C3%A7%C3%A3o/</link>
-      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/economia-da-educa%C3%A7%C3%A3o/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Estatística</title>
-      <link>/categories/estat%C3%ADstica/</link>
-      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/estat%C3%ADstica/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Geral</title>
-      <link>/categories/geral/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/geral/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Inferência Causal</title>
-      <link>/categories/infer%C3%AAncia-causal/</link>
-      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/infer%C3%AAncia-causal/</guid>
       <description></description>
     </item>
     
@@ -129,11 +57,11 @@
     </item>
     
     <item>
-      <title>Macroeconomia</title>
-      <link>/categories/macroeconomia/</link>
-      <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
+      <title>Estatística</title>
+      <link>/categories/estat%C3%ADstica/</link>
+      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/categories/macroeconomia/</guid>
+      <guid>/categories/estat%C3%ADstica/</guid>
       <description></description>
     </item>
     
@@ -156,20 +84,11 @@
     </item>
     
     <item>
-      <title>Microeconomia</title>
-      <link>/categories/microeconomia/</link>
-      <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
+      <title>Curtas</title>
+      <link>/categories/curtas/</link>
+      <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/categories/microeconomia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Música</title>
-      <link>/categories/m%C3%BAsica/</link>
-      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/m%C3%BAsica/</guid>
+      <guid>/categories/curtas/</guid>
       <description></description>
     </item>
     
@@ -183,6 +102,42 @@
     </item>
     
     <item>
+      <title>Crescimento Econômico</title>
+      <link>/categories/crescimento-econ%C3%B4mico/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/crescimento-econ%C3%B4mico/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Economia</title>
+      <link>/categories/economia/</link>
+      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/economia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Macroeconomia</title>
+      <link>/categories/macroeconomia/</link>
+      <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/macroeconomia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Computação</title>
+      <link>/categories/computa%C3%A7%C3%A3o/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/computa%C3%A7%C3%A3o/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Política Monetária</title>
       <link>/categories/pol%C3%ADtica-monet%C3%A1ria/</link>
       <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
@@ -192,20 +147,29 @@
     </item>
     
     <item>
-      <title>Probit</title>
-      <link>/categories/probit/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      <title>Séries Temporais</title>
+      <link>/categories/s%C3%A9ries-temporais/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/probit/</guid>
+      <guid>/categories/s%C3%A9ries-temporais/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Programação</title>
-      <link>/categories/programa%C3%A7%C3%A3o/</link>
-      <pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate>
+      <title>Análise Textual</title>
+      <link>/categories/an%C3%A1lise-textual/</link>
+      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/programa%C3%A7%C3%A3o/</guid>
+      <guid>/categories/an%C3%A1lise-textual/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Música</title>
+      <link>/categories/m%C3%BAsica/</link>
+      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/m%C3%BAsica/</guid>
       <description></description>
     </item>
     
@@ -219,29 +183,29 @@
     </item>
     
     <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate>
+      <title>Economia da Educação</title>
+      <link>/categories/economia-da-educa%C3%A7%C3%A3o/</link>
+      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/r/</guid>
+      <guid>/categories/economia-da-educa%C3%A7%C3%A3o/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>R Do Zero</title>
-      <link>/categories/r-do-zero/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Microeconomia</title>
+      <link>/categories/microeconomia/</link>
+      <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/r-do-zero/</guid>
+      <guid>/categories/microeconomia/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Séries Temporais</title>
-      <link>/categories/s%C3%A9ries-temporais/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <title>Inferência Causal</title>
+      <link>/categories/infer%C3%AAncia-causal/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/s%C3%A9ries-temporais/</guid>
+      <guid>/categories/infer%C3%AAncia-causal/</guid>
       <description></description>
     </item>
     
@@ -260,6 +224,42 @@
       <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/categories/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Clustering</title>
+      <link>/categories/clustering/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/clustering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Probit</title>
+      <link>/categories/probit/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/probit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Geral</title>
+      <link>/categories/geral/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/geral/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R do Zero</title>
+      <link>/categories/r-do-zero/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/r-do-zero/</guid>
       <description></description>
     </item>
     

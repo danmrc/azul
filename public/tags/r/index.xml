@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on AZUL</title>
@@ -18,7 +18,7 @@
       
       <guid>/2020/06/25/r-mais-r%C3%A1pido/</guid>
       <description>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.
-Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usam paralelismo sem nenhuma intervenção direta do usuário. Uma outra opção, absolutamente obscura, é o pqR - pretty quick R.</description>
+Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usam paralelismo sem nenhuma intervenção direta do usuário.</description>
     </item>
     
     <item>
@@ -115,7 +115,7 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
       
       <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
       <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo. Depois de verificar que é relativamente simples encontrar pontos fixos em funções afins, percebemos que a tarefa fica bem complexa em pouco tempo e que por isso é interessante usar Teoremas de Ponto Fixo para garantir a existência destes objetos para certas funções que atendem a determinados critérios.</description>
+ Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
     </item>
     
     <item>

@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.73.0" />
 		<title>R mais rápido &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -48,8 +48,8 @@
                     <h3> Daniel Coutinho </h3>
                     <h2 class="headline">
                     Jun 25, 2020 00:00
-                    · 1482 words
-                    · 7 minute read
+                    · 1927 words
+                    · 10 minute read
                       <span class="tags">
                       
                       
@@ -69,15 +69,19 @@
                   
                 
                 <section id="post-body">
-                    <p>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.</p>
-<p>Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usam paralelismo sem nenhuma intervenção direta do usuário. Uma outra opção, absolutamente obscura, é o <a href="http://pqr-project.org/">pqR - pretty quick R</a>.</p>
+                    
+<script src="2020-06-25-r-mais-rápido_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.</p>
+<p>Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usam paralelismo sem nenhuma intervenção direta do usuário. Uma outra opção, absolutamente obscura, é o <a href="http://pqr-project.org/">pqR - pretty quick R</a>. Absolutamente obscuro e prometendo mais velocidade é uma boa receita para ter meu interesse.</p>
 <p>O pqR é um pouco mais ousado porque envolve reescrever trechos do R e implementar novas ferramentas dentro do R. Antes de discutir o lado bom, deixa eu levantar alguns alguns obstáculos para usar ele:</p>
 <ol style="list-style-type: decimal">
 <li>Você tem que compilar</li>
 <li>Ele é baseado no R 2.5</li>
 </ol>
-<p>O 2 significa que você pode instalar pacotes porque o pqR tem o próprio CRAN - mas se eles não existiam há anos atrás, não vai ter. E mesmo se tiver ele pode não ter vários comandos que você se acostumou a usar.</p>
-<p>O 1 é em certos aspectos mais sério. Compilar significa que efetivamente você vai ter que gerar o software dos arquivos que definem ele - nada de dar dois cliques e continuar. Isso também aumenta as chances de dar problema durante o processo. A única vantagem é que compilar permite o programa rodar mais rápido. Metáfora: é como fazer uma roupa em um alfaiate.</p>
+<p>O 2 significa que você pode instalar pacotes porque o pqR tem o “próprio CRAN” - mas se eles não existiam há anos atrás, não vai ter. E mesmo se tiver ele pode não ter vários comandos que você se acostumou a usar.</p>
+<p>O 1 é em certos aspectos mais sério - e em outros menos. Compilar significa que efetivamente você vai ter que gerar o software dos arquivos que definem ele - nada de dar dois cliques e continuar. Isso também aumenta as chances de dar problema durante o processo. A única vantagem é que compilar permite o programa rodar mais rápido. Metáfora: é como fazer uma roupa em um alfaiate.</p>
 <p>Dado isso, eu vou dizer porque você talvez se interesse no pqR e depois explicar como eu compilei.</p>
 <div id="the-good" class="section level1">
 <h1>The good</h1>
@@ -115,11 +119,39 @@
 </tbody>
 </table>
 <p>O caso 1 é uma baita surra e me fez passar a roubar para o R 4.0.2. Pro caso 2, não adiantou muito.</p>
-<p>Outra coisa legal do pqR é que na versão mais recente - a que ainda está em teste - ele tem automatic differentiation - auto diff, daqui por diante. Auto diff é uma tentativa de ter o bolo e come-lo: preciso e mais rápido que diferenciação numérica (diferenças finitas) e que diferenciação simbólica. O Julia tem e é muito usado lá, e é uma ferramenta fantástica. O tensorflow também implementa auto diff. Como eu já discuti em um post anterior, o R não tem um pacote que faça isso nativamente - o task view de matemática numérica sugere um pacote do GitHub (!) que usa o Julia para calcular as derivadas (!!) e devolve pro R.</p>
+<p>Levem em consideração que eu não compilei o R 4.0.2, e compilar o R deve aumentar a velocidade dele. Mas eu também não compilei o pqR da maneira mais eficiente possível, então ainda deve dá pra ganhar uns segundos. Por sinal, se só o ato de compilar faz a gente ganhar muita velocidade - o que eu não acho que seja verdade, mas é um achismo - então eu passarei a compilar mais software.</p>
+<p>Outra coisa legal do pqR é que na versão mais recente - a que ainda está em teste - tem automatic differentiation - auto diff, daqui por diante. Auto diff é uma tentativa de ter o bolo e come-lo: preciso e mais rápido que diferenciação numérica (diferenças finitas) e mais rápido que diferenciação simbólica. O Julia tem e é muito usado lá, e é uma ferramenta fantástica. O tensorflow também implementa auto diff. Como eu já discuti em um post anterior, o R não tem um pacote que faça isso nativamente - o task view de matemática numérica sugere um pacote do GitHub (!) que usa o Julia para calcular as derivadas (!!) e devolve pro R.</p>
+<p>Só para dar um exemplo, vamos estimar alguma coisa por máxima verossimilhança. Vai ser uma normal com 50 varíaveis e 100 observações. Eu vou escrever a função de máximia verossimillhança e usar o <code>optim</code> para achar o ótimo usando BFGS, que requer o gradiente. Eu vou rodar o comando duas vezes no pqR, uma fornecendo o gradiente para o <code>optim</code> usando automatic differentation e a outra eu vou deixar rodar sem fornecer o gradiente, então o R automaticamente usa diferenças finitas. O código:</p>
+<pre><code>
+library(tictoc)
+
+log_mvn &lt;- function(x,mu,S){
+  m &lt;- length(mu)
+  return(-m/2*log(2*pi) -1/2*log(det(S)) -1/2*t(x-mu)%*%solve(S)%*%(x-mu))
+}
+
+par &lt;- runif(50,-1,1)
+x &lt;- matrix(rnorm(100*50),ncol = 50)
+y &lt;- x%*%par + rnorm(100)
+
+ll &lt;- function(par) -1*log_mvn(y,x%*%par,diag(100))
+grad &lt;- function(par) attr(with gradient(par=par) ll(par),&quot;gradient&quot;)   
+
+tic()
+otim_auto &lt;- optim(rep(0,50),ll,grad, method = &quot;BFGS&quot;)
+toc()  
+
+tic()
+otim &lt;- optim(rep(0,50),ll, method = &quot;BFGS&quot;)
+toc()  
+</code></pre>
+<p>Veja que esse código não vai rodar no R normal. O comando de gradiente é realmente esquisito e eu embalei ele numa função. As diferenças de qualidade da estimação não são visíveis:</p>
+<p><img src="/post/auto_vs_diff.png" /></p>
+<p>Você não vê nenhum ponto do auto diff porque o caso de diferenças finitas cobre ele. Mas a diferença de tempo é estúpida: com o auto diff isso demora 0.33s e com diferenças finitas 6.3s!</p>
 </div>
 <div id="the-bad" class="section level1">
 <h1>The bad</h1>
-<p>O fato de depender do R 2.5</p>
+<p>O fato de depender do R 2.5 é ruim especialmente porque qualquer projeto que use pacotes ou até mesmo comandos que foram implementados depois dessa versão vão estar indisponíveis. Pacotes que dependem de programas externos vão sofrer ainda mais dependendo das mudanças no programa externo ou no pacote. A solução mais simples é manter duas cópias do R, uma do 4.0.2 e a outra do pqR. Isso vai exigir um certo malabarismo no Windows se você quiser usar o RStudio para os dois. No Linux é um pouco mais fácil, como eu explico a seguir. Mesmo assim, escrevendo esse post eu precisei fazer um certo malabarismo para rodar coisas no pqR, voltar para o rstudio com o R 4.0.2, colocar os resultados.</p>
 </div>
 <div id="the-ugly" class="section level1">
 <h1>The ugly</h1>
@@ -142,14 +174,22 @@
 <p>Cuidado que espaço no lugar errado vai gerar um erro. Se você quer usar o pqR dentro do RStudio, você tem que adicionar também <code>--enable-R-shlib</code>. O comando fica:</p>
 <pre><code>./configure --enable-R-shlib CFLAGS=&quot;-g -O3 -fcommon -ffp-contract=off&quot; FFLAGS=&quot;-fallow-argument-mismatch&quot;</code></pre>
 <p>Isso vai demorar um pouco e vai imprimir uma montanha de coisas no terminal. No fim, se tudo der certo, pode aparecer um warning ou outro. Um erro é um erro e você vai ter que fuçar a internet para ver se resolver - comece checando as coisas óbvias, como pacotes faltando e as instruções do pqR.</p>
-<p>O passo seguinte é compilar o pacote, dando o comando MAKE (sem necessidade de ./). Aqui vai demorar um tempo e é totalmente normal aparecer warnings, coisas coloridas etc. Vá fazer um café ou leia outros posts do blog enquanto isso.</p>
+<p>O passo seguinte é compilar o pacote, dando o comando MAKE (sem necessidade de ./). Vai demorar um tempo e é totalmente normal aparecer warnings, coisas coloridas etc. Vá fazer um café ou leia outros posts do blog enquanto isso.</p>
 <p>Se tudo der certo, ele vai sair sem dar nenhum erro. Eu achei um pouco obscuro quando deu erro, e no fim da compilação não aparece uma mensagem óbvia que foi bem sucedido, então leia com calma o que saiu no terminal.</p>
 <p>Feito isso, você pode acessar o pqR executando, do terminal onde você instalou, <code>./bin/R</code>. A mensagem de início do R deve te informar que você está usando o pqR. Veja que você pode começar a usar o pqR direto do terminal.</p>
 <p>Se você quer usar no RStudio, <a href="https://support.rstudio.com/hc/en-us/articles/200486138-Changing-R-versions-for-RStudio-desktop">esta página do RStudio explica</a>. Basicamente você vai executar o comando <code>export RSTUDIO_WHICH_R=pathtopqR</code> no terminal. A parte importante: isso <em>só vai alterar as seções do rstudio iniciadas do terminal</em>, então você vai ter que iniciar o RStudio do terminal. O link comenta que esse é o padrão no Ubuntu e aparentemente também é o padrão no arch.</p>
 <p>É possível trocar para o que é iniciado direto do icone da interface gráfica. Eu não tentei isso porque eu achei extremamente conveniente ter como iniciar o R “normal” e o pqR no RStudio sem precisar toda vez trocar um arquivo escondido em algum canto.</p>
 <p>Se você acha meio inconveniente toda vez abrir o terminal, dá pra criar um icone na área de trabalho abrindo um arquivo em branco e salvando com o nome pqR.desktop e com o seguinte conteúdo:</p>
-<pre><code></code></pre>
-<p>Veja que ele executa o rstudio via terminal e sempre setta o path do R pro pqR - aqui, quando eu fecho o terminal, ele restaura as variáveis do ambiente pro original. Eu não sei o quão universal é isso entre as distros de Linux.</p>
+<pre><code>#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Exec=sh -c &#39;export RSTUDIO_WHICH_R=pathto/pqR-2019-07-05/bin/R; rstudio-bin&#39;
+Icon=pathto/pqR-2019-07-05/doc/html/pqR.ico
+Name=pqR
+Terminal=true
+GenericName=rstudio-term
+Categories=Development;</code></pre>
+<p>No ‘pathto’ troquem para o lugar onde vocês deram build do pqR. O <em>GenericName</em> e <em>Categories</em> não tem nada de especial .Veja que ele primeiro muda o caminho do R e depois executa o rstudio via terminal - aqui, quando eu fecho o terminal, ele restaura as variáveis do ambiente pro original. Eu não sei o quão universal é esse último comportamento entre as distros de Linux.</p>
 <p>Eu não acho que o pqR vai substituir o R do CRAN tão cedo. Ele tem várias vantagens, especialmente se você quer mais velocidade. Ele tem desvantagens: primeiro, ele é baseado em uma versão antiga do R; segundo, o R é uma linguagem (de programação), e linguagens sós ervem se <em>outras pessoas</em> falam a mesma língua. Provavelmente projetos seus com co-autores vão depender do que tem no R usual, e você vai precisar do R base.</p>
 </div>
 
