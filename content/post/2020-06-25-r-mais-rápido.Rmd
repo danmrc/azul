@@ -1,7 +1,7 @@
 ---
 title: R mais rápido
 author: Daniel Coutinho
-date: '2020-06-25'
+date: '2020-07-02'
 slug: r-mais-rápido
 categories:
   - R
@@ -10,21 +10,22 @@ tags:
   - pqR
   - R
   - Computação Científica
-draft: true
 ---
 
 Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta. 
 
-Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usam paralelismo sem nenhuma intervenção direta do usuário. Uma outra opção, absolutamente obscura, é o [pqR - pretty quick R](http://pqr-project.org/). Absolutamente obscuro e prometendo mais velocidade é uma boa receita para ter meu interesse.
+Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usa vários processadores sem precisar fazer nenhum setup. 
 
-O pqR é um pouco mais ousado porque envolve reescrever trechos do R e implementar novas ferramentas dentro do R. Antes de discutir o lado bom, deixa eu levantar alguns alguns obstáculos para usar ele: 
+Uma outra opção, absolutamente obscura, é o [pqR - pretty quick R](http://pqr-project.org/). Absolutamente obscuro e prometendo mais velocidade é uma boa receita para ter meu interesse.
+
+O pqR é um pouco mais ousado porque envolve reescrever trechos do R e implementar novas ferramentas dentro do R. Antes de discutir o lado bom, deixa eu levantar alguns alguns obstáculos: 
 
 1. Você tem que compilar
 2. Ele é baseado no R 2.5
 
 O 2 significa que você pode instalar pacotes porque o pqR tem o "próprio CRAN" - mas se eles não existiam há anos atrás, não vai ter. E mesmo se tiver ele pode não ter vários comandos que você se acostumou a usar.
 
-O 1 é em certos aspectos mais sério - e em outros menos. Compilar significa que efetivamente você vai ter que gerar o software dos arquivos que definem ele - nada de dar dois cliques e continuar. Isso também aumenta as chances de dar problema durante o processo. A única vantagem é que compilar permite o programa rodar mais rápido. Metáfora: é como fazer uma roupa em um alfaiate. 
+O 1 é em certos aspectos mais sério - e em outros menos. Compilar significa que efetivamente você vai ter que gerar o software dos arquivos que definem ele - nada de dar dois cliques e continuar. Isso também aumenta as chances de dar problema durante o processo. A vantagem é que compilar permite o programa rodar mais rápido. 
 
 Dado isso, eu vou dizer porque você talvez se interesse no pqR e depois explicar como eu compilei. 
 
@@ -36,26 +37,42 @@ Como eu faço muita simulação, que é bastante intensivo computacionalmente, e
 
 Eu vou separar em casos e apresentar os resultados em uma tabela mais embaixo:
 
-1. O bom e velho testar a qualidade de seleção de modelo usando o LASSO, que segue muito de perto um post que eu fiz. Os dois eu fiz usando for.
-2. Simulação para obter a distribuição de estatísticas em casos não estacionários, que envolvem repetir a mesma coisa 100 mil vezes, e requer estimar dois modelos lineares e uma pancada de contas.
+1. O bom e velho testar a qualidade de seleção de modelo usando o LASSO, que segue muito de perto [um post que eu fiz](https://azul.netlify.app/2018/09/16/lasso/): é o código desse post repetido 2000 vezes. Tanto no R 4.0.2 quanto no pqR eu usei o for.
+
+2. Simulação para obter a distribuição de estatísticas em casos não estacionários, que envolvem repetir a mesma coisa 100 mil vezes: estimar dois modelos lineares e uma pancada de contas de multiplciar, somar e dividir.
 
 Nesse caso 2 eu dei uma colher de chá pro R normal - porque eu vi o resultado do caso 1 -  e fiz com o purrr, que é mais rápido que o for e _não_ está disponível pro pqR.
 
-O tempo em segundos: 
+O terceiro exemplo é cortesia [do Twitter](https://twitter.com/jpgmv1998/status/1278733768510095371): a galera de econometria espacial me disse que "rasterização de polígonos" é intensivo e eu achei que era uma boa testar. O primeiro pacote que me sugeriram não tinha para o pqR, mas o `raster` tinha. Eu rodei o seguinte código, baseado em um exemplo do pacote:
+
+```{r, eval=FALSE}
+
+library(raster)
+
+r <- raster(nrow=1440, ncol=1440)
+r[] <- runif(ncell(r)) * 10
+r[r>8] <- NA
+pol <- rasterToPolygons(r, fun=function(x){x>6})
+
+```
+
+O maior problema aqui foi memória RAM: esse exemplo é relativamente rápido mas ocupou uns 6.5 GB de memória! Fui informado que o pessoal usa computador com mais de 5 vezes o RAM que eu tenho - e não é o suficiente. O tempo em segundos dos três casos: 
 
 Caso |    pqR   | R 4.0.2 | Razão
 -----|--------- |---------|-------
 1    | 276.67   | 499.35  | 1.80
 2    | 875.45   | 1414.22 | 1.60 
+3    |   50     |  71     |  1.42
 
+O caso 1 é uma baita surra e me fez passar a roubar para o R 4.0.2. Pro caso 2, não adiantou muito. O terceiro exemplo a diferença não foi tão grande assim porque eles foram rápidos, e é o caso em que o pqR deu o menor ganho. Ainda assim, se isso for a diferença entre um dia ou 16h, eu acho que pode ser um ganho bastante importante. Uma coisa importante é que nesse exemplo é possível que as mudanças no _garbage collection_ do pqR faça diferença. Eu não testei isso porque eu não tenho tanta experiência com esse tipo de problema e, mais importante, porque isso encheu a memória ram e a solução foi reiniciar.
 
-O caso 1 é uma baita surra e me fez passar a roubar para o R 4.0.2. Pro caso 2, não adiantou muito.
+Levem em consideração que eu não compilei o R 4.0.2, e compilar o R deve aumentar a velocidade dele. Mas eu também não compilei o pqR da maneira mais eficiente possível, então ainda deve dá pra ganhar uns segundos no pqR. Se toda diferença se deve ao fato que eu compilei um e não o outro - o que eu não acho que seja verdade, mas eu posso estar errado - então eu passarei a compilar mais software. 
 
-Levem em consideração que eu não compilei o R 4.0.2, e compilar o R deve aumentar a velocidade dele. Mas eu também não compilei o pqR da maneira mais eficiente possível, então ainda deve dá pra ganhar uns segundos. Por sinal, se só o ato de compilar faz a gente ganhar muita velocidade - o que eu não acho que seja verdade, mas é um achismo - então eu passarei a compilar mais software. 
+(Na página do pqR tem alguns testes comparando com o R 3.0.1, que podem ser interessantes)
 
-Outra coisa legal do pqR é que na versão mais recente - a que ainda está em teste - tem automatic differentiation - auto diff, daqui por diante. Auto diff é uma tentativa de ter o bolo e come-lo: preciso e mais rápido que diferenciação numérica (diferenças finitas) e mais rápido que diferenciação simbólica. O Julia tem e é muito usado lá, e é uma ferramenta fantástica. O tensorflow também implementa auto diff. Como eu já discuti em um post anterior, o R não tem um pacote que faça isso nativamente - o task view de matemática numérica sugere um pacote do GitHub (!) que usa o Julia para calcular as derivadas (!!) e devolve pro R. 
+Outra coisa legal do pqR é que na versão mais recente - a que ainda está em teste - tem automatic differentiation (ou auto diff, para os íntimos). Auto diff é uma tentativa de ser mais preciso e mais rápido que diferenciação numérica (diferenças finitas) e mais rápido que diferenciação simbólica. O Julia tem e é muito usado lá. O tensorflow também implementa auto diff. Como eu já discuti em um post anterior, o R não tem um pacote que faça isso nativamente - o task view de matemática numérica sugere um pacote do GitHub (!) que usa o Julia para calcular as derivadas (!!) e devolve pro R. 
 
-Só para dar um exemplo, vamos estimar alguma coisa por máxima verossimilhança. Vai ser uma normal com 50 varíaveis e 100 observações. Eu vou escrever a função de máximia verossimillhança e usar o `optim` para achar o ótimo usando BFGS, que requer o gradiente. Eu vou rodar o comando duas vezes no pqR, uma fornecendo o gradiente para o `optim` usando automatic differentation e a outra eu vou deixar rodar sem fornecer o gradiente, então o R automaticamente usa diferenças finitas. O código:
+Só para dar um exemplo, vamos estimar alguma coisa por máxima verossimilhança. Vai ser uma normal com 50 variáveis e 100 observações. Eu vou escrever a função de máximia verossimillhança e usar o `optim` para achar o ótimo usando BFGS, que requer o gradiente. Eu vou rodar o comando duas vezes no pqR, uma fornecendo o gradiente para o `optim` usando automatic differentation e a outra eu vou deixar rodar sem fornecer o gradiente, então o R automaticamente usa diferenças finitas. O código:
 
 ```
 
@@ -91,7 +108,7 @@ Você não vê nenhum ponto do auto diff porque o caso de diferenças finitas co
 
 # The bad
 
-O fato de depender do R 2.5 é ruim especialmente porque qualquer projeto que use pacotes ou até mesmo comandos que foram implementados depois dessa versão vão estar indisponíveis. Pacotes que dependem de programas externos vão sofrer ainda mais dependendo das mudanças no programa externo ou no pacote. A solução mais simples é manter duas cópias do R, uma do 4.0.2 e a outra do pqR. Isso vai exigir um certo malabarismo no Windows se você quiser usar o RStudio para os dois. No Linux é um pouco mais fácil, como eu explico a seguir. Mesmo assim, escrevendo esse post eu precisei fazer um certo malabarismo  para rodar coisas no pqR, voltar para o rstudio com o R 4.0.2, colocar os resultados. 
+O fato de depender do R 2.5 é ruim especialmente porque qualquer projeto que use pacotes ou até mesmo comandos que foram implementados depois dessa versão estarão indisponíveis. Pacotes que dependem de programas externos vão sofrer ainda mais dependendo das mudanças no programa externo ou no pacote. A solução mais simples é manter duas cópias do R, uma do 4.0.2 e a outra do pqR. Isso vai exigir um certo malabarismo no Windows se você quiser usar o RStudio para os dois. No Linux é um pouco mais fácil, como eu explico a seguir. Mesmo assim, escrevendo esse post eu precisei fazer um certo malabarismo  para rodar coisas no pqR, voltar para o Rstudio com o R 4.0.2, colocar os resultados no post e gerar o blog. 
 
 # The ugly
 
@@ -106,9 +123,9 @@ Obviamente, o guia de instalação do pqR é o padrão ouro - isso aqui é nota 
 
 Uma coisa importante: se você está usando Linux, comece checando a sua versão do gcc indo no terminal e fazendo gcc --version. Se a versão for a 10, leia as instruções a seguir porque todos os problemas que eu tive foram causados por isso. A instalação foi possível só porque [o próprio desenvolvedor me ajudou](https://github.com/radfordneal/pqR/issues/41) (obg Neal e obg Github).
 
-Vocês podem baixar no site a versão que vocês quiserem - tanto a mais recente quanto a última estável. Vai vir como um _tar.gz_ ou _tar_ alguma coisa - é só um arquivo zippado. Unzip e abra um terminal dentro da pasta criada (ou troque o working directory com o cd). Se você baixou a mais recente (não estável), o primeiro passo é ir no terminal e `./create-configure`. Isso vai demorar um pouquinho. 
+Vocês podem baixar no site a versão que vocês quiserem - tanto a mais recente quanto a última estável. Vai vir como um _tar.gz_ ou _tar_ alguma coisa - é só um arquivo zippado. Unzip e abra um terminal dentro da pasta criada (ou troque o working directory com o cd). 
 
-O passo seguinte é criar o arquivo de configuração fazendo  `./configure opções`. Tem muitas opções. Pra quem tiver o gcc 10, você _precisa_ colocar as seguintes coisas: 
+O primeiro passo é criar o arquivo de configuração fazendo  `./configure opções`. Tem muitas opções. Pra quem tiver o gcc 10, você _precisa_ colocar as seguintes coisas: 
 
 * CFLAGS="-g -O3 -fcommon -ffp-contract=off"
 * FFLAGS="-fallow-argument-mismatch"
@@ -127,7 +144,7 @@ Cuidado que espaço no lugar errado vai gerar um erro. Se você quer usar o pqR 
 
 Isso vai demorar um pouco e vai imprimir uma montanha de coisas no terminal. No fim, se tudo der certo, pode aparecer um warning ou outro. Um erro é um erro e você vai ter que fuçar a internet para ver se resolver - comece checando as coisas óbvias, como pacotes faltando e as instruções do pqR. 
 
-O passo seguinte é compilar o pacote, dando o comando MAKE (sem necessidade de ./). Vai demorar um tempo e é totalmente normal aparecer warnings, coisas coloridas etc. Vá fazer um café ou leia outros posts do blog enquanto isso. 
+O passo seguinte é compilar o pacote, dando o comando `make` (sem necessidade de ./). Vai demorar um tempo e é totalmente normal aparecer warnings, coisas coloridas etc. Vá fazer um café ou leia outros posts do blog enquanto isso. 
 
 Se tudo der certo, ele vai sair sem dar nenhum erro. Eu achei um pouco obscuro quando deu erro, e no fim da compilação não aparece uma mensagem óbvia que foi bem sucedido, então leia com calma o que saiu no terminal.
 

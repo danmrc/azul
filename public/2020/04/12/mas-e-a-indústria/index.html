@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.73.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Mas e a indústria? &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -71,10 +71,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão <em>ah mas e a complexidade…</em> e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar <sub>não</sub> é coincidência.</p>
+                    <p>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão <em>ah mas e a complexidade…</em> e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar <sub>não</sub> é coincidência.</p>
 <p>Este blogueiro discorda e gostaria de mostrar (i) como R (e mais geralmente, programação) facilitam nossa vida e (ii) que composição setorial não é lá grandes coisas. Decidi usar a 10-Sector Database com dados de emprego e produto a nível de setor em vários países e a Penn World Tables para calcular o câmbio real. A 10-Sector tem um formato bem esquisito. Você recebe um dataset em que cada linha é uma combinação de ano-país-variável, em que as variáveis podem ser algumas medidas de valor adicionado ou população empregada no setor. Ela entrega 11 colunas, 10 representando setores e uma o agregado.</p>
 <p>O leitor rapidamente percebe que são dados com uma estrutura um tanto quanto curiosa, nem um pouco <em>tidy</em> em que cada coluna é uma variável e cada linha uma observação. Tomeremos o cuidado de colocar os dados neste formato. Vamos antes inspecionar a documentação, contida na primeira planilha do arquivo de excel em que a base é disponibilizada.</p>
 <pre class="r"><code>knitr::opts_chunk$set(message = FALSE, warning = FALSE, dpi = 320)

@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.73.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales) &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -69,10 +69,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Em posts anteriores eu apresentei uma maneira de resolver o problema:</p>
+                    <p>Em posts anteriores eu apresentei uma maneira de resolver o problema:</p>
 <p><span class="math display">\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]</span></p>
 <p>O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de <em>Bellman Operator</em>, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de <em>value function iteration</em>, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</p>
 <p>No primeiro post da série eu dei a deixa que nós podiamos reescrever o problema usando La Grange e tirar as condições de primeira ordem e isso gerava um problema com infinitas variáveis a serem escolhidas, os valores de <span class="math inline">\(C_t\)</span> para cada período do tempo. Para deixar o problema bem concreto, vamos voltar ao problema que eu abordei originalmente, que eu repito aqui:</p>

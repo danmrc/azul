@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.73.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Gerando um padrão de difusão com soma de um termo gaussiano &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -71,10 +71,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no <span class="math inline">\(\mathbb{R}^2\)</span>.</p>
+                    <p>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no <span class="math inline">\(\mathbb{R}^2\)</span>.</p>
 <p>Bem, vamos usar o <code>purrr</code> e o <code>dplyr</code> para gerar de maneira concisa um <code>tibble</code> pronto para ser passado ao <code>ggplot2</code>. A parte mais interessante desse post é mostrar como a abordagem funcional gera código mais compreensível. Compare o código deste post com os do Teorema de Perron-Frobenius, que se baiseam em iteração, por exemplo.</p>
 <p>Geraremos um conjunto de vetores representando a random walk, que por simplicidade terá os choques independentes. Matematicamente temos uma operação de aplicação acumulada de uma soma em uma sequência de matrizes. Teremos um conjunto de matrizes <span class="math inline">\(\Lambda\)</span>, começamos com <span class="math inline">\(\Lambda_1 = A\)</span>, onde <span class="math inline">\(A_{ij} \sim U(a, b)\)</span> e a partir daí:</p>
 <p><span class="math display">\[

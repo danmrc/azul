@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.73.0" />
+		<meta name="generator" content="Hugo 0.49" />
 		<title>Verificando algumas propriedades de Mínimos Quadrados com o R &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -71,10 +71,7 @@
                   
                 
                 <section id="post-body">
-                    
-
-
-<p>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do <em>ver acontecendo</em>. É isso que eu quero mostrar hoje. Como de costume, esse blog é um espaço para falar de ideias da maneira como nós gostaríamos de ter sido introduzidos à elas.</p>
+                    <p>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do <em>ver acontecendo</em>. É isso que eu quero mostrar hoje. Como de costume, esse blog é um espaço para falar de ideias da maneira como nós gostaríamos de ter sido introduzidos à elas.</p>
 <p>Estimadores são regras para recuperar parâmetros de um conjunto de dados, assim sendo, são também variáveis aleatórias. Uma propriedade que variáveis aleatórias podem ter é normalidade, aderir à uma distribuição normal.</p>
 <p>Derivar esse estimador tão conhecido do começo ao fim me parece um exercício de futilidade, existem dezenas/centenas de tratamentos absolutamente rigorosos e de altíssima qualidade disso. Eu particularmente gosto muito do manual de econometria do Hayashi e a abordagem de lá, se você quiser uma recomendação explícita de fonte.</p>
 <p>Vamos focar na nossa vantagem comparativa aqui: recursos computacionais. Em particular, estamos interessados em propriedades em amostras grandes do estimador OLS. Como as estimativas pontuais dele se distribuem em relação ao <em>verdadeiro</em> parâmetro? Os parâmetros dessa distribuição são uma função das pertubações nos dados? Se sim, como respondem à variância dessas pertubações? Seguindo a convenção de notação a que fui apresentado, notarei <span class="math inline">\(\beta\)</span> como o parâmetro verdadeiro e <span class="math inline">\(\hat{\beta}\)</span> como o estimador.</p>
