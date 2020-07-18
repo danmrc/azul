@@ -1,0 +1,297 @@
+---
+title: Viés de significância
+author: Daniel Coutinho
+date: '2020-07-18'
+slug: viés-de-significância
+categories:
+  - Estatística
+tags:
+  - Poder de teste
+  - Significância
+draft: true
+---
+
+<script src="2020-07-18-viés-de-significância_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Esse é um post que é trata de um troço que eu nunca tinha pensado e é sensacional e talvez dê um nó na cabeça. Ele é 100% baseado neste <a href="http://www.erikdrysdale.com/winners_curse/">post aqui</a>, que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui porque eu vou explicar tudo. Tem muita conta e eu vou deixar elas no fim.</p>
+<p>A ideia é extremamente simples: se você está numa situação em que o poder do teste é baixo e encontra um efeito significante, esse efeito provavelmente está sobreestimado.</p>
+<p>Se você precisa de refrescar a memória: o poder do teste é a probabilidade de rejeitar a hipótese nula quando ela é falsa. O nível de significância é a probabilidade de aceitar a hipótese nula quando ela é falsa, i.e. um erro de tipo I. A gente geralmente controla para o erro do tipo I e ignora o poder porque ele tende a 1, em geral.</p>
+<p>A intuição é bem simples: se o seu teste tem poder baixo, você dificilmente vai rejeitar a hipótese nula quando ela é falsa. Isso pode acontecer especialmente se você estimar o efeito muito alto OU estimar o erro padrão muito baixo. O post foca no primeiro e eu vou fazer o mesmo.</p>
+<p>Veja que isso sugere que <em>o estimador é viesado</em> e o viés advém todo de ficar olhando o nível de significância. Veja que isso não seria muito grave se a gente não tivesse uma enorme paixão em publicar efeitos significantes por mais maluco que seja.</p>
+<p>Eu vou fazer ua simulação de um caso bem simples mostrando isso em que eu vou simular um amostra com média 0.1 de uma normal e testar para a hipótese nula de média 0. Eu vou colocar a variância um pouquinho alta para reduzir o poder:</p>
+<pre class="r"><code>library(ggplot2)
+library(tibble)
+library(truncnorm)
+library(purrr)
+
+rept &lt;-3000
+
+dados &lt;- matrix(NA,ncol=2,nrow=rept)
+
+for(i in 1:rept){
+  samp &lt;- rnorm(100,mean=0.1,sd=1.2)
+  tt &lt;- t.test(samp)
+  dados[i,] &lt;- c(mean(samp), tt$p.value &lt; 0.05)
+}
+
+df &lt;- data.frame(dados)
+df[,2] &lt;- as.logical(df[,2])
+names(df) &lt;- c(&quot;Val&quot;,&quot;Sig&quot;)
+
+ggplot(df,aes(Sig,Val)) + geom_boxplot() + labs(x = &quot;P-value &lt; 0.05?&quot;)</code></pre>
+<p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>A média no caso significante é 0.2780414, enquanto a média ignorando isso é 0.1010094. Mais uma vez: isso <em>não</em> seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto.</p>
+<p>Vamos pra matemática por trás desse resultado</p>
+<div id="a-matemática" class="section level2">
+<h2>A matemática</h2>
+<p>A ideia é bem simples: que em geral a gente só observa os coeficientes estimados quando eles ultrapassam a mágica barreira do 1.96<span class="math inline">\(\times SE\)</span>. Qual a distribuição dos coeficientes nesse caso? É uma <a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">normal truncada</a>. A ideia guarda uma semelhança com o Tobit, onde você só observa valores acima de um certo limiar. Pra deixar as contas fáceis eu vou usar um teste unilateral de ser maior que 0 - no fim eu coloco as contas pro caso mais usual de teste bilateral, que são um pouquinho mais enjoadas. Eu vou representar a estimativa do parâmetro de interesse por <span class="math inline">\(\hat{\beta}\)</span>, o valor verdadeiro por <span class="math inline">\(\beta\)</span>, o erro padrão por SE, e o valor crítico do nível de significância <span class="math inline">\(\alpha\)</span> por <span class="math inline">\(c_{\alpha}\)</span>. Eu vou usar <span class="math inline">\(z\)</span> pra representar uma variável com distribuição normal padrão, que tem densidade <span class="math inline">\(\phi\)</span> e função de distribuição acumulada <span class="math inline">\(\Phi\)</span>.</p>
+<p>Um pequeno prólogo: lembre que o poder, que normalmente é <span class="math inline">\(1-\beta\)</span> e eu vou usar <span class="math inline">\(1-b\)</span>, é a probabilidade de rejeitar H0 quando ela é falsa:</p>
+<p><span class="math display">\[1-b = P\left(\frac{\hat{\beta}}{SE} &gt; c_\alpha \bigg|\beta &gt; 0 \right) = P\left(\underbrace{\frac{\hat{\beta} - \beta}{SE}}_{z} &gt; c_\alpha - \frac{\beta}{SE}\right)=1-\Phi\left(c_{\alpha}-\frac{\beta}{SE}\right)\\
+b = \Phi(c_\alpha - \beta/SE)\]</span></p>
+<p>Do primeiro para o segundo igual eu só garanti que a variável está centrada no lugar certo para usar a normal padrão. Veja que o poder depende do nível de significância. Logo <span class="math inline">\(b\)</span> é maior conforme <span class="math inline">\(c_\alpha\)</span> cresce e fica claro o trade-off entre poder e erro de tipo I.</p>
+<p>Nós queremos <span class="math inline">\(P(\hat{\beta}|\hat{\beta}/SE &gt; c_{\alpha})\)</span>. Veja que termo que está condicionando não tem distribuição normal padrão porque faltou subtrair a média, então acertando isso nós teremos <span class="math inline">\((\hat{\beta} - \beta)/SE &gt; c_{\alpha} - \beta/SE\)</span> e substituindo os termos na fórmula que tá na Wikipedia nós teremos:</p>
+<p><span class="math display">\[P\left(\hat{\beta}\bigg|\frac{\hat{\beta}-\beta}{SE} &gt; c_{\alpha}-\frac{\beta}{SE}\right) = \frac{\phi\left(\frac{\hat{\beta}-\beta}{SE}\right)}{SE\left(1-\Phi\left(c_\alpha-\frac{\beta}{SE}\right)\right)}\]</span></p>
+<p>Vamos focar na média, que tem na Wikipedia e dá pra mostrar usando função geratriz de momentos. A média nesse caso vai ser:</p>
+<p><span class="math display">\[E(\hat{\beta}|\beta/SE &gt; c_\alpha) = \beta + SE\frac{\phi(c_\alpha-\beta/SE)}{1-\Phi(c_\alpha - \beta/SE)}\]</span>
+Veja que o denominador é o termo que encontramos para o poder e que dentro da densidade da normal temos um termo que também depende do poder:</p>
+<p><span class="math display">\[E(\hat{\beta}|\beta/SE &gt; c_\alpha) = \beta + SE\frac{\phi(\Phi^{-1}(b))}{1-b}\]</span></p>
+<p>Veja que temos um viés no estimador que depende basicamente do poder do teste <span class="math inline">\((1-b)\)</span>: se <span class="math inline">\(b \rightarrow 0\)</span>, então <span class="math inline">\(\Phi^{-1}(b) \rightarrow -\infty\)</span> e <span class="math inline">\(lim_{x\rightarrow -\infty} \phi(x) = 0\)</span>. Trocando em miúdos, quando o poder é alto o viés é baixo.</p>
+<p>No blog, o autor discute várias possíveis soluções e basicamente chega a conclusão que a melhor maneira é corrigir o estimador por esse viés é assumir que <span class="math inline">\(b=0\)</span> e reduzir o estimador por <span class="math inline">\(SE \frac{\phi(c_\alpha)}{1-\Phi(c_\alpha)}2(1-F(\hat{\beta}|\beta&gt;c_\alpha))\)</span>. Em português: você pondera o viés sob a hipótese nula do efeito ser zero vezes a probabilidade do estimador ser maior que o valor estimado na distribuição truncada. Eu vou repetir o exemplo ali de cima e no post original tem:</p>
+</div>
+<div id="interlúdio" class="section level2">
+<h2>Interlúdio</h2>
+<p>Antes de discutir como implementar a mesma coisa pro caso mais usual dos economistas - regressões e testes bilaterais - eu paro para fazer a seguinte observação: isso é um maneira muito esperta de fazer encolhimento, como LASSO e o ridge fazem. Mais ainda, isso talvez sirva para justificar porque o coeficiente “encolhido” pode ser interessante para motivos além de previsão.</p>
+<p>Uma outra solução pra isso pode ser via bootstrap. A ideia: replique a estimação várias vezes usando bootstrap e use esse coeficiente para gerar uma versão sem viés do coeficiente original. Não sei se funcionaria mas não é tão absurdo assim.</p>
+<p>Veja que isso é um artifício de só publicar resultados significantes e só é preocupante quando o poder é baixo.</p>
+<p>Até aqui eu só fiz o que tá no link que eu postei. Vamos complicar um pouquinho</p>
+</div>
+<div id="teste-bilateral" class="section level2">
+<h2>Teste Bilateral</h2>
+<p>Agpra vamos fazer o caso de teste bilateral. Aqui a coisa fica estranha: normalmente pensamos na normal truncada com observações só entre dois valores: por exemplo, <span class="math inline">\(x \sim N(0,1)\)</span> e <span class="math inline">\(a &lt; x &lt; b\)</span>. Mas aqui a gente só observa se <span class="math inline">\(x&gt;b\)</span> ou <span class="math inline">\(x&lt;a\)</span>, o que é esquisito. Vamos definir <span class="math inline">\(A =\{x: x&gt; b,x&lt;a\}\)</span>. Suponha ainda que x tem média <span class="math inline">\(\mu\)</span> e variância <span class="math inline">\(\sigma^2\)</span>.A função de densidade é:</p>
+<p><span class="math display">\[
+f_x(x|x \in A) = \frac{\phi\left(\frac{x-\mu}{\sigma}\right)/\sigma} {1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]}
+\]</span></p>
+<p>Depois de um bando de conta enjoada (no fim do post), é fácil encontrar:</p>
+<p><span class="math display">\[E(x|x \in A) = \mu + \sigma\frac{\phi\left(\frac{a-\mu}{\sigma}\right) - \phi\left(\frac{b-\mu}{\sigma}\right)}{1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]}\]</span></p>
+<p>A vida simplifica bastante quando <span class="math inline">\(a = c_\alpha\)</span> e <span class="math inline">\(b = -c_\alpha\)</span>, já que <span class="math inline">\(\phi((c_\alpha-\mu)/\sigma) = \phi((-c_\alpha-\mu)/\sigma)\)</span> e <span class="math inline">\(1-\Phi((-c_\alpha-\mu)/\sigma) = \Phi((c_\alpha-\mu)/\sigma)\)</span>. Usando os mesmos truques que lá em cima, no fim nós temos:</p>
+<p><span class="math display">\[E(x|x \in A) = \mu + 2\sigma\frac{\phi\left(c_{\alpha/2}\right)}{\alpha}\]</span></p>
+<p>O <span class="math inline">\(\alpha\)</span> apareceu no denominador se deve ao fato que <span class="math inline">\(\Phi(c_\alpha)=\alpha\)</span>, por definição . Se você tá trabalhando com o nível de 5%, <span class="math inline">\(c_{\alpha/2}\)</span> corresponde ao valor crítico para 2,5% e <span class="math inline">\(\alpha = 0.05\)</span>.</p>
+<p>Veja que essa função densidade é bemm esquisita:</p>
+<pre class="r"><code>ww &lt;- function(x,alpha,sd){
+  c_a &lt;- qnorm(alpha/2)
+  if(x/sd &lt; c_a){
+    return(pnorm(x/sd)/alpha)
+  } else if(x/sd &lt; -c_a &amp;&amp; x/sd &gt; c_a){
+    return(pnorm(c_a)/alpha)
+  } else {
+    return(pnorm(c_a)/alpha + (pnorm(x/sd)-pnorm(-c_a))/alpha)
+  }
+}
+
+ww &lt;- Vectorize(ww,&quot;x&quot;)
+
+xx &lt;- seq(-3,3,by=0.05)
+yy &lt;- ww(xx,alpha = 0.05,sd=1)
+
+df &lt;- data.frame(x=xx,y=yy)
+
+ggplot(df,aes(x,y)) + geom_line()</code></pre>
+<p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>A função que faz a correção é muito parecida:</p>
+<pre class="r"><code>correction &lt;- function(sample,confidence = 0.05){
+  m &lt;- mean(sample)
+  se &lt;- sd(sample)/sqrt(length(sample))
+  c_a &lt;- qnorm(confidence/2)
+  cor &lt;- se*2*dnorm(c_a)/(confidence)*2*(1-ww(abs(m),sd=se,alpha=confidence))
+  return(sign(m)*(abs(m)-cor))
+}</code></pre>
+<p>Ela tem uma pequena maldade pra lidar com casos negativos que é transformar tudo em valor absoluto e depois devolver o sinal (acho que o LASSO opera assim). A simulação, para valores da média entre -1 e 1:</p>
+<pre class="r"><code>exper &lt;- function(m){
+  samp &lt;- rnorm(100,mean = m,sd=1.5)
+  tt &lt;- t.test(samp)
+  return(c(mean(samp),correction(samp),tt$p.value &lt; 0.05))
+}
+
+mm &lt;- seq(-1,1,by = 0.1)
+
+tab &lt;- array(NA,dim = c(2000,3,length(mm)))
+
+for(j in 1:length(mm)){
+  res &lt;- replicate(2000,mm[j],simplify = F)
+  res &lt;- map(res,exper)
+  res &lt;- do.call(rbind,res)
+  tab[,,j] &lt;- res
+}</code></pre>
+<p>Eu salvei isso num array e vou transformar isso em um df que o ggplot aceite:</p>
+<pre class="r"><code>tab_sig &lt;- list()
+
+for(j in 1:length(mm)){
+  tab_temp &lt;- tab[tab[,3,j] == T,1:2,j]
+  tab_sig[[j]] &lt;- tab_temp
+}
+
+tab_all &lt;- list()
+
+for(j in 1:length(mm)){
+  tab_all[[j]] &lt;- tab[,,j]
+}
+
+names(tab_sig) &lt;- as.character(mm)
+names(tab_all) &lt;- as.character(mm)
+
+mean_and_se &lt;- function(data){
+  me &lt;- colMeans(data)
+  se &lt;- apply(data,2,sd)
+  return(c(me,se))
+}
+
+dff &lt;- map_dfc(tab_sig,mean_and_se)
+dff_all &lt;- map_dfc(tab_all,mean_and_se)
+
+dff &lt;- data.frame(t(dff))
+dff_all &lt;- data.frame(t(dff_all))
+
+dff &lt;- rownames_to_column(dff)
+dff_all &lt;- rownames_to_column(dff_all)
+
+names(dff) &lt;- c(&quot;Tag&quot;,&quot;Mean&quot;,&quot;Mean_cor&quot;,&quot;SE&quot;,&quot;SE_cor&quot;)
+names(dff_all) &lt;- c(&quot;Tag&quot;,&quot;Mean&quot;,&quot;Mean_cor&quot;,&quot;SE&quot;,&quot;SE_cor&quot;)
+
+dff[,1] &lt;- as.numeric(dff[,1])
+dff[,1] &lt;- as.numeric(dff_all[,1])
+
+dff_aux &lt;- as.matrix(dff[,-1])
+dff_aux &lt;- rbind(dff_aux[,c(1,3)],dff_aux[,c(2,4)])
+
+dff_aux_all &lt;- as.matrix(dff_all[,-1])
+dff_aux_all &lt;- rbind(dff_aux_all[,c(1,3)],dff_aux_all[,c(2,4)])
+
+vals &lt;- rep(mm,2)
+tags &lt;- c(rep(&quot;Usual&quot;,length(mm)),rep(&quot;Corrected&quot;,length(mm)))
+
+dff_aux &lt;- data.frame(vals,tags,dff_aux)
+dff_aux_all &lt;- data.frame(vals,tags,dff_aux_all)
+
+names(dff_aux) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&quot;SE&quot;)
+names(dff_aux_all) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&quot;SE&quot;)</code></pre>
+<p>Finalmente, o gráfico para os casos significantes. A linha mostra o valor verdadeiro da média:</p>
+<pre class="r"><code>ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) + geom_pointrange() + geom_abline()</code></pre>
+<p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Veja que se o valor verdadeiro é grande o bastante o viés sequer existe e como a correção é ponderada pela probabilidade, ela não faz nada. Se eu pegar todas as estimativas, e não só as significantes, eu na verdade to introduzindo viés:</p>
+<pre class="r"><code>ggplot(dff_aux_all,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) + geom_pointrange() + geom_abline()</code></pre>
+<p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>Dá pra fazer isso com coeficiente de regressão também, e agora no lugar de <span class="math inline">\(\sigma\)</span> você coloca o erro padrão. A função que eu escrevi pega um objeto gerado pelo <code>lm</code> e corrige o primeiro coeficiente que não é o intercepto - mas é fácil mudar pra ser qualquer coeficiente:</p>
+<pre class="r"><code>low_power_lm &lt;- function(lm_obj,alpha = 0.05){
+  #n &lt;- length(resid(lm_obj))
+  data &lt;- summary(lm_obj)$coefficients[2,1:2]
+  b_hat &lt;- data[1]
+  se &lt;- data[2]
+  c_a &lt;- qnorm(alpha/2)
+  cor &lt;- se*2*dnorm(c_a)/(alpha)*2*(1-ww(abs(b_hat),alpha=alpha,sd=se))
+  return(sign(b_hat)*(abs(b_hat)-cor))                                     
+}</code></pre>
+<p>Vamos fazer uma simulação e um gráfico igual fizemos pra média:</p>
+<pre class="r"><code>exper &lt;- function(cof){
+  x &lt;- rnorm(100)
+  y &lt;- 1 + cof*x + rnorm(100)
+  
+  reg &lt;- lm(y ~ x)
+  summ &lt;- summary(reg)
+  
+  data &lt;- c(summ$coefficients[2,1],low_power_lm(reg),summ$coefficients[2,4] &lt; 0.05)
+  
+  return(data)
+}
+
+mm &lt;- seq(-1,1,by = 0.1)
+
+tab &lt;- array(NA,dim = c(2000,3,length(mm)))
+
+for(j in 1:length(mm)){
+  res &lt;- replicate(2000,mm[j],simplify = F)
+  res &lt;- map(res,exper)
+  res &lt;- do.call(rbind,res)
+  tab[,,j] &lt;- res
+}
+
+tab_sig &lt;- list()
+
+for(j in 1:length(mm)){
+  tab_temp &lt;- tab[tab[,3,j] == T,1:2,j]
+  tab_sig[[j]] &lt;- tab_temp
+}
+
+tab_all &lt;- list()
+
+for(j in 1:length(mm)){
+  tab_all[[j]] &lt;- tab[,,j]
+}
+
+names(tab_sig) &lt;- as.character(mm)
+names(tab_all) &lt;- as.character(mm)
+
+mean_and_se &lt;- function(data){
+  me &lt;- colMeans(data)
+  se &lt;- apply(data,2,sd)
+  return(c(me,se))
+}
+
+dff &lt;- map_dfc(tab_sig,mean_and_se)
+dff_all &lt;- map_dfc(tab_all,mean_and_se)
+
+dff &lt;- data.frame(t(dff))
+dff_all &lt;- data.frame(t(dff_all))
+
+dff &lt;- rownames_to_column(dff)
+dff_all &lt;- rownames_to_column(dff_all)
+
+names(dff) &lt;- c(&quot;Tag&quot;,&quot;Mean&quot;,&quot;Mean_cor&quot;,&quot;SE&quot;,&quot;SE_cor&quot;)
+names(dff_all) &lt;- c(&quot;Tag&quot;,&quot;Mean&quot;,&quot;Mean_cor&quot;,&quot;SE&quot;,&quot;SE_cor&quot;)
+
+dff[,1] &lt;- as.numeric(dff[,1])
+dff[,1] &lt;- as.numeric(dff_all[,1])
+
+dff_aux &lt;- as.matrix(dff[,-1])
+dff_aux &lt;- rbind(dff_aux[,c(1,3)],dff_aux[,c(2,4)])
+
+dff_aux_all &lt;- as.matrix(dff_all[,-1])
+dff_aux_all &lt;- rbind(dff_aux_all[,c(1,3)],dff_aux_all[,c(2,4)])
+
+vals &lt;- rep(mm,2)
+tags &lt;- c(rep(&quot;Usual&quot;,length(mm)),rep(&quot;Corrected&quot;,length(mm)))
+
+dff_aux &lt;- data.frame(vals,tags,dff_aux)
+dff_aux_all &lt;- data.frame(vals,tags,dff_aux_all)
+
+names(dff_aux) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&quot;SE&quot;)
+names(dff_aux_all) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&quot;SE&quot;)
+
+ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) + geom_pointrange() + geom_abline()</code></pre>
+<p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Funciona bem e não requer nenhuma simulação para resolver o problema - só uma meia dúzia de contas.</p>
+<p>Talvez isso dê frutos e eu volte a falar disso auqi no blog</p>
+</div>
+<div id="as-contas" class="section level2">
+<h2>As contas</h2>
+<p>Basicamente baseado <a href="http://web.ist.utl.pt/~ist11038/compute/qc/,truncG/lecture4k.pdf">neste pdf</a>. Nós temos a densidade, que eu repito abaixo:</p>
+<p><span class="math display">\[f_x(x|x \in A) = \frac{\phi\left(\frac{x-\mu}{\sigma}\right)/\sigma} {1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]}\]</span></p>
+<p>Agora vamos fazer a conta da função geratriz de momentos e defina <span class="math inline">\(C = 1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]\)</span>:</p>
+<p><span class="math display">\[M(t) := E(e^{tx}) = \int_A\frac{e^{xt}}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)/C dx\]</span></p>
+<p><span class="math inline">\(C\)</span> não depende de x de maneira alguma, então a gente pode se preocupar só com:</p>
+<p><span class="math display">\[\int_A \frac{e^{xt}}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)dx=\\
+\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(tx-\frac{(x-\mu)^2}{2\sigma^2}\right)dx
+\]</span></p>
+<p>Agora veja que <span class="math inline">\((x-(\mu+t\sigma^2))^2 = x^2 -2x(\mu+t\sigma^2) + (\mu+t\sigma^2)^2\)</span>. Veja que <span class="math inline">\((\mu+t\sigma^2)^2 = \mu^2 + 2t\sigma^2 \mu +t^2(\sigma^2)^2\)</span>, então:</p>
+<p><span class="math display">\[\exp\left(\frac{-(x-(\mu+t\sigma^2))^2}{2\sigma^2}\right) = \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\exp(\mu{}t)\exp\left(\frac{2\mu{}t\sigma^2+t^2(\sigma^2)^2}{2\sigma^2}\right)\]</span></p>
+<p>Logo:</p>
+<p><span class="math display">\[\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(tx-\frac{(x-\mu)^2}{2\sigma^2}\right) = \exp\left(t\mu+t^2\sigma^2/2\right)\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right)dx
+\]</span></p>
+<p>Agora a integral é só a área de uma normal com variância <span class="math inline">\(\sigma^2\)</span> e média <span class="math inline">\(\mu+t\sigma^2\)</span>. Podemos quebrar ela em duas:</p>
+<p><span class="math display">\[\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) dx = 
+\int_{-\infty}^a \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) + \int_b^{\infty} \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right)\]</span></p>
+<p>A primeira integral é <span class="math inline">\(\Phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right)\)</span> e a segunda é <span class="math inline">\(1-\Phi\left(-\frac{b-(\mu+t\sigma^2)}{\sigma}\right)\)</span>.</p>
+<p>No fim, a função geratriz de momentos é:</p>
+<p><span class="math display">\[M(t) = \exp(t\mu+t\sigma^2/2) \left(\Phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right) + 1-\Phi\left(-\frac{b-(\mu+t\sigma^2)}{\sigma}\right)\right) \bigg/C\]</span></p>
+<p>Para obter a expectância, derive a função geratriz de momentos uma vez e pegue t = 0.</p>
+</div>

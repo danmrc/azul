@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.49" />
+		<meta name="generator" content="Hugo 0.73.0" />
 		<title>R mais rápido &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -69,7 +69,10 @@
                   
                 
                 <section id="post-body">
-                    <p>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.</p>
+                    
+
+
+<p>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.</p>
 <p>Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usa vários processadores sem precisar fazer nenhum setup.</p>
 <p>Uma outra opção, absolutamente obscura, é o <a href="http://pqr-project.org/">pqR - pretty quick R</a>. Absolutamente obscuro e prometendo mais velocidade é uma boa receita para ter meu interesse.</p>
 <p>O pqR é um pouco mais ousado porque envolve reescrever trechos do R e implementar novas ferramentas dentro do R. Antes de discutir o lado bom, deixa eu levantar alguns alguns obstáculos:</p>

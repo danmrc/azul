@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Estatística on AZUL</title>
@@ -6,10 +6,19 @@
     <description>Recent content in Estatística on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Tue, 02 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/estat%C3%ADstica/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Viés de significância</title>
+      <link>/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</link>
+      <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</guid>
+      <description>Esse é um post que é trata de um troço que eu nunca tinha pensado e é sensacional e talvez dê um nó na cabeça. Ele é 100% baseado neste post aqui, que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui porque eu vou explicar tudo. Tem muita conta e eu vou deixar elas no fim.</description>
+    </item>
     
     <item>
       <title>Modelagem com {tidymodels}</title>
