@@ -11,15 +11,15 @@ tags:
 draft: true
 ---
 
-Esse é um post que é trata de um troço que eu nunca tinha pensado e é sensacional e talvez dê um nó na cabeça. Ele é 100% baseado neste [post aqui](http://www.erikdrysdale.com/winners_curse/), que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui porque eu vou explicar tudo. Tem muita conta e eu vou deixar elas no fim.
+Esse post trata de um troço que eu nunca tinha pensado e é sensacional, talvez dê um nó na cabeça. Ele é 100% baseado neste [post aqui](http://www.erikdrysdale.com/winners_curse/), que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui, eu vou explicar tudo.
 
-A ideia é extremamente simples: se você está numa situação em que o poder do teste é baixo e encontra um efeito significante, esse efeito provavelmente está sobreestimado. 
+Tem muita conta e vou deixar elas no fim. A ideia é extremamente simples: se você está numa situação em que o poder do teste é baixo e encontra um efeito significante, esse efeito provavelmente está sobreestimado.
 
-Se você precisa de refrescar a memória: o poder do teste é a probabilidade de rejeitar a hipótese nula quando ela é falsa. O nível de significância é a probabilidade de aceitar a hipótese nula quando ela é falsa, i.e. um erro de tipo I. A gente geralmente controla para o erro do tipo I e ignora o poder porque ele tende a 1, em geral.
+Se você precisar refrescar a memória: o poder do teste é a probabilidade de rejeitar a hipótese nula quando ela é falsa. O nível de significância é a probabilidade de aceitar a hipótese nula quando ela é falsa, i.e. um erro de tipo I. A gente geralmente controla para o erro do tipo I e ignora o poder porque ele tende a 1, em geral.
 
-A intuição é bem simples: se o seu teste tem poder baixo, você dificilmente vai rejeitar a hipótese nula quando ela é falsa. Isso pode acontecer especialmente se você estimar o efeito muito alto OU estimar o erro padrão muito baixo. O post foca no primeiro e eu vou fazer o mesmo. 
+A intuição é bem simples: se o seu teste tem poder baixo, você dificilmente vai rejeitar a hipótese nula quando ela é falsa. Isso pode acontecer especialmente se você estimar o efeito muito alto OU estimar o erro padrão muito baixo. O post foca no primeiro e vou fazer o mesmo.
 
-Veja que isso sugere que _o estimador é viesado_ e o viés advém todo de ficar olhando o nível de significância. Veja que isso não seria muito grave se a gente não tivesse uma enorme paixão em publicar efeitos significantes por mais maluco que seja. 
+Veja que isso sugere que _o estimador é viesado_ e o viés advém todo de ficar olhando o nível de significância. Isso não seria muito grave se a gente não tivesse uma enorme paixão em publicar efeitos significantes por mais maluco que seja.
 
 Eu vou fazer uma simulação de um caso bem simples mostrando isso: eu vou simular um amostra com média 0.1 de uma normal e testar para a hipótese nula de média 0. Eu vou colocar a variância um pouquinho alta para reduzir o poder:
 
@@ -48,20 +48,20 @@ ggplot(df,aes(Sig,Val)) + geom_boxplot() + labs(x = "P-value < 0.05?")
 
 ```
 
-A média no caso significante é `r mean(df[df[,2] == T,1])`, enquanto a média ignorando isso é `r mean(df[,1])`. Mais uma vez: isso _não_ seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto. 
+A média no caso significante é `r mean(df[df[,2] == T,1])`, enquanto a média ignorando isso é `r mean(df[,1])`. Mais uma vez: isso _não_ seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto.
 
 Vamos pra matemática por trás desse resultado
 
 ## A matemática
 
-A ideia é bem simples: que em geral a gente só observa os coeficientes estimados quando eles ultrapassam a mágica barreira do 1.96$\times SE$. Qual a distribuição dos coeficientes nesse caso? É uma [normal truncada](https://en.wikipedia.org/wiki/Truncated_normal_distribution). A ideia guarda uma semelhança com o Tobit, onde você só observa valores acima de um certo limiar. Pra deixar as contas fáceis eu vou usar um teste unilateral de ser maior que 0 - no fim eu coloco as contas pro caso mais usual de teste bilateral, que são um pouquinho mais enjoadas. Eu vou representar a estimativa do parâmetro de interesse por $\hat{\beta}$, o valor verdadeiro por $\beta$, o erro padrão por SE, e o valor crítico do nível de significância $\alpha$ por $c_{\alpha}$. Eu vou usar $z$ pra representar uma variável com distribuição normal padrão, que tem densidade $\phi$ e função de distribuição acumulada $\Phi$.
+A ideia é bem simples: em geral só se observa os coeficientes estimados quando eles ultrapassam a mágica barreira do 1.96$\times SE$. Qual a distribuição dos coeficientes nesse caso? É uma [normal truncada](https://en.wikipedia.org/wiki/Truncated_normal_distribution). A ideia guarda uma semelhança com o Tobit, onde você só observa valores acima de um certo limiar. Pra deixar as contas fáceis eu vou usar um teste unilateral de ser maior que 0 - no fim eu coloco as contas pro caso mais usual de teste bilateral, que são um pouquinho mais enjoadas. Eu vou representar a estimativa do parâmetro de interesse por $\hat{\beta}$, o valor verdadeiro por $\beta$, o erro padrão por SE, e o valor crítico do nível de significância $\alpha$ por $c_{\alpha}$. Eu vou usar $z$ pra representar uma variável com distribuição normal padrão, que tem densidade $\phi$ e função de distribuição acumulada $\Phi$.
 
-Um pequeno prólogo: lembre que o poder, que normalmente é $1-\beta$ e eu vou usar $1-b$, é a probabilidade de rejeitar H0 quando ela é falsa:
+Um pequeno prólogo: lembre que o poder, que normalmente é $1-\beta$ e vou usar $1-b$, é a probabilidade de rejeitar H0 quando ela é falsa:
 
 $$1-b = P\left(\frac{\hat{\beta}}{SE} > c_\alpha \bigg|\beta > 0 \right) = P\left(\underbrace{\frac{\hat{\beta} - \beta}{SE}}_{z} > c_\alpha - \frac{\beta}{SE}\right)=1-\Phi\left(c_{\alpha}-\frac{\beta}{SE}\right)\\
 b = \Phi(c_\alpha - \beta/SE)$$
 
-Do primeiro para o segundo igual eu só garanti que a variável está centrada no lugar certo para usar a normal padrão. Veja que o poder depende do nível de significância. Logo $b$ é maior conforme $c_\alpha$ cresce e fica claro o trade-off entre poder e erro de tipo I. 
+Do primeiro para o segundo igual eu só garanti que a variável está centrada no lugar certo para usar a normal padrão. O poder depende do nível de significância. Logo $b$ é maior conforme $c_\alpha$ cresce e fica claro o trade-off entre poder e erro de tipo I.
 
 Nós queremos $P(\hat{\beta}|\hat{\beta}/SE > c_{\alpha})$. Veja que termo que está condicionando não tem distribuição normal padrão porque faltou subtrair a média, então acertando isso nós teremos $(\hat{\beta} - \beta)/SE > c_{\alpha} - \beta/SE$. Substituindo os termos na fórmula que tá na Wikipedia nós teremos:
 
@@ -117,9 +117,9 @@ ggplot(df,aes(tag,vals)) + geom_boxplot()
 
 ## Interlúdio
 
-Antes de discutir como implementar a mesma coisa pro caso mais usual dos economistas - regressões e testes bilaterais - eu paro para fazer a seguinte observação: isso é um maneira muito esperta de fazer encolhimento, como LASSO e o ridge fazem. Mais ainda, isso talvez sirva para justificar porque o coeficiente "encolhido" pode ser interessante para motivos além de previsão. 
+Antes de discutir como implementar a mesma coisa pro caso mais usual dos economistas - regressões e testes bilaterais - eu paro para fazer a seguinte observação: isso é um maneira muito esperta de fazer encolhimento, como LASSO e o ridge fazem. Mais ainda, isso talvez sirva para justificar porque o coeficiente "encolhido" pode ser interessante para motivos além de previsão.
 
-Uma outra solução pra isso pode ser via bootstrap. A ideia: replique a estimação várias vezes usando bootstrap e use esse coeficiente para gerar uma versão sem viés do coeficiente original. Não sei se funcionaria mas não é tão absurdo assim. 
+Uma outra solução pra isso pode ser via bootstrap. A ideia: replique a estimação várias vezes usando bootstrap e use esse coeficiente para gerar uma versão sem viés do coeficiente original. Não sei se funcionaria mas não é tão absurdo assim.
 
 Veja que isso é um artifício de só publicar resultados significantes e só é preocupante quando o poder é baixo.
 
@@ -303,12 +303,12 @@ Vamos fazer uma simulação e um gráfico igual fizemos pra média:
 exper <- function(cof){
   x <- rnorm(100)
   y <- 1 + cof*x + rnorm(100)
-  
+
   reg <- lm(y ~ x)
   summ <- summary(reg)
-  
+
   data <- c(summ$coefficients[2,1],low_power_lm(reg),summ$coefficients[2,4] < 0.05)
-  
+
   return(data)
 }
 
@@ -379,13 +379,13 @@ ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) +
 
 ```
 
-Funciona bem e não requer nenhuma simulação para resolver o problema - só uma meia dúzia de contas. 
+Funciona bem e não requer nenhuma simulação para resolver o problema - só uma meia dúzia de contas.
 
 Talvez isso dê frutos e eu volte a falar disso aqui no blog - eu tenho certeza que eu não entendo isso completamente, mas eu achei tão bom que eu _tinha_ que postar aqui.
 
 ## As contas
 
-Basicamente baseado [neste pdf](http://web.ist.utl.pt/~ist11038/compute/qc/,truncG/lecture4k.pdf). Nós temos a densidade, que eu repito abaixo: 
+Basicamente baseado [neste pdf](http://web.ist.utl.pt/~ist11038/compute/qc/,truncG/lecture4k.pdf). Nós temos a densidade, que eu repito abaixo:
 
 $$f_x(x|x \in A) = \frac{\phi\left(\frac{x-\mu}{\sigma}\right)/\sigma} {1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]}$$
 
@@ -403,14 +403,14 @@ Agora veja que $(x-(\mu+t\sigma^2))^2 = x^2 -2x(\mu+t\sigma^2) + (\mu+t\sigma^2)
 
 $$\exp\left(\frac{-(x-(\mu+t\sigma^2))^2}{2\sigma^2}\right) = \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)\exp(\mu{}t)\exp\left(\frac{2\mu{}t\sigma^2+t^2(\sigma^2)^2}{2\sigma^2}\right)$$
 
-Logo: 
+Logo:
 
 $$\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(tx-\frac{(x-\mu)^2}{2\sigma^2}\right) = \exp\left(t\mu+t^2\sigma^2/2\right)\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{[x-(\mu+t\sigma^2)]}{2\sigma^2}\right)dx
 $$
 
 Agora a integral é só a área de uma normal com variância $\sigma^2$ e média $\mu+t\sigma^2$. Podemos quebrar ela em duas partes correspondendo a $A$:
 
-$$\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) dx = 
+$$\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) dx =
 \int_{-\infty}^a \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) + \int_b^{\infty} \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right)$$
 
 A primeira integral é $\Phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right)$ e a segunda é $1-\Phi\left(-\frac{b-(\mu+t\sigma^2)}{\sigma}\right)$.
