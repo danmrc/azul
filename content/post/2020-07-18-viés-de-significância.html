@@ -8,17 +8,16 @@ categories:
 tags:
   - Poder de teste
   - Significância
-draft: true
 ---
 
 <script src="2020-07-18-viés-de-significância_files/header-attrs/header-attrs.js"></script>
 
 
-<p>Esse é um post que é trata de um troço que eu nunca tinha pensado e é sensacional e talvez dê um nó na cabeça. Ele é 100% baseado neste <a href="http://www.erikdrysdale.com/winners_curse/">post aqui</a>, que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui porque eu vou explicar tudo. Tem muita conta e eu vou deixar elas no fim.</p>
-<p>A ideia é extremamente simples: se você está numa situação em que o poder do teste é baixo e encontra um efeito significante, esse efeito provavelmente está sobreestimado.</p>
-<p>Se você precisa de refrescar a memória: o poder do teste é a probabilidade de rejeitar a hipótese nula quando ela é falsa. O nível de significância é a probabilidade de aceitar a hipótese nula quando ela é falsa, i.e. um erro de tipo I. A gente geralmente controla para o erro do tipo I e ignora o poder porque ele tende a 1, em geral.</p>
-<p>A intuição é bem simples: se o seu teste tem poder baixo, você dificilmente vai rejeitar a hipótese nula quando ela é falsa. Isso pode acontecer especialmente se você estimar o efeito muito alto OU estimar o erro padrão muito baixo. O post foca no primeiro e eu vou fazer o mesmo.</p>
-<p>Veja que isso sugere que <em>o estimador é viesado</em> e o viés advém todo de ficar olhando o nível de significância. Veja que isso não seria muito grave se a gente não tivesse uma enorme paixão em publicar efeitos significantes por mais maluco que seja.</p>
+<p>Esse post trata de um troço que eu nunca tinha pensado e é sensacional, talvez dê um nó na cabeça. Ele é 100% baseado neste <a href="http://www.erikdrysdale.com/winners_curse/">post aqui</a>, que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui, eu vou explicar tudo.</p>
+<p>Tem muita conta e vou deixar elas no fim. A ideia é extremamente simples: se você está numa situação em que o poder do teste é baixo e encontra um efeito significante, esse efeito provavelmente está sobreestimado.</p>
+<p>Se você precisar refrescar a memória: o poder do teste é a probabilidade de rejeitar a hipótese nula quando ela é falsa. O nível de significância é a probabilidade de aceitar a hipótese nula quando ela é falsa, i.e. um erro de tipo I. A gente geralmente controla para o erro do tipo I e ignora o poder porque ele tende a 1, em geral.</p>
+<p>A intuição é bem simples: se o seu teste tem poder baixo, você dificilmente vai rejeitar a hipótese nula quando ela é falsa. Isso pode acontecer especialmente se você estimar o efeito muito alto OU estimar o erro padrão muito baixo. O post foca no primeiro e vou fazer o mesmo.</p>
+<p>Veja que isso sugere que <em>o estimador é viesado</em> e o viés advém todo de ficar olhando o nível de significância. Isso não seria muito grave se a gente não tivesse uma enorme paixão em publicar efeitos significantes por mais maluco que seja.</p>
 <p>Eu vou fazer uma simulação de um caso bem simples mostrando isso: eu vou simular um amostra com média 0.1 de uma normal e testar para a hipótese nula de média 0. Eu vou colocar a variância um pouquinho alta para reduzir o poder:</p>
 <pre class="r"><code>library(ggplot2)
 library(tibble)
@@ -41,15 +40,15 @@ names(df) &lt;- c(&quot;Val&quot;,&quot;Sig&quot;)
 
 ggplot(df,aes(Sig,Val)) + geom_boxplot() + labs(x = &quot;P-value &lt; 0.05?&quot;)</code></pre>
 <p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>A média no caso significante é 0.2768129, enquanto a média ignorando isso é 0.0980287. Mais uma vez: isso <em>não</em> seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto.</p>
+<p>A média no caso significante é 0.2846841, enquanto a média ignorando isso é 0.0992918. Mais uma vez: isso <em>não</em> seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto.</p>
 <p>Vamos pra matemática por trás desse resultado</p>
 <div id="a-matemática" class="section level2">
 <h2>A matemática</h2>
-<p>A ideia é bem simples: que em geral a gente só observa os coeficientes estimados quando eles ultrapassam a mágica barreira do 1.96<span class="math inline">\(\times SE\)</span>. Qual a distribuição dos coeficientes nesse caso? É uma <a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">normal truncada</a>. A ideia guarda uma semelhança com o Tobit, onde você só observa valores acima de um certo limiar. Pra deixar as contas fáceis eu vou usar um teste unilateral de ser maior que 0 - no fim eu coloco as contas pro caso mais usual de teste bilateral, que são um pouquinho mais enjoadas. Eu vou representar a estimativa do parâmetro de interesse por <span class="math inline">\(\hat{\beta}\)</span>, o valor verdadeiro por <span class="math inline">\(\beta\)</span>, o erro padrão por SE, e o valor crítico do nível de significância <span class="math inline">\(\alpha\)</span> por <span class="math inline">\(c_{\alpha}\)</span>. Eu vou usar <span class="math inline">\(z\)</span> pra representar uma variável com distribuição normal padrão, que tem densidade <span class="math inline">\(\phi\)</span> e função de distribuição acumulada <span class="math inline">\(\Phi\)</span>.</p>
-<p>Um pequeno prólogo: lembre que o poder, que normalmente é <span class="math inline">\(1-\beta\)</span> e eu vou usar <span class="math inline">\(1-b\)</span>, é a probabilidade de rejeitar H0 quando ela é falsa:</p>
+<p>A ideia é bem simples: em geral só se observa os coeficientes estimados quando eles ultrapassam a mágica barreira do 1.96<span class="math inline">\(\times SE\)</span>. Qual a distribuição dos coeficientes nesse caso? É uma <a href="https://en.wikipedia.org/wiki/Truncated_normal_distribution">normal truncada</a>. A ideia guarda uma semelhança com o Tobit, onde você só observa valores acima de um certo limiar. Pra deixar as contas fáceis eu vou usar um teste unilateral de ser maior que 0 - no fim eu coloco as contas pro caso mais usual de teste bilateral, que são um pouquinho mais enjoadas. Eu vou representar a estimativa do parâmetro de interesse por <span class="math inline">\(\hat{\beta}\)</span>, o valor verdadeiro por <span class="math inline">\(\beta\)</span>, o erro padrão por SE, e o valor crítico do nível de significância <span class="math inline">\(\alpha\)</span> por <span class="math inline">\(c_{\alpha}\)</span>. Eu vou usar <span class="math inline">\(z\)</span> pra representar uma variável com distribuição normal padrão, que tem densidade <span class="math inline">\(\phi\)</span> e função de distribuição acumulada <span class="math inline">\(\Phi\)</span>.</p>
+<p>Um pequeno prólogo: lembre que o poder, que normalmente é <span class="math inline">\(1-\beta\)</span> e vou usar <span class="math inline">\(1-b\)</span>, é a probabilidade de rejeitar H0 quando ela é falsa:</p>
 <p><span class="math display">\[1-b = P\left(\frac{\hat{\beta}}{SE} &gt; c_\alpha \bigg|\beta &gt; 0 \right) = P\left(\underbrace{\frac{\hat{\beta} - \beta}{SE}}_{z} &gt; c_\alpha - \frac{\beta}{SE}\right)=1-\Phi\left(c_{\alpha}-\frac{\beta}{SE}\right)\\
 b = \Phi(c_\alpha - \beta/SE)\]</span></p>
-<p>Do primeiro para o segundo igual eu só garanti que a variável está centrada no lugar certo para usar a normal padrão. Veja que o poder depende do nível de significância. Logo <span class="math inline">\(b\)</span> é maior conforme <span class="math inline">\(c_\alpha\)</span> cresce e fica claro o trade-off entre poder e erro de tipo I.</p>
+<p>Do primeiro para o segundo igual eu só garanti que a variável está centrada no lugar certo para usar a normal padrão. O poder depende do nível de significância. Logo <span class="math inline">\(b\)</span> é maior conforme <span class="math inline">\(c_\alpha\)</span> cresce e fica claro o trade-off entre poder e erro de tipo I.</p>
 <p>Nós queremos <span class="math inline">\(P(\hat{\beta}|\hat{\beta}/SE &gt; c_{\alpha})\)</span>. Veja que termo que está condicionando não tem distribuição normal padrão porque faltou subtrair a média, então acertando isso nós teremos <span class="math inline">\((\hat{\beta} - \beta)/SE &gt; c_{\alpha} - \beta/SE\)</span>. Substituindo os termos na fórmula que tá na Wikipedia nós teremos:</p>
 <p><span class="math display">\[P\left(\hat{\beta}\bigg|\frac{\hat{\beta}-\beta}{SE} &gt; c_{\alpha}-\frac{\beta}{SE}\right) = \frac{\phi\left(\frac{\hat{\beta}-\beta}{SE}\right)}{SE\left(1-\Phi\left(c_\alpha-\frac{\beta}{SE}\right)\right)}\]</span></p>
 <p>Vamos focar na média, que tem na Wikipedia e dá pra mostrar usando função geratriz de momentos. A média nesse caso vai ser:</p>
@@ -226,12 +225,12 @@ names(dff_aux_all) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&q
 <pre class="r"><code>exper &lt;- function(cof){
   x &lt;- rnorm(100)
   y &lt;- 1 + cof*x + rnorm(100)
-  
+
   reg &lt;- lm(y ~ x)
   summ &lt;- summary(reg)
-  
+
   data &lt;- c(summ$coefficients[2,1],low_power_lm(reg),summ$coefficients[2,4] &lt; 0.05)
-  
+
   return(data)
 }
 
@@ -319,7 +318,7 @@ ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) +
 <p><span class="math display">\[\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(tx-\frac{(x-\mu)^2}{2\sigma^2}\right) = \exp\left(t\mu+t^2\sigma^2/2\right)\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{[x-(\mu+t\sigma^2)]}{2\sigma^2}\right)dx
 \]</span></p>
 <p>Agora a integral é só a área de uma normal com variância <span class="math inline">\(\sigma^2\)</span> e média <span class="math inline">\(\mu+t\sigma^2\)</span>. Podemos quebrar ela em duas partes correspondendo a <span class="math inline">\(A\)</span>:</p>
-<p><span class="math display">\[\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) dx = 
+<p><span class="math display">\[\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) dx =
 \int_{-\infty}^a \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) + \int_b^{\infty} \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right)\]</span></p>
 <p>A primeira integral é <span class="math inline">\(\Phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right)\)</span> e a segunda é <span class="math inline">\(1-\Phi\left(-\frac{b-(\mu+t\sigma^2)}{\sigma}\right)\)</span>.</p>
 <p>No fim, a função geratriz de momentos é:</p>
