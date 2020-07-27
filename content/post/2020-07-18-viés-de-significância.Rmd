@@ -21,7 +21,7 @@ A intuição é bem simples: se o seu teste tem poder baixo, você dificilmente 
 
 Veja que isso sugere que _o estimador é viesado_ e o viés advém todo de ficar olhando o nível de significância. Veja que isso não seria muito grave se a gente não tivesse uma enorme paixão em publicar efeitos significantes por mais maluco que seja. 
 
-Eu vou fazer ua simulação de um caso bem simples mostrando isso em que eu vou simular um amostra com média 0.1 de uma normal e testar para a hipótese nula de média 0. Eu vou colocar a variância um pouquinho alta para reduzir o poder:
+Eu vou fazer uma simulação de um caso bem simples mostrando isso: eu vou simular um amostra com média 0.1 de uma normal e testar para a hipótese nula de média 0. Eu vou colocar a variância um pouquinho alta para reduzir o poder:
 
 ```{r}
 
@@ -63,7 +63,7 @@ b = \Phi(c_\alpha - \beta/SE)$$
 
 Do primeiro para o segundo igual eu só garanti que a variável está centrada no lugar certo para usar a normal padrão. Veja que o poder depende do nível de significância. Logo $b$ é maior conforme $c_\alpha$ cresce e fica claro o trade-off entre poder e erro de tipo I. 
 
-Nós queremos $P(\hat{\beta}|\hat{\beta}/SE > c_{\alpha})$. Veja que termo que está condicionando não tem distribuição normal padrão porque faltou subtrair a média, então acertando isso nós teremos $(\hat{\beta} - \beta)/SE > c_{\alpha} - \beta/SE$ e substituindo os termos na fórmula que tá na Wikipedia nós teremos:
+Nós queremos $P(\hat{\beta}|\hat{\beta}/SE > c_{\alpha})$. Veja que termo que está condicionando não tem distribuição normal padrão porque faltou subtrair a média, então acertando isso nós teremos $(\hat{\beta} - \beta)/SE > c_{\alpha} - \beta/SE$. Substituindo os termos na fórmula que tá na Wikipedia nós teremos:
 
 $$P\left(\hat{\beta}\bigg|\frac{\hat{\beta}-\beta}{SE} > c_{\alpha}-\frac{\beta}{SE}\right) = \frac{\phi\left(\frac{\hat{\beta}-\beta}{SE}\right)}{SE\left(1-\Phi\left(c_\alpha-\frac{\beta}{SE}\right)\right)}$$
 
@@ -75,11 +75,42 @@ Veja que o denominador é o termo que encontramos para o poder e que dentro da d
 
 $$E(\hat{\beta}|\beta/SE > c_\alpha) = \beta + SE\frac{\phi(\Phi^{-1}(b))}{1-b}$$
 
-Veja que temos um viés no estimador que depende basicamente do poder do teste $(1-b)$: se $b \rightarrow 0$, então $\Phi^{-1}(b) \rightarrow -\infty$ e $lim_{x\rightarrow -\infty} \phi(x) = 0$. Trocando em miúdos, quando o poder é alto o viés é baixo. 
+Veja que temos um viés no estimador que depende basicamente do poder do teste $(1-b)$: se $b \rightarrow 0$, então $\Phi^{-1}(b) \rightarrow -\infty$ e $\lim_{x\rightarrow -\infty} \phi(x) = 0$. Trocando em miúdos, quando o poder é alto o viés é baixo. Quando o poder tende a 1, o viés desaparece.
 
 No blog, o autor discute várias possíveis soluções e basicamente chega a conclusão que a melhor maneira é corrigir o estimador por esse viés é assumir que $b=0$ e reduzir o estimador por $SE \frac{\phi(c_\alpha)}{1-\Phi(c_\alpha)}2(1-F(\hat{\beta}|\beta>c_\alpha))$. Em português: você pondera o viés sob a hipótese nula do efeito ser zero vezes a probabilidade do estimador ser maior que o valor estimado na distribuição truncada. Eu vou repetir o exemplo ali de cima e no post original tem:
 
-```{r}
+```{r,cache = TRUE}
+
+correction <- function(smp,alfa = 0.05){
+  m <- mean(smp)
+  se <- sd(smp)/sqrt(length(smp))
+  c_a <- -qnorm(alfa)
+  cor <- se*dnorm(c_a)/(alfa)*(1-ptruncnorm(m/se,a=c_a))
+ return(m-cor)
+}
+
+exper <- function(mm){
+  samp <- rnorm(100,mean = mm,sd = 1.2)
+  tt <- t.test(samp,alternative = "greater")
+  return(c(mean(samp),correction(samp),tt$p.value))
+}
+
+lista <- replicate(3000,0.1,simplify=F)
+
+dff <- map(lista,exper)
+dff <- do.call(rbind,dff)
+
+dff_sig <- dff[dff[,3] < 0.05,1:2]
+
+colMeans(dff_sig)
+
+print(paste(nrow(dff_sig), "significant cases"))
+
+tag <-c(rep("Without Correction",nrow(dff_sig)),rep("With Correction",nrow(dff_sig)))
+
+df <- data.frame(tag = tag, vals = as.vector(dff_sig))
+
+ggplot(df,aes(tag,vals)) + geom_boxplot()
 
 ```
 
@@ -92,11 +123,11 @@ Uma outra solução pra isso pode ser via bootstrap. A ideia: replique a estima�
 
 Veja que isso é um artifício de só publicar resultados significantes e só é preocupante quando o poder é baixo.
 
-Até aqui eu só fiz o que tá no link que eu postei. Vamos complicar um pouquinho
+Até aqui eu só fiz o que tá no link que eu coloquei no começo do post. Vamos complicar um pouquinho.
 
 ## Teste Bilateral
 
-Agpra vamos fazer o caso de teste bilateral. Aqui a coisa fica estranha: normalmente pensamos na normal truncada com observações só entre dois valores: por exemplo, $x \sim N(0,1)$ e $a < x < b$. Mas aqui a gente só observa se $x>b$ ou $x<a$, o que é esquisito. Vamos definir $A =\{x: x> b,x<a\}$. Suponha ainda que x tem média $\mu$ e variância $\sigma^2$.A função de densidade é:
+Agora vamos fazer o caso de teste bilateral. Aqui a coisa fica estranha: normalmente pensamos na normal truncada com observações só entre dois valores: por exemplo, $x \sim N(0,1)$ e $a < x < b$. Mas aqui a gente só observa se $x>b$ ou $x<a$, o que é esquisito. Vamos definir $A =\{x: x> b,x<a\}$. Suponha ainda que x tem média $\mu$ e variância $\sigma^2$. A função de densidade é:
 
 $$
 f_x(x|x \in A) = \frac{\phi\left(\frac{x-\mu}{\sigma}\right)/\sigma} {1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]}
@@ -241,7 +272,7 @@ ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) +
 
 ```
 
-Veja que se o valor verdadeiro é grande o bastante o viés sequer existe e como a correção é ponderada pela probabilidade, ela não faz nada. Se eu pegar todas as estimativas, e não só as significantes, eu na verdade to introduzindo viés:
+Veja que se o valor verdadeiro é grande o bastante o viés sequer existe e como a correção é ponderada pela probabilidade, ela não faz nada. Se eu pegar todas as estimativas, e não só as significantes, eu na verdade estou introduzindo viés:
 
 ```{r}
 
@@ -249,7 +280,7 @@ ggplot(dff_aux_all,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags
 
 ```
 
-Dá pra fazer isso com coeficiente de regressão também, e agora no lugar de $\sigma$ você coloca o erro padrão. A função que eu escrevi pega um objeto gerado pelo `lm` e corrige o primeiro coeficiente que não é o intercepto - mas é fácil mudar pra ser qualquer coeficiente:
+Dá pra fazer isso com coeficiente de regressão também (novamente, isso tá no post original!), e agora no lugar de $\sigma$ você coloca o erro padrão. A função que eu escrevi pega um objeto gerado pelo `lm` e corrige o primeiro coeficiente que não é o intercepto - mas é fácil mudar pra ser qualquer coeficiente:
 
 ```{r}
 
@@ -350,7 +381,7 @@ ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) +
 
 Funciona bem e não requer nenhuma simulação para resolver o problema - só uma meia dúzia de contas. 
 
-Talvez isso dê frutos e eu volte a falar disso auqi no blog
+Talvez isso dê frutos e eu volte a falar disso aqui no blog - eu tenho certeza que eu não entendo isso completamente, mas eu achei tão bom que eu _tinha_ que postar aqui.
 
 ## As contas
 
@@ -358,7 +389,7 @@ Basicamente baseado [neste pdf](http://web.ist.utl.pt/~ist11038/compute/qc/,trun
 
 $$f_x(x|x \in A) = \frac{\phi\left(\frac{x-\mu}{\sigma}\right)/\sigma} {1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]}$$
 
-Agora vamos fazer a conta da função geratriz de momentos e defina $C = 1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]$:
+Onde $A = \{x:x>b,x<a\}$. Agora vamos fazer a conta da função geratriz de momentos e defina $C = 1-\left[\Phi\left(\frac{b-\mu}{\sigma}\right) - \Phi\left(\frac{a-\mu}{\sigma}\right)\right]$:
 
 $$M(t) := E(e^{tx}) = \int_A\frac{e^{xt}}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)/C dx$$
 
@@ -374,10 +405,10 @@ $$\exp\left(\frac{-(x-(\mu+t\sigma^2))^2}{2\sigma^2}\right) = \exp\left(-\frac{(
 
 Logo: 
 
-$$\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(tx-\frac{(x-\mu)^2}{2\sigma^2}\right) = \exp\left(t\mu+t^2\sigma^2/2\right)\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right)dx
+$$\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(tx-\frac{(x-\mu)^2}{2\sigma^2}\right) = \exp\left(t\mu+t^2\sigma^2/2\right)\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{[x-(\mu+t\sigma^2)]}{2\sigma^2}\right)dx
 $$
 
-Agora a integral é só a área de uma normal com variância $\sigma^2$ e média $\mu+t\sigma^2$. Podemos quebrar ela em duas:
+Agora a integral é só a área de uma normal com variância $\sigma^2$ e média $\mu+t\sigma^2$. Podemos quebrar ela em duas partes correspondendo a $A$:
 
 $$\int_A \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) dx = 
 \int_{-\infty}^a \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right) + \int_b^{\infty} \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-(\mu+t\sigma^2)}{2\sigma^2}\right)$$
@@ -386,6 +417,12 @@ A primeira integral é $\Phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right)$ e a 
 
 No fim, a função geratriz de momentos é:
 
-$$M(t) = \exp(t\mu+t\sigma^2/2) \left(\Phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right) + 1-\Phi\left(-\frac{b-(\mu+t\sigma^2)}{\sigma}\right)\right) \bigg/C$$
+$$M(t) = \exp(t\mu+t\sigma^2/2) \left(\Phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right) + 1-\Phi\left(-\frac{b-(\mu+t^2\sigma^2)}{\sigma}\right)\right) \bigg/C$$
 
-Para obter a expectância, derive a função geratriz de momentos uma vez e pegue t = 0.
+Para obter a expectância, derive a função geratriz de momentos uma vez e faça t = 0. Derivando:
+
+$$\frac{dM(t)}{dt} = \exp(t\mu+t\sigma^2/2) \left[(\mu + \sigma^2t)\left(\Phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right) + 1-\Phi\left(-\frac{b-(\mu+t^2\sigma^2)}{\sigma}\right)\right) + \sigma \left(\phi\left(-\frac{a-(\mu+t\sigma^2)}{\sigma}\right) - \phi\left(-\frac{b-(\mu+t\sigma^2)}{\sigma}\right)\right)\right] \bigg/C$$
+
+Avalie isso em zero:
+
+$$\frac{dM(t)}{dt} \bigg \rvert_{t=0} = \mu \underbrace{\left[\Phi\left(-\frac{a-\mu}{\sigma}\right) + 1 -\Phi\left(-\frac{b-\mu}{\sigma}\right)\right]}_{C} \bigg/C + \sigma \frac{\phi(\frac{a-\mu}{\sigma}) - \phi(\frac{b-\mu}{\sigma})}{C}$$
