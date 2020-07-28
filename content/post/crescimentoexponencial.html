@@ -1,0 +1,239 @@
+---
+title: "Crescimento Exponencial, mas sem o Corona"
+author: "Pedro Cavalcante"
+date: '2020-07-29'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+  - R
+  - Programação
+slug: 
+tags:
+  - R
+  - Programação Funcional
+authors: ["pedrocava"]
+---
+
+
+
+<p>Uma família de funções que aparece em variados contextos é a exponencial:</p>
+<p><span class="math display">\[f(x)  = ab^x\]</span></p>
+<p>Se diferenciarmos em particular a função <span class="math inline">\(b^x\)</span> vamos ter <span class="math inline">\(b^x \log_e b\)</span>. Se <span class="math inline">\(b&gt;1\)</span> a função cresce, se for menor, decresce. A constante <span class="math inline">\(e\)</span> é a única que equaliza a função e a derivada.</p>
+<p>Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual <span class="math inline">\(b\)</span> passamos como base. O exercício é interessante porque explora algumas ferramentas muito úteis do {tidyverse}.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ dplyr   1.0.0
+## ✓ tidyr   1.1.0     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(gganimate)
+
+expfoo &lt;- function(base) { # uma fábrica de funções
+  
+ function(x) { base^x }
+  
+}
+
+(sim &lt;- tibble(A = seq(0.1, 10, 0.05)) %&gt;%
+  mutate(foo = map(A, ~ expfoo(.x)), # geramos uma lista de funções
+         y = map(foo, ~ .x(seq(-1, 1, .1))), # geramos uma lista aplicando as funções
+         x = rep(list(seq(-1, 1, .1)), nrow(.))) %&gt;% 
+  select(A, x, y) %&gt;%
+  unnest(c(x,y)))</code></pre>
+<pre><code>## # A tibble: 4,179 x 3
+##        A      x     y
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+##  1   0.1 -1     10   
+##  2   0.1 -0.9    7.94
+##  3   0.1 -0.8    6.31
+##  4   0.1 -0.7    5.01
+##  5   0.1 -0.6    3.98
+##  6   0.1 -0.5    3.16
+##  7   0.1 -0.400  2.51
+##  8   0.1 -0.300  2.00
+##  9   0.1 -0.200  1.58
+## 10   0.1 -0.100  1.26
+## # … with 4,169 more rows</code></pre>
+<pre class="r"><code>sim %&gt;%
+  ggplot(aes(x = x, y = y, color = A, group = A)) +
+  geom_line() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  scale_color_gradient(low = &quot;#d12e2e&quot;, high = &quot;#1e6cd9&quot;) +
+  ylim(-1, 6) +
+  theme_minimal() +
+  labs(title = &quot;A família exponencial&quot;)</code></pre>
+<pre><code>## Warning: Removed 151 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="/post/crescimentoexponencial_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>animacao &lt;- sim %&gt;%
+  ggplot(aes(x = x, y = y, color = A, group = A)) +
+  geom_line() +
+  geom_vline(xintercept = 0) +
+  geom_hline(yintercept = 0) +
+  scale_color_gradient(low = &quot;red&quot;, high = &quot;green&quot;) +
+  ylim(-1, 5) +
+  theme_minimal() +
+  transition_reveal(A) +
+  labs(title = &quot;Família f(x) = A^x&quot;,
+         subtitle = &quot;A = {round(frame_along, 3)}&quot;,
+         x = &quot;&quot;,
+         y = &quot;&quot;)
+
+animate(animacao)</code></pre>
+<pre><code>## Warning: Removed 4 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 4 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).
+
+## Warning: Removed 6 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 9 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 10 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 13 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 14 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 16 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 18 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 21 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 22 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 24 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 27 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 33 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 35 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 41 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 43 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 49 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 51 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 57 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 59 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 65 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 67 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 73 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 75 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 81 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 83 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 91 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 94 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 103 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 106 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 115 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 118 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 127 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 130 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 139 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 142 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 151 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 154 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 163 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 166 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 175 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 178 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 187 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 190 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 199 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 202 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 211 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 214 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 223 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 226 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 235 row(s) containing missing values (geom_path).</code></pre>
+<pre><code>## Warning: Removed 239 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="/post/crescimentoexponencial_files/figure-html/unnamed-chunk-1-1.gif" /><!-- --></p>
