@@ -1,0 +1,229 @@
+---
+title: "Classificando distribuições a partir dos momentos"
+author: "Pedro Cavalcante"
+date: '2020-07-28'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+  - R
+  - Programação
+  - Estatística 
+slug: 
+tags:
+  - R
+  - Programação Funcional
+authors: ["pedrocava"]
+---
+
+
+
+<p>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa um fluxo mínimo de modelagem em tidymodels. É um bom playground.</p>
+<p>A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecimento - o parâmetro <code>dgp</code> vem de <em>data generating process</em>. Vou parametrizar ela menos do que é possível porque, putz moh trabalho.</p>
+<pre class="r"><code>process_factory &lt;- function(dgp, n = 100, param_sd = 2) {
+  
+  if(dgp == &quot;rnorm&quot;) {
+    
+    to_be_called &lt;- call(&quot;rnorm&quot;, 
+                         n = n, 
+                         sd = runif(1, 0, 3), 
+                         mean = runif(1, -3, 3))
+  
+  } else if(dgp == &quot;rt&quot;) {
+    
+    to_be_called &lt;- call(&quot;rt&quot;, 
+                         n = n, 
+                         df = sample(1:120, 1), 
+                         ncp = runif(1, -30, 30))
+    
+  } else if(dgp == &quot;runif&quot;) {
+    
+    to_be_called &lt;- call(&quot;runif&quot;,
+                         n = n,
+                         min = runif(1, -3, 0),
+                         max = runif(1, 0, 3))
+    
+    } else if(dgp == &quot;rexp&quot;) {
+   
+   to_be_called &lt;- call(&quot;rexp&quot;, 
+                        n = n, 
+                        rate = runif(1, 0, 3))
+  
+    } else if(dgp == &quot;rgamma&quot;) {
+
+    to_be_called &lt;- call(&quot;rgamma&quot;, 
+                         n = n, 
+                         shape = runif(1, 0, 3),
+                         scale = (1/runif(1, 0, 3)) + rnorm(1, sd = .2))
+      
+    }
+  
+  eval(to_be_called)
+      
+}</code></pre>
+<p>Agora uma função que recebe um vetor com dados simulados com algum processo gerador dado e retorna os primeiros <span class="math inline">\(k\)</span> momentos amostrais.</p>
+<pre class="r"><code>first_kmoments &lt;- function(process, .min_k = 1, .k = 20, .center = TRUE) {
+  
+  tibble(process = list(process)) %&gt;%
+    list() %&gt;%
+    rep(times = .k) %&gt;%
+    reduce(bind_rows) %&gt;%
+    mutate(K = .min_k:.k,
+           moment = map2_dbl(
+             .x = process, 
+             .y = K,
+             ~ moment(x = .x, order = .y, center = .center))) %&gt;%
+    pivot_wider(values_from = moment, 
+                names_from = K, 
+                names_prefix = &quot;moment_&quot;) %&gt;%
+    select(-process)
+  
+}</code></pre>
+<p>Beleza agora podemos de fato simular alguns dados e pedir os momentos das distribuições simuladas.</p>
+<pre class="r"><code>library(tidyverse)
+library(e1071)
+library(magrittr)
+
+(tibble(
+  dgp = # variável com o nome dos processos, o Y do nosso modelo
+   sample(c(&quot;rnorm&quot;, &quot;runif&quot;, &quot;rexp&quot;, &quot;rgamma&quot;), # amostre um de 4 nomes 
+          size = 10000, # 100000 vezes
+          replace = TRUE), # com substituição
+   moments = # variável momentos que irá conter uma lista de dataframes
+       map(dgp, # itere sobre o vetor com nomes de dgps
+           ~ first_kmoments(process_factory(.x)))) %&gt;% 
+  unnest(moments) -&gt; # desaninha a lista de dataframes
+  data)</code></pre>
+<pre><code>## # A tibble: 10,000 x 21
+##    dgp    moment_1 moment_2 moment_3 moment_4 moment_5 moment_6 moment_7
+##    &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1 runif  4.33e-17    0.139  9.89e-3  3.97e-2  7.03e-3  1.37e-2  3.79e-3
+##  2 rexp  -2.53e-16   16.1    1.44e+2  2.72e+3  5.12e+4  1.05e+6  2.19e+7
+##  3 rgam…  1.04e-16    0.496  3.40e-1  8.54e-1  1.24e+0  2.44e+0  4.33e+0
+##  4 rnorm -1.07e-16    7.56   5.46e+0  1.71e+2  4.85e+2  6.63e+3  3.41e+4
+##  5 runif  3.61e-17    1.40   4.41e-3  3.26e+0  1.61e-1  8.84e+0  1.13e+0
+##  6 rexp  -1.42e-16   28.6    3.49e+2  7.47e+3  1.52e+5  3.22e+6  6.87e+7
+##  7 rexp   1.11e-17    0.519  1.06e+0  3.31e+0  1.03e+1  3.28e+1  1.05e+2
+##  8 rexp  -1.27e-16    2.92   8.14e+0  6.40e+1  4.72e+2  3.90e+3  3.27e+4
+##  9 rnorm -7.77e-18    0.830 -1.68e-1  1.92e+0 -1.05e+0  6.77e+0 -6.00e+0
+## 10 runif -1.78e-17    0.201 -1.06e-2  7.25e-2 -9.26e-3  3.19e-2 -7.02e-3
+## # … with 9,990 more rows, and 13 more variables: moment_8 &lt;dbl&gt;,
+## #   moment_9 &lt;dbl&gt;, moment_10 &lt;dbl&gt;, moment_11 &lt;dbl&gt;, moment_12 &lt;dbl&gt;,
+## #   moment_13 &lt;dbl&gt;, moment_14 &lt;dbl&gt;, moment_15 &lt;dbl&gt;, moment_16 &lt;dbl&gt;,
+## #   moment_17 &lt;dbl&gt;, moment_18 &lt;dbl&gt;, moment_19 &lt;dbl&gt;, moment_20 &lt;dbl&gt;</code></pre>
+<p>Como são dados 100% simulados eu não vejo a virtude de explorar graficamente, vou pular então. Agora vamos treinar uma grade de modelos Random Forest.</p>
+<pre class="r"><code>library(tidymodels)
+
+doParallel::registerDoParallel() # executar em paralelo
+
+data_split &lt;- initial_split(data, strata = dgp) # divisão dos dados
+data_treino &lt;- training(data_split) # treino
+data_teste &lt;- testing(data_split) # teste
+
+data_rec &lt;- recipe(dgp ~ ., data = data_treino) 
+data_prep &lt;- prep(data_rec) 
+
+(modelo_tune &lt;- rand_forest( # especificação da grade a ser avaliada
+  mtry = tune(),
+  trees = 1000,
+  min_n = tune()) %&gt;%
+  set_mode(&quot;classification&quot;) %&gt;%
+  set_engine(&quot;randomForest&quot;))</code></pre>
+<pre><code>## Random Forest Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = tune()
+##   trees = 1000
+##   min_n = tune()
+## 
+## Computational engine: randomForest</code></pre>
+<pre class="r"><code>(modelo_workflow &lt;- workflow() %&gt;%
+  add_recipe(data_rec) %&gt;%
+  add_model(modelo_tune))</code></pre>
+<pre><code>## ══ Workflow ════════════════════════════════════════════════════════════════════════════════════════════════
+## Preprocessor: Recipe
+## Model: rand_forest()
+## 
+## ── Preprocessor ────────────────────────────────────────────────────────────────────────────────────────────
+## 0 Recipe Steps
+## 
+## ── Model ───────────────────────────────────────────────────────────────────────────────────────────────────
+## Random Forest Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = tune()
+##   trees = 1000
+##   min_n = tune()
+## 
+## Computational engine: randomForest</code></pre>
+<pre class="r"><code>(data_folds &lt;- vfold_cv(data_treino, 5))</code></pre>
+<pre><code>## #  5-fold cross-validation 
+## # A tibble: 5 x 2
+##   splits            id   
+##   &lt;list&gt;            &lt;chr&gt;
+## 1 &lt;split [6K/1.5K]&gt; Fold1
+## 2 &lt;split [6K/1.5K]&gt; Fold2
+## 3 &lt;split [6K/1.5K]&gt; Fold3
+## 4 &lt;split [6K/1.5K]&gt; Fold4
+## 5 &lt;split [6K/1.5K]&gt; Fold5</code></pre>
+<p>O passo final é “afinar” a grade e estimar todos os modelos seguindo o workflow.</p>
+<pre class="r"><code>(tune_results &lt;- tune_grid(
+  modelo_workflow,
+  resamples = data_folds,
+  grid = 20
+))</code></pre>
+<p>Vamos avaliar brevemente a área abaixo da curva ROC dos vários modelos que treinamos.</p>
+<pre class="r"><code>tune_results %&gt;%
+  collect_metrics(summarize = FALSE) %&gt;%
+  filter(.metric == &quot;roc_auc&quot;) %&gt;%
+  ggplot(aes(x = .estimate)) +
+  geom_histogram(fill = &quot;light green&quot;) +
+  labs(title = &quot;Distribuição das AUROC&quot;,
+       x = &quot;AUROC&quot;,
+       y = &quot;&quot;) +
+  scale_x_continuous(labels = scales::percent) +
+  theme_minimal()</code></pre>
+<p><img src="/post/classificando_distrs_com_RF/classify_dist_moments_files/figure-html/unnamed-chunk-8-1.png" width="1680" /></p>
+<p>A primeira vez que rodei tudo me deu AUROCs beeem altas, além dos 95%, e isso deveria levantar suspeitas. Vamos ver como fica isso no conjunto de teste.</p>
+<pre class="r"><code>library(vip)
+
+(melhor_auc &lt;- select_best(tune_results, &quot;roc_auc&quot;))</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##    mtry min_n .config
+##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;  
+## 1    17     6 Model15</code></pre>
+<pre class="r"><code>(modelo_final &lt;- finalize_model(modelo_tune, melhor_auc))</code></pre>
+<pre><code>## Random Forest Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = 17
+##   trees = 1000
+##   min_n = 6
+## 
+## Computational engine: randomForest</code></pre>
+<pre class="r"><code>(avaliacao &lt;- modelo_final %&gt;%
+  set_engine(&quot;randomForest&quot;) %&gt;%
+  fit(dgp ~ ., data = juice(data_prep)))</code></pre>
+<pre><code>## parsnip model object
+## 
+## Fit time:  15.2s 
+## 
+## Call:
+##  randomForest(x = as.data.frame(x), y = y, ntree = ~1000, mtry = ~17L,      nodesize = ~6L) 
+##                Type of random forest: classification
+##                      Number of trees: 1000
+## No. of variables tried at each split: 17
+## 
+##         OOB estimate of  error rate: 17.32%
+## Confusion matrix:
+##        rexp rgamma rnorm runif class.error
+## rexp   1368    506     0     1  0.27040000
+## rgamma  688   1163    17     1  0.37774211
+## rnorm     0     23  1825    36  0.03131635
+## runif     0      6    19  1836  0.01343364</code></pre>
+<pre class="r"><code>vip(avaliacao, geom = &quot;point&quot;)</code></pre>
+<p><img src="/post/classificando_distrs_com_RF/classify_dist_moments_files/figure-html/unnamed-chunk-9-1.png" width="1680" /></p>
+<p>Acho razoável pensar que os momentos mais discriminantes dependem da cesta de distribuições alimentadas. É difícil pensar que assimetria é relevante para distinguir entre uma normal e uma uniforme, por exemplo.</p>
