@@ -48,7 +48,7 @@
                     <h3> Pedro Cavalcante </h3>
                     <h2 class="headline">
                     Jul 28, 2020 00:00
-                    · 1281 words
+                    · 1288 words
                     · 7 minute read
                       <span class="tags">
                       
@@ -148,20 +148,20 @@ library(magrittr)
   unnest(moments) %&gt;% # desaninha a lista de dataframes
   na.omit() -&gt;
   data)</code></pre>
-<pre><code>## # A tibble: 9,989 x 21
-##    dgp    moment_1 moment_2 moment_3 moment_4 moment_5 moment_6  moment_7
-##    &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-##  1 rnorm -3.33e-17    0.415 -4.72e-2  5.16e-1 -3.25e-1 1.18e+ 0 -1.51e+ 0
-##  2 rnorm -3.33e-17    0.231 -1.76e-2  1.13e-1 -1.62e-2 7.05e- 2 -1.76e- 2
-##  3 rgam…  2.11e-17    1.17   1.33e+0  5.75e+0  1.48e+1 5.05e+ 1  1.60e+ 2
-##  4 rnorm -2.13e-16    0.577 -2.24e-1  1.21e+0 -1.62e+0 5.62e+ 0 -1.24e+ 1
-##  5 runif  1.11e-17    0.309 -7.47e-2  1.90e-1 -9.56e-2 1.48e- 1 -1.04e- 1
-##  6 rt    -1.25e-17    1.34   5.76e-2  4.78e+0  2.34e-1 2.52e+ 1  2.75e+ 0
-##  7 rnorm -1.78e-17    4.59  -2.55e-1  6.02e+1 -2.42e+1 1.14e+ 3 -9.81e+ 2
-##  8 rgam… -1.28e-17    0.180  1.07e-1  1.62e-1  1.99e-1 2.90e- 1  4.29e- 1
-##  9 rgam… -3.55e-16 2596.     1.23e+5  2.54e+7  3.06e+9 5.14e+11  7.98e+13
-## 10 runif  4.22e-17    2.02   1.19e-1  6.94e+0  4.37e-1 2.87e+ 1  5.51e- 1
-## # … with 9,979 more rows, and 13 more variables: moment_8 &lt;dbl&gt;,
+<pre><code>## # A tibble: 9,990 x 21
+##    dgp    moment_1 moment_2 moment_3 moment_4 moment_5 moment_6 moment_7
+##    &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1 rnorm  9.77e-17    2.92    -2.10    26.7    -59.2    4.32e+2  -1.57e3
+##  2 runif  2.80e-17    2.51    -0.717   11.3     -7.80   6.28e+1  -6.87e1
+##  3 rt    -2.13e-16    6.06    18.9    200.    1452.     1.31e+4   1.15e5
+##  4 rgam…  3.05e-17    0.165    0.163    0.289    0.510  9.56e-1   1.83e0
+##  5 rexp  -2.75e-17    0.223    0.213    0.385    0.701  1.39e+0   2.87e0
+##  6 rgam…  2.31e-16    9.81    38.4    420.    3210.     2.98e+4   2.61e5
+##  7 rexp   9.88e-17    1.01     1.56     5.62    17.5    6.13e+1   2.18e2
+##  8 rt    -1.64e-16    1.95     1.72    11.9     22.9    1.08e+2   2.92e2
+##  9 rgam…  7.77e-18    0.103    0.136    0.232    0.417  7.70e-1   1.45e0
+## 10 rexp  -1.94e-17    0.770    1.85     8.10    35.5    1.63e+2   7.57e2
+## # … with 9,980 more rows, and 13 more variables: moment_8 &lt;dbl&gt;,
 ## #   moment_9 &lt;dbl&gt;, moment_10 &lt;dbl&gt;, moment_11 &lt;dbl&gt;, moment_12 &lt;dbl&gt;,
 ## #   moment_13 &lt;dbl&gt;, moment_14 &lt;dbl&gt;, moment_15 &lt;dbl&gt;, moment_16 &lt;dbl&gt;,
 ## #   moment_17 &lt;dbl&gt;, moment_18 &lt;dbl&gt;, moment_19 &lt;dbl&gt;, moment_20 &lt;dbl&gt;</code></pre>
@@ -194,14 +194,14 @@ data_prep &lt;- prep(data_rec)
 <pre class="r"><code>(modelo_workflow &lt;- workflow() %&gt;%
   add_recipe(data_rec) %&gt;%
   add_model(modelo_tune))</code></pre>
-<pre><code>## ══ Workflow ═══════════════════════════════════════════════════════════════════════════════════════════════
+<pre><code>## ══ Workflow ════════════════════════════════════════════════════════════════════════════════════════════════
 ## Preprocessor: Recipe
 ## Model: rand_forest()
 ## 
-## ── Preprocessor ───────────────────────────────────────────────────────────────────────────────────────────
+## ── Preprocessor ────────────────────────────────────────────────────────────────────────────────────────────
 ## 0 Recipe Steps
 ## 
-## ── Model ──────────────────────────────────────────────────────────────────────────────────────────────────
+## ── Model ───────────────────────────────────────────────────────────────────────────────────────────────────
 ## Random Forest Model Specification (classification)
 ## 
 ## Main Arguments:
@@ -268,18 +268,19 @@ data_prep &lt;- prep(data_rec)
 ##                      Number of trees: 1000
 ## No. of variables tried at each split: 14
 ## 
-##         OOB estimate of  error rate: 21.54%
+##         OOB estimate of  error rate: 21.55%
 ## Confusion matrix:
 ##        rexp rgamma rnorm   rt runif class.error
-## rexp   1070    381     0   66     1 0.295125165
-## rgamma  546    763     4  135     2 0.473793103
-## rnorm     0     15  1282  146    38 0.134368670
-## rt       59     91   111 1255     7 0.175968483
-## runif     0      1     9    2  1510 0.007884363</code></pre>
+## rexp   1077    385     0   34     0  0.28008021
+## rgamma  523    817     9  142     2  0.45277964
+## rnorm     0     16  1301  158    35  0.13841060
+## rt       61    108   103 1196    10  0.19079838
+## runif     0      2    24    3  1489  0.01910408</code></pre>
+<p>Interessante que algumas distribuições são particularmente difíceis de acertar, como a gama. A uniforme e a normal, por exemplo, são beeem mais fáceis de acertar.</p>
 <pre class="r"><code>vip(avaliacao, geom = &quot;col&quot;, fill = &quot;light green&quot;) +
   labs(title = &quot;Importância de variáveis para o classificador&quot;) +
   theme_minimal()</code></pre>
-<p><img src="/post/classificando_distrs_com_RF/classify_dist_moments_files/figure-html/unnamed-chunk-9-1.png" width="1680" /></p>
+<p><img src="/post/classificando_distrs_com_RF/classify_dist_moments_files/figure-html/unnamed-chunk-10-1.png" width="1680" /></p>
 <p>Acho razoável pensar que os momentos mais discriminantes dependem da cesta de distribuições alimentadas. É difícil pensar que assimetria é relevante para distinguir entre uma normal e uma uniforme, por exemplo.</p>
 <p>E como ficamos fora da amostra de teste? A função <code>last_fit()</code> pega a receita de dados de treino e aplica na amostra de teste.</p>
 <pre class="r"><code>workflow_final &lt;- workflow() %&gt;%
@@ -299,8 +300,8 @@ data_prep &lt;- prep(data_rec)
 <pre><code>## # A tibble: 2 x 3
 ##   .metric  .estimator .estimate
 ##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-## 1 accuracy multiclass     0.785
-## 2 roc_auc  hand_till      0.960</code></pre>
+## 1 accuracy multiclass     0.784
+## 2 roc_auc  hand_till      0.957</code></pre>
 <p>A pergunta era se <em>dá</em>. Até que dá.</p>
 
                 </section>

@@ -26,6 +26,11 @@ Se diferenciarmos em particular a função $b^x$ vamos ter $b^x \log_e b$. Se $b
 
 Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual $b$ passamos como base. O exercício é interessante porque explora algumas ferramentas muito úteis do {tidyverse}. 
 
+```{R include = FALSE}
+
+knitr::opts_chunk$set(dpi = 240, message = FALSE, warning = FALSE)
+```
+
 ```{R}
 library(tidyverse)
 library(gganimate)
