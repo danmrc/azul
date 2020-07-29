@@ -156,7 +156,7 @@ O passo final é "afinar" a grade e estimar todos os modelos seguindo o workflow
 ```
 
 ```{R include = FALSE}
-tune_results <- readRDS("modelos.Rds")
+tune_results <- readRDS("modelo.Rds")
 ```
 
 Vamos avaliar brevemente a área abaixo da curva ROC dos vários modelos que treinamos. 
@@ -187,6 +187,11 @@ library(vip)
 (avaliacao <- modelo_final %>%
   set_engine("randomForest") %>%
   fit(dgp ~ ., data = juice(data_prep)))
+```
+
+Interessante que algumas distribuições são particularmente difíceis de acertar, como a gama. A uniforme e a normal, por exemplo, são beeem mais fáceis de acertar.
+
+```{R}
 
 vip(avaliacao, geom = "col", fill = "light green") +
   labs(title = "Importância de variáveis para o classificador") +
