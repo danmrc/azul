@@ -21,9 +21,9 @@ authors: ["pedrocava"]
 
 
 
-<p>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa um fluxo mínimo de modelagem em tidymodels. É um bom playground.</p>
+<p>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.</p>
 <p>A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecimento - o parâmetro <code>dgp</code> vem de <em>data generating process</em>. Vou parametrizar ela menos do que é possível porque, putz moh trabalho.</p>
-<pre class="r"><code>process_factory &lt;- function(dgp, n = 100, param_sd = 2) {
+<pre class="r"><code>process_factory &lt;- function(dgp, n = 100) {
   
   if(dgp == &quot;rnorm&quot;) {
     
@@ -36,8 +36,8 @@ authors: ["pedrocava"]
     
     to_be_called &lt;- call(&quot;rt&quot;, 
                          n = n, 
-                         df = sample(1:120, 1), 
-                         ncp = runif(1, -30, 30))
+                         df = sample(1:30, 1), 
+                         ncp = runif(1, 0, 10))
     
   } else if(dgp == &quot;runif&quot;) {
     
@@ -82,6 +82,7 @@ authors: ["pedrocava"]
     select(-process)
   
 }</code></pre>
+<p>(Tem um bug bem fácil de consertar e de reproduzir na função acima, fica como <em>exercício</em>)</p>
 <p>Beleza agora podemos de fato simular alguns dados e pedir os momentos das distribuições simuladas.</p>
 <pre class="r"><code>library(tidyverse)
 library(e1071)
@@ -89,28 +90,29 @@ library(magrittr)
 
 (tibble(
   dgp = # variável com o nome dos processos, o Y do nosso modelo
-   sample(c(&quot;rnorm&quot;, &quot;runif&quot;, &quot;rexp&quot;, &quot;rgamma&quot;), # amostre um de 4 nomes 
+   sample(c(&quot;rnorm&quot;, &quot;runif&quot;, &quot;rexp&quot;, &quot;rgamma&quot;, &quot;rt&quot;), # amostre um de 4 nomes 
           size = 10000, # 100000 vezes
           replace = TRUE), # com substituição
    moments = # variável momentos que irá conter uma lista de dataframes
        map(dgp, # itere sobre o vetor com nomes de dgps
            ~ first_kmoments(process_factory(.x)))) %&gt;% 
-  unnest(moments) -&gt; # desaninha a lista de dataframes
+  unnest(moments) %&gt;% # desaninha a lista de dataframes
+  na.omit() -&gt;
   data)</code></pre>
-<pre><code>## # A tibble: 10,000 x 21
+<pre><code>## # A tibble: 9,991 x 21
 ##    dgp    moment_1 moment_2 moment_3 moment_4 moment_5 moment_6 moment_7
 ##    &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-##  1 runif  4.33e-17    0.139  9.89e-3  3.97e-2  7.03e-3  1.37e-2  3.79e-3
-##  2 rexp  -2.53e-16   16.1    1.44e+2  2.72e+3  5.12e+4  1.05e+6  2.19e+7
-##  3 rgam…  1.04e-16    0.496  3.40e-1  8.54e-1  1.24e+0  2.44e+0  4.33e+0
-##  4 rnorm -1.07e-16    7.56   5.46e+0  1.71e+2  4.85e+2  6.63e+3  3.41e+4
-##  5 runif  3.61e-17    1.40   4.41e-3  3.26e+0  1.61e-1  8.84e+0  1.13e+0
-##  6 rexp  -1.42e-16   28.6    3.49e+2  7.47e+3  1.52e+5  3.22e+6  6.87e+7
-##  7 rexp   1.11e-17    0.519  1.06e+0  3.31e+0  1.03e+1  3.28e+1  1.05e+2
-##  8 rexp  -1.27e-16    2.92   8.14e+0  6.40e+1  4.72e+2  3.90e+3  3.27e+4
-##  9 rnorm -7.77e-18    0.830 -1.68e-1  1.92e+0 -1.05e+0  6.77e+0 -6.00e+0
-## 10 runif -1.78e-17    0.201 -1.06e-2  7.25e-2 -9.26e-3  3.19e-2 -7.02e-3
-## # … with 9,990 more rows, and 13 more variables: moment_8 &lt;dbl&gt;,
+##  1 rexp  -5.00e-18    0.342  0.458     1.32    3.82e+0  1.19e+1  3.75e+1
+##  2 rexp   6.11e-17    0.741  0.628     1.63    2.72e+0  5.81e+0  1.17e+1
+##  3 runif -5.66e-17    0.672  0.0197    0.742   3.38e-2  9.38e-1  5.83e-2
+##  4 rgam…  7.22e-18    0.161  0.0897    0.129   1.47e-1  1.96e-1  2.64e-1
+##  5 rt    -7.99e-17    2.20   1.40     17.4     3.51e+1  2.35e+2  7.52e+2
+##  6 rnorm  2.18e-16    5.50  -0.222    91.4    -4.36e+1  2.28e+3 -2.42e+3
+##  7 runif -8.88e-18    0.944  0.171     1.48    5.85e-1  2.74e+0  1.70e+0
+##  8 rnorm -1.22e-17    0.450 -0.0415    0.540  -6.48e-2  9.51e-1 -8.01e-2
+##  9 rt    -3.64e-16    2.51   1.93     19.5     3.15e+1  2.43e+2  5.19e+2
+## 10 runif  1.67e-17    0.122 -0.00593   0.0244 -2.63e-3  5.76e-3 -9.31e-4
+## # … with 9,981 more rows, and 13 more variables: moment_8 &lt;dbl&gt;,
 ## #   moment_9 &lt;dbl&gt;, moment_10 &lt;dbl&gt;, moment_11 &lt;dbl&gt;, moment_12 &lt;dbl&gt;,
 ## #   moment_13 &lt;dbl&gt;, moment_14 &lt;dbl&gt;, moment_15 &lt;dbl&gt;, moment_16 &lt;dbl&gt;,
 ## #   moment_17 &lt;dbl&gt;, moment_18 &lt;dbl&gt;, moment_19 &lt;dbl&gt;, moment_20 &lt;dbl&gt;</code></pre>
@@ -187,7 +189,7 @@ data_prep &lt;- prep(data_rec)
   scale_x_continuous(labels = scales::percent) +
   theme_minimal()</code></pre>
 <p><img src="/post/classificando_distrs_com_RF/classify_dist_moments_files/figure-html/unnamed-chunk-8-1.png" width="1680" /></p>
-<p>A primeira vez que rodei tudo me deu AUROCs beeem altas, além dos 95%, e isso deveria levantar suspeitas. Vamos ver como fica isso no conjunto de teste.</p>
+<p>A primeira vez que rodei tudo me deu AUROCs beeem altas, além dos 95%. Em classificação binária, na maioria dos domínios de aplicação, isso é alto demais para ser verdade, mas problemas multiclasse normalmente vêm <a href="https://stats.stackexchange.com/questions/203207/multi-class-classification-easier-than-binary-classification">com AUROCs altas</a>. Vamos olhar com mais cuidado para o melhor modelo - ainda dentro da amostra de treino.</p>
 <pre class="r"><code>library(vip)
 
 (melhor_auc &lt;- select_best(tune_results, &quot;roc_auc&quot;))</code></pre>
@@ -209,7 +211,7 @@ data_prep &lt;- prep(data_rec)
   fit(dgp ~ ., data = juice(data_prep)))</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  15.2s 
+## Fit time:  16.3s 
 ## 
 ## Call:
 ##  randomForest(x = as.data.frame(x), y = y, ntree = ~1000, mtry = ~17L,      nodesize = ~6L) 
@@ -217,13 +219,37 @@ data_prep &lt;- prep(data_rec)
 ##                      Number of trees: 1000
 ## No. of variables tried at each split: 17
 ## 
-##         OOB estimate of  error rate: 17.32%
+##         OOB estimate of  error rate: 21.16%
 ## Confusion matrix:
-##        rexp rgamma rnorm runif class.error
-## rexp   1368    506     0     1  0.27040000
-## rgamma  688   1163    17     1  0.37774211
-## rnorm     0     23  1825    36  0.03131635
-## runif     0      6    19  1836  0.01343364</code></pre>
-<pre class="r"><code>vip(avaliacao, geom = &quot;point&quot;)</code></pre>
+##        rexp rgamma rnorm   rt runif class.error
+## rexp   1088    408     0   58     0 0.299871300
+## rgamma  536    826     8  111     2 0.443020904
+## rnorm     0     14  1315  139    35 0.125083167
+## rt       66     93   102 1165     4 0.185314685
+## runif     0      3     7    0  1515 0.006557377</code></pre>
+<pre class="r"><code>vip(avaliacao, geom = &quot;col&quot;, fill = &quot;light green&quot;) +
+  labs(title = &quot;Importância de variáveis para o classificador&quot;) +
+  theme_minimal()</code></pre>
 <p><img src="/post/classificando_distrs_com_RF/classify_dist_moments_files/figure-html/unnamed-chunk-9-1.png" width="1680" /></p>
 <p>Acho razoável pensar que os momentos mais discriminantes dependem da cesta de distribuições alimentadas. É difícil pensar que assimetria é relevante para distinguir entre uma normal e uma uniforme, por exemplo.</p>
+<p>E como ficamos fora da amostra de teste? A função <code>last_fit()</code> pega a receita de dados de treino e aplica na amostra de teste.</p>
+<pre class="r"><code>workflow_final &lt;- workflow() %&gt;%
+  add_recipe(data_rec) %&gt;%
+  add_model(modelo_final)
+
+(final_res &lt;- workflow_final %&gt;%
+  last_fit(data_split))</code></pre>
+<pre><code>## # Resampling results
+## # Monte Carlo cross-validation (0.75/0.25) with 1 resamples  
+## # A tibble: 1 x 6
+##   splits        id          .metrics      .notes      .predictions     .workflow
+##   &lt;list&gt;        &lt;chr&gt;       &lt;list&gt;        &lt;list&gt;      &lt;list&gt;           &lt;list&gt;   
+## 1 &lt;split [7.5K… train/test… &lt;tibble [2 ×… &lt;tibble [0… &lt;tibble [2,496 … &lt;workflo…</code></pre>
+<pre class="r"><code>final_res %&gt;%
+  collect_metrics()</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   .metric  .estimator .estimate
+##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy multiclass     0.773
+## 2 roc_auc  hand_till      0.954</code></pre>
+<p>A pergunta era se <em>dá</em>. Até que dá.</p>

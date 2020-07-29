@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.71.0" />
+		<title>Classificando distribuições a partir dos momentos &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
+
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
+  
+	
+
+	
+</nav>
+
+
+        <section id="wrapper" class="post">
+            <article>
+                <header>
+                    <h1>
+                        Classificando distribuições a partir dos momentos
+                    </h1>
+                    <h3> Pedro Cavalcante </h3>
+                    <h2 class="headline">
+                    Jul 28, 2020 00:00
+                    · 1263 words
+                    · 6 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/programa%C3%A7%C3%A3o-funcional">Programação Funcional</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    
+
+
+<p>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.</p>
+<p>A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecimento - o parâmetro <code>dgp</code> vem de <em>data generating process</em>. Vou parametrizar ela menos do que é possível porque, putz moh trabalho.</p>
+<pre class="r"><code>process_factory &lt;- function(dgp, n = 100) {
+  
+  if(dgp == &quot;rnorm&quot;) {
+    
+    to_be_called &lt;- call(&quot;rnorm&quot;, 
+                         n = n, 
+                         sd = runif(1, 0, 3), 
+                         mean = runif(1, -3, 3))
+  
+  } else if(dgp == &quot;rt&quot;) {
+    
+    to_be_called &lt;- call(&quot;rt&quot;, 
+                         n = n, 
+                         df = sample(1:30, 1), 
+                         ncp = runif(1, 0, 10))
+    
+  } else if(dgp == &quot;runif&quot;) {
+    
+    to_be_called &lt;- call(&quot;runif&quot;,
+                         n = n,
+                         min = runif(1, -3, 0),
+                         max = runif(1, 0, 3))
+    
+    } else if(dgp == &quot;rexp&quot;) {
+   
+   to_be_called &lt;- call(&quot;rexp&quot;, 
+                        n = n, 
+                        rate = runif(1, 0, 3))
+  
+    } else if(dgp == &quot;rgamma&quot;) {
+
+    to_be_called &lt;- call(&quot;rgamma&quot;, 
+                         n = n, 
+                         shape = runif(1, 0, 3),
+                         scale = (1/runif(1, 0, 3)) + rnorm(1, sd = .2))
+      
+    }
+  
+  eval(to_be_called)
+      
+}</code></pre>
+<p>Agora uma função que recebe um vetor com dados simulados com algum processo gerador dado e retorna os primeiros <span class="math inline">\(k\)</span> momentos amostrais.</p>
+<pre class="r"><code>first_kmoments &lt;- function(process, .min_k = 1, .k = 20, .center = TRUE) {
+  
+  tibble(process = list(process)) %&gt;%
+    list() %&gt;%
+    rep(times = .k) %&gt;%
+    reduce(bind_rows) %&gt;%
+    mutate(K = .min_k:.k,
+           moment = map2_dbl(
+             .x = process, 
+             .y = K,
+             ~ moment(x = .x, order = .y, center = .center))) %&gt;%
+    pivot_wider(values_from = moment, 
+                names_from = K, 
+                names_prefix = &quot;moment_&quot;) %&gt;%
+    select(-process)
+  
+}</code></pre>
+<p>(Tem um bug bem fácil de consertar e de reproduzir na função acima, fica como <em>exercício</em>)</p>
+<p>Beleza agora podemos de fato simular alguns dados e pedir os momentos das distribuições simuladas.</p>
+<pre class="r"><code>library(tidyverse)
+library(e1071)
+library(magrittr)
+
+(tibble(
+  dgp = # variável com o nome dos processos, o Y do nosso modelo
+   sample(c(&quot;rnorm&quot;, &quot;runif&quot;, &quot;rexp&quot;, &quot;rgamma&quot;, &quot;rt&quot;), # amostre um de 4 nomes 
+          size = 10000, # 100000 vezes
+          replace = TRUE), # com substituição
+   moments = # variável momentos que irá conter uma lista de dataframes
+       map(dgp, # itere sobre o vetor com nomes de dgps
+           ~ first_kmoments(process_factory(.x)))) %&gt;% 
+  unnest(moments) %&gt;% # desaninha a lista de dataframes
+  na.omit() -&gt;
+  data)</code></pre>
+<pre><code>## # A tibble: 9,991 x 21
+##    dgp    moment_1 moment_2 moment_3 moment_4 moment_5 moment_6 moment_7
+##    &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1 rexp  -5.00e-18    0.342  0.458     1.32    3.82e+0  1.19e+1  3.75e+1
+##  2 rexp   6.11e-17    0.741  0.628     1.63    2.72e+0  5.81e+0  1.17e+1
+##  3 runif -5.66e-17    0.672  0.0197    0.742   3.38e-2  9.38e-1  5.83e-2
+##  4 rgam…  7.22e-18    0.161  0.0897    0.129   1.47e-1  1.96e-1  2.64e-1
+##  5 rt    -7.99e-17    2.20   1.40     17.4     3.51e+1  2.35e+2  7.52e+2
+##  6 rnorm  2.18e-16    5.50  -0.222    91.4    -4.36e+1  2.28e+3 -2.42e+3
+##  7 runif -8.88e-18    0.944  0.171     1.48    5.85e-1  2.74e+0  1.70e+0
+##  8 rnorm -1.22e-17    0.450 -0.0415    0.540  -6.48e-2  9.51e-1 -8.01e-2
+##  9 rt    -3.64e-16    2.51   1.93     19.5     3.15e+1  2.43e+2  5.19e+2
+## 10 runif  1.67e-17    0.122 -0.00593   0.0244 -2.63e-3  5.76e-3 -9.31e-4
+## # … with 9,981 more rows, and 13 more variables: moment_8 &lt;dbl&gt;,
+## #   moment_9 &lt;dbl&gt;, moment_10 &lt;dbl&gt;, moment_11 &lt;dbl&gt;, moment_12 &lt;dbl&gt;,
+## #   moment_13 &lt;dbl&gt;, moment_14 &lt;dbl&gt;, moment_15 &lt;dbl&gt;, moment_16 &lt;dbl&gt;,
+## #   moment_17 &lt;dbl&gt;, moment_18 &lt;dbl&gt;, moment_19 &lt;dbl&gt;, moment_20 &lt;dbl&gt;</code></pre>
+<p>Como são dados 100% simulados eu não vejo a virtude de explorar graficamente, vou pular então. Agora vamos treinar uma grade de modelos Random Forest.</p>
+<pre class="r"><code>library(tidymodels)
+
+doParallel::registerDoParallel() # executar em paralelo
+
+data_split &lt;- initial_split(data, strata = dgp) # divisão dos dados
+data_treino &lt;- training(data_split) # treino
+data_teste &lt;- testing(data_split) # teste
+
+data_rec &lt;- recipe(dgp ~ ., data = data_treino) 
+data_prep &lt;- prep(data_rec) 
+
+(modelo_tune &lt;- rand_forest( # especificação da grade a ser avaliada
+  mtry = tune(),
+  trees = 1000,
+  min_n = tune()) %&gt;%
+  set_mode(&quot;classification&quot;) %&gt;%
+  set_engine(&quot;randomForest&quot;))</code></pre>
+<pre><code>## Random Forest Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = tune()
+##   trees = 1000
+##   min_n = tune()
+## 
+## Computational engine: randomForest</code></pre>
+<pre class="r"><code>(modelo_workflow &lt;- workflow() %&gt;%
+  add_recipe(data_rec) %&gt;%
+  add_model(modelo_tune))</code></pre>
+<pre><code>## ══ Workflow ════════════════════════════════════════════════════════════════════════════════════════════════
+## Preprocessor: Recipe
+## Model: rand_forest()
+## 
+## ── Preprocessor ────────────────────────────────────────────────────────────────────────────────────────────
+## 0 Recipe Steps
+## 
+## ── Model ───────────────────────────────────────────────────────────────────────────────────────────────────
+## Random Forest Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = tune()
+##   trees = 1000
+##   min_n = tune()
+## 
+## Computational engine: randomForest</code></pre>
+<pre class="r"><code>(data_folds &lt;- vfold_cv(data_treino, 5))</code></pre>
+<pre><code>## #  5-fold cross-validation 
+## # A tibble: 5 x 2
+##   splits            id   
+##   &lt;list&gt;            &lt;chr&gt;
+## 1 &lt;split [6K/1.5K]&gt; Fold1
+## 2 &lt;split [6K/1.5K]&gt; Fold2
+## 3 &lt;split [6K/1.5K]&gt; Fold3
+## 4 &lt;split [6K/1.5K]&gt; Fold4
+## 5 &lt;split [6K/1.5K]&gt; Fold5</code></pre>
+<p>O passo final é “afinar” a grade e estimar todos os modelos seguindo o workflow.</p>
+<pre class="r"><code>(tune_results &lt;- tune_grid(
+  modelo_workflow,
+  resamples = data_folds,
+  grid = 20
+))</code></pre>
+<p>Vamos avaliar brevemente a área abaixo da curva ROC dos vários modelos que treinamos.</p>
+<pre class="r"><code>tune_results %&gt;%
+  collect_metrics(summarize = FALSE) %&gt;%
+  filter(.metric == &quot;roc_auc&quot;) %&gt;%
+  ggplot(aes(x = .estimate)) +
+  geom_histogram(fill = &quot;light green&quot;) +
+  labs(title = &quot;Distribuição das AUROC&quot;,
+       x = &quot;AUROC&quot;,
+       y = &quot;&quot;) +
+  scale_x_continuous(labels = scales::percent) +
+  theme_minimal()</code></pre>
+<p><img src="/post/classificando_distrs_com_RF/classify_dist_moments_files/figure-html/unnamed-chunk-8-1.png" width="1680" /></p>
+<p>A primeira vez que rodei tudo me deu AUROCs beeem altas, além dos 95%. Em classificação binária, na maioria dos domínios de aplicação, isso é alto demais para ser verdade, mas problemas multiclasse normalmente vêm <a href="https://stats.stackexchange.com/questions/203207/multi-class-classification-easier-than-binary-classification">com AUROCs altas</a>. Vamos olhar com mais cuidado para o melhor modelo - ainda dentro da amostra de treino.</p>
+<pre class="r"><code>library(vip)
+
+(melhor_auc &lt;- select_best(tune_results, &quot;roc_auc&quot;))</code></pre>
+<pre><code>## # A tibble: 1 x 3
+##    mtry min_n .config
+##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;  
+## 1    17     6 Model15</code></pre>
+<pre class="r"><code>(modelo_final &lt;- finalize_model(modelo_tune, melhor_auc))</code></pre>
+<pre><code>## Random Forest Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = 17
+##   trees = 1000
+##   min_n = 6
+## 
+## Computational engine: randomForest</code></pre>
+<pre class="r"><code>(avaliacao &lt;- modelo_final %&gt;%
+  set_engine(&quot;randomForest&quot;) %&gt;%
+  fit(dgp ~ ., data = juice(data_prep)))</code></pre>
+<pre><code>## parsnip model object
+## 
+## Fit time:  16.3s 
+## 
+## Call:
+##  randomForest(x = as.data.frame(x), y = y, ntree = ~1000, mtry = ~17L,      nodesize = ~6L) 
+##                Type of random forest: classification
+##                      Number of trees: 1000
+## No. of variables tried at each split: 17
+## 
+##         OOB estimate of  error rate: 21.16%
+## Confusion matrix:
+##        rexp rgamma rnorm   rt runif class.error
+## rexp   1088    408     0   58     0 0.299871300
+## rgamma  536    826     8  111     2 0.443020904
+## rnorm     0     14  1315  139    35 0.125083167
+## rt       66     93   102 1165     4 0.185314685
+## runif     0      3     7    0  1515 0.006557377</code></pre>
+<pre class="r"><code>vip(avaliacao, geom = &quot;col&quot;, fill = &quot;light green&quot;) +
+  labs(title = &quot;Importância de variáveis para o classificador&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/post/classificando_distrs_com_RF/classify_dist_moments_files/figure-html/unnamed-chunk-9-1.png" width="1680" /></p>
+<p>Acho razoável pensar que os momentos mais discriminantes dependem da cesta de distribuições alimentadas. É difícil pensar que assimetria é relevante para distinguir entre uma normal e uma uniforme, por exemplo.</p>
+<p>E como ficamos fora da amostra de teste? A função <code>last_fit()</code> pega a receita de dados de treino e aplica na amostra de teste.</p>
+<pre class="r"><code>workflow_final &lt;- workflow() %&gt;%
+  add_recipe(data_rec) %&gt;%
+  add_model(modelo_final)
+
+(final_res &lt;- workflow_final %&gt;%
+  last_fit(data_split))</code></pre>
+<pre><code>## # Resampling results
+## # Monte Carlo cross-validation (0.75/0.25) with 1 resamples  
+## # A tibble: 1 x 6
+##   splits        id          .metrics      .notes      .predictions     .workflow
+##   &lt;list&gt;        &lt;chr&gt;       &lt;list&gt;        &lt;list&gt;      &lt;list&gt;           &lt;list&gt;   
+## 1 &lt;split [7.5K… train/test… &lt;tibble [2 ×… &lt;tibble [0… &lt;tibble [2,496 … &lt;workflo…</code></pre>
+<pre class="r"><code>final_res %&gt;%
+  collect_metrics()</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   .metric  .estimator .estimate
+##   &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+## 1 accuracy multiclass     0.773
+## 2 roc_auc  hand_till      0.954</code></pre>
+<p>A pergunta era se <em>dá</em>. Até que dá.</p>
+
+                </section>
+            </article>
+
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f - Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos "><span class="icon-twitter"> tweet</span></a>
+
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+</footer>
+
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+
+
+    </body>
+</html>

@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.73.0" />
+		<meta name="generator" content="Hugo 0.71.0" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -52,6 +52,36 @@
 
     <section id="wrapper" class="home">
         <ul id="post-list">
+    
+    
+        
+            <li>
+                <aside class="dates">Oct 28</aside>
+                <a href='/2019/10/28/reg-esppuria-integracao-perfect/'>
+                    Regredindo séries temporais aleatórias para quem gosta de regressão
+                    
+                        
+                            <h2>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Sep 20</aside>
+                <a href='/2019/09/20/inercia-inflacao-rolling-window/'>
+                    Medindo a inércia da inflação brasileira com Rolling Window Regression
+                    
+                        
+                            <h2>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</h2>
+                        
+                    
+                </a>
+            </li>
+        
     
     
         
@@ -179,39 +209,6 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
                             <h2>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
 set.seed(1234) n &lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
 library(ggplot2) library(dplyr) library(gganimate) m &lt;- 100000 n &lt;- 100 amostras &lt;- double(length = 0) for(i in 1:m) { set.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">May 13</aside>
-                <a href='/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/'>
-                    Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)
-                    
-                        
-                            <h2>Em posts anteriores eu apresentei uma maneira de resolver o problema:
-\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
-O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">May 7</aside>
-                <a href='/2019/05/07/prouni-rf-classificacao/'>
-                    Classificando cursos no ProUni com Random Forest
-                    
-                        
-                            <h2>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
-Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</h2>
                         
                     
                 </a>
