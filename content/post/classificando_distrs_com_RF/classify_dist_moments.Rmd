@@ -21,7 +21,7 @@ authors: ["pedrocava"]
 
 Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
 
-A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecimento - o parâmetro `dgp` vem de _data generating process_. Vou parametrizar ela menos do que é possível porque, putz moh trabalho.
+A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro `dgp` vem de _data generating process_. Vou parametrizar ela menos do que é possível porque, putz moh trabalho.
 
 ```{R include = FALSE, echo = FALSE}
 knitr::opts_chunk$set(dpi = 240, message = FALSE, warning = FALSE)

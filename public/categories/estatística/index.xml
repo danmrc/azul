@@ -18,7 +18,7 @@
       
       <guid>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</guid>
       <description>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
-A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecimento - o parâmetro dgp vem de data generating process.</description>
+A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.</description>
     </item>
     
     <item>
