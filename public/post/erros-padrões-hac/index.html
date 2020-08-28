@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Erros padrões HAC | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css">
+    
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/post/erros-padr%C3%B5es-hac/"><meta property="og:title" content="Erros padrões HAC" />
+<meta property="og:description" content="Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
+Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/erros-padr%C3%B5es-hac/" />
+<meta property="article:published_time" content="2020-04-12T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-04-12T00:00:00+00:00" />
+<meta itemprop="name" content="Erros padrões HAC">
+<meta itemprop="description" content="Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
+Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).">
+<meta itemprop="datePublished" content="2020-04-12T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-04-12T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1380">
+
+
+
+<meta itemprop="keywords" content="HAC,Erro Padrão Robustos," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Erros padrões HAC"/>
+<meta name="twitter:description" content="Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
+Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\)."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">April 12, 2020</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1380 words</span>
+                            <span><i class="fas fa-clock mr-2"></i>7 mins read</span>
+                        </div>
+
+                        <h1>Erros padrões HAC</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small"></a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="2020-04-07-erros-padrões-hac_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.</p>
+<p>Para começar, suponha que temos um processo estocástico <span class="math inline">\(u_t\)</span> que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos <span class="math inline">\(1/T\sum_{t=1}^{T} u_t\)</span>. Agora, qual a variância da média? No caso iid, nós faríamos:</p>
+<p><span class="math display">\[Var(1/T\sum_{t=1}^T u_t) = 1/T^2 Var(\sum_{t=1}^T u_t) = 1/T^2 \sum_{t=1}^T Var(u_t) = \sigma_u^2/T\]</span></p>
+<p>Eu impunemente passei o somatório para fora da variância porque o processo é iid. Se <span class="math inline">\(u_t\)</span> tiver autocorrelação, nós vamos ter de considerar as covariâncias:</p>
+<p><span class="math display">\[Var(1/T\sum_{t=1}^T u_t) = 1/T^2 Var(\sum_{t=1}^T u_t) = 1/T^2 Var(u_t + u_{t+1} + u_{t+2})  = \]</span></p>
+<p><span class="math display">\[=1/T^2(TVar(u_t) + (T-1) Cov(u_t,u_{t-1}) + (T-2)Cov(u_t,u_{t-2}) + ...)\]</span></p>
+<p>Veja que eu estou trabalhando com processos estacionários, e isso me permite dizer que <span class="math inline">\(Cov(u_t,u_{t+1}) = Cov(u_{t+1},u_{t+2})\)</span> etc.</p>
+<p>Que teremos T covariâncias parece simples, mas como eu sei que teremos T-1 covariâncias entre dois períodos sequenciais? Veja que como a amostra está limitada até T, todos os períodos menos o T tem um vizinho seguinte: portanto T-1 covariâncias seguintes. Já para <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>, tanto o período <span class="math inline">\(T\)</span> quanto o período <span class="math inline">\(T-1\)</span> não tem vizinhos para frente: logo temos <span class="math inline">\((T-2) Cov(u_t,u_{t+2})\)</span>. Etc etc. Isso exige uma certa imaginação, eu admito.</p>
+<p>O mais incrível é que nós também temos que considerar as covariâncias para trás, ou seja <span class="math inline">\(Cov(u_t,u_{t-1})\)</span>, <span class="math inline">\(Cov(u_t,u_{t-2})\)</span> etc. Felizmente, graças ao fato de o processo ser estacionário de segunda ordem, temos que <span class="math inline">\(Cov(u_t,u_{t-1}) = Cov(u_t,u_{t+1})\)</span> e portanto:</p>
+<p><span class="math display">\[Var(1/T\sum_{t=1}^T u_t) = 1/T^2(TVar(u_t)+2(T-1)Cov(u_t,u_{t-1}) + ...)\]</span></p>
+<p>Ou seja, a variância da média de <span class="math inline">\(u_t\)</span> depende da soma das covariâncias do processo. Antes de prosseguirmos, só um pequeno <em>detour</em>. Para deixar a notação menos carregada, faça <span class="math inline">\(\gamma_0 = var(u_t)\)</span>, <span class="math inline">\(\gamma_1 = cov(u_t,u_{t-1})\)</span>,…, <span class="math inline">\(\gamma_j = cov(u_t,u_{t-j})\)</span>, e a expressão acima pode ser reescrita como:</p>
+<p><span class="math display">\[\frac{2}{T}\left(\sum_{t=0}^{T-1} \gamma_t - 1/T\sum_{j=0}^{T-1} j\gamma_j\right)\]</span></p>
+<p>Reescale tudo por <span class="math inline">\(T\)</span>, que é o equivalente a multiplicar o somatório por <span class="math inline">\(1/\sqrt{T}\)</span>, como a gente faria para aplicar o teorema central do limite, para obter:</p>
+<p><span class="math display">\[2\left(\sum_{t=0}^{T-1} \gamma_t - 1/T\sum_{j=0}^{T-1} j\gamma_j\right)\]</span></p>
+<p>Logo a variância assintótica ($T ) depende do somatório das auto-covariâncias - e das covariâncias daqui até o infinito! Obviamente, nós não temos nenhuma chance de conseguir isso.</p>
+<p>Isso gera também o seguinte problema: podemos ter auto-covariâncias negativas (um ar(1) com parâmetro negativo vai gerar autocorrelações pares que são positivas mas ímpares negativas). Usando a autocovariância amostral, podemos ter isso. Por exemplo, vamos trabalhar com um AR(1) com parâmetro 0.5 e a inovação tem variância 1. Eu vou usar 50 observações. Veja que se truncassemos entre os lags 10 e 20, teríamos uma variância negativa:</p>
+<pre class="r"><code>set.seed(9872)
+
+T &lt;- 50 #numero de periodos
+k &lt;- 40#numero de lags
+rho &lt;- 0.5 #parametro do processo AR(1)
+
+u &lt;- rep(0,T)
+
+for(i in 1:(T-1)){
+  u[i+1] &lt;- rho*u[i] + rnorm(1)  
+}
+
+acf &lt;- Acf(u,plot=F, type = &quot;covariance&quot;,lag.max = k)
+
+var_partial &lt;- rep(0,k+1)
+var_partial[1] &lt;- T*acf$acf[1]
+
+for(i in 2:(k+1)){
+  var_partial[i] &lt;- var_partial[i-1] + 2*(T-i+1)*acf$acf[i]
+}
+
+var_partial &lt;- var_partial/T^2
+
+df &lt;- data.frame(lag = 0:k,var = var_partial)
+
+pp &lt;- ggplot(df,aes(lag,var))
+
+pp + geom_point() + geom_hline(aes(yintercept=0))</code></pre>
+<p><img src="/post/2020-04-07-erros-padr%C3%B5es-hac_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Obviamente, variâncias não são negativas. Nossa amostra só permite calcular até a autocovariância <span class="math inline">\(T\)</span>, e com precisão cada vez pior (a autocovariância em T só tem uma observação, enquanto a autocovariância de um lag tem T-1 observações). Nós precisamos garantir que a variância vai ser positiva.</p>
+<p>A variância calculada usando HAC faz isso dando pesos de maneira esperta para cada autocovariância: eles envolvem argumentos de estatística não paramétrica e por isso eu não vou entrar em detalhes. Existem várias possibilidades de Kernel, e Kernel exige a seleção de um parâmetro de <em>bandwidth</em>.</p>
+<p>Veja que no caso de erros robustos apenas a heterocedasticidade, esse tipo de argumento não precisa ser aplicado: o problema é que em processos de série temporal os erros vão estar correlacionados. Usar matrizes robustas a heterocedasticidade apenas não envolvem argumentos de métodos estatísticos não paramétrico.</p>
+<p>Em geral nós usamos erro padrão HAC para testar uma hipótese em regressão em que podemos ter erros autocorrelacionados. Quando fazemos testes a 5%, nós estamos controlando a probabilidade de cometer um erro do tipo I (i.e. rejeitar a hipótese nula quando ela é verdadeira) de no máximo 5%. Mais que isso é sinal que nosso teste tem algum problema. Para ilustrar isso, eu vou fazer algumas simulações monte carlo (como de praxe).</p>
+<p>Para ficar fácil, eu vou trabalhar com uma regressão com um único coeficiente, que vai ser zero, sempre. Vão mudar o tamanho da amostra e o processo gerador de dados. Eu vou sempre testar 3 maneiras: ignorando o problema, usando o padrão do pacote <strong>sandwhich</strong> (que é o sugerido pelo Andrews), e a primeira HAC sugerida, o Newey-West.</p>
+<p>Para começar, vamos testar o caso em que nós somos meramente preguiçosos e colocamos erros robustos a autocorrelação sem pensar muito no tema:</p>
+<pre class="r"><code>s &lt;- matrix(0,nrow = 3000,ncol=3)
+
+for(j in 1:3000){
+
+  uu &lt;- rnorm(100)
+
+  x &lt;- rnorm(100)
+  y &lt;- uu
+
+  reg &lt;- lm(y~x)
+
+  s[j,1] &lt;- summary(reg)$coefficients[2,4]
+  s[j,2] &lt;- coeftest(reg,vcov. = vcovHAC(reg))[2,4]
+  s[j,3] &lt;- coeftest(reg,vcov. = NeweyWest(reg))[2,4]
+}
+
+
+tab0 &lt;- colMeans(s &lt; 0.05)
+names(tab0) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+knitr::kable(tab0)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sem correção</td>
+<td align="right">0.0553333</td>
+</tr>
+<tr class="even">
+<td>HAC Default</td>
+<td align="right">0.0666667</td>
+</tr>
+<tr class="odd">
+<td>Newey West</td>
+<td align="right">0.0870000</td>
+</tr>
+</tbody>
+</table>
+<p>Ser preguiçoso é problemático: nós rejeitamos quase 1% a mais do que os 5% que queremos alcançar ao usar o padrão do pacote - e se usarmos a proposta do Newey West, a situação é ainda pior. Agora, vamos colocar erros auto regressivos:</p>
+<pre class="r"><code>s &lt;- matrix(0,nrow = 3000,ncol=3)
+
+for(j in 1:3000){
+
+  uu &lt;- arima.sim(n = 100,list(ar=c(0.5)))
+
+  x &lt;- rnorm(100)
+  y &lt;- uu
+
+  reg &lt;- lm(y~x)
+
+  s[j,1] &lt;- summary(reg)$coefficients[2,4]
+  s[j,2] &lt;- coeftest(reg,vcov. = vcovHAC(reg))[2,4]
+  s[j,3] &lt;- coeftest(reg,vcov. = NeweyWest(reg))[2,4]
+}
+
+
+tab1 &lt;- colMeans(s &lt; 0.05)
+names(tab1) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+knitr::kable(tab1)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sem correção</td>
+<td align="right">0.0536667</td>
+</tr>
+<tr class="even">
+<td>HAC Default</td>
+<td align="right">0.0656667</td>
+</tr>
+<tr class="odd">
+<td>Newey West</td>
+<td align="right">0.0803333</td>
+</tr>
+</tbody>
+</table>
+<p>Newey-West é desastroso, com um tamanho de 8%. Ignorar o problema parece, estranhamente, a melhor estratégia! Vamos aumentar a persistência do erro colocando o parâmetro auto regressivo em 0.95 e aumentar o número de observações, o que vai ajudar na convergência dos estimadores HAC:</p>
+<pre class="r"><code>s &lt;- matrix(0,nrow=3000,ncol=3)
+
+for(j in 1:3000){
+
+  uu &lt;- arima.sim(n = 1000,list(ar=c(0.95)))
+
+  x &lt;- rnorm(1000)
+  y &lt;- uu
+
+  reg &lt;- lm(y~x)
+
+  s[j,1] &lt;- summary(reg)$coefficients[2,4]
+  s[j,2] &lt;- coeftest(reg,vcov. = vcovHAC(reg))[2,4]
+  s[j,3] &lt;- coeftest(reg,vcov. = NeweyWest(reg))[2,4]
+}
+
+tab2 &lt;- colMeans(s &lt; 0.05)
+names(tab2) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+knitr::kable(tab2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sem correção</td>
+<td align="right">0.0506667</td>
+</tr>
+<tr class="even">
+<td>HAC Default</td>
+<td align="right">0.0530000</td>
+</tr>
+<tr class="odd">
+<td>Newey West</td>
+<td align="right">0.0516667</td>
+</tr>
+</tbody>
+</table>
+<p>Mais um caso, com erro seguindo um MA:</p>
+<pre class="r"><code>s &lt;- matrix(0,nrow=3000,ncol=3)
+
+for(j in 1:3000){
+
+  uu &lt;- arima.sim(n = 100,list(ma=c(0.8)))
+
+  x &lt;- rnorm(100)
+  y &lt;- uu
+
+  reg &lt;- lm(y~x)
+
+  s[j,1] &lt;- summary(reg)$coefficients[2,4]
+  s[j,2] &lt;- coeftest(reg,vcov. = vcovHAC(reg))[2,4]
+  s[j,3] &lt;- coeftest(reg,vcov. = NeweyWest(reg))[2,4]
+}
+
+
+tab3 &lt;- colMeans(s &lt; 0.05)
+names(tab3) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+knitr::kable(tab3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sem correção</td>
+<td align="right">0.0476667</td>
+</tr>
+<tr class="even">
+<td>HAC Default</td>
+<td align="right">0.0526667</td>
+</tr>
+<tr class="odd">
+<td>Newey West</td>
+<td align="right">0.0703333</td>
+</tr>
+</tbody>
+</table>
+<p>Vamos aumentar o número de observações para mil:</p>
+<pre class="r"><code>s &lt;- matrix(0,nrow=3000,ncol=3)
+
+for(j in 1:3000){
+
+  uu &lt;- arima.sim(n = 1000,list(ma=c(0.8)))
+
+  x &lt;- rnorm(1000)
+  y &lt;- uu
+
+  reg &lt;- lm(y~x)
+
+  s[j,1] &lt;- summary(reg)$coefficients[2,4]
+  s[j,2] &lt;- coeftest(reg,vcov. = vcovHAC(reg))[2,4]
+  s[j,3] &lt;- coeftest(reg,vcov. = NeweyWest(reg))[2,4]
+}
+
+
+tab3 &lt;- colMeans(s &lt; 0.05)
+names(tab3) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+knitr::kable(tab3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sem correção</td>
+<td align="right">0.0453333</td>
+</tr>
+<tr class="even">
+<td>HAC Default</td>
+<td align="right">0.0456667</td>
+</tr>
+<tr class="odd">
+<td>Newey West</td>
+<td align="right">0.0456667</td>
+</tr>
+</tbody>
+</table>
+<p>Veja que de maneira geral, os testes no caso de erros autocorrelacionados tem problemas de tamanho. Newey West gera resultados preocupantes - no nosso primeiro e segundo exemplo, a porcentagem de erros tipo I foi 8% quando estavamos usando o teste para obter um erro de tipo I em 5% dos testes. Ignorar o problema não parece uma boa estratégia, apesar de os resultados serem razoáveis em muitos casos. Eu fiz só alguns exemplos muito simples e isso pode gerar resultados que parecem bons. O padrão do <strong>sandwich</strong> nos dá resultados razoáveis para quase todos os DGPs.</p>
+<p>Veja que os efeitos no mundo real disso são bem simples: nós rejeitamos a hipótese nula com frequência diferente da que estamos controlando.</p>
+<div id="bibliografia" class="section level1">
+<h1>Bibliografia</h1>
+<p>Como de praxe, o blog é minha tentativa de transmitir para um outro público coisas que eu aprendi com excelentes professores. O <a href="https://www.nber.org/minicourse_2008.html#">curso do Mark Watson e do Jim Stock no NBER em 2008</a> é uma excelente fonte. O livro do Hamilton de Time Series é uma fonte padrão.</p>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/hac">
+                                    <i class="fas fa-tag mr-2"></i>HAC
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/erro-padr%C3%A3o-robustos">
+                                    <i class="fas fa-tag mr-2"></i>Erro Padrão Robustos
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2fpost%2ferros-padr%25C3%25B5es-hac%2f&text=Erros%20padr%c3%b5es%20HAC">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2fpost%2ferros-padr%25C3%25B5es-hac%2f&title=Erros%20padr%c3%b5es%20HAC">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2fpost%2ferros-padr%25C3%25B5es-hac%2f&t=Erros%20padr%c3%b5es%20HAC">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2fpost%2ferros-padr%25C3%25B5es-hac%2f&title=Erros%20padr%c3%b5es%20HAC">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+
+
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</body>
+</html>

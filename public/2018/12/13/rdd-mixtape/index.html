@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+<<<<<<< Updated upstream
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -7,7 +8,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.71.0" />
+		<meta name="generator" content="Hugo 0.48" />
 		<title>RDD, inferência causal e um exemplo em R &middot; AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -17,6 +18,8 @@
 		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
 		
 
+		
+		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
 		
 
 		
@@ -32,23 +35,45 @@
 	<a href='/tags'>Tags</a>
 	<a href='/about'>Sobre</a>
   <a href='/categories'>Categorias</a>
-  
-	
+=======
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<title>
+>>>>>>> Stashed changes
+  
+     RDD, inferência causal e um exemplo em R | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
+
+<<<<<<< Updated upstream
+	
+	<a class="cta" href="/index.xml">Subscribe</a>
 	
 </nav>
+=======
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+>>>>>>> Stashed changes
 
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
 
+<<<<<<< Updated upstream
         <section id="wrapper" class="post">
             <article>
                 <header>
                     <h1>
                         RDD, inferência causal e um exemplo em R
                     </h1>
-                    <h3> Pedro Cavalcante </h3>
                     <h2 class="headline">
                     Dec 13, 2018 00:00
-                    · 1523 words
+                    · 1527 words
                     · 8 minute read
                       <span class="tags">
                       
@@ -65,14 +90,109 @@
                       </span>
                     </h2>
                 </header>
+=======
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/2018/12/13/rdd-mixtape/"><meta property="og:title" content="RDD, inferência causal e um exemplo em R" />
+<meta property="og:description" content="Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2018/12/13/rdd-mixtape/" />
+<meta property="article:published_time" content="2018-12-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-12-13T00:00:00+00:00" />
+<meta itemprop="name" content="RDD, inferência causal e um exemplo em R">
+<meta itemprop="description" content="Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.">
+<meta itemprop="datePublished" content="2018-12-13T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-12-13T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1523">
+
+
+
+<meta itemprop="keywords" content="RDD,Inferência Causal,Replicação," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RDD, inferência causal e um exemplo em R"/>
+<meta name="twitter:description" content="Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+>>>>>>> Stashed changes
                 
-                  
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 
+<<<<<<< Updated upstream
                 <section id="post-body">
-                    
+                    <p>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas <del>sérios</del> que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra <span class="math inline">\(X\)</span> e outro em que não vigora.</p>
+=======
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">December 13, 2018</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1523 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>8 mins</span>
+                        </div>
+
+                        <h1>RDD, inferência causal e um exemplo em R</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
+                            </h5><p class="social small text-muted">
+                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
+                                </p></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
 
 
 <p>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas <del>sérios</del> que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra <span class="math inline">\(X\)</span> e outro em que não vigora.</p>
+>>>>>>> Stashed changes
 <p>Somos, nesse sentido, muito limitados em nossas ambições. O melhor com que podemos sonhar é conduzir estudos caríssimos em que um tratamento é designado aleatoriamente entre participantes, como fazem em estudos clínicos para drogas novas. Um exemplo interessante é <a href="https://www.aeaweb.org/articles?id=10.1257/app.20160469">Nyqvist <em>et al.</em> (2018, AEJ: Applied Economics)</a>, que montou uma loteria para pacientes com HIV no Lesoto. A nossa capacidade de controlar covariáveis relevantes também é limitada a depender do contexto. Em um laboratório é razoavelmente fácil controlar os fatores relevantes para o comportamento de duas pessoas jogando o Jogo do Ultimato, não é tão simples dizer para alunos (ou mesmo equipe) de uma escola que metade da turma vai receber um pagamento em dinheiro, aulas de música ou ficar em uma turma menor.</p>
 <p>Por isso no mundo real usualmente dependemos de quasi-experimentos, ou experimentos naturais. O resgate de cubanos de Mariel como em <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.421.9316&amp;rep=rep1&amp;type=pdf">Card e DiNardo (2000, AER)</a>, a colonização européia de boa parte do mundo como em <a href="https://economics.mit.edu/files/4123">Acemoglu <em>et. al</em> (2001, AER)</a> e a divisão da América do Sul no Tratado de Tordesillas como em <a href="http://www.tinbergen.nl/wp-content/uploads/2017/09/Felipe-Caicedo-27-Sept.pdf">Fujiwara <em>et. al</em> (2017)</a> exploram esse tipo de evento como fontes de variação exógena em algum tipo de variável: oferta de trabalho, instituições políticas e presença de escravos, respectivamente. Tendo isso em mente, qualquer variação em outras variáveis que seja explicada por essa variação exógena que identificamos pode ser crivelmente atribuída ao efeito causal que a primeira variável tem. Isso é, em termos bem amplos, o que chamamos de Variáveis Instrumentais. É uma técnica bem popular de inferência causal.</p>
 <p>Esses exemplos, no entanto, parecem muito grandiosos, históricos. Podem ser menores e normalmente regras implementadas por burocratas são fontes valiosas de variações agudas. Aqui entra o RDD.</p>
@@ -104,13 +224,13 @@ lmb_data = as.tibble(lmb_data)
 head(lmb_data)</code></pre>
 <pre><code>## # A tibble: 6 x 178
 ##   state district incmbncy demvote repvote  year congress occupanc name 
-##   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
-## 1     1        1       -1  127802  103294  1948       81        0 RIBI~
-## 2     1        1       -1  127802  103294  1948       81        0 RIBI~
-## 3     1        1        1  134258   96251  1950       82        0 RIBI~
-## 4     1        1        1  134258   96251  1950       82        0 RIBI~
-## 5     1        1        1  148935  112526  1954       84        0 DODD 
-## 6     1        1        1  148935  112526  1954       84        0 DODD 
+##   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl+lb&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
+## 1 1            1 -1        127802  103294  1948       81        0 RIBI~
+## 2 1            1 -1        127802  103294  1948       81        0 RIBI~
+## 3 1            1 &quot; 1&quot;      134258   96251  1950       82        0 RIBI~
+## 4 1            1 &quot; 1&quot;      134258   96251  1950       82        0 RIBI~
+## 5 1            1 &quot; 1&quot;      148935  112526  1954       84        0 DODD 
+## 6 1            1 &quot; 1&quot;      148935  112526  1954       84        0 DODD 
 ## # ... with 169 more variables: eq_Dwhip &lt;dbl&gt;, eq_Rwhip &lt;dbl&gt;,
 ## #   eq_Dlead &lt;dbl&gt;, eq_Rlead &lt;dbl&gt;, vote &lt;dbl&gt;, republic &lt;dbl&gt;,
 ## #   party &lt;dbl&gt;, office &lt;dbl&gt;, icpsr_id &lt;dbl&gt;, whip_D &lt;dbl&gt;, whip_R &lt;dbl&gt;,
@@ -186,45 +306,111 @@ summary(rdd1)</code></pre>
 <p>Deixo ao leitor fazer essa parte e tirar suas próprias conclusões.</p>
 </div>
 
-                </section>
-            </article>
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/rdd">
+                                    <i class="fas fa-tag mr-2"></i>RDD
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/infer%C3%AAncia-causal">
+                                    <i class="fas fa-tag mr-2"></i>Inferência Causal
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/replica%C3%A7%C3%A3o">
+                                    <i class="fas fa-tag mr-2"></i>Replicação
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f12%2f13%2frdd-mixtape%2f&text=RDD%2c%20infer%c3%aancia%20causal%20e%20um%20exemplo%20em%20R">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f12%2f13%2frdd-mixtape%2f&title=RDD%2c%20infer%c3%aancia%20causal%20e%20um%20exemplo%20em%20R">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f12%2f13%2frdd-mixtape%2f&t=RDD%2c%20infer%c3%aancia%20causal%20e%20um%20exemplo%20em%20R">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f12%2f13%2frdd-mixtape%2f&title=RDD%2c%20infer%c3%aancia%20causal%20e%20um%20exemplo%20em%20R">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
 
-            
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2018%2f12%2f13%2frdd-mixtape%2f - RDD%2c%20infer%c3%aancia%20causal%20e%20um%20exemplo%20em%20R "><span class="icon-twitter"> tweet</span></a>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
 
-<a class="facebook" href="#" onclick="
-    window.open(
-      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-      'facebook-share-dialog',
-      'width=626,height=436');
-    return false;"><span class="icon-facebook-rect"> Share</span>
-</a>
-
-            
-
-            
-
-            
-
-            <footer id="footer">
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
     
-        <div id="social">
-
-	
-	
-    
-    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
-        github
+    <a href="/2018/11/29/patronagem/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
+            <p class="card-text text-muted text-uppercase">November 29, 2018</p>
+            <div class="card-text">
+                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
+            </div>
+        </div>
     </a>
-    
-
-
 </div>
 
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+<<<<<<< Updated upstream
     
     <p class="small">
     
-       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
     
     </p>
     <p class="small">
@@ -235,18 +421,21 @@ summary(rdd1)</code></pre>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
     onload="renderMathInElement(document.body);"></script>
 </footer>
-
-        </section>
-
-        <script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+=======
+>>>>>>> Stashed changes
 
 
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
 
-  
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
+
+
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -260,9 +449,5 @@ if (!doNotTrack) {
 }
 </script>
 
-
-
-
-
-    </body>
+</body>
 </html>

@@ -6,19 +6,19 @@
     <description>Recent content in Svm on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <lastBuildDate>Sat, 23 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/svm/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
-      <link>/2019/02/23/prouni-rf-svm/</link>
-      <pubDate>Sat, 23 Feb 2019 00:00:00 +0000</pubDate>
+      <link>/2018/12/10/prouni-rf-svm/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2019/02/23/prouni-rf-svm/</guid>
-      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines. Vou explicar breve e simplesmente o que são/ como funcionam essas duas técnicas e depois estimar tudo.
-Random Forests Primeiro começamos com a unidade mais simples, uma Árvore de Decisão. Quem já estudou teoria dos jogos e conhece a notação em árvore de um jogo sequencial vai estar razoavelmente familiarizado com essa apresentação.</description>
+      <guid>/2018/12/10/prouni-rf-svm/</guid>
+      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
+Random ForestsSupport Vector MachinesRodando tudo</description>
     </item>
     
   </channel>

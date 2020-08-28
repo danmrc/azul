@@ -1,0 +1,144 @@
+---
+title: "Alguns pequenos problemas de clustering k-means"
+author: "Pedro Cavalcante"
+date: '2018-08-19'
+output:
+html_document:
+df_print: paged
+categories:
+- R
+- Clustering
+slug: problemas-clustering-k-means
+tags:
+- R
+- Clustering
+authors: ["pedrocava"]
+katex: true
+---
+
+
+
+<p>No meu <a href="https://azul.netlify.com/2018/08/11/prouni-clustering/">último post</a> mostrei como podíamos usar clustering <span class="math inline">\(k\)</span>-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de <span class="math inline">\(k\)</span>-means, quero mostrar um <em>problema</em> do algoritimo relacionado a uma de suas hipoteses.</p>
+<p>Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui. Uma das <em>rules of thumb</em> da profissão para modelagem é a de que hipoteses são simplificadoras apenas na medida em que não alteram as conclusões <em>principais</em> do modelo.</p>
+<p>Pois, supor informação (quasi-)perfeita é absolutamente razoável na maioria dos mercados. Existe alguma assimetria relevante de inforção entre feirante e comprador de bananas? Entre concessionária e comprador de carro? Supor algum tipo de comportamento maximizador de lucro (ou de utilidade) também soa um tanto quanto absurdo, mas veja bem, <em>funciona</em>. Quando capital fica relativamente ao trabalho mais barato, firmas automatizam. Quando tomates ficam mais caros, consumidores compram menos. Quase como se maximizadores racionais caminhassem sobre a terra.</p>
+<div id="mas-e-k-means" class="section level2">
+<h2>Mas e <span class="math inline">\(k\)</span>-means?</h2>
+<p>Vamos lembrar brevemente da matemática por trás do clustering <span class="math inline">\(k\)</span>-means, a função objetivo do procedimento (não confundir com o algoritimo para computar o problema em si). <span class="math inline">\(k\)</span> é o número de clusters, <span class="math inline">\(S_i\)</span> é conjunto de elementos do i-ésimo cluster, <span class="math inline">\(\mu_i\)</span> é a média do i-ésimo cluster.</p>
+<p><span class="math display">\[ \text{arg min}_S \sum_{i=1}^k \sum_{x_j \in S_i} || x_j - \mu_i ||^2 \]</span></p>
+<p>O único instrumento desse problema de otimização é <span class="math inline">\(S\)</span>, <span class="math inline">\(k\)</span> é um parâmetro <em>dado</em>. Pois, ao escolher um <span class="math inline">\(k\)</span> em especifico, estamos supondo que <em>existem</em> <span class="math inline">\(k\)</span> agrupamentos nos dados. E se não for bem assim? Vamos a um exemplo:</p>
+<pre class="r"><code>##### Começaremos gerando dados aleatórios
+##### Seja n o tamanho da amostra, o leitor pode alterar se quiser
+
+n = 100000
+
+#### Geraremos um vetor aleatório no R^2
+
+x &lt;- rnorm(mean = 0, 
+            sd = 1,
+              n= n) ##média 0 e variância unitária nos dá uma normal padrão
+
+y &lt;- rnorm(mean = 0,
+            sd = 1,
+              n = n)
+
+amostra1 &lt;- data.frame(x, y)</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
+
+amostra1 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = &quot;dark blue&quot;)+
+  geom_density_2d(color = &quot;light blue&quot;)+
+  geom_vline(aes(xintercept=mean(x)),   
+             color=&quot;black&quot;, linetype=&quot;dashed&quot;, size=1)+
+  geom_hline(aes(yintercept=mean(y)),   
+             color=&quot;black&quot;, linetype=&quot;dashed&quot;, size=1)</code></pre>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem1-1.png" width="7000" /></p>
+<p>Existe claramente só um agrupamento, mas podemos detectar quantos agrupamentos quisermos ao definir um <span class="math inline">\(k\)</span> desejado. Antes, vamos avaliar qual seria o <span class="math inline">\(k\)</span> ótimo segundo o Método do Cotovelo:</p>
+<pre class="r"><code>wssplot &lt;- function(data, nc=20, seed=1234){
+  wss &lt;- (nrow(data)-1)*sum(apply(data,2,var))
+  for (i in 2:nc){
+    set.seed(seed)
+    wss[i] &lt;- sum(kmeans(data, centers=i)$withinss)}
+  plot(1:nc, wss, type=&quot;b&quot;, xlab=&quot;k&quot;,
+       ylab=&quot;WGSS&quot;)}
+
+wssplot(amostra1)</code></pre>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem2-1.png" width="7000" /></p>
+<p><span class="math inline">\(k=6\)</span> parece ser compatível com um ponto em que adicionar agrupamentos não rende uma queda substancial no WGSS, então vamos tentar esse número e ver o que acontece.</p>
+<pre class="r"><code>kmeans_amostra1 &lt;- kmeans(amostra1, 
+                            centers = 6)
+
+amostra1 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1$cluster)</code></pre>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem3-1.png" width="7000" /></p>
+<p>Inclusive, podemos formar padrões similares simplesmente aumentando <span class="math inline">\(k\)</span> e particionando dados homogêneos em agrupamentos menores - apesar de não existirem de fato.</p>
+<pre class="r"><code>kmeans_amostra1_2 &lt;- kmeans(amostra1, 
+                            centers = 10)
+
+amostra1 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1_2$cluster)</code></pre>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem4-1.png" width="7000" /></p>
+<pre class="r"><code>kmeans_amostra1_3 &lt;- kmeans(amostra1, 
+                            centers = 50)
+
+amostra1 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra1_3$cluster)</code></pre>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem5-1.png" width="7000" /></p>
+<p>Observem que WGSS em função de <span class="math inline">\(k\)</span> tem comportamento assintótico bem claro, embora não necessariamente monotônico: converge a zero.</p>
+</div>
+<div id="mas-e-se-existirem-k-agrupamentos" class="section level2">
+<h2>Mas e se existirem <span class="math inline">\(k\)</span> agrupamentos?</h2>
+<p>Aí, meu caro leitor, estamos conversando. Vamos gerar novos dados, agora com agrupamentos separados.</p>
+<pre class="r"><code>k = 8 ## numero de agrupamentos 
+m = 100 ## tamanho da amostra em cada agrupamento
+sd = .2 ## .2 gera identificação limpa dos agrupamentos em alguns casos
+
+datalist = list() ## Lista para salvar os DFs com cada cluster
+
+for (i in 1:k){
+  
+    x &lt;- rnorm(mean = i, 
+              sd = sd, 
+                n=m)
+    
+  y &lt;- rnorm(mean = (k-i),
+              sd = sd,
+                n=m)
+  
+  datalist[[i]] &lt;- data.frame(x,y)
+}
+
+amostra2 &lt;- do.call(rbind, datalist) ## empilhamos os clusters
+
+amostra2 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = &quot;blue&quot;)</code></pre>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem6-1.png" width="7000" /></p>
+<pre class="r"><code>wssplot(amostra2, nc = 10)</code></pre>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem6-2.png" width="7000" /> Um pequeno exercício: em dados claramento agrupados em 8 núcleos, qual a diferença do WGSS quando temos <span class="math inline">\(k=8\)</span>, fiel aos dados, e <span class="math inline">\(k=10\)</span>, um exagero?</p>
+<pre class="r"><code>teste8 &lt;- kmeans(amostra2, 
+                  centers = 8)
+teste10 &lt;- kmeans(amostra2,
+                    centers = 10) 
+
+teste8$tot.withinss / teste10$tot.withinss #dividindo o WGSS de um pelo outro</code></pre>
+<pre><code>## [1] 0.4025824</code></pre>
+<p>Aqui entra de novo o componente estocástico. Já consegui 3,5% maior, já consegui 40% menor. Quanto você, leitor, achou?</p>
+<pre class="r"><code>kmeans_amostra2 &lt;- kmeans(amostra2, 
+                            centers = k)
+
+amostra2 %&gt;%
+  ggplot(aes(x=x, y=y))+
+  geom_point(color = kmeans_amostra2$cluster)</code></pre>
+<p><img src="/post/problema-de-clustering-k-means/problemas-de-k-means_files/figure-html/imagem7-1.png" width="7000" /></p>
+<p>Você talvez precise gerar algumas amostras antes de conseguir uma identificação limpa de cada agrupamento.</p>
+</div>
+<div id="acho-que-e-isso" class="section level2">
+<h2>Acho que é isso</h2>
+<p>Queria mostrar brevemente as limitações de (i) uma hipotese através dessa ilustração interessante e (ii) do Método do Cotovelo, computacionalmente simples, mas dependente de interpretação.</p>
+<p>(Como sempre, você pode reproduzir isso tudo com <a href="https://github.com/danmrc/azul/tree/master/content/post/problema-de-clustering-k-means">esse script</a>)</p>
+</div>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Econometria on AZUL</title>
@@ -6,48 +6,15 @@
     <description>Recent content in Econometria on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+<<<<<<< Updated upstream
+    <lastBuildDate>Sun, 19 Aug 2018 00:00:00 +0000</lastBuildDate>
+=======
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Sun, 03 Nov 2019 00:00:00 +0000</lastBuildDate>
+>>>>>>> Stashed changes
     
 	<atom:link href="/tags/econometria/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Simulando o Teorema Central do Limite no R</title>
-      <link>/2019/11/03/central-limit-theorem-r/</link>
-      <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/11/03/central-limit-theorem-r/</guid>
-      <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
-    </item>
-    
-    <item>
-      <title>Regredindo séries temporais aleatórias para quem gosta de regressão</title>
-      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
-      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
-      <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
-    </item>
-    
-    <item>
-      <title>Comportamento de Random Walks</title>
-      <link>/2019/06/10/var-random-walks/</link>
-      <pubDate>Mon, 10 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/06/10/var-random-walks/</guid>
-      <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
-\[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
-    </item>
-    
-    <item>
-      <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
-      <link>/2019/03/28/consistencia-assintotica-ols/</link>
-      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/03/28/consistencia-assintotica-ols/</guid>
-      <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
-    </item>
     
     <item>
       <title>Viés de variáveis instrumentais</title>

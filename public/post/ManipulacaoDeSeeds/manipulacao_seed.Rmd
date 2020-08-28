@@ -1,0 +1,77 @@
+---
+title: "Manipulação de Sementes em Geradores Pseudoaleatórios"
+author: "Pedro Cavalcante"
+date: '2019-05-17'
+output:
+  html_document:
+    self_contained: false
+draft: true
+katex: true
+categories:
+  - R
+  - Machine Learning
+slug: prouni-rf-classificacao
+tags:
+  - PNG
+  - Semestes Aleatórias
+authors: ["pedrocava"]
+---
+
+Você já usou funções como ``rnorm()``? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório. 
+
+
+```{R}
+set.seed(1234)
+n <- 5000
+
+amostra1 = rbinom(n= n,
+                  size = 1,
+                  prob = .5)
+
+mean(amostra1)
+```
+
+Tivemos uma taxa de `r mean(amostra1)` com a semente $1234$. Como funciona com outras sementes? 
+
+```{R, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+library(dplyr)
+library(gganimate)
+
+m <- 100000
+n <- 100
+amostras <- double(length = 0)
+
+for(i in 1:m) {
+  
+  set.seed(i)
+  
+  amostra <- rbinom(n = n,
+                   size = 1,
+                   prob = .5)
+  
+  amostras[i] <- mean(amostra)
+    
+}
+
+
+summary(amostras)
+  
+ngrupos <- 20
+grupo <- rep(seq(1, ngrupos), times = m/ngrupos)
+grupo <- sort(grupo)
+
+base <- data.frame(dados = amostras,
+                  grupo = grupo) 
+
+base %>%
+  ggplot(aes(x = dados, fill = as.factor(grupo))) +
+  geom_histogram(alpha = .9, aes(y = ..density..)) #+
+  
+
+
+
+```
+
+Note no entanto que escolhi um $n$ pequeno com uma certa malícia. Por quê? Convergência assintótica. 

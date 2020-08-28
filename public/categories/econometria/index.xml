@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Econometria on AZUL</title>
@@ -6,171 +6,24 @@
     <description>Recent content in Econometria on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+<<<<<<< Updated upstream
+    <lastBuildDate>Mon, 17 Dec 2018 00:00:00 +0000</lastBuildDate>
+=======
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Mon, 22 Jun 2020 00:00:00 +0000</lastBuildDate>
+>>>>>>> Stashed changes
     
 	<atom:link href="/categories/econometria/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Hamiltonian Monte Carlo</title>
-      <link>/2020/06/22/hamiltonian-monte-carlo/</link>
-      <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
-      <description>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
-No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.</description>
-    </item>
-    
-    <item>
-      <title>Modelagem com {tidymodels}</title>
-      <link>/2020/06/02/modelagem-com-tidymodels/</link>
-      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/02/modelagem-com-tidymodels/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Double Selection</title>
-      <link>/2020/05/01/double-selection/</link>
-      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/05/01/double-selection/</guid>
-      <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
-Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
-Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
-    </item>
-    
-    <item>
-      <title>Viés de Atenuação</title>
-      <link>/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
-      <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
-      <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</description>
-    </item>
-    
-    <item>
-      <title>Erros padrões HAC</title>
-      <link>/2020/04/12/erros-padr%C3%B5es-hac/</link>
-      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/12/erros-padr%C3%B5es-hac/</guid>
-      <description>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
-Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</description>
-    </item>
-    
-    <item>
-      <title>Amostrando de distribuições difíceis: o Markov Chain Monte Carlo</title>
-      <link>/2020/02/08/markov-chain-monte-carlo/</link>
-      <pubDate>Sat, 08 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/02/08/markov-chain-monte-carlo/</guid>
-      <description>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</description>
-    </item>
-    
-    <item>
-      <title>Simulando o Teorema Central do Limite no R</title>
-      <link>/2019/11/03/central-limit-theorem-r/</link>
-      <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/11/03/central-limit-theorem-r/</guid>
-      <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
-    </item>
-    
-    <item>
-      <title>Regredindo séries temporais aleatórias para quem gosta de regressão</title>
-      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
-      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
-      <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
-    </item>
-    
-    <item>
-      <title>Visualizando um critério de estacionariedade em Processos AR</title>
-      <link>/2019/08/20/viz-estacionariedade-gganim/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
-      <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
-Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
-    </item>
-    
-    <item>
-      <title>Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen</title>
-      <link>/2019/08/15/born-with-the-gift-of-a-golden-voice/</link>
-      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/15/born-with-the-gift-of-a-golden-voice/</guid>
-      <description>I was born like this
-I had no choice
-I was born with the gift of a golden voice
- – Leonard Cohen
-Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</description>
-    </item>
-    
-    <item>
-      <title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</title>
-      <link>/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
-      <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
-      <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
-Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
-    </item>
-    
-    <item>
-      <title>Comportamento de Random Walks</title>
-      <link>/2019/06/10/var-random-walks/</link>
-      <pubDate>Mon, 10 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/06/10/var-random-walks/</guid>
-      <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
-\[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
-    </item>
-    
-    <item>
-      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
-      <link>/2019/05/02/lasso-adaptativo/</link>
-      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/02/lasso-adaptativo/</guid>
-      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
-\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
-(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
-    </item>
-    
-    <item>
-      <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
-      <link>/2019/03/28/consistencia-assintotica-ols/</link>
-      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/03/28/consistencia-assintotica-ols/</guid>
-      <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
-    </item>
-    
-    <item>
-      <title>Filtros: Uma Introdução</title>
-      <link>/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</link>
-      <pubDate>Sat, 09 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</guid>
-      <description>Um filtro (linear) é basicamente qualquer polinômio \(\alpha(B)\) a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:
-\[ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} \]
-Onde B é o operador backshift, logo para uma série temporal \(y_t\), \(By_t = y_{t-1}\) e \(B^ny_t = y_{t-n}\). A forma acima é conhecida como a representação no domínio temporal (time domain) do filtro. Filtros podem “existir” em duas formas, que carregam a mesma informação: a de time domain e a frequency domain (que, em tradução literal, é o domínio da frequência ou domínio frequencial.</description>
-    </item>
-    
-    <item>
       <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos</title>
-      <link>/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
-      <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
+      <link>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
+      <pubDate>Mon, 17 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
+      <guid>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
       <description>(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
-Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
+Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regreesão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
     </item>
     
     <item>

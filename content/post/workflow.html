@@ -1,45 +1,38 @@
 ---
 title: Workflow - Como funciona o AZUL
 author: Daniel Coutinho
-date: '2020-04-25'
+date: '2018-11-25'
 slug: workflow
 categories:
   - Julia
   - R
   - Meta
 tags:
-   - Blogdown
+    - Blogdown
+authors: ["danielc"]
 katex: true
 draft: true
 ---
 
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.</p>
-<p>Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado <strong>blogdown</strong>, que no fundo roda um software chamado hugo. A beleza é que escrevemos os nossos posts em Markdown, com o código direto no post. O código pode ser em diversas linguagens - R (obviamente), Python, Julia - e o RStudio se encarrega em compilar o código. Vamos ao passo a passo, pelo menos de como eu faço. As ferramentas são comuns e, em tempos de pandemia, podem servir para inspirar o leitor a começar um blog.</p>
-<div id="o-código" class="section level2">
+<p>Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado <strong>blogdow</strong>. A beleza é que escrevemos os nossos posts em Markdown, com o código direto no post. O código pode ser em diversas linguagens - R (obviamente), Python, Julia - e o RStudio se encarrega em compilar o código. Vamos ao passo a passo:</p>
+<div id="o-codigo" class="section level2">
 <h2>O Código</h2>
-<p>O primeiro passo depois de ter a ideia é escrever o código do post. Para os posts em R eu uso o RStudio, e para os posts em Julia eu uso o Atom com o Juno, que permite rodar o Julia direto do Atom.</p>
+<p>O primeiro passo depois de ter a ideia é escrever o código do post. Para os posts em R eu uso o RStudio, e para os posts em Julia eu uso o Atom com o plugin que permite rodar o Julia.</p>
 <p>Essa é uma parte que pode ser especialmente trabalhosa, já que nós precisamos garantir que tudo funciona. Em geral eles cuminam em alguma tabela ou gráfico que ilustram os resultados. Os códigos vão para Github do blog.</p>
 <p>Não existe nenhum motivo óbvio para eu escolher uma linguagem ou outra em um determinado post. Quando eu levo algum problema aos dados eu uso o R, por uma questão de hábito e de infra estrutura. Por exemplo, com o <code>BETS</code> eu posso puxar dados macroeconômicos do Brasil direto para o R sem sair do RStudio. Posts que são mais intensivos computacionalmente mas envolvem poucos dados - como foi o caso de posts sobre programação dinâmica - são feitos no Julia, que foi pensado em ser uma linguagem eficiente para computação científica. Eu já falei de como o Julia é mais rápido que o R <a href="https://azul.netlify.com/2018/10/28/por-que-usar-o-julia/">em outro post</a>.</p>
 </div>
 <div id="o-post" class="section level2">
 <h2>O post</h2>
-<p>O passo seguinte é escrever o post em si. Eu uso principalmente o RStudio. O Atom também tem suporte para o Markdown, mas não gera o preview do site. Em geral o código da parte anterior é inserido no texto para ser compilado ou apenas para ser apresentado. Eu quebro o código em várias partes e coloco o texto explicando no meio. O código é de fato uma parte importante do texto, já que é nele que se implementa o grosso da ideia do post. Os posts são escritos em Markdown, que é um LaTeX simplificado (eu não acho que alguém chegou aqui sem saber o que é o LaTeX).</p>
-<p>Uma parte importante de qualquer post - e de qualquer trabalho que envolva dados - é exibir os resultados. Especialmente no R as opções são quase infinitas de como construir tabelas e fazer gráficos. No R, eu uso os plots básicos que já vem implementado no R e agora um pouco mais do <code>ggplot2</code>, depois de muita insistência do Pedro. Para tabelas de regressão, o <code>Stargazer</code> é excelente. Muitas tabelas da minha monografia foram feitas usando o <code>xtable</code>. A maioria das tabelas do blog foram feitas usando o comando <code>kable</code> do <code>knitr</code>. A vantagem é que eu não preciso configurar o markdown para interpretar o código literalmente usando o <code>kable</code> enquanto para os outros dois eu preciso usar a opção <code>results='asis'</code> para a tabela aparecer corretamente. Para todos os objetivos do blog, as tabelas do <code>kable</code> são perfeitamente aceitáveis.</p>
+<p>O passo seguinte é escrever o post em si. Novamente, eu uso tanto o RStudio quanto o Atom. Ambos tem suporte para o Markdown. Em geral o código da parte anterior é inserido no texto para ser compilado. Eu quebro o código em várias partes e coloco o texto explicando no meio. O código é de fato uma parte importante do texto, já que é nele que se implementa o grosso da ideia do post.</p>
+<p>Os posts são escritos em Markdown, que é uma linguagem de programação para escrever textos. Para formatar o texto, ao invés de escolher a opção num atalho, nós usamos comandos como numa linguagem de programação. Por exemplo <code>_palavra_</code> deixa a palavra em itálico (<em>palavra</em>). Pode parecer esquisito à primeira vista, mas depois que você se acostuma voltar para softwares como o Word é um pesadelo.</p>
+<p>Uma parte importante de qualquer post - e de qualquer trabalho que envolva dados - é exibir os resultados. Especialmente no R as opções são quase infinitas de como construir tabelas e fazer gráficos. No R, eu uso os plots básicos que já vem implementado no R - rarissimamente uso o <code>ggplot2</code>. Para tabelas de regressão, o <code>Stargazer</code> é excelente. Muitas tabelas da minha monografia foram feitas usando o <code>xtable</code>. A maioria das tabelas do blog foram feitas usando o comando <code>kable</code> do <code>knitr</code>. A vantagem é que eu não preciso configurar o markdown para interpretar o código literalmente usando o <code>kable</code> enquanto para os outros dois eu preciso usar a opção <code>results='asis'</code> para a tabela aparecer corretamente.</p>
 <p>O Julia, por ser mais novo, não apresenta tantas opções. Eu nunca precisei fazer uma tabela com ele, então eu não faço ideia de um pacote para isso. Em compensação, eu fiz uma penca de gráficos, todos usando o pacote <code>Plots</code>. O Julia não tem um pacote para gráficos que já venha implementado como o R. O <code>Plots</code> do Julia é uma interface extremamente conveniente para várias opções de gráfico implementadas no Julia. Fazer gráficos com ele é fácil e sem muito esforço os resultados são bonitos - e a documentação é ótima.</p>
 </div>
 <div id="compilando" class="section level2">
 <h2>Compilando</h2>
 <p>O passo seguinte é compilar o texto. Para aqueles que estão acostumados, é equivalente a opção knit do Markdown ou compilar no LaTeX. Para o blog precisamos usar um comando especial para compilar, o <code>serve_site()</code> do pacote <code>blogdown</code>. Isso gera o documento com toda a estrutura para o blog. Nessa etapa nós temos que usar o R.</p>
-<p>Para integrar o Julia com o R eu já usei o pacote <code>JuliaCall</code> para o R, que permite chamar o Julia para rodar os pedaços de código escritos em Julia. Isso nem sempre funciona super suave e sem dor de cabeça. Em tempos recentes eu simplesmente ponho o código e não mando ele ser executado. Os gráficos são feitos antes e salvos e colocados no post. Isso dá um pouco mais de trabalho do que o <em>first best</em> de escrever o código no post e o RStudio chamar o Julia, mas o <em>first best</em> nem sempre é factível.</p>
-</div>
-<div id="publicando" class="section level2">
-<h2>Publicando</h2>
-<p>As seções anteriores não fizeram nenhuma justiça ao processo criativo. Antes de eu postar publicamente alguma coisa no blog eu demoro algum tempo polindo o texto (esse texto ficou no rascunho um ano).</p>
-<p>O blog é publicado de uma maneira muito simples, e é por isso que o nosso endereço é <em>netlify</em> - que pode fazer alguns usuários se perguntarem se não é a cópia paraguaia do netflix. Depois que a gente escreve, “trabalha e teima e lima, e sofre e sua!” a gente só precisa dar commit e push no github e pronto. Alguns segundos depois o post está no ar - o <em>netlify</em>, que é a empresa de hospedagem, se encarrega de usar a ferramenta que constrói o site. A gente sequer precisaria usar o <code>serve_site</code>, mas obviamente eu não confio na minha capacidade de escrever alguma coisa que envolve código sem checar umas cinco vezes.</p>
-<p>Pequeno detour: no começo eu achava o git absolutamente obscuro e completamente medieval. Atualmente, eu acho a melhor ferramenta se você escreve código, especialmente com outra pessoa.</p>
-<p>Em tempos mais recentes, criaram uma outra ferramenta para criar blogs direto do RStudio. Eu nunca usei e acho o <code>blogdown</code> absolutamente adequado. Ele permite um certo grau de customização e tem muitos temas e ferramentas. As outras alternativas mais tradicionais, como o Wordpress, provavelmente não permitem um fluxo de trabalho tão suave quanto o que a gente tem atualmente: abre o rstudio, push no <em>github</em> e escreva como se fosse um arquivo normal em markdown.</p>
-<p>Para mais referências sobre o blogdown, veja <a href="https://bookdown.org/yihui/blogdown/">aqui</a>.</p>
+<p>Para integrar o Julia com o R eu uso o pacote <code>JuliaCall</code> para o R, que permite</p>
 </div>

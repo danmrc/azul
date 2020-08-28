@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css">
+    
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/post/lc/born-with-the-gift-of-a-golden-voice/"><meta property="og:title" content="Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen" />
+<meta property="og:description" content="I was born like this
+I had no choice
+I was born with the gift of a golden voice
+ – Leonard Cohen
+Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/lc/born-with-the-gift-of-a-golden-voice/" />
+<meta property="article:published_time" content="2019-08-15T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-08-15T00:00:00+00:00" />
+<meta itemprop="name" content="Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen">
+<meta itemprop="description" content="I was born like this
+I had no choice
+I was born with the gift of a golden voice
+ – Leonard Cohen
+Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.">
+<meta itemprop="datePublished" content="2019-08-15T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2019-08-15T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2201">
+
+
+
+<meta itemprop="keywords" content="LDA,Leonard Cohen," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen"/>
+<meta name="twitter:description" content="I was born like this
+I had no choice
+I was born with the gift of a golden voice
+ – Leonard Cohen
+Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">August 15, 2019</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>2201 words</span>
+                            <span><i class="fas fa-clock mr-2"></i>11 mins read</span>
+                        </div>
+
+                        <h1>Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen</h1>
+
+                        
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<script src="/rmarkdown-libs/elevate-section-attrs/elevate-section-attrs.js"></script>
+
+
+<blockquote>
+<p>I was born like this</p>
+<p>I had no choice</p>
+<p>I was born with the gift of a golden voice</p>
+</blockquote>
+<p>– Leonard Cohen</p>
+<p>Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um <a href="https://cran.r-project.org/view=NaturalLanguageProcessing">task view para pacotes relacionadas a análise de texto</a>. O modelo que eu vou usar é o extremamente popular <em>Latent Dirichelet Allocation</em> (LDA). A ideia básica do LDA é que textos são compostos de tópicos e que pedaços de texto devem ser alocados para cada tópico. O LDA é flexível o suficiente para entender que a mesma palavra pode ser alocada para mais de um tópico (o que é diferente de <em>k means</em>, que deixaria cada palavra para um tópico): um exemplo simples é a palavra <strong>manga</strong>, que pode ser alocado no tópico frutas ou no tópico partes de roupa.</p>
+<p>A aplicação é um tanto inusitada: ao invés de atas do BC ou notícias de economia, eu vou analisar letras do Leonard Cohen. Você com certeza já ouviu Hallelujah - nem que tenha sido no filme do Shrek - que foi escrita por ele e tem uma história fascinante, mas que não cabe aqui. Diga-se de passagem, se esse post só servir para apresentar o leitor a Leonard Cohen, será o suficiente.</p>
+<p>Os motivos para eu escolher letras do Leonard Cohen são:</p>
+<ul>
+<li>Ele era um poeta (literalmente) e as letras exploram uma enorme quantidade de tópicos relacionados a vida humana (soa clichê mas é verdade)</li>
+<li>Vai ser incrivelmente fácil puxar <em>todas</em> as letras dele usando dois pacotes (!), e eu perdi pouco tempo com essa parte. Puxar textos do BC, por exemplo, daria bem mais trabalho de baixar, importar para o R, arrumar para o pacote entender…</li>
+<li>Todos os exemplos que eu vi dessas análises eram técnicos: atas do FED, notícias do Wall Street Journal. Aplicar para letra de música é diferente disso (mas não acho que eu seja pioneiro), e certamente apela para um público maior.</li>
+</ul>
+<p>Ao que interessa: primeiro, eu preciso puxar todas as letras de música do homem. Depois, eu vou estimar um LDA.</p>
+<div id="puxando-as-letras" class="section level1">
+<h1>Puxando as letras</h1>
+<p>Para essa primeira parte eu vou usar dois pacotes: o <strong>spotifyr</strong> e o <strong>genius</strong>. Para o spotify, você tem que criar um api no <a href="https://developer.spotify.com/documentation/web-api/">site de desenvolvedor deles</a>. Se você já tem uma conta, é mole. Isso te dá um id e um secret, que você deve entrar na função <code>get_spotify_access_token()</code> - como ele te dá acesso a bagunçar a sua conta, eu omito esses números aqui, mas o objeto gerado por esse comando foi chamado de <code>token</code>. Próximo passo é buscar pelo código interno que representa o Leonard Cohen:</p>
+<pre><code>
+View(search_spotify(&quot;Leonard Cohen&quot;, type = &quot;artist&quot;, authorization = token))
+</code></pre>
+<p>Buscar todos os albums dele é feito com um único comando:</p>
+<pre><code>
+albums &lt;- get_artist_albums(&quot;5l8VQNuIg0turYE1VtM9zV&quot;, include_groups = &quot;album&quot;,limit = 50, authorization = token)
+</code></pre>
+<p>Veja que o limite máximo é 50, então para artistas com muitos discos (Bob Dylan, outro forte candidato a esse tipo de análise), você vai ter que pensar em outra estratégia. Felizmente, a discografia do Leonard Cohen é limitada a uns 22 álbuns, incluindo os ao vivo (mas excluindo colêtaneas). O objeto acima gera 39 entradas, porque se existem versões especiais para certos mercados, o mesmo album aparece várias vezes (é o caso de vários discos do Leonard Cohen). O passo seguinte é excluir esses discos e os discos ao vivo. Eu abri a base de dados e fui na unha. Talvez exista alguma maneira mais inteligente:</p>
+<pre><code>
+albums_aux &lt;- albums[-c(2,3,6,7,8,9,10,13,14,15,16,17,20,23,24,27,28,31,32,33,35),]
+</code></pre>
+<p>Veja que eu criei uma nova variável porque se eu fizesse bobagem eu não perdia os dados baixados do spotify (em geral, APIs limitam o número de pedidos que um usuário tem direito ao dia). No fim, quando tudo ficou certo, eu fiz um <code>albums &lt;- albums_aux</code></p>
+<p>Próximo passo é pegar a lista de todas as faixas de cada álbum. A função <code>get_album_tracks</code> faz isso para cada disco. Um loop dá conta do recado, e os objetos gerados pelo <code>get_album_tracks</code> (que são dataframes) são colocados numa lista:</p>
+<pre><code>albums_list &lt;- list()
+
+for(i in 1:length(albums$id)){
+
+  albums_list[[i]] &lt;- get_album_tracks(albums$id[i], authorization = token)
+  Sys.sleep(3 + rnorm(1))
+}
+</code></pre>
+<p>O <code>Sys.sleep</code> está ali por uma boa razão: sempre que fazemos webscrapping, para evitar lotar o servidor de solicitações (causando o banimento do seu ip, possivelmente), é de bom tom colocar uma pausa de alguns segundos. Eu não sei se isso é estritamente necessários, mas <em>old habits die hard</em>.</p>
+<p>Por algum motivo, o campo do artista vem como uma lista com um endereço interno do spotify para o artista e outras coisas. Nada disso me interessa: eu quero apenas o nome no dataframe para usar o pacote <strong>genius</strong> para buscar as letras:</p>
+<pre><code>
+for(i in 1:length(albums_list)){
+    albums_list[[i]]$artists &lt;- &quot;Leonard Cohen&quot;
+}
+</code></pre>
+<p>Vamos juntar tudo em um único dataframe:</p>
+<pre><code>
+tracks &lt;- do.call(&quot;rbind&quot;, albums_list)
+</code></pre>
+<p>“Por que você não fez isso antes/direto quando puxou do spotify?” Só para evitar ter um erro e recomeçar do zero caso o comando retornasse alguma coisa diferente de dataframes com o mesmo número de colunas. Veja que esse dataframe tem muita informação, mas para o pacote <strong>genius</strong> eu só preciso de duas: o artista e o nome da música. Vamos criar um dataframe só com isso:</p>
+<pre><code>
+tracks_clean &lt;- data.frame(tracks$artists,tracks$name, stringsAsFactors = F)
+names(tracks_clean) &lt;- c(&quot;artist&quot;,&quot;names&quot;)
+
+tracks_clean &lt;- tracks_clean[-41,]
+tracks_clean[96,2] &lt;- &quot;Chelsea Hotel No. 2&quot;
+</code></pre>
+<p>A faixa 41 é uma versão ao vivo, e Chelsea Hotel No. 2 admite várias grafias diferentes - no Spotify vem Chelsea Hotel #2. O Genius usa a que eu coloquei acima no código. Por sinal,a ordem dos discos é de forma que os mais recentes estão no começo do dataframe, o que explica Chelsea Hotel, que é do quarto disco, estar quase no fim (o dataframe tem 132 linhas).</p>
+<p>Agora nós vamos puxar todas as letras, e aqui o pacote <strong>genius</strong> entra em ação. Não precisamos criar nenhum api para acessar o genius. A função <code>possible_lyrics</code> é esperta: se ela encontra a letra, ela puxa isso como um tibble que em cada linha tem um verso da música; caso contrário, ela retorna um tibble vazio e um warning não um erro. Isso impede que o nosso loop empaque em uma letra que não foi encontrada e agiliza bastante a vida.</p>
+<p>O <code>if</code> separa casos que a letra foi obtida com sucesso e casos em que o Genius não tem a letra. Eu pego a letra (a segunda coluna do tibble) e colo ela em uma única string: uma letra com 45 versos vira um objeto de um único elemento. Eu removo, usando o pacote <strong>stringr</strong>, o <code>c()</code> que marcam a divisão do vetor (isso entra entre colchetes para o R interpretar os parêntese literalmente), contrabarras com aspas (marcam a divisão de strings) e pulos de linha (\n) e enfim armazeno isso numa lista <code>lyrics</code> (o motivo de ser uma lista vai ficar bem claro daqui a pouco):</p>
+<pre><code>
+lyrics &lt;- list()
+
+for(i in 1:nrow(tracks_clean)){
+  ly_aux &lt;- possible_lyrics(artist = tracks_clean[i,1], song = tracks_clean[i,2], info = &quot;simple&quot;)
+  if(length(ly_aux) == 2){
+    ly_aux &lt;- paste(ly_aux)[2]
+    ly_aux &lt;- str_remove_all(ly_aux,&#39;\\&quot;&#39;)
+    ly_aux &lt;- str_remove(ly_aux,&#39;c[(]&#39;)
+    ly_aux &lt;- str_remove(ly_aux,&#39;[)]&#39;)
+    ly_aux &lt;- str_remove_all(ly_aux,&#39;\\n&#39;)
+    lyrics[[i]] &lt;- ly_aux
+  } else{
+     lyrics[[i]] &lt;- ly_aux
+    }
+  print(i)
+  Sys.sleep(2+rnorm(1,sd = 0.5))
+}
+</code></pre>
+<p>Novamente, tem um <code>Sys.sleep</code> ali por boas maneiras. Da maneira que isso foi escrito, isso gerou uma lista que cada entrada tem dois objetos, se tudo deu certo. Eu arrumo isso para ficar apenas com a letra:</p>
+<pre><code>
+lyrics2 &lt;- list()
+
+for(i in 1:length(lyrics)){
+  if(length(lyrics[[i]])==2){
+    lyrics2[[i]] = lyrics[[i]][2]
+  } else {
+    print(paste(&quot;Song&quot;, tracks_clean[i,2], &quot;unavailable&quot;))
+  }
+}
+</code></pre>
+<p>Veja que no caso que eu não obtive nada, eu faço o R imprimir o nome da música faltante. Para a minha surpresa, não faltou nenhuma.</p>
+<p>Neste ponto, dado o trabalho feito, me pareceu de bom tom salvar tudo:</p>
+<pre><code>
+save(lyrics2, file = &quot;./dados/letras_cohen.RData&quot;)
+</code></pre>
+<p>Tem mais arrumação a ser feita: a primeira é separar a letra palavra por palavra, para cada palavra seja uma entrada no vetor:</p>
+<pre><code>
+for(i in 1:length(lyrics2)){
+  lyrics[[i]] &lt;- unlist(str_split(lyrics2[[i]],&quot; &quot;))
+}
+
+</code></pre>
+<p>Veja que essa <em>não é a única</em> estratégia a ser adotada: eu podia querer agrupar as palavras dois a dois. Na citação no começo desse post, temos “golden voice”. Separando da maneira que eu fiz, golden e voice ficam separados, apesar de elas juntas terem um significado diferente de cada uma delas separadas. E isso também é verdade para grupos de três palavras (had no choice), quatro (was born like this) etc etc. Esses conjunto são conhecidos como bigramas, trigamas e n-gramas. A minha escolha por palavras individuais se deve a duas coisas:</p>
+<ul>
+<li>Preguiça, uma vez que ou eu teria que separar todos os conjuntos relevantes no braço ou considerar todos os bigramas: isso geraria para “I was born like this” os bigramas “I was”, “was born”, “born like”…</li>
+<li>Mais importante, isso são letras de música. É altamente improvável que trechos relevantes se repitam com frequência (eu acho). Isso não é verdade para situações como atas do BC, onde “taxa de juros” é um grupo significativo e que aparece diversas vezes.</li>
+</ul>
+<p>Outro detalhe é que é comum tirar palavras como the, and, or etc. Eu vou manter elas porque elas não são tão frequentes quanto em textos usuais <em>e</em> porque elas podem ser de fato importantes. Em um exemplo clássico tirado da aula de literatura, em um dos poemas de Olavo Bilac:</p>
+<blockquote>
+<p>Trabalha e teima, e lima , e sofre, e sua!</p>
+</blockquote>
+<p>E famosamente repetir o “e” acentua a ideia de esforço - trabalha, teima, lima, sofre e sua é muito mais rápido.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<p>O passo seguinte é retirar vírgulas, pontos e uma meia dúzia de parênteses - todos esses são removidos com a keyword <code>[:punct:]</code>e uns ocasionais caractéres especiais que aparecem entre chaves ou entre &lt;&gt;. Eu também removo la (ou La), como em La La Land, e algum ocasional NA:</p>
+<pre><code>
+for(i in 1:length(lyrics)){
+    lyrics[[i]] &lt;- str_remove_all(lyrics[[i]],&quot;[:punct:]&quot;)
+    lyrics[[i]] &lt;- str_remove_all(lyrics[[i]],&quot;[{].*[}]&quot;)
+    lyrics[[i]] &lt;- str_remove_all(lyrics[[i]],&quot;[&lt;].*[&gt;]&quot;)
+    lyrics[[i]] &lt;- str_remove_all(lyrics[[i]],&quot;c[(]&quot;)
+    las &lt;- match(lyrics[[i]],&quot;la&quot;, nomatch = 0)
+    las &lt;- las + match(lyrics[[i]],&quot;La&quot;, nomatch = 0)
+    lyrics[[i]] &lt;- lyrics[[i]][!las]
+    na &lt;-  match(lyrics[[i]],&quot;NA&quot;, nomatch = 0)
+    lyrics[[i]] &lt;- lyrics[[i]][!na]
+}</code></pre>
+<p>Finalmente, podemos pensar em fazer um modelo!</p>
+</div>
+<div id="o-modelo" class="section level1">
+<h1>O modelo</h1>
+<p>Eu vou usar o pacote <code>lda</code> para estimar o LDA. Esse pacote tem um comando <code>lexicalize</code> que pega uma lista em que cada entrada na lista é um “documento” - no nosso caso, uma letra - e essa unidade contém um vetor com o texto quebrado de maneira que a unidade fundamental - palavra, bigrama ou n-grama - seja um elemento do vetor.</p>
+<pre><code>lyrics_to_lda &lt;- lexicalize(lyrics)</code></pre>
+<p>O objeto <code>lyrics_to_lda</code> tem duas entradas: a primeira são os documentos - nesse caso, as letras de música - nas quais as palavras são substituídas por um número(<code>$documents</code>) e um dicionário que mapeia o número para a palavra(<code>$vocab</code>). Finalmente podemos estimar o modelo:</p>
+<pre><code>
+modelo &lt;- lda.collapsed.gibbs.sampler(lyrics_to_lda$documents,K = 15,vocab = lyrics_to_lda$vocab, num.iterations = 5000,alpha = 1,eta = 1)
+</code></pre>
+<p>A coisa realmente importante aqui é o K, que é a quantidade de tópicos. Até onde eu sei, a maneira de selecionar isso é testando, analisando os tópicos gerados e vendo se é razoável. 15 pareceu bom o bastante: eu tentei mais, tentei menos e fiquei satisfeito com 15.</p>
+</div>
+<div id="resultados" class="section level1">
+<h1>Resultados</h1>
+<p>Eu vou usar o pacote <strong>wordcloud</strong> para gerar wordclouds. Eu vou pintar de azul mais escuro palavras que aparecem mais frequentemente e de azul mais claro palavras menos frequentes. Eu não vou colocar todos os 15 tópicos - dado que vocês podem replicar usando o arquivo com dados que está no github e o código que tá aqui no post.</p>
+<p>Alguns pontos que vão ficar bem claros a seguir é que, apesar da ideia ter parecido boa inicialmente, ela sofre de dois problemas:</p>
+<ol style="list-style-type: decimal">
+<li>Música - e poesia no geral - usam muitas metáforas. Se já é uma batalha fazer o computador entender um texto objetivo, um texto com significados subjetivos vai ser um desafio ainda maior.</li>
+<li>Ao contrário de um texto técnico, que nós esperamos que termos se repitam, aqui a repetição vai ser muito mais baixa. Voltando ao exemplo das atas do BC, nós esperaríamos que as palavras taxas, juros, inflação etc aparecessem em vários documentos. Aqui isso não ocorre tanto.</li>
+</ol>
+<p>O código a seguir gera as 15 wordclouds em png e salva elas:</p>
+<pre><code>for(i in 1:15){
+  png(paste0(&quot;./content/post/lc/grupo_&quot;,i,&quot;.png&quot;))
+  wordcloud(str_remove_all(names(word_and_topics[i,]),&#39;[&quot;]&#39;),word_and_topics[i,], scale = c(4,.5), colors = c(&quot;lightblue&quot;,&quot;blue&quot;,&quot;midnightblue&quot;),min.freq = 2,max.words = 100)
+  dev.off()
+}</code></pre>
+<p>Veja que a ordem dos tópicos não importa muito. Um grupo curioso é um que envolve mulheres:</p>
+<p><img src="/post/lc/grupo_8.png" /></p>
+<p>Veja que parece man, womans, wife e chelsea - o que faz sentido já que Chelsea Hotel No. 2 é sobre o <em>one night stand</em> que o Leonard Cohen teve com a Janis Joplin.</p>
+<p>Um outro grupo envolve palavras como I, the, and etc</p>
+<p><img src="/post/lc/grupo_10.png" /></p>
+<p>Outro grupo interessante é o que envolve a música <em>Jazz Police</em> <strong>e</strong> play (sendo que a palavra play não aparece na música <em>Jazz Police</em>):</p>
+<p><img src="/post/lc/grupo_5.png" /></p>
+<p>Mais um grupo curioso é esse aqui:</p>
+<p><img src="/post/lc/grupo_13.png" /></p>
+<p><em>Repent</em> domina totalmente a imagem, mas nós também conseguimos ver prayer e hope, wine e murder - todos temas comuns em religião.</p>
+<p>Outra coisa bacana de fazer é ver quais músicas são representam melhor cada tópico - isso é, quantas vezes cada tópico aparece em cada música:</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Provando que eu aprendi <em>alguma coisa</em> na aula de literatura!<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/lda">
+                                    <i class="fas fa-tag mr-2"></i>LDA
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/leonard-cohen">
+                                    <i class="fas fa-tag mr-2"></i>Leonard Cohen
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2fpost%2flc%2fborn-with-the-gift-of-a-golden-voice%2f&text=Born%20with%20the%20gift%20of%20a%20golden%20voice%3a%20usando%20LDA%20para%20analisar%20as%20m%c3%basicas%20de%20Leonard%20Cohen">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2fpost%2flc%2fborn-with-the-gift-of-a-golden-voice%2f&title=Born%20with%20the%20gift%20of%20a%20golden%20voice%3a%20usando%20LDA%20para%20analisar%20as%20m%c3%basicas%20de%20Leonard%20Cohen">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2fpost%2flc%2fborn-with-the-gift-of-a-golden-voice%2f&t=Born%20with%20the%20gift%20of%20a%20golden%20voice%3a%20usando%20LDA%20para%20analisar%20as%20m%c3%basicas%20de%20Leonard%20Cohen">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2fpost%2flc%2fborn-with-the-gift-of-a-golden-voice%2f&title=Born%20with%20the%20gift%20of%20a%20golden%20voice%3a%20usando%20LDA%20para%20analisar%20as%20m%c3%basicas%20de%20Leonard%20Cohen">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+
+
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</body>
+</html>

@@ -63,7 +63,7 @@ cancel_users_msg <- function(id){
 parse_website <- function(url){
   require(xml2)
   pag <- read_html(url)
-  fs <- xml_find_all(pag,xpath = "//ul[@id= 'post-list']/li/a")
+  fs <- xml_find_all(pag,xpath = "//h3[@class= 'item-title']/a")
   ss <- xml_attr(fs,"href")
   return(ss)
 }
@@ -76,7 +76,7 @@ checkBlog <- function(newList,oldList){
   } else{
     readline(prompt = "New post. Press [enter] to continue")
     new_post_url <- dife[1]
-    new_post_url <- new_post_url
+    new_post_url <- paste0("https://azul.netlify.com/",new_post_url)
     return(new_post_url)
   }
 }

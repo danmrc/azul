@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Microeconomia on AZUL</title>
@@ -6,20 +6,15 @@
     <description>Recent content in Microeconomia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+<<<<<<< Updated upstream
+    <lastBuildDate>Thu, 29 Nov 2018 00:00:00 +0000</lastBuildDate>
+=======
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Thu, 04 Apr 2019 00:00:00 +0000</lastBuildDate>
+>>>>>>> Stashed changes
     
 	<atom:link href="/tags/microeconomia/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Modelo de Cournot no R com o pacote Recon</title>
-      <link>/2019/04/04/recon-comp-micro/</link>
-      <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/04/recon-comp-micro/</guid>
-      <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;) para instalar a última versão enviada ao repositório ou devtools::install_github(&amp;quot;pedrocava/Recon&amp;quot;) para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
-Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.</description>
-    </item>
     
     <item>
       <title>Como eu rodei Stata dentro do R para replicar um paper</title>
@@ -27,8 +22,8 @@ Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.<
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>

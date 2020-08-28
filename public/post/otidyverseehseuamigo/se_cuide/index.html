@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Cuide da saúde, pare de fazer loops | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css">
+    
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/post/otidyverseehseuamigo/se_cuide/"><meta property="og:title" content="Cuide da saúde, pare de fazer loops" />
+<meta property="og:description" content="Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
+O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
+Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/otidyverseehseuamigo/se_cuide/" />
+<meta property="article:published_time" content="2020-06-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-06-06T00:00:00+00:00" />
+<meta itemprop="name" content="Cuide da saúde, pare de fazer loops">
+<meta itemprop="description" content="Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
+O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
+Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação.">
+<meta itemprop="datePublished" content="2020-06-06T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-06-06T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3638">
+
+
+
+<meta itemprop="keywords" content="R,Programação Funcional," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cuide da saúde, pare de fazer loops"/>
+<meta name="twitter:description" content="Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
+O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
+Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">June 6, 2020</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>3638 words</span>
+                            <span><i class="fas fa-clock mr-2"></i>18 mins read</span>
+                        </div>
+
+                        <h1>Cuide da saúde, pare de fazer loops</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
+                            </h5><p class="social small text-muted">
+                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
+                                </p></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+
+
+<p><em>Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério</em></p>
+<p>O querido <a href="https://twitter.com/dannielduque">Daniel Duque</a> trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.</p>
+<p>Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação. Digamos que nós queremos simular várias normais com médias diferentes. Com loops:</p>
+<pre class="r"><code>library(tidyverse)
+
+n &lt;- 1000
+
+(dados_medias &lt;- tibble(media = seq(-5, 5, .01)))</code></pre>
+<pre><code>## # A tibble: 1,001 x 1
+##    media
+##    &lt;dbl&gt;
+##  1 -5   
+##  2 -4.99
+##  3 -4.98
+##  4 -4.97
+##  5 -4.96
+##  6 -4.95
+##  7 -4.94
+##  8 -4.93
+##  9 -4.92
+## 10 -4.91
+## # … with 991 more rows</code></pre>
+<pre class="r"><code>lista &lt;- as.list(rep(0, nrow(dados_medias)))
+
+for(i in 1:nrow(dados_medias)) {
+  
+ lista[[i]] &lt;- rnorm(n = n, 
+                     mean = dados_medias$media[i])
+
+}
+
+dados_medias$sims &lt;- lista
+
+(dados_finais &lt;- unnest(dados_medias, sims))</code></pre>
+<pre><code>## # A tibble: 1,001,000 x 2
+##    media  sims
+##    &lt;dbl&gt; &lt;dbl&gt;
+##  1    -5 -4.68
+##  2    -5 -4.55
+##  3    -5 -5.48
+##  4    -5 -5.00
+##  5    -5 -5.27
+##  6    -5 -2.86
+##  7    -5 -5.76
+##  8    -5 -4.96
+##  9    -5 -4.56
+## 10    -5 -5.19
+## # … with 1,000,990 more rows</code></pre>
+<p>Tenha em mente que com <code>tibbles</code> podemos usar listas como colunas, o que não acontece com os dataframes nativos do R então o código poderia ser ainda menos conciso.</p>
+<p>Existe outra abordagem para isso. Se entendermos que estamos na verdade aplicando funções várias vezes. <code>lista[[i]]] &lt;- ...</code> é a composição de duas funções no objeto lista: primeiro localize o i-ésimo elemento em lista e depois atributa o valor <code>...</code>.</p>
+<p>Nós temos dificuldade em enxergar isso de primeira porque está tudo coberto de <a href="https://pt.stackoverflow.com/questions/12964/o-que-%C3%A9-syntax-sugar-e-como-ela-funciona"><em>açúcar sintático</em></a>. Elementos como <code>[[]]</code> e <code>&lt;-</code>, desenhados para trazer certas comodidades, mas que fazem essas operações parecerem se tratar de algo diferente.</p>
+<p>Levando essa raciocínio mais adiante, <code>for</code> não é exatamente uma função. Estamos apenas declarando uma uma operação deve ser repetida uma certa quantidade de vezes passando um valor (que usualmente nos referimos como <code>i</code>) tirado de uma lista ou vetor de valores. O que nos impede, no entanto, de pensar em funções que recebem outras funções e as aplicam em elementos variados?</p>
+<p>Se por um lado com loops estamos acessando objetos exteriores ao loop o tempo todo - por isso criamos objetos a serem preenchidos no começo do código - não pensamos apenas em uma função que recebe funções? Desse jeito não somos mais obrigados a preparar o terreno antes de um loop, nem mais pensar em índices. Se nomes de funções forem descritivos, é muito mais legível ler declarações do que acompanhar índices. Essas funções que recebem outras se chamam <em>funções de alta ordem</em> e existem em variados sabores. A que reproduz o comportamento de um loop é a <code>map()</code> do pacote <code>purrr</code>.</p>
+<p>Três coisas importantes para se ter em mente:</p>
+<ul>
+<li><p>R tem jeitos elegantes de lidar com funções que não precisam ser nomeadas, as anônimas. Podemos usar o construtor <code>~</code> das fórmulas e deixar o pacote se encarregar de traduzir isso numa função, ou explicitamente usar <code>function(.x) { ... }</code>. Como regra de bolso: se a operação a ser repetida é simples e cabe em uma sequencia curta de código, vale usar a fórmula, se não é melhor construir uma função.</p></li>
+<li><p>O substituto do <code>i</code> do loop aqui é <code>.x</code>. Isso pode parecer pior no começo, mas tem dois motivos: o ponto no início do nome serve para esse objeto não ir para o seu ambiente global, te poupando alguma dor de cabeça e também porque facilita iterar em objetos diferentes - que você usualmente faria com loops dentro de loops.</p></li>
+<li><p><code>map()</code> por si só <em>sempre devolve uma lista</em>. De vez em quando queremos vetores e fazemos isso especificando o tipo do qual queremos. <code>map_dbl()</code> devolve números reais de precisão dupla, <code>map_chr()</code> devolve caracteres, <code>map_lgl()</code> devolve lógicos, <code>map_dfr()</code> e <code>map_dfc()</code> devolvem dataframes empilhados, respectivamente, por linha e por coluna.</p></li>
+</ul>
+<p>Alguns exemplos:</p>
+<pre class="r"><code>map(1:10, # dos números de 1 a 10
+    ~ rnorm(n = 5, mean = .x)) # tire 5 números da normal com a média dada</code></pre>
+<pre><code>## [[1]]
+## [1] 0.8142020 1.2234938 0.2163566 0.4360552 1.4728084
+## 
+## [[2]]
+## [1] 3.4812574 2.2068306 1.6628237 1.0365885 0.7745356
+## 
+## [[3]]
+## [1] 2.667592 3.846891 3.663792 5.432434 2.823004
+## 
+## [[4]]
+## [1] 3.930705 4.279377 2.919397 2.181036 2.812217
+## 
+## [[5]]
+## [1] 1.920136 4.286069 6.263279 6.497556 4.827060
+## 
+## [[6]]
+## [1] 5.345298 7.102465 4.536417 8.277170 7.693741
+## 
+## [[7]]
+## [1] 8.353780 5.669385 6.864888 6.144590 9.119823
+## 
+## [[8]]
+## [1] 8.681597 7.818053 4.430844 8.570711 9.818056
+## 
+## [[9]]
+## [1]  7.181607  9.683947 10.227603  8.842898  7.958762
+## 
+## [[10]]
+## [1] 11.167742  9.357689 10.000590 10.863467 10.596064</code></pre>
+<pre class="r"><code>map(1:10, 
+    function(.x) rnorm(n = 5, mean = .x) ) # mesmo resultado que a abordagem com fórmulas</code></pre>
+<pre><code>## [[1]]
+## [1]  1.7746439  1.3752684  0.7996296  1.3295159 -0.3883585
+## 
+## [[2]]
+## [1] 2.0411140 1.5097537 0.8090533 2.2231959 1.8677938
+## 
+## [[3]]
+## [1] 1.896628 4.706649 2.496253 2.995685 4.207700
+## 
+## [[4]]
+## [1] 4.512205 4.243940 2.463859 4.257296 2.843801
+## 
+## [[5]]
+## [1] 5.441889 6.357984 6.202934 5.938942 4.776898
+## 
+## [[6]]
+## [1] 7.212855 8.156100 5.484053 4.233831 5.579400
+## 
+## [[7]]
+## [1] 6.735320 6.216549 7.332887 8.041450 5.515064
+## 
+## [[8]]
+## [1] 9.112075 8.107119 7.253138 8.489188 8.065899
+## 
+## [[9]]
+## [1] 7.182930 7.738917 8.507333 9.114866 7.217281
+## 
+## [[10]]
+## [1]  7.808851  9.660503 11.420610 10.750438  9.366436</code></pre>
+<pre class="r"><code>map_dfc(1:10,
+        ~ rnorm(n = 10, mean = .x))</code></pre>
+<pre><code>## # A tibble: 10 x 10
+##       ...1  ...2  ...3  ...4  ...5  ...6  ...7  ...8  ...9 ...10
+##      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  2.47   3.16  3.75   3.62  3.92  5.70  8.66  7.87 11.6   8.56
+##  2 -0.493  0.383 3.70   3.24  4.34  5.34  6.05  8.62  8.91 10.8 
+##  3  0.0471 2.52  4.27   3.40  5.21  4.51  7.32  7.33  8.16 10.4 
+##  4  1.16   2.37  1.29   4.11  5.38  5.28  6.60  8.16  8.28 10.5 
+##  5  1.17   2.63  0.937  4.99  6.11  6.35  8.08  8.38  8.59  9.17
+##  6  0.773  2.18  4.68   5.22  5.23  6.12  5.40  6.63  9.13 10.5 
+##  7 -0.247  2.79  2.77   4.69  5.51  7.52  6.71  7.21  7.60 10.7 
+##  8  1.08   0.893 4.15   3.35  3.48  5.97  7.87  7.99  8.91  9.01
+##  9  0.655  3.22  4.04   2.48  3.94  6.80  5.99  8.69  8.56 11.5 
+## 10  1.34   1.20  2.33   4.80  4.84  6.19  6.23  7.65  8.35  9.78</code></pre>
+<pre class="r"><code>map_dbl(1:10,
+        ~ rnorm(n = 10, mean = .x))</code></pre>
+<pre><code>## Error: Result 1 must be a single double, not a double vector of length 10</code></pre>
+<p>Note que nem toda conversão a certo tipo de saída funciona. Não podemos pedir que uma lista de vetores saia como um vetor, mas obviamente podemos falar de colar vetores de mesmo comprimento em colunas de um dataframe. Se quisermos uma saída com menos dimensões que uma lista precisamos de outra função de alta ordem, <code>reduce</code>. Esse padrão <a href="https://www.guru99.com/introduction-to-mapreduce.html"><em>map-reduce</em></a> é muito comum e tem aplicações interessantes para quem lida com volumes grandes de dados. Alguns exemplos:</p>
+<pre class="r"><code>map(1:10,
+    ~ rnorm(n = 5, mean = .x)) # lista de vetores</code></pre>
+<pre><code>## [[1]]
+## [1] 0.7937183 1.6904216 1.1843371 2.7135788 1.5092036
+## 
+## [[2]]
+## [1] 1.6349920 0.8994418 4.8556709 3.5822408 3.1139242
+## 
+## [[3]]
+## [1] 5.006960 3.269779 3.389979 2.365494 2.209827
+## 
+## [[4]]
+## [1] 4.293797 2.536912 2.593729 3.072327 2.348910
+## 
+## [[5]]
+## [1] 4.599896 4.452220 6.125029 4.567868 4.715570
+## 
+## [[6]]
+## [1] 4.418799 6.119696 5.165409 6.235504 6.015544
+## 
+## [[7]]
+## [1] 9.269109 6.469905 4.739420 6.820342 7.448612
+## 
+## [[8]]
+## [1] 7.615459 8.990098 8.663057 7.590431 8.391246
+## 
+## [[9]]
+## [1] 10.268504  9.567846  8.071482  6.715551  9.229784
+## 
+## [[10]]
+## [1] 9.979159 8.459957 9.504253 9.604440 9.652221</code></pre>
+<pre class="r"><code>map(1:10,
+    ~ rnorm(n = 5, mean = .x)) %&gt;%
+  reduce(c) # a função c() que combina vetores, apenas um vetor de saída</code></pre>
+<pre><code>##  [1]  2.3520414  0.2374194  2.6408769 -0.8025578 -0.3138863  2.9594347
+##  [7]  3.2079834  1.8097159  1.4101080  3.1068855  3.2694789  3.3599916
+## [13]  3.3698815  2.6342090  2.3197000  4.7220985  3.3592300  3.8390281
+## [19]  4.5872138  3.4203739  5.6424921  4.5645051  6.3668497  4.6060231
+## [25]  4.0528562  7.4968793  6.2730159  5.6315484  4.2682814  5.0642801
+## [31]  6.9506676  6.6563077  5.9058346  6.8855672  6.3750515  7.4551349
+## [37]  7.7533373  8.2594947  7.2935229  8.0520942  8.4727941  7.3626834
+## [43]  8.3485903  9.6130611  9.5094211 10.7853550 10.6622482 10.4286100
+## [49]  9.0484126 10.8183104</code></pre>
+<pre class="r"><code>map(1:10,
+    ~ rnorm(n = 5, mean = .x)) %&gt;%
+  reduce(cbind) # a função que une coluna a coluna</code></pre>
+<pre><code>##              out       elt      elt       elt      elt      elt      elt
+## [1,]  0.01385556 2.6904969 2.181992 4.4360151 5.561861 7.107062 5.919251
+## [2,] -0.02667025 2.4274560 2.067270 4.2667970 5.226221 6.157688 6.375957
+## [3,]  0.59652346 2.1428002 1.707715 0.2367311 4.677408 5.452263 6.905599
+## [4,] -0.47124754 1.4832634 2.303915 2.5378188 5.469241 6.784125 6.352876
+## [5,]  2.29351238 0.8590295 3.130522 3.0067857 4.270605 7.209087 4.712768
+##            elt      elt       elt
+## [1,] 10.158235 6.478186 11.136987
+## [2,]  8.890891 8.006131 11.695561
+## [3,]  8.377740 9.011567 10.060863
+## [4,] 10.069908 9.391795  9.726409
+## [5,]  7.846442 7.340092  9.271245</code></pre>
+<pre class="r"><code>map(1:10,
+    ~ rnorm(n = 5, mean = .x)) %&gt;%
+  reduce(rbind) # a função que une linha a linha (do ingles, row)</code></pre>
+<pre><code>##           [,1]       [,2]        [,3]      [,4]      [,5]
+## out  0.2385854 -0.3207783 -0.09489523  1.601618  1.262418
+## elt  0.4833895  2.2863351  0.66798421  1.283804  1.166770
+## elt  2.4264973  2.9913772  5.13258562  3.512175  1.263896
+## elt  3.5342251  3.6296895  4.09965864  3.945824  3.661572
+## elt  3.5120466  6.0884816  5.07051105  5.590208  5.811071
+## elt  5.8373917  7.1746687  5.11807744  6.202416  5.320634
+## elt  8.2447134  6.5680053  7.94984290  7.673988  6.890500
+## elt  8.6432515  9.1928337  7.97834200  6.440688  6.148747
+## elt  9.2014831  9.7132810  8.27853985  8.396213  8.211885
+## elt 11.3936068  8.0472248 10.22468235 11.866704 10.087849</code></pre>
+<p>Importante deixar claro que <em>não</em> precisamos nos limitar ao fluxo do map-reduce - e operadores podem ser chamados se usarmos as aspas backtick.</p>
+<pre class="r"><code>reduce(1:10, c) # a função c, de novo</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>reduce(1:10, `+`) # podemos usar operadores com aspas</code></pre>
+<pre><code>## [1] 55</code></pre>
+<p>Vamos olhar a constante <code>letters</code>, com o alfabateo latino. A princípio temos um vetor com 26 entradas.</p>
+<pre class="r"><code>letters</code></pre>
+<pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;
+## [20] &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
+<pre class="r"><code>letters %&gt;%
+  length() # 26 letras do alfabeto</code></pre>
+<pre><code>## [1] 26</code></pre>
+<p>E sendo um vetor de texto, podemos reduzi-lo a um vetor com menos entradas e apenas texto.</p>
+<pre class="r"><code>letters %&gt;%
+  reduce(paste) # colando todas as entradas em uma</code></pre>
+<pre><code>## [1] &quot;a b c d e f g h i j k l m n o p q r s t u v w x y z&quot;</code></pre>
+<pre class="r"><code>letters %&gt;%
+  reduce(~ paste(.x)) %&gt;% # reduce também aceita fórmulas
+  length() # apenas uma entrada, agora com todas as letras juntas</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>Antes avançar, vamos apreciar um propriedade muito boa de R: funções são cidadãs de primeira classe e isso explica por que coisas como <code>%&gt;% reduce(cbind)</code> funcionam. Assim como tibbles, listas, vetores e outras formas de armazenar dados, funções também são objetos e podemos notar isso ao parar de usar <code>()</code> para sinalizar que aquela função deve ser aplicada (outro açúcar sintático por sinal).</p>
+<pre class="r"><code>Sys.time()</code></pre>
+<pre><code>## [1] &quot;2020-06-12 11:22:31 -03&quot;</code></pre>
+<pre class="r"><code>Sys.time</code></pre>
+<pre><code>## function () 
+## .POSIXct(.Internal(Sys.time()))
+## &lt;bytecode: 0x5600b857c038&gt;
+## &lt;environment: namespace:base&gt;</code></pre>
+<pre class="r"><code>rnorm(10)</code></pre>
+<pre><code>##  [1] -0.68790908 -1.53769355 -0.30438857  0.08152612 -0.79009244  0.51205605
+##  [7] -2.07015389 -0.39888401 -0.31999152 -0.61239881</code></pre>
+<pre class="r"><code>rnorm</code></pre>
+<pre><code>## function (n, mean = 0, sd = 1) 
+## .Call(C_rnorm, n, mean, sd)
+## &lt;bytecode: 0x5600bb311610&gt;
+## &lt;environment: namespace:stats&gt;</code></pre>
+<p>R é uma linguagem inspirada no paradigma funcional e as marcas estão por todo canto. Até os insuspeitos operadores são funções.</p>
+<pre class="r"><code>is.function(`+`) # o operador de soma é uma função?</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.function(`&lt;-`) # o operador de designação é uma função?</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.function(`%&gt;%`) # pipe é uma função?</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>is.function(`%*%`) # multiplicação por matrizes é uma função</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<div id="o-exemplo-revisitado" class="section level1">
+<h1>O exemplo revisitado</h1>
+<p>E bem, como podemos substituir o nosso loop de exemplo com esse raciocínio? <code>mutate</code> do dplyr recebe um dataframe e causa uma mutação em seu estado (adiciona ou mata variáveis, em bom português), já <code>unnest</code> puxa dados <em>aninhados</em> para fora. Vamos construir então passo a passo:</p>
+<pre class="r"><code>tibble(media = seq(1, 5, .001)) </code></pre>
+<pre><code>## # A tibble: 4,001 x 1
+##    media
+##    &lt;dbl&gt;
+##  1  1   
+##  2  1.00
+##  3  1.00
+##  4  1.00
+##  5  1.00
+##  6  1.00
+##  7  1.01
+##  8  1.01
+##  9  1.01
+## 10  1.01
+## # … with 3,991 more rows</code></pre>
+<pre class="r"><code>tibble(media = seq(1, 5, .001)) %&gt;%
+  mutate(sims = map(media, ~ rnorm(1000, .x)))</code></pre>
+<pre><code>## # A tibble: 4,001 x 2
+##    media sims         
+##    &lt;dbl&gt; &lt;list&gt;       
+##  1  1    &lt;dbl [1,000]&gt;
+##  2  1.00 &lt;dbl [1,000]&gt;
+##  3  1.00 &lt;dbl [1,000]&gt;
+##  4  1.00 &lt;dbl [1,000]&gt;
+##  5  1.00 &lt;dbl [1,000]&gt;
+##  6  1.00 &lt;dbl [1,000]&gt;
+##  7  1.01 &lt;dbl [1,000]&gt;
+##  8  1.01 &lt;dbl [1,000]&gt;
+##  9  1.01 &lt;dbl [1,000]&gt;
+## 10  1.01 &lt;dbl [1,000]&gt;
+## # … with 3,991 more rows</code></pre>
+<pre class="r"><code>tibble(media = seq(1, 5, .001)) %&gt;%
+  mutate(sims = map(media, ~ rnorm(1000, .x))) %&gt;%
+  unnest(sims)</code></pre>
+<pre><code>## # A tibble: 4,001,000 x 2
+##    media  sims
+##    &lt;dbl&gt; &lt;dbl&gt;
+##  1     1 0.843
+##  2     1 2.41 
+##  3     1 1.44 
+##  4     1 2.34 
+##  5     1 1.59 
+##  6     1 1.09 
+##  7     1 0.644
+##  8     1 1.86 
+##  9     1 0.552
+## 10     1 0.863
+## # … with 4,000,990 more rows</code></pre>
+<p>Não é tão mais simples que fazer um loop? Existe um custo mental inicial de pensar sobre o código de outro jeito, mas ele logo se paga em soluções mais rápidas e baratas para problemas de todo tipo. Programação funcional te permite ser mais expressivo, fazer mais falando menos.</p>
+<p>Lembra que ao invés de usar <code>i</code> para nos referir ao valor da iteração, usamos <code>.x</code>? Eu já te dei os motivos, antes de mostrar como isso tudo se aplica num problema prático muito típico, quero mostrar por quê o <code>.x</code> faz sentido.</p>
+<p>Digamos que agora, para cada média sendo usada na simulação dos dados eu queira variar também o desvio-padrão? Estamos simulando dados de uma normal tirado de uma “grade” contendo as combinações de médias e desvios-padrão. Pense um pouco em como abordar esse problema com loops. Você vai adicionar mais uma camada de loop, provavelmente irá se referir ao segundo índice como <code>j</code> e terá que acompanhar mentalmente duas camadas de peças móveis. Não é muito agradável e o problema piora exponencialmente com cada camada extra adicionada.</p>
+<p>Uma solução muito mais elegante te aguarda usando <code>map2()</code>, que serve para - como o nome entrga - iterar em dois objetos, <code>pmap()</code> faz isso para um número arbitrário. Para criar a grade com os dados usamos <code>expand_grid()</code>, que gera as combinações. Construindo passo a passo:</p>
+<pre class="r"><code>expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) # as combinações</code></pre>
+<pre><code>## # A tibble: 1,681 x 2
+##    media    sd
+##    &lt;dbl&gt; &lt;dbl&gt;
+##  1     1   1  
+##  2     1   1.1
+##  3     1   1.2
+##  4     1   1.3
+##  5     1   1.4
+##  6     1   1.5
+##  7     1   1.6
+##  8     1   1.7
+##  9     1   1.8
+## 10     1   1.9
+## # … with 1,671 more rows</code></pre>
+<pre class="r"><code>expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) %&gt;%
+  mutate(
+    sims = map2(
+      .x = media,
+      .y = sd,
+      ~ rnorm(n = 100, mean = .x, sd = .y))
+  ) # criando a coluna</code></pre>
+<pre><code>## # A tibble: 1,681 x 3
+##    media    sd sims       
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;     
+##  1     1   1   &lt;dbl [100]&gt;
+##  2     1   1.1 &lt;dbl [100]&gt;
+##  3     1   1.2 &lt;dbl [100]&gt;
+##  4     1   1.3 &lt;dbl [100]&gt;
+##  5     1   1.4 &lt;dbl [100]&gt;
+##  6     1   1.5 &lt;dbl [100]&gt;
+##  7     1   1.6 &lt;dbl [100]&gt;
+##  8     1   1.7 &lt;dbl [100]&gt;
+##  9     1   1.8 &lt;dbl [100]&gt;
+## 10     1   1.9 &lt;dbl [100]&gt;
+## # … with 1,671 more rows</code></pre>
+<pre class="r"><code>expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) %&gt;%
+  mutate(
+    sims = map2(
+      .x = media,
+      .y = sd,
+      ~ rnorm(n = 5, mean = .x, sd = .y))
+  ) %&gt;%
+  unnest(sims)</code></pre>
+<pre><code>## # A tibble: 8,405 x 3
+##    media    sd   sims
+##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+##  1     1   1    1.51 
+##  2     1   1    0.814
+##  3     1   1   -0.643
+##  4     1   1    2.30 
+##  5     1   1    0.840
+##  6     1   1.1  0.409
+##  7     1   1.1  0.918
+##  8     1   1.1  0.667
+##  9     1   1.1  1.95 
+## 10     1   1.1  1.66 
+## # … with 8,395 more rows</code></pre>
+<p>Iterando sobre mais variáveis padrões mais sofisiticados podem ser escritos com pouco trabalho adicional. Em um loop cada camada extra requer a mesma quantidade de “infraestrutura” em código e cada vez mais atenção para acompanhar todos os procedimentos. Perceba, trabalhar com processos aninhados é muito menos intuitivo que acompanhar o varrimento uniforme de uma grade de parâmetros.</p>
+</div>
+<div id="um-caso" class="section level1">
+<h1>Um caso</h1>
+<p>Bem, afinal qual é o problema? Bem, alguns projetos de lei estão sendo mapeados de acordo com seu risco de votação e impacto fiscal:</p>
+<p><img src="https://i.imgur.com/I8ELFsN.jpg" /></p>
+<p>E queremos uma matriz listando os projetos em grupo:</p>
+<p><img src="https://i.imgur.com/e6O0Dn5.jpg" /></p>
+<p>Antes de prosseguir, pense um pouco em como você resolveria isso com loops. Se estiver com paciência, esboce algumas soluções. Vamos gerar dados falsos:</p>
+<pre class="r"><code>library(lorem)
+library(glue)
+
+(tabela &lt;- tibble(PL = as.character(glue(&quot;{ipsum_starts(30)} {ipsum_starts(30)}&quot;)),
+                  risco = sample(c(&quot;alto&quot;, &quot;baixo&quot;, &quot;médio&quot;), 
+                                 size = length(PL), 
+                                 replace = TRUE),
+                  impacto = sample(c(&quot;alto&quot;, &quot;baixo&quot;, &quot;médio&quot;), 
+                                   size = length(PL),
+                                   replace = TRUE)
+                  ))</code></pre>
+<pre><code>## # A tibble: 30 x 3
+##    PL                risco impacto
+##    &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;  
+##  1 amet elit         médio alto   
+##  2 lorem dolor       médio baixo  
+##  3 lorem consectetur médio baixo  
+##  4 sit amet          médio baixo  
+##  5 ipsum amet        médio médio  
+##  6 ipsum sit         baixo baixo  
+##  7 sit consectetur   médio baixo  
+##  8 adipiscing lorem  médio médio  
+##  9 adipiscing ipsum  baixo baixo  
+## 10 sit sit           médio alto   
+## # … with 20 more rows</code></pre>
+<p>Vamos passo a passo construir a solução. Primeiro construímos a grade:</p>
+<pre class="r"><code>expand_grid(risco = unique(tabela$risco), 
+              impacto = unique(tabela$impacto))  # primeiro uma grade</code></pre>
+<pre><code>## # A tibble: 9 x 2
+##   risco impacto
+##   &lt;chr&gt; &lt;chr&gt;  
+## 1 médio alto   
+## 2 médio baixo  
+## 3 médio médio  
+## 4 baixo alto   
+## 5 baixo baixo  
+## 6 baixo médio  
+## 7 alto  alto   
+## 8 alto  baixo  
+## 9 alto  médio</code></pre>
+<p>Agora adicionamos <code>mutate</code> e dentro definimos a coluna <code>PLs</code> que é resultado da iteração sobre risco e impacto fiscal e filtra, na tabela original, apenas os nomes de projetos de lei que atendem simultaneamente a terem um certo risco e um certo impacto fiscal. Como estamos iterando sobre a grade, sabemos que todas as combinações serão avalidas.</p>
+<pre class="r"><code>expand_grid(risco = unique(tabela$risco), 
+              impacto = unique(tabela$impacto)) %&gt;%
+  mutate(PLs = 
+      map2(.x = risco, 
+           .y = impacto,
+           function(.x, .y) {
+              tabela %&gt;% # acessamos a tabela
+                filter(risco == .x,  # filtramos para as condições
+                       impacto == .y) %&gt;%
+                pull(PL) # puxamos o vetor com os nomes de PLs
+           })
+  ) </code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   risco impacto PLs      
+##   &lt;chr&gt; &lt;chr&gt;   &lt;list&gt;   
+## 1 médio alto    &lt;chr [4]&gt;
+## 2 médio baixo   &lt;chr [6]&gt;
+## 3 médio médio   &lt;chr [3]&gt;
+## 4 baixo alto    &lt;chr [4]&gt;
+## 5 baixo baixo   &lt;chr [4]&gt;
+## 6 baixo médio   &lt;chr [2]&gt;
+## 7 alto  alto    &lt;chr [3]&gt;
+## 8 alto  baixo   &lt;chr [1]&gt;
+## 9 alto  médio   &lt;chr [3]&gt;</code></pre>
+<p>Agora precisamos desaninhar essa lista em texto. Passamos a execução de <code>map2()</code> como argumento de outro mapeamento, agora com saída definida como vetor de texto, que a cada elemento da lista recebida colapsa todos, separando os elementos com uma vírgula e espaço.</p>
+<pre class="r"><code>expand_grid(risco = unique(tabela$risco), 
+              impacto = unique(tabela$impacto)) %&gt;%
+  mutate(PLs = 
+    map_chr( # colocamos aquela lista anterior dentro de OUTRO MAP
+      map2(.x = risco, 
+           .y = impacto,
+           function(.x, .y) {
+              tabela %&gt;%
+                filter(risco == .x, 
+                       impacto == .y) %&gt;%
+                pull(PL)
+           }),
+      ~ paste0(.x, collapse = &quot;, &quot;)) # aplicamos paste com collapse
+              # dessa forma, os elementos em cada entrada da lista
+              # são colapsados no mesmo texto, separados pela &quot;, &quot; 
+  ) </code></pre>
+<pre><code>## # A tibble: 9 x 3
+##   risco impacto PLs                                                             
+##   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                                                           
+## 1 médio alto    amet elit, sit sit, dolor adipiscing, ipsum elit                
+## 2 médio baixo   lorem dolor, lorem consectetur, sit amet, sit consectetur, amet…
+## 3 médio médio   ipsum amet, adipiscing lorem, dolor sit                         
+## 4 baixo alto    dolor elit, adipiscing sit, ipsum amet, amet elit               
+## 5 baixo baixo   ipsum sit, adipiscing ipsum, consectetur dolor, dolor lorem     
+## 6 baixo médio   amet amet, lorem dolor                                          
+## 7 alto  alto    adipiscing consectetur, lorem lorem, consectetur sit            
+## 8 alto  baixo   lorem sit                                                       
+## 9 alto  médio   consectetur dolor, dolor ipsum, ipsum lorem</code></pre>
+<p>Algumas vantagens não são óvbias. A primeira é que é apenas uma expressão a ser executada então você pode ter certeza que nunca terá erros em pedaços específicos do código então <em>todo</em> dado resultado dessa operação é válido. Se uma peça móvel falhar, a avaliação toda é cancelada e está claro que há um problema. A segunda é que - apesar de parecer mais difícil no começo - essa abordagem te faz precisar acompanhar menos detalhes da operação si, te liberado para focar no resultado desejado.</p>
+<p>A terceira é que se você inicia uma expressão atribuindo o resultado dessa solução a um objeto, é uma operação <em>idempotente</em>, no sentido de que ao ser repetida sempre gera a mesma saída. Se você está sobreescrevendo o mesmo objeto várias vezes, então só terá o mesmo dado se repetir <em>todas as operações</em>. Essa é uma preocupação desnecessária se seu código for idempotente. Idempotência é uma propriedade especialmente importante quando se lida com código de execução automática (algo que rode todo dia às 9h da manhã por exemplo). Você <em>não quer</em> que um erro no sistema de filas ou execução do código altere o resultado do seus programas.</p>
+<p>Se faça um favor, largue os loops.</p>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
+                                    <i class="fas fa-tag mr-2"></i>R
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/programa%C3%A7%C3%A3o-funcional">
+                                    <i class="fas fa-tag mr-2"></i>Programação Funcional
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2fpost%2fotidyverseehseuamigo%2fse_cuide%2f&text=Cuide%20da%20sa%c3%bade%2c%20pare%20de%20fazer%20loops">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2fpost%2fotidyverseehseuamigo%2fse_cuide%2f&title=Cuide%20da%20sa%c3%bade%2c%20pare%20de%20fazer%20loops">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2fpost%2fotidyverseehseuamigo%2fse_cuide%2f&t=Cuide%20da%20sa%c3%bade%2c%20pare%20de%20fazer%20loops">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2fpost%2fotidyverseehseuamigo%2fse_cuide%2f&title=Cuide%20da%20sa%c3%bade%2c%20pare%20de%20fazer%20loops">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/post/dynsys/funprog-dyn-sys/" class="d-block"><div class="card-body">
+            <h4 class="card-title">{purrr} para simular Sistemas Dinâmicos</h4>
+            <p class="card-text text-muted text-uppercase">May 25, 2020</p>
+            <div class="card-text">
+                Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
+\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/post/fluxotrabalhotidymodels/fluxotidymodels/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Modelagem com {tidymodels}</h4>
+            <p class="card-text text-muted text-uppercase">June 2, 2020</p>
+            <div class="card-text">
+                
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/post/reforcoaprendizado/aprendizado/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Jogo da Velha com Q-Learning</h4>
+            <p class="card-text text-muted text-uppercase">April 21, 2020</p>
+            <div class="card-text">
+                Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+
+
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</body>
+</html>

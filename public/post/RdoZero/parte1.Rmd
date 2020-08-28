@@ -1,0 +1,279 @@
+---
+title: "R do Zero (1): Sintaxe Básica"
+author: "Pedro Cavalcante"
+slug: "r-zero-1"
+draft: true
+categories:
+  - R do Zero
+tags:
+  - R
+  - Programação
+---
+
+# Contexto
+
+Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio a pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, que tal disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.
+
+Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno. Os conteúdos serão disponibilizados em fases, a medida que eu tenho tempo de consolidar o material e o pensamento em posts mais ou menos rápidos e digeríveis. A ordem de apresentação reflete uma tentativa de equilibrar (i) pré-requisitos, (ii) relevância prática, (iii) complexidade do assunto e (iv) elegância inerente do tópico. O ponto iv em particular tem um problema próprio de equilíbrio. 
+
+Existe uma audiência bastante heterogênea em busca de material nesse campo e motivar alguém com apelos à uma suposta elegância matemática para muitos leitores pode ser seco, inútil e desmotivante. Para outros - eu sou culpado de estar nesse grupo - motivação de sobra. Eu tento balancear esses problemas simultâneos e apresentar algo que seja compreensivo-porém-não-exaustivo, que tente descascar as crostas bloqueando a percepção de por quê as coisas são como são.
+
+# Motivação
+
+Por quê por a cara a tapa, sentir um assalto à autoestima e aprender uma linguagem de programação? Porque existem retornos de variados tipos:
+
+* Nós produzimos dados aos montes todo dia. Eles estão por aí em diferentes formas, sabores, estruturas e qualidades, mas *estão por aí*. Dominar ferramentas como uma linguagem de programação te habilita a lidar com essa montanha de informação de maneira clara, reprodutível e escalável. Essas habilidades são úteis em empresas, universidades e centros de pesquisa pelos mais variados motivos. Aprender a programar não é um passaporte para emprego estável, ganhos de produtividade ou pesquisa de qualidade, mas ajuda. 
+
+Que tal escrever programas que transcrevem áudio de entrevista, digitalizam imagens em texto, reproduzam artigos, executem rotinas de limpeza e análise de dados, geração de gráficos, animações e mapas automatizadas, reprodutíveis e que podem ser aplicadas em dados novos sem problemas? Essa tarefas podem todas serem realizadas com algum carinho, foco e trabalho manual, mas que tal dedicar o seu tempo mais no que você de fato faz? Elas também são automatizáveis com algumas linhas de código. 
+
+* Existe um ganho imaterial em programar que é a satisfação de aprender como uma finalidade em si. Vários leitores podem achar isso nada demais, mas eu tendo a observar que quem se diverte resolvendo problemas tende a ser dar melhor com programação.
+
+# O que você deve esperar
+
+Espero passar ao leitor o vocabulário mínimo que é necessário para formular dúvidas independentes que possam ser respondidas online. Uso R há mais ou menos 4 anos e boa parte do tempo gasto não foi escrevendo código em si, foi lendo respostas de perguntas em fóruns como o [stack overflow](https://stackoverflow.com/). Programar, especialmente no começo, é a arte de não entrar em pânico com mensagens de erro. Creio que essa abordagem seja a melhor porque (i) não pune quem nunca teve contato com programação e (ii) permite uma introdução compreensiva à sintaxe e peculiaridades da linguagem sem martelar pontos provavelmente já claros ao programador de segunda viagem.
+
+# O que pretendo abordar
+
+* Sintaxe
+* Manipulação de dados com dplyr
+* Gráficos com ggplot2
+* Reestruturação de dados com tidyr
+* Pipes do magrittr
+* Funções: o que são, onde vivem, o que comem, como faze-las
+* Iteração e programação funcional com purrr
+* Modelos de regressão linear clássica e bayesiana com tidymodels
+* Modelos de machine learning para classificação com tidymodels
+* Modelos de séries temporais com tidyverts
+
+# Filosofia e escolhas
+
+Algumas linhas de raciocínio e pequenas sabedorias tiaradas lá sabe de onde guiam o que estou fazendo aqui. O assunto pode ficar técnico e deve fazer muito mais sentido para quem já leu tudo do que para quem está no primeiro contato, mas aqui fica:
+
+* ``tidyverse`` é o caminho. Temos de respeitar o base R e reconhecer que onde existem alternativas seguindo os princípios de deisgn do tidyverse é provavelmente melhor usa-las. De fato, as soluções fora do tidyverse são quase sempre mais complexas, com sintaxe menos limpa e por isso, pouco amigáveis com iniciantes. Quando necessário olharemos para o base R. 
+
+* O alvo de material de ensino de uma linguagem de programação deveria ser expressividade na linguagem, não ensinar o passo a passo minucioso e mecânico de uma série de técnicas. Empodere o seu programador interior.
+
+### Aviso
+
+Vou partir do absoluto zero aqui. Se você já é familizariado com a sintaxe, talvez seja melhor pular direto para a [parte 2](https://azul.netlify.app/r-zero-2). 
+
+# Sintaxe
+
+Vou assumir que você já tem a linguagem R instalada, bem como o RStudio. O seu console deve mostrar algo como:
+
+```
+R version 4.0.0 (2020-04-24) -- "Arbor Day"
+Copyright (C) 2020 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+```
+
+Antes de mais nada. Olhe para o canto direito superior do Rstudio. Lá deve estar algo como ``no project``. Clique e na caixinha que abrir clique em ``New Project``. Você vai ser guiado a escolher uma pasta no computar (ou criar uma nova) e dar um nome ao projeto. Toda atividade autocontida é um projeto. Trabalho de faculdade, tarefa no trabalho, pacote de R, qualquer grupo coeso de código, texto, arquivos e dados que servem a uma finalidade comum. 
+
+Projetos são muito importantes para não termos que nos preocupar em dar endereços completos para arquivos no computador - gerenciar o sistema de diretórios de trabalho feito nos anos 90 do R é sempre desagradável e não precisamos disso. Projetos farão esse trabalho sujo por nós e tornarão sua experiência muito mais cômoda. Sempre que quiser trabalhar em um projeto, basta abrir o arquivo ``.Rproj`` na pasta dele ou usar o seletor na caixa do canto direito superior.
+
+Por fim, se você sabe o que é git: sim, você pode _e deve_ usar projetos de R junto com git. O lembrete do amigo é tome cuidado com repositórios públicos, eles idealmente não deveriam conter o seu arquivo ``.Rproj``. Vamos agora nos familiarizar com a sintaxe básica. Podemos usar R como uma calculadora potente:
+
+
+```{R}
+
+2 + 2
+2 - 3
+
+3^2
+4^2
+3^3
+
+2*3
+2/3
+```
+
+Podemos usar funções, que são unidades reaproveitaveis de certas operações. Executar o comando ``Sys.Date()`` irá printar a data do sistema, assim como ``Sys.time()`` irá printar o horário. Essas funções não recebem parâmetros, não podemos alterar seu comportamento. No entanto, funções como ``seq()``, que geram sequências, dependem de argumentos informados, como de onde para onde a sequência deve ir. 
+
+Alguns argumentos são tidos como padrão. Por exemplo, se não informarmos o argumento ``by =``, a sequência é gerada com passos de 1 unidade. Como sabemos disso? Usando o comando ``help(seq)``, que exibe a documentação da função apresentada. 
+
+```{R}
+
+1:5 # os números de 1 a 5
+seq(1, 5) # equivalente ao anterior
+seq(from = 1, to = 5, by = 0.5) # espaçamento de .5 e argumetnos nomeados
+exp(3) # exponencial de 3
+sqrt(3) # raiz quadrada de 3
+log(3) # log natural de 3
+log(3, base = 10) # base 10
+```
+
+Mais importante, podemos testar se certas proposições têm validade lógica. É o que torna uma linguagem de programação uma caixinha de areia em que proposições podem ser enunciadas, testadas e com base nisso executar comandos. O sinal que usamos para testar a noção de _igualdade_ é ``==``. Dois sinais iguais seguidos.
+
+```{R}
+2 == 2
+```
+
+Vamos entender o que se passou aqui. Executamos uma _expressão_, um enunciado sintaticamente válido. E recebemos um _retorno_, o valor ``TRUE``, a maneira da linguagem de se referir à noção abstrata de que uma expressão carrega um enunciado verdadeiro. O inverso de ``==`` é ``!=``, o sinal para testar falsidade.
+
+
+```{R}
+2 == 3 # enunciado: dois é igual a três
+2 != 3 # dois é diferente de três
+2 != 2 # dois é diferente de dois
+2 < 3 # 2 é menor que 3
+2 > 3 # 2 é maior que 3
+2 >= 3 # 2 é maior ou igual a 3 (nem maior nem igual, portanto falso)
+2 <= 2 # 2 é menor ou igual a 2 (de fato, pois apesar de não ser menor é igual)
+```
+
+Texto no R sempre está entre aspas, simples ou duplas. 
+
+```{R, error = TRUE}
+"a" == "b" # a letra "a" é igual à letra "b"
+"a" == 'a'
+"palavra maior" != "apenas testando igualdades"
+```
+
+Podemos também testar proposições conjuntamente. O operador ``|`` liga duas expressões e irá retornar verdadeiro se pelo menos uma das duas retornas verdadeiro. É o operador do *OU*. ```A | B `` é lido como "A ou B".
+
+```{R}
+TRUE | FALSE # uma ou outra é verdadeira?
+!TRUE | (2 == 3) # negação de verdadeiro ou 2 é igual a 3 são verdadeiros?
+!TRUE | (2 == 2) 
+FALSE | FALSE
+!FALSE | FALSE
+2 == 2 | 3 == 3
+```
+
+Já o operador ``&`` é mais forte. É o operador do *E*. Ele requer que as duas expressões sejam verdadeiras.
+
+```{R}
+TRUE & FALSE # uma ou outra é verdadeira?
+!TRUE & (2 == 3) # negação de verdadeiro ou 2 é igual a 3 são verdadeiros?
+!TRUE & (2 == 2) 
+FALSE & FALSE
+!FALSE & FALSE
+2 == 2 & 3 == 3
+```
+
+Observe que encontramos três tipos de dado até agora: números, texto e verdadeiro/falso. Chamamos isso de _tipo_ do dado. Dado em texto é normalmente chamado de _string_ (por ser um "fio" de letras) e em números é comum se refeir como _double_ (do inglês, _double precision_, já que, ao contrário de números inteiros, aceitam casas decimais). Podemos armazenar dados do mesmo tipo em estruturas chamadas vetores, são listas de valores do mesmo tipo.  A função ``c()`` - do inglês, _combine_ - recebe valores e devolve um vetor. 
+
+```{R}
+c(2, 2, 2.5)
+
+c(2, 2, 2.5) == 2
+
+c("a", "b", "c") == "b"
+
+```
+
+Mas de pouco adianta termos "dados soltos". Precisamos poder nos referir a um conjunto de dados por nomes. Para isso usamos um operador, ``<-``. A "seta de designação", como é chamada, atribui a um símbolo um valor.
+
+```{R, error = TRUE}
+a <- 1 
+
+a # apenas nome do objeto printa ele no console
+
+(b <- 1:5 + 2) # uma expressão entre parênteses é avaliada e seu resultado é printado
+
+(c <- letters) # alguns objetos com constantes já vêm carregados na memória, como as letras
+
+(d <- c(2, 4, 7) / 2)
+```
+
+Funções são operações prontas - normalmente nos referimos a isso como _abstrair_ a operação em uma função. Funções geralmente recebem valores, que chamamos de _parâmetros_ ou _argumentos_. Separamos parâmetros por vírgulas e, quando quisermos nomea-los, usamos o sinal ``=``. Valores de parâmetros vão dentro de parênteses e podemos passar funções como argumentos de outras funções - isso será muito útil mais à frente.
+
+```{R}
+print(b)
+
+(vetor_amigo <- c(1, 2, 3)) # se a expressão toda está em parêntes o resultado dela também sai no console
+(vetor_deboas <- c(primeiro = TRUE, segundo = FALSE, terceiro = TRUE)) # elementos de vetores podem ser nomeados
+
+is.vector(vetor_amigo) # testando se é um vetor
+
+vetor_amigo == 2 # igualdade elemento a elemento
+
+names(vetor_deboas) 
+
+```
+
+Note que vetores são homogêneos no tipo e irão converter dados se possível para garantir isso.
+
+```{R, error = TRUE}
+(vetor_feao <- c(1.243, "feao", "vetores seguram dados apenas de um tipo")) # o número 1.243 é convertido para texto
+
+(vetor_erro <- c(TRUE, TRUE, "texto")) # de novo, convertido para texto
+```
+Para quando precisamos de algo como um vetor que carregue dados de varios tipos, usamos listas.
+
+```{R}
+(lista1 <- list(A = 1, B = "já listas seguram qualquer tipo", C = FALSE))  
+
+str(lista1) # a estrutura da lista
+
+lista1$B # acessamos elementos nomeados de listas com o operador $
+
+(lista2 <- list(D = "e até mesmo:", E = list(Fa = "outras", G = "listas")))
+
+str(lista2) 
+
+lista2$E
+
+```
+
+Vetores seguram apenas um tipo de dado, mas a maioria dos conjuntos de dados do mundo é multi-tipo. Para isso usamos "Data Frames", ou _tibbles_ como eles são chamados em R moderno. Para isso instalamos o pacote ``tibble`` com o comando ``install.packages("tibble", dependencies = TRUE)``. 
+
+```{R}
+library(tibble)
+
+citation("tibble") # citação do pacote
+
+(tib <- tibble(a = 1:10, 
+               B = list(10:13), # tibbles podem carregar listas
+               c = 100*a/a^2, # e receber vetores sem nomes 
+               D = sample(letters, size = 10), # chamando uma função
+               e = 2.56*a/3*a + pi))
+
+nrow(tib) # número de linhas
+ncol(tib) # número de colunas
+glimpse(tib) # descrição da estrutura
+
+```
+
+E falando neles, como são os dados do mundo real? No próximo post. Agora é hora de sedimentar um pouco as coisas.
+
+### Fixando algumas ideias
+
+#### Exercício 1 
+R tem pouca/nenhuma _type safety_, a ideia de que não se deve alterar o tipo de dado por pouca bobagem. Comparações entre tipos diferentes levam a conversões entre tipos, com graus variados de sucesso. Por exemplo, o resultado de ``TRUE + 1`` ou de ``FALSE + 0``. Note que ``TRUE + "1"`` retorna um erro. Você consegue, sem rodar o código das seguintes expressões e tendo como referência o resultado dos exemplos anteriores, achar o resultado? 
+
+* ``FALSE + TRUE``
+* ``TRUE + TRUE``
+* ``3 + FALSE``
+* ``5 - TRUE - TRUE``
+
+Compare suas intuições com os resultados reais.
+
+#### Exercício 2
+
+Gere um tibble chamado ``tibble_exercicio`` com 4 colunas:
+
+* Mil números tirados de uma normal com média 0 e variância 1 (use a função ``rnorm()``)
+* Mil números tirados de uma uniforme (``runif()``)
+* A soma dos elementos nas duas primeiras colunas
+* A terceira coluna arredondada para nenhuma casa decimal (use ``round()``)
+
+#### Exercício 3
+
+* [*Matemática*] A função ``rnorm()`` gera números aleatórios com distribuição normal. Já ``matrix()`` recebe um vetor, um número de linhas e/ou colunas e devolve uma matriz. Algumas funções como ``det``, ``eigen`` e ``t`` trazem as construções típicas da Álgebra Linear. Por exemplo, se eu quiser uma matriz 2x3 com números tirados de uma normal com média 0 e desvio-padrão $3$ e multiplica-la pela sua transposta:
+
+```{R}
+(A <- matrix(rnorm(n = 6, sd = 3), # 6 números tirados de uma N(0,3)
+             nrow = 2)) # em duas linhas
+
+A %*% t(A) # %*% é o operador para multiplicar matrizes
+```
+
+Sabendo que ``help(funcao)`` abre a documentação da função informando os nomes de parametros e seus efeitos sobre o resultado da função:
+
+* Crie uma matriz 8x8 cujas entradas são tiradas de uma normal com média $0.5$ e desvio-padrão $2$. 
+* Ache seu determinante
+* Ache a soma de seus autovalores
+
+[*PRÓXIMO POST*](https://azul.netlify.app/r-zero-2)
+

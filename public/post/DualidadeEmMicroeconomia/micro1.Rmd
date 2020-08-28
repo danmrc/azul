@@ -1,0 +1,223 @@
+---
+title: "Um pouco de microeconomia, dualidade e R"
+author: "Pedro Cavalcante"
+date: '2018-09-01'
+output:
+html_document:
+df_print: paged
+categories:
+- R
+- Microeconomia
+slug: microeconomia
+tags:
+- R
+- Microeconomia
+authors: ["pedrocava"]
+katex: true
+---
+
+No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor. 
+
+Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo. Maximização de lucro/ utilidade e minimização de custo/ gasto, na perspectiva dual que naturalmente decorre da otimização.
+
+Confesso que a principio nada me pareceu fazer muito sentido. Ninguém vai ao mercado com papel e lápis para resolver um lagrangeano - e provavelmente sequer consegue dizer qual é a utilidade marginal de um bem ou outro. É também bem difícil que uma firma _conheça_ sua função de produção.
+
+Alguns poucos dias atrás, estava conversando com meu coorientador sobre isso. Ele - que é matemático e tem lido sobre micro para me ajudar na monografia - relatou algumas dúvidas que eu tive, ou que ao menos vi colegas tendo. Não me surpreendeu muito, devo dizer. 
+
+Vou expor aqui o beabá de teoria do consumidor e como podemos trabalhar o modelo neoclássico no R. Essa é a abordagem que eu gostaria de ter tido.
+
+A minha segunda intenção nisso é receber críticas, testar em que medida o meu entendimento da coisa está correta. Então se você avistar uma falha de raciocínio, não hesite em me comunicar. Não sou professor, nem autoridade. Isso aqui é só produto de um graduando fiel à mentalidade de que explicar é uma das melhores maneiras de aprender.
+
+# Como se fosse verdade
+
+O meu primeiro erro foi achar que precisamos modelar o objeto de estudo à lá Nelson Rodrigues, a vida como ela é. Não! Precisamos - pelo contrário - chegar em algo que opera _como se fosse_ verdadeiro, a filosofia do _as if_. 
+
+Podemos partir de coisas simples. Se um consumidor escolhe uma cesta dentre todas as outras possíveis de serem adquiridas ao mesmo custo, então ele _revelou_ preferir essa cesta. É tão absurdo assim fingir que ele maximizou utilidade? Não, não é. 
+
+Pois, seja $U: \mathbb{R}^n \to \mathbb{R}$ um mapeamento contínuo. É a nossa função utilidade. Estamos associando um vetor de quantidades consumidas de $n$ bens $\mathbf{x}$ dentro do espaço euclidiano $\mathbb{R}^n$ a um dado nível de satisfação, representado por um escalar na reta real. 
+
+Temos também um vetor de preços $\mathbf{p} \in \mathbb{R}^n$. Conhecemos a restrição com a qual o consumidor se confronta, sua renda dada $w$ (algo que estaríamos relaxando se o assunto fosse equilíbrio geral) precisa ser menor ou igual ao produto interno dos vetores $\mathbf{x}$ e $\mathbf{p}$. Tudo gasto não pode exceder o que _pode_ ser gasto, afinal. Em termos mais explícitos e preservando uma certa generalidade, temos:
+
+$$ \text{max} \, \,  U(x_1,x_2,...,x_n) \, \text{s.a.} \sum_{i=1}^n \mathbf{x}_i \mathbf{p}_i = w$$
+
+Daqui para frente eu prossigo no caso particular $n=2$ e assumindo uma função utilidade Cobb-Douglas. Isso não resulta em grandes perdas de generalidade, mas oferece grandes ganhos de didática e facilidade.
+
+Pois, temos:
+
+$$ \text{max} \, \,  x_{1}^{\alpha} x_{2}^{\beta} \, \, \text{s.a.} \, \, \,  x_1 p_1 + x_2 p_2 = w$$
+$\alpha$ e $\beta$ são parâmetros que por vezes passam ignorados. São as elasticidades utilidade-consumo de cada bem. $\alpha = 0.4$, por exemplo, nos diz que um aumento no consumo de $x_1$ de $1\%$ gera um aumento de $0.4\%$ no nível de utilidade. Usualmente supomos que $\alpha + \beta = 1$ porque isso garante "retornos constantes da felicidade" ao consumo. Se a soma das elasticidades é a unidade, então dobrando o consumo podemos somente dobrar o nível de utilidade. 
+
+Em um contexto de teoria da firma isso é particularmente relevante porque as elasticidades passam a ser insumo-produto. Uma soma maior que 1 resulta em retornos crescentes à escala, enquanto uma menor que 1 resulta em retornos _decrescentes_. A soma das elasticidades insumo-produto (o grau de homogeneidade da função, inclusive) nos informa sobre aspectos relevantes da tecnologia disponível à firma.
+
+Problemas de otimização restrita como esses podem ser atacados com Multiplicadores de Lagrange. É um método particularmente interessante porque podemos dele ter os preços-sombra.
+
+Temos o lagrangeano:
+
+$$ \Gamma = x_{1}^{\alpha} x_{2}^{\beta} - \lambda (x_1 p_1 + x_2 p_2 - w) $$
+
+
+Então as condições de primeira ordem são:
+
+$$\frac{\partial \Gamma}{\partial x_1 } = \alpha x_{1}^{ \alpha -1} x_{2}^{\beta} - \lambda p_1 = 0 \\
+\frac{\partial \Gamma}{\partial x_2 } = \beta x_{1}^{\alpha} x_{2}^{ \beta - 1} - \lambda p_2 = 0 \\
+\frac{\partial \Gamma}{\partial \lambda } = x_1 p_1 + x_2 p_2 - w = 0
+$$
+
+Antes de prosseguir: o que é exatamente esse $\lambda$? Um problema de otimização restrita tem alguns componentes. A função objetivo a ser otimizada (nesse caso é a função utilidade), o conjunto de oportunidades (nossa restrição orçamentária) e os instrumentos, as variáveis sobre as quais temos controle (o consumidor decide quanto de cada bem consome). Nós conhecemos facilmente quanto a variação no consumo de um bem gera em variação na função utilidade, é simplesmente a derivada parcial $\frac{\partial U}{\partial x_i }$. 
+
+A beleza do método de Lagrange é que ele nos informa o quanto ganhamos quando ocorre uma variação na _restrição_, $\frac{\partial U}{\partial w} = \lambda$. A interpretação econômica do $\lambda$ em um contexto de teoria do consumidor é a utilidade marginal não de um bem, mas da _renda_. Por ele sabemos o quanto um relaxamento, ou aperto, na restrição orçamentária afeta o nível de utilidade do consumidor.
+
+Ao leitor interessado em se aprofundar nesse ponto, recomendo o excelente livro do professor Michael Intriligator, _Mathematical Optimization and Economic Theory_.
+
+Temos agora que achar a cesta que simultaneamente satisfaz essas três condições. Na cesta ótima, a utilidade marginal de cada bem não pode ultrapassar $\lambda$ multiplicado pelo seu próprio preço, a utilidade marginal da renda que vai ser consumida ao consumir mais de desse bem. Observe que o raciocínio intuitivo é simples. Se a utilidade marginal de um bem a um certo nível de consumo é _menor_ que a utilidade marginal da renda que será deslocada para consumir a mais esse bem, então o consumidor pode estar melhor simplesmente consumindo menos - dado que a utilidade marginal desse bem é decrescente. 
+
+A solução não é muito complicada (se o leitor não sabe, deixo como exercício hehe). Depois de umas poucas manipulações com as condições de primeira ordem chegamos em:
+
+$$ x_1 = \frac{\alpha p_2 x_2}{\beta p_1}\\
+x_2 = \frac{\beta p_1 x_1}{\alpha p_2} $$
+
+Como não é muito útil ficar escrevendo linhas e linhas de manipulação algébrica aqui, deixo como exercício ao leitor [que ainda não sabe isso] chegar aqui:
+
+$$ x^{*}_1 = \frac{\alpha}{\alpha + \beta} \frac{w}{p_1} \\
+x^{*}_2 = \frac{\beta}{\alpha + \beta} \frac{w}{p_2}$$
+
+Essas são as curvas de demanda de cada bem para esse consumidor.
+
+# Um pouco de Dualidade
+
+Imagine um mapeamento $f: \mathbb{R} \to \mathbb{R}$, digamos $f(x)=ax^2 + bx + c$. Estamos interessados em, por exemplo $\text{min} f(x)$, mas _somente_ nesse problema de minimização? Onde foi parar a boa e velha maximização?
+
+Em termos bem amplos e simples, isso é Dualidade. Maximizar uma função pode ser equivalente, sob certas condições, a minimizar sua oposta e vice-versa.
+
+```{r, dpi = 900, message=FALSE, error=FALSE, warning=FALSE}
+
+
+nums = seq(from = -10, to = 10, by = .2)
+
+
+f_min = function(x, a=1, b=1, c=0) {a*(x**2) + b*x + c}
+d_f = function(x, a=1, b=1) {2*a*x + b}
+
+
+parabola1 = data.frame(nums,f_min(nums), d_f(nums))
+
+
+library(ggplot2)
+library(dplyr)
+
+parabola1 %>%
+  ggplot(aes(x = nums, y = f_min.nums.))+
+  geom_line(size = 2, color = "blue") +
+  geom_line(aes(y = d_f.nums.), size = 1, color = "black")+
+  geom_hline(yintercept = 0, linetype = "dashed")+
+  ylab("y") +
+  xlab("x")
+
+
+```
+Observe que a derivada iguala-se a zero justamente onde temos um ótimo local da função, como aprendemos em Cálculo 1. Agora observe onde a derivada de $-f(x)$ se iguala a zero.
+
+
+```{r, dpi = 900, message=FALSE, error=FALSE, warning=FALSE}
+
+
+
+f_max = function(x, a= -1, b= -1,c=0) {a*(x**2) + b*x + c}
+d_f_max = function(x, a= -1, b= -1) {2*a*x + b}
+
+parabolas = data.frame(nums,f_min(nums), d_f_max(nums),
+                       f_max(nums), d_f(nums))
+
+parabolas %>%
+  ggplot(aes(x = nums, y = f_max.nums.))+
+  geom_line(size = 2, color = "blue") +
+  geom_line(aes(y =f_min.nums.), size = 2, color = "blue") +
+  geom_line(aes(y = d_f.nums.), size = 1, color = "black")+
+  geom_line(aes(y = d_f_max.nums.), size = 1, color = "black")+
+  geom_hline(yintercept = 0, linetype = "dashed")+
+  ylab("y") +
+  xlab("x")
+
+  
+  
+```
+
+
+No mesmo lugar, não? Estamos aqui no que se chama de Dualidade Forte. $\text{min} f(x) = \text{max} -f(x)$. E como isso se conecta com teoria do consumidor?
+
+Aquelas curvas de demanda em que chegamos são marshallianas. Dado um conjunto orçamentário, elas maximizam utilidade. No entanto podemos querer curvas hicksianas, minimizar gastos dado que o consumidor está num nível $k$ de utilidade. Teríamos um problema assim:
+
+$$ \text{min} \, \,  x_1 p_1 + x_2 p_2  \, \, \text{s.a.} \, \, \,  x_{1}^{\alpha} x_{2}^{\beta} = k$$
+
+Assim como podemos chegar na demanda marshalliana pela função de utilidade indireta, via Identidade de Roy, podemos chegar na demanda hicksiana pela função gasto, via Lemma de Shepard.
+
+Não é linda a teoria da demanda?
+
+A presença de dualidade nos modelos talvez se faça mais aparente num contexto de teoria da firma, afinal, existem explícitas menções nas ementas mais comuns à maximização de lucro e à minimização de custo. O leitor agora talvez tenha uma percepção diferente, que são facetas diferentes do mesmo processo. 
+
+E para não falarem que não toquei em estática comparativa: volte às curvas de demanda [marshallianas] e se pergunte o que acontece quando o preço do bem $i$ aumenta. Ninguém é um maximizador racional - exceto talvez um amigo meu que tem pouco cabelo, ele é assustadoramente _Homo Oeconomicus_ - mas quando o preço das maçãs aumenta, pessoas compram menos maçãs. Quase como se tivessem computando um lagrangeano na cabeça... Curioso, não?
+
+# Agora um pouco mais de R
+
+Isso tudo tem um aspecto muitas vezes ignorado. A visualização padrão de curvas de indiferença é cortes transversais do mapeamento $U$, por exemplo, e já ouvi inúmeros colegas falarem que simplesmente não foram apresentados essa natureza "tridimensional" da função utilidade em uma cesta com dois bens. Podemos visualiza-la sem problemas. 
+
+Vamos definir uma função que computa uma Cobb-Douglas, depois explorar isso graficamente.
+
+
+```{r, dpi = 1000, message=FALSE, warning=FALSE}
+## Definindo função Cobb-Douglas
+cobb.douglas.2 <- function(x, 
+                         TFP = 1, 
+                         alpha = round(runif(n=1, 
+                                       min=0, 
+                                       max=1), digits = 2),
+                         beta = 1 - alpha) {
+  y = vector()
+  
+  for (i in 1:nrow(x)) {
+  
+  y[i] = TFP * x[i,1]^alpha * x[i,2]^beta
+  
+  }
+  cobb.douglas = list(y = y, 
+                      alpha = alpha,
+                      beta = beta)
+  }
+
+## Gerando coordenadas de consumo
+
+x1 = seq(from = 1, to = 100, by = 1) ## primeiro geramos pontos de 1 a 100
+x1 = sort(rep(x1, length(x1)), decreasing = FALSE) #depois repetimos 100 vezes cada elemento em ordem crescente
+
+x2 = seq(from = 1, to = 100, by = 1) #agora fazemos o mesmo, sem ordenar
+x2 = rep(x2,length(x2)) 
+
+consumo = data.frame(x1, x2) #consumo é o produto cartesiano dos conjutnos x_1 e x_2
+
+util = cobb.douglas.2(consumo, alpha = .5)
+u = util$y
+
+
+##
+library(plot3D)
+
+scatter3D(x = x1, y = x2, z = u, 
+       xlab = "Bem 1", ylab = "Bem 2", zlab = "Utilidade")
+
+scatter3D(x = x1, y = x2, z = u, 
+       xlab = "Bem 1", ylab = "Bem 2", zlab = "Utilidade",
+       theta=0, phi=90) ##inclinando para ter cada bem em cada eixo
+
+
+
+```
+
+
+Pense numa curva de nível $C(k)=\{ (x_1,x_2) \in \mathbb{R}^2 \, \, | \, \, U(x_1,x_2) = k \}$. Para $k\approx 60$, podemos ve-la na duvisa entre a região verde e a vermelha, mais ou menos a seção amarela da superfície. Nessa superfície é possível visualizar claramente as famosas Curvas de Indiferença.
+
+Em algum momento pretendo voltar à esse assunto, com o foco na teoria da firma. Até lá.
+
+
+
+
+

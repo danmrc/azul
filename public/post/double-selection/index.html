@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Double Selection | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css">
+    
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/post/double-selection/"><meta property="og:title" content="Double Selection" />
+<meta property="og:description" content="Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
+Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
+Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/double-selection/" />
+<meta property="article:published_time" content="2020-05-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-05-01T00:00:00+00:00" />
+<meta itemprop="name" content="Double Selection">
+<meta itemprop="description" content="Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
+Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
+Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.">
+<meta itemprop="datePublished" content="2020-05-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-05-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="884">
+
+
+
+<meta itemprop="keywords" content="Double Selection,Efeito de Tratamento,Seleção de Modelos," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Double Selection"/>
+<meta name="twitter:description" content="Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
+Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
+Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">May 1, 2020</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>884 words</span>
+                            <span><i class="fas fa-clock mr-2"></i>5 mins read</span>
+                        </div>
+
+                        <h1>Double Selection</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.</p>
+<p>Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.</p>
+<p>Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</p>
+<p>Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável <span class="math inline">\(x\)</span> e uma variável <span class="math inline">\(trat\)</span>. No fim a gente vai querer saber o efeito do tratamento sobre a variável <span class="math inline">\(y\)</span>, que é afetado por x e pelo trtamento. A variável <span class="math inline">\(trat\)</span> vai ser influenciada por x, e eu vou fazer a regressão <span class="math inline">\(y \sim x + trat\)</span>, mas vou excluir <span class="math inline">\(x\)</span> quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira de selecionar as variáveis vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.</p>
+<p>Eu vou replicar isso umas 2000 vezes e vamos olhar o histograma do coeficiente de tratamento:</p>
+<pre class="r"><code>set.seed(2126111)
+
+cofs &lt;- rep(NA,2000)
+dropped &lt;- rep(NA,2000)
+
+for(i in 1:2000){
+  x &lt;- rnorm(100)
+  trat &lt;- 2*x + rnorm(100)
+  trat  &lt;- trat &gt; 0
+  y &lt;- 1.5*trat + 0.5*x + rnorm(100,sd=2)
+  reg &lt;- lm(y ~ x + trat)
+  p_val &lt;- summary(reg)$coefficients[2,4] 
+  if(p_val &lt; 0.05){
+    cofs[i] &lt;- coef(reg)[3]
+    dropped[i] &lt;- 0
+  } else {
+    reg &lt;- lm(y ~ trat)
+    cofs[i] &lt;- coef(reg)[2]
+    dropped[i] &lt;- 1
+  }
+}</code></pre>
+<p>Tem bastante coisa acontecendo nas linhas acima, então vamos passar as coisas com calma: primeiro, 0 tratamento começa como uma variável contínua que depende de x e de um erro com variância 2. Na linha seguinte, eu transformo essa variável em uma coisa binária: se for maior que 0, o sujeito é tratado. O problema seguinte é o p-valor de x na regressão para avaliar o efeito de tratamento: se for abaixo de 0.05, a regressão segue inalterada. Senão, ai a gente faz só a regressão de y no tratamento. O efeito real do tratamento é 1.5. Veja que eu tenho uma variável que diz quantas vezes a variável x foi excluida. Na simulação acima isso ocorreu em 1189 casos. Vamos ver o histograma do efeito de tratamento:</p>
+<pre class="r"><code>cofs_df &lt;- data.frame(cofs = cofs)
+
+ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Essa distribuição é bastante esquisita. Como isso afeta os testes de hipótese?</p>
+<pre class="r"><code>p_vals &lt;- rep(NA,2000)
+dropped &lt;- rep(NA,2000)
+
+for(i in 1:2000){
+  x &lt;- rnorm(100)
+  trat &lt;- 2*x + rnorm(100)
+  trat  &lt;- trat &gt; 0
+  y &lt;- 0.5*x + rnorm(100,sd=2)
+  reg &lt;- lm(y ~ x + trat)
+  p_val &lt;- summary(reg)$coefficients[2,4] 
+  if(p_val &lt; 0.05){
+    p_vals[i] &lt;- summary(reg)$coefficients[3,4]
+    dropped[i] &lt;- 0
+  } else {
+    reg &lt;- lm(y ~ trat)
+    p_vals[i] &lt;- summary(reg)$coefficients[2,4]
+    dropped[i] &lt;- 1
+  }
+}
+
+pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
+<p>Nós rejeitamos a hipótese nula quando ela é verdadeira em 28.4% dos casos, quando nós deveríamos rejeitar para apenas 5% dos casos.</p>
+<p>Como contornar isso? Bom, você sempre pode encher de todos os controles possíveis e imagináveis. É claro que podemos ter um caso em que o número de controles é maior que o número de observações, isso não funciona. É ai que entra uma ideia simples e super esperta: no lugar de você olhar só se a variável de controle só na regressão de y no tratamento, <em>também olhe se o controle é significativo na regressão do tratamento</em>. Esse procedimento é chamado de <em>double selection</em>. O procedimento anterior que eu fiz é chamado de <em>single selection</em>. Vamos testar isso:</p>
+<pre class="r"><code>cofs &lt;- rep(NA,2000)
+dropped &lt;- rep(NA,2000)
+
+for(i in 1:2000){
+  x &lt;- rnorm(100)
+  trat &lt;- 2*x + rnorm(100)
+  trat  &lt;- trat &gt; 0
+  y &lt;- 1.5*trat + 0.5*x + rnorm(100,sd=2)
+  reg &lt;- lm(y ~ x + trat)
+  p_val &lt;- summary(reg)$coefficients[2,4] 
+  reg2 &lt;- lm(trat ~ x)
+  p_val2 &lt;- summary(reg2)$coefficients[2,4] 
+  if(p_val &lt; 0.05 || p_val2 &lt; 0.05){
+    cofs[i] &lt;- coef(reg)[3]
+    dropped[i] &lt;- 0
+  } else {
+    reg &lt;- lm(y ~ trat)
+    cofs[i] &lt;- coef(reg)[2]
+    dropped[i] &lt;- 1
+  }
+}</code></pre>
+<pre class="r"><code>cofs_ds_df &lt;- data.frame(cofs = cofs)
+
+ggplot(cofs_ds_df,aes(cofs)) + geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>A distribuição fica bem melhor. Vamos ver como fica o erro de tipo I a 5% quando o tratamento não tem efeito:</p>
+<pre class="r"><code>p_vals &lt;- rep(NA,2000)
+dropped &lt;- rep(NA,2000)
+
+for(i in 1:2000){
+  x &lt;- rnorm(100)
+  trat &lt;- 2*x + rnorm(100)
+  trat  &lt;- trat &gt; 0
+  y &lt;- 0.5*x + rnorm(100,sd=2)
+  reg &lt;- lm(y ~ x + trat)
+  p_val &lt;- summary(reg)$coefficients[2,4] 
+  reg2 &lt;- lm(trat ~ x)
+  p_val2 &lt;- summary(reg2)$coefficients[2,4] 
+  if(p_val &lt; 0.05 || p_val2 &lt; 0.05){
+    p_vals[i] &lt;- summary(reg)$coefficients[3,4]
+    dropped[i] &lt;- 0
+  } else {
+    reg &lt;- lm(y ~ trat)
+    p_vals[i] &lt;- summary(reg)$coefficients[2,4]
+    dropped[i] &lt;- 1
+  }
+}
+
+pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
+<p>Nós rejeitamos a hipótese nula quando ela é verdadeira em 4.65% dos casos, muito mais próximo do ideal.</p>
+<div id="bibliografia" class="section level2">
+<h2>Bibliografia</h2>
+<p>O Gabriel Vasconcelos fez <a href="https://insightr.wordpress.com/2017/05/12/problems-of-causal-inference-after-selection-of-controls/">um post muito bom no blog dele</a>. Está em inglês. (Gabriel já “apareceu” aqui por ser autor de um pacote que usa critério de informação no LASSO).</p>
+<p>O artigo que gerou <em>double selection</em> é do <a href="https://arxiv.org/abs/1201.0224https://arxiv.org/abs/1201.0224">Victor Chernozhukov, Alexandre Belloni e Christian Hensen, no arxiv</a></p>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/double-selection">
+                                    <i class="fas fa-tag mr-2"></i>Double Selection
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/efeito-de-tratamento">
+                                    <i class="fas fa-tag mr-2"></i>Efeito de Tratamento
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/sele%C3%A7%C3%A3o-de-modelos">
+                                    <i class="fas fa-tag mr-2"></i>Seleção de Modelos
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2fpost%2fdouble-selection%2f&text=Double%20Selection">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2fpost%2fdouble-selection%2f&title=Double%20Selection">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2fpost%2fdouble-selection%2f&t=Double%20Selection">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2fpost%2fdouble-selection%2f&title=Double%20Selection">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+
+
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</body>
+</html>

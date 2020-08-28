@@ -7,8 +7,10 @@ categories:
   - Econometria
 tags:
   - Variáveis Instrumentais
+authors: ["danielc"]
 ---
 
+<script src="2019-06-08-stranger-things-distribuição-exata-de-iv_files/header-attrs/header-attrs.js"></script>
 
 
 <p><em>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência</em></p>
@@ -58,7 +60,7 @@ E equivalentemente para <span class="math inline">\(\sum_i z_i x_i\)</span>:</p>
 <p><span class="math display">\[\exp\left(-\frac{\gamma \sum_i z_i^2}{2\sigma^2_u}\left(\frac{\hat{\beta} - \beta}{(1-\hat{\beta})}\right)^2\right)\]</span></p>
 <hr />
 </div>
-<div id="a-distribuicao" class="section level2">
+<div id="a-distribuição" class="section level2">
 <h2>A distribuição</h2>
 <p>A distribuição do estimador é <span class="math inline">\(f(\hat{\beta}) = \frac{\lambda_n}{\sqrt{2\pi}\sigma_u}\frac{|1-\beta|}{(1-\hat{\beta})^2}\exp\left(-\frac{\gamma \sum_i z_i^2}{2\sigma^2_u}\left(\frac{\hat{\beta} - \beta}{(1-\hat{\beta})}\right)^2\right)\)</span>, onde <span class="math inline">\(\lambda_n = \gamma/n\sum_i z_i^2\)</span>. Veja que <span class="math inline">\(\lambda_n\)</span> mede o quão forte é o instrumentos: isso depende tanto da variância do <span class="math inline">\(z\)</span> (medido pelo <span class="math inline">\(\sum_i z_i^2\)</span>) e do valor de <span class="math inline">\(\gamma\)</span>.</p>
 <p>Vamos usar o R para olhar como é essa distribuição para diferentes valores de <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\beta\)</span> e <span class="math inline">\(\sigma^2_u\)</span>. Veja que se <span class="math inline">\(\beta = 1\)</span> o problema não vai ser bem definido. Eu vou começar com <span class="math inline">\(\lambda =1\)</span> e vou fixar <span class="math inline">\(\sigma^2_u=1\)</span> e <span class="math inline">\(\beta = 0.6\)</span>.</p>
@@ -69,15 +71,15 @@ E equivalentemente para <span class="math inline">\(\sum_i z_i x_i\)</span>:</p>
 xx &lt;- seq(-1,2,by = 0.01)
 yy &lt;- dist(xx,1,0.6,1)
 plot(xx,yy, type = &quot;l&quot;)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Veja que a distribuição é bem exótica e que ela não está definida quando a estimativa é 1. Ela tem um pico em 0.6 (como deveria ser) e tem um máximo local logo depois de 1, que pode gerar problemas para a estimação. O mais divertido é quando a gente reduz <span class="math inline">\(\lambda_n\)</span>. Eu vou colocar 0.1:</p>
 <pre class="r"><code>yy &lt;- dist(xx,0.1,0.6,1)
 plot(xx,yy, type = &quot;l&quot;)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Agora a bimodalidade é evidente e preocupante. Podemos reduzir ainda mais <span class="math inline">\(\lambda_n\)</span>, para 0.01:</p>
 <pre class="r"><code>yy &lt;- dist(xx,0.01,0.6,1)
 plot(xx,yy, type = &quot;l&quot;)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>A distribuição é bimodal com duas modas perto de 1 - que não é o valor verdadeiro do parâmetro! Veja que mesmo mudando o valor verdadeiro do parâmetro e com um instrumento relativamente forte (<span class="math inline">\(\lambda_n = 1\)</span>), a distribuição não tem moda no valor verdadeiro do parâmetro.</p>
 <pre class="r"><code>library(latex2exp)
 yy &lt;- dist(xx,1,0,1)
@@ -85,7 +87,7 @@ yy2 &lt;- dist(xx,1,0.6,1)
 plot(xx,yy2, type = &quot;l&quot;)
 lines(xx,yy,col=2)
 legend(&quot;topleft&quot;, legend = c(TeX(&#39;$\\beta = 0.6$&#39;),TeX(&#39;$\\beta = 0$&#39;)),lty=1,col=c(1,2))</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Os comandos LaTeX na legenda são processados pela função <code>TeX()</code>, do pacote <em>latex2exp</em> .Podemos fazer algumas simulações para testar isso. Eu vou escolher os parâmetros de maneira que o problema seja equivalente ao da distribuição que a gente usou e fazer amostras relativamente grandes:</p>
 <pre class="r"><code>library(AER)
 set.seed(9076)
@@ -108,7 +110,7 @@ for(i in 1:1000){
 }
 
 hist(estimativas, freq = F)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Apesar da distribuição do estimador ter um máximo local, o estimador até sobrevive bem. Vamos deixar o instrumento fraco reduzindo gama:</p>
 <pre class="r"><code>gama &lt;- 0.1
 beta &lt;- 0.6
@@ -128,11 +130,11 @@ for(i in 1:1000){
 }
 
 hist(estimativas, freq = F)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Como esperado, o resultado é catastrófico. A distribuição fica com toda a massa concentrada em 1, que sequer é o valor verdadeiro do parâmetro - na verdade, nesse ponto o estimador sequer está bem definido.</p>
 <p>Esse post serve como um belo exercício de estatística - como obter uma distribuição exata de um estimador que estamos acostumados a pensar apenas em termos assintóticos - e serve como um alerta sobre o uso de variáveis instrumentais: mesmo em uma situação extremamente simples, nós podemos ter sério problemas. Isso depende do tamanho da amostra e do fatos dos instrumentos serem fracos - o que nem sempre é corretamente diagnosticado.</p>
 </div>
-<div id="referencias" class="section level2">
+<div id="referências" class="section level2">
 <h2>Referências</h2>
 <p>Some Further Results on the Exact Small Sample Properties of the Instrumental Variable
 Estimator, Charles R. Nelson and Richard Startz, Econometrica, 1990</p>

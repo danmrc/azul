@@ -9,6 +9,7 @@ categories:
 tags:
   - HAC
   - Erro Padrão Robustos
+authors: ["danielc"]
 ---
 
 <script src="2020-04-07-erros-padrões-hac_files/header-attrs/header-attrs.js"></script>
@@ -21,7 +22,7 @@ tags:
 <p><span class="math display">\[Var(1/T\sum_{t=1}^T u_t) = 1/T^2 Var(\sum_{t=1}^T u_t) = 1/T^2 Var(u_t + u_{t+1} + u_{t+2})  = \]</span></p>
 <p><span class="math display">\[=1/T^2(TVar(u_t) + (T-1) Cov(u_t,u_{t-1}) + (T-2)Cov(u_t,u_{t-2}) + ...)\]</span></p>
 <p>Veja que eu estou trabalhando com processos estacionários, e isso me permite dizer que <span class="math inline">\(Cov(u_t,u_{t+1}) = Cov(u_{t+1},u_{t+2})\)</span> etc.</p>
-<p>Que teremos T covariâncias parece simples, mas como eu sei que teremos T-1 covariâncias entre dois períodos sequenciais? Veja que como a amostra está limitada até T, todos os períodos menos o T tem um vizinho seguinte: portanto T-1 covariâncias seguintes. Já para <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>, tanto o período <span class="math inline">\(T\)</span> quanto o período <span class="math inline">\(T-1\)</span> não tem vizinhos para frente: logo temos $(T-2) <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>. Etc etc. Isso exige uma certa imaginação, eu admito.</p>
+<p>Que teremos T covariâncias parece simples, mas como eu sei que teremos T-1 covariâncias entre dois períodos sequenciais? Veja que como a amostra está limitada até T, todos os períodos menos o T tem um vizinho seguinte: portanto T-1 covariâncias seguintes. Já para <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>, tanto o período <span class="math inline">\(T\)</span> quanto o período <span class="math inline">\(T-1\)</span> não tem vizinhos para frente: logo temos <span class="math inline">\((T-2) Cov(u_t,u_{t+2})\)</span>. Etc etc. Isso exige uma certa imaginação, eu admito.</p>
 <p>O mais incrível é que nós também temos que considerar as covariâncias para trás, ou seja <span class="math inline">\(Cov(u_t,u_{t-1})\)</span>, <span class="math inline">\(Cov(u_t,u_{t-2})\)</span> etc. Felizmente, graças ao fato de o processo ser estacionário de segunda ordem, temos que <span class="math inline">\(Cov(u_t,u_{t-1}) = Cov(u_t,u_{t+1})\)</span> e portanto:</p>
 <p><span class="math display">\[Var(1/T\sum_{t=1}^T u_t) = 1/T^2(TVar(u_t)+2(T-1)Cov(u_t,u_{t-1}) + ...)\]</span></p>
 <p>Ou seja, a variância da média de <span class="math inline">\(u_t\)</span> depende da soma das covariâncias do processo. Antes de prosseguirmos, só um pequeno <em>detour</em>. Para deixar a notação menos carregada, faça <span class="math inline">\(\gamma_0 = var(u_t)\)</span>, <span class="math inline">\(\gamma_1 = cov(u_t,u_{t-1})\)</span>,…, <span class="math inline">\(\gamma_j = cov(u_t,u_{t-j})\)</span>, e a expressão acima pode ser reescrita como:</p>

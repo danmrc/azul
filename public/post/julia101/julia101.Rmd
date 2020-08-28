@@ -1,0 +1,183 @@
+---
+title: Julia 101
+author: Daniel Coutinho
+date: '2018-12-10'
+slug: julia-101
+categories:
+  - Julia
+  - Tutoriais
+tags:
+    - Julia
+authors: ["danielc"]
+katex: true
+---
+
+```{r message=FALSE,echo=FALSE}
+JuliaCall::julia_setup()
+JuliaCall::plotsViewer()
+
+```
+
+Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
+
+## Instalando
+
+Primeiramente, o site do Julia é [este aqui](https://julialang.org/). O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela "loja" do linux.
+
+Atualmente o próprio Julia oferece uma IDE. Ela é só o Atom disfarçado, mas já vem com os pacotes necessários instalados, então é extremamente conveniente. O Pedro só conseguiu usar o Julia "via Atom" assim.
+
+Outra opção é usar o Atom, que tem um plugin que faz funcionar o Atom funcionar como uma IDE. Basta abrir o config (ctrl + ,), ir em install e buscar por julia - o que interessa é o julia-client e o julia-language. Você também deve instalar o juno. Em geral, vai demorar um pouco. Ele deve instalar uma meia duzia de outros pacotes importantes e pedir para reiniciar o Atom. Se tudo funcionar, vai aparecer uma barrinha na esquerda do Atom com vários ícones, incluindo um botão de _play_, _pause_ e _stop_. Para abrir uma seção iterativa do Julia, desloque o mouse até a barra embaixo. Vai aparecer uma setinha para cima - ou vá no menu Julia e escolha _Open Console_. Clica nele e enter e o deve aparecer uma mensagem em inglês "aperte enter para iniciar o Julia". Você sabe o que fazer.
+
+Em alguns casos, você pode precisar de instalar o pacote _atom_ no Julia para o Julia e o Atom se entenderem. Para isso, vá no próprio Atom, no menu Julia e escolha _Open Terminal_. Lá, você deve instalar o pacote Atom e o pacote Juno (eu explico como instalar pacotes mais abaixo).
+
+O primeiro ícone na barra a esquerda do Atom abre um arquivo em Julia. Você pode escrever o código lá e dar ctrl + enter na linha para o Julia rodar. Se o Julia ainda não tiver sido iniciado, ele será iniciado automaticamente.
+
+Também é possível usar o Julia no Jupyter. Para isso, basta instalar o pacote no próprio Julia chamado *IJulia*. Uma vez carregado, use `notebok()` para abrir um notebook do jupyter no seu browser.
+
+E é claro que você pode usar o Julia no terminal.
+
+## Usando online
+
+Você não necessariamente precisa instalar o Julia. O [Julia box](https://www.juliabox.com/) permite você usar o Julia direto do navegador sem instalar nada. Ele se parece muito com o Jupyter e tem suporte para pacotes também, mas são instalados de maneira diferente que a descrita nas linhas abaixo.
+
+## Pacotes
+
+O repositório de pacotes do Julia é o [Julia Observer](https://.juliaobserver.com)
+
+Instalar pacotes no Julia é interessante. Numa seção interativa do Julia voce deve digitar ] (não é um typo). Isso ativa a interface de instalação de pacotes. Para instalar, basta digitar `add nome_do_pacote`. Por exemplo, para instalar o pacote de otimização, bastaria fazer `add optim`. Para fazer update, na mesma interface, basta digitar `update`.
+
+(Na versão 1.0.2, a mais recente quando esse post foi escrito, o Julia tem um bug que impede de instalar qualquer pacote. Para corrigir, no próprio julia digite `rm(joinpath(homedir(), ".julia", "registries"); recursive=true)`. Retirado [daqui](https://discourse.julialang.org/t/atom-not-found-in-project-manifest-or-registry/13380)).
+
+Alguns pacotes importantes são o **Optim** e o **Plots** (os nomes são auto explicativos). O **Plots** é especialmente importante porque o Julia não tem nenhum suporte nativo à gráficos, e o **Plots** tem uma interface extremamente amigável e faz gráficos bonitos. O próprio help do pacote já é suficiente para usar ele.
+
+Para carregar um pacote, basta digitar `using nome_do_pacote`. Se eu quiser carregar o pacote **Plots**, por exemplo, eu faria `using Plots`
+
+O Julia Observer conta com uma enorme variedade de pacotes, mas dado o quão nova é a linguagem, ela ainda não chega perto do Python ou do R.
+
+## Matemática básica e matrizes
+
+O básico de matemática com o Julia é obvio: `2+2` retorna 4 etc. O Julia usa `^` para potenciação, ao contrário do infame `**` do Python.
+
+Criar matrizes no Julia é muitissimo parecido com o matlab (a ponto de você poder copiar um código que criar uma matriz no Julia para o matlab e vice versa). Para exemplificar, vamos construir a matriz identidade:
+
+```{julia}
+[[1 0];[0 1]]
+```
+
+Espaço separa elementos dentro da mesma linha, e ponto e vírgula "pula" a linha. Felizmente, para a matriz identidade, o Julia fornece o comando `Matrix{Float64}(I,dim1,dim2)` onde `dim1` é o número de linhas e `dim2` é o número de colunas. Veja que podemos criar matrizes de zeros com o comando `zeros`, de 1s com o comando `ones` e matrizes com elementos iid de uma normal de média zero e variância 1 com o `randn`. Mais ainda, podemos zerar _arrays_ que são matrizes com mais dimensões, usando os mesmos comandos, mas adicionando mais argumentos.
+
+Transposto (e transposta conjugada) são obtidos usando `'`. Logo a transporta da matriz `A` é `A'`. A inversa é obtida usando usando `inv()`.
+
+Outra operação muito comum é aplicar uma função a todos os elementos do _array_. A sintaxe geral disso para o Julia é `foo.()`. Então, se quisermos o valor absoluto dos elementos da matriz A, fariamos `abs.(A)`. Essa notação com ponto é tão geral que se aplica a operadores matemáticos. Suponha que temos dois vetores $v$ e $h$, e queremos dividir um vetor elemento a elemento: bastaria fazer `v ./ h`. Isso também funciona para operadores lógicos (`x .< 0` para ver quais elementos do vetor x são menores que 0)
+
+## Fors e ifs
+
+Como qualquer linguagem que se preze, Julia tem `for` e `if`. Um exemplo de for seria:
+
+```
+for i = 1:100
+  println(i)
+end
+
+```
+
+Isso faria os números de 1 a 100 serem exibidos no console, um em cada linha - o print usual mostraria eles todos juntos. Veja que não há necessidade de parêntese e de chaves para delimitar as coisas. O fim do `for`é indicado pela _keyword_ `end`.  Um `if`segue a mesmissa ideia: coloque a condição e termine com um `end`.
+
+## Funções
+
+Existem duas maneiras básicas de criar uma função no Julia. Se a sua função é meramente matemática, você pode definir como você faria no papel:
+
+```
+f(x)=x^2
+```
+
+Mas as vezes queremos construir funções que ocupam várias linhas. Nesse caso, fariamos:
+
+```
+function nome_da_função
+
+  código aqui
+
+end
+
+```
+## Plots
+
+Representar visualmente nossos resultados é importante. O pacote **Plots** é a melhor biblioteca disponível - em part por ela ser uma interface para várias outras. Vamos gerar alguns números aleatórios e usar o plot para ilustrar:
+
+```{julia}
+
+using Plots
+
+x = randn(500)
+plot(x)
+
+```
+
+![](/post/julia101/figures/julia101_2_1.svg)
+
+Nós poderíamos querer plotar os pontos, e neste caso o comando é `scatter`
+
+```{julia}
+scatter(x)
+```
+
+![](/post/julia101/figures/julia101_3_1.svg)
+
+Podemos sobrepor plots simplesmente usando `plot!` depois do primeiro plot. Por exemplo, eu vou sobrepor duas "séries" cointegradas:
+
+```{julia}
+
+x = randn(200)
+x = cumsum(x)
+
+y = 0.5*x + randn(200)
+z = x + randn(200)
+
+plot(y)
+plot!(z)
+
+```
+
+![](/post/julia101/figures/julia101_4_1.svg)
+
+## Optim
+
+Existe vários pacotes para fazer otimização no Julia: **Optim**, **JuMP**, **Nlopt**. O **Optim** é o mais simples deles; o **JuMP** permite escrever problemas complicados com restrição de maneira elegante e resolver - de certa forma é um pacote muito mais completo do que o **Optim**. O **Nlopt** chama um pacote externo para resolver problemas de otimização não lineares que aceita restrição. EU vou ilustrar apenas o caso de uso do **optim**.
+
+Suponha que queremos encontrar o mínimo de $f(x,y) = x^2+3x*y$. Vamos definir a função do Julia. Veja que ela vai receber um único argumento, que é um vetor, onde a segunda posição do vetor é o y:
+
+```{julia}
+
+using Optim
+
+f(x) = x[1]^2+3*x[1]*x[2]
+```
+
+O comando do **Optim** é `optimize`. Ela exige a função e um chute inicial:
+
+```{julia}
+
+sol = optimize(f,zeros(2))
+
+Optim.minimizer(sol)
+
+```
+
+O **Optim** vem com diferentes algoritmos de solução, e podemos definir qual usar. Por padrão, ele usa o Nelder-Mead, queé o mesmo padrão que o R usa. Vamos testar o LBFGS:
+
+```{julia}
+
+sol2 = optimize(f,zeros(2),LBFGS())
+
+Optim.minimizer(sol2)
+
+```
+
+## Julia Markdown
+
+O Julia já tem pacotes que permitem escrever um documento markdown com _chincks_ em Julia. Se você já usou o RMarkdown, a ideia é igual, mas ao invés de se usar \`\`\`{r}, usamos \`\`\`{julia}. O pacote que permite compilar o documento é o **Weave**. O documento deve ser salvo com a extensão _.jmd_. Compilar ele é uma simples questão de `weave("caminho do documento")`. O pacote dá várias opções de como compilar, e você deve olhar a documentação dele para ver a mais adequada.
+
+## Conclusão
+
+O Julia é bastante versátil, [eficiente](https://azul.netlify.com/2018/10/28/por-que-usar-o-julia/) e com uma comunidade ativa e crescente. Ele também é de graça, e o Thomas Sargent mantém [um site](https://lectures.quantecon.org/jl/) com lições de uma tonelada de coisas de economia moderna para o Julia. Esta rápida introdução deve permitir você fazer coisas básicas no Julia. Muitos dos pacotes tem documentação,que apesar de não ser tão acessível quanto a do R (que vai direto pelo RStudio), ela é de grande ajuda.

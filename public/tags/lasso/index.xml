@@ -1,26 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>LASSO on AZUL</title>
+    <title>Lasso on AZUL</title>
     <link>/tags/lasso/</link>
-    <description>Recent content in LASSO on AZUL</description>
+    <description>Recent content in Lasso on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+<<<<<<< Updated upstream
+    <lastBuildDate>Sun, 16 Sep 2018 00:00:00 +0000</lastBuildDate>
+=======
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Thu, 02 May 2019 00:00:00 +0000</lastBuildDate>
+>>>>>>> Stashed changes
     
 	<atom:link href="/tags/lasso/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
-      <link>/2019/05/02/lasso-adaptativo/</link>
-      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/02/lasso-adaptativo/</guid>
-      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
-\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
-(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
-    </item>
     
     <item>
       <title>O LASSO</title>

@@ -1,0 +1,160 @@
+---
+title: "Usando dados da RAIS e Análise de Sobrevivência para entender desemprego"
+author: "Pedro Cavalcante"
+date: '2018-10-07'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: yes
+categories:
+- R
+- Economia
+slug: rais-cox-desemprego
+tags:
+- Microeconomia
+- R
+- Análise de Sobrevivência
+authors: ["pedrocava"]
+---
+
+
+
+<p>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.</p>
+<p>Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça. Até onde eu sei esse tipo de técnica nasceu em pesquisas clínicas, para melhor entender efeitos de certos tratamentos contra câncer. Hoje é aplicado por cientistas sociais em análise de eventos, por engenheiros para entender melhor falha e confiabilidade de sistemas e por economistas, principalmente para estudar desemprego.</p>
+<div id="curvas-de-kaplan-meier-um-pouco-de-teoria" class="section level1">
+<h1>Curvas de Kaplan-Meier, um pouco de teoria</h1>
+<p>A função de sobrevivência, doravante <span class="math inline">\(S(t)\)</span>, é um mapa que relaciona momento de tempo <span class="math inline">\(t\)</span> à probabilidade de <em>não</em> acontecimento de um evento. A função <em>hazard</em> - acho que “risco” seja uma tradução apropriada? - relaciona a probabilidade de um evento acontecer no momento <span class="math inline">\(t\)</span>. Esse evento pode ser morte do paciente, uma revolução, falha de um sistema mecânico ou, no nosso caso, desemprego.</p>
+<p>Uma das ferramentas iniciais de Análise de Sobrevivência é a <a href="https://web.stanford.edu/~lutian/coursepdf/KMpaper.pdf">Curva de Kaplan-Meier</a>. A Curva KM tem a seguinte forma funcional:</p>
+<p><span class="math display">\[S(t_i) = S(t_{i-1})(1-\frac{d_i}{n_i})\]</span></p>
+<p>Onde <span class="math inline">\(n_i\)</span> é o número de empregados até <span class="math inline">\(t_i\)</span>, <span class="math inline">\(d_i\)</span> é o número de demissões em <span class="math inline">\(t_i\)</span>. Antes de computar isso, vamos explorar nossa amostra.</p>
+<div id="amostra" class="section level2">
+<h2>Amostra</h2>
+<p>Vamos usar dados anonimizados da RAIS de 2017, mais especificamente do Acre. Já tive o trabalho de limpa-los e deixei o arquivo <code>.Rds</code> disponível no <a href="https://github.com/danmrc/azul/tree/master/content/post/cox_rais">repositório do AZUL no github</a>. Você pode puxar os dados diretamente do repositório para o R e deixo como exercício ao leitor o código que faz isso (se quiser o código porque não está conseguindo eu estou sempre disponível).</p>
+<p>Vamos explorar a amostra.</p>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
+library(scales)
+
+dim(dados)</code></pre>
+<pre><code>## [1] 177358     54</code></pre>
+<pre class="r"><code>dados %&gt;%
+  ggplot(aes(x = Idade)) +
+  geom_histogram(fill = &quot;#325ce7&quot;, binwidth = 1) </code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-2-1.png" width="5250" /></p>
+<pre class="r"><code>dados %&gt;%
+  ggplot(aes(x = salario)) +
+  geom_histogram(aes(y=..density..), fill = &quot;#325ce7&quot;, binwidth = 50) +
+  scale_y_continuous(labels = percent) +
+  xlim(0, 10000)</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-2-2.png" width="5250" /></p>
+<pre class="r"><code>dados %&gt;%
+  ggplot(aes(x = salario, fill = sexo)) +
+  geom_histogram(binwidth = 50) +
+  xlim(0, 10000)</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-2-3.png" width="5250" /></p>
+<pre class="r"><code>dados %&gt;%
+  ggplot(aes(x = salario, fill = Graduacao)) +
+  geom_histogram(binwidth = 50) +
+  xlim(0, 10000)</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-2-4.png" width="5250" /></p>
+<pre class="r"><code>dados %&gt;%
+  ggplot(aes(x = salario)) +
+  geom_histogram(fill = &quot;#325ce7&quot;, binwidth = 50) +
+  xlim(0, 10000)+
+  facet_wrap(~etnia)</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-2-5.png" width="5250" /></p>
+<pre class="r"><code>dados %&gt;%
+  ggplot(aes(x = salario)) +
+  geom_histogram(aes(y=..density..), fill = &quot;#325ce7&quot;, binwidth = 150) +
+  scale_y_continuous(labels = percent) +
+  xlim(0, 10000)+
+  facet_wrap(~setor)</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-2-6.png" width="5250" /></p>
+<p>Agora podemos começar a brincar mais e tentar encaixar curvas de sobrevivência aqui. Temos ferramentas para estima-las no pacote <code>survival</code> e podemos visualiza-las com o pacote <code>survminer</code> que implementa uma viz baseada em <code>ggplot2</code>.</p>
+<pre class="r"><code>library(survival)
+
+fit_sexo = survfit(Surv(tempo_emprego, demissao) ~ sexo, data = dados)
+fit_setor = survfit(Surv(tempo_emprego, demissao) ~ setor, data = dados)
+fit_ensinosuperior = survfit(Surv(tempo_emprego, demissao) ~ Graduacao, data = dados)
+fit_etnia = survfit(Surv(tempo_emprego, demissao) ~ etnia, data = dados)
+
+library(survminer)
+
+ggsurvplot(fit_sexo, conf.int = TRUE,
+          palette = c(&quot;#91aded&quot;, &quot;#e1476b&quot;))</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-3-1.png" width="5250" /></p>
+<pre class="r"><code>ggsurvplot(fit_setor, conf.int = TRUE)</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-3-2.png" width="5250" /></p>
+<pre class="r"><code>ggsurvplot(fit_ensinosuperior, conf.int = TRUE)</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-3-3.png" width="5250" /></p>
+<pre class="r"><code>ggsurvplot(fit_etnia, conf.int = TRUE)</code></pre>
+<p><img src="/post/cox_rais/cox_rais_files/figure-html/unnamed-chunk-3-4.png" width="5250" /></p>
+<p>Como esperado, trabalhadores agrícolas tem empregos mais curtos, diplomas de ensino superior normalmente levam a empregos mais longos e negros têm rotatividade maior.</p>
+</div>
+</div>
+<div id="o-teste-log-rank" class="section level1">
+<h1>O teste log-rank</h1>
+<p>Podemos nos perguntar, no entanto, se existe significância estatística nessas diferenças. Existem evidências para apoiar a tese de que duas curvas de sobrevivência são <em>de fato</em> diferentes? Podemos usar um teste não-paramétrico, o log-rank para responder essa pergunta. Ele é interessante porque não depende de hipóteses sobre a distribuição das curvas de sobrevivência. O procedimento é - tendo como hipótese nula que as duas curvas são iguais - comparar o número observado de eventos em cada grupo com o esperado caso a hipótese nula valesse. O pacote ``survival``` traz uma implementação desse teste.</p>
+<pre class="r"><code>survdiff(Surv(tempo_emprego, demissao) ~ sexo, data = dados)</code></pre>
+<pre><code>## Call:
+## survdiff(formula = Surv(tempo_emprego, demissao) ~ sexo, data = dados)
+## 
+##                    N Observed Expected (O-E)^2/E (O-E)^2/V
+## sexo=Feminino  80793    19606    22066       274       532
+## sexo=Masculino 96565    26517    24057       251       532
+## 
+##  Chisq= 532  on 1 degrees of freedom, p= 0</code></pre>
+<p>O p-valor do teste, menor que <span class="math inline">\(2^{-16}\)</span>, nos diz que podemos rejeitar a hipótese nula com considerável confiança, encontramos evidências estatisticamente significantes de que de fato as curvas de sobrevivência de homens e mulheres são diferentes. Convido o leitor a repetir o teste com outros recortes em mente.</p>
+</div>
+<div id="o-modelo-de-riscos-proporcionais-de-cox" class="section level1">
+<h1>O modelo de Riscos Proporcionais de Cox</h1>
+<p>Tendo <span class="math inline">\(h(t)\)</span> como o risco no momento <span class="math inline">\(t\)</span>, <span class="math inline">\(h_o(t)\)</span> como o risco base no período, <span class="math inline">\(\beta\)</span> como um vetor de parâmetros e <span class="math inline">\(x\)</span> como um vetor de <span class="math inline">\(k\)</span> variáveis explicativas, esse modelo exprime a função risco da seguinte maneira:</p>
+<p><span class="math display">\[h(t) = h_0(t) \times e^{\sum_{i=1}^k \beta_i x_i}\]</span> Podemos estimar o vetor <span class="math inline">\(\beta\)</span> com regressão linear se aplicarmos logarítimos no modelo, que passa a ser:</p>
+<p><span class="math display">\[\ln{h(t)} = \ln{h_0(t)} + \sum_{i=1}^k \beta_i x_i\]</span></p>
+<p>Esse modelo é dito de riscos proporcionais porque a forma funcional que assumimos implica que curvas de riscos de indivíduos são múltiplos umas das outras e que, portanto,não se cruzam. Nesse modelo existe independência temporal na razão de risco de quaisquer dois indivíduos da amostra. Podemos estimar os parâmetros facilmente com <code>survival::coxph</code>.</p>
+<pre class="r"><code>cox = coxph(Surv(tempo_emprego, demissao) ~ homem + horas + Idade + branco + negro + industria + agricultura + CNPJ + firma_grande + servicos + salario , data = dados)
+
+summary(cox)</code></pre>
+<pre><code>## Call:
+## coxph(formula = Surv(tempo_emprego, demissao) ~ homem + horas + 
+##     Idade + branco + negro + industria + agricultura + CNPJ + 
+##     firma_grande + servicos + salario, data = dados)
+## 
+##   n= 177358, number of events= 46123 
+## 
+##                    coef  exp(coef)   se(coef)       z Pr(&gt;|z|)    
+## homem         4.935e-03  1.005e+00  9.959e-03   0.496   0.6202    
+## horas        -1.402e-02  9.861e-01  7.075e-04 -19.822  &lt; 2e-16 ***
+## Idade        -5.357e-02  9.478e-01  5.367e-04 -99.804  &lt; 2e-16 ***
+## branco       -1.354e-01  8.733e-01  1.975e-02  -6.856 7.09e-12 ***
+## negro         1.896e-02  1.019e+00  1.086e-02   1.746   0.0808 .  
+## industria    -1.336e+00  2.630e-01  2.409e-02 -55.444  &lt; 2e-16 ***
+## agricultura  -4.521e-01  6.363e-01  3.443e-02 -13.131  &lt; 2e-16 ***
+## CNPJ          3.218e-01  1.380e+00  3.669e-02   8.770  &lt; 2e-16 ***
+## firma_grande -5.104e-01  6.002e-01  1.182e-02 -43.192  &lt; 2e-16 ***
+## servicos     -1.213e+00  2.973e-01  1.507e-02 -80.488  &lt; 2e-16 ***
+## salario      -2.093e-04  9.998e-01  4.039e-06 -51.805  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##              exp(coef) exp(-coef) lower .95 upper .95
+## homem           1.0049     0.9951    0.9855    1.0248
+## horas           0.9861     1.0141    0.9847    0.9874
+## Idade           0.9478     1.0550    0.9468    0.9488
+## branco          0.8733     1.1450    0.8402    0.9078
+## negro           1.0191     0.9812    0.9977    1.0411
+## industria       0.2630     3.8030    0.2508    0.2757
+## agricultura     0.6363     1.5716    0.5948    0.6807
+## CNPJ            1.3796     0.7249    1.2838    1.4824
+## firma_grande    0.6002     1.6660    0.5865    0.6143
+## servicos        0.2973     3.3634    0.2887    0.3062
+## salario         0.9998     1.0002    0.9998    0.9998
+## 
+## Concordance= 0.736  (se = 0.001 )
+## Rsquare= 0.175   (max possible= 0.998 )
+## Likelihood ratio test= 34183  on 11 df,   p=0
+## Wald test            = 29993  on 11 df,   p=0
+## Score (logrank) test = 33199  on 11 df,   p=0</code></pre>
+<p>Se defirnimos a Razão de Risco <span class="math inline">\(r_i\)</span> de <span class="math inline">\(i\)</span>-ésima covariada como <span class="math inline">\(r_i := e^\beta_i\)</span>, então <span class="math inline">\(r_i &gt; 1\)</span> implica que a <span class="math inline">\(i\)</span>-ésima covariada leva a um aumento no nível de risco e <span class="math inline">\(r_i &lt; 1\)</span> a uma diminuição. A tabela acima então deve ser capaz de responder algumas das perguntas que fizemos no primeiro parágrafo.</p>
+</div>

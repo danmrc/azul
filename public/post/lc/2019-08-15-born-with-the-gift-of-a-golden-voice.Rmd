@@ -1,0 +1,265 @@
+---
+title: 'Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen'
+author: Daniel Coutinho
+date: '2019-08-15'
+slug: born-with-the-gift-of-a-golden-voice
+categories:
+  - Econometria
+  - Análise Textual
+  - Música
+  - R
+tags:
+  - LDA
+  - Leonard Cohen
+katex: yes
+draft: yes
+---
+
+> I was born like this
+>
+> I had no choice
+>
+> I was born with the gift of a golden voice
+
+-- Leonard Cohen
+
+Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um [task view para pacotes relacionadas a análise de texto](https://cran.r-project.org/view=NaturalLanguageProcessing). O modelo que eu vou usar é o extremamente popular _Latent Dirichelet Allocation_ (LDA). A ideia básica do LDA é que textos são compostos de tópicos e que pedaços de texto devem ser alocados para cada tópico. O LDA é flexível o suficiente para entender que a mesma palavra pode ser alocada para mais de um tópico (o que é diferente de _k means_, que deixaria cada palavra para um tópico): um exemplo simples é a palavra **manga**, que pode ser alocado no tópico frutas ou no tópico partes de roupa.
+
+A aplicação é um tanto inusitada: ao invés de atas do BC ou notícias de economia, eu vou analisar letras do Leonard Cohen. Você com certeza já ouviu Hallelujah - nem que tenha sido no filme do Shrek - que foi escrita por ele e tem uma história fascinante, mas que não cabe aqui. Diga-se de passagem, se esse post só servir para apresentar o leitor a Leonard Cohen, será o suficiente.
+
+Os motivos para eu escolher letras do Leonard Cohen são:
+
+* Ele era um poeta (literalmente) e as letras exploram uma enorme quantidade de tópicos relacionados a vida humana (soa clichê mas é verdade)
+* Vai ser incrivelmente fácil puxar _todas_ as letras dele usando dois pacotes (!), e eu perdi pouco tempo com essa parte. Puxar textos do BC, por exemplo, daria bem mais trabalho de baixar, importar para o R, arrumar para o pacote entender...
+* Todos os exemplos que eu vi dessas análises eram técnicos: atas do FED, notícias do Wall Street Journal. Aplicar para letra de música é diferente disso (mas não acho que eu seja pioneiro), e certamente apela para um público maior.
+
+Ao que interessa: primeiro, eu preciso puxar todas as letras de música do homem. Depois, eu vou estimar um LDA.
+
+# Puxando as letras
+
+Para essa primeira parte eu vou usar dois pacotes: o **spotifyr** e o **genius**. Para o spotify, você tem que criar um api no [site de desenvolvedor deles](https://developer.spotify.com/documentation/web-api/). Se você já tem uma conta, é mole. Isso te dá um id e um secret, que você deve entrar na função `get_spotify_access_token()` - como ele te dá acesso a bagunçar a sua conta, eu omito esses números aqui, mas o objeto gerado por esse comando foi chamado de `token`. Próximo passo é buscar pelo código interno que representa o Leonard Cohen:
+
+```
+
+View(search_spotify("Leonard Cohen", type = "artist", authorization = token))
+
+```
+
+Buscar todos os albums dele é feito com um único comando:
+
+```
+
+albums <- get_artist_albums("5l8VQNuIg0turYE1VtM9zV", include_groups = "album",limit = 50, authorization = token)
+
+```
+
+Veja que o limite máximo é 50, então para artistas com muitos discos (Bob Dylan, outro forte candidato a esse tipo de análise), você vai ter que pensar em outra estratégia. Felizmente, a discografia do Leonard Cohen é limitada a uns 22 álbuns, incluindo os ao vivo (mas excluindo colêtaneas). O objeto acima gera 39 entradas, porque se existem versões especiais para certos mercados, o mesmo album aparece várias vezes (é o caso de vários discos do Leonard Cohen). O passo seguinte é excluir esses discos e os discos ao vivo. Eu abri a base de dados e fui na unha. Talvez exista alguma maneira mais inteligente:
+
+```
+
+albums_aux <- albums[-c(2,3,6,7,8,9,10,13,14,15,16,17,20,23,24,27,28,31,32,33,35),]
+
+```
+
+Veja que eu criei uma nova variável porque se eu fizesse bobagem eu não perdia os dados baixados do spotify (em geral, APIs limitam o número de pedidos que um usuário tem direito ao dia). No fim, quando tudo ficou certo, eu fiz um `albums <- albums_aux`
+
+Próximo passo é pegar a lista de todas as faixas de cada álbum. A função `get_album_tracks` faz isso para cada disco. Um loop dá conta do recado, e os objetos gerados pelo `get_album_tracks` (que são dataframes) são colocados numa lista:
+
+```
+albums_list <- list()
+
+for(i in 1:length(albums$id)){
+
+  albums_list[[i]] <- get_album_tracks(albums$id[i], authorization = token)
+  Sys.sleep(3 + rnorm(1))
+}
+
+```
+
+O `Sys.sleep` está ali por uma boa razão: sempre que fazemos webscrapping, para evitar lotar o servidor de solicitações (causando o banimento do seu ip, possivelmente), é de bom tom colocar uma pausa de alguns segundos. Eu não sei se isso é estritamente necessários, mas _old habits die hard_.
+
+Por algum motivo, o campo do artista vem como uma lista com um endereço interno do spotify para o artista e outras coisas. Nada disso me interessa: eu quero apenas o nome no dataframe para usar o pacote **genius** para buscar as letras:
+
+```
+
+for(i in 1:length(albums_list)){
+    albums_list[[i]]$artists <- "Leonard Cohen"
+}
+
+```
+
+Vamos juntar tudo em um único dataframe:
+
+
+```
+
+tracks <- do.call("rbind", albums_list)
+
+```
+
+"Por que você não fez isso antes/direto quando puxou do spotify?" Só para evitar ter um erro e recomeçar do zero caso o comando retornasse alguma coisa diferente de dataframes com o mesmo número de colunas. Veja que esse dataframe tem muita informação, mas para o pacote **genius** eu só preciso de duas: o artista e o nome da música. Vamos criar um dataframe só com isso:
+
+```
+
+tracks_clean <- data.frame(tracks$artists,tracks$name, stringsAsFactors = F)
+names(tracks_clean) <- c("artist","names")
+
+tracks_clean <- tracks_clean[-41,]
+tracks_clean[96,2] <- "Chelsea Hotel No. 2"
+
+```
+
+A faixa 41 é uma versão ao vivo, e Chelsea Hotel No. 2 admite várias grafias diferentes - no Spotify vem Chelsea Hotel #2. O Genius usa a que eu coloquei acima no código. Por sinal,a ordem dos discos é de forma que os mais recentes estão no começo do dataframe, o que explica Chelsea Hotel, que é do quarto disco, estar quase no fim (o dataframe tem 132 linhas).
+
+Agora nós vamos puxar todas as letras, e aqui o pacote **genius** entra em ação. Não precisamos criar nenhum api para acessar o genius. A função `possible_lyrics` é esperta: se ela encontra a letra, ela puxa isso como um tibble que em cada linha tem um verso da música; caso contrário, ela retorna um tibble vazio e um warning não um erro. Isso impede que o nosso loop empaque em uma letra que não foi encontrada e agiliza bastante a vida.
+
+O `if` separa casos que a letra foi obtida com sucesso e casos em que o Genius não tem a letra. Eu pego a letra (a segunda coluna do tibble) e colo ela em uma única string: uma letra com 45 versos vira um objeto de um único elemento. Eu removo, usando o pacote **stringr**, o `c()` que marcam a divisão do vetor (isso entra entre colchetes para o R interpretar os parêntese literalmente), contrabarras com aspas (marcam a divisão de strings) e pulos de linha (\\n) e enfim armazeno isso numa lista `lyrics` (o motivo de ser uma lista vai ficar bem claro daqui a pouco):
+
+```
+
+lyrics <- list()
+
+for(i in 1:nrow(tracks_clean)){
+  ly_aux <- possible_lyrics(artist = tracks_clean[i,1], song = tracks_clean[i,2], info = "simple")
+  if(length(ly_aux) == 2){
+    ly_aux <- paste(ly_aux)[2]
+    ly_aux <- str_remove_all(ly_aux,'\\"')
+    ly_aux <- str_remove(ly_aux,'c[(]')
+    ly_aux <- str_remove(ly_aux,'[)]')
+    ly_aux <- str_remove_all(ly_aux,'\\n')
+    lyrics[[i]] <- ly_aux
+  } else{
+     lyrics[[i]] <- ly_aux
+    }
+  print(i)
+  Sys.sleep(2+rnorm(1,sd = 0.5))
+}
+
+```
+
+Novamente, tem um `Sys.sleep` ali por boas maneiras. Da maneira que isso foi escrito, isso gerou uma lista que cada entrada tem dois objetos, se tudo deu certo. Eu arrumo isso para ficar apenas com a letra:
+
+```
+
+lyrics2 <- list()
+
+for(i in 1:length(lyrics)){
+  if(length(lyrics[[i]])==2){
+    lyrics2[[i]] = lyrics[[i]][2]
+  } else {
+    print(paste("Song", tracks_clean[i,2], "unavailable"))
+  }
+}
+
+```
+
+Veja que no caso que eu não obtive nada, eu faço o R imprimir o nome da música faltante. Para a minha surpresa, não faltou nenhuma.
+
+Neste ponto, dado o trabalho feito, me pareceu de bom tom salvar tudo:
+
+```
+
+save(lyrics2, file = "./dados/letras_cohen.RData")
+
+```
+
+Tem mais arrumação a ser feita: a primeira é separar a letra palavra por palavra, para cada palavra seja uma entrada no vetor:
+
+```
+
+for(i in 1:length(lyrics2)){
+  lyrics[[i]] <- unlist(str_split(lyrics2[[i]]," "))
+}
+
+
+```
+
+Veja que essa _não é a única_ estratégia a ser adotada: eu podia querer agrupar as palavras dois a dois. Na citação no começo desse post, temos "golden voice". Separando da maneira que eu fiz, golden e voice ficam separados, apesar de elas juntas terem um significado diferente de cada uma delas separadas. E isso também é verdade para grupos de três palavras (had no choice), quatro (was born like this) etc etc. Esses conjunto são conhecidos como bigramas, trigamas e n-gramas. A minha escolha por palavras individuais se deve a duas coisas:
+
+* Preguiça, uma vez que ou eu teria que separar todos os conjuntos relevantes no braço ou considerar todos os bigramas: isso geraria para "I was born like this" os bigramas "I was", "was born", "born like"...
+* Mais importante, isso são letras de música. É altamente improvável que trechos relevantes se repitam com frequência (eu acho). Isso não é verdade para situações como atas do BC, onde "taxa de juros" é um grupo significativo e que aparece diversas vezes.
+
+Outro detalhe é que é comum tirar palavras como the, and, or etc. Eu vou manter elas porque elas não são tão frequentes quanto em textos usuais _e_ porque elas podem ser de fato importantes. Em um exemplo clássico tirado da aula de literatura, em um dos poemas de Olavo Bilac:
+
+> Trabalha e teima, e lima , e sofre, e sua!
+
+E famosamente repetir o "e" acentua a ideia de esforço - trabalha, teima, lima, sofre e sua é muito mais rápido.^[Provando que eu aprendi _alguma coisa_ na aula de literatura!]
+
+
+O passo seguinte é retirar vírgulas, pontos e uma meia dúzia de parênteses - todos esses são removidos com a keyword `[:punct:]`e uns ocasionais caractéres especiais que aparecem entre chaves ou entre <>. Eu também removo la (ou La), como em La La Land, e algum ocasional NA:
+
+```
+
+for(i in 1:length(lyrics)){
+    lyrics[[i]] <- str_remove_all(lyrics[[i]],"[:punct:]")
+    lyrics[[i]] <- str_remove_all(lyrics[[i]],"[{].*[}]")
+    lyrics[[i]] <- str_remove_all(lyrics[[i]],"[<].*[>]")
+    lyrics[[i]] <- str_remove_all(lyrics[[i]],"c[(]")
+    las <- match(lyrics[[i]],"la", nomatch = 0)
+    las <- las + match(lyrics[[i]],"La", nomatch = 0)
+    lyrics[[i]] <- lyrics[[i]][!las]
+    na <-  match(lyrics[[i]],"NA", nomatch = 0)
+    lyrics[[i]] <- lyrics[[i]][!na]
+}
+```
+
+Finalmente, podemos pensar em fazer um modelo!
+
+# O modelo
+
+Eu vou usar o pacote `lda` para estimar o LDA. Esse pacote tem um comando `lexicalize` que pega uma lista em que cada entrada na lista é um "documento" - no nosso caso, uma letra - e essa unidade contém um vetor com o texto quebrado de maneira que a unidade fundamental - palavra, bigrama ou n-grama - seja um elemento do vetor.
+
+```
+lyrics_to_lda <- lexicalize(lyrics)
+```
+
+O objeto `lyrics_to_lda` tem duas entradas: a primeira são os documentos - nesse caso, as letras de música - nas quais as palavras são substituídas por um número(`$documents`) e um dicionário que mapeia o número para a palavra(`$vocab`). Finalmente podemos estimar o modelo:
+
+```
+
+modelo <- lda.collapsed.gibbs.sampler(lyrics_to_lda$documents,K = 15,vocab = lyrics_to_lda$vocab, num.iterations = 5000,alpha = 1,eta = 1)
+
+```
+
+A coisa realmente importante aqui é o K, que é a quantidade de tópicos. Até onde eu sei, a maneira de selecionar isso é testando, analisando os tópicos gerados e vendo se é razoável. 15 pareceu bom o bastante: eu tentei mais, tentei menos e fiquei satisfeito com 15.
+
+# Resultados
+
+Eu vou usar o pacote **wordcloud** para gerar wordclouds. Eu vou pintar de azul mais escuro palavras que aparecem mais frequentemente e de azul mais claro palavras menos frequentes. Eu não vou colocar todos os 15 tópicos - dado que vocês podem replicar usando o arquivo com dados que está no github e o código que tá aqui no post.
+
+Alguns pontos que vão ficar bem claros a seguir é que, apesar da ideia ter parecido boa inicialmente, ela sofre de dois problemas:
+
+1. Música - e poesia no geral - usam muitas metáforas. Se já é uma batalha fazer o computador entender um texto objetivo, um texto com significados subjetivos vai ser um desafio ainda maior.
+2. Ao contrário de um texto técnico, que nós esperamos que termos se repitam, aqui a repetição vai ser muito mais baixa. Voltando ao exemplo das atas do BC, nós esperaríamos que as palavras taxas, juros, inflação etc aparecessem em vários documentos. Aqui isso não ocorre tanto.
+
+O código a seguir gera as 15 wordclouds em png e salva elas:
+
+```
+for(i in 1:15){
+  png(paste0("./content/post/lc/grupo_",i,".png"))
+  wordcloud(str_remove_all(names(word_and_topics[i,]),'["]'),word_and_topics[i,], scale = c(4,.5), colors = c("lightblue","blue","midnightblue"),min.freq = 2,max.words = 100)
+  dev.off()
+}
+```
+
+Veja que a ordem dos tópicos não importa muito. Um grupo curioso é um que envolve mulheres:
+
+![](/post/lc/grupo_8.png)
+
+Veja que parece man, womans, wife e chelsea - o que faz sentido já que Chelsea Hotel No. 2 é sobre o _one night stand_ que o Leonard Cohen teve com a Janis Joplin.
+
+Um outro grupo envolve palavras como I, the, and etc
+
+![](/post/lc/grupo_10.png)
+
+Outro grupo interessante é o que envolve a música _Jazz Police_ **e** play (sendo que a palavra play não aparece na música _Jazz Police_):
+
+![](/post/lc/grupo_5.png)
+
+Mais um grupo curioso é esse aqui:
+
+![](/post/lc/grupo_13.png)
+
+_Repent_ domina totalmente a imagem, mas nós também conseguimos ver prayer e hope, wine e murder - todos temas comuns em religião.
+
+Outra coisa bacana de fazer é ver quais músicas são representam melhor cada tópico - isso é, quantas vezes cada tópico aparece em cada música:

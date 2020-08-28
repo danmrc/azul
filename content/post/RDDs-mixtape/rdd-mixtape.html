@@ -1,0 +1,136 @@
+---
+title: "RDD, inferência causal e um exemplo em R"
+author: "Pedro Cavalcante"
+date: '2018-12-13'
+output:
+  pdf_document: default
+  html_document: 
+    df_print: paged
+katex: yes
+categories:
+- R
+- Econometria
+- Inferência Causal
+slug: rdd-mixtape
+tags:
+- RDD
+- Inferência Causal
+- Replicação
+authors: ["pedrocava"]
+---
+
+
+
+<p>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas <del>sérios</del> que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra <span class="math inline">\(X\)</span> e outro em que não vigora.</p>
+<p>Somos, nesse sentido, muito limitados em nossas ambições. O melhor com que podemos sonhar é conduzir estudos caríssimos em que um tratamento é designado aleatoriamente entre participantes, como fazem em estudos clínicos para drogas novas. Um exemplo interessante é <a href="https://www.aeaweb.org/articles?id=10.1257/app.20160469">Nyqvist <em>et al.</em> (2018, AEJ: Applied Economics)</a>, que montou uma loteria para pacientes com HIV no Lesoto. A nossa capacidade de controlar covariáveis relevantes também é limitada a depender do contexto. Em um laboratório é razoavelmente fácil controlar os fatores relevantes para o comportamento de duas pessoas jogando o Jogo do Ultimato, não é tão simples dizer para alunos (ou mesmo equipe) de uma escola que metade da turma vai receber um pagamento em dinheiro, aulas de música ou ficar em uma turma menor.</p>
+<p>Por isso no mundo real usualmente dependemos de quasi-experimentos, ou experimentos naturais. O resgate de cubanos de Mariel como em <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.421.9316&amp;rep=rep1&amp;type=pdf">Card e DiNardo (2000, AER)</a>, a colonização européia de boa parte do mundo como em <a href="https://economics.mit.edu/files/4123">Acemoglu <em>et. al</em> (2001, AER)</a> e a divisão da América do Sul no Tratado de Tordesillas como em <a href="http://www.tinbergen.nl/wp-content/uploads/2017/09/Felipe-Caicedo-27-Sept.pdf">Fujiwara <em>et. al</em> (2017)</a> exploram esse tipo de evento como fontes de variação exógena em algum tipo de variável: oferta de trabalho, instituições políticas e presença de escravos, respectivamente. Tendo isso em mente, qualquer variação em outras variáveis que seja explicada por essa variação exógena que identificamos pode ser crivelmente atribuída ao efeito causal que a primeira variável tem. Isso é, em termos bem amplos, o que chamamos de Variáveis Instrumentais. É uma técnica bem popular de inferência causal.</p>
+<p>Esses exemplos, no entanto, parecem muito grandiosos, históricos. Podem ser menores e normalmente regras implementadas por burocratas são fontes valiosas de variações agudas. Aqui entra o RDD.</p>
+<p>É plausível que dia de nascimento seja relevante para renda e escolaridade? Muito pouco a princípio, a menos que - por exemplo - um pai precise esperar um ano para matricular seu filho numa escola pública porque ele nasceu um dia depois da data limite para o ano. Essa é a ideia de <a href="https://www.nber.org/papers/w12329">McCrary e Royer (2011, AER)</a>. Esse tipo de evento não causa só variação plausivelmente exógena na escolaridade entre crianças, mas variação aguda. Uma <em>descontinuidade</em>, por assim dizer. O gráfico abaixo, tirado do paper, ilustra isso:</p>
+<div class="figure">
+<img src="https://i.imgur.com/SoWHVFw.png" />
+
+</div>
+<p>Você pode entender o efeito de tratamento da regra como a diferença dos limites laterais desse polimônio estimado no ponto da descontnuidade. Chamamos essa técnica de <em>Regression Descontinuity Design</em> (RDD).</p>
+<p>Leitor, RDD</p>
+<p>RDD, leitor</p>
+<p>A história dessa técnica é curiosa: foi proposta por dois psicólogos educacionais, <a href="https://obsstudies.org/wp-content/uploads/2017/01/regression_discontinuity_all_comments-1.pdf">Campbell e Thistlewaite (1960)</a> para avaliar o efeito de ganhar competições científicas nos hábitos de atendência em pós-graduação de alunos. Você pode ler mais sobre <a href="https://www.ipr.northwestern.edu/publications/docs/workingpapers/2007/IPR-WP-07-03.pdf">a história dela clicando aqui</a> se quiser.</p>
+<div id="ta-mas-e-mao-na-massa" class="section level1">
+<h1>Tá, mas e mão na massa?</h1>
+<p>Já falei demais sem escrever uma linha de código. Vamos ver a magia acontecer. Vou replicar um exemplo do incrível livro <em>Causal Inference: The Mixtape</em>, do Scott Cunningham (que tem uma <a href="https://twitter.com/causalinf">maravilhosa conta no twitter</a>), <a href="http://scunning.com/cunningham_mixtape.pdf">disponível de graça no site dele</a>. Três pacotes trazem ferramentas de R para estimar e brincar com RDDs:</p>
+<ul>
+<li><p>O primeiro é <code>rdrobust</code>, que implementa o estimador proposto em <a href="https://deepblue.lib.umich.edu/bitstream/handle/2027.42/109857/ecta1465.pdf?sequence=1&amp;isAllowed=y">Calonico, Cattaneo e Titiunik (Econometrica, 2014)</a>, um RDD com intervalos de confiança menos sensíveis à variações no bandwidth selecionado. Eles fazem isso usando um estimador novo para o erro-padrão. O pacote também tem um port para Stata publicado no <a href="http://www-personal.umich.edu/~cattaneo/papers/Calonico-Cattaneo-Farrell-Titiunik_2017_Stata.pdf">Stata Journal</a>, além da versão em R - que saiu no <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.429.1273&amp;rep=rep1&amp;type=pdf">Journal of Statistical Software</a>.</p></li>
+<li><p>O segundo é <code>rddtools</code>, que traz algumas ferramentas de inferência, implementações variadas e uma base de dados interessante.</p></li>
+<li><p>O terceiro é <code>rdd</code>. O menos completo de todos, traz ferramentas para visualização e uma implementação, completamente <em>barebones</em>, mas entrega o que precisa ser feito. Talvez seja bom para quem está começando R, porque é de longe o mais simples.</p></li>
+</ul>
+<p>Vamos replicar parte das regressões em <a href="https://academic.oup.com/qje/article-abstract/119/3/807/1938834">Lee, Moretti e Butler (2004, QJE)</a>. Lembre-se de instalar o pacote <code>mixtape</code> com o comando <code>devtools::install_github('johnson-shuffle/mixtape')</code>, já que o autor não submeteu ao CRAN. Nele estão as bases de dados com exemplos. Vamos usar a base <code>lmb_data</code>, com dados eleitorais a nível de distrito. <code>score</code> é o ADA Score, uma medida de <span class="math inline">\(0\)</span> (muito conservador) a <span class="math inline">\(100\)</span> (muito progressista) de cada legislador e <code>demvoteshare</code> é a fração dos votos no distrito para legisladores democratas.</p>
+<p>A pergunta que estamos nos fazendo é: eleitores elegem ou afetam políticas públicas? Se eles afetam, então entende-se que pressão competitiva por voto induz convergência política - assim como no jogo de Hotelling farmácias se agrupam em Copacabana (desculpa para quem não é do Rio, não resisti). No entanto, se eles <em>elegem</em>, então entende-se que políticos não conseguem crivelmente se comprometer com plataformas específicas. Eleições então são mecanismos que revelam preferências sociais de maneira bem clara, quem ganha melhor satisfaz esses desejos.</p>
+<pre class="r"><code>library(rdrobust)
+library(mixtape)
+library(tidyverse)
+
+data(&quot;lmb_data&quot;)
+lmb_data = as.tibble(lmb_data)
+head(lmb_data)</code></pre>
+<pre><code>## # A tibble: 6 x 178
+##   state district incmbncy demvote repvote  year congress occupanc name 
+##   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl+lb&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
+## 1 1            1 -1        127802  103294  1948       81        0 RIBI~
+## 2 1            1 -1        127802  103294  1948       81        0 RIBI~
+## 3 1            1 &quot; 1&quot;      134258   96251  1950       82        0 RIBI~
+## 4 1            1 &quot; 1&quot;      134258   96251  1950       82        0 RIBI~
+## 5 1            1 &quot; 1&quot;      148935  112526  1954       84        0 DODD 
+## 6 1            1 &quot; 1&quot;      148935  112526  1954       84        0 DODD 
+## # ... with 169 more variables: eq_Dwhip &lt;dbl&gt;, eq_Rwhip &lt;dbl&gt;,
+## #   eq_Dlead &lt;dbl&gt;, eq_Rlead &lt;dbl&gt;, vote &lt;dbl&gt;, republic &lt;dbl&gt;,
+## #   party &lt;dbl&gt;, office &lt;dbl&gt;, icpsr_id &lt;dbl&gt;, whip_D &lt;dbl&gt;, whip_R &lt;dbl&gt;,
+## #   vote_tot &lt;dbl&gt;, demvoteshare &lt;dbl&gt;, dembin &lt;dbl&gt;,
+## #   lagdemvoteshare &lt;dbl&gt;, clusterid &lt;dbl&gt;, pooleyear &lt;dbl&gt;,
+## #   redistrict &lt;dbl&gt;, poolename &lt;chr&gt;, aclu_vs &lt;dbl&gt;, acu_vs &lt;dbl&gt;,
+## #   aca_vs &lt;dbl&gt;, ada_vs &lt;dbl&gt;, afbf_vs &lt;dbl&gt;, afge_vs &lt;dbl&gt;,
+## #   afscme_vs &lt;dbl&gt;, aft_vs &lt;dbl&gt;, asc_vs &lt;dbl&gt;, bfw_vs &lt;dbl&gt;,
+## #   bctd_vs &lt;dbl&gt;, carter_vs &lt;dbl&gt;, ccus1_vs &lt;dbl&gt;, ccus2_vs &lt;dbl&gt;,
+## #   cwla_vs &lt;dbl&gt;, cv_vs &lt;dbl&gt;, cvvf_vs &lt;dbl&gt;, sane_vs &lt;dbl&gt;,
+## #   cfnfmp_vs &lt;dbl&gt;, aflcio_vs &lt;dbl&gt;, cfsca_vs &lt;dbl&gt;, cfsce_vs &lt;dbl&gt;,
+## #   cfscd_vs &lt;dbl&gt;, cfscs_vs &lt;dbl&gt;, ccause_vs &lt;dbl&gt;, cw_vs &lt;dbl&gt;,
+## #   cc_vs &lt;dbl&gt;, cfa_vs &lt;dbl&gt;, ike_vs &lt;dbl&gt;, pfpike_vs &lt;dbl&gt;,
+## #   pdpike_vs &lt;dbl&gt;, ford_vs &lt;dbl&gt;, fcnl_vs &lt;dbl&gt;, lbj_vs &lt;dbl&gt;,
+## #   pfplbj_vs &lt;dbl&gt;, pdplbj_vs &lt;dbl&gt;, jfk_vs &lt;dbl&gt;, pfpjfk_vs &lt;dbl&gt;,
+## #   pdpjfk_vs &lt;dbl&gt;, lfr_vs &lt;dbl&gt;, lcv_vs &lt;dbl&gt;, lwv_vs &lt;dbl&gt;,
+## #   ll_vs &lt;dbl&gt;, lfs_vs &lt;dbl&gt;, nasc_vs &lt;dbl&gt;, ncsc_vs &lt;dbl&gt;, nea_vs &lt;dbl&gt;,
+## #   nfo_vs &lt;dbl&gt;, nfu_vs &lt;dbl&gt;, nfib_vs &lt;dbl&gt;, ntu_vs &lt;dbl&gt;,
+## #   nwpc_vs &lt;dbl&gt;, nr_vs &lt;dbl&gt;, nixon_vs &lt;dbl&gt;, reagan_vs &lt;dbl&gt;,
+## #   ripon_vs &lt;dbl&gt;, twr_vs &lt;dbl&gt;, uaw_vs &lt;dbl&gt;, umw_vs &lt;dbl&gt;,
+## #   firstyear &lt;dbl&gt;, adayear &lt;dbl&gt;, nomada &lt;dbl&gt;, realada &lt;dbl&gt;,
+## #   demvs2 &lt;dbl&gt;, demvs3 &lt;dbl&gt;, demvs4 &lt;dbl&gt;, lagdemvs2 &lt;dbl&gt;,
+## #   lagdemvs3 &lt;dbl&gt;, lagdemvs4 &lt;dbl&gt;, dem2 &lt;dbl&gt;, lagdem2 &lt;dbl&gt;,
+## #   lagaclu &lt;dbl&gt;, lagacu &lt;dbl&gt;, lagaca &lt;dbl&gt;, lagafbf &lt;dbl&gt;,
+## #   lagafge &lt;dbl&gt;, lagafscme &lt;dbl&gt;, lagaft &lt;dbl&gt;, lagasc &lt;dbl&gt;,
+## #   lagbfw &lt;dbl&gt;, lagbctd &lt;dbl&gt;, ...</code></pre>
+<p>Agora procuramos uma descontinuidade, que sabemos existir quando democratas ganham:</p>
+<pre class="r"><code>rdrobust::rdplot(y = lmb_data$score,
+       x = lmb_data$demvoteshare,
+       p = 2, # grau do polinômio
+       c = .5, # onde está o cut-off
+       x.label = &quot;Fração de votos dos Democratas&quot;,
+       y.label = &quot;Score&quot;) </code></pre>
+<p><img src="/post/RDDs-mixtape/rdd-mixtape_files/figure-html/unnamed-chunk-2-1.png" width="1400" /></p>
+<p>Podemos tentar repetir com um polinômio linear:</p>
+<pre class="r"><code>rdrobust::rdplot(y = lmb_data$score,
+       x = lmb_data$demvoteshare,
+       p = 1, # grau do polinômio
+       c = .5, # onde está o cut-off
+       x.label = &quot;Fração de votos dos Democratas&quot;,
+       y.label = &quot;Score&quot;) </code></pre>
+<p><img src="/post/RDDs-mixtape/rdd-mixtape_files/figure-html/unnamed-chunk-3-1.png" width="1400" /></p>
+<p>Podemos só estimar o RDD sem o auxílio gráfico. Observe que o print padrão da função não é completo e vai omitir informações importantes como p-valor. É de bom tom armazenar o modelo em um objeto e pedir o sumário dele.</p>
+<pre class="r"><code>rdd1 = rdrobust(y = lmb_data$score,
+       x = lmb_data$demvoteshare,
+       p = 2,
+       c = .5,
+       kernel = &quot;triangular&quot;)
+
+summary(rdd1)</code></pre>
+<pre><code>## Call: rdrobust
+## 
+## Number of Obs.                13577
+## BW type                       mserd
+## Kernel                   Triangular
+## VCE method                       NN
+## 
+## Number of Obs.                5480        8097
+## Eff. Number of Obs.           3171        2950
+## Order est. (p)                   2           2
+## Order bias  (p)                  3           3
+## BW est. (h)                  0.135       0.135
+## BW bias (b)                  0.184       0.184
+## rho (h/b)                    0.730       0.730
+## 
+## =============================================================================
+##         Method     Coef. Std. Err.         z     P&gt;|z|      [ 95% C.I. ]       
+## =============================================================================
+##   Conventional    46.201     1.466    31.507     0.000    [43.327 , 49.075]    
+##         Robust         -         -    27.412     0.000    [42.714 , 49.293]    
+## =============================================================================</code></pre>
+<p>O próximo passo - central - é repetir essa estimação para legisladores democratas e depois somente para legisladores republicanos. Se o efeito da competição domina, então observaríamos ambos os partidos indo mais para a esquerda em distritos que tem maioria Democrata.</p>
+<p>Deixo ao leitor fazer essa parte e tirar suas próprias conclusões.</p>
+</div>

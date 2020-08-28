@@ -8,6 +8,7 @@ categories:
 tags:
   - Poder de teste
   - Significância
+authors: ["danielc"]
 ---
 
 <script src="2020-07-18-viés-de-significância_files/header-attrs/header-attrs.js"></script>
@@ -40,7 +41,7 @@ names(df) &lt;- c(&quot;Val&quot;,&quot;Sig&quot;)
 
 ggplot(df,aes(Sig,Val)) + geom_boxplot() + labs(x = &quot;P-value &lt; 0.05?&quot;)</code></pre>
 <p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>A média no caso significante é 0.2846841, enquanto a média ignorando isso é 0.0992918. Mais uma vez: isso <em>não</em> seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto.</p>
+<p>A média no caso significante é 0.2836636, enquanto a média ignorando isso é 0.0998223. Mais uma vez: isso <em>não</em> seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto.</p>
 <p>Vamos pra matemática por trás desse resultado</p>
 <div id="a-matemática" class="section level2">
 <h2>A matemática</h2>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogdown on AZUL</title>
@@ -6,19 +6,24 @@
     <description>Recent content in Blogdown on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+<<<<<<< Updated upstream
+    <lastBuildDate>Sun, 25 Nov 2018 00:00:00 +0000</lastBuildDate>
+=======
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate>
+>>>>>>> Stashed changes
     
 	<atom:link href="/tags/blogdown/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Workflow - Como funciona o AZUL</title>
-      <link>/2020/04/25/workflow/</link>
-      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      <link>/2018/11/25/workflow/</link>
+      <pubDate>Sun, 25 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/25/workflow/</guid>
+      <guid>/2018/11/25/workflow/</guid>
       <description>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
-Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown, que no fundo roda um software chamado hugo.</description>
+Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdow.</description>
     </item>
     
   </channel>

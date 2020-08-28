@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on AZUL</title>
@@ -6,448 +6,24 @@
     <description>Recent content in Posts on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+<<<<<<< Updated upstream
+    <lastBuildDate>Mon, 17 Dec 2018 00:00:00 +0000</lastBuildDate>
+=======
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Wed, 29 Jul 2020 00:00:00 +0000</lastBuildDate>
+>>>>>>> Stashed changes
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Crescimento Exponencial, mas sem o Corona</title>
-      <link>/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</link>
-      <pubDate>Wed, 29 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</guid>
-      <description>Uma família de funções que aparece em variados contextos é a exponencial:
-\[f(x) = ab^x\]
-Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&amp;gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
-Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual \(b\) passamos como base.</description>
-    </item>
-    
-    <item>
-      <title>Classificando distribuições a partir dos momentos</title>
-      <link>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</link>
-      <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</guid>
-      <description>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
-A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.</description>
-    </item>
-    
-    <item>
-      <title>Viés de significância</title>
-      <link>/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</link>
-      <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</guid>
-      <description>Esse post trata de um troço que eu nunca tinha pensado e é sensacional, talvez dê um nó na cabeça. Ele é 100% baseado neste post aqui, que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui, eu vou explicar tudo.
-Tem muita conta e vou deixar elas no fim. A ideia é extremamente simples: se você está numa situação em que o poder do teste é baixo e encontra um efeito significante, esse efeito provavelmente está sobreestimado.</description>
-    </item>
-    
-    <item>
-      <title>R mais rápido</title>
-      <link>/2020/07/02/r-mais-r%C3%A1pido/</link>
-      <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/07/02/r-mais-r%C3%A1pido/</guid>
-      <description>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.
-Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usa vários processadores sem precisar fazer nenhum setup.</description>
-    </item>
-    
-    <item>
-      <title>Hamiltonian Monte Carlo</title>
-      <link>/2020/06/22/hamiltonian-monte-carlo/</link>
-      <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
-      <description>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
-No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.</description>
-    </item>
-    
-    <item>
-      <title>Cuide da saúde, pare de fazer loops</title>
-      <link>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</link>
-      <pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</guid>
-      <description>Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
-O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
-Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação.</description>
-    </item>
-    
-    <item>
-      <title>Modelagem com {tidymodels}</title>
-      <link>/2020/06/02/modelagem-com-tidymodels/</link>
-      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/02/modelagem-com-tidymodels/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>{purrr} para simular Sistemas Dinâmicos</title>
-      <link>/2020/05/25/funprog-dyn-sys/</link>
-      <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/05/25/funprog-dyn-sys/</guid>
-      <description>Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
-\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.</description>
-    </item>
-    
-    <item>
-      <title>Double Selection</title>
-      <link>/2020/05/01/double-selection/</link>
-      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/05/01/double-selection/</guid>
-      <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
-Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
-Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
-    </item>
-    
-    <item>
-      <title>Workflow - Como funciona o AZUL</title>
-      <link>/2020/04/25/workflow/</link>
-      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/25/workflow/</guid>
-      <description>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
-Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown, que no fundo roda um software chamado hugo.</description>
-    </item>
-    
-    <item>
-      <title>Viés de Atenuação</title>
-      <link>/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
-      <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
-      <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</description>
-    </item>
-    
-    <item>
-      <title>Jogo da Velha com Q-Learning</title>
-      <link>/2020/04/21/jogo-da-velha-com-q-learning/</link>
-      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/21/jogo-da-velha-com-q-learning/</guid>
-      <description>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</description>
-    </item>
-    
-    <item>
-      <title>Erros padrões HAC</title>
-      <link>/2020/04/12/erros-padr%C3%B5es-hac/</link>
-      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/12/erros-padr%C3%B5es-hac/</guid>
-      <description>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
-Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</description>
-    </item>
-    
-    <item>
-      <title>Mas e a indústria?</title>
-      <link>/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
-      <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
-      <description>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar não é coincidência.</description>
-    </item>
-    
-    <item>
-      <title>Bootstrap: uma introdução</title>
-      <link>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</link>
-      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</guid>
-      <description>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</description>
-    </item>
-    
-    <item>
-      <title>Gerando um padrão de difusão com soma de um termo gaussiano</title>
-      <link>/2020/02/09/difusao-gaussiana/</link>
-      <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/02/09/difusao-gaussiana/</guid>
-      <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
-Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
-    </item>
-    
-    <item>
-      <title>Amostrando de distribuições difíceis: o Markov Chain Monte Carlo</title>
-      <link>/2020/02/08/markov-chain-monte-carlo/</link>
-      <pubDate>Sat, 08 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/02/08/markov-chain-monte-carlo/</guid>
-      <description>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</description>
-    </item>
-    
-    <item>
-      <title>Sistemas dinâmicos II: Expectativas racionais</title>
-      <link>/2020/01/17/sistemas-din%C3%A2micos-ii/</link>
-      <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/01/17/sistemas-din%C3%A2micos-ii/</guid>
-      <description>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</description>
-    </item>
-    
-    <item>
-      <title>Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot</title>
-      <link>/2020/01/05/linux-e-windows/</link>
-      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/01/05/linux-e-windows/</guid>
-      <description>Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
-Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!</description>
-    </item>
-    
-    <item>
-      <title>Simulando o Teorema Central do Limite no R</title>
-      <link>/2019/11/03/central-limit-theorem-r/</link>
-      <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/11/03/central-limit-theorem-r/</guid>
-      <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
-    </item>
-    
-    <item>
-      <title>Regredindo séries temporais aleatórias para quem gosta de regressão</title>
-      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
-      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
-      <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
-    </item>
-    
-    <item>
-      <title>Medindo a inércia da inflação brasileira com Rolling Window Regression</title>
-      <link>/2019/09/20/inercia-inflacao-rolling-window/</link>
-      <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/09/20/inercia-inflacao-rolling-window/</guid>
-      <description>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</description>
-    </item>
-    
-    <item>
-      <title>O Teorema do Macaco Infito: quanto tempo até sair Hamlet?</title>
-      <link>/2019/09/08/macaco-infinito-hamlet/</link>
-      <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/09/08/macaco-infinito-hamlet/</guid>
-      <description>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
-    </item>
-    
-    <item>
-      <title>Visualizando um critério de estacionariedade em Processos AR</title>
-      <link>/2019/08/20/viz-estacionariedade-gganim/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
-      <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
-Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
-    </item>
-    
-    <item>
-      <title>Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen</title>
-      <link>/2019/08/15/born-with-the-gift-of-a-golden-voice/</link>
-      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/15/born-with-the-gift-of-a-golden-voice/</guid>
-      <description>I was born like this
-I had no choice
-I was born with the gift of a golden voice
- – Leonard Cohen
-Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</description>
-    </item>
-    
-    <item>
-      <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</title>
-      <link>/2019/08/12/perron-frobenius-verificando-comp-1/</link>
-      <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
-    </item>
-    
-    <item>
-      <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</title>
-      <link>/2019/08/12/perron-frobenius-verificando-comp-2/</link>
-      <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
-    </item>
-    
-    <item>
-      <title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</title>
-      <link>/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
-      <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
-      <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
-Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
-    </item>
-    
-    <item>
-      <title>Comportamento de Random Walks</title>
-      <link>/2019/06/10/var-random-walks/</link>
-      <pubDate>Mon, 10 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/06/10/var-random-walks/</guid>
-      <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
-\[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
-    </item>
-    
-    <item>
-      <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
-      <link>/2019/05/17/prouni-rf-classificacao/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/17/prouni-rf-classificacao/</guid>
-      <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.</description>
-    </item>
-    
-    <item>
-      <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
-      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
-      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
-      <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
-\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
-O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
-    </item>
-    
-    <item>
-      <title>Classificando cursos no ProUni com Random Forest</title>
-      <link>/2019/05/07/prouni-rf-classificacao/</link>
-      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/07/prouni-rf-classificacao/</guid>
-      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
-Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
-    </item>
-    
-    <item>
-      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
-      <link>/2019/05/02/lasso-adaptativo/</link>
-      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/02/lasso-adaptativo/</guid>
-      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
-\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
-(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
-    </item>
-    
-    <item>
-      <title>Uma introdução à Cross Validation</title>
-      <link>/2019/04/20/cross-validation/</link>
-      <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/20/cross-validation/</guid>
-      <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
-A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
-    </item>
-    
-    <item>
-      <title>Modelo de Cournot no R com o pacote Recon</title>
-      <link>/2019/04/04/recon-comp-micro/</link>
-      <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/04/04/recon-comp-micro/</guid>
-      <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;) para instalar a última versão enviada ao repositório ou devtools::install_github(&amp;quot;pedrocava/Recon&amp;quot;) para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
-Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.</description>
-    </item>
-    
-    <item>
-      <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
-      <link>/2019/03/28/consistencia-assintotica-ols/</link>
-      <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/03/28/consistencia-assintotica-ols/</guid>
-      <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
-    </item>
-    
-    <item>
-      <title>Aplicando Programação Dinâmica à Reforma da Previdência</title>
-      <link>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</link>
-      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</guid>
-      <description>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
-Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.</description>
-    </item>
-    
-    <item>
-      <title>Still Haven&#39;t Found What I am looking for: modelos de search para emprego</title>
-      <link>/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/</link>
-      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/</guid>
-      <description>(Sim, o título é uma referência a música do U2. Não só de economia vive um homem.)
-Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos posts anteriores1 para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário \(w\), onde \(w\) sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?</description>
-    </item>
-    
-    <item>
-      <title>Filtros: Uma Introdução</title>
-      <link>/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</link>
-      <pubDate>Sat, 09 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</guid>
-      <description>Um filtro (linear) é basicamente qualquer polinômio \(\alpha(B)\) a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:
-\[ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} \]
-Onde B é o operador backshift, logo para uma série temporal \(y_t\), \(By_t = y_{t-1}\) e \(B^ny_t = y_{t-n}\). A forma acima é conhecida como a representação no domínio temporal (time domain) do filtro. Filtros podem “existir” em duas formas, que carregam a mesma informação: a de time domain e a frequency domain (que, em tradução literal, é o domínio da frequência ou domínio frequencial.</description>
-    </item>
-    
-    <item>
-      <title>Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate</title>
-      <link>/2019/01/07/prob-animate/</link>
-      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/01/07/prob-animate/</guid>
-      <description>Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&amp;quot;gganimate&amp;quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R.</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/12/27/programacao-dinamica-ii-b/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/12/27/programacao-dinamica-ii-b/</guid>
-      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
-    </item>
-    
-    <item>
-      <title>Ano novo, layout novo</title>
-      <link>/2018/12/26/ano-novo-layout-novo/</link>
-      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/12/26/ano-novo-layout-novo/</guid>
-      <description>Um novo ano se aproxima. E junto dele, temos um novo tema para o blog, com um layout ainda mais minimalista, descrições dos posts na página inicial (na verdade um trecho do texto), mas mais importante (e o principal motivo) é que o novo tema faz syntax highlighting, ou seja, o código dos nossos posts agora vão se parecer mais com os códigos que você normalmente vê em uma IDE, como o RStudio.</description>
-    </item>
-    
-    <item>
-      <title>Por quê todo estudante de Economia deveria aprender R e por onde começar</title>
-      <link>/2018/12/21/aprender/</link>
-      <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/12/21/aprender/</guid>
-      <description>Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
-Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.</description>
-    </item>
-    
-    <item>
       <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos</title>
-      <link>/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
-      <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
+      <link>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
+      <pubDate>Mon, 17 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
+      <guid>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
       <description>(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
-Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
+Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regreesão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
     </item>
     
     <item>
@@ -466,7 +42,17 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
       
       <guid>/2018/12/10/julia-101/</guid>
       <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
+InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
+    </item>
+    
+    <item>
+      <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
+      <link>/2018/12/10/prouni-rf-svm/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/10/prouni-rf-svm/</guid>
+      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
+Random ForestsSupport Vector MachinesRodando tudo</description>
     </item>
     
     <item>
@@ -495,8 +81,18 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+    </item>
+    
+    <item>
+      <title>Workflow - Como funciona o AZUL</title>
+      <link>/2018/11/25/workflow/</link>
+      <pubDate>Sun, 25 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/25/workflow/</guid>
+      <description>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
+Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdow.</description>
     </item>
     
     <item>
@@ -506,7 +102,7 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
       
       <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\). A incerteza vem do salário dele, que passa a ser uma variável aleatória.</description>
     </item>
     
     <item>
@@ -525,8 +121,18 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
       <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
+      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
+    </item>
+    
+    <item>
+      <title>Programação Dinâmica IIB</title>
+      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
       <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
+$$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
     </item>
     
     <item>
@@ -536,7 +142,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)
       
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
@@ -675,7 +281,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
       <guid>/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
@@ -709,23 +315,12 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
     </item>
     
     <item>
-      <title>R do Zero (1): Sintaxe Básica</title>
-      <link>/1/01/01/r-zero-1/</link>
+      <title></title>
+      <link>/1/01/01/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/1/01/01/r-zero-1/</guid>
-      <description>Contexto Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio a pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, que tal disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.
-Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno.</description>
-    </item>
-    
-    <item>
-      <title>R do Zero (2): Manipulando dados com {dplyr}</title>
-      <link>/1/01/01/r-zero-2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/r-zero-2/</guid>
-      <description>Qual é a ideia do dplyr? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o %&amp;gt;% para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.
-Os que já tiveram contato com python se lembrarão de várias funções do pandas.</description>
+      <guid>/1/01/01/</guid>
+      <description>Ponto Fixo e Equlíbrio GeralMathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]},TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } }});@font-face {font-style: normal;font-weight: 300;}@font-face {font-style: normal;font-weight: 400;}@font-face {font-style: normal;font-weight: 600;}html {font-family: sans-serif; /* 1 */-ms-text-size-adjust: 100%; /* 2 */-webkit-text-size-adjust: 100%; /* 2 */}body {margin: 0;}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {display: block;}audio,canvas,progress,video {display: inline-block; /* 1 */vertical-align: baseline; /* 2 */}audio:not([controls]) {display: none;height: 0;}[hidden],template {display: none;}a:active,a:hover {outline: 0;}abbr[title] {border-bottom: 1px dotted;}b,strong {font-weight: bold;}dfn {font-style: italic;}h1 {font-size: 2em;margin: 0.</description>
     </item>
     
   </channel>

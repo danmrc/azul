@@ -1,0 +1,107 @@
+---
+title: "Homens têm mais casos extraconjugais?"
+author: "Pedro Cavalcante"
+date: '2018-08-17'
+output:
+html_document:
+df_print: paged
+categories:
+- R
+- Probit
+- Microeconomia
+slug: homens-traicao
+tags:
+- R
+- Probit
+authors: ["pedrocava"]
+katex: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é [Fair (JPE 1978)](http://people.stern.nyu.edu/wgreene/Lugano2013/Fair-ExtramaritalAffairs.pdf), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU). 
+
+Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
+
+
+## Probits 
+
+Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários. Os parâmetros estimados no dizem em que medida uma variação marginal em uma variável explicativa altera o $z$-score da variável dependente, não a sua probabilidade condicional de assumir $1$. 
+
+Seja $\mathbb{P}$ o operador para probabilidade, $\Phi$ a função de distribuição cumultiva de uma normal padrão, $X$ um vetor de variáveis aleatórias  e $\beta$ o vetor de parâmetros a ser estimado. Um modelo probit assume a seguinte forma:
+
+$$\mathbb{P}(Y=1 | X) = \Phi (X^T \beta)$$
+
+É possível também exprimir o modelo como $Y^{*} = X^T \beta + \epsilon$ e mostrar que as duas formas são equivalentes é um exercício interessante. 
+
+Não irei entrar nos pormenores de como se pode estimar os parâmetros desse modelo. A função ```glm``` disponível no R usa estimação por Máxima Verossimilhança, até onde sei.
+
+
+## A amostra
+
+Vamos explorar um pouco os dados com a ajuda do ```ggplot2``` antes de sair por aí estimando parâmetros:
+
+
+```{r warning=FALSE}
+library(wooldridge)
+
+data("affairs")
+
+head(affairs) ## Confirmando que funcionou
+```
+
+
+```{r graficos, dpi = 1000, warning = FALSE}
+library(ggplot2)
+library(dplyr)
+library(scales)
+
+affairs %>%
+  ggplot(aes(x=yrsmarr))+
+  geom_histogram(binwidth = 1, fill = "white", color="blue")+
+  xlab("Anos de Casamento")+
+  ylab("Frequência")
+
+affairs %>%
+  ggplot(aes(x=ratemarr))+
+  geom_histogram(binwidth = 1, fill = "white", color="blue")+
+  xlab("Avaliação do Casamento (1 = infeliz, 5 = muito feliz)")+
+  ylab("Frequência")
+
+affairs %>%
+  ggplot(aes(x=affair))+
+  geom_histogram(aes(y=..density..), bins = 2,
+                  fill = "white", color="blue")+
+  scale_y_continuous(labels = percent)+
+  xlab("Teve um caso no ano anterior (1 = sim, 0 = não)")+
+  ylab("")
+
+```
+
+## Estimando um modelo probit
+
+O R "vanilla" já conta com ferramentas para estimar modelos desse tipo:
+
+```{r warning = FALSE, message=FALSE}
+affairs$rel <- ifelse(affairs$relig > 2, 1, 0) #dummy de religiosidade
+affairs$feliz <- ifelse(affairs$ratemarr > 2, 1, 0) #dummy de casamento feliz
+
+probit <- glm(affair ~ male + kids + feliz + rel + educ + yrsmarr + age,
+                family = binomial(link = "probit"),
+                  data = affairs)
+summary(probit)
+```
+
+O problema desse modelo no atual estado é que os parâmetros representam mudanças no $z$-score da variável explicada e não são facilmente interpretados. Seria mais interessante ter variações diretas na probabilidade condicional $\mathbb{P}(Y=1 | X)$. Temos ferramentas para isso, no pacote ```mfx```.
+
+```{r warning=FALSE, message=FALSE}
+library(mfx)
+
+probitmfx(affair ~ male + kids + feliz + rel + educ + yrsmarr + age,
+              data = affairs)
+```
+
+Aqui sim, os parâmetros podem ser lidos como variações na probabilidade condicional de $Y=1$. Observe, leitor que a variável explicativa ```male``` não é estatisticamente significante. Talvez precisamos de uma amostra maior.
+

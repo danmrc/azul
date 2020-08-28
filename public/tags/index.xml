@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on AZUL</title>
@@ -6,21 +6,22 @@
     <description>Recent content in Tags on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+<<<<<<< Updated upstream
+    <lastBuildDate>Fri, 19 Oct 2018 00:00:00 +0000</lastBuildDate>
+=======
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Wed, 29 Jul 2020 00:00:00 +0000</lastBuildDate>
+>>>>>>> Stashed changes
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Programação</title>
-      <link>/tags/programa%C3%A7%C3%A3o/</link>
-      <pubDate>Wed, 29 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/programa%C3%A7%C3%A3o/</guid>
-      <description></description>
-    </item>
-    
-    <item>
+<<<<<<< Updated upstream
+      <title>Adf</title>
+      <link>/tags/adf/</link>
+      <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
+=======
       <title>Programação Funcional</title>
       <link>/tags/programa%C3%A7%C3%A3o-funcional/</link>
       <pubDate>Wed, 29 Jul 2020 00:00:00 +0000</pubDate>
@@ -123,66 +124,63 @@
       <title>Machine Learning</title>
       <link>/tags/machine-learning/</link>
       <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
+>>>>>>> Stashed changes
       
-      <guid>/tags/machine-learning/</guid>
+      <guid>/tags/adf/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Matemática</title>
-      <link>/tags/matem%C3%A1tica/</link>
-      <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
+      <title>Análise De Sobrevivência</title>
+      <link>/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/matem%C3%A1tica/</guid>
+      <guid>/tags/an%C3%A1lise-de-sobreviv%C3%AAncia/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Double Selection</title>
-      <link>/tags/double-selection/</link>
-      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
+      <title>Apresentação</title>
+      <link>/tags/apresenta%C3%A7%C3%A3o/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/double-selection/</guid>
+      <guid>/tags/apresenta%C3%A7%C3%A3o/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Efeito de Tratamento</title>
-      <link>/tags/efeito-de-tratamento/</link>
-      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
+      <title>Autovalores</title>
+      <link>/tags/autovalores/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/efeito-de-tratamento/</guid>
+      <guid>/tags/autovalores/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Seleção de Modelos</title>
-      <link>/tags/sele%C3%A7%C3%A3o-de-modelos/</link>
-      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
+      <title>Blanchard Quah</title>
+      <link>/tags/blanchard-quah/</link>
+      <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/sele%C3%A7%C3%A3o-de-modelos/</guid>
+      <guid>/tags/blanchard-quah/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Blogdown</title>
       <link>/tags/blogdown/</link>
-      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 25 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/blogdown/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>VAR</title>
-      <link>/tags/var/</link>
-      <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/var/</guid>
-      <description></description>
-    </item>
-    
-    <item>
+<<<<<<< Updated upstream
+      <title>Bot</title>
+      <link>/tags/bot/</link>
+      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
+=======
       <title>Variáveis Instrumentais</title>
       <link>/tags/vari%C3%A1veis-instrumentais/</link>
       <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
@@ -294,210 +292,135 @@
       <title>Dual Boot</title>
       <link>/tags/dual-boot/</link>
       <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+>>>>>>> Stashed changes
       
-      <guid>/tags/dual-boot/</guid>
+      <guid>/tags/bot/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Linux</title>
-      <link>/tags/linux/</link>
-      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      <title>Cadeias De Markov</title>
+      <link>/tags/cadeias-de-markov/</link>
+      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/linux/</guid>
+      <guid>/tags/cadeias-de-markov/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>CLT</title>
-      <link>/tags/clt/</link>
-      <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
+      <title>Clustering</title>
+      <link>/tags/clustering/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/clt/</guid>
+      <guid>/tags/clustering/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Econometria</title>
       <link>/tags/econometria/</link>
-      <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/econometria/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Processos Estocásticos</title>
-      <link>/tags/processos-estoc%C3%A1sticos/</link>
-      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      <title>Economia</title>
+      <link>/tags/economia/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/processos-estoc%C3%A1sticos/</guid>
+      <guid>/tags/economia/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Séries Temporais</title>
-      <link>/tags/s%C3%A9ries-temporais/</link>
-      <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
+      <title>Economia Da Educação</title>
+      <link>/tags/economia-da-educa%C3%A7%C3%A3o/</link>
+      <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/s%C3%A9ries-temporais/</guid>
+      <guid>/tags/economia-da-educa%C3%A7%C3%A3o/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>OLS</title>
-      <link>/tags/ols/</link>
-      <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
+      <title>Inferência Causal</title>
+      <link>/tags/infer%C3%AAncia-causal/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ols/</guid>
+      <guid>/tags/infer%C3%AAncia-causal/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Processos Autogressivos</title>
-      <link>/tags/processos-autogressivos/</link>
-      <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
+      <title>Instrumentos Fracos</title>
+      <link>/tags/instrumentos-fracos/</link>
+      <pubDate>Mon, 17 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/processos-autogressivos/</guid>
+      <guid>/tags/instrumentos-fracos/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Teorema do Macaco Infinito</title>
-      <link>/tags/teorema-do-macaco-infinito/</link>
-      <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
+      <title>Interpolação</title>
+      <link>/tags/interpola%C3%A7%C3%A3o/</link>
+      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/teorema-do-macaco-infinito/</guid>
+      <guid>/tags/interpola%C3%A7%C3%A3o/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>AR</title>
-      <link>/tags/ar/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <title>Julia</title>
+      <link>/tags/julia/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ar/</guid>
+      <guid>/tags/julia/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>LDA</title>
-      <link>/tags/lda/</link>
-      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/lda/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Leonard Cohen</title>
-      <link>/tags/leonard-cohen/</link>
-      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/leonard-cohen/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ponto Fixo</title>
-      <link>/tags/ponto-fixo/</link>
-      <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/ponto-fixo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>PNG</title>
-      <link>/tags/png/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/png/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Semestes Aleatórias</title>
-      <link>/tags/semestes-aleat%C3%B3rias/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/semestes-aleat%C3%B3rias/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Coleman Operator</title>
-      <link>/tags/coleman-operator/</link>
-      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/coleman-operator/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Firesale</title>
-      <link>/tags/firesale/</link>
-      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/firesale/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Time Domain Iteration</title>
-      <link>/tags/time-domain-iteration/</link>
-      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/time-domain-iteration/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cross Validation</title>
-      <link>/tags/cross-validation/</link>
-      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/cross-validation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Random Forest</title>
-      <link>/tags/random-forest/</link>
-      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/random-forest/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>LASSO</title>
+      <title>Lasso</title>
       <link>/tags/lasso/</link>
-      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/lasso/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Competição Imperfeita</title>
-      <link>/tags/competi%C3%A7%C3%A3o-imperfeita/</link>
-      <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
+      <title>Machine Learning</title>
+      <link>/tags/machine-learning/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/competi%C3%A7%C3%A3o-imperfeita/</guid>
+      <guid>/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Macroeconomia</title>
+      <link>/tags/macroeconomia/</link>
+      <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/macroeconomia/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Microeconomia</title>
       <link>/tags/microeconomia/</link>
-      <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/microeconomia/</guid>
       <description></description>
     </item>
     
     <item>
+<<<<<<< Updated upstream
+      <title>Monte Carlo</title>
+      <link>/tags/monte-carlo/</link>
+      <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
+=======
       <title>Otimização</title>
       <link>/tags/otimiza%C3%A7%C3%A3o/</link>
       <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
@@ -521,15 +444,6 @@
       <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/reforma-da-previd%C3%AAncia/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Economia</title>
-      <link>/tags/economia/</link>
-      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/economia/</guid>
       <description></description>
     </item>
     
@@ -573,35 +487,50 @@
       <title>Filtros Lineares</title>
       <link>/tags/filtros-lineares/</link>
       <pubDate>Sat, 09 Feb 2019 00:00:00 +0000</pubDate>
+>>>>>>> Stashed changes
       
-      <guid>/tags/filtros-lineares/</guid>
+      <guid>/tags/monte-carlo/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Animação</title>
-      <link>/tags/anima%C3%A7%C3%A3o/</link>
-      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
+      <title>Ponto Fixo</title>
+      <link>/tags/ponto-fixo/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/anima%C3%A7%C3%A3o/</guid>
+      <guid>/tags/ponto-fixo/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Convergência</title>
-      <link>/tags/converg%C3%AAncia/</link>
-      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
+      <title>Price Puzzle</title>
+      <link>/tags/price-puzzle/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/converg%C3%AAncia/</guid>
+      <guid>/tags/price-puzzle/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Visualização de Dados</title>
-      <link>/tags/visualiza%C3%A7%C3%A3o-de-dados/</link>
-      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
+      <title>Probit</title>
+      <link>/tags/probit/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/visualiza%C3%A7%C3%A3o-de-dados/</guid>
+      <guid>/tags/probit/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+<<<<<<< Updated upstream
+      <title>Profiling</title>
+      <link>/tags/profiling/</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
+=======
+      <title>Economia</title>
+      <link>/tags/economia/</link>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/economia/</guid>
       <description></description>
     </item>
     
@@ -609,58 +538,50 @@
       <title>Julia</title>
       <link>/tags/julia/</link>
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
+>>>>>>> Stashed changes
       
-      <guid>/tags/julia/</guid>
+      <guid>/tags/profiling/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Programação Dinâmica</title>
       <link>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Layout</title>
-      <link>/tags/layout/</link>
-      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/layout/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Syntax highlighting</title>
-      <link>/tags/syntax-highlighting/</link>
-      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      <title>Raiz Unitária</title>
+      <link>/tags/raiz-unit%C3%A1ria/</link>
+      <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/syntax-highlighting/</guid>
+      <guid>/tags/raiz-unit%C3%A1ria/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Instrumentos Fracos</title>
-      <link>/tags/instrumentos-fracos/</link>
-      <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
+      <title>Random Forest</title>
+      <link>/tags/random-forest/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/instrumentos-fracos/</guid>
+      <guid>/tags/random-forest/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Inferência Causal</title>
-      <link>/tags/infer%C3%AAncia-causal/</link>
-      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/infer%C3%AAncia-causal/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>RDD</title>
+      <title>Rdd</title>
       <link>/tags/rdd/</link>
       <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -678,47 +599,11 @@
     </item>
     
     <item>
-      <title>Telegram</title>
-      <link>/tags/telegram/</link>
-      <pubDate>Mon, 03 Dec 2018 00:00:00 +0000</pubDate>
+      <title>Sazonalidade</title>
+      <link>/tags/sazonalidade/</link>
+      <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/telegram/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bot</title>
-      <link>/tags/bot/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/bot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cadeias de Markov</title>
-      <link>/tags/cadeias-de-markov/</link>
-      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/cadeias-de-markov/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Suavização do consumo</title>
-      <link>/tags/suaviza%C3%A7%C3%A3o-do-consumo/</link>
-      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/suaviza%C3%A7%C3%A3o-do-consumo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Autovalores</title>
-      <link>/tags/autovalores/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/autovalores/</guid>
+      <guid>/tags/sazonalidade/</guid>
       <description></description>
     </item>
     
@@ -732,6 +617,11 @@
     </item>
     
     <item>
+<<<<<<< Updated upstream
+      <title>Sistemas Dinâmicos</title>
+      <link>/tags/sistemas-din%C3%A2micos/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+=======
       <title>Profiling</title>
       <link>/tags/profiling/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
@@ -786,6 +676,15 @@
     </item>
     
     <item>
+      <title>VAR</title>
+      <link>/tags/var/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/var/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Sazonalidade</title>
       <link>/tags/sazonalidade/</link>
       <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
@@ -798,8 +697,9 @@
       <title>Macroeconomia</title>
       <link>/tags/macroeconomia/</link>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
+>>>>>>> Stashed changes
       
-      <guid>/tags/macroeconomia/</guid>
+      <guid>/tags/sistemas-din%C3%A2micos/</guid>
       <description></description>
     </item>
     
@@ -813,47 +713,29 @@
     </item>
     
     <item>
-      <title>Interpolação</title>
-      <link>/tags/interpola%C3%A7%C3%A3o/</link>
-      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
+      <title>Suavização Do Consumo</title>
+      <link>/tags/suaviza%C3%A7%C3%A3o-do-consumo/</link>
+      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/interpola%C3%A7%C3%A3o/</guid>
+      <guid>/tags/suaviza%C3%A7%C3%A3o-do-consumo/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Clustering</title>
-      <link>/tags/clustering/</link>
-      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      <title>Svm</title>
+      <link>/tags/svm/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/clustering/</guid>
+      <guid>/tags/svm/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Probit</title>
-      <link>/tags/probit/</link>
-      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      <title>Telegram</title>
+      <link>/tags/telegram/</link>
+      <pubDate>Mon, 03 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/probit/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Economia da Educação</title>
-      <link>/tags/economia-da-educa%C3%A7%C3%A3o/</link>
-      <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/economia-da-educa%C3%A7%C3%A3o/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Apresentação</title>
-      <link>/tags/apresenta%C3%A7%C3%A3o/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/apresenta%C3%A7%C3%A3o/</guid>
+      <guid>/tags/telegram/</guid>
       <description></description>
     </item>
     
@@ -867,11 +749,44 @@
     </item>
     
     <item>
+      <title>Var</title>
+      <link>/tags/var/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/var/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Variáveis Instrumentais</title>
+      <link>/tags/vari%C3%A1veis-instrumentais/</link>
+      <pubDate>Mon, 17 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/vari%C3%A1veis-instrumentais/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+<<<<<<< Updated upstream
+      <title>Álgebra Linear</title>
+      <link>/tags/%C3%A1lgebra-linear/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+=======
+      <title>Programação</title>
+      <link>/tags/programa%C3%A7%C3%A3o/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/programa%C3%A7%C3%A3o/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>R do Zero</title>
       <link>/tags/r-do-zero/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+>>>>>>> Stashed changes
       
-      <guid>/tags/r-do-zero/</guid>
+      <guid>/tags/%C3%A1lgebra-linear/</guid>
       <description></description>
     </item>
     
