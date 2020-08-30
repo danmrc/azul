@@ -1,0 +1,101 @@
+---
+title: Componentes Principais e decomposição de matrizes
+author: Daniel Coutinho
+date: '2020-08-30'
+slug: componentes-principais-e-decomposição-de-matrizes
+categories:
+  - Estatística
+  - Machine Learning
+tags:
+  - Componentes Principais
+  - Álgebra Linear
+  - SVD
+  - Autovalores
+authors: ["danielc"]  
+draft: true
+---
+
+<script src="2020-08-30-componentes-principais-e-decomposição-de-matrizes_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.</p>
+<div id="componentes-principais" class="section level2">
+<h2>Componentes Principais</h2>
+<p>Eu vou trabalhar no <span class="math inline">\(\mathbb{R}^2\)</span> pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis. Veja que <span class="math inline">\(\mathbb{R}^2\)</span> é extremamente infeliz para isso - afinal qual a graça de resumir <em>duas</em> variáveis. Mas a visualização fica bem mais fácil.</p>
+<p>Eu vou gerar uma amostra aleatória da normal bivariada, com variância 1, correlação 0.7 e média zero e plottar isso:</p>
+<pre class="r"><code>library(MASS)
+library(ggplot2)
+
+S &lt;- cbind(c(1,.7),c(.7,1))
+ams &lt;- mvrnorm(n=100,mu = c(0,0),Sigma=S)
+df &lt;- data.frame(ams)
+ggplot(df,aes(X1,X2)) + geom_point()</code></pre>
+<p><img src="/post/2020-08-30-componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Veja que se eu traçar uma reta na diagonal e uma reta ortogonal a ela, eu vou ter um novo sistema de coordenadas no qual um dos eixos está na direção que tem o máximo de variação:</p>
+<pre class="r"><code>ggplot(df,aes(X1,X2)) + geom_point() + geom_abline(slope=1,intercept=0)</code></pre>
+<p><img src="/post/2020-08-30-componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(df,aes(X1,X2)) + geom_point() + geom_abline(slope=1,intercept=0) + geom_abline(slope=-1,intercept=0)</code></pre>
+<p><img src="/post/2020-08-30-componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p>O segundo gráfico só coloca um segundo eixo. Formalizar isso requer o uso de um velho conhecido nosso, os autovalores.</p>
+</div>
+<div id="componentes-principais-são-autovetores" class="section level2">
+<h2>Componentes Principais são autovetores</h2>
+<p>Como eu quero o máximo de variação, faz sentido começar pensando na matriz de variância, <span class="math inline">\(\Sigma\)</span>. Como <span class="math inline">\(\Sigma\)</span> é uma matriz simétrica, positiva definida, nós sabemos que os autovetores formam uma base ortogonal e os autovalores são positivos. Eu vou fazer a decomposição em autovalores da matriz de variância, S, e plotar o autovetor associado ao maior autovalor:</p>
+<pre class="r"><code>auto &lt;- eigen(S)$vectors
+
+ggplot(df,aes(X1,X2)) + geom_point() + geom_segment(x=0,y=0, yend=auto[2,1],xend=auto[1,1],arrow=arrow())</code></pre>
+<p><img src="/post/2020-08-30-componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>O autovetor aponta exatamente na direção que a gente quer. Vamos entender a matemática: seja <span class="math inline">\(x\)</span> o vetor de variáveis aleatórias. Nós queremos encontrar um vetor <span class="math inline">\(\omega\)</span> que faça com que <span class="math inline">\(\omega^{\prime}x\)</span> gere a maior variância possível, ou seja <span class="math inline">\(\max_\omega \omega xx^{\prime} \omega^{\prime}\)</span>. Veja que sem uma normalização em <span class="math inline">\(\omega\)</span>, qualquer múltiplo vai resolver o problema. Posto de outra forma (100% roubada), se <span class="math inline">\(\omega\)</span> é um autovetor, então qualquer múltiplo dele também é. Pra facilitar as contas, vamos estabelecer que <span class="math inline">\(\omega^{\prime}\omega = 1\)</span>. Eu poderia resolver usando multiplicador de Lagrange, mas deixa eu fazer algo menos estruturado: comece pela função objetivo do problema de maximização, sabendo que <span class="math inline">\(xx^{\prime} = \Sigma\)</span>:</p>
+<p><span class="math display">\[\omega^{\prime} \Sigma \omega\]</span></p>
+<p>Eu já disse que <span class="math inline">\(\Sigma\)</span> admite uma representação por autovetores que formam uma base ortogonal, então se <span class="math inline">\(P\)</span> é a matriz de autovetores, e por ser ortogonal, <span class="math inline">\(P&#39; = P^{-1}\)</span>. A matriz de autovalores (que é diagonal) vai ser <span class="math inline">\(\Lambda\)</span>:</p>
+<p><span class="math display">\[\omega^{\prime} \Sigma \omega = \omega^{\prime} P^{\prime}\Lambda{}P \omega\]</span></p>
+<p>Agora defina <span class="math inline">\(\omega{}P = y\)</span> e teremos:</p>
+<p><span class="math display">\[\omega^{\prime} \Sigma \omega = \omega^{\prime} P^{\prime}\Lambda{}P \omega = y^{\prime} \Lambda y\]</span></p>
+<p>Claramente, se todos os autovalores fossem substituídos pelo maior autovalor, nós teríamos um número maior (não esqueçam que <span class="math inline">\(y\Lambda{}y^{\prime} = \sum_{i=1}^{p} y_i^2\lambda_i\)</span>); se substituíssemos todos os autovalores pelo menor autovalor, teríamos um número menor. O maior e o menor autovalor limitam o valor possível de <span class="math inline">\(y \Lambda y^{\prime}\)</span>. Pra facilitar a vida, eu vou considerar os autovalores em ordem decrescente, então <span class="math inline">\(\lambda_1 &gt; \lambda_2 &gt; ... &gt;\lambda_p\)</span>:</p>
+<p><span class="math display">\[y\lambda_1y^{\prime} &gt; y \Lambda y^{\prime} &gt; y \lambda_p y^{\prime}\]</span></p>
+<p>Agora, como <span class="math inline">\(\lambda_1\)</span> e <span class="math inline">\(\lambda_n\)</span> são escalares:</p>
+<p><span class="math display">\[y^{\prime}\lambda_1y = \lambda_1 y^{\prime} y = \lambda_1 \omega^{\prime} P^{\prime} P \omega\]</span></p>
+<p>Na última igualdade eu só substitui a definição de <span class="math inline">\(y\)</span>. Como <span class="math inline">\(P^{\prime} = P^{-1}\)</span>, temos:</p>
+<p><span class="math display">\[\lambda_1 \omega^{\prime} P^{\prime} P \omega = \lambda_1 \omega^{\prime} \omega\]</span></p>
+<p>Substituindo no problema original, temos:</p>
+<p><span class="math display">\[\lambda_1 \omega^{\prime} \omega \geq \omega^{\prime} \Sigma \omega \geq \lambda_p \omega^{\prime}\omega\]</span></p>
+<p>Agora <span class="math inline">\(\omega^{\prime}\omega\)</span> é um escalar, então podemos dividir tudo por essa quantidade e obter:</p>
+<p><span class="math display">\[\lambda_1 \geq \frac{\omega^{\prime}\Sigma \omega}{\omega^{\prime} \omega} \geq \lambda_p\]</span></p>
+<p>Impondo a restrição de <span class="math inline">\(\omega^{\prime}\omega\)</span>, nós teremos que:</p>
+<p><span class="math display">\[\lambda_1 \geq \omega^{\prime}\Sigma \omega\geq \lambda_p\]</span></p>
+<p>Então a “maior variância possível” é representada pelo maior autovalor e o vetor que realiza a rotação é o autovetor associado.</p>
+</div>
+<div id="svd" class="section level2">
+<h2>SVD</h2>
+<p>A decomposição em valores singulares (<em>Singular Value Decomposition</em>) é outra decomposição bastante impotante e famosa, mas nem sempre abordada em cursos de Álgebra Linear. Aplicando em uma matriz qualquer <span class="math inline">\(A\)</span>, que não precisa ser quadrada, o SVD faz:</p>
+<p><span class="math display">\[A = USV^{\prime}\]</span></p>
+<p>E <span class="math inline">\(U\)</span> e <span class="math inline">\(V\)</span> são matrizes ortogonais (<span class="math inline">\(U^{\prime} = U^{-1}\)</span> e <span class="math inline">\(V^{\prime} = V^{-1}\)</span>) e S é uma matriz diagonal cujo valores são chamadas de valores singulares.</p>
+<p>Veja que se tivermos <span class="math inline">\(A^{\prime}A\)</span>, então usando SVD:</p>
+<p><span class="math display">\[A^{\prime}A = (USV^{\prime})^{\prime}USV^{\prime} = VSU^{\prime}USV^{\prime} = VS^2V^{\prime}\]</span></p>
+<p>Então veja que os auto valores de <span class="math inline">\(A^{\prime}A\)</span> são os quadrados dos valores singulares de A e os autovetores são <span class="math inline">\(V\)</span>. Uma relação similar vale para <span class="math inline">\(AA^{\prime}\)</span>.</p>
+<p>Como a variância empírica dos dados é calculada com <span class="math inline">\(X^{\prime}X\)</span>, a gente sequer precisa se preocupar em calcular a matriz de variância covariância dos dados, basta passar o SVD na matriz de dados.</p>
+<p>Só para dar um exemplo, vamos pegar o famoso <code>mtcars</code>:</p>
+<pre class="r"><code>data(&quot;mtcars&quot;)
+
+xx &lt;- cbind(mtcars$mpg,mtcars$cyl,mtcars$disp,mtcars$hp)</code></pre>
+<p>Tirando os componentes principais:</p>
+<pre class="r"><code>comp &lt;- prcomp(xx,scale=T,center=T)</code></pre>
+<p>Vamos ver a matriz de rotação:</p>
+<pre class="r"><code>comp$rotation</code></pre>
+<pre><code>##             PC1         PC2        PC3          PC4
+## [1,] -0.4963126  0.41505710 -0.7624369 -0.009557844
+## [2,]  0.5126614 -0.08416586 -0.3698824 -0.770247652
+## [3,]  0.5060829 -0.31928855 -0.5109886  0.617110666
+## [4,]  0.4844917  0.84776090  0.1441097  0.160628854</code></pre>
+<p>Agor vamos tirar o SVD da matriz e ver a matriz <span class="math inline">\(V\)</span> da decomposição. Não esqueça que eu preciso centrar e escalar <span class="math inline">\(xx\)</span> para ter variância 1:</p>
+<pre class="r"><code>x_sc &lt;- scale(xx)
+svd_x &lt;- svd(x_sc)
+
+svd_x$v</code></pre>
+<pre><code>##            [,1]        [,2]       [,3]         [,4]
+## [1,] -0.4963126  0.41505710 -0.7624369 -0.009557844
+## [2,]  0.5126614 -0.08416586 -0.3698824 -0.770247652
+## [3,]  0.5060829 -0.31928855 -0.5109886  0.617110666
+## [4,]  0.4844917  0.84776090  0.1441097  0.160628854</code></pre>
+<p>Veja que devido a representação do computador de um número real ser finita, as duas representações podiam diferir um pouquinho por erro numérico - isso não acontece justamente porque o <code>prcomp</code> usa svd!</p>
+</div>
