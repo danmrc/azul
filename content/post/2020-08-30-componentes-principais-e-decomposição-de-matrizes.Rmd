@@ -73,7 +73,7 @@ Claramente, se todos os autovalores fossem substituídos pelo maior autovalor, n
 
 $$y\lambda_1y^{\prime} > y \Lambda y^{\prime} > y \lambda_p y^{\prime}$$
 
-Agora, como $\lambda_1$ e $\lambda_n$ são escalares:
+Como $\lambda_1$ e $\lambda_p$ são escalares:
 
 $$y^{\prime}\lambda_1y = \lambda_1 y^{\prime} y = \lambda_1 \omega^{\prime} P^{\prime} P \omega$$
 
@@ -85,7 +85,7 @@ Substituindo no problema original, temos:
 
 $$\lambda_1 \omega^{\prime} \omega \geq \omega^{\prime} \Sigma \omega \geq \lambda_p \omega^{\prime}\omega$$
 
-Agora $\omega^{\prime}\omega$ é um escalar, então podemos dividir tudo por essa quantidade e obter:
+Agora, $\omega^{\prime}\omega$ é um escalar, então podemos dividir tudo por essa quantidade e obter:
 
 $$\lambda_1 \geq \frac{\omega^{\prime}\Sigma \omega}{\omega^{\prime} \omega} \geq \lambda_p$$
 
@@ -107,7 +107,7 @@ Veja que se tivermos $A^{\prime}A$, então usando SVD:
 
 $$A^{\prime}A = (USV^{\prime})^{\prime}USV^{\prime} = VSU^{\prime}USV^{\prime} = VS^2V^{\prime}$$
 
-Então veja que os auto valores de $A^{\prime}A$ são os quadrados dos valores singulares de A e os autovetores são $V$. Uma relação similar vale para $AA^{\prime}$. 
+Então veja que os autovalores de $A^{\prime}A$ são os quadrados dos valores singulares de A e os autovetores são $V$. Uma relação similar vale para $AA^{\prime}$. 
 
 Como a variância empírica dos dados é calculada com $X^{\prime}X$, a gente sequer precisa se preocupar em calcular a matriz de variância covariância dos dados, basta passar o SVD na matriz de dados.
 
@@ -146,3 +146,17 @@ svd_x$v
 ```
 
 Veja que devido a representação do computador de um número real ser finita, as duas representações podiam diferir um pouquinho por erro numérico - isso não acontece justamente porque o `prcomp` usa svd!
+
+A gente pode fazer a mesma decomposição a partir da matriz de correlação usando os autovalores:
+
+```{r}
+
+cov_mat <- cor(xx)
+eigs <- eigen(cov_mat)
+
+eigs$vectors
+```
+
+Veja que a diferença entre esses valores e a matriz v é que eles são multiplicados por -1
+
+Muito conveniente quando a computação e a matemática concordam.

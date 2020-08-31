@@ -53,13 +53,13 @@ ggplot(df,aes(X1,X2)) + geom_point() + geom_segment(x=0,y=0, yend=auto[2,1],xend
 <p><span class="math display">\[\omega^{\prime} \Sigma \omega = \omega^{\prime} P^{\prime}\Lambda{}P \omega = y^{\prime} \Lambda y\]</span></p>
 <p>Claramente, se todos os autovalores fossem substituídos pelo maior autovalor, nós teríamos um número maior (não esqueçam que <span class="math inline">\(y\Lambda{}y^{\prime} = \sum_{i=1}^{p} y_i^2\lambda_i\)</span>); se substituíssemos todos os autovalores pelo menor autovalor, teríamos um número menor. O maior e o menor autovalor limitam o valor possível de <span class="math inline">\(y \Lambda y^{\prime}\)</span>. Pra facilitar a vida, eu vou considerar os autovalores em ordem decrescente, então <span class="math inline">\(\lambda_1 &gt; \lambda_2 &gt; ... &gt;\lambda_p\)</span>:</p>
 <p><span class="math display">\[y\lambda_1y^{\prime} &gt; y \Lambda y^{\prime} &gt; y \lambda_p y^{\prime}\]</span></p>
-<p>Agora, como <span class="math inline">\(\lambda_1\)</span> e <span class="math inline">\(\lambda_n\)</span> são escalares:</p>
+<p>Como <span class="math inline">\(\lambda_1\)</span> e <span class="math inline">\(\lambda_p\)</span> são escalares:</p>
 <p><span class="math display">\[y^{\prime}\lambda_1y = \lambda_1 y^{\prime} y = \lambda_1 \omega^{\prime} P^{\prime} P \omega\]</span></p>
 <p>Na última igualdade eu só substitui a definição de <span class="math inline">\(y\)</span>. Como <span class="math inline">\(P^{\prime} = P^{-1}\)</span>, temos:</p>
 <p><span class="math display">\[\lambda_1 \omega^{\prime} P^{\prime} P \omega = \lambda_1 \omega^{\prime} \omega\]</span></p>
 <p>Substituindo no problema original, temos:</p>
 <p><span class="math display">\[\lambda_1 \omega^{\prime} \omega \geq \omega^{\prime} \Sigma \omega \geq \lambda_p \omega^{\prime}\omega\]</span></p>
-<p>Agora <span class="math inline">\(\omega^{\prime}\omega\)</span> é um escalar, então podemos dividir tudo por essa quantidade e obter:</p>
+<p>Agora, <span class="math inline">\(\omega^{\prime}\omega\)</span> é um escalar, então podemos dividir tudo por essa quantidade e obter:</p>
 <p><span class="math display">\[\lambda_1 \geq \frac{\omega^{\prime}\Sigma \omega}{\omega^{\prime} \omega} \geq \lambda_p\]</span></p>
 <p>Impondo a restrição de <span class="math inline">\(\omega^{\prime}\omega\)</span>, nós teremos que:</p>
 <p><span class="math display">\[\lambda_1 \geq \omega^{\prime}\Sigma \omega\geq \lambda_p\]</span></p>
@@ -72,7 +72,7 @@ ggplot(df,aes(X1,X2)) + geom_point() + geom_segment(x=0,y=0, yend=auto[2,1],xend
 <p>E <span class="math inline">\(U\)</span> e <span class="math inline">\(V\)</span> são matrizes ortogonais (<span class="math inline">\(U^{\prime} = U^{-1}\)</span> e <span class="math inline">\(V^{\prime} = V^{-1}\)</span>) e S é uma matriz diagonal cujo valores são chamadas de valores singulares.</p>
 <p>Veja que se tivermos <span class="math inline">\(A^{\prime}A\)</span>, então usando SVD:</p>
 <p><span class="math display">\[A^{\prime}A = (USV^{\prime})^{\prime}USV^{\prime} = VSU^{\prime}USV^{\prime} = VS^2V^{\prime}\]</span></p>
-<p>Então veja que os auto valores de <span class="math inline">\(A^{\prime}A\)</span> são os quadrados dos valores singulares de A e os autovetores são <span class="math inline">\(V\)</span>. Uma relação similar vale para <span class="math inline">\(AA^{\prime}\)</span>.</p>
+<p>Então veja que os autovalores de <span class="math inline">\(A^{\prime}A\)</span> são os quadrados dos valores singulares de A e os autovetores são <span class="math inline">\(V\)</span>. Uma relação similar vale para <span class="math inline">\(AA^{\prime}\)</span>.</p>
 <p>Como a variância empírica dos dados é calculada com <span class="math inline">\(X^{\prime}X\)</span>, a gente sequer precisa se preocupar em calcular a matriz de variância covariância dos dados, basta passar o SVD na matriz de dados.</p>
 <p>Só para dar um exemplo, vamos pegar o famoso <code>mtcars</code>:</p>
 <pre class="r"><code>data(&quot;mtcars&quot;)
@@ -98,4 +98,16 @@ svd_x$v</code></pre>
 ## [3,]  0.5060829 -0.31928855 -0.5109886  0.617110666
 ## [4,]  0.4844917  0.84776090  0.1441097  0.160628854</code></pre>
 <p>Veja que devido a representação do computador de um número real ser finita, as duas representações podiam diferir um pouquinho por erro numérico - isso não acontece justamente porque o <code>prcomp</code> usa svd!</p>
+<p>A gente pode fazer a mesma decomposição a partir da matriz de correlação usando os autovalores:</p>
+<pre class="r"><code>cov_mat &lt;- cor(xx)
+eigs &lt;- eigen(cov_mat)
+
+eigs$vectors</code></pre>
+<pre><code>##            [,1]        [,2]       [,3]         [,4]
+## [1,]  0.4963126  0.41505710  0.7624369 -0.009557844
+## [2,] -0.5126614 -0.08416586  0.3698824 -0.770247652
+## [3,] -0.5060829 -0.31928855  0.5109886  0.617110666
+## [4,] -0.4844917  0.84776090 -0.1441097  0.160628854</code></pre>
+<p>Veja que a diferença entre esses valores e a matriz v é que eles são multiplicados por -1</p>
+<p>Muito conveniente quando a computação e a matemática concordam.</p>
 </div>
