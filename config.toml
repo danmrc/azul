@@ -1,9 +1,4 @@
-<<<<<<< Updated upstream
-baseurl = "https://azul.netlify.com"
-languageCode = "pt-br"
-=======
 baseURL = "https://azul.netlify.app/"
->>>>>>> Stashed changes
 title = "AZUL"
 copyright = "Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved."
 paginate = 2
@@ -53,14 +48,14 @@ author = "authors"
   share = true
   showLanguageSwitcher = false
 
-<<<<<<< Updated upstream
+
 	enableRSS = true
 	enableToc = true
-=======
+
   # Custom CSS and JS. Relative to /static/css and /static/js respectively.
   customCSS = []
   customJS = []
->>>>>>> Stashed changes
+
 
   [params.social]
     rss = true

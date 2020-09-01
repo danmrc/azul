@@ -1,59 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< Updated upstream
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
-		<title>Computação &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
-
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
-		
-
-		
-	</head>
-
-	<body>
-	<nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
-=======
 <head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
->>>>>>> Stashed changes
   
      Computação | 
     AZUL
   
 </title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 
-<<<<<<< Updated upstream
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
-	
-</nav>
-=======
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -61,36 +18,18 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
 <link rel="icon" href="/favicon.ico">
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
->>>>>>> Stashed changes
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
 
 
 
-<<<<<<< Updated upstream
-	<section id="wrapper" class="home">
-		
-		<div class="archive">
-			<h3>2018</h3>
-			<ul>
-					
-					<div class="post-item">
-						<div class="post-time">Oct 28</div>
-						<a href="/2018/10/28/por-que-usar-o-julia/" class="post-link">
-							Por que usar o Julia?
-						</a>
-					</div>
-					
-			</ul>
-		</div>
-		
-		<footer id="footer">
-=======
+
 
     
         
             <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
         
->>>>>>> Stashed changes
     
 
 
@@ -184,6 +123,23 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
             <div class="col mb-3">
                 <div class="card h-100">
     
+    <a href="/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</h4>
+            <p class="card-text text-muted text-uppercase">May 13, 2019</p>
+            <div class="card-text">
+                Em posts anteriores eu apresentei uma maneira de resolver o problema:
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
     <a href="/2019/04/20/cross-validation/" class="d-block"><div class="card-body">
             <h4 class="card-title">Uma introdução à Cross Validation</h4>
             <p class="card-text text-muted text-uppercase">April 20, 2019</p>
@@ -206,6 +162,22 @@ A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em 
             <div class="card-text">
                 Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
 Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/10/28/por-que-usar-o-julia/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Por que usar o Julia?</h4>
+            <p class="card-text text-muted text-uppercase">October 28, 2018</p>
+            <div class="card-text">
+                Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.
             </div>
         </div>
     </a>
@@ -269,13 +241,9 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
 
     
     
-<<<<<<< Updated upstream
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-=======
         
             <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
         
->>>>>>> Stashed changes
     
 
 

@@ -18,7 +18,10 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
 <link rel="icon" href="/favicon.ico">
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
 
 
 
@@ -310,11 +313,12 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\de
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/09/08/programacao-dinamica-i/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Programação Dinâmica I</h4>
-            <p class="card-text text-muted text-uppercase">September 8, 2018</p>
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
             <div class="card-text">
-                Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.
+                No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]
             </div>
         </div>
     </a>
@@ -323,12 +327,12 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\de
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/12/10/julia-101/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Julia 101</h4>
-            <p class="card-text text-muted text-uppercase">December 10, 2018</p>
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
             <div class="card-text">
-                Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.
+                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
             </div>
         </div>
     </a>

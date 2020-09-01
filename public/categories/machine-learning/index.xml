@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Machine Learning on AZUL</title>
@@ -6,15 +6,83 @@
     <description>Recent content in Machine Learning on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-<<<<<<< Updated upstream
-    <lastBuildDate>Mon, 10 Dec 2018 00:00:00 +0000</lastBuildDate>
-=======
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Mon, 22 Jun 2020 00:00:00 +0000</lastBuildDate>
->>>>>>> Stashed changes
     
 	<atom:link href="/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hamiltonian Monte Carlo</title>
+      <link>/2020/06/22/hamiltonian-monte-carlo/</link>
+      <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
+      <description>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
+No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.</description>
+    </item>
+    
+    <item>
+      <title>Double Selection</title>
+      <link>/2020/05/01/double-selection/</link>
+      <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/05/01/double-selection/</guid>
+      <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
+Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
+Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
+    </item>
+    
+    <item>
+      <title>Jogo da Velha com Q-Learning</title>
+      <link>/2020/04/21/jogo-da-velha-com-q-learning/</link>
+      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/21/jogo-da-velha-com-q-learning/</guid>
+      <description>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</description>
+    </item>
+    
+    <item>
+      <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
+      <link>/2019/05/17/prouni-rf-classificacao/</link>
+      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/17/prouni-rf-classificacao/</guid>
+      <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
+set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.</description>
+    </item>
+    
+    <item>
+      <title>Classificando cursos no ProUni com Random Forest</title>
+      <link>/2019/05/07/prouni-rf-classificacao/</link>
+      <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/07/prouni-rf-classificacao/</guid>
+      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
+Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
+    </item>
+    
+    <item>
+      <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
+      <link>/2019/05/02/lasso-adaptativo/</link>
+      <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/02/lasso-adaptativo/</guid>
+      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
+\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
+(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
+    </item>
+    
+    <item>
+      <title>Uma introdução à Cross Validation</title>
+      <link>/2019/04/20/cross-validation/</link>
+      <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/04/20/cross-validation/</guid>
+      <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
+A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
+    </item>
     
     <item>
       <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
@@ -22,8 +90,8 @@
       <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/12/10/prouni-rf-svm/</guid>
-      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
-Random ForestsSupport Vector MachinesRodando tudo</description>
+      <description> Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
+Random Forests  Support Vector Machines  Rodando tudo  </description>
     </item>
     
   </channel>

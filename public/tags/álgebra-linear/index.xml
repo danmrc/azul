@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Álgebra Linear on AZUL</title>
@@ -6,15 +6,20 @@
     <description>Recent content in Álgebra Linear on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-<<<<<<< Updated upstream
-    <lastBuildDate>Tue, 06 Nov 2018 00:00:00 +0000</lastBuildDate>
-=======
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Fri, 17 Jan 2020 00:00:00 +0000</lastBuildDate>
->>>>>>> Stashed changes
     
 	<atom:link href="/tags/%C3%A1lgebra-linear/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sistemas dinâmicos II: Expectativas racionais</title>
+      <link>/2020/01/17/sistemas-din%C3%A2micos-ii/</link>
+      <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/17/sistemas-din%C3%A2micos-ii/</guid>
+      <description>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</description>
+    </item>
     
     <item>
       <title>Sistemas Dinâmicos e Álgebra Linear</title>

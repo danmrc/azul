@@ -1,96 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< Updated upstream
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
-		<title>Interpolação &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
-
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
-		
-
-		
-	</head>
-
-    <body>
-       <nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
-=======
 <head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
->>>>>>> Stashed changes
   
      Interpolação | 
     AZUL
   
 </title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
-<<<<<<< Updated upstream
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
-	
-</nav>
-=======
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
 <link rel="icon" href="/favicon.ico">
->>>>>>> Stashed changes
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<<<<<<< Updated upstream
-        <section id="wrapper" class="post">
-            <article>
-                <header>
-                    <h1>
-                        Interpolação
-                    </h1>
-                    <h2 class="headline">
-                    Aug 27, 2018 00:00
-                    · 1040 words
-                    · 5 minute read
-                      <span class="tags">
-                      
-                      
-                          
-                              <a href="/tags/interpola%C3%A7%C3%A3o">Interpolação</a>
-                          
-                              <a href="/tags/julia">Julia</a>
-                          
-                              <a href="/tags/r">R</a>
-                          
-                      
-                      
-                      </span>
-                    </h2>
-                </header>
-=======
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
 
 
 
@@ -142,14 +74,9 @@ A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunt
         </button>
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="navbar-nav ml-auto">
->>>>>>> Stashed changes
                 
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 
-<<<<<<< Updated upstream
-                <section id="post-body">
-                    <p>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.</p>
-=======
                     <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
                 
                     <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
@@ -193,7 +120,6 @@ A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunt
 
 
 <p>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.</p>
->>>>>>> Stashed changes
 <p>A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos. Eu não vou abordar a matemática por trás disso. O objetivo é transmitir a ideia e como fazer interpolação em duas linguagens de programação, o Julia e o R.</p>
 <p>Veja que interpolar é uma maneira de aproximar uma função desconhecida de alguma maneira: só sabemos o valor da função em alguns pontos e queremos ter alguma ideia do comportamento da função entre os pontos. Para isso, ligamos os pontos, e existem diversas maneiras de ligar os pontos.</p>
 <p>Uma primeira maneira é buscar um único polinômio que liga todos os pontos. O polinômio vai ser mais complicado - vai depender de mais graus - maior o número de pontos. Se tivermos dois pontos, podemos encontrar uma reta que liga os dois. Três pontos, precisamos de um polinômio de segundo grau. Etc. Essa estratégia se chama <em>polinômio de Lagrange</em>. Se temos <span class="math inline">\(n\)</span> pontos, podemos usar Mínimos Quadrados com um polinômio de grau <span class="math inline">\(n-1\)</span> para encontrar o polinômio de Lagrange. Vamos testar isso no Julia usando o pacote <strong>polynomials</strong>, que nos traz o comando <code>polyfit</code>. Em um primeiro caso, vamos testar a função cosseno:</p>
@@ -393,12 +319,12 @@ Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe com
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Viés de variáveis instrumentais</h4>
+    <a href="/2018/08/19/problemas-clustering-k-means/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Alguns pequenos problemas de clustering k-means</h4>
             <p class="card-text text-muted text-uppercase">August 19, 2018</p>
             <div class="card-text">
-                Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
-Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta&#43;e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.
+                No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.
             </div>
         </div>
     </a>
@@ -407,13 +333,12 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/08/17/homens-traicao/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Homens têm mais casos extraconjugais?</h4>
-            <p class="card-text text-muted text-uppercase">August 17, 2018</p>
+    <a href="/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Viés de variáveis instrumentais</h4>
+            <p class="card-text text-muted text-uppercase">August 19, 2018</p>
             <div class="card-text">
-                Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
-Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
+                Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta&#43;e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.
             </div>
         </div>
     </a>
@@ -459,13 +384,9 @@ Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em qu
 
     
     
-<<<<<<< Updated upstream
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-=======
         
             <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
         
->>>>>>> Stashed changes
     
 
 

@@ -1,94 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< Updated upstream
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
-		<title>Homens têm mais casos extraconjugais? &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
-
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
-		
-
-		
-	</head>
-
-    <body>
-       <nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
-=======
 <head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
->>>>>>> Stashed changes
   
      Homens têm mais casos extraconjugais? | 
     AZUL
   
 </title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
 
-<<<<<<< Updated upstream
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
-	
-</nav>
-=======
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
 <link rel="icon" href="/favicon.ico">
->>>>>>> Stashed changes
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<<<<<<< Updated upstream
-        <section id="wrapper" class="post">
-            <article>
-                <header>
-                    <h1>
-                        Homens têm mais casos extraconjugais?
-                    </h1>
-                    <h2 class="headline">
-                    Aug 17, 2018 00:00
-                    · 929 words
-                    · 5 minute read
-                      <span class="tags">
-                      
-                      
-                          
-                              <a href="/tags/r">R</a>
-                          
-                              <a href="/tags/probit">Probit</a>
-                          
-                      
-                      
-                      </span>
-                    </h2>
-                </header>
-=======
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
 
 
 
@@ -143,14 +77,9 @@ Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em qu
         </button>
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="navbar-nav ml-auto">
->>>>>>> Stashed changes
                 
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 
-<<<<<<< Updated upstream
-                <section id="post-body">
-                    <p>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é <a href="http://people.stern.nyu.edu/wgreene/Lugano2013/Fair-ExtramaritalAffairs.pdf">Fair (JPE 1978)</a>, compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).</p>
-=======
                     <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
                 
                     <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
@@ -196,7 +125,6 @@ Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em qu
 
 
 <p>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é <a href="http://people.stern.nyu.edu/wgreene/Lugano2013/Fair-ExtramaritalAffairs.pdf">Fair (JPE 1978)</a>, compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).</p>
->>>>>>> Stashed changes
 <p>Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.</p>
 <div id="probits" class="section level2">
 <h2>Probits</h2>
@@ -367,6 +295,21 @@ probitmfx(affair ~ male + kids + feliz + rel + educ + yrsmarr + age,
     <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
                 <div class="card h-100">
     
+    <a href="/2018/08/17/homens-traicao/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Homens têm mais casos extraconjugais?</h4>
+            <p class="card-text text-muted text-uppercase">August 17, 2018</p>
+            <div class="card-text">
+                Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
+Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
     <a href="/2018/08/11/prouni-clustering/" class="d-block"><div class="card-body">
             <h4 class="card-title">Usando clustering para identificar cursos no Prouni</h4>
             <p class="card-text text-muted text-uppercase">August 11, 2018</p>
@@ -387,20 +330,6 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
             <div class="card-text">
                 Contexto Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio a pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, que tal disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.
 Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div><div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/1/01/01/r-zero-2/" class="d-block"><div class="card-body">
-            <h4 class="card-title">R do Zero (2): Manipulando dados com {dplyr}</h4>
-            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
-            <div class="card-text">
-                Qual é a ideia do dplyr? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o %&amp;gt;% para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.
-Os que já tiveram contato com python se lembrarão de várias funções do pandas.
             </div>
         </div>
     </a>
@@ -446,13 +375,9 @@ Os que já tiveram contato com python se lembrarão de várias funções do pand
 
     
     
-<<<<<<< Updated upstream
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-=======
         
             <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
         
->>>>>>> Stashed changes
     
 
 

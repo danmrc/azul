@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Computação on AZUL</title>
@@ -6,15 +6,73 @@
     <description>Recent content in Computação on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-<<<<<<< Updated upstream
-    <lastBuildDate>Sun, 28 Oct 2018 00:00:00 +0000</lastBuildDate>
-=======
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Sun, 05 Jan 2020 00:00:00 +0000</lastBuildDate>
->>>>>>> Stashed changes
     
 	<atom:link href="/categories/computa%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot</title>
+      <link>/2020/01/05/linux-e-windows/</link>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/05/linux-e-windows/</guid>
+      <description>Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
+Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!</description>
+    </item>
+    
+    <item>
+      <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
+      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
+    </item>
+    
+    <item>
+      <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
+      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
+    </item>
+    
+    <item>
+      <title>Uma introdução à Cross Validation</title>
+      <link>/2019/04/20/cross-validation/</link>
+      <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/04/20/cross-validation/</guid>
+      <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
+A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
+    </item>
+    
+    <item>
+      <title>Aplicando Programação Dinâmica à Reforma da Previdência</title>
+      <link>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</link>
+      <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</guid>
+      <description>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
+Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.</description>
+    </item>
+    
+    <item>
+      <title>Por que usar o Julia?</title>
+      <link>/2018/10/28/por-que-usar-o-julia/</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/28/por-que-usar-o-julia/</guid>
+      <description>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</description>
+    </item>
     
     <item>
       <title>Por que usar o Julia?</title>

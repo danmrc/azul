@@ -1,58 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< Updated upstream
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
-		<title>Julia &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
-
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
-		
-
-		
-	</head>
-
-	<body>
-	<nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
-=======
 <head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
->>>>>>> Stashed changes
   
      Julia | 
     AZUL
   
 </title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 
-<<<<<<< Updated upstream
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
-	
-=======
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -60,7 +18,10 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
 <link rel="icon" href="/favicon.ico">
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
 
 
 
@@ -117,7 +78,6 @@
             </ul>
         </div>
     </div>
->>>>>>> Stashed changes
 </nav>
 
 
@@ -141,65 +101,10 @@
     </a>
 </div>
 
-<<<<<<< Updated upstream
-	<section id="wrapper" class="home">
-		
-		<div class="archive">
-			<h3>2018</h3>
-			<ul>
-					
-					<div class="post-item">
-						<div class="post-time">Dec 10</div>
-						<a href="/2018/12/10/julia-101/" class="post-link">
-							Julia 101
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Nov 2</div>
-						<a href="/2018/11/02/programacao-dinamica-ii-b/" class="post-link">
-							Programação Dinâmica IIB
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Nov 2</div>
-						<a href="/2018/11/02/programacao-dinamica-ii-b/" class="post-link">
-							Programação Dinâmica IIB
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Oct 28</div>
-						<a href="/2018/10/28/por-que-usar-o-julia/" class="post-link">
-							Por que usar o Julia?
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Sep 8</div>
-						<a href="/2018/09/08/programacao-dinamica-i/" class="post-link">
-							Programação Dinâmica I
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Aug 27</div>
-						<a href="/2018/08/27/interpolacao/" class="post-link">
-							Interpolação
-						</a>
-					</div>
-					
-			</ul>
-		</div>
-		
-		<footer id="footer">
-=======
             </div>
         
             <div class="col mb-3">
                 <div class="card h-100">
->>>>>>> Stashed changes
     
     <a href="/2018/12/10/julia-101/" class="d-block"><div class="card-body">
             <h4 class="card-title">Julia 101</h4>
@@ -207,6 +112,38 @@
             <div class="card-text">
                 Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
 Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+            <div class="card-text">
+                No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+            <div class="card-text">
+                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
             </div>
         </div>
     </a>
@@ -239,6 +176,37 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\de
             <div class="card-text">
                 Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
 Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/10/28/por-que-usar-o-julia/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Por que usar o Julia?</h4>
+            <p class="card-text text-muted text-uppercase">October 28, 2018</p>
+            <div class="card-text">
+                Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/09/08/programacao-dinamica-i/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica I</h4>
+            <p class="card-text text-muted text-uppercase">September 8, 2018</p>
+            <div class="card-text">
+                Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.
             </div>
         </div>
     </a>
@@ -317,13 +285,9 @@ A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunt
 
     
     
-<<<<<<< Updated upstream
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-=======
         
             <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
         
->>>>>>> Stashed changes
     
 
 

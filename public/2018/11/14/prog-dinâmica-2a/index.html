@@ -1,96 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< Updated upstream
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
-		<title>Prog Dinâmica IIA &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
-
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
-		
-
-		
-	</head>
-
-    <body>
-       <nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
-=======
 <head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
->>>>>>> Stashed changes
   
      Prog Dinâmica IIA | 
     AZUL
   
 </title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
-<<<<<<< Updated upstream
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
-	
-</nav>
-=======
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
 <link rel="icon" href="/favicon.ico">
->>>>>>> Stashed changes
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<<<<<<< Updated upstream
-        <section id="wrapper" class="post">
-            <article>
-                <header>
-                    <h1>
-                        Prog Dinâmica IIA
-                    </h1>
-                    <h2 class="headline">
-                    Nov 14, 2018 00:00
-                    · 1318 words
-                    · 7 minute read
-                      <span class="tags">
-                      
-                      
-                          
-                              <a href="/tags/programa%C3%A7%C3%A3o-din%C3%A2mica">Programação dinâmica</a>
-                          
-                              <a href="/tags/suaviza%C3%A7%C3%A3o-do-consumo">Suavização do consumo</a>
-                          
-                              <a href="/tags/cadeias-de-markov">Cadeias de Markov</a>
-                          
-                      
-                      
-                      </span>
-                    </h2>
-                </header>
-=======
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
 
 
 
@@ -142,14 +74,9 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
         </button>
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="navbar-nav ml-auto">
->>>>>>> Stashed changes
                 
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 
-<<<<<<< Updated upstream
-                <section id="post-body">
-                    <p>Em um <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">post anterior</a>, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.</p>
-=======
                     <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
                 
                     <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
@@ -193,7 +120,6 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
 
 
 <p>Em um <a href="https://azul.netlify.com/2018/09/08/programacao-dinamica-i/">post anterior</a>, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.</p>
->>>>>>> Stashed changes
 <p>Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros <span class="math inline">\(r\)</span>. A incerteza vem do salário dele, que passa a ser uma variável aleatória. A nossa variável de estado é <span class="math inline">\(W\)</span>, a riqueza do indivíduo; e a variável de controle é <span class="math inline">\(c\)</span>, o consumo do indivíduo. Escrevendo no formato usando a função valor, o nosso problema para o período <span class="math inline">\(t\)</span> é:</p>
 <p><span class="math display">\[V_t(W_t,c_t) = U(c_t) + \beta E(V_{t+1}(W_{t+1},c_{t+1})) \text{ sujeito a } W_{t+1} = (1+r)(W_t + \omega_t - c_t)\]</span></p>
 <p>Onde <span class="math inline">\(U()\)</span> representa a função utilidade e <span class="math inline">\(\omega_t\)</span> o salário em t - que é uma variável aleatória. Veja que o problema aqui é muito similar ao problema do post anterior, só que agora temos um operador esperança na função valor. Poderiamos tentar calcular a esperança analiticamente, mas isso não é sempre possível. Nós vamos contornar isso simplesmente sorteando alguns valores da distribuição de <span class="math inline">\(\omega_t\)</span> e tirando a média da função valor para estes sorteios. Veja que o nosso grid, dessa vez, vai ser para a riqueza e não para o salário. O código em Julia que faz isso:</p>
@@ -399,7 +325,21 @@ scatter!(state[T:-1:1], lab = &quot;Estado&quot;)
         </div>
     </div>
 
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
     
+    <a href="/2018/11/14/prog-din%C3%A2mica-2a/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Prog Dinâmica IIA</h4>
+            <p class="card-text text-muted text-uppercase">November 14, 2018</p>
+            <div class="card-text">
+                Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
 </main>
 
 
@@ -446,23 +386,6 @@ scatter!(state[T:-1:1], lab = &quot;Estado&quot;)
 
 
 
-<<<<<<< Updated upstream
-    
-    <p class="small">
-    
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-    
-    </p>
-    <p class="small">
-        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
-    </p>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
-</footer>
-=======
->>>>>>> Stashed changes
 
 
 

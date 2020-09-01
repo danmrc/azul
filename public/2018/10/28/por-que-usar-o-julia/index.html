@@ -1,96 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< Updated upstream
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
-		<title>Por que usar o Julia? &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
-
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
-		
-
-		
-	</head>
-
-    <body>
-       <nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
-=======
 <head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
->>>>>>> Stashed changes
   
      Por que usar o Julia? | 
     AZUL
   
 </title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
-<<<<<<< Updated upstream
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
-	
-</nav>
-=======
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
 <link rel="icon" href="/favicon.ico">
->>>>>>> Stashed changes
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<<<<<<< Updated upstream
-        <section id="wrapper" class="post">
-            <article>
-                <header>
-                    <h1>
-                        Por que usar o Julia?
-                    </h1>
-                    <h2 class="headline">
-                    Oct 28, 2018 00:00
-                    · 1094 words
-                    · 6 minute read
-                      <span class="tags">
-                      
-                      
-                          
-                              <a href="/tags/profiling">Profiling</a>
-                          
-                              <a href="/tags/julia">Julia</a>
-                          
-                              <a href="/tags/r">R</a>
-                          
-                      
-                      
-                      </span>
-                    </h2>
-                </header>
-=======
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
 
 
 
@@ -142,14 +74,9 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
         </button>
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="navbar-nav ml-auto">
->>>>>>> Stashed changes
                 
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 
-<<<<<<< Updated upstream
-                <section id="post-body">
-                    <p>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.</p>
-=======
                     <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
                 
                     <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
@@ -193,7 +120,6 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
 
 
 <p>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.</p>
->>>>>>> Stashed changes
 <p>Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes. Este post vai colocar a prova a velocidade do Julia: será que ele realmente é mais rápido? O quão mais rápido? Para isso, eu vou comparar o Julia com o R. Ambos são open source. O R é extremamente popular e usado amplamente em diversas áreas. Eu não vou comparar o Matlab com o Julia: o matlab é um programa que tem que ser comprado (e não é barato), e portanto comparar os dois não vai ser tão informativo. Mal comparando, ninguém ficaria muto feliz de ser informado que ir de jatinho é mais rápido que ir de ônibus: não é surpreendente, mas ei, eu não tenho dinheiro para alugar um jatinho.</p>
 <p>Eu vou fazer alguns testes em um Dell Vostro 2012, Windows 10, 6 GB de Ram e processador i5. Eu vou rodar o R direto do RStudio e o Julia do Atom. Eu deixei apenas o RStudio e o Atom abertos. Vamos a bateria de testes. Para o R, eu usei o pacote <strong>benchr</strong> para fazer o benchmarking. Em todas as tabelas, está reportado a <em>mediana</em> das 100 replicações. Eu explico o motivo no fim do artigo.</p>
 <p>E aqui estão os códigos para o <a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.R">R</a> e para o <a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.jl">Julia</a>.</p>
@@ -383,6 +309,20 @@ knitr::kable(tabela, col.names = c(&quot;Desvio padrão bootstrap&quot;,&quot;De
     <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
                 <div class="card h-100">
     
+    <a href="/2018/10/28/por-que-usar-o-julia/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Por que usar o Julia?</h4>
+            <p class="card-text text-muted text-uppercase">October 28, 2018</p>
+            <div class="card-text">
+                Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
     <a href="/2018/08/27/interpolacao/" class="d-block"><div class="card-body">
             <h4 class="card-title">Interpolação</h4>
             <p class="card-text text-muted text-uppercase">August 27, 2018</p>
@@ -402,20 +342,6 @@ A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunt
             <p class="card-text text-muted text-uppercase">October 15, 2018</p>
             <div class="card-text">
                 
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div><div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/10/07/rais-cox-desemprego/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</h4>
-            <p class="card-text text-muted text-uppercase">October 7, 2018</p>
-            <div class="card-text">
-                Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
-Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.
             </div>
         </div>
     </a>
@@ -461,13 +387,9 @@ Análise de Sobrevivência é um termo bem amplo para descrever modelos que serv
 
     
     
-<<<<<<< Updated upstream
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-=======
         
             <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
         
->>>>>>> Stashed changes
     
 
 

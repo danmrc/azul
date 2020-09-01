@@ -1,96 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<<<<<<< Updated upstream
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
-		<title>Testes de raiz unitária &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
-
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
-		
-
-		
-	</head>
-
-    <body>
-       <nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
-=======
 <head>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
->>>>>>> Stashed changes
   
      Testes de raiz unitária | 
     AZUL
   
 </title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
-<<<<<<< Updated upstream
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
-	
-</nav>
-=======
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="manifest" href="/manifest.json">
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
 <link rel="icon" href="/favicon.ico">
->>>>>>> Stashed changes
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<<<<<<< Updated upstream
-        <section id="wrapper" class="post">
-            <article>
-                <header>
-                    <h1>
-                        Testes de raiz unitária
-                    </h1>
-                    <h2 class="headline">
-                    Oct 19, 2018 00:00
-                    · 975 words
-                    · 5 minute read
-                      <span class="tags">
-                      
-                      
-                          
-                              <a href="/tags/raiz-unit%C3%A1ria">Raiz unitária</a>
-                          
-                              <a href="/tags/adf">ADF</a>
-                          
-                              <a href="/tags/monte-carlo">Monte Carlo</a>
-                          
-                      
-                      
-                      </span>
-                    </h2>
-                </header>
-=======
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
 
 
 
@@ -142,14 +74,9 @@ Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar p
         </button>
         <div class="collapse navbar-collapse" id="main-menu">
             <ul class="navbar-nav ml-auto">
->>>>>>> Stashed changes
                 
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 
-<<<<<<< Updated upstream
-                <section id="post-body">
-                    <p>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?</p>
-=======
                     <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
                 
                     <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
@@ -193,7 +120,6 @@ Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar p
 
 
 <p>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?</p>
->>>>>>> Stashed changes
 <p>Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena. Infelizmente, este caso é frequente em macroeconomia.</p>
 <p>Neste exemplo eu usarei um AR(1) (<span class="math inline">\(y_t = \phi y_{t-1} + u_t\)</span>), onde <span class="math inline">\(u_t \sim N(0,\sigma)\)</span>. Como eu vou querer brincar com processos AR com coeficientes diferentes e tamanhos de amostra diferente, eu vou criar uma função que gera processos AR:</p>
 <pre class="r"><code>set.seed(2018)
@@ -422,6 +348,19 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
     </a>
 </div>
 
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/07/18/monte-carlo-101/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Monte Carlo 101</h4>
+            <p class="card-text text-muted text-uppercase">July 18, 2018</p>
+            <div class="card-text">
+                Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.
+            </div>
+        </div>
+    </a>
+</div>
+
             </div></div>
 </main>
 
@@ -462,13 +401,9 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
 
     
     
-<<<<<<< Updated upstream
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-=======
         
             <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
         
->>>>>>> Stashed changes
     
 
 
