@@ -10,7 +10,6 @@ tags:
   - Sistemas Dinâmicos
   - Blanchard Khan
   - Álgebra Linear
-authors: ["danielc"]
 ---
 
 Há muito tempo atrás eu escrevi sobre [Álgebra Linear e sistemas dinâmicos](https://azul.netlify.com/2018/11/06/sistemas-dinamicos-e-algebra-linear/). Lá, eu falava de um caso em que o sistema era $x_t = Ax_{t-1}$, onde $x_t$ era um vetor e $A$ tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com _expectativas_ e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente. Um caso "famoso" de expectativas racionais é a curva de Phillips novo keynesiana:

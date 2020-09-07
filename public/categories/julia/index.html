@@ -1,179 +1,342 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.74.3" />
-		<title>Julia &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-
-		
-	</head>
-
-	<body>
-	<nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
+<title>
   
-	
+     Julia | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 
-	
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/categories/julia/">
+  <link href="/categories/julia/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
+  <link href="/categories/julia/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Julia" />
+<meta property="og:description" content="Economia, Estatística, Programação" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/categories/julia/" />
+<meta property="og:updated_time" content="2020-06-22T00:00:00+00:00" />
+<meta itemprop="name" content="Julia">
+<meta itemprop="description" content="Economia, Estatística, Programação">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Julia"/>
+<meta name="twitter:description" content="Economia, Estatística, Programação"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
 </nav>
 
-	<div class="profile">
-    <section id="wrapper">
-        <header id="header">
-            <a href='/about'>
-                <img id="avatar" class="2x" src="/images/avatar.png"/>
-            </a>
-            <h1>AZUL</h1>
-            <h2>Economia, Estatística, Programação</h2>
-        </header>
-    </section>
-</div>
 
-
-	<section id="wrapper" class="home">
-		
-		<div class="archive">
-			<h3>2020</h3>
-			<ul>
-					
-					<div class="post-item">
-						<div class="post-time">Jun 22</div>
-						<a href="/2020/06/22/hamiltonian-monte-carlo/" class="post-link">
-							Hamiltonian Monte Carlo
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Apr 25</div>
-						<a href="/2020/04/25/workflow/" class="post-link">
-							Workflow - Como funciona o AZUL
-						</a>
-					</div>
-					
-			</ul>
-		</div>
-		
-		<div class="archive">
-			<h3>2019</h3>
-			<ul>
-					
-					<div class="post-item">
-						<div class="post-time">Mar 6</div>
-						<a href="/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/" class="post-link">
-							Aplicando Programação Dinâmica à Reforma da Previdência
-						</a>
-					</div>
-					
-			</ul>
-		</div>
-		
-		<div class="archive">
-			<h3>2018</h3>
-			<ul>
-					
-					<div class="post-item">
-						<div class="post-time">Dec 27</div>
-						<a href="/2018/12/27/programacao-dinamica-ii-b/" class="post-link">
-							Programação Dinâmica IIB
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Dec 10</div>
-						<a href="/2018/12/10/julia-101/" class="post-link">
-							Julia 101
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Nov 14</div>
-						<a href="/2018/11/14/prog-din%C3%A2mica-2a/" class="post-link">
-							Prog Dinâmica IIA
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Nov 2</div>
-						<a href="/2018/11/02/programacao-dinamica-ii-b/" class="post-link">
-							Programação Dinâmica IIB
-						</a>
-					</div>
-					
-					<div class="post-item">
-						<div class="post-time">Sep 8</div>
-						<a href="/2018/09/08/programacao-dinamica-i/" class="post-link">
-							Programação Dinâmica I
-						</a>
-					</div>
-					
-			</ul>
-		</div>
-		
-		<footer id="footer">
     
-        <div id="social">
-
-	
-	
+<main class="list container py-6"><div class="row py-3">
+        <div class="col">
+            <h3 class="display-4">Julia</h3></div>
+    </div><div class="row row-cols-1 row-cols-lg-3">
+        
+            <div class="col mb-3">
+                <div class="card h-100">
     
-    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
-        github
+    <a href="/2020/06/22/hamiltonian-monte-carlo/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Hamiltonian Monte Carlo</h4>
+            <p class="card-text text-muted text-uppercase">June 22, 2020</p>
+            <div class="card-text">
+                Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
+No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.
+            </div>
+        </div>
     </a>
-    
-
-
 </div>
 
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
     
-    <p class="small">
+    <a href="/2020/04/25/workflow/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Workflow - Como funciona o AZUL</h4>
+            <p class="card-text text-muted text-uppercase">April 25, 2020</p>
+            <div class="card-text">
+                Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
+Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown, que no fundo roda um software chamado hugo.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
     
-       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    <a href="/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Aplicando Programação Dinâmica à Reforma da Previdência</h4>
+            <p class="card-text text-muted text-uppercase">March 6, 2019</p>
+            <div class="card-text">
+                Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
+Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
     
-    </p>
-    <p class="small">
-        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
-    </p>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
+    <a href="/2018/12/27/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">December 27, 2018</p>
+            <div class="card-text">
+                No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/12/10/julia-101/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Julia 101</h4>
+            <p class="card-text text-muted text-uppercase">December 10, 2018</p>
+            <div class="card-text">
+                Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
+Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/11/14/prog-din%C3%A2mica-2a/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Prog Dinâmica IIA</h4>
+            <p class="card-text text-muted text-uppercase">November 14, 2018</p>
+            <div class="card-text">
+                Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/11/14/prog-din%C3%A2mica-2a/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Prog Dinâmica IIA</h4>
+            <p class="card-text text-muted text-uppercase">November 14, 2018</p>
+            <div class="card-text">
+                Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+            <div class="card-text">
+                No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+            <div class="card-text">
+                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+            <div class="card-text">
+                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/09/08/programacao-dinamica-i/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica I</h4>
+            <p class="card-text text-muted text-uppercase">September 8, 2018</p>
+            <div class="card-text">
+                Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/09/08/programacao-dinamica-i/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica I</h4>
+            <p class="card-text text-muted text-uppercase">September 8, 2018</p>
+            <div class="card-text">
+                Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+    </div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
 </footer>
 
-	</section>
-
-	<div class="dd">
-	</div>
-
-	<script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
 
 
 
 
-  
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
+
+
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -187,9 +350,5 @@ if (!doNotTrack) {
 }
 </script>
 
-
-
-
-
-	</body>
+</body>
 </html>

@@ -6,6 +6,7 @@
     <description>Recent content in Economia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/economia/index.xml" rel="self" type="application/rss+xml" />
@@ -42,6 +43,17 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     </item>
     
     <item>
+      <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
+      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
+    </item>
+    
+    <item>
       <title>Programação Dinâmica IIB</title>
       <link>/2018/12/27/programacao-dinamica-ii-b/</link>
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
@@ -62,6 +74,36 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     </item>
     
     <item>
+      <title>Como eu rodei Stata dentro do R para replicar um paper</title>
+      <link>/2018/11/29/patronagem/</link>
+      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+    </item>
+    
+    <item>
+      <title>Programação Dinâmica IIB</title>
+      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
+      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
+    </item>
+    
+    <item>
+      <title>Programação Dinâmica IIB</title>
+      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
+      <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
+    </item>
+    
+    <item>
       <title>Programação Dinâmica IIB</title>
       <link>/2018/11/02/programacao-dinamica-ii-b/</link>
       <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
@@ -79,6 +121,25 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)
       <guid>/2018/10/07/rais-cox-desemprego/</guid>
       <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
 Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
+    </item>
+    
+    <item>
+      <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
+      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
+Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
+    </item>
+    
+    <item>
+      <title>Programação Dinâmica I</title>
+      <link>/2018/09/08/programacao-dinamica-i/</link>
+      <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/08/programacao-dinamica-i/</guid>
+      <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
     </item>
     
     <item>

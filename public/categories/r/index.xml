@@ -6,6 +6,7 @@
     <description>Recent content in R on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Wed, 29 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
@@ -289,12 +290,41 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
     </item>
     
     <item>
+      <title>RDD, inferência causal e um exemplo em R</title>
+      <link>/2018/12/13/rdd-mixtape/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
+    </item>
+    
+    <item>
+      <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
+      <link>/2018/12/10/prouni-rf-svm/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/10/prouni-rf-svm/</guid>
+      <description> Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
+Random Forests  Support Vector Machines  Rodando tudo  </description>
+    </item>
+    
+    <item>
       <title>Integrando o Telegram e R</title>
       <link>/2018/11/30/telegram-e-r/</link>
       <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/30/telegram-e-r/</guid>
       <description>Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.</description>
+    </item>
+    
+    <item>
+      <title>Como eu rodei Stata dentro do R para replicar um paper</title>
+      <link>/2018/11/29/patronagem/</link>
+      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
@@ -315,6 +345,16 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
       <guid>/2018/11/06/sistemas-dinamicos-e-algebra-linear/</guid>
       <description>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.
 Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo.</description>
+    </item>
+    
+    <item>
+      <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
+      <link>/2018/10/31/banach/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/31/banach/</guid>
+      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
@@ -358,6 +398,27 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     </item>
     
     <item>
+      <title>Identificação em VAR e Price Puzzle I</title>
+      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&amp;#39;\). Um VAR seria:
+\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
+Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
+    </item>
+    
+    <item>
+      <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
+      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
+Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
+    </item>
+    
+    <item>
       <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
       <link>/2018/10/07/rais-cox-desemprego/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
@@ -397,6 +458,16 @@ Apesar de já existirem à época trabalhos importantes na área, como o de Rams
     </item>
     
     <item>
+      <title>Explorando o Modelo de Solow com a ajuda do R</title>
+      <link>/2018/09/11/solow/</link>
+      <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/11/solow/</guid>
+      <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
+Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
+    </item>
+    
+    <item>
       <title>Um pouco de microeconomia, dualidade e R</title>
       <link>/2018/09/01/microeconomia/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
@@ -404,6 +475,26 @@ Apesar de já existirem à época trabalhos importantes na área, como o de Rams
       <guid>/2018/09/01/microeconomia/</guid>
       <description>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
 Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.</description>
+    </item>
+    
+    <item>
+      <title>Um pouco de microeconomia, dualidade e R</title>
+      <link>/2018/09/01/microeconomia/</link>
+      <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/01/microeconomia/</guid>
+      <description>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
+Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.</description>
+    </item>
+    
+    <item>
+      <title>Alguns pequenos problemas de clustering k-means</title>
+      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>
     
     <item>
@@ -438,6 +529,17 @@ Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em qu
     </item>
     
     <item>
+      <title>Homens têm mais casos extraconjugais?</title>
+      <link>/2018/08/17/homens-traicao/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/17/homens-traicao/</guid>
+      <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
+Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+    </item>
+    
+    <item>
       <title>Usando clustering para identificar cursos no Prouni</title>
       <link>/2018/08/11/prouni-clustering/</link>
       <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
@@ -445,6 +547,15 @@ Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em qu
       <guid>/2018/08/11/prouni-clustering/</guid>
       <description>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
 Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</description>
+    </item>
+    
+    <item>
+      <title>Monte Carlo 101</title>
+      <link>/2018/07/18/monte-carlo-101/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/07/18/monte-carlo-101/</guid>
+      <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
     
     <item>

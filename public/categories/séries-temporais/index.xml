@@ -6,6 +6,7 @@
     <description>Recent content in Séries Temporais on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/s%C3%A9ries-temporais/index.xml" rel="self" type="application/rss+xml" />
@@ -20,6 +21,17 @@
       <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
 \[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+    </item>
+    
+    <item>
+      <title>Identificação em VAR e Price Puzzle I</title>
+      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&amp;#39;\). Um VAR seria:
+\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
+Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
     </item>
     
     <item>

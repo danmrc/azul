@@ -6,6 +6,7 @@
     <description>Recent content in Matemática on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Mon, 25 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/matem%C3%A1tica/index.xml" rel="self" type="application/rss+xml" />
@@ -79,6 +80,16 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
     </item>
     
     <item>
+      <title>Prog Dinâmica IIA</title>
+      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+    </item>
+    
+    <item>
       <title>Sistemas Dinâmicos e Álgebra Linear</title>
       <link>/2018/11/06/sistemas-dinamicos-e-algebra-linear/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
@@ -86,6 +97,16 @@ Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade
       <guid>/2018/11/06/sistemas-dinamicos-e-algebra-linear/</guid>
       <description>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.
 Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo.</description>
+    </item>
+    
+    <item>
+      <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
+      <link>/2018/10/31/banach/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/31/banach/</guid>
+      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>

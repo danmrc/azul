@@ -1,71 +1,122 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.74.3" />
-		<title>Julia 101 &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-
-		
-	</head>
-
-    <body>
-       <nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
+<title>
   
-	
+     Julia 101 | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
-	
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/2018/12/10/julia-101/"><meta property="og:title" content="Julia 101" />
+<meta property="og:description" content="Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
+Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2018/12/10/julia-101/" />
+<meta property="article:published_time" content="2018-12-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-12-10T00:00:00+00:00" />
+<meta itemprop="name" content="Julia 101">
+<meta itemprop="description" content="Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
+Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.">
+<meta itemprop="datePublished" content="2018-12-10T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-12-10T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1863">
+
+
+
+<meta itemprop="keywords" content="Julia," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Julia 101"/>
+<meta name="twitter:description" content="Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
+Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
 </nav>
 
 
-        <section id="wrapper" class="post">
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
             <article>
-                <header>
-                    <h1>
-                        Julia 101
-                    </h1>
-                    <h3> Daniel Coutinho </h3>
-                    <h2 class="headline">
-                    Dec 10, 2018 00:00
-                    · 1863 words
-                    · 9 minute read
-                      <span class="tags">
-                      
-                      
-                          
-                              <a href="/tags/julia">Julia</a>
-                          
-                      
-                      
-                      </span>
-                    </h2>
-                </header>
-                
-                  
-                
-                <section id="post-body">
-                    
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">December 10, 2018</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1863 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>9 mins</span>
+                        </div>
+
+                        <h1>Julia 101</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
 
 
 <p>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.</p>
@@ -329,67 +380,143 @@ Optim.minimizer(sol2)</code></pre>
 <p>O Julia é bastante versátil, <a href="https://azul.netlify.com/2018/10/28/por-que-usar-o-julia/">eficiente</a> e com uma comunidade ativa e crescente. Ele também é de graça, e o Thomas Sargent mantém <a href="https://lectures.quantecon.org/jl/">um site</a> com lições de uma tonelada de coisas de economia moderna para o Julia. Esta rápida introdução deve permitir você fazer coisas básicas no Julia. Muitos dos pacotes tem documentação,que apesar de não ser tão acessível quanto a do R (que vai direto pelo RStudio), ela é de grande ajuda.</p>
 </div>
 
-                </section>
-            </article>
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/julia">
+                                    <i class="fas fa-tag mr-2"></i>Julia
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f12%2f10%2fjulia-101%2f&text=Julia%20101">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f12%2f10%2fjulia-101%2f&title=Julia%20101">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f12%2f10%2fjulia-101%2f&t=Julia%20101">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f12%2f10%2fjulia-101%2f&title=Julia%20101">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
 
-            
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2018%2f12%2f10%2fjulia-101%2f - Julia%20101 "><span class="icon-twitter"> tweet</span></a>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
 
-<a class="facebook" href="#" onclick="
-    window.open(
-      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-      'facebook-share-dialog',
-      'width=626,height=436');
-    return false;"><span class="icon-facebook-rect"> Share</span>
-</a>
-
-            
-
-            
-
-            
-
-            <footer id="footer">
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
     
-        <div id="social">
-
-	
-	
-    
-    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
-        github
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+            <div class="card-text">
+                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
+            </div>
+        </div>
     </a>
-    
-
-
 </div>
 
+            </div><div class="col mb-3">
+                <div class="card h-100">
     
-    <p class="small">
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+            <div class="card-text">
+                No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
     
-       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-    
-    </p>
-    <p class="small">
-        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
-    </p>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
+    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica IIB</h4>
+            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+            <div class="card-text">
+                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
 </footer>
 
-        </section>
-
-        <script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
-
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
 
 
-  
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
+
+
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -403,9 +530,5 @@ if (!doNotTrack) {
 }
 </script>
 
-
-
-
-
-    </body>
+</body>
 </html>

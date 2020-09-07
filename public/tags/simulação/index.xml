@@ -6,10 +6,21 @@
     <description>Recent content in Simulação on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Wed, 31 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/simula%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
+      <link>/2018/10/31/banach/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/31/banach/</guid>
+      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+    </item>
     
     <item>
       <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
@@ -29,6 +40,15 @@ O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegan
       <guid>/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
       <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
 Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+    </item>
+    
+    <item>
+      <title>Monte Carlo 101</title>
+      <link>/2018/07/18/monte-carlo-101/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/07/18/monte-carlo-101/</guid>
+      <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
     
     <item>

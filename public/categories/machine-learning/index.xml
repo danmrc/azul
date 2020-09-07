@@ -6,6 +6,7 @@
     <description>Recent content in Machine Learning on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Sun, 30 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
@@ -91,6 +92,16 @@ Já aviso de antemão que a explicaçõe será muito superficial. É um assunto 
       <guid>/2019/04/20/cross-validation/</guid>
       <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
 A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
+    </item>
+    
+    <item>
+      <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
+      <link>/2018/12/10/prouni-rf-svm/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/10/prouni-rf-svm/</guid>
+      <description> Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
+Random Forests  Support Vector Machines  Rodando tudo  </description>
     </item>
     
   </channel>

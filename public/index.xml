@@ -6,6 +6,7 @@
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Sun, 30 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
@@ -332,6 +333,17 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     </item>
     
     <item>
+      <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
+      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
+    </item>
+    
+    <item>
       <title>Classificando cursos no ProUni com Random Forest</title>
       <link>/2019/05/07/prouni-rf-classificacao/</link>
       <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
@@ -470,6 +482,15 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
     </item>
     
     <item>
+      <title>RDD, inferência causal e um exemplo em R</title>
+      <link>/2018/12/13/rdd-mixtape/</link>
+      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
+    </item>
+    
+    <item>
       <title>Julia 101</title>
       <link>/2018/12/10/julia-101/</link>
       <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
@@ -477,6 +498,16 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
       <guid>/2018/12/10/julia-101/</guid>
       <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
 Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
+    </item>
+    
+    <item>
+      <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
+      <link>/2018/12/10/prouni-rf-svm/</link>
+      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/12/10/prouni-rf-svm/</guid>
+      <description> Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
+Random Forests  Support Vector Machines  Rodando tudo  </description>
     </item>
     
     <item>
@@ -510,6 +541,26 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
     </item>
     
     <item>
+      <title>Como eu rodei Stata dentro do R para replicar um paper</title>
+      <link>/2018/11/29/patronagem/</link>
+      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+    </item>
+    
+    <item>
+      <title>Prog Dinâmica IIA</title>
+      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
+Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+    </item>
+    
+    <item>
       <title>Prog Dinâmica IIA</title>
       <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
@@ -535,6 +586,26 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
       <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
+      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
+    </item>
+    
+    <item>
+      <title>Programação Dinâmica IIB</title>
+      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
+      <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
+$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
+    </item>
+    
+    <item>
+      <title>Programação Dinâmica IIB</title>
+      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
+      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
       <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
 $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
     </item>
@@ -547,6 +618,26 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)
       <guid>/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
 O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+    </item>
+    
+    <item>
+      <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
+      <link>/2018/10/31/banach/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/31/banach/</guid>
+      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+    </item>
+    
+    <item>
+      <title>Por que usar o Julia?</title>
+      <link>/2018/10/28/por-que-usar-o-julia/</link>
+      <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/28/por-que-usar-o-julia/</guid>
+      <description>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</description>
     </item>
     
     <item>
@@ -590,6 +681,27 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     </item>
     
     <item>
+      <title>Identificação em VAR e Price Puzzle I</title>
+      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&amp;#39;\). Um VAR seria:
+\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
+Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
+    </item>
+    
+    <item>
+      <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
+      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
+Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
+    </item>
+    
+    <item>
       <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
       <link>/2018/10/07/rais-cox-desemprego/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
@@ -629,12 +741,41 @@ Apesar de já existirem à época trabalhos importantes na área, como o de Rams
     </item>
     
     <item>
+      <title>Explorando o Modelo de Solow com a ajuda do R</title>
+      <link>/2018/09/11/solow/</link>
+      <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/11/solow/</guid>
+      <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
+Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
+    </item>
+    
+    <item>
       <title>Programação Dinâmica I</title>
       <link>/2018/09/08/programacao-dinamica-i/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/2018/09/08/programacao-dinamica-i/</guid>
       <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
+    </item>
+    
+    <item>
+      <title>Programação Dinâmica I</title>
+      <link>/2018/09/08/programacao-dinamica-i/</link>
+      <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/08/programacao-dinamica-i/</guid>
+      <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
+    </item>
+    
+    <item>
+      <title>Um pouco de microeconomia, dualidade e R</title>
+      <link>/2018/09/01/microeconomia/</link>
+      <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/09/01/microeconomia/</guid>
+      <description>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
+Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.</description>
     </item>
     
     <item>
@@ -655,6 +796,16 @@ Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua plan
       <guid>/2018/08/27/interpolacao/</guid>
       <description>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.</description>
+    </item>
+    
+    <item>
+      <title>Alguns pequenos problemas de clustering k-means</title>
+      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>
     
     <item>
@@ -689,6 +840,17 @@ Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em qu
     </item>
     
     <item>
+      <title>Homens têm mais casos extraconjugais?</title>
+      <link>/2018/08/17/homens-traicao/</link>
+      <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/17/homens-traicao/</guid>
+      <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
+Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+    </item>
+    
+    <item>
       <title>Usando clustering para identificar cursos no Prouni</title>
       <link>/2018/08/11/prouni-clustering/</link>
       <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
@@ -706,6 +868,15 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
       <guid>/about/</guid>
       <description>Este blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três. A ideia é escrever de maneira replicável e acessível (na medida do possível) sobre assuntos que gostaríamos de ter visto de outra forma, que estamos estudando ou o que tenham nos chamado a atenção. Acreditamos em aprender fazendo.
 Os Autores Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
+    </item>
+    
+    <item>
+      <title>Monte Carlo 101</title>
+      <link>/2018/07/18/monte-carlo-101/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/07/18/monte-carlo-101/</guid>
+      <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
     
     <item>

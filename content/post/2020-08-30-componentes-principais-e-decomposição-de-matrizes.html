@@ -12,7 +12,6 @@ tags:
   - SVD
   - Autovalores
 authors: ["danielc"]  
-draft: true
 ---
 
 <script src="2020-08-30-componentes-principais-e-decomposição-de-matrizes_files/header-attrs/header-attrs.js"></script>
@@ -67,10 +66,10 @@ ggplot(df,aes(X1,X2)) + geom_point() + geom_segment(x=0,y=0, yend=auto[2,1],xend
 </div>
 <div id="svd" class="section level2">
 <h2>SVD</h2>
-<p>A decomposição em valores singulares (<em>Singular Value Decomposition</em>) é outra decomposição bastante impotante e famosa, mas nem sempre abordada em cursos de Álgebra Linear. Aplicando em uma matriz qualquer <span class="math inline">\(A\)</span>, que não precisa ser quadrada, o SVD faz:</p>
+<p>A decomposição em valores singulares (<em>Singular Value Decomposition</em>) é outra decomposição bastante importante e famosa, mas nem sempre abordada em cursos de Álgebra Linear. Aplicando em uma matriz qualquer <span class="math inline">\(A\)</span>, que não precisa ser quadrada, o SVD faz:</p>
 <p><span class="math display">\[A = USV^{\prime}\]</span></p>
-<p>E <span class="math inline">\(U\)</span> e <span class="math inline">\(V\)</span> são matrizes ortogonais (<span class="math inline">\(U^{\prime} = U^{-1}\)</span> e <span class="math inline">\(V^{\prime} = V^{-1}\)</span>) e S é uma matriz diagonal cujo valores são chamadas de valores singulares.</p>
-<p>Veja que se tivermos <span class="math inline">\(A^{\prime}A\)</span>, então usando SVD:</p>
+<p>E <span class="math inline">\(U\)</span> e <span class="math inline">\(V\)</span> são matrizes ortogonais (<span class="math inline">\(U^{\prime} = U^{-1}\)</span> e <span class="math inline">\(V^{\prime} = V^{-1}\)</span>) e <span class="math inline">\(S\)</span> é uma matriz diagonal cujo valores são chamados de valores singulares.</p>
+<p>Veja que se tivermos trabalhando com <span class="math inline">\(A^{\prime}A\)</span> - como por exemplo no caso da matriz de covariância <span class="math inline">\(X^{\prime}X\)</span>, então usando o SVD de <span class="math inline">\(A\)</span> nós podemos reescrever:</p>
 <p><span class="math display">\[A^{\prime}A = (USV^{\prime})^{\prime}USV^{\prime} = VSU^{\prime}USV^{\prime} = VS^2V^{\prime}\]</span></p>
 <p>Então veja que os autovalores de <span class="math inline">\(A^{\prime}A\)</span> são os quadrados dos valores singulares de A e os autovetores são <span class="math inline">\(V\)</span>. Uma relação similar vale para <span class="math inline">\(AA^{\prime}\)</span>.</p>
 <p>Como a variância empírica dos dados é calculada com <span class="math inline">\(X^{\prime}X\)</span>, a gente sequer precisa se preocupar em calcular a matriz de variância covariância dos dados, basta passar o SVD na matriz de dados.</p>
@@ -87,7 +86,7 @@ xx &lt;- cbind(mtcars$mpg,mtcars$cyl,mtcars$disp,mtcars$hp)</code></pre>
 ## [2,]  0.5126614 -0.08416586 -0.3698824 -0.770247652
 ## [3,]  0.5060829 -0.31928855 -0.5109886  0.617110666
 ## [4,]  0.4844917  0.84776090  0.1441097  0.160628854</code></pre>
-<p>Agor vamos tirar o SVD da matriz e ver a matriz <span class="math inline">\(V\)</span> da decomposição. Não esqueça que eu preciso centrar e escalar <span class="math inline">\(xx\)</span> para ter variância 1:</p>
+<p>Agora vamos tirar o SVD da matriz e ver a matriz <span class="math inline">\(V\)</span> da decomposição. Não esqueça que eu preciso centrar e escalar<code>xx</code> (os dados) para ter variância 1 (o que eu vou fazer com o <code>scale</code>):</p>
 <pre class="r"><code>x_sc &lt;- scale(xx)
 svd_x &lt;- svd(x_sc)
 

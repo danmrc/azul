@@ -1,71 +1,124 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.74.3" />
-		<title>Por quê todo estudante de Economia deveria aprender R e por onde começar &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-
-		
-	</head>
-
-    <body>
-       <nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
+<title>
   
-	
+     Por quê todo estudante de Economia deveria aprender R e por onde começar | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
 
-	
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/2018/12/21/aprender/"><meta property="og:title" content="Por quê todo estudante de Economia deveria aprender R e por onde começar" />
+<meta property="og:description" content="Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
+Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2018/12/21/aprender/" />
+<meta property="article:published_time" content="2018-12-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-12-21T00:00:00+00:00" />
+<meta itemprop="name" content="Por quê todo estudante de Economia deveria aprender R e por onde começar">
+<meta itemprop="description" content="Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
+Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.">
+<meta itemprop="datePublished" content="2018-12-21T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-12-21T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1675">
+
+
+
+<meta itemprop="keywords" content="R," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Por quê todo estudante de Economia deveria aprender R e por onde começar"/>
+<meta name="twitter:description" content="Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
+Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
 </nav>
 
 
-        <section id="wrapper" class="post">
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
             <article>
-                <header>
-                    <h1>
-                        Por quê todo estudante de Economia deveria aprender R e por onde começar
-                    </h1>
-                    <h3> Pedro Cavalcante </h3>
-                    <h2 class="headline">
-                    Dec 21, 2018 00:00
-                    · 1675 words
-                    · 8 minute read
-                      <span class="tags">
-                      
-                      
-                          
-                              <a href="/tags/r">R</a>
-                          
-                      
-                      
-                      </span>
-                    </h2>
-                </header>
-                
-                  
-                
-                <section id="post-body">
-                    
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">December 21, 2018</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1675 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>8 mins</span>
+                        </div>
+
+                        <h1>Por quê todo estudante de Economia deveria aprender R e por onde começar</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
+                            </h5><p class="social small text-muted">
+                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
+                                </p></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
 
 
 <p>Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas <em>queiram</em> perder uma semana de férias programando.</p>
@@ -147,67 +200,143 @@
 <p>Não podia deixar de falar do meu bebê. O blog nasceu quando eu falei com o Daniel que queria ter algum jeito de me forçar a praticar R. Dito e feito. O espírito dele é um grande “como eu gostaria de ter aprendido”. A ideia é ser didático - porque ensinar é ótimo para aprender - e dar ideias para mais gente fazer mais experimentos com dados.</p>
 </div>
 
-                </section>
-            </article>
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
+                                    <i class="fas fa-tag mr-2"></i>R
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f12%2f21%2faprender%2f&text=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f12%2f21%2faprender%2f&title=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f12%2f21%2faprender%2f&t=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f12%2f21%2faprender%2f&title=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
 
-            
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2018%2f12%2f21%2faprender%2f - Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar "><span class="icon-twitter"> tweet</span></a>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
 
-<a class="facebook" href="#" onclick="
-    window.open(
-      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-      'facebook-share-dialog',
-      'width=626,height=436');
-    return false;"><span class="icon-facebook-rect"> Share</span>
-</a>
-
-            
-
-            
-
-            
-
-            <footer id="footer">
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
     
-        <div id="social">
-
-	
-	
-    
-    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
-        github
+    <a href="/2018/11/29/patronagem/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
+            <p class="card-text text-muted text-uppercase">November 29, 2018</p>
+            <div class="card-text">
+                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
+            </div>
+        </div>
     </a>
-    
-
-
 </div>
 
+            </div><div class="col mb-3">
+                <div class="card h-100">
     
-    <p class="small">
+    <a href="/2018/11/29/patronagem/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
+            <p class="card-text text-muted text-uppercase">November 29, 2018</p>
+            <div class="card-text">
+                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+ O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
     
-       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-    
-    </p>
-    <p class="small">
-        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
-    </p>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
+    <a href="/2018/10/31/banach/" class="d-block"><div class="card-body">
+            <h4 class="card-title">O Teorema do Ponto Fixo de Banach e uma visualização no R</h4>
+            <p class="card-text text-muted text-uppercase">October 31, 2018</p>
+            <div class="card-text">
+                Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
 </footer>
 
-        </section>
-
-        <script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
-
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
 
 
-  
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
+
+
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -221,9 +350,5 @@ if (!doNotTrack) {
 }
 </script>
 
-
-
-
-
-    </body>
+</body>
 </html>

@@ -1,73 +1,119 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
-		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.74.3" />
-		<title>Integrando o Telegram e R &middot; AZUL</title>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="/css/highlight.css">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		
-		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
-		
-
-		
-
-		
-	</head>
-
-    <body>
-       <nav class="main-nav">
-	
-	
-		<a href='/'> <span class="arrow">←</span>Início</a>
-	
-	<a href='/post'>Arquivo</a>
-	<a href='/tags'>Tags</a>
-	<a href='/about'>Sobre</a>
-  <a href='/categories'>Categorias</a>
+<title>
   
-	
+     Integrando o Telegram e R | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
-	
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/2018/11/30/telegram-e-r/"><meta property="og:title" content="Integrando o Telegram e R" />
+<meta property="og:description" content="Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2018/11/30/telegram-e-r/" />
+<meta property="article:published_time" content="2018-11-30T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-11-30T00:00:00+00:00" />
+<meta itemprop="name" content="Integrando o Telegram e R">
+<meta itemprop="description" content="Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.">
+<meta itemprop="datePublished" content="2018-11-30T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-11-30T00:00:00+00:00" />
+<meta itemprop="wordCount" content="645">
+
+
+
+<meta itemprop="keywords" content="Telegram,Bot," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Integrando o Telegram e R"/>
+<meta name="twitter:description" content="Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
 </nav>
 
 
-        <section id="wrapper" class="post">
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
             <article>
-                <header>
-                    <h1>
-                        Integrando o Telegram e R
-                    </h1>
-                    <h3> Daniel Coutinho </h3>
-                    <h2 class="headline">
-                    Nov 30, 2018 00:00
-                    · 645 words
-                    · 4 minute read
-                      <span class="tags">
-                      
-                      
-                          
-                              <a href="/tags/telegram">Telegram</a>
-                          
-                              <a href="/tags/bot">Bot</a>
-                          
-                      
-                      
-                      </span>
-                    </h2>
-                </header>
-                
-                  
-                
-                <section id="post-body">
-                    
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">November 30, 2018</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>645 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>4 mins</span>
+                        </div>
+
+                        <h1>Integrando o Telegram e R</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
 
 
 <p>Algum tempo atrás eu achei <a href="https://www.r-bloggers.com/integrating-r-and-telegram/">este post</a> no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog. Eu fiz isso e o resultado é que basta buscar por @azulblogbot na busca do Telegram que você passará a receber atualizações do blog por lá. Neste post, eu vou explicar como eu fiz isso.</p>
@@ -94,67 +140,103 @@ file.edit(user_renviron)
 <p>O passo 2 não tem nenhuma relação com o Telegram, mas é importante para automatizar o processo de mandar as atualizações. Para isso, eu faço o que é chamado de webscrapping - um tema amplo o suficiente para ocupar vários posts. Essencialmente, eu mando o R baixar a página, ler o html e roubar os links do blog usando o pacote <em>xml2</em>. Eu salvo os links como um vetor. Se existe um post novo, ele vai me devolver o link para o post. Caso contrário ele apenas devolve um erro.</p>
 <p>O passo 3 envolve criar um loop em cima da lista de usuários e enviar o link do passo 2 para cada um. Veja que, para evitar ser considerado spam, eu deixo uma pausa entre os envios de 1s mais algum valor aleatório (que eu sorteio de uma distribuição exponencial com parâmetro 1/2).</p>
 
-                </section>
-            </article>
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/telegram">
+                                    <i class="fas fa-tag mr-2"></i>Telegram
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/bot">
+                                    <i class="fas fa-tag mr-2"></i>Bot
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f11%2f30%2ftelegram-e-r%2f&text=Integrando%20o%20Telegram%20e%20R">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f11%2f30%2ftelegram-e-r%2f&title=Integrando%20o%20Telegram%20e%20R">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f11%2f30%2ftelegram-e-r%2f&t=Integrando%20o%20Telegram%20e%20R">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f11%2f30%2ftelegram-e-r%2f&title=Integrando%20o%20Telegram%20e%20R">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
 
-            
-                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2018%2f11%2f30%2ftelegram-e-r%2f - Integrando%20o%20Telegram%20e%20R "><span class="icon-twitter"> tweet</span></a>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
 
-<a class="facebook" href="#" onclick="
-    window.open(
-      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-      'facebook-share-dialog',
-      'width=626,height=436');
-    return false;"><span class="icon-facebook-rect"> Share</span>
-</a>
-
-            
-
-            
-
-            
-
-            <footer id="footer">
     
-        <div id="social">
-
-	
-	
-    
-    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
-        github
-    </a>
-    
+</main>
 
 
-</div>
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
 
-    
-    <p class="small">
-    
-       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
-    
-    </p>
-    <p class="small">
-        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
-    </p>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
 </footer>
 
-        </section>
-
-        <script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/main.js"></script>
-<script src="/js/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
-
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
 
 
-  
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
+
+
+    
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -168,9 +250,5 @@ if (!doNotTrack) {
 }
 </script>
 
-
-
-
-
-    </body>
+</body>
 </html>
