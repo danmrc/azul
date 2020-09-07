@@ -1,121 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.74.3" />
+		<title>O Teorema do Macaco Infito: quanto tempo até sair Hamlet? &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
 
-<title>
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
   
-     O Teorema do Macaco Infito: quanto tempo até sair Hamlet? | 
-    AZUL
-  
-</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
+	
 
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
-<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
-<link rel="icon" href="/favicon.ico">
-
-//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
-
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
-
-
-
-
-    
-        
-            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
-        
-    
-
-
-
-
-<link rel="canonical" href="/2019/09/08/macaco-infinito-hamlet/"><meta property="og:title" content="O Teorema do Macaco Infito: quanto tempo até sair Hamlet?" />
-<meta property="og:description" content="O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &lt;- import(&quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&quot;) %&gt;% as_tibble() palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/09/08/macaco-infinito-hamlet/" />
-<meta property="article:published_time" content="2019-09-08T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-09-08T00:00:00+00:00" />
-<meta itemprop="name" content="O Teorema do Macaco Infito: quanto tempo até sair Hamlet?">
-<meta itemprop="description" content="O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &lt;- import(&quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&quot;) %&gt;% as_tibble() palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:">
-<meta itemprop="datePublished" content="2019-09-08T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-09-08T00:00:00+00:00" />
-<meta itemprop="wordCount" content="260">
-
-
-
-<meta itemprop="keywords" content="Simulações,R,Monte Carlo,Teorema do Macaco Infinito," />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="O Teorema do Macaco Infito: quanto tempo até sair Hamlet?"/>
-<meta name="twitter:description" content="O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &lt;- import(&quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&quot;) %&gt;% as_tibble() palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
-
-
-
-</head>
-<body>
-    
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
-    <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main-menu">
-            <ul class="navbar-nav ml-auto">
-                
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
-                
-            
-            </ul>
-        </div>
-    </div>
+	
 </nav>
 
 
-    
-<main class="content-page container pt-7 pb-5">
-    
-    <div class="row">
-        <div class="col">
+        <section id="wrapper" class="post">
             <article>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="meta text-muted mb-3">
-                            <p class="created text-muted text-uppercase font-weight-bold mb-1">September 8, 2019</p>
-                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>260 palavras</span>
-                            <span><i class="fas fa-clock mr-2"></i>2 mins</span>
-                        </div>
-
-                        <h1>O Teorema do Macaco Infito: quanto tempo até sair Hamlet?</h1>
-
-                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
-                    <div class="media author"><div class="media-body">
-                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
-                            </h5><p class="social small text-muted">
-                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
-                                </p></div>
-                    </div>
-                </li></ul>
-                    </div>
-                </div><div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="content">
-                            
+                <header>
+                    <h1>
+                        O Teorema do Macaco Infito: quanto tempo até sair Hamlet?
+                    </h1>
+                    <h3> Pedro Cavalcante </h3>
+                    <h2 class="headline">
+                    Sep 8, 2019 00:00
+                    · 260 words
+                    · 2 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/simula%C3%A7%C3%B5es">Simulações</a>
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/monte-carlo">Monte Carlo</a>
+                          
+                              <a href="/tags/teorema-do-macaco-infinito">Teorema do Macaco Infinito</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    
 
 
 <div id="o-enunciado-e-quase-certeza" class="section level1">
@@ -180,149 +136,67 @@ print(paste(&quot;a =&quot;,a))
 }</code></pre>
 </div>
 
-                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/simula%C3%A7%C3%B5es">
-                                    <i class="fas fa-tag mr-2"></i>Simulações
-                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
-                                    <i class="fas fa-tag mr-2"></i>R
-                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/monte-carlo">
-                                    <i class="fas fa-tag mr-2"></i>Monte Carlo
-                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/teorema-do-macaco-infinito">
-                                    <i class="fas fa-tag mr-2"></i>Teorema do Macaco Infinito
-                                </a></div><ul class="share nav my-3 justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2019%2f09%2f08%2fmacaco-infinito-hamlet%2f&text=O%20Teorema%20do%20Macaco%20Infito%3a%20quanto%20tempo%20at%c3%a9%20sair%20Hamlet%3f">
-              <i class="fa-fw fab fa-twitter"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2019%2f09%2f08%2fmacaco-infinito-hamlet%2f&title=O%20Teorema%20do%20Macaco%20Infito%3a%20quanto%20tempo%20at%c3%a9%20sair%20Hamlet%3f">
-                <i class="fa-fw fab fa-linkedin-in"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2019%2f09%2f08%2fmacaco-infinito-hamlet%2f&t=O%20Teorema%20do%20Macaco%20Infito%3a%20quanto%20tempo%20at%c3%a9%20sair%20Hamlet%3f">
-                <i class="fa-fw fab fa-facebook-f"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2019%2f09%2f08%2fmacaco-infinito-hamlet%2f&title=O%20Teorema%20do%20Macaco%20Infito%3a%20quanto%20tempo%20at%c3%a9%20sair%20Hamlet%3f">
-                <i class="fa-fw fab fa-reddit-alien"></i>
-            </a>
-        </li>
-    </nav>
-                    </div>
-                </div>
+                </section>
+            </article>
 
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        
-                    </div>
-                </div></article>
-        </div>
-    </div>
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2019%2f09%2f08%2fmacaco-infinito-hamlet%2f - O%20Teorema%20do%20Macaco%20Infito%3a%20quanto%20tempo%20at%c3%a9%20sair%20Hamlet%3f "><span class="icon-twitter"> tweet</span></a>
 
-    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
-                <div class="card h-100">
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
     
-    <a href="/2019/08/20/viz-estacionariedade-gganim/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Visualizando um critério de estacionariedade em Processos AR</h4>
-            <p class="card-text text-muted text-uppercase">August 20, 2019</p>
-            <div class="card-text">
-                Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
-Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} &#43; \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.
-            </div>
-        </div>
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
     </a>
+    
+
+
 </div>
 
-            </div><div class="col mb-3">
-                <div class="card h-100">
     
-    <a href="/2019/08/12/perron-frobenius-verificando-comp-1/" class="d-block"><div class="card-body">
-            <h4 class="card-title">A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</h4>
-            <p class="card-text text-muted text-uppercase">August 12, 2019</p>
-            <div class="card-text">
-                Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div><div class="col mb-3">
-                <div class="card h-100">
+    <p class="small">
     
-    <a href="/2019/08/12/perron-frobenius-verificando-comp-2/" class="d-block"><div class="card-body">
-            <h4 class="card-title">A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</h4>
-            <p class="card-text text-muted text-uppercase">August 12, 2019</p>
-            <div class="card-text">
-                Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div></div>
-</main>
-
-
-    <footer class="footer text-center bg-dark py-6">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a></li><li class="list-inline-item">
-                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                </ul>
-
-                <p class="text-muted">
-                    
-                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
-                    
-                </p>
-
-                <p class="text-muted">
-                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
-                </p>
-            </div>
-        </div>
-    </div>
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
 </footer>
 
-    
-    
-        
-            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
-        
-    
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 
 
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
-
-
-    
+  
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -336,5 +210,9 @@ if (!doNotTrack) {
 }
 </script>
 
-</body>
+
+
+
+
+    </body>
 </html>

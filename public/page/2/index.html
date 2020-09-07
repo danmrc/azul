@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
+		<meta name="generator" content="Hugo 0.74.3" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -17,8 +17,6 @@
 		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
 		
 
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
 		
 
 		
@@ -35,8 +33,6 @@
   
 	
 
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
 	
 </nav>
 
@@ -60,29 +56,13 @@
     
         
             <li>
-                <aside class="dates">Nov 2</aside>
-                <a href='/2018/11/02/programacao-dinamica-ii-b/'>
-                    Programação Dinâmica IIB
+                <aside class="dates">Apr 25</aside>
+                <a href='/2020/04/25/workflow/'>
+                    Workflow - Como funciona o AZUL
                     
                         
-                            <h2>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Nov 2</aside>
-                <a href='/2018/11/02/programacao-dinamica-ii-b/'>
-                    Programação Dinâmica IIB
-                    
-                        
-                            <h2>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$</h2>
+                            <h2>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
+Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown, que no fundo roda um software chamado hugo.</h2>
                         
                     
                 </a>
@@ -92,29 +72,12 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(ct) \text{ sujeito a } k{t&#43;1} = (1-\delt
     
         
             <li>
-                <aside class="dates">Oct 31</aside>
-                <a href='/2018/10/31/banach/'>
-                    O Teorema do Ponto Fixo de Banach e uma visualização no R
+                <aside class="dates">Apr 24</aside>
+                <a href='/2020/04/24/vi%C3%A9s-de-atenuacao/'>
+                    Viés de Atenuação
                     
                         
-                            <h2>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Oct 28</aside>
-                <a href='/2018/10/28/por-que-usar-o-julia/'>
-                    Por que usar o Julia?
-                    
-                        
-                            <h2>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
-Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</h2>
+                            <h2>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</h2>
                         
                     
                 </a>
@@ -124,28 +87,12 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
     
         
             <li>
-                <aside class="dates">Oct 19</aside>
-                <a href='/2018/10/19/testes-de-raiz-unit%C3%A1ria/'>
-                    Testes de raiz unitária
+                <aside class="dates">Apr 21</aside>
+                <a href='/2020/04/21/jogo-da-velha-com-q-learning/'>
+                    Jogo da Velha com Q-Learning
                     
                         
-                            <h2>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
-Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Oct 15</aside>
-                <a href='/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/'>
-                    Identificação em VAR e Price Puzzle
-                    
-                        
-                            <h2></h2>
+                            <h2>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</h2>
                         
                     
                 </a>
@@ -155,30 +102,13 @@ Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar p
     
         
             <li>
-                <aside class="dates">Oct 7</aside>
-                <a href='/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/'>
-                    Identificação em VAR e Price Puzzle I
+                <aside class="dates">Apr 12</aside>
+                <a href='/2020/04/12/erros-padr%C3%B5es-hac/'>
+                    Erros padrões HAC
                     
                         
-                            <h2>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\). Um VAR seria:
-\[\mathbf{x_t} = C\mathbf{x_{t-1}} &#43; \mathbf{u_t}\]
-Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Oct 7</aside>
-                <a href='/2018/10/07/rais-cox-desemprego/'>
-                    Usando dados da RAIS e Análise de Sobrevivência para entender desemprego
-                    
-                        
-                            <h2>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
-Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</h2>
+                            <h2>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
+Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</h2>
                         
                     
                 </a>
@@ -188,13 +118,12 @@ Análise de Sobrevivência é um termo bem amplo para descrever modelos que serv
     
         
             <li>
-                <aside class="dates">Sep 24</aside>
-                <a href='/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/'>
-                    Sazonalidade, x13, e dummies: Muito barulho por nada
+                <aside class="dates">Apr 12</aside>
+                <a href='/2020/04/12/mas-e-a-ind%C3%BAstria/'>
+                    Mas e a indústria?
                     
                         
-                            <h2>Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?
-Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças.</h2>
+                            <h2>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar não é coincidência.</h2>
                         
                     
                 </a>
@@ -204,12 +133,75 @@ Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando
     
         
             <li>
-                <aside class="dates">Sep 16</aside>
-                <a href='/2018/09/16/lasso/'>
-                    O LASSO
+                <aside class="dates">Feb 22</aside>
+                <a href='/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/'>
+                    Bootstrap: uma introdução
                     
                         
-                            <h2>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</h2>
+                            <h2>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
+Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Feb 9</aside>
+                <a href='/2020/02/09/difusao-gaussiana/'>
+                    Gerando um padrão de difusão com soma de um termo gaussiano
+                    
+                        
+                            <h2>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
+Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Feb 8</aside>
+                <a href='/2020/02/08/markov-chain-monte-carlo/'>
+                    Amostrando de distribuições difíceis: o Markov Chain Monte Carlo
+                    
+                        
+                            <h2>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Jan 17</aside>
+                <a href='/2020/01/17/sistemas-din%C3%A2micos-ii/'>
+                    Sistemas dinâmicos II: Expectativas racionais
+                    
+                        
+                            <h2>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Jan 5</aside>
+                <a href='/2020/01/05/linux-e-windows/'>
+                    Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot
+                    
+                        
+                            <h2>Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
+Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!</h2>
                         
                     
                 </a>
@@ -254,7 +246,7 @@ Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando
     
     <p class="small">
     
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
     
     </p>
     <p class="small">

@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
+		<meta name="generator" content="Hugo 0.74.3" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -17,8 +17,6 @@
 		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
 		
 
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
 		
 
 		
@@ -35,8 +33,6 @@
   
 	
 
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
 	
 </nav>
 
@@ -60,13 +56,42 @@
     
         
             <li>
-                <aside class="dates">Sep 11</aside>
-                <a href='/2018/09/11/solow/'>
-                    Explorando o Modelo de Solow com a ajuda do R
+                <aside class="dates">Nov 3</aside>
+                <a href='/2019/11/03/central-limit-theorem-r/'>
+                    Simulando o Teorema Central do Limite no R
                     
                         
-                            <h2>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
-Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</h2>
+                            <h2>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Oct 28</aside>
+                <a href='/2019/10/28/reg-esppuria-integracao-perfect/'>
+                    Regredindo séries temporais aleatórias para quem gosta de regressão
+                    
+                        
+                            <h2>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Sep 20</aside>
+                <a href='/2019/09/20/inercia-inflacao-rolling-window/'>
+                    Medindo a inércia da inflação brasileira com Rolling Window Regression
+                    
+                        
+                            <h2>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</h2>
                         
                     
                 </a>
@@ -77,27 +102,11 @@ Apesar de já existirem à época trabalhos importantes na área, como o de Rams
         
             <li>
                 <aside class="dates">Sep 8</aside>
-                <a href='/2018/09/08/programacao-dinamica-i/'>
-                    Programação Dinâmica I
+                <a href='/2019/09/08/macaco-infinito-hamlet/'>
+                    O Teorema do Macaco Infito: quanto tempo até sair Hamlet?
                     
                         
-                            <h2>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Sep 1</aside>
-                <a href='/2018/09/01/microeconomia/'>
-                    Um pouco de microeconomia, dualidade e R
-                    
-                        
-                            <h2>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
-Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.</h2>
+                            <h2>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &lt;- import(&#34;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&#34;) %&gt;% as_tibble() palavras$tamanho &lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</h2>
                         
                     
                 </a>
@@ -107,29 +116,14 @@ Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua plan
     
         
             <li>
-                <aside class="dates">Aug 27</aside>
-                <a href='/2018/08/27/interpolacao/'>
-                    Interpolação
+                <aside class="dates">Aug 20</aside>
+                <a href='/2019/08/20/viz-estacionariedade-gganim/'>
+                    Visualizando um critério de estacionariedade em Processos AR
                     
                         
-                            <h2>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
-A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Aug 19</aside>
-                <a href='/2018/08/19/problemas-clustering-k-means/'>
-                    Alguns pequenos problemas de clustering k-means
-                    
-                        
-                            <h2>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
-Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</h2>
+                            <h2>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
+Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
+\[y_t = \beta y_{t-1} &#43; \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</h2>
                         
                     
                 </a>
@@ -139,30 +133,16 @@ Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe com
     
         
             <li>
-                <aside class="dates">Aug 19</aside>
-                <a href='/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/'>
-                    Viés de variáveis instrumentais
+                <aside class="dates">Aug 15</aside>
+                <a href='/2019/08/15/born-with-the-gift-of-a-golden-voice/'>
+                    Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen
                     
                         
-                            <h2>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
-Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta&#43;e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Aug 17</aside>
-                <a href='/2018/08/17/homens-traicao/'>
-                    Homens têm mais casos extraconjugais?
-                    
-                        
-                            <h2>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
-Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</h2>
+                            <h2>I was born like this
+I had no choice
+I was born with the gift of a golden voice
+ – Leonard Cohen
+Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</h2>
                         
                     
                 </a>
@@ -172,29 +152,12 @@ ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em qu
     
         
             <li>
-                <aside class="dates">Aug 11</aside>
-                <a href='/2018/08/11/prouni-clustering/'>
-                    Usando clustering para identificar cursos no Prouni
+                <aside class="dates">Aug 12</aside>
+                <a href='/2019/08/12/perron-frobenius-verificando-comp-1/'>
+                    A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes
                     
                         
-                            <h2>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
-Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</h2>
-                        
-                    
-                </a>
-            </li>
-        
-    
-    
-        
-            <li>
-                <aside class="dates">Jul 18</aside>
-                <a href='/about/'>
-                    About
-                    
-                        
-                            <h2>Os AutoresEste blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três - é “econometria” que chama?. Ambos usam o R, uma linguagem de programação voltada para estatística, e muitos dos posts são acompanhados do código. Replicabilidade e aprender-fazendo são a serventia da casa. Sem mais delongas, eis os dois autores:
-Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</h2>
+                            <h2>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</h2>
                         
                     
                 </a>
@@ -204,12 +167,46 @@ Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em eco
     
         
             <li>
-                <aside class="dates">Jul 18</aside>
-                <a href='/2018/07/18/monte-carlo-101/'>
-                    Monte Carlo 101
+                <aside class="dates">Aug 12</aside>
+                <a href='/2019/08/12/perron-frobenius-verificando-comp-2/'>
+                    A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional
                     
                         
-                            <h2>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</h2>
+                            <h2>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+ Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Jun 15</aside>
+                <a href='/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/'>
+                    Stranger things: Distribuição exata de IV em um exemplo extremamente simples
+                    
+                        
+                            <h2>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
+Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Jun 10</aside>
+                <a href='/2019/06/10/var-random-walks/'>
+                    Comportamento de Random Walks
+                    
+                        
+                            <h2>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
+\[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
+Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</h2>
                         
                     
                 </a>
@@ -254,7 +251,7 @@ Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em eco
     
     <p class="small">
     
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
     
     </p>
     <p class="small">

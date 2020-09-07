@@ -6,20 +6,10 @@
     <description>Recent content in Tutoriais on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/tutoriais/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Monte Carlo 101</title>
-      <link>/2018/07/18/monte-carlo-101/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/07/18/monte-carlo-101/</guid>
-      <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
-    </item>
     
     <item>
       <title>Monte Carlo 101</title>

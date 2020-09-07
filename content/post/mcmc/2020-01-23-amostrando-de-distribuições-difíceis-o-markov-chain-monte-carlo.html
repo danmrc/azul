@@ -10,10 +10,10 @@ tags:
   - Monte Carlo
   - Markov Chain Monte Carlo
   - Bayesiana
-authors: ["danielc"]
 ---
 
-<script src="2020-01-23-amostrando-de-distribuições-difíceis-o-markov-chain-monte-carlo_files/header-attrs/header-attrs.js"></script>
+<script src="2020-01-23-amostrando-de-distribuições-difíceis-o-markov-chain-monte-carlo_files/jquery/jquery.min.js"></script>
+<script src="2020-01-23-amostrando-de-distribuições-difíceis-o-markov-chain-monte-carlo_files/elevate-section-attrs/elevate-section-attrs.js"></script>
 
 
 <p>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de <em>porque</em> funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</p>
@@ -46,7 +46,7 @@ points(0, d0, pch = 17,col = 3, cex = 2)
 
 arrows(x0 = -1, y0 = dm1, x1 = 0, y1 = d0, lty = 2, lwd = 2)
 arrows(x0 = 0, y0 = d0, x1 = 1, y1 = d1, lty = 2, lwd = 2)</code></pre>
-<p><img src="/post/mcmc/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Se começamos no triângulo vermelho, qualquer ponto ao redor reduz a densidade. Mas veja que o triângulo vermelho é um máximo local e o triângulo azul o máximo global. Nós potencialmente gostaríamos de aceitar até mesmo o ponto verde se nós fizermos o caminho indicado pelas setas. Obviamente, dificilmente teremos uma situação tão evidente como essa, mas é bastante ilustrativo.</p>
 <p>Então nós não queremos rejeitar um ponto potencial só porque ele reduz a <em>posterior</em> - queremos aceitar ele, de vez em quando. A ideia aqui é aceitar ele com maior probabilidade quanto mais próxima de 1 for a razão <span class="math inline">\(p(\theta^\prime|x)/p(\theta|x)\)</span>.</p>
 <p>Espero ter convencido o leitor que é útil trabalhar com a razão <span class="math inline">\(p(\theta^\prime|x)/p(\theta|x)\)</span> para <em>aceitar ou rejeitar</em> um valor como representativo da distribuição. Mas ainda não atacamos o problema fundamental de <em>como</em> escolher esse valor. O procedimento é bem simples: escolha a distribuição <em>kernel</em> e sorteie um valor dela. Esse vai ser o valor que a ser testado.</p>
@@ -106,8 +106,8 @@ for(i in 2:n){
 pars &lt;- params_mcmc[4001:10000]
 
 ggplot(data.frame(pars = pars),aes(pars)) + geom_histogram(bins = 30) + scale_x_continuous(breaks = seq(1,2,by = 0.1)) + theme_bw() </code></pre>
-<p><img src="/post/mcmc/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>Veja que o histograma não é muito suave e nem está centrado no valor verdadeiro do parâmetro. Temos vários possíveis suspeitos, mas eu imagino que o problema seja que nós temos apenas 100 observações. Observe que se rodarmos o bom e velho Mínimos Quadrados, obtemos o coeficiente 1.6384709 - próximo da moda do histograma. Vamos aumentar o tamanho da amostra e repetir o MCMC:</p>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Veja que o histograma não é muito suave e nem está centrado no valor verdadeiro do parâmetro. Temos vários possíveis suspeitos, mas eu imagino que o problema seja que nós temos apenas 100 observações. Observe que se rodarmos o bom e velho Mínimos Quadrados, obtemos o coeficiente 1.3973191 - próximo da moda do histograma. Vamos aumentar o tamanho da amostra e repetir o MCMC:</p>
 <pre class="r"><code>x &lt;- rnorm(1000)
 y &lt;- 1.5*x + rnorm(1000)
 
@@ -136,7 +136,7 @@ for(i in 2:n){
 pars &lt;- params_mcmc[4000:10000]
 
 ggplot(data.frame(pars = pars),aes(pars)) + geom_histogram(bins = 30) + scale_x_continuous(breaks = seq(1,2,by = 0.05)) + theme_bw() </code></pre>
-<p><img src="/post/mcmc/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Agora o histograma nos mostra bem perto de 1.5!</p>
 <p>Veja que eu falei que a variância do Kernel é bem importante. Em geral, a variância é escolhida de maneira que a aceitação fique perto dos 20% - esse é o valor ótimo de aceitação para o MCMC. Eu ignorei totalmente esse fato por enquanto, mas observe que eu salvei uma variável que nos dá a taxa de aceitação: é a variável <code>aceitacao</code>(duh); basta dividir ela pelo total de simulações (<code>n</code>) e teremos nossa taxa de aceitação. No caso, ela é 8.16%. Vamos aumentar a variância e ver o que acontece:</p>
 <pre class="r"><code>x &lt;- rnorm(1000)
@@ -168,7 +168,7 @@ pars &lt;- params_mcmc[2000:10000]
 
 
 ggplot(data.frame(pars = pars),aes(pars)) + geom_histogram(bins = 30) + scale_x_continuous(breaks = seq(1,2,by = 0.05)) + theme_bw() </code></pre>
-<p><img src="/post/mcmc/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>A taxa de aceitação agora é 3.39%. variância muito alta faz a distribuição ficar esquisita. A intuição é simples: como é um passeio aleatório, a distribuição vai passear por uma região muito maior, possivelmente visitando pontos com uma probabilidade muito baixa de ser aceita.</p>
 <p>Podemos ter o problema oposto: a variância ser muito baixa e o algoritmo demorar um tempo enorme para visitar a distribuição:</p>
 <pre class="r"><code>x &lt;- rnorm(1000)
@@ -200,7 +200,7 @@ pars &lt;- params_mcmc[2000:10000]
 
 
 ggplot(data.frame(pars = pars),aes(pars)) + geom_histogram(bins = 30) + theme_bw() </code></pre>
-<p><img src="/post/mcmc/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/2020-01-23-amostrando-de-distribui%C3%A7%C3%B5es-dif%C3%ADceis-o-markov-chain-monte-carlo_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Na prática, como colocamos 10 mil passos, a distribuição fica uma bagunça perto de zero. Ou seja, errar a variância tem efeitos perturbadores no algoritmo. A taxa de aceitação é 99.99%.</p>
 <p>Veja que isso sugere que se nós estivermos aceitando demais, nós devemos <em>aumentar</em> a variância do <em>kernel</em>; e se tivermos aceitando de menos devemos diminuir a variância.</p>
 <p>Isso ilustra como MCMC funciona. Longe de ser uma caixa preta, é um algoritmo relativamente simples, fácil de implementar. A taxa de aceitação ótima e o tamanho do <em>burn-in</em> são problemáticos, com modelos grandes exigindo um milhão de passos e quase a metade sendo descartados (!). Ainda temos um parâmetro para escolher, a variância do <em>Kernel</em>. Veja que ainda temos uma limitação que eu nem toquei: como a distribuição é Normal, os parâmetros devem ser definidos nos Reais. É comum em modelos, inclusive modelos DSGE, definir um pedaço dos reais para os parâmetros - a taxa de desconto intertemporal está entra 0 e 1, por exemplo. Nesse caso, temos que fazer transformações nos parâmetros e alterar a distribuição via o jacobiano… um pouco mais confuso! Mas os fundamentos não mudam.</p>

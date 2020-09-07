@@ -8,10 +8,9 @@ categories:
 slug: lasso-adaptativo
 tags:
   - LASSO
-authors: ["danielc"]
+katex: yes
 ---
 
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>Em um <a href="https://azul.netlify.com/2018/09/16/lasso/">post anterior</a>, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:</p>
@@ -47,22 +46,22 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <caption><span id="tab:unnamed-chunk-1">Table 1: </span>Os valores estão em porcentagem</caption>
 <thead>
 <tr class="header">
-<th align="left"></th>
+<th></th>
 <th align="right">x</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Não zeros certos</td>
-<td align="right">100.00</td>
+<td>Não zeros certos</td>
+<td align="right">100.000</td>
 </tr>
 <tr class="even">
-<td align="left">Zeros certos</td>
-<td align="right">83.31</td>
+<td>Zeros certos</td>
+<td align="right">83.525</td>
 </tr>
 <tr class="odd">
-<td align="left">Modelo certo?</td>
-<td align="right">0.20</td>
+<td>Modelo certo?</td>
+<td align="right">0.600</td>
 </tr>
 </tbody>
 </table>
@@ -107,22 +106,22 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <caption><span id="tab:unnamed-chunk-2">Table 2: </span>Os valores estão em porcentagem</caption>
 <thead>
 <tr class="header">
-<th align="left"></th>
+<th></th>
 <th align="right">x</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Não zeros certos</td>
+<td>Não zeros certos</td>
 <td align="right">100.00</td>
 </tr>
 <tr class="even">
-<td align="left">Zeros certos</td>
-<td align="right">96.84</td>
+<td>Zeros certos</td>
+<td align="right">96.81</td>
 </tr>
 <tr class="odd">
-<td align="left">Modelo certo?</td>
-<td align="right">58.20</td>
+<td>Modelo certo?</td>
+<td align="right">61.00</td>
 </tr>
 </tbody>
 </table>
@@ -169,26 +168,27 @@ y &lt;- x%*%betas + rnorm(100)
 teste &lt;- ic_glmnet(x,y,ic=&quot;BIC&quot;)</code></pre>
 <pre><code>## Carregando pacotes exigidos: glmnet</code></pre>
 <pre><code>## Carregando pacotes exigidos: Matrix</code></pre>
-<pre><code>## Loaded glmnet 4.0-2</code></pre>
+<pre><code>## Carregando pacotes exigidos: foreach</code></pre>
+<pre><code>## Loaded glmnet 2.0-16</code></pre>
 <pre class="r"><code>teste$modelo_selecionado</code></pre>
 <pre><code>## (Intercept)          V1          V2          V3          V4          V5 
-## -0.07163931  0.91825550  0.82485362  0.80345212  0.81528969  0.68988950 
+##  0.02919496  0.80721826  0.72118478  1.03292107  1.01925350  1.02434786 
 ##          V6          V7          V8          V9         V10         V11 
-##  0.89619273  0.82549050  0.81241610  0.90796060  0.77718892  0.00000000 
+##  0.88267714  0.97021225  1.02600355  0.82197093  1.04430256  0.00000000 
 ##         V12         V13         V14         V15         V16         V17 
-##  0.00000000  0.00000000 -0.11836918  0.00000000  0.00000000  0.00000000 
+##  0.00000000  0.00000000  0.00000000 -0.07179414 -0.02062124 -0.11321705 
 ##         V18         V19         V20         V21         V22         V23 
-## -0.01061692  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000 
+## -0.05150767 -0.07230270 -0.10303200  0.08321580  0.00000000 -0.04758250 
 ##         V24         V25         V26         V27         V28         V29 
-##  0.00000000  0.00000000  0.02245120  0.00000000  0.00000000  0.00000000 
+##  0.00000000  0.13620516  0.01186514  0.00000000  0.00000000  0.04777503 
 ##         V30         V31         V32         V33         V34         V35 
-##  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000 
+##  0.15935506 -0.15618481  0.00000000  0.00000000  0.00000000  0.12979546 
 ##         V36         V37         V38         V39         V40         V41 
-##  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000 
+##  0.00000000 -0.07786625  0.00000000 -0.13100984 -0.11033866  0.00000000 
 ##         V42         V43         V44         V45         V46         V47 
-##  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.08652614 
+##  0.00000000  0.00000000  0.18164362 -0.04883286  0.05119821  0.00000000 
 ##         V48         V49         V50 
-##  0.00000000  0.00000000  0.00000000</code></pre>
+##  0.00000000  0.20137211  0.03448675</code></pre>
 <p>E uma simulação, com uma mudança: nós não vamos escolher o <span class="math inline">\(\lambda\)</span> duas vezes. Nós vamos repetir o <span class="math inline">\(\lambda\)</span> escolhido no primeiro estágio para o segundo estágio. Isso tem dois objetivos:</p>
 <ol style="list-style-type: decimal">
 <li>Isola o efeito da seleção do lambda dos efeitos da pessagem do LASSO adaptativo</li>
@@ -224,22 +224,22 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <caption><span id="tab:unnamed-chunk-5">Table 3: </span>Os valores estão em porcentagem</caption>
 <thead>
 <tr class="header">
-<th align="left"></th>
+<th></th>
 <th align="right">x</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Não zeros certos</td>
-<td align="right">99.980</td>
+<td>Não zeros certos</td>
+<td align="right">100.000</td>
 </tr>
 <tr class="even">
-<td align="left">Zeros certos</td>
-<td align="right">95.305</td>
+<td>Zeros certos</td>
+<td align="right">95.375</td>
 </tr>
 <tr class="odd">
-<td align="left">Modelo certo?</td>
-<td align="right">44.000</td>
+<td>Modelo certo?</td>
+<td align="right">42.400</td>
 </tr>
 </tbody>
 </table>

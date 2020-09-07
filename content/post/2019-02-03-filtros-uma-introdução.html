@@ -8,19 +8,17 @@ categories:
 tags:
   - Filtros Lineares
   - Filtro HP
-authors: ["danielc"]
 ---
 
-<script src="2019-02-03-filtros-uma-introdução_files/header-attrs/header-attrs.js"></script>
 
 
 <p>Um filtro (linear) é basicamente qualquer polinômio <span class="math inline">\(\alpha(B)\)</span> a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:</p>
 <p><span class="math display">\[ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} \]</span></p>
 <p>Onde B é o operador <em>backshift</em>, logo para uma série temporal <span class="math inline">\(y_t\)</span>, <span class="math inline">\(By_t = y_{t-1}\)</span> e <span class="math inline">\(B^ny_t = y_{t-n}\)</span>. A forma acima é conhecida como a <em>representação no domínio temporal (time domain)</em> do filtro. Filtros podem “existir” em duas formas, que carregam a mesma informação: a de <em>time domain</em> e a <em>frequency domain</em> (que, em tradução literal, é o domínio da frequência ou domínio frequencial. E vou adotar a primeira tradução). Em alguns casos, transformar o filtro para o domínio da frequência ajuda a realçar certos aspectos do filtro que são mais difíceis de entender no domínio temporal.</p>
-<div id="do-domínio-temporal-para-o-domínio-frequência" class="section level1">
+<div id="do-dominio-temporal-para-o-dominio-frequencia" class="section level1">
 <h1>Do domínio temporal para o domínio frequência</h1>
-<p>Passar um filtro do domínio temporal para o domínio da frequência envolve usar a Transformada de Fourier. A regra de bolso é que trocamos todos os <span class="math inline">\(B\)</span> por <span class="math inline">\(e^{-i\omega}\)</span>, onde <span class="math inline">\(\omega\)</span> é a frequência que estamos interessados e <span class="math inline">\(i = \sqrt{-1}\)</span>. Apesar da interpretação de <span class="math inline">\(\omega\)</span> não ser direta, é fácil relacionar a frequência com o período <span class="math inline">\(p\)</span>, já que <span class="math inline">\(p=\frac{2\pi}{\omega}\)</span>. O período é quanto tempo demora para aquele componente da série se repetir. Elementos são de alta frequência - tem <span class="math inline">\(\omega\)</span> grande - se repetem em períodos mais curtos, enquanto elementos de baixa frequência demoram mais a se repetir. São os componentes de baixa frequência que estão associados a tendência da série. Muitas vezes temos o interesse em remover esse componente para obter uma série estacionária. Vou exemplificar isso tudo com o “filtro” de primeira diferença, que pode ser escrito no <em>time domain</em> como <span class="math inline">\(F(B) = 1 - B\)</span>. Vamos usar a regra de bolso e substituir B por <span class="math inline">\(e^{-i\omega}\)</span> e obtemos a expressão <span class="math inline">\(1 - e^{-i\omega}\)</span>. Veja que isso é um número complexo, e que números complexos aceitam a representação na forma polar (basta pensar que a parte real e a parte imaginária formam um vetor). Então seja um número com parte real <span class="math inline">\(a\)</span> e parte imaginária <span class="math inline">\(b\)</span>, i.e. <span class="math inline">\(a+bi\)</span>. Ele pode ser reescrito como <span class="math inline">\(ge^{i\theta}\)</span>, onde <span class="math inline">\(g = \sqrt{a^2+b^2}\)</span> e <span class="math inline">\(\theta = tan^{-1}(\frac{b}{a})\)</span>.</p>
-<p>O importante dessa representação é que <span class="math inline">\(g\)</span> pode ser interpretado como o ganho do filtro para a frequência <span class="math inline">\(\omega\)</span>. Um paralelo seria o equalizador da maior parte dos <em>players</em> de música, que permitem você aumentar o volume da frequências mais baixas (associadas ao baixo e a bateria, por ex.) e das mais altas (voz e guitarra, por ex.)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Já <span class="math inline">\(\frac{\theta}{\omega}\)</span> tem a interpretação de em quantas unidades de tempo o nosso filtro defasa a série (e isso é chamado da <em>fase</em> do filtro).</p>
+<p>Passar um filtro do domínio temporal para o domínio da frequência envolve usar a Transformada de Fourier. A regra de bolso é que trocamos todos os <span class="math inline">\(B\)</span> por <span class="math inline">\(e^{-i\omega}\)</span>, onde <span class="math inline">\(\omega\)</span> é a frequência que estamos interessados e <span class="math inline">\(i = \sqrt{-1}\)</span>. Apesar da interpretação de <span class="math inline">\(\omega\)</span> não ser direta, é fácil relacionar a frequência com o período <span class="math inline">\(p\)</span>, já que <span class="math inline">\(p=\frac{2\pi}{\omega}\)</span>. O período é quanto tempo demora para aquele componente da série se repetir. Elementos são de alta frequência - tem <span class="math inline">\(\omega\)</span> grande - se repetem em períodos mais curtos, enquanto elementos de baixa frequência demoram mais a se repetir. São os componentes de baixa frequência que estão associados a tendência da série. Muitas vezes temos o interesse em remover esse componente para obter uma série estacionária. Vou exemplificar isso tudo com o “filtro” de primeira diferença, que pode ser escrito no <em>time domain</em> como <span class="math inline">\(F(B) = 1 - B\)</span>. Vamos usar a regra de bolso e substituir B por <span class="math inline">\(e^{-i\omega}\)</span> e obtemos a expressão <span class="math inline">\(1 - e^{-i\omega}\)</span>. Veja que isso é um número complexo, e que números complexos aceitam a representação na forma polar (basta pensar que a parte real e a parte imaginária formam um vetor). Então seja um número com parte real <span class="math inline">\(a\)</span> e parte imaginária <span class="math inline">\(b\)</span>, i.e. <span class="math inline">\(a+bi\)</span>. Ele pode ser reescrito como <span class="math inline">\(ge^{i\theta}\)</span>, onde <span class="math inline">\(g = \sqrt{a^2+b^2}\)</span> e <span class="math inline">\(\theta = tan^{-1}(\frac{b}{a})\)</span>.</p>
+<p>O importante dessa representação é que <span class="math inline">\(g\)</span> pode ser interpretado como o ganho do filtro para a frequência <span class="math inline">\(\omega\)</span>. Um paralelo seria o equalizador da maior parte dos <em>players</em> de música, que permitem você aumentar o volume da frequências mais baixas (associadas ao baixo e a bateria, por ex.) e das mais altas (voz e guitarra, por ex.)<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. Já <span class="math inline">\(\frac{\theta}{\omega}\)</span> tem a interpretação de em quantas unidades de tempo o nosso filtro defasa a série (e isso é chamado da <em>fase</em> do filtro).</p>
 <p>Uma propriedade conveniente da representação no domínio da frequência é que é fácil saber o que acontece com uma série se passamos por múltiplos filtros: basta multiplicar as representações no domínio da frequência. Então o efeito de passar a séria <span class="math inline">\(x_t\)</span> pelos filtro <span class="math inline">\(\alpha(B)\)</span> e <span class="math inline">\(\beta(B)\)</span> é simplesmente <span class="math inline">\(\alpha(e^{-iw})\beta(e^{-iw})\)</span>. Isso facilita enormemente a vida de analisar o que acontece quando você passa os dados por n filtros.</p>
 </div>
 <div id="alguns-exemplos" class="section level1">
@@ -32,10 +30,10 @@ x &lt;- seq(0,pi,by = 0.05)
 
 plot(x,Mod(backshift(x)),type=&quot;l&quot;,ylab = &quot; &quot;, xlab = &quot;Frequência&quot;, main = &quot;Ganho do Filtro de Defasar uma vez&quot;)
 grid(col = &quot;darkgrey&quot;)</code></pre>
-<p><img src="/post/2019-02-03-filtros-uma-introdu%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="/post/2019-02-03-filtros-uma-introdução_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <pre class="r"><code>plot(x,Arg(backshift(x))/x,type=&quot;l&quot;,ylab = &quot; &quot;, xlab = &quot;Frequência&quot;, main = &quot;Fase do Filtro Defasar uma vez&quot;)
 grid(col = &quot;darkgrey&quot;)</code></pre>
-<p><img src="/post/2019-02-03-filtros-uma-introdu%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<p><img src="/post/2019-02-03-filtros-uma-introdução_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
 <p>Para nosso grande alívio (e nenhuma surpresa) defasar uma vez a série não gera ganho em nenhuma frequência e altera todas as frequências uma unidade de tempo para trás. Vamos ver o ganho do filtro de primeira diferença:</p>
 <pre class="r"><code>fd &lt;- function(w){
   1-exp(-1i*w)
@@ -45,10 +43,10 @@ x &lt;- seq(0,pi,by = 0.05)
 
 plot(x,Mod(fd(x)),type=&quot;l&quot;,ylab = &quot; &quot;, xlab = &quot;Frequência&quot;, main = &quot;Ganho do Filtro de Primeira Diferenças&quot;)
 grid(col = &quot;darkgrey&quot;)</code></pre>
-<p><img src="/post/2019-02-03-filtros-uma-introdu%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/2019-02-03-filtros-uma-introdução_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <pre class="r"><code>plot(x,Arg(fd(x))/x,type=&quot;l&quot;,ylab = &quot; &quot;, xlab = &quot;Frequência&quot;, main = &quot;Fase do Filtro de Primeira Diferenças&quot;)
 grid(col = &quot;darkgrey&quot;)</code></pre>
-<p><img src="/post/2019-02-03-filtros-uma-introdu%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p><img src="/post/2019-02-03-filtros-uma-introdução_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 <p>Como prometido, as frequências mais baixas tem ganho próximo a zero, o que tem como efeito sumir com a tendência da série. A fase dele tem um comportamento esquisito nas frequências mais baixas - justamente as que são atenuadas - mas para frequências mais altas ele decai para 0 - logo, não altera em nada a fase. Vamos aos exemplos mais interessantes: que tal uma média móvel que troca o valor de hoje pela média entre o valor dele e dos seus dois valores anteriores e dois valores posteriores? Isso pode ser escrito, no domínio temporal, como:</p>
 <p><span class="math display">\[MA(L) = \frac{1}{5}\left(L + L^2 + 1 + L^{-1} + L^{-2} \right)\]</span></p>
 <p>Esse é um bom momento para apresentar o conceito de filtro <em>simétrico</em> : um filtro é dito _simétrico se <span class="math inline">\(a_j = a_{-j}\)</span> (Lembrando que o filtro é definido como <span class="math inline">\(\displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j}\)</span>). Veja que esse é o caso. Como <span class="math inline">\(e^{-ix} + e^{ix} = 2cos(x)\)</span>, então o filtro pode ser reescrito na representação espectral como <span class="math inline">\(a_0 + 2\sum_{j=1}^\infty a_j \cos(jw)\)</span>. Veja que não temos nenhum número imaginário, então um filtro simétrico não induz nenhuma mudnça de fase, e podemos só olhar o ganho dele. Vamos implementar o filtro MA no R usando a nossa regra de bolso e olhar para os ganhos que o filtro gera:</p>
@@ -60,13 +58,13 @@ x &lt;- seq(0,pi,by = 0.05)
 
 plot(x,Mod(ma_freq_domain(x)),type=&quot;l&quot;,ylab = &quot; &quot;, xlab = &quot;Frequência&quot;, main = &quot;Ganho do Filtro MA&quot;)
 grid(col = &quot;darkgrey&quot;)</code></pre>
-<p><img src="/post/2019-02-03-filtros-uma-introdu%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/post/2019-02-03-filtros-uma-introdução_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>O que acontece se usarmos o filtro MA acima para tirar a tendência de uma série? Basta analisar o ganho de 1 - MA:</p>
 <pre class="r"><code>ma_detrender &lt;- function(w){1-ma_freq_domain(w)}
 
 plot(x,Mod(ma_detrender(x)),type=&quot;l&quot;,ylab = &quot; &quot;, xlab = &quot;Frequência&quot;, main = &quot;Ganho do Filtro MA&quot;)
 grid(col = &quot;darkgrey&quot;)  </code></pre>
-<p><img src="/post/2019-02-03-filtros-uma-introdu%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/post/2019-02-03-filtros-uma-introdução_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Veja que para frequências entre 1,5 e 2 (que correspondem a períodos de 3 a 4 trimestres para dados trimestrais), o ganho do filtro é <em>maior que 1</em>. Logo, os dados que passarem por este filtro vão ter essa frequência realçada. Isso gera um problema perigoso: dizer que os dados exibem um determinado padrão <em>porque você passou ele num filtro que gera este padrão</em>. É importante entender o que cada filtro que você passa nos dados faz para evitar apontar padrões nos dados que foram gerados pelos filtros.</p>
 <p>Em um exemplo mais interessante, vamos analisar o filtro HP. King e Rebbelo (1993) obtém o ganho do filtro a partir das condições de primeira ordem do filtro. O ganho é:</p>
 <p><span class="math display">\[\frac{4\lambda(1-\cos(\omega))^2}{1+4\lambda(1-\cos(\omega))^2}\]</span></p>
@@ -76,17 +74,17 @@ grid(col = &quot;darkgrey&quot;)  </code></pre>
 
 plot(x,Gain_HP(x,1600), main = &quot;Ganho filtro HP, \u03bb = 1600&quot;, type = &quot;l&quot;, ylab = &quot;Ganho&quot;,xlab=&quot;Frequência&quot;)
 grid(col = &quot;darkgrey&quot;)</code></pre>
-<p><img src="/post/2019-02-03-filtros-uma-introdu%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/2019-02-03-filtros-uma-introdução_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Como esperado, o filtro HP remove a frequência mais baixa e mantém as frequências mais altas, ou seja, remove a tendência. Veja que isso permite com que a frequência associada a sazonalidade passe pelo filtro, então apesar de retirar a tendência o filtro HP não retira sazonalidade.</p>
 <p>Espero que este post ajude a entender como analisar filtros, que são frequentemente utilizados para analisar séries temporais. Futuramente, irei apresentar outros filtros com propriedades interessantes.</p>
 </div>
-<div id="referências" class="section level1">
+<div id="referencias" class="section level1">
 <h1>Referências</h1>
 <p>King, Robert G., and Sergio T. Rebelo. 1993. “Low frequency filtering and real business cycles.” Journal of Economic Dynamics and Control. <a href="doi:10.1016/S0165-1889(06)80010-2" class="uri">doi:10.1016/S0165-1889(06)80010-2</a>.</p>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Esse exemplo se deve a Mark Watson, na <em>Summer Institute 2008 Methods Lectures</em>, disponíveis <a href="https://www.nber.org/minicourse_2008.html">aqui</a>. Assistam, é muito bom!<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>Esse exemplo se deve a Mark Watson, na <em>Summer Institute 2008 Methods Lectures</em>, disponíveis <a href="https://www.nber.org/minicourse_2008.html">aqui</a>. Assistam, é muito bom!<a href="#fnref1">↩</a></p></li>
 </ol>
 </div>

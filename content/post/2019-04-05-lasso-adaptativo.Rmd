@@ -8,7 +8,7 @@ categories:
 slug: lasso-adaptativo
 tags:
   - LASSO
-authors: ["danielc"]
+katex: yes
 ---
 
 Em um [post anterior](https://azul.netlify.com/2018/09/16/lasso/), eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia: 

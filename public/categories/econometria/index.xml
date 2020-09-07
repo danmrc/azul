@@ -6,7 +6,6 @@
     <description>Recent content in Econometria on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
     <lastBuildDate>Mon, 22 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/econometria/index.xml" rel="self" type="application/rss+xml" />
@@ -166,21 +165,12 @@ Onde B é o operador backshift, logo para uma série temporal \(y_t\), \(By_t = 
     
     <item>
       <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos</title>
-      <link>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
-      <pubDate>Mon, 17 Dec 2018 00:00:00 +0000</pubDate>
+      <link>/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
+      <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/17/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
+      <guid>/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
       <description>(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
-Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regreesão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
-    </item>
-    
-    <item>
-      <title>RDD, inferência causal e um exemplo em R</title>
-      <link>/2018/12/13/rdd-mixtape/</link>
-      <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/12/13/rdd-mixtape/</guid>
-      <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
+Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
     </item>
     
     <item>
@@ -209,17 +199,6 @@ Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar p
       
       <guid>/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Identificação em VAR e Price Puzzle I</title>
-      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
-      <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
-      <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&amp;#39;\). Um VAR seria:
-\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
-Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
     </item>
     
     <item>

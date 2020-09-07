@@ -7,7 +7,7 @@
 		
 		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
 		<meta name="description" content="Economia, Estatística, Programação">
-		<meta name="generator" content="Hugo 0.48" />
+		<meta name="generator" content="Hugo 0.74.3" />
 		<title>AZUL</title>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<link rel="stylesheet" href="/css/style.css">
@@ -17,8 +17,6 @@
 		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
 		
 
-		
-		<link href="/index.xml" rel="alternate" type="application/rss+xml" title="AZUL" />
 		
 
 		
@@ -35,8 +33,6 @@
   
 	
 
-	
-	<a class="cta" href="/index.xml">Subscribe</a>
 	
 </nav>
 
@@ -60,14 +56,14 @@
     
         
             <li>
-                <aside class="dates">Jul 18</aside>
-                <a href='/2018/07/18/print-hello-world/'>
-                    print(&#34;Hello,world!&#34;)
+                <aside class="dates">May 17</aside>
+                <a href='/2019/05/17/prouni-rf-classificacao/'>
+                    Manipulação de Sementes em Geradores Pseudoaleatórios
                     
                         
-                            <h2>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
-Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
-Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</h2>
+                            <h2>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
+set.seed(1234) n &lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
+library(ggplot2) library(dplyr) library(gganimate) m &lt;- 100000 n &lt;- 100 amostras &lt;- double(length = 0) for(i in 1:m) { set.</h2>
                         
                     
                 </a>
@@ -77,12 +73,143 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
     
         
             <li>
-                <aside class="dates">Jan 1</aside>
-                <a href='/1/01/01/'>
-                    
+                <aside class="dates">May 13</aside>
+                <a href='/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/'>
+                    Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)
                     
                         
-                            <h2>Ponto Fixo e Equlíbrio GeralMathJax.Hub.Config({tex2jax: {inlineMath: [[&#39;$&#39;,&#39;$&#39;], [&#39;\\(&#39;,&#39;\\)&#39;]]},TeX: { equationNumbers: { autoNumber: &#34;AMS&#34; } }});@font-face {font-style: normal;font-weight: 300;}@font-face {font-style: normal;font-weight: 400;}@font-face {font-style: normal;font-weight: 600;}html {font-family: sans-serif; /* 1 */-ms-text-size-adjust: 100%; /* 2 */-webkit-text-size-adjust: 100%; /* 2 */}body {margin: 0;}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {display: block;}audio,canvas,progress,video {display: inline-block; /* 1 */vertical-align: baseline; /* 2 */}audio:not([controls]) {display: none;height: 0;}[hidden],template {display: none;}a:active,a:hover {outline: 0;}abbr[title] {border-bottom: 1px dotted;}b,strong {font-weight: bold;}dfn {font-style: italic;}h1 {font-size: 2em;margin: 0.</h2>
+                            <h2>Em posts anteriores eu apresentei uma maneira de resolver o problema:
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">May 7</aside>
+                <a href='/2019/05/07/prouni-rf-classificacao/'>
+                    Classificando cursos no ProUni com Random Forest
+                    
+                        
+                            <h2>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
+Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">May 2</aside>
+                <a href='/2019/05/02/lasso-adaptativo/'>
+                    LASSO Adaptativo e Critérios de Informação para LASSO
+                    
+                        
+                            <h2>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
+\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 &#43; \lambda \sum_{k=0}^p |\beta_k|\]
+(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Apr 20</aside>
+                <a href='/2019/04/20/cross-validation/'>
+                    Uma introdução à Cross Validation
+                    
+                        
+                            <h2>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
+A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Apr 4</aside>
+                <a href='/2019/04/04/recon-comp-micro/'>
+                    Modelo de Cournot no R com o pacote Recon
+                    
+                        
+                            <h2>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&#34;Recon&#34;) para instalar a última versão enviada ao repositório ou devtools::install_github(&#34;pedrocava/Recon&#34;) para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
+Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Mar 28</aside>
+                <a href='/2019/03/28/consistencia-assintotica-ols/'>
+                    Verificando algumas propriedades de Mínimos Quadrados com o R
+                    
+                        
+                            <h2>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Mar 6</aside>
+                <a href='/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/'>
+                    Aplicando Programação Dinâmica à Reforma da Previdência
+                    
+                        
+                            <h2>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
+Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Feb 18</aside>
+                <a href='/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/'>
+                    Still Haven&#39;t Found What I am looking for: modelos de search para emprego
+                    
+                        
+                            <h2>(Sim, o título é uma referência a música do U2. Não só de economia vive um homem.)
+Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos posts anteriores1 para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário \(w\), onde \(w\) sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?</h2>
+                        
+                    
+                </a>
+            </li>
+        
+    
+    
+        
+            <li>
+                <aside class="dates">Feb 9</aside>
+                <a href='/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/'>
+                    Filtros: Uma Introdução
+                    
+                        
+                            <h2>Um filtro (linear) é basicamente qualquer polinômio \(\alpha(B)\) a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:
+\[ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} \]
+Onde B é o operador backshift, logo para uma série temporal \(y_t\), \(By_t = y_{t-1}\) e \(B^ny_t = y_{t-n}\). A forma acima é conhecida como a representação no domínio temporal (time domain) do filtro. Filtros podem “existir” em duas formas, que carregam a mesma informação: a de time domain e a frequency domain (que, em tradução literal, é o domínio da frequência ou domínio frequencial.</h2>
                         
                     
                 </a>
@@ -100,6 +227,12 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
             </a>
         </span>
         
+        
+        <span class="next">
+            <a href="/page/5/">
+                Antigos <span class="arrow">→</span>
+            </a>
+        </span>
         
     
 </nav>
@@ -121,7 +254,7 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
     
     <p class="small">
     
-       © Copyright 2018 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
     
     </p>
     <p class="small">

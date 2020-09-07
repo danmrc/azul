@@ -1,130 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+		<meta name="description" content="Economia, Estatística, Programação">
+		<meta name="generator" content="Hugo 0.74.3" />
+		<title>Crescimento Exponencial, mas sem o Corona &middot; AZUL</title>
+		<link rel="shortcut icon" href="/images/favicon.ico">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/highlight.css">
 
-<title>
+		
+		<link rel="stylesheet" href="/css/monosocialiconsfont.css">
+		
+
+		
+
+		
+	</head>
+
+    <body>
+       <nav class="main-nav">
+	
+	
+		<a href='/'> <span class="arrow">←</span>Início</a>
+	
+	<a href='/post'>Arquivo</a>
+	<a href='/tags'>Tags</a>
+	<a href='/about'>Sobre</a>
+  <a href='/categories'>Categorias</a>
   
-     Crescimento Exponencial, mas sem o Corona | 
-    AZUL
-  
-</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
+	
 
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
-<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
-<link rel="icon" href="/favicon.ico">
-
-//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
-
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
-
-
-
-
-    
-        
-            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
-        
-    
-
-
-
-
-<link rel="canonical" href="/2020/07/29/crescimento-exponencial-mas-sem-o-corona/"><meta property="og:title" content="Crescimento Exponencial, mas sem o Corona" />
-<meta property="og:description" content="Uma família de funções que aparece em variados contextos é a exponencial:
-\[f(x) = ab^x\]
-Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
-Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual \(b\) passamos como base." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/2020/07/29/crescimento-exponencial-mas-sem-o-corona/" />
-<meta property="article:published_time" content="2020-07-29T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-07-29T00:00:00+00:00" />
-<meta itemprop="name" content="Crescimento Exponencial, mas sem o Corona">
-<meta itemprop="description" content="Uma família de funções que aparece em variados contextos é a exponencial:
-\[f(x) = ab^x\]
-Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
-Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual \(b\) passamos como base.">
-<meta itemprop="datePublished" content="2020-07-29T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-07-29T00:00:00+00:00" />
-<meta itemprop="wordCount" content="325">
-
-
-
-<meta itemprop="keywords" content="R,Programação Funcional," />
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Crescimento Exponencial, mas sem o Corona"/>
-<meta name="twitter:description" content="Uma família de funções que aparece em variados contextos é a exponencial:
-\[f(x) = ab^x\]
-Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
-Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual \(b\) passamos como base."/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
-
-
-
-</head>
-<body>
-    
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
-    <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main-menu">
-            <ul class="navbar-nav ml-auto">
-                
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
-                
-                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
-                
-            
-            </ul>
-        </div>
-    </div>
+	
 </nav>
 
 
-    
-<main class="content-page container pt-7 pb-5">
-    
-    <div class="row">
-        <div class="col">
+        <section id="wrapper" class="post">
             <article>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="meta text-muted mb-3">
-                            <p class="created text-muted text-uppercase font-weight-bold mb-1">July 29, 2020</p>
-                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>325 palavras</span>
-                            <span><i class="fas fa-clock mr-2"></i>2 mins</span>
-                        </div>
-
-                        <h1>Crescimento Exponencial, mas sem o Corona</h1>
-
-                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
-                    <div class="media author"><div class="media-body">
-                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
-                            </h5><p class="social small text-muted">
-                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
-                                </p></div>
-                    </div>
-                </li></ul>
-                    </div>
-                </div><div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="content">
-                            
+                <header>
+                    <h1>
+                        Crescimento Exponencial, mas sem o Corona
+                    </h1>
+                    <h3> Pedro Cavalcante </h3>
+                    <h2 class="headline">
+                    Jul 29, 2020 00:00
+                    · 325 words
+                    · 2 minute read
+                      <span class="tags">
+                      
+                      
+                          
+                              <a href="/tags/r">R</a>
+                          
+                              <a href="/tags/programa%C3%A7%C3%A3o-funcional">Programação Funcional</a>
+                          
+                      
+                      
+                      </span>
+                    </h2>
+                </header>
+                
+                  
+                
+                <section id="post-body">
+                    
 
 
 <p>Uma família de funções que aparece em variados contextos é a exponencial:</p>
@@ -187,146 +130,67 @@ expfoo &lt;- function(base) { # uma fábrica de funções
 animate(animacao)</code></pre>
 <p><img src="/post/crescimentoexponencial_files/figure-html/unnamed-chunk-2-1.gif" /><!-- --></p>
 
-                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
-                                    <i class="fas fa-tag mr-2"></i>R
-                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/programa%C3%A7%C3%A3o-funcional">
-                                    <i class="fas fa-tag mr-2"></i>Programação Funcional
-                                </a></div><ul class="share nav my-3 justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2020%2f07%2f29%2fcrescimento-exponencial-mas-sem-o-corona%2f&text=Crescimento%20Exponencial%2c%20mas%20sem%20o%20Corona">
-              <i class="fa-fw fab fa-twitter"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2020%2f07%2f29%2fcrescimento-exponencial-mas-sem-o-corona%2f&title=Crescimento%20Exponencial%2c%20mas%20sem%20o%20Corona">
-                <i class="fa-fw fab fa-linkedin-in"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2020%2f07%2f29%2fcrescimento-exponencial-mas-sem-o-corona%2f&t=Crescimento%20Exponencial%2c%20mas%20sem%20o%20Corona">
-                <i class="fa-fw fab fa-facebook-f"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2020%2f07%2f29%2fcrescimento-exponencial-mas-sem-o-corona%2f&title=Crescimento%20Exponencial%2c%20mas%20sem%20o%20Corona">
-                <i class="fa-fw fab fa-reddit-alien"></i>
-            </a>
-        </li>
-    </nav>
-                    </div>
-                </div>
+                </section>
+            </article>
 
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        
-                    </div>
-                </div></article>
-        </div>
-    </div>
+            
+                <a class="twitter" href="https://twitter.com/intent/tweet?text=%2f2020%2f07%2f29%2fcrescimento-exponencial-mas-sem-o-corona%2f - Crescimento%20Exponencial%2c%20mas%20sem%20o%20Corona "><span class="icon-twitter"> tweet</span></a>
 
-    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
-                <div class="card h-100">
+<a class="facebook" href="#" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;"><span class="icon-facebook-rect"> Share</span>
+</a>
+
+            
+
+            
+
+            
+
+            <footer id="footer">
     
-    <a href="/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Classificando distribuições a partir dos momentos</h4>
-            <p class="card-text text-muted text-uppercase">July 28, 2020</p>
-            <div class="card-text">
-                Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
-A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.
-            </div>
-        </div>
+        <div id="social">
+
+	
+	
+    
+    <a class="symbol" href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos">
+        github
     </a>
+    
+
+
 </div>
 
-            </div><div class="col mb-3">
-                <div class="card h-100">
     
-    <a href="/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Cuide da saúde, pare de fazer loops</h4>
-            <p class="card-text text-muted text-uppercase">June 6, 2020</p>
-            <div class="card-text">
-                Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
-O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
-Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div><div class="col mb-3">
-                <div class="card h-100">
+    <p class="small">
     
-    <a href="/2020/05/25/funprog-dyn-sys/" class="d-block"><div class="card-body">
-            <h4 class="card-title">{purrr} para simular Sistemas Dinâmicos</h4>
-            <p class="card-text text-muted text-uppercase">May 25, 2020</p>
-            <div class="card-text">
-                Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
-\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div></div>
-</main>
-
-
-    <footer class="footer text-center bg-dark py-6">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
-                                    <span class="fa-stack fa-lg">
-                                        <i class="fa fa-circle fa-stack-2x"></i>
-                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </a></li><li class="list-inline-item">
-                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                </ul>
-
-                <p class="text-muted">
-                    
-                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
-                    
-                </p>
-
-                <p class="text-muted">
-                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
-                </p>
-            </div>
-        </div>
-    </div>
+       © Copyright 2020 <i class="fa fa-heart" aria-hidden="true"></i> Daniel Coutinho e Pedro Cavalcante
+    
+    </p>
+    <p class="small">
+        Powered by <a href="http://www.gohugo.io/">Hugo</a> Theme By <a href="https://github.com/nodejh/hugo-theme-cactus-plus">nodejh</a>
+    </p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
 </footer>
 
-    
-    
-        
-            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
-        
-    
+        </section>
+
+        <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 
 
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
-
-
-    
+  
 <script type="application/javascript">
 var doNotTrack = false;
 if (!doNotTrack) {
@@ -340,5 +204,9 @@ if (!doNotTrack) {
 }
 </script>
 
-</body>
+
+
+
+
+    </body>
 </html>
