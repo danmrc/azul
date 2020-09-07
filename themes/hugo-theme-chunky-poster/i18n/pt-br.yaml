@@ -1,0 +1,12 @@
+# Single
+wordCount:
+    one: "{{ .Count }} palavra"
+    other: "{{ .Count }} palavras"
+
+readingTime:
+    one: "{{ .Count }} min"
+    other: "{{ .Count }} mins"
+
+# Author
+articles:
+    other: "Artigos"

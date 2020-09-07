@@ -1,0 +1,218 @@
+---
+title: "Classificando distribuições a partir dos momentos"
+author: "Pedro Cavalcante"
+date: '2020-07-28'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+  - R
+  - Programação
+  - Estatística 
+slug: 
+tags:
+  - R
+  - Programação Funcional
+authors: ["pedrocava"]
+---
+
+Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
+
+A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro `dgp` vem de _data generating process_. Vou parametrizar ela menos do que é possível porque, putz moh trabalho.
+
+```{R include = FALSE, echo = FALSE}
+knitr::opts_chunk$set(dpi = 240, message = FALSE, warning = FALSE)
+```
+
+```{R}
+process_factory <- function(dgp, n = 100) {
+  
+  if(dgp == "rnorm") {
+    
+    to_be_called <- call("rnorm", 
+                         n = n, 
+                         sd = runif(1, 0, 3), 
+                         mean = runif(1, -3, 3))
+  
+  } else if(dgp == "rt") {
+    
+    to_be_called <- call("rt", 
+                         n = n, 
+                         df = sample(1:30, 1), 
+                         ncp = runif(1, 0, 10))
+    
+  } else if(dgp == "runif") {
+    
+    to_be_called <- call("runif",
+                         n = n,
+                         min = runif(1, -3, 0),
+                         max = runif(1, 0, 3))
+    
+    } else if(dgp == "rexp") {
+   
+   to_be_called <- call("rexp", 
+                        n = n, 
+                        rate = runif(1, 0, 3))
+  
+    } else if(dgp == "rgamma") {
+
+    to_be_called <- call("rgamma", 
+                         n = n, 
+                         shape = runif(1, 0, 3),
+                         scale = (1/runif(1, 0, 3)) + rnorm(1, sd = .2))
+      
+    }
+  
+  eval(to_be_called)
+      
+}
+
+```
+
+Agora uma função que recebe um vetor com dados simulados com algum processo gerador dado e retorna os primeiros $k$ momentos amostrais.
+
+```{R}
+first_kmoments <- function(process, .min_k = 1, .k = 20, .center = TRUE) {
+  
+  tibble(process = list(process)) %>%
+    list() %>%
+    rep(times = .k) %>%
+    reduce(bind_rows) %>%
+    mutate(K = .min_k:.k,
+           moment = map2_dbl(
+             .x = process, 
+             .y = K,
+             ~ moment(x = .x, order = .y, center = .center))) %>%
+    pivot_wider(values_from = moment, 
+                names_from = K, 
+                names_prefix = "moment_") %>%
+    select(-process)
+  
+}
+
+```
+(Tem um bug bem fácil de consertar e de reproduzir na função acima, fica como _exercício_)
+
+Beleza agora podemos de fato simular alguns dados e pedir os momentos das distribuições simuladas. 
+
+```{R, warnings = FALSE, message = FALSE}
+library(tidyverse)
+library(e1071)
+library(magrittr)
+
+(tibble(
+  dgp = # variável com o nome dos processos, o Y do nosso modelo
+   sample(c("rnorm", "runif", "rexp", "rgamma", "rt"), # amostre um de 4 nomes 
+          size = 10000, # 100000 vezes
+          replace = TRUE), # com substituição
+   moments = # variável momentos que irá conter uma lista de dataframes
+       map(dgp, # itere sobre o vetor com nomes de dgps
+           ~ first_kmoments(process_factory(.x)))) %>% 
+  unnest(moments) %>% # desaninha a lista de dataframes
+  na.omit() ->
+  data)
+
+```
+
+Como são dados 100% simulados eu não vejo a virtude de explorar graficamente, vou pular então. Agora vamos treinar uma grade de modelos Random Forest.
+
+```{R}
+library(tidymodels)
+
+doParallel::registerDoParallel() # executar em paralelo
+
+data_split <- initial_split(data, strata = dgp) # divisão dos dados
+data_treino <- training(data_split) # treino
+data_teste <- testing(data_split) # teste
+
+data_rec <- recipe(dgp ~ ., data = data_treino) 
+data_prep <- prep(data_rec) 
+
+(modelo_tune <- rand_forest( # especificação da grade a ser avaliada
+  mtry = tune(),
+  trees = 1000,
+  min_n = tune()) %>%
+  set_mode("classification") %>%
+  set_engine("randomForest"))
+
+(modelo_workflow <- workflow() %>%
+  add_recipe(data_rec) %>%
+  add_model(modelo_tune))
+
+(data_folds <- vfold_cv(data_treino, 5))
+```
+
+O passo final é "afinar" a grade e estimar todos os modelos seguindo o workflow.
+
+```{R eval = FALSE}
+(tune_results <- tune_grid(
+  modelo_workflow,
+  resamples = data_folds,
+  grid = 20
+))
+```
+
+```{R include = FALSE}
+tune_results <- readRDS("modelo.Rds")
+```
+
+Vamos avaliar brevemente a área abaixo da curva ROC dos vários modelos que treinamos. 
+
+```{R}
+
+tune_results %>%
+  collect_metrics(summarize = FALSE) %>%
+  filter(.metric == "roc_auc") %>%
+  ggplot(aes(x = .estimate)) +
+  geom_histogram(fill = "light green") +
+  labs(title = "Distribuição das AUROC",
+       x = "AUROC",
+       y = "") +
+  scale_x_continuous(labels = scales::percent) +
+  theme_minimal()
+
+```
+
+A primeira vez que rodei tudo me deu AUROCs beeem altas, além dos 95%. Em classificação binária, na maioria dos domínios de aplicação, isso é alto demais para ser verdade, mas problemas multiclasse normalmente vêm [com AUROCs altas](https://stats.stackexchange.com/questions/203207/multi-class-classification-easier-than-binary-classification). Vamos olhar com mais cuidado para o melhor modelo - ainda dentro da amostra de treino.
+
+```{R}
+library(vip)
+
+(melhor_auc <- select_best(tune_results, "roc_auc"))
+(modelo_final <- finalize_model(modelo_tune, melhor_auc))
+
+(avaliacao <- modelo_final %>%
+  set_engine("randomForest") %>%
+  fit(dgp ~ ., data = juice(data_prep)))
+```
+
+Interessante que algumas distribuições são particularmente difíceis de acertar, como a gama. A uniforme e a normal, por exemplo, são beeem mais fáceis de acertar.
+
+```{R}
+
+vip(avaliacao, geom = "col", fill = "light green") +
+  labs(title = "Importância de variáveis para o classificador") +
+  theme_minimal()
+
+```
+
+Acho razoável pensar que os momentos mais discriminantes dependem da cesta de distribuições alimentadas. É difícil pensar que assimetria é relevante para distinguir entre uma normal e uma uniforme, por exemplo. 
+
+E como ficamos fora da amostra de teste? A função ``last_fit()`` pega a receita de dados de treino e aplica na amostra de teste.
+
+```{R}
+workflow_final <- workflow() %>%
+  add_recipe(data_rec) %>%
+  add_model(modelo_final)
+
+(final_res <- workflow_final %>%
+  last_fit(data_split))
+
+final_res %>%
+  collect_metrics()
+```
+
+A pergunta era se _dá_. Até que dá. 

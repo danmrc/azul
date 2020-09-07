@@ -1,50 +1,93 @@
-baseurl = "https://azul.netlify.com/"
-languageCode = "pt-br"
+baseURL = "https://azul.netlify.app/"
 title = "AZUL"
-theme = "hugo-theme-cactus-plus"
+copyright = "Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved."
+paginate = 2
+languageCode = "pt-br"
+DefaultContentLanguage = "pt-br"
+enableInlineShortcodes = true
+footnoteReturnLinkContents = "^"
 googleAnalytics = "UA-123754589-1"
-disqusShortname = ""
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+DisqusShortname = ""
+theme = "hugo-theme-chunky-poster"
 
 [permalinks]
-    post = "/:year/:month/:day/:slug/"
+  post = "/:year/:month/:day/:slug/"
+
+[menu]
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    url = "/"
+    weight = 10
+  [[menu.main]]
+    identifier = "Sobre"
+    name = "Sobre"
+    url = "/about/"
+    weight = 0
+	[[menu.main]]
+    identifier = "Tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 0
+    [[menu.main]]
+    identifier = "Categorias"
+    name = "Categorias"
+    url = "/categories/"
+    weight = 0
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+series = "series"
+author = "authors"
 
 [params]
-	author = "Daniel Coutinho e Pedro Cavalcante"
-	description = "Economia, Estatística, Programação"
-	bio = "Economia, Estatística, Programação"
+  author = "Daniel Coutinho e Pedro Cavalcante"
+  description = "Economia, Estatística, Programação"
+  homepageImage = "/avatar.png"
+  share = true
+  showLanguageSwitcher = false
 
-	twitter = ""
-	facebook = ""
 
-	enableRSS = false
+	enableRSS = true
 	enableToc = true
 
-	enableDisqus = false
-	disqusShortname = ""
-
-	enableSummary = true
-	# Set the value to true if use description in post front matter replace content summary
-	useDescriptionReplaceSummary = false
+  # Custom CSS and JS. Relative to /static/css and /static/js respectively.
+  customCSS = []
+  customJS = []
 
 
-	enableGoogleAnalytics = true
-	enableBaiduAnalytics = false
-	# Set the value to your baidu analysis code if you want to use baidu analytics
+  [params.social]
+    rss = true
+      github = "https://github.com/danmrc/azul/tree/master/C%C3%B3digos"
+    
 
-	enableTwitterCard = false
-	# The url for twitter card image, default is avatar.png in static/images directory
-twitterCardImage = ""
+  [params.prismJS]
+    enable = false
+    theme =  "okaidia"
 
-  home = "Início"
-	about = "Sobre"
-	archive = "Arquivo"
-	olderposts = "Antigos"
-	
-	enableShare = true
-	tweet = ""
-  share = ""
+  [params.commento]
+    enable = false
+    url = "https://commento.io"
+
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "monokai"
+    tabWidth = 4
+
+[services]
+  [services.instagram]
+    disableInlineCSS = true
+
+  [services.twitter]
+    disableInlineCSS = true
   
-[social]
 
-  github = "https://github.com/danmrc/azul/tree/master/C%C3%B3digos"
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]

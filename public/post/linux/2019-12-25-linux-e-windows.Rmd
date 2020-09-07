@@ -1,0 +1,115 @@
+---
+title: Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot
+author: Daniel Coutinho
+date: '2020-01-05'
+slug: linux-e-windows
+categories:
+  - Computação
+tags:
+  - Linux
+  - Dual Boot
+  - Computação Científica
+authors: ["danielc"]
+---
+
+_Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas_
+
+Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto ~~mais leve~~ menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!). É um tema que foge um pouco do usual do blog, mas dado a quantidade de mitos que as pessoas ainda acreditam sobre Linux, somado ao fato que os dois autores deste blog são usuários assíduos de Linux, eu achei mais que justo voltar falando sobre Linux. 
+
+De certa forma, fazer computação científica no Windows é uma ofensa. Por exemplo, se você quer instalar um pacote para o R que está no Github, no Windows você é obrigado a baixar o Rtools. No Mac e no Linux, baixar um pacote direto do Github não requer nenhum passo desse tipo. Parece uma bobagem, mas diz bastante sobre como cada um dos sistemas funciona. (O Stan, uma linguagem de programação voltada para estimar modelos bayesianos, exige o Rtools para funcionar no Window, mas funciona sem nenhum software extra no Linux). 
+
+Esse post também deve ajudar pessoas que tem computadores antigos, nos quais o Windows é uma tartaruga e abrir o blog e o spotify é o suficiente para travar o computador. Eu instalei o Linux em dois computadores: um Dell Vostro de 2012, que é o meu computador e que eu uso - e que a única peça que não é de fábrica é o HD - com tanto o Windows quanto o Linux instalados; e um outro Dell de 2009 (!) que eu só instalei o Linux e já tinha uma instalação do Windows. 
+
+Antes de continuarmos lembrem sempre que, apesar de atualmente ser muito mais fácil instalar o Linux e fazer _dual boot_ (ter tanto o Windows quanto o Linux na mesma máquina), **esse tipo de operação envolve riscos, muitos com consequências catastróficas. Sempre faça backup antes de se comprometer com alguma coisa dessas. E de preferência, use um computador velho que se tiver um problema sério você não vai se arrepender.**
+
+# Mas o Linux é terreno exclusivo dos nerds...
+
+A maioria das pessoas associam Linux a nerds trancados em salas escuras e usando um computador sem mouse. Esse certamente ainda é o maior público do Linux, mas atualmente muitas distribuições de Linux são bastante amigáveis. Linux vem em distribuições, e cada uma tem suas vantagens e desvantagens. A maioria dos recém chegados começam com o Ubutnu ou um derivado do Ubuntu, como o Lubuntu - que é o irmão do Ubuntu para computadores mais lentos, mas que tem uma excelente interface gráfica. 
+
+Eu instalei no meu computador uma versão do Linux chamada EndeavourOS, que é absolutamente obscura. Eu não recomendo como primeiro contato, mas ela tem uma cara até bastante familiar para quem veio do Windows:
+
+![](/post/linux/linux.png)
+
+Depois de brincar um pouco com as opções do Endeavour, eu deixei o meu computador mais parecido com a interface da Apple. Eu particularmente prefiro não ter que voltar na área de trabalho para abrir aplicativos: 
+
+![](/post/linux/deepin.png)
+
+Distribuições como Ubuntu e o Lubuntu são ainda mais amigáveis em termos de interface do que essa distribuição. Comecem por elas. O Pedro recomenda o elementaryOS para quem gosta de Mac ou KDE Neon para quem vêm de Windows. Nunca usei nenhuma das duas sugeridas pelo Pedro e acho que o Lubuntu ou Ubuntu são fáceis o suficiente e com uma comunidade ampla o suficiente para garantir que muito provavelmente você vai instalar sem sustos. 
+
+E não, o Linux não exige que você use o terminal - onde os nerds digitam palavras esquisitas em uma tela preta com o cursor do teclado e ctrl+c não copia as coisas. A interface gráfica é bastante amigável, até para instalar novos programas. Eis o terminal se você nunca viu um na vida: 
+
+![](/post/linux/terminal.png)
+
+Ou seja, ao contrário de anos atrás, quando o Linux era o território de apenas alguns malucos, hoje em dia algumas distribuições de Linux tem interface gráfica e são relativamente fáceis de usar. Nada é perfeito e há um custo de entrada, mas ele caiu bastante. 
+
+# Eu realmente preciso escolher entre Windows e Linux?
+
+A resposta aqui é _não_. Você pode ter no mesmo computador os dois sistemas. Isso se chama _dual boot_. No passado isso era outro pesadelo, mas hoje em dia ficou bem mais fácil. Eu bati um pouco de cabeça de como fazer o dual boot e por isso explico com algum detalhe o processo.
+
+1. A primeira coisa a fazer é criar uma partição no disco. O nome é pomposo mas o processo é simples. **Primeiro, garanta que você tem bastante espaço livre no disco**. De preferência o dobro do que você pretende usar pro Linux (o motivo vai ficar claro mais adiante). Veja que distribuições de Linux leves, como o Lubuntu e o Endeavour, usam pouco espaço em disco: 50 GB é mais que o suficiente para brincar.  
+
+Para criar a partição, vá no menu iniciar e busque por partição. O Windows deve achar um criador de partição. Ele demora um pouco a carregar. Ele deve mostrar as partições do seu disco rígido (provavelmente duas ou três). A maior é onde você está acostumado a usar e salvar as coisas. A única coisa que você deve fazer nessa etapa é selecionar essa partição maior (que com um pouco de sorte se chama C:/) e pedir para reduzir ela. Reduza para o tamanho que você quer que o Linux tenha disponível.
+
+2. Baixe a sua distribuição escolhida e o [rufus](https://rufus.ie/). Tenha um pen drive em mãos que você esteja disposto a apagar: ele nem precisa ser muito grande, 4 GB já resolvem. Use o rufus para gravar a distribuição no pen drive. Se você não achar o rufus fácil de usar, certamente existem tutoriais por ai que explicam como usar. Usem o rufus e não outra ferramenta, simplesmente porque o rufus funciona bem para a vasta maioria dos casos (o que não é verdade para outras ferramentas). 
+
+3. Descubra como faz para mudar o disco de boot no seu computador. Isso varia de marca para marca e de modelo para modelo. Mais uma coisa que o google pode ajudar mais do que eu. As palavras mágicas são "how to change the boot disk on _modelo do seu computador_". O Pedro diz que quase sempre você faz isso apertando `F2` ou `F8` enquanto o computador liga! Varia de fabricante para fabricante, mas quase sempre é uma dessas duas teclas. Emntretanto no Dell a tecla é F12 - o que ilustra a variedade de maneiras de mudar essa configuração.
+
+4. Desligue o computador, coloque o pen drive na porta usb, religue e mande o computador iniciar pelo pen drive.
+
+5. Deve demorar um pouco e ele vai te dar várias opções, inclusive iniciar o Linux via o pen drive. É isso que você quer. Deixe o sistema iniciar e ele deve funcionar como se tivesse instalado, mas ele tá rodando pelo pen drive e nada no seu computador foi alterado. Aproveite e dê uma explorada no sistema. 
+
+Veja que se você não gostar do que viu, basta desligar o computador, tirar o pen drive e religar ele (e mudar por onde ele incia de volta para o disco rígido, em alguns casos) e _nada_ terá sido alterado. Você pode até mesmo desistir de instalar o Linux e abrir o gerenciador de partição, igual no passo 1, e mandar o Windows extender a partição do C:/ para o espaço que você abriu. Voltamos a estaca zero. Se você ainda está achando a experiência divertida, então continuando do passo 5:
+
+6. Mande instalar o sistema. Normalmente existe um atalho bem óbvio na área de trabalho. 
+
+Agora começa um passo a passo. Você vai ter que acertar o fuso, acertar qual o layout do seu teclado e verificar que ele funciona (existe uma caixa para você digitar e ver se tudo funciona. Teste especialmente os acentos). 
+
+7. Finalmente, ele vai te perguntar como deve ser instalado. Diga que é numa partição do disco. Ele vai te mostrar várias partições. Escolha a partição vazia que você criou no passo 1. **Cheque com cuidado que você escolheu o lugar certo.**
+
+8. Espere a instalação terminar. No fim, desligue, retire o pen drive e reinice.
+
+Agora, ao iniciar, ele vai te oferecer para escolher qual sistema iniciar. Escolha usando as setas. Você tem 10 segundos antes de ele iniciar o primeiro sistema na lista (normalmente o Linux). Usar a seta mata o contador.
+
+![](/post/linux/grub.jpg)
+
+E é isso!
+
+Quando eu fiz isso em julho eu achei que seria _bem_ mais complicado, mas para a minha surpresa foi bastante simples - admito que eu bati um pouco de cabeça para descobrir como criar a partição da maneira certa. 
+
+Em algum momento você vai se ver obrigado a usar o terminal: o R é instalado pelo terminal no Ubuntu, por exemplo. Apesar disso exigir um pouco de pesquisa e ler a explicação no CRAN com calma - e eu garanto, vai ser como ler uma língua estrangeira pela primeira vez. Apesar disso, usar o Linux e aprender a usar o terminal vai ter várias vantagens:
+
+1. O Linux é bizarramente mais eficiente que o Windows. Windows sem nada aberto aqui consome uns 2/3 da memória. Linux consome 47% da memória com o navegador, rstudio e spotify aberto. Isso significa que seu computador vai "durar mais", demorar mais para ficar obsoleto.
+
+2. R, RStudio, Julia, Atom, LaTeX todas essas coisas estão disponíveis para serem instaladas na maioria das distribuições de Linux sem grandes surpresas.
+
+3. O Linux, como o Mac, tem um gerenciador de pacotes que deixa todo o processo de instalação e atualização muito mais simples. Na verdade, o sistema de pacotes do Mac é _bastante limitado_ comparado ao do Linux. Nada de ter que ir em cada site e baixar diferentes programas e quando precisar atualizar ter de revisitar os sites etc etc etc.  
+
+O Pedro acha de bom tom explicar como funciona o sistema de pacotes do Linux: Existem alguns gerenciadores de pacotes para Linux e cada distribuição vem com o seu (embora seja plenamente customizável). Os mais comuns são `apt`, `yum` e `snap`. Sempre que alguém manda você escrever no terminal `sudo apt install` seguido de um nome de programa, está te dizendo para executar algo no modo _sudo_ (sudo provavelmente é uma sigla para _super user do_: no linguajar de Linux, quer dizer que você está mandando ele executar um comando com autoridade máxima, e lembre-se que com grandes poderes vem grandes responsabilidades), usar o sistema de pacotes `apt` para instalar algo. Muitas distribuições vem com interface gráfica para o gerenciador, que são um pouco - ou muito, dependendo da distribuição - mais feias que a app store da Apple, mas funcionam igual: você escolhe o que você quer instalar e pronto. Um exemplo:
+
+![](/post/linux/package_ubuntu.png)
+
+_(Eu disse que era mais feio que o Apple)_
+
+4. Um efeito colateral de usar um sistema que vai te forçar a usar o terminal de vez em quando é que você vai programar mais, e portanto vai se tornar um programador melhor. Eu e Pedro observamos que nós atualmente fazemos coisas pelo terminal quando existe uma interface gráfica porque _é mais rápido_ usar o teclado que o mouse.  
+
+5. Você passa a se preocupar bem menos com vírus.
+
+6. É bem mais rápido de desligar e ligar e nunca fica atualizando durante meia hora quando liga ou desliga.
+
+Seria injusto não apontar alguns problemas:
+
+1. Se você usa pesadamente o pacote Office, você não vai ter uma transição tão suave (apesar de teoricamente ser possível instalar o pacote office, mas isso fica para a próxima)
+
+2. Alguns problemas só são resolvidos indo na "casa de máquinas" e se sujando de graxa. Noutras palavras, em algum momento você vai embarcar no mundo de letras brancas em fundo preto e vai entender a seguinte tirinha:
+
+![](/post/linux/sudo_boo.jpg)
+
+Isso tem um custo de entrada e mesmo para pessoas com alguma experiência pode ser um pouco de encheção de saco. 
+
+3. Fazer algumas coisas funcionarem podem exigir um pouco mais de trabalho que no Windows. Muitos pacotes do R exigem algum pacote do sistema que não veio pré instalado e você tem que instalar, ou para um pacote específico do LaTeX funcionar você tem que instalar um dos pacotes extras do LaTeX. No começo isso é um *pesadelo* - como os dois autores podem atestar - mas você logo aprende a parar de entrar em pânico e ler o que o computador te diz. Nestes erros, **_sempre_** (cada um de nós colocou um enfâse no sempre) está na tela o nome da biblioteca que você precisa instalar. Eu sofri muito para instalar pacotes para lidar com dados espaciais porque eles exigem a biblioteca `libgdal-dev`, por exemplo. Para instalar este pacote via o terminal e escreva `sudo apt-get install libgdal-dev`. Vai pedir a sua senha, e quando você digitar o cursor do teclado não vai se mover (para a surpresa do Daniel na primeira vez que usou). Isso `apt-get` funciona na maioria da distribuições (Ubuntu, Lubuntu, Elementary) usuais, mas distribuições mais malucas, como a que o Daniel usa, isso não funciona.  
+
+4. Existem alguns problemas de compatibilidade de hardware. Vale a pena checar se a distribuição que você escolheu funciona bem no seu computador. Isso melhorou bastante, mas ainda persiste em alguns computadores e pode gerar muita dor de cabeça.
+
+5. Você provavelmente se tornará o "cara esquisito do Linux".
+
+Como tudo na vida, há prós e contras. A beleza do Linux é que ele é bem mais leve que o Windows e é mantido por uma comunidade ampla, muitas vezes com foco em computação científica. Instalar e usar o Linux melhorou muito nos últimos 20 anos, e até mesmo distribuições obscuras, como a que este autor usa, tem uma interface gráfica bastante amigável. No fim, você pode ter um computador com tanto Windows quanto Linux e isso não gera muita dor de cabeça adicional.  

@@ -1,15 +1,15 @@
 setwd("C:/Users/pedro/Downloads/AC2017")
 library(readtext)
-library(dplyr)
 
 link = "ftp://ftp.mtps.gov.br/pdet/microdados/RAIS/2017/"
 
 dados <- read_delim(file = "AC2017.txt",
-                    delim = ";", 
-                    escape_double = FALSE, 
-                    trim_ws = TRUE,
+                    delim = ";", escape_double = FALSE, 
+                     trim_ws = TRUE,
                     locale = locale(encoding = "ISO-8859-1"))
+View(dados)
 
+library(dplyr)
 dados$`Bairros SP` = NULL
 dados$`Bairros Fortaleza` = NULL
 dados$`Bairros RJ` = NULL

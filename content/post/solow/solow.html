@@ -1,0 +1,129 @@
+---
+title: Explorando o Modelo de Solow com a ajuda do R
+author: Pedro Cavalcante
+date: '2018-09-11'
+slug: solow
+categories:
+  - R
+  - Macroeconomia
+tags:
+  - Solow
+  - R
+  - Macroeconomia
+authors: ["pedrocava"]
+katex: TRUE
+---
+
+
+
+<p>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho <a href="http://piketty.pse.ens.fr/files/Solow1956.pdf"><em>A Contribution to the Theory of Economic Growth</em>, de Robert Solow</a>. Segundo o <a href="https://scholar.google.com.br/scholar?hl=pt-BR&amp;as_sdt=0%2C5&amp;q=a+contribution+to+the+theory+of+economic+growth&amp;btnG=">Google Scholar</a> o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.</p>
+<p>Apesar de já existirem à época trabalhos importantes na área, como o de <a href="https://www.jstor.org/stable/2224098">Ramsey (1928)</a>, Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987. Inclusive, fica a dica de leitura aqui: <a href="http://www.repec.eae.fea.usp.br/documentos/MatheusAssaf_20WP.pdf">Assaf (2017)</a> mostra a importância de Solow e seus alunos no MIT para a teoria do crescimento. É história do pensamento econômico de altíssima qualidade.</p>
+<p>Aqui, vou apresentar o modelo e depois explorar melhor seus resultados com a ajuda do R.</p>
+<div id="o-modelo-de-solow-como-visto-nos-manuais" class="section level1">
+<h1>O Modelo de Solow como visto nos manuais</h1>
+<p>Antes de entrar na matemática, reproduzo aqui uma passagem de Assaf (2017), descrevendo o modelo:</p>
+<blockquote>
+<p>His model, published in 1956, was a perfect example of MIT’s theoretical style. Solow presented his aggregate production function, identified a steady state that leaned on population growth and technical progress, and a convergence path defined by capital accumulation. More than that, his modelling style defined a literature and made canonical his contribution. A simple, clear and malleable artefact: a model seen as a tool, a drastic simplification of real world complexities, but not a negation of these complexities […]</p>
+</blockquote>
+<p>Pois, partiremos de uma função de produção dependente do estoque de capital, de tecnologia e de trabalho, <span class="math inline">\(Y: \mathbb{R}^3 \to \mathbb{R}\)</span>, monótona e contínua. Também assumimos homogeneidade de grau 1 - por caracterizar retornos constantes à escala e forma funcional Cobb-Douglas. Temos:</p>
+<p><span class="math display">\[Y(t) = K(t)^\alpha (A(t)L(t))^{1-\alpha}\]</span></p>
+<p>Estamos modelando tecnologia como Harrod-neutra, <em>aumentadora de trabalho</em>. Uma interpretação é que uma unidade de trabalho fica mais produtiva à medida em que a tecnologia melhora. Não seria o caso se, por exemplo, o termo de tecnologia estivesse multiplicando o estoque de capital. Aí teríamos tecnologia Solow-neutra, <em>aumentadora de capital</em>.</p>
+<p>Com isso em mente podemos começar a fazer algumas perguntas.</p>
+<div id="o-que-determina-a-renda-por-trabalhador" class="section level2">
+<h2>O que determina a renda por trabalhador?</h2>
+<p>Estamos interessados em <span class="math inline">\(\frac{Y}{AL}\)</span>, a renda por trabalhador efetivo. Pois, da função de produção podemos rapidamente encontrar isso:</p>
+<p><span class="math display">\[Y(t) = K(t)^\alpha (A(t)L(t))^{1-\alpha} \\
+\frac{Y}{L} = \frac{K^\alpha (A(t)L(t))^{1-\alpha}}{L} \\\]</span></p>
+<p>Se definirmos a renda por trabalhador <span class="math inline">\(y := \frac{Y}{L}\)</span> e o estoque de capital por trabalhador <span class="math inline">\(k:= \frac{K}{L}\)</span>, temos então:</p>
+<p><span class="math display">\[y = k^\alpha A^{1 - \alpha}\]</span> A renda por trabalhador depende, a rigor, do estoque de capital por cabeça e do nível de tecnologia.</p>
+<div id="entao-como-evolui-a-renda-por-trabalhador-ao-longo-do-tempo" class="section level3">
+<h3>Então como evolui a renda por trabalhador ao longo do tempo?</h3>
+<p>Podemos explicitar como cada termo evolui e daí chegar em uma trajetória para a renda por trabalhador. Aviso que irei omitir pormenores do passo a passo porque eles estão em qualquer manual de teoria do crescimento econômico. Seja <span class="math inline">\(\delta\)</span> a taxa de depreciação do estoque de capital, <span class="math inline">\(n\)</span> a taxa de crescimento populacional e <span class="math inline">\(g\)</span> a taxa de crescimento do estoque de tecnologia:</p>
+<p><span class="math display">\[
+\dot{k} = sk^\alpha A^{1 - \alpha} - (n+g+\delta)k \\ 
+\]</span> Observe que em um termo, <span class="math inline">\(k\)</span> está elevado a <span class="math inline">\(\alpha &lt; 1\)</span> e o no outro, <span class="math inline">\(k\)</span> cresce linearmente. Isso indica que eventualmente <span class="math inline">\(\dot{k}\)</span> fica negativo e sabemos que agentes maximizadores de lucro não irão conscientemente formar capital para ter prejuízo. Essa economia crescerá até que <span class="math inline">\(\dot{k}=0\)</span>.</p>
+<p>Manipulando a equação, chegamos em um estoque de capital que satisfaz isso:</p>
+<p><span class="math display">\[k^*= A(\frac{s}{n+g+\delta})^\frac{1}{1-\alpha}\]</span> Esse é o estoque de capital no <em>estado estacionário</em> dessa economia, para onde ela converge no longo prazo. Como sabemos para onde o estoque de capital converge, também sabemos para onde vai a renda por trabalhador:</p>
+<p><span class="math display">\[y^* = A(\frac{s}{n+g+\delta})^\frac{\alpha}{1-\alpha}\]</span> Observe que a introdução da tecnologia altera radicalmente os resultados. A renda per capita no estado estacionário, num modelo sem o termo <span class="math inline">\(A\)</span> de tecnologia, é independente do tempo. Países, sem progresso tecnológico, cresceriam até o nível de estado estacionário e lá ficariam - é daí que vem o nome, se você parar para pensar.</p>
+<p>O progresso tecnológico joga a barreira para frente, é ele que permite elevação sustentada do padrão de vida no longuíssimo prazo. O Modelo de Solow o trata como exógeno, um “maná” que cai do céu. Eventualmente essa hipótese foi relaxada e já existem modelos voltados para modelar como uma economia produz conhecimento. Essa literatura avançou muito no final dos anos 80 e começo dos anos 90 com trabalhos como <a href="https://www.journals.uchicago.edu/doi/abs/10.1086/261725">Romer (JPE 1990)</a>, <a href="https://www.sciencedirect.com/science/article/pii/001429219190153A">Grossman e Helpman (EER 1991)</a> e <a href="https://ideas.repec.org/a/ecm/emetrp/v60y1992i2p323-51.html">Aghion e Howitt (Econometrica 1992)</a>. Talvez um dia possamos explorar o Modelo de Romer aqui no blog, com a ajuda do R. Por enquanto, vamos voltar ao de Solow.</p>
+</div>
+<div id="visualizando-isso-no-r" class="section level3">
+<h3>Visualizando isso no R</h3>
+<p>Qual é o efeito de um choque na taxa de crescimento populacional na renda de estado estacionário? E na taxa de crescimento da tecnologia? Podemos computar isso.</p>
+<pre class="r"><code>solow_steady_state &lt;- function(n = .01,
+                               g = .01,
+                               alpha = .5,
+                               s = .01,
+                               delta = .01,
+                               TFP = 1) {
+
+  k = TFP * (s/(n + g + delta))^(1 / (1-alpha))
+  y = TFP * (s/(n + g + delta))^(alpha / (1-alpha))
+
+results = list(&quot;Capital per capita&quot; = k,
+                &quot;Income per capita&quot; = y)
+  }
+
+n = seq(from = 0,
+        to = .05,
+        by = .001)
+
+ss_computado = solow_steady_state(n=n,
+                                  s = .15,
+                                  g = .02,
+                                  alpha = .4,
+                                  delta = .02)
+
+grid = data.frame(n,ss_computado$`Income per capita`)
+
+library(ggplot2)
+library(dplyr)
+
+grid %&gt;%
+  ggplot(aes(x = n, y = ss_computado..Income.per.capita.))+
+  geom_line(size = 2, color = &quot;blue&quot;) +
+  ylab(&quot;Renda por trabalhador no Estado Estacionário&quot;) +
+  xlab(&quot;Taxa de Crescimento da População&quot;)+
+  labs(caption = &quot;s= 15%, g = 2%, alpha = .4 e delta = 2%&quot;)</code></pre>
+<p><img src="/post/solow/solow_files/figure-html/unnamed-chunk-1-1.png" width="7000" /></p>
+<p>E o que acontece com a renda per capita no longo prazo caso um país passe a poupar maior parcela de sua renda?</p>
+<pre class="r"><code>s = seq(from = .1,
+        to = .5,
+        by = .001)
+
+ss_computado2 = solow_steady_state(n = .02,
+                                    s = s,
+                                    g = .02,
+                                    alpha = .4,
+                                    delta = .02)
+
+grid2 = data.frame(s,ss_computado2$`Income per capita`)
+
+grid2 %&gt;%
+  ggplot(aes(x = s, y = ss_computado2..Income.per.capita.))+
+  geom_line(size = 2, color = &quot;blue&quot;) +
+  ylab(&quot;Renda por trabalhador no Estado Estacionário&quot;) +
+  xlab(&quot;Taxa de Poupança&quot;)+
+  labs(caption = &quot;n = 2%, g = 2%, alpha = .4 e delta = 2%&quot;)</code></pre>
+<p><img src="/post/solow/solow_files/figure-html/unnamed-chunk-2-1.png" width="7000" /></p>
+</div>
+</div>
+<div id="como-se-divide-a-renda-nessa-economia" class="section level2">
+<h2>Como se divide a renda nessa economia?</h2>
+<p>Para simplificar, podemos normalizar o índice de preços da economia (que é o preço do produto homogêneo) para 1 e resolver o problema de maximização de lucro. Seja <span class="math inline">\(r\)</span> a taxa de juros, <span class="math inline">\(w\)</span> a taxa de salários e <span class="math inline">\(\pi\)</span> o lucro agregado:</p>
+<p><span class="math display">\[ \text{max} \,\,\pi(t) = K(t)^\alpha (A(t)L(t))^{1-\alpha} - wL(t) - rK(t)\]</span> Não precisamos adentrar muito nos pormenores da otimização, vamos nos focar em duas condições de primeira ordem pertinentes à entender como a renda se distribui:</p>
+<p><span class="math display">\[w = \frac{\partial \pi }{\partial L} = (1 - \alpha) \frac{Y}{L} \\
+r = \frac{\partial \pi }{\partial K} = \alpha \frac{Y}{K}\]</span></p>
+<p>Conhecemos esse resultado da microeconomia, os preços de fatores são suas produtividades marginais. Observe que a esses preços de fatores, a remuneração do processo produtivo exaure integralmente a renda da economia. O leitor pode confirmar isso averiguando se aos preços compatíveis com as condições de primeira ordem fazem com que <span class="math inline">\(wL + rK = Y\)</span> (um exercício muito breve, diga-se de passagem).</p>
+<p>Mais ainda, a participação de cada fator na renda é igual à sua elasticidade com o produto agregado. <span class="math inline">\(\frac{rK}{Y} = \alpha\)</span> e <span class="math inline">\(\frac{wL}{Y} = 1 - \alpha\)</span>. Parece um resultado simples - e de certa forma é - mas isso nos diz coisas profundas: a distribuição da renda entre capital e trabalho é temporalmente consistente, dependente das produtividades marginais de cada fator. Como cada fator tem produtividade marignal decrescente, à medida que uma economia se desenvolve e acumula capital, uma parcela maior da renda vai para o trabalho.</p>
+<div class="figure">
+<img src="http://visualeconsite.s3.amazonaws.com/wp-content/GDPCapitaVSGini.png" alt="Renda per capita e desigualdade" />
+<p class="caption">Renda per capita e desigualdade</p>
+</div>
+</div>
+</div>
+<div id="conluindo" class="section level1">
+<h1>Conluindo</h1>
+<p>Vimos brevemente com o auxílio do R o efeito de choques em alguns parâmetros no <em>workhorse model</em> do crescimento econômico exógeno e um breve resultado desse modelo para entender como desigualdade se liga com desenvolvimento econômico. Quando voltar a falar de macro, penso em revisitar esse tema no modelo MRW, mostrar como podemos usar o Modelo de Solow para decompor crescimento de países em contribuições específicas de fatores ou explorar o Modelo de Romer.</p>
+<p>Até lá</p>
+</div>

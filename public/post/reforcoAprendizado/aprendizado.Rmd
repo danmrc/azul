@@ -1,0 +1,129 @@
+---
+title: "Jogo da Velha com Q-Learning"
+author: "Pedro Cavalcante"
+date: '2020-04-21'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+  - R
+  - Otimização
+  - Machine Learning
+slug: 
+tags:
+  - R
+  - Matemática
+  - Reinforcement Learning
+  - Simulações
+authors: ["pedrocava"]
+bibliography: bib.bib
+---
+
+Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu *não* fui introduzido a esse mundo, não de verdade. Tenho estudado por conta própria para atacar um problema interessantíssimo no trabalho e pensei em deixar uma introdução prática, um cheiro do assunto, aqui. 
+
+Qual é a nossa motivação? Bem, uma série de situações podem ser descritas como: suponha que você observe um sistema com estados variáveis e um agente, a quem podemos associar em cada momento do tempo duas grandezas, a ação _no próximo período_ e a recompensa _no período atual_. A recompensa é uma função do estado da natureza e da ação. Queremos agora aprender qual regra de comportamento induz alguma forma de maximização de recompensa. Os paralelos com microeconomia já estão surgindo na sua mente, leitor? A ideia de Aprendizado por Reforço (e mais especificamente, $Q$-learning, a técnica que usarei) é expor um agente a uma série potencialmente repetida de trios estado-ação-recompensa e daí aprender a resposta ótima.   
+
+Temos um conjunto de estados $S$, um conjunto de potenciais ações $A$, um conjunto de potenciais recompensas $R$. Cada iteração $i$ do sistema tem um estado $s_i \in S$, uma ação $a_i$ dentre as ações possíveis para o estado, $A(s_i)$, e $a_i$ determina uma recompensa $r_{i+1}$ e um estado $s_{i+1}$. Vamos então definir a função $Q \, : S \times A \to \mathbb{R}$ que associa a cada par $(s_i, a_i)$ uma recompensa esperada. 
+
+Felizmente a página da Wikipedia sobre $Q$-learning tem uma excelente "equação comentada" descrevendo o algoritimo e vou reproduzi-la com algumas alterações aqui embaixo.
+
+
+$$ \underbrace{Q(s_{t},a_{t})}_{\text{valor antigo}} + \underbrace{\alpha}_{\text{taxa de aprendizado}} \cdot  \bigg( \underbrace{r_{t}}_{\text{recompensa}} + \underbrace{\gamma}_{\text{fator de desconto}} \cdot \underbrace{\max_{a}Q(s_{t+1}, a)}_{\text{melhor ação no próximo período}} - \,\underbrace{Q(s_{t},a_{t})}_{\text{valor antigo}} \bigg)  \rightarrow Q(s_{t},a_{t})  $$
+
+Apareceram dois parâmetros novos:
+
+* Taxa de Aprendizado, $\alpha$
+
+Um número real entre $0$ e $1$ que determina que fração do "aprendizado" com alternativas não tomadas é incorporado. 
+
+* Fator de Desconto, $\gamma$
+
+Outro escalar entre $0$ e $1$, determina o peso associado ao futuro. Treinar com um $\gamma$ mais próximo de $1$ implica ponderar mais nas regras de resposta o longo prazo. 
+
+Em breve aparecerá outro parâmetro, $\epsilon$. A ideia é que podemos, de vez em quando, aleatoriezar a ação a ser tomada pelo algoritmo para tentar conhecer melhor as consequências de cursos alternativos. A cada iteração, com probabilidade $1-\epsilon$ podemos aleatorizar a ação, por exemplo.
+
+Os dados são adaptados de @sutton2018. Todos são coletados da perspectiva do jogador X - que está contra B e jogou primeiro. X ganha $+1$ se ganha, $0$ se empata e $-1$ se perde. O quadro é preenchido lendo da esquerda para a direita. As primeiras três entradas da _string_ ``State`` representam as três primeiras entradas, as três seguintes representam a segunda linha e as últimas três entradas, a última linha do tabuleiro. As ações são sempre "c" seguido de um número. O número sinaliza em qual altura da string devemos inserir a letra. "c3" implica por a letra no canto direito superior do tabuleiro, "c7" no canto inferior esquerdo, "c5" no meio, "c9" no canto inferior direito, etc...
+
+```{R, message = FALSE, warning = FALSE, dpi = 250, echo = FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, dpi = 250)
+```
+
+```{R}
+library(dplyr)
+library(ReinforcementLearning)
+
+data("tictactoe")
+
+(dados <- as_tibble(tictactoe))
+
+```
+
+
+```{R, eval = FALSE}
+
+model <- ReinforcementLearning(dados, 
+                               s = "State", 
+                               a = "Action", 
+                               r = "Reward", 
+                               s_new = "NextState", 
+                               iter = 1, # quantas vezes repetimos os dados 
+                               control = list(alpha = 0.2, 
+                                              gamma = 0.4, 
+                                              epsilon = 0.1)) # aqui damos os parâmetros
+
+
+```
+
+```{R, echo = FALSE}
+model <- readRDS("modelo.Rds")
+```
+
+Agora podemos simular situações nunca antes vistas e a melhor resposta. O algoritmo, inclusive, aprendeu a tática comum de começar pelo meio:
+
+```{R}
+predict(model, ".........")
+```
+
+É uma boa ideia se ater ao paradigma funcional de R, então vamos fazer uma função que receba um modelo e um estado em forma de string. Ela irá computar a resposta, dar uma resposta (aleatória) do _outro_ jogador e devolver o tabuleiro atualizado em uma string. 
+
+```{R}
+
+move <- function(model, state) {
+  
+  policy <- predict(model, state) %>%
+    stringr::str_sub(2) %>%
+    as.numeric()
+  
+  stringr::str_sub(state, policy, policy) <- "X"
+  
+  bPolicy <- stringr::str_split(state, "")[[1]] %>%
+    stringr::str_which('\\.') %>%
+    sample(1)
+  
+  stringr::str_sub(state, bPolicy, bPolicy) <- "B"
+
+  state
+    
+}
+
+
+```
+
+Agora podemos simular um jogo. Observe que a função foi feita para compor recursivamente, mas isso não é lá muito elegante... Note também que podemos gerar alguns estados inválidos caso a escolha do jogador B tenha sido particularmente estranha.
+
+```{R, error = TRUE}
+set.seed(12345)
+move(model, ".........")
+move(model, move(model, "........."))
+move(model, move(model, move(model, ".........")))
+```
+
+Um exercício legal a partir daqui é usar ``purrr::accumulate``, como eu mostro no post [Gerando um Padrão de Difusão](https://azul.netlify.app/2020/02/09/difusao-gaussiana/), para compor recursivamente ``move`` de maneira programática e declarativa e obter a trajetória do jogo, ou ``purrr::reduce`` para fazer a mesma operação, porém reduzindo uma condição inicial à uma final, perdendo a trajetória do jogo.
+
+# Bibliografia
+
+
+

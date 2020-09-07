@@ -1,0 +1,200 @@
+---
+title: Ponto Fixo e Equlíbrio Geral
+author: Daniel Coutinho
+date: '2018-11-30'
+slug: ponto-fixo-e-eq-geral
+categories:
+  - Julia
+  - Matemática
+tags:
+    - Equilíbrio Geral
+    - Ponto Fixo
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+Faz algum tempo o Pedro escreveu um [post excepcional](https://azul.netlify.com/2018/10/31/banach/) (como de praxe) falando do teorema do ponto fixo de Banach. Minha única sugestão era um exemplo prático de aplicação do teorema. Este post aplica o teorema em um exemplo de Equilíbrio Geral.
+
+Nosso exemplo vai ser bem simples para ilustrar o ponto: ele não vai ter produção, apenas dotações fixas dos bens - que serão dois. Eu ainda colocarei utilidades Cobb Douglas para termos uma expressão usual da demanda ($\frac{\alpha}{p}m$ e $\frac{1-\alpha}{q}m$, onde $\alpha$ é um parâmetro, $p$ e $q$ são preços e $m$ é a renda).
+
+A parte interessante é que o teorema de ponto fixo usual para Equilíbrio Geral _não_ é o de Banach, mas sim o de Kakutani. Eis o enunciado dele:
+
+_Teorema de Ponto Fixo de Kakutani_: seja $f$ uma correspondência semi-continua superior $f: C \rightarrow C$ onde $C$ é compacto e convexo. Então, $f$ admite um ponto fixo i.e. $f(a)=a$
+
+(A prova disso é o pesadelo de muitos alunos de pós graduação)[^1]
+
+Uma correspondência é uma generalização de uma função: pensar $f$ como uma função é totalmente inóquo para o presente exemplo (o caso do teorema com função, ao invés de uma correspondência, se chama Teorema do Ponto Fixo de Brouwer). No caso de ser uma função, exigimos continuidade. Ser _compacto_, nos reais, significa ser fechado e limitado[^2]. Logo $[0,1]$ é um compacto, mas $(0,1)$ não. E para $\mathbb{R}^2,\mathbb{R}^3, \dots$ a definição permanece, logo $[0,1] \times [0,1]$ é um compacto em $\mathbb{R}^2$. Um pouco frustrante, entretanto, é que o ponto fixo de Banach nos fornece um algoritmo para encontrar o ponto fixo: faça uma sequência de $x$ tal que $x_i = f(x_{i-1})$. O limite dessa sequência vai ser o ponto fixo da função. O ponto fixo de Kakutani não nós dá nada desse tipo. Mas no nosso caso, _iterar a sequência vai nos levar ao ponto fixo_.
+
+Para aplicar o Teorema, exigimos uma função que mapeie um compacto nele mesmo. Vamos construir essa função. Para isso, defina $z_i$ como o excesso de demanda agregada do bem i, logo $z_i = d(p_i) - w_i$, onde $d()$ é a demanda e $w_i$ é a dotação. Veja que se o preço estiver muito baixo, teremos excesso de demanda e $z_i$ vai ser positivo. E vice versa. Se temos excesso de demanda, precisamos aumentar o preço. Podemos somar ao preço atual uma fração $\delta$ do excesso de demanda para obter novos preços. Isso dá origem a função $\hat{\phi}$:
+
+$$\hat{\phi}(p_i) = p_i + \delta z_i$$
+
+Esta função faz o papel de um leiloeiro que dá um preço e ouve quanto cada consumidor demanda e vê se há bens o suficiente para atender aquela demanda. Esta função mapeia preços em preços, então estamos em um bom caminho. Infelizmente, não há nenhum motivo para afirmar que esse preços estão limitados - uma das condições para ser um compacto. Mas graças a Lei de Walras, podemos normalizar os preços de maneira arbitrária (tudo que importa são preços relativos). A solução é normalizar todos os preços para somarem 1, e isso dá origem a função $\phi$:
+
+$$\phi(p_i) = \frac{p_i + \delta{} z_i}{\displaystyle \sum_{j = 1}^{k} p_j} = \frac{\hat{\phi}(p_i)}{\displaystyle \sum_{j = 1}^{k} p_j}$$
+
+Nesse caso, sabemos que os preços estarão no intervalo $[0,1]$, que é um compacto.
+
+A parte interessante é que, em alguns casos, podemos iterar a função $\phi$ e obter um equilíbrio partindo de um ponto arbitrário. Vamos primeiro implementar a função demanda e uma função para calcular a renda do sujeito a partir da dotação:
+
+```{julia}
+
+using Plots
+using LinearAlgebra
+
+d1(alfa,p,m) = alfa/p*m
+
+m(p,w) = p*w'
+
+```
+
+Agora a função $\hat{\phi}(p_i)$:
+
+```{julia}
+
+function phi_hat(p,w,alfa,delta = 0.01)
+  m1 = m(p,w)
+  z = d1.(alfa,p,m1) - w
+  return(p + delta*z)
+end
+
+```
+
+A função $\phi(p_i)$ simplesmente pega o output da função $\hat{\phi}$ e divide pela soma:
+
+```{julia}
+
+function phi(p,w,alfa,delta = 0.01)
+  q = phi_hat(p,w,alfa,delta)
+  q = q ./ sum(q)
+  return(q)
+end
+
+```
+
+Vamos testar se iterar funciona. Vamos trabalhar com o caso em que $\alpha = 0.5$ e que a dotação de ambos os bens é igual a 1. A solução analítica nos diz que os preços tem que ser iguais:
+
+```{julia}
+
+p = zeros(500,2)
+p[1,:] = [1 0.5]
+
+for i=1:499
+  p[i+1,:] = phi(p[i,:]',[1 1],[.5 .5])
+end
+
+plot(p[:,1])
+plot!(p[:,2])
+
+```
+Claramente o problema converge para a solução verdadeira. Isso é interessante porque mostra que, para esse caso, um processo de aprendizado que envolve reagir ao último preço leva o mercado a um eventual equilíbrio - uma ideia vinda de Walras que recebe o nome de _tâtonnement_. Veja que mesmo preços absurdamente distantes funcionam:
+
+```{julia}
+
+p = zeros(500,2)
+p[1,:] = [0.03 0.05]
+
+for i=1:499
+  p[i+1,:] = phi(p[i,:]',[1 1],[.5 .5])
+end
+
+plot(p[:,1])
+plot!(p[:,2])
+
+```
+
+Veja que o argumento $\delta$ é importante. Colocando $\delta = 1$, o gráfico fica bonito, mas ilustra que não funciona:
+
+```{julia}
+
+p = zeros(500,2)
+p[1,:] = [0.03 0.05]
+
+for i=1:499
+  p[i+1,:] = phi(p[i,:]',[1 1],[.5 .5],1)
+end
+
+plot(p[:,1])
+plot!(p[:,2])
+
+```
+
+Logo, o leiloeiro não pode reagir em excesso ao excesso de demanda, senão o problema fica oscilando entre dois preços que não são de equilíbrio. Por que isso funciona? Vamos escrever o sistema explicitamente:
+
+$$p_{t+1} = p_{t} + \left(\frac{\alpha}{p_t}m - w_{1}\right)\\
+q_{t+1} = q_{t} + \left(\frac{1-\alpha}{q_t}m - w_{2}\right)\\$$
+
+Onde $m=pw_1+qw_2$. Podemos alterar isso para bater com a nossa definição simplesmente definindo $q = 1-p$, e teremos uma função de $\mathbb{R}$ para $\mathbb{R}^2$. O jacobiano (uma generalização da ideia de derivada para funções que tem a imagem em $\mathbb{R^2}$ ou dimensão maior) é:
+
+$$J = \begin{pmatrix}
+\dfrac{\partial \hat{\phi}_1}{\partial p}\\
+\dfrac{\partial \hat{\phi}_2}{\partial p}\\
+\end{pmatrix} =
+\begin{pmatrix}
+1-\frac{\alpha{}w_2}{p^2}\\
+-1+\frac{(1-\alpha{})w_1}{(1-p)^2}\\
+\end{pmatrix}$$
+
+Veja que para garantir que cada uma dessas funções é uma contração basta garantir que a derivada seja menor (em módulo) que 1. Vamos vizualizar isso para diferentes valores de p, dado os parâmetros do problema:
+
+```{julia}
+
+delt = 0.01
+
+derivada1(p) = 1-delt*0.5/p^2
+derivada2(p) = -1+delt*0.5/(1-p)^2
+
+vals = range(0.1,0.9,length=50)
+
+plot(vals,derivada1.(vals),lab = "Derivada do bem 1")
+plot!(vals,derivada2.(vals),lab = "Derivada do bem 2")
+
+```
+Veja que esse é um caso super específico, e que dependemos do delta escolhido para isso ser de fato uma contração. Observe o valor das derivadas com $\delta=1$:
+
+```{julia}
+
+delt = 1
+
+derivada1(p) = 1-delt*0.5/p^2
+derivada2(p) = -1+delt*0.5/(1-p)^2
+
+vals = range(0.1,0.9,length=50)
+
+plot(vals,derivada1.(vals),lab = "Derivada do bem 1")
+plot!(vals,derivada2.(vals),lab = "Derivada do bem 2")
+
+```
+
+Elas fogem totalmente da limitação de ser 1. Veja que o gráfico também sugere que mesmo com $\delta=0.01$, podemos ter valores que são pequenos demais para o preço inicial, como o exempplo abaixo ilustra:
+
+```{julia}
+
+p = zeros(500,2)
+p[1,:] = [0.01 0.99]
+
+for i=1:499
+  p[i+1,:] = phi(p[i,:]',[1 1],[.5 .5],1)
+end
+
+plot(p[:,1])
+plot!(p[:,2])
+
+```
+
+Logo, para alguns valores de $\delta$ e alguns preços iniciais, podemos aplicar o teorema do ponto fixo de Banach ao invés do teorema do ponto fixo de Kakutani.
+
+
+
+
+
+
+
+
+
+
+
+
+[^1]: Mas o Pedro sabe provar. Será que vale um post?
+[^2]: Nota de rodapé do Pedro dizendo que na verdade isso na verdade é uma condição suficiente de compacidade. É o famoso teorema de Heine-Borel. De forma alguma está _errado_ dizer isso, todo conjunto fechado e limitado de fato é compacto e a volta também vale. No entanto, uma definição - para mim - mais interessante de um conjunto compacto é que qualquer cobertura aberta do conjunto admite pelo menos uma subcobertura finita. Em português mais claro, estamos dizendo que se tentarmos "cobrir" o conjunto (fechado e limitado) com conjuntos abertos, não importa como façamos isso, precisamos sempre poder parar de adicionar conjuntos à coleção e ter coberto o conjunto.

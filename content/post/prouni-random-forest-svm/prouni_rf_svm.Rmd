@@ -1,0 +1,24 @@
+---
+title: Usando Random Forest e SVMs para classificar cursos no ProUni
+author: Pedro Cavalcante
+date: '2018-12-10'
+slug: prouni-rf-svm
+categories:
+  - R
+  - Economia da Educação
+  - Machine Learning
+tags:
+    - Random Forest
+    - SVM
+authors: ["pedrocava"]
+katex: true
+draft: true
+---
+
+Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering $k$-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
+
+# Random Forests
+
+# Support Vector Machines
+
+# Rodando tudo

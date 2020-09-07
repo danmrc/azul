@@ -1,0 +1,214 @@
+---
+title: "Modelo de Cournot no R com o pacote Recon"
+author: "Pedro Cavalcante"
+date: '2019-04-04'
+output:
+  html_document: 
+    df_print: paged
+  pdf_document: default
+katex: yes
+categories:
+- R
+- Microeconomia
+slug: Recon-comp-micro
+tags:
+  - Microeconomia
+  - Otimização
+  - Competição Imperfeita
+authors: ["pedrocava"]
+draft: false
+---
+
+Dia desses eu [concluí o primeiro release estável do ``Recon``](https://twitter.com/PedrooCava/status/1109630732585058304) e inclusive já está disponível no CRAN para download, é só rodar ``install.packages("Recon")`` para instalar a última versão enviada ao repositório ou ``devtools::install_github("pedrocava/Recon")`` para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
+
+Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote. Em primeiro de setembro eu fiz um post aqui no [blog sobre alguns aspectos de dualidade em modelos de micro neoclássica](https://azul.netlify.com/2018/09/01/microeconomia/), onde mostrei o que depois se tornariam as funções ``cobb_douglas2()`` e ``grid2()``. Dez dias depois fiz um post [explorando o modelo de Solow](https://azul.netlify.com/2018/09/11/solow/) onde criei uma primeira versão do que hoje é a função ``solow_steady_state()``.  
+
+No entanto, essas são funções razoavelmente simples e modelam problemas não muito complicados. Depois de solucionado o modelo de Solow, as equações que governam o estado estacionário são bem diretas e curtas. Computar uma função do tipo Cobb-Douglas também é muito simples. Até agora só vimos funções que implementam fórmulas conhecidas. O que eu acho interessante no ``Recon`` é que ele implementa soluções de problemas que envolvem problemas de otimização com restrições e não somente substituir letras por números. Usando alguns métodos numéricos de localização de raízes do pacote ``rootSolve`` o ``Recon`` consegue lidar com curvas de custo e demanda não-lineares, além de oferecer diagnósticos sobre existência de solução para um dado problema. 
+
+# Cournot, Condições de Primeira Ordem e achar raízes
+
+Em 1838 Cournot publicou seu tratado de economia política com, pioneiramente, vários modelos matemáticos, o mais famoso focando em oligopólios. Existem várias implicações interessantes no modelo de Cournot com várias firmas, um teorema curioso e um entendimento mais profundo do que é competição perfeita, mas hoje vamos focar no caso de duopólio.
+
+Primeiro caracterizamos o problema. Temos duas firmas com custos não-lineares e potencialmente diferentes. O preço de mercado é único - não há diferenciação - e uma função potencialmente não-linear, monotonamente decrescente do produto total das firmas. Dada a curva de demanda e as curvas de custo, montamos duas funções lucros e procuramos um Equilíbrio de Nash. Nesse jogo ele é dado pelo ponto fixo do sistema com as duas condições de primeira ordem das funções lucro. O que a funções como ``Recon::cournot_solver()`` fazem é montar duas CPOs com os parâmetros do problema e achar as suas raízes. Abaixo reproduzo um pedaço do código fonte da ``cournot_solver()``. 
+
+A notação dos parâmetros é ``p*`` para parâmetro da curva de demanda e ``c*_*`` para parâmetros das curvas de custo. Nos parâmetros da curva de custo o primeiro número diz de qual firma o parâmetro é, o segundo diz qual a potência da variável de produto que o parâmetro multiplica e o mesmo vale para os da curva de demanda.
+
+
+```{R, eval = FALSE}
+ 
+ focs <- function(q) c(foc1 <- ((p1 + 2 * p2 * sum(q)) * 
+    q[1] + (p0 + p1 * sum(q) + p2 * sum(q)^2) - (c1_1 + 
+    2 * c1_2 * q[1])), foc2 <- ((p1 + 2 * p2 * sum(q)) * 
+    q[2] + (p0 + p1 * sum(q) + p2 * sum(q)^2) - (c2_1 + 
+    2 * c2_2 * q[2])))
+ 
+ q_eq <- rootSolve::multiroot(f = focs, start = c(0, 0))
+
+   q_1 <- q_eq$root[1]
+   q_2 <- q_eq$root[2]
+ 
+```
+
+Então se temos uma curva de demanda inversa $P(Q) = 100 - 2Q - 0.2Q^2$ e curvas de custo $C_1 (Q_1) = 10 + 3Q_1 + 0.5Q_1^2$ e $C_2 (Q_2) = 40 + 2Q_2 + 0.9Q_2^2$ basta alimentar:
+
+```{R}
+library(Recon)
+
+cournot_solver(p0 = 100,
+               p1 = -2,
+               p2 = -.2,
+               c1_0 = 10,
+               c1_1 = 3,
+               c1_2 = .5,
+               c2_0 = 40,
+               c2_1 = 2,
+               c2_2 = .9)
+
+
+```
+
+Podemos replicar computacionalmente alguns resultados teóricos bem conhecidos deste modelo. Um que eu acho particularmente interessante é que custos fixos não alteram o produto, nem o market share, de equilíbrio, somente o volume de lucro. 
+
+Para evitar montar loops vou usar funções da família ``map()`` oferecidas pelo pacote ``purrr``. Programação Funcional é realmente uma coisa linda e recomendo ao leitor estudar um pouco disso porque facilita várias tarefas. Lendo [esse tutorial](https://ctlente.com/en/purrr-magic/) você deve conseguir entender o código abaixo sem problemas.
+
+Por sinal se alguém souber como passar a lista de argumentos constante de maneira mais sucinta por favor compartilhe seu conhecimento. Declarar somente uma vez uma lista de parâmetros e passa-la para uma função pode ser feito com ``do.call()``, mas a interação dessa função com ``map_()`` é algo que ainda não entendi direito. 
+
+```{R, message = FALSE, warning = FALSE}
+library(purrr) 
+library(tibble)
+library(dplyr)
+library(ggplot2)
+
+custos = seq(from = 0,
+             to = 50,
+             by = .1)
+
+
+lucro = tibble(lucro = map_dbl(custos,
+                               ~cournot_solver(c1_0 = .x, 
+                                               p0 = 100,
+                                               p1 = -2,
+                                               p2 = -.2,
+                                               c1_1 = 3,
+                                               c1_2 = .5,
+                                               c2_0 = 40, 
+                                               c2_1 = 2,
+                                               c2_2 = .9)$firm1_profit),
+               produto = map_dbl(custos,
+                               ~cournot_solver(c1_0 = .x, 
+                                               p0 = 100,
+                                               p1 = -2,
+                                               p2 = -.2,
+                                               c1_1 = 3,
+                                               c1_2 = .5,
+                                               c2_0 = 40, 
+                                               c2_1 = 2,
+                                               c2_2 = .9)$output_1),
+               market_share = map_dbl(custos,
+                               ~cournot_solver(c1_0 = .x, 
+                                               p0 = 100,
+                                               p1 = -2,
+                                               p2 = -.2,
+                                               c1_1 = 3,
+                                               c1_2 = .5,
+                                               c2_0 = 40, 
+                                               c2_1 = 2,
+                                               c2_2 = .9)$firm1_share),
+               custos = custos)
+               
+```
+
+Tendo um dataframe limpo agora visualizamos:
+
+
+```{R, echo = FALSE, dpi = 250}
+lucro %>%
+  ggplot(aes(x = custos, y = produto)) +
+  geom_line(size = 2) +
+  xlab("Custos Fixos") +
+  ylab("Produção de Equilíbrio")
+
+lucro %>%
+  ggplot(aes(x = custos, y = market_share)) +
+  geom_line(size = 2) +
+  xlab("Custos Fixos") +
+  ylab("Market Share de Equilíbrio")
+
+lucro %>%
+  ggplot(aes(x = custos, y = lucro)) +
+  geom_line(size = 2) +
+  xlab("Custos Fixos") +
+  ylab("Lucro no Equilíbrio")
+
+
+```
+
+Já em compensação o custo marginal altera vários _outcomes_ do mercado. Um diferencial de custo marginal implica em diferencial não só de lucro como também de produto (e consequentemente market share). 
+
+```{R}
+
+customg = seq(from = 0,
+              to = 6,
+              by = .1)
+
+
+marginal = tibble(lucro = map_dbl(customg,
+                               ~cournot_solver(c1_0 = 40, 
+                                               p0 = 100,
+                                               p1 = -2,
+                                               p2 = -.2,
+                                               c1_1 = .x,
+                                               c1_2 = .5,
+                                               c2_0 = 40, 
+                                               c2_1 = 2,
+                                               c2_2 = .9)$firm1_profit),
+                  produto = map_dbl(customg,
+                               ~cournot_solver(c1_0 = 40, 
+                                               p0 = 100,
+                                               p1 = -2,
+                                               p2 = -.2,
+                                               c1_1 = .x,
+                                               c1_2 = .5,
+                                               c2_0 = 40, 
+                                               c2_1 = 2,
+                                               c2_2 = .9)$output_1),
+                  market_share = map_dbl(customg,
+                               ~cournot_solver(c1_0 = 40, 
+                                               p0 = 100,
+                                               p1 = -2,
+                                               p2 = -.2,
+                                               c1_1 = .x,
+                                               c1_2 = .5,
+                                               c2_0 = 40, 
+                                               c2_1 = 2,
+                                               c2_2 = .9)$firm1_share),
+               customg = customg)
+```
+
+
+```{R, echo = FALSE, dpi = 250}
+
+marginal %>%
+  ggplot(aes(x = customg, y = produto)) +
+  geom_line(size = 2) +
+  xlab("Custo Marginal") +
+  ylab("Produção de Equilíbrio")
+
+marginal %>%
+  ggplot(aes(x = customg, y = market_share)) +
+  geom_line(size = 2) +
+  xlab("Custo Marginal") +
+  ylab("Market Share de Equilíbrio")
+
+marginal %>%
+  ggplot(aes(x = customg, y = lucro)) +
+  geom_line(size = 2) +
+  xlab("Custo Marginal") +
+  ylab("Lucro no Equilíbrio")
+
+
+```
+
+O ``Recon`` também tem outras funcionalidades legais como por exemplo resolver modelos de Stackelberg, maximização de lucro de monopolistas, encontrar equilíbrios de Nash e calcular variáveis em estado estacionário para modelos como Solow e MRW. Eu realmente acredito que seja uma ferramenta interessante para estudantes e professores de economia explorarem e entenderem melhor o que estão estudando e ensinando. 
+
+

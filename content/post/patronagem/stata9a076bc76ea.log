@@ -1,0 +1,24 @@
+
+
+. use "analysis.dta", replace
+
+. 
+. sum log_salary_governo, detail
+
+                  ln governor salary (gbp)
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%     5.703783       5.521461
+ 5%      6.39693       5.521461
+10%     6.684612       5.521461       Obs               4,325
+25%     7.495542       5.521461       Sum of Wgt.       4,325
+
+50%     8.086411                      Mean           7.957734
+                        Largest       Std. Dev.      .7848033
+75%     8.517193       9.545025
+90%     8.853665       9.546813       Variance       .6159162
+95%     8.922658       9.546813       Skewness      -.7752303
+99%      9.21034       9.546813       Kurtosis       3.013498
+
+. 
+end of do-file

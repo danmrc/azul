@@ -1,0 +1,151 @@
+---
+title: "Homens têm mais casos extraconjugais?"
+author: "Pedro Cavalcante"
+date: '2018-08-17'
+output:
+html_document:
+df_print: paged
+categories:
+- R
+- Probit
+- Microeconomia
+slug: homens-traicao
+tags:
+- R
+- Probit
+authors: ["pedrocava"]
+katex: true
+---
+
+
+
+<p>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é <a href="http://people.stern.nyu.edu/wgreene/Lugano2013/Fair-ExtramaritalAffairs.pdf">Fair (JPE 1978)</a>, compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).</p>
+<p>Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.</p>
+<div id="probits" class="section level2">
+<h2>Probits</h2>
+<p>Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários. Os parâmetros estimados no dizem em que medida uma variação marginal em uma variável explicativa altera o <span class="math inline">\(z\)</span>-score da variável dependente, não a sua probabilidade condicional de assumir <span class="math inline">\(1\)</span>.</p>
+<p>Seja <span class="math inline">\(\mathbb{P}\)</span> o operador para probabilidade, <span class="math inline">\(\Phi\)</span> a função de distribuição cumultiva de uma normal padrão, <span class="math inline">\(X\)</span> um vetor de variáveis aleatórias e <span class="math inline">\(\beta\)</span> o vetor de parâmetros a ser estimado. Um modelo probit assume a seguinte forma:</p>
+<p><span class="math display">\[\mathbb{P}(Y=1 | X) = \Phi (X^T \beta)\]</span></p>
+<p>É possível também exprimir o modelo como <span class="math inline">\(Y^{*} = X^T \beta + \epsilon\)</span> e mostrar que as duas formas são equivalentes é um exercício interessante.</p>
+<p>Não irei entrar nos pormenores de como se pode estimar os parâmetros desse modelo. A função <code>glm</code> disponível no R usa estimação por Máxima Verossimilhança, até onde sei.</p>
+</div>
+<div id="a-amostra" class="section level2">
+<h2>A amostra</h2>
+<p>Vamos explorar um pouco os dados com a ajuda do <code>ggplot2</code> antes de sair por aí estimando parâmetros:</p>
+<pre class="r"><code>library(wooldridge)
+
+data(&quot;affairs&quot;)
+
+head(affairs) ## Confirmando que funcionou</code></pre>
+<pre><code>##   id male age yrsmarr kids relig educ occup ratemarr naffairs affair
+## 1  4    1  37    10.0    0     3   18     7        4        0      0
+## 2  5    0  27     4.0    0     4   14     6        4        0      0
+## 3  6    1  27     1.5    0     3   18     4        4        3      1
+## 4 11    0  32    15.0    1     1   12     1        4        0      0
+## 5 12    0  27     4.0    1     3   17     1        5        3      1
+## 6 16    1  57    15.0    1     5   18     6        5        0      0
+##   vryhap hapavg avgmarr unhap vryrel smerel slghtrel notrel
+## 1      0      1       0     0      0      0        1      0
+## 2      0      1       0     0      0      1        0      0
+## 3      0      1       0     0      0      0        1      0
+## 4      0      1       0     0      0      0        0      0
+## 5      1      0       0     0      0      0        1      0
+## 6      1      0       0     0      1      0        0      0</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(scales)
+
+affairs %&gt;%
+  ggplot(aes(x=yrsmarr))+
+  geom_histogram(binwidth = 1, fill = &quot;white&quot;, color=&quot;blue&quot;)+
+  xlab(&quot;Anos de Casamento&quot;)+
+  ylab(&quot;Frequência&quot;)</code></pre>
+<p><img src="/post/traicao/homens-traicao_files/figure-html/graficos-1.png" width="7000" /></p>
+<pre class="r"><code>affairs %&gt;%
+  ggplot(aes(x=ratemarr))+
+  geom_histogram(binwidth = 1, fill = &quot;white&quot;, color=&quot;blue&quot;)+
+  xlab(&quot;Avaliação do Casamento (1 = infeliz, 5 = muito feliz)&quot;)+
+  ylab(&quot;Frequência&quot;)</code></pre>
+<p><img src="/post/traicao/homens-traicao_files/figure-html/graficos-2.png" width="7000" /></p>
+<pre class="r"><code>affairs %&gt;%
+  ggplot(aes(x=affair))+
+  geom_histogram(aes(y=..density..), bins = 2,
+                  fill = &quot;white&quot;, color=&quot;blue&quot;)+
+  scale_y_continuous(labels = percent)+
+  xlab(&quot;Teve um caso no ano anterior (1 = sim, 0 = não)&quot;)+
+  ylab(&quot;&quot;)</code></pre>
+<p><img src="/post/traicao/homens-traicao_files/figure-html/graficos-3.png" width="7000" /></p>
+</div>
+<div id="estimando-um-modelo-probit" class="section level2">
+<h2>Estimando um modelo probit</h2>
+<p>O R “vanilla” já conta com ferramentas para estimar modelos desse tipo:</p>
+<pre class="r"><code>affairs$rel &lt;- ifelse(affairs$relig &gt; 2, 1, 0) #dummy de religiosidade
+affairs$feliz &lt;- ifelse(affairs$ratemarr &gt; 2, 1, 0) #dummy de casamento feliz
+
+probit &lt;- glm(affair ~ male + kids + feliz + rel + educ + yrsmarr + age,
+                family = binomial(link = &quot;probit&quot;),
+                  data = affairs)
+summary(probit)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = affair ~ male + kids + feliz + rel + educ + yrsmarr + 
+##     age, family = binomial(link = &quot;probit&quot;), data = affairs)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.5816  -0.7550  -0.6043  -0.3185   2.3605  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  0.01521    0.47890   0.032  0.97466    
+## male         0.20968    0.12964   1.617  0.10579    
+## kids         0.23355    0.16199   1.442  0.14937    
+## feliz       -0.74577    0.15740  -4.738 2.16e-06 ***
+## rel         -0.25022    0.12236  -2.045  0.04086 *  
+## educ         0.01169    0.02620   0.446  0.65554    
+## yrsmarr      0.05518    0.01857   2.971  0.00297 ** 
+## age         -0.02583    0.01036  -2.494  0.01264 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 675.38  on 600  degrees of freedom
+## Residual deviance: 625.27  on 593  degrees of freedom
+## AIC: 641.27
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>O problema desse modelo no atual estado é que os parâmetros representam mudanças no <span class="math inline">\(z\)</span>-score da variável explicada e não são facilmente interpretados. Seria mais interessante ter variações diretas na probabilidade condicional <span class="math inline">\(\mathbb{P}(Y=1 | X)\)</span>. Temos ferramentas para isso, no pacote <code>mfx</code>.</p>
+<pre class="r"><code>library(mfx)
+
+probitmfx(affair ~ male + kids + feliz + rel + educ + yrsmarr + age,
+              data = affairs)</code></pre>
+<pre><code>## Call:
+## probitmfx(formula = affair ~ male + kids + feliz + rel + educ + 
+##     yrsmarr + age, data = affairs)
+## 
+## Marginal Effects:
+##              dF/dx  Std. Err.       z     P&gt;|z|    
+## male     0.0645982  0.0399656  1.6163  0.106020    
+## kids     0.0690378  0.0458475  1.5058  0.132115    
+## feliz   -0.2637864  0.0600435 -4.3933 1.117e-05 ***
+## rel     -0.0787878  0.0393153 -2.0040  0.045070 *  
+## educ     0.0035905  0.0080486  0.4461  0.655527    
+## yrsmarr  0.0169520  0.0056885  2.9800  0.002882 ** 
+## age     -0.0079351  0.0031755 -2.4988  0.012461 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## dF/dx is for discrete change for the following variables:
+## 
+## [1] &quot;male&quot;  &quot;kids&quot;  &quot;feliz&quot; &quot;rel&quot;</code></pre>
+<p>Aqui sim, os parâmetros podem ser lidos como variações na probabilidade condicional de <span class="math inline">\(Y=1\)</span>. Observe, leitor que a variável explicativa <code>male</code> não é estatisticamente significante. Talvez precisamos de uma amostra maior.</p>
+</div>

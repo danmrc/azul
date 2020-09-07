@@ -1,0 +1,100 @@
+---
+title: 'Sazonalidade, x13, e dummies: Muito barulho por nada'
+author: Daniel Coutinho
+date: '2018-09-24'
+slug: sazonalidade-x13-e-dummies-muito-barulho-por-nada
+categories:
+  - R
+  - Curtas
+tags: 
+  - Sazonalidade
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar? 
+
+Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças. Obviamente, séries diferentes podem ter comportamentos diferentes, então esse post é ilustrativo. Mas uma imagem valem mais que mil palavras. 
+
+Uma rápida revisão do que é dessazonalizar por dummies. Suponha que os dados estão em frequência mensal. Crie 11 dummies, uma para cada mês: a dummy novembro vai ser 1 se o mês é novembro e 0 caso contrário. Etc. Faça uma regressão que a série que queremos dessazonalizar como variável dependente e as dummies como regressores. O resíduo dessa regressão é justamente a série dessazonlizada. Veja que, dessa maneira, a sazonalidade é um valor determinístico: todo ano o efeito é igual para dezembro. Isso pode não ser muito satisfatório.   
+
+Para esse post, eu vou usar o excelente pacote _BETS_ para obter a série de capacidade utilizada, o pacote _seasonal_ para usar o x13 e o _forecast_ para fazer a dessazonalização com dummies. 
+
+```{r, message = FALSE}
+
+library(BETS)
+library(forecast)
+library(seasonal)
+
+cap <- BETSget(1344, from = "2000-01-01") #Serie de capacidade utilizada da FGV
+
+```
+
+A série de capacidade utilizada é trimestral, e mostra a porcentagem da capacidade disponível que está sendo utilizada. Eu estou pegando a partir de 2000. Eis a cara da série:
+
+```{r}
+
+
+plot(cap, main = "Capacidade utilizada 2000 - 2018", ylab = "%", xlab = "Ano")
+grid(col = "gray")
+
+```
+
+Era de se esperar que essa série apresentasse sazionalidade: trimestres mais próximos de datas comemorativas (especialmente o natal) devem fazer a indústria ser mais utilizada. 
+
+Primeira coisa que eu vou fazer é dessazonalizar usando o x13. O x13 vem com muitas opções e muitas coisas automáticas. Para começar, o x13 são _dois_ programas, o SEATS e o x13 per se. Eu vou usar o x13 e desligar uma série de opções automáticas: transformação (testa se deve passar log), detecção de outliers e efeitos de feriados móveis. Isso tudo pode ser interessante, é claro. Mas a minha pergunta no fim é como o x13 dessazonaliza, sem um monte de coisas:
+
+```{r}
+
+x13_des <- seas(cap, x11 = "", transform.function = "none", outlier = NULL, regression.aictest = NULL)
+x13_des_final <- final(x13_des)
+
+```
+
+Para dessazonalizar usando dummies, o comando `tslm`, do pacote forecast, permite que você escreva uma fórmula que do lado esquerdo tem a série e do lado direito tem apenas a palavra `season`:
+
+```{r}
+des_dum <- tslm(cap ~ season)
+```
+
+Vamos olhar o padrão de sazonalidade:
+
+```{r}
+summary(des_dum)
+
+plot(fitted(des_dum))
+
+```
+
+O sumário e o gráfico acima apontam exatamente o que eu disse: no quarto trimestre, a série tem uma forte sazonalidade positiva - ou seja, a capacidade utilizada aumenta - muito provavelmente devido ao natal. A série dessazonalizada é simplesmente o resíduo da regressão acima somado da média - porque todo resíduo tem média zero, então a nossa série dessazonalizada está centrada no lugar errado:
+
+```{r}
+
+des_dum_final <- residuals(des_dum) + mean(cap)
+
+```
+
+Vamos fazer um gráfico das duas maneiras de dessazonalizar e comparar elas:
+
+```{r}
+lsup <- max(des_dum_final,x13_des_final)
+linf <- min(des_dum_final,x13_des_final)
+
+plot(des_dum_final, ylim = c(linf,lsup), main = "Comparando como dessasonalizar: x13 contra dummies", xlab = "Anos", ylab = "%", lwd = 2)
+lines(x13_des_final,col = 2, lwd = 2)
+grid(col = "gray")
+legend("bottomleft",legend = c("Usando o x13","Usando dummies"), lwd = c(2,2), col = c(2,1))
+```
+
+A inspeção visual nos diz que a diferença não é muito grande. Qual o tamanho da média da diferença entre as duas ao quadrado?
+
+```{r}
+
+mse <- sum((x13_des_final - des_dum_final)^2)/length(cap)
+
+``` 
+
+Que nos dá um valor de `r mse`.  
+
+_Agradeço a Natália Trigo por ter me dado a ideia do post e por algumas correções!_

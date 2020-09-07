@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Um pouco de microeconomia, dualidade e R | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css">
+    
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/post/dualidadeemmicroeconomia/microeconomia/"><meta property="og:title" content="Um pouco de microeconomia, dualidade e R" />
+<meta property="og:description" content="No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
+Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/dualidadeemmicroeconomia/microeconomia/" />
+<meta property="article:published_time" content="2018-09-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-09-01T00:00:00+00:00" />
+<meta itemprop="name" content="Um pouco de microeconomia, dualidade e R">
+<meta itemprop="description" content="No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
+Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.">
+<meta itemprop="datePublished" content="2018-09-01T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-09-01T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1942">
+
+
+
+<meta itemprop="keywords" content="R,Microeconomia," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Um pouco de microeconomia, dualidade e R"/>
+<meta name="twitter:description" content="No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
+Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">September 1, 2018</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1942 words</span>
+                            <span><i class="fas fa-clock mr-2"></i>10 mins read</span>
+                        </div>
+
+                        <h1>Um pouco de microeconomia, dualidade e R</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
+                            </h5><p class="social small text-muted">
+                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
+                                </p></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+
+
+<p>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.</p>
+<p>Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo. Maximização de lucro/ utilidade e minimização de custo/ gasto, na perspectiva dual que naturalmente decorre da otimização.</p>
+<p>Confesso que a principio nada me pareceu fazer muito sentido. Ninguém vai ao mercado com papel e lápis para resolver um lagrangeano - e provavelmente sequer consegue dizer qual é a utilidade marginal de um bem ou outro. É também bem difícil que uma firma <em>conheça</em> sua função de produção.</p>
+<p>Alguns poucos dias atrás, estava conversando com meu coorientador sobre isso. Ele - que é matemático e tem lido sobre micro para me ajudar na monografia - relatou algumas dúvidas que eu tive, ou que ao menos vi colegas tendo. Não me surpreendeu muito, devo dizer.</p>
+<p>Vou expor aqui o beabá de teoria do consumidor e como podemos trabalhar o modelo neoclássico no R. Essa é a abordagem que eu gostaria de ter tido.</p>
+<p>A minha segunda intenção nisso é receber críticas, testar em que medida o meu entendimento da coisa está correta. Então se você avistar uma falha de raciocínio, não hesite em me comunicar. Não sou professor, nem autoridade. Isso aqui é só produto de um graduando fiel à mentalidade de que explicar é uma das melhores maneiras de aprender.</p>
+<div id="como-se-fosse-verdade" class="section level1">
+<h1>Como se fosse verdade</h1>
+<p>O meu primeiro erro foi achar que precisamos modelar o objeto de estudo à lá Nelson Rodrigues, a vida como ela é. Não! Precisamos - pelo contrário - chegar em algo que opera <em>como se fosse</em> verdadeiro, a filosofia do <em>as if</em>.</p>
+<p>Podemos partir de coisas simples. Se um consumidor escolhe uma cesta dentre todas as outras possíveis de serem adquiridas ao mesmo custo, então ele <em>revelou</em> preferir essa cesta. É tão absurdo assim fingir que ele maximizou utilidade? Não, não é.</p>
+<p>Pois, seja <span class="math inline">\(U: \mathbb{R}^n \to \mathbb{R}\)</span> um mapeamento contínuo. É a nossa função utilidade. Estamos associando um vetor de quantidades consumidas de <span class="math inline">\(n\)</span> bens <span class="math inline">\(\mathbf{x}\)</span> dentro do espaço euclidiano <span class="math inline">\(\mathbb{R}^n\)</span> a um dado nível de satisfação, representado por um escalar na reta real.</p>
+<p>Temos também um vetor de preços <span class="math inline">\(\mathbf{p} \in \mathbb{R}^n\)</span>. Conhecemos a restrição com a qual o consumidor se confronta, sua renda dada <span class="math inline">\(w\)</span> (algo que estaríamos relaxando se o assunto fosse equilíbrio geral) precisa ser menor ou igual ao produto interno dos vetores <span class="math inline">\(\mathbf{x}\)</span> e <span class="math inline">\(\mathbf{p}\)</span>. Tudo gasto não pode exceder o que <em>pode</em> ser gasto, afinal. Em termos mais explícitos e preservando uma certa generalidade, temos:</p>
+<p><span class="math display">\[ \text{max} \, \,  U(x_1,x_2,...,x_n) \, \text{s.a.} \sum_{i=1}^n \mathbf{x}_i \mathbf{p}_i = w\]</span></p>
+<p>Daqui para frente eu prossigo no caso particular <span class="math inline">\(n=2\)</span> e assumindo uma função utilidade Cobb-Douglas. Isso não resulta em grandes perdas de generalidade, mas oferece grandes ganhos de didática e facilidade.</p>
+<p>Pois, temos:</p>
+<p><span class="math display">\[ \text{max} \, \,  x_{1}^{\alpha} x_{2}^{\beta} \, \, \text{s.a.} \, \, \,  x_1 p_1 + x_2 p_2 = w\]</span> <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\beta\)</span> são parâmetros que por vezes passam ignorados. São as elasticidades utilidade-consumo de cada bem. <span class="math inline">\(\alpha = 0.4\)</span>, por exemplo, nos diz que um aumento no consumo de <span class="math inline">\(x_1\)</span> de <span class="math inline">\(1\%\)</span> gera um aumento de <span class="math inline">\(0.4\%\)</span> no nível de utilidade. Usualmente supomos que <span class="math inline">\(\alpha + \beta = 1\)</span> porque isso garante “retornos constantes da felicidade” ao consumo. Se a soma das elasticidades é a unidade, então dobrando o consumo podemos somente dobrar o nível de utilidade.</p>
+<p>Em um contexto de teoria da firma isso é particularmente relevante porque as elasticidades passam a ser insumo-produto. Uma soma maior que 1 resulta em retornos crescentes à escala, enquanto uma menor que 1 resulta em retornos <em>decrescentes</em>. A soma das elasticidades insumo-produto (o grau de homogeneidade da função, inclusive) nos informa sobre aspectos relevantes da tecnologia disponível à firma.</p>
+<p>Problemas de otimização restrita como esses podem ser atacados com Multiplicadores de Lagrange. É um método particularmente interessante porque podemos dele ter os preços-sombra.</p>
+<p>Temos o lagrangeano:</p>
+<p><span class="math display">\[ \Gamma = x_{1}^{\alpha} x_{2}^{\beta} - \lambda (x_1 p_1 + x_2 p_2 - w) \]</span></p>
+<p>Então as condições de primeira ordem são:</p>
+<p><span class="math display">\[\frac{\partial \Gamma}{\partial x_1 } = \alpha x_{1}^{ \alpha -1} x_{2}^{\beta} - \lambda p_1 = 0 \\
+\frac{\partial \Gamma}{\partial x_2 } = \beta x_{1}^{\alpha} x_{2}^{ \beta - 1} - \lambda p_2 = 0 \\
+\frac{\partial \Gamma}{\partial \lambda } = x_1 p_1 + x_2 p_2 - w = 0
+\]</span></p>
+<p>Antes de prosseguir: o que é exatamente esse <span class="math inline">\(\lambda\)</span>? Um problema de otimização restrita tem alguns componentes. A função objetivo a ser otimizada (nesse caso é a função utilidade), o conjunto de oportunidades (nossa restrição orçamentária) e os instrumentos, as variáveis sobre as quais temos controle (o consumidor decide quanto de cada bem consome). Nós conhecemos facilmente quanto a variação no consumo de um bem gera em variação na função utilidade, é simplesmente a derivada parcial <span class="math inline">\(\frac{\partial U}{\partial x_i }\)</span>.</p>
+<p>A beleza do método de Lagrange é que ele nos informa o quanto ganhamos quando ocorre uma variação na <em>restrição</em>, <span class="math inline">\(\frac{\partial U}{\partial w} = \lambda\)</span>. A interpretação econômica do <span class="math inline">\(\lambda\)</span> em um contexto de teoria do consumidor é a utilidade marginal não de um bem, mas da <em>renda</em>. Por ele sabemos o quanto um relaxamento, ou aperto, na restrição orçamentária afeta o nível de utilidade do consumidor.</p>
+<p>Ao leitor interessado em se aprofundar nesse ponto, recomendo o excelente livro do professor Michael Intriligator, <em>Mathematical Optimization and Economic Theory</em>.</p>
+<p>Temos agora que achar a cesta que simultaneamente satisfaz essas três condições. Na cesta ótima, a utilidade marginal de cada bem não pode ultrapassar <span class="math inline">\(\lambda\)</span> multiplicado pelo seu próprio preço, a utilidade marginal da renda que vai ser consumida ao consumir mais de desse bem. Observe que o raciocínio intuitivo é simples. Se a utilidade marginal de um bem a um certo nível de consumo é <em>menor</em> que a utilidade marginal da renda que será deslocada para consumir a mais esse bem, então o consumidor pode estar melhor simplesmente consumindo menos - dado que a utilidade marginal desse bem é decrescente.</p>
+<p>A solução não é muito complicada (se o leitor não sabe, deixo como exercício hehe). Depois de umas poucas manipulações com as condições de primeira ordem chegamos em:</p>
+<p><span class="math display">\[ x_1 = \frac{\alpha p_2 x_2}{\beta p_1}\\
+x_2 = \frac{\beta p_1 x_1}{\alpha p_2} \]</span></p>
+<p>Como não é muito útil ficar escrevendo linhas e linhas de manipulação algébrica aqui, deixo como exercício ao leitor [que ainda não sabe isso] chegar aqui:</p>
+<p><span class="math display">\[ x^{*}_1 = \frac{\alpha}{\alpha + \beta} \frac{w}{p_1} \\
+x^{*}_2 = \frac{\beta}{\alpha + \beta} \frac{w}{p_2}\]</span></p>
+<p>Essas são as curvas de demanda de cada bem para esse consumidor.</p>
+</div>
+<div id="um-pouco-de-dualidade" class="section level1">
+<h1>Um pouco de Dualidade</h1>
+<p>Imagine um mapeamento <span class="math inline">\(f: \mathbb{R} \to \mathbb{R}\)</span>, digamos <span class="math inline">\(f(x)=ax^2 + bx + c\)</span>. Estamos interessados em, por exemplo <span class="math inline">\(\text{min} f(x)\)</span>, mas <em>somente</em> nesse problema de minimização? Onde foi parar a boa e velha maximização?</p>
+<p>Em termos bem amplos e simples, isso é Dualidade. Maximizar uma função pode ser equivalente, sob certas condições, a minimizar sua oposta e vice-versa.</p>
+<pre class="r"><code>nums = seq(from = -10, to = 10, by = .2)
+
+
+f_min = function(x, a=1, b=1, c=0) {a*(x**2) + b*x + c}
+d_f = function(x, a=1, b=1) {2*a*x + b}
+
+
+parabola1 = data.frame(nums,f_min(nums), d_f(nums))
+
+
+library(ggplot2)
+library(dplyr)
+
+parabola1 %&gt;%
+  ggplot(aes(x = nums, y = f_min.nums.))+
+  geom_line(size = 2, color = &quot;blue&quot;) +
+  geom_line(aes(y = d_f.nums.), size = 1, color = &quot;black&quot;)+
+  geom_hline(yintercept = 0, linetype = &quot;dashed&quot;)+
+  ylab(&quot;y&quot;) +
+  xlab(&quot;x&quot;)</code></pre>
+<p><img src="/post/micro1-dualidade-e-R/micro1_files/figure-html/unnamed-chunk-1-1.png" width="6300" /> Observe que a derivada iguala-se a zero justamente onde temos um ótimo local da função, como aprendemos em Cálculo 1. Agora observe onde a derivada de <span class="math inline">\(-f(x)\)</span> se iguala a zero.</p>
+<pre class="r"><code>f_max = function(x, a= -1, b= -1,c=0) {a*(x**2) + b*x + c}
+d_f_max = function(x, a= -1, b= -1) {2*a*x + b}
+
+parabolas = data.frame(nums,f_min(nums), d_f_max(nums),
+                       f_max(nums), d_f(nums))
+
+parabolas %&gt;%
+  ggplot(aes(x = nums, y = f_max.nums.))+
+  geom_line(size = 2, color = &quot;blue&quot;) +
+  geom_line(aes(y =f_min.nums.), size = 2, color = &quot;blue&quot;) +
+  geom_line(aes(y = d_f.nums.), size = 1, color = &quot;black&quot;)+
+  geom_line(aes(y = d_f_max.nums.), size = 1, color = &quot;black&quot;)+
+  geom_hline(yintercept = 0, linetype = &quot;dashed&quot;)+
+  ylab(&quot;y&quot;) +
+  xlab(&quot;x&quot;)</code></pre>
+<p><img src="/post/micro1-dualidade-e-R/micro1_files/figure-html/unnamed-chunk-2-1.png" width="6300" /></p>
+<p>No mesmo lugar, não? Estamos aqui no que se chama de Dualidade Forte. <span class="math inline">\(\text{min} f(x) = \text{max} -f(x)\)</span>. E como isso se conecta com teoria do consumidor?</p>
+<p>Aquelas curvas de demanda em que chegamos são marshallianas. Dado um conjunto orçamentário, elas maximizam utilidade. No entanto podemos querer curvas hicksianas, minimizar gastos dado que o consumidor está num nível <span class="math inline">\(k\)</span> de utilidade. Teríamos um problema assim:</p>
+<p><span class="math display">\[ \text{min} \, \,  x_1 p_1 + x_2 p_2  \, \, \text{s.a.} \, \, \,  x_{1}^{\alpha} x_{2}^{\beta} = k\]</span></p>
+<p>Assim como podemos chegar na demanda marshalliana pela função de utilidade indireta, via Identidade de Roy, podemos chegar na demanda hicksiana pela função gasto, via Lemma de Shepard.</p>
+<p>Não é linda a teoria da demanda?</p>
+<p>A presença de dualidade nos modelos talvez se faça mais aparente num contexto de teoria da firma, afinal, existem explícitas menções nas ementas mais comuns à maximização de lucro e à minimização de custo. O leitor agora talvez tenha uma percepção diferente, que são facetas diferentes do mesmo processo.</p>
+<p>E para não falarem que não toquei em estática comparativa: volte às curvas de demanda [marshallianas] e se pergunte o que acontece quando o preço do bem <span class="math inline">\(i\)</span> aumenta. Ninguém é um maximizador racional - exceto talvez um amigo meu que tem pouco cabelo, ele é assustadoramente <em>Homo Oeconomicus</em> - mas quando o preço das maçãs aumenta, pessoas compram menos maçãs. Quase como se tivessem computando um lagrangeano na cabeça… Curioso, não?</p>
+</div>
+<div id="agora-um-pouco-mais-de-r" class="section level1">
+<h1>Agora um pouco mais de R</h1>
+<p>Isso tudo tem um aspecto muitas vezes ignorado. A visualização padrão de curvas de indiferença é cortes transversais do mapeamento <span class="math inline">\(U\)</span>, por exemplo, e já ouvi inúmeros colegas falarem que simplesmente não foram apresentados essa natureza “tridimensional” da função utilidade em uma cesta com dois bens. Podemos visualiza-la sem problemas.</p>
+<p>Vamos definir uma função que computa uma Cobb-Douglas, depois explorar isso graficamente.</p>
+<pre class="r"><code>## Definindo função Cobb-Douglas
+cobb.douglas.2 &lt;- function(x, 
+                         TFP = 1, 
+                         alpha = round(runif(n=1, 
+                                       min=0, 
+                                       max=1), digits = 2),
+                         beta = 1 - alpha) {
+  y = vector()
+  
+  for (i in 1:nrow(x)) {
+  
+  y[i] = TFP * x[i,1]^alpha * x[i,2]^beta
+  
+  }
+  cobb.douglas = list(y = y, 
+                      alpha = alpha,
+                      beta = beta)
+  }
+
+## Gerando coordenadas de consumo
+
+x1 = seq(from = 1, to = 100, by = 1) ## primeiro geramos pontos de 1 a 100
+x1 = sort(rep(x1, length(x1)), decreasing = FALSE) #depois repetimos 100 vezes cada elemento em ordem crescente
+
+x2 = seq(from = 1, to = 100, by = 1) #agora fazemos o mesmo, sem ordenar
+x2 = rep(x2,length(x2)) 
+
+consumo = data.frame(x1, x2) #consumo é o produto cartesiano dos conjutnos x_1 e x_2
+
+util = cobb.douglas.2(consumo, alpha = .5)
+u = util$y
+
+
+##
+library(plot3D)
+
+scatter3D(x = x1, y = x2, z = u, 
+       xlab = &quot;Bem 1&quot;, ylab = &quot;Bem 2&quot;, zlab = &quot;Utilidade&quot;)</code></pre>
+<p><img src="/post/micro1-dualidade-e-R/micro1_files/figure-html/unnamed-chunk-3-1.png" width="7000" /></p>
+<pre class="r"><code>scatter3D(x = x1, y = x2, z = u, 
+       xlab = &quot;Bem 1&quot;, ylab = &quot;Bem 2&quot;, zlab = &quot;Utilidade&quot;,
+       theta=0, phi=90) ##inclinando para ter cada bem em cada eixo</code></pre>
+<p><img src="/post/micro1-dualidade-e-R/micro1_files/figure-html/unnamed-chunk-3-2.png" width="7000" /></p>
+<p>Pense numa curva de nível <span class="math inline">\(C(k)=\{ (x_1,x_2) \in \mathbb{R}^2 \, \, | \, \, U(x_1,x_2) = k \}\)</span>. Para <span class="math inline">\(k\approx 60\)</span>, podemos ve-la na duvisa entre a região verde e a vermelha, mais ou menos a seção amarela da superfície. Nessa superfície é possível visualizar claramente as famosas Curvas de Indiferença.</p>
+<p>Em algum momento pretendo voltar à esse assunto, com o foco na teoria da firma. Até lá.</p>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
+                                    <i class="fas fa-tag mr-2"></i>R
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/microeconomia">
+                                    <i class="fas fa-tag mr-2"></i>Microeconomia
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2fpost%2fdualidadeemmicroeconomia%2fmicroeconomia%2f&text=Um%20pouco%20de%20microeconomia%2c%20dualidade%20e%20R">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2fpost%2fdualidadeemmicroeconomia%2fmicroeconomia%2f&title=Um%20pouco%20de%20microeconomia%2c%20dualidade%20e%20R">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2fpost%2fdualidadeemmicroeconomia%2fmicroeconomia%2f&t=Um%20pouco%20de%20microeconomia%2c%20dualidade%20e%20R">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2fpost%2fdualidadeemmicroeconomia%2fmicroeconomia%2f&title=Um%20pouco%20de%20microeconomia%2c%20dualidade%20e%20R">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/post/interpol/interpolacao/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Interpolação</h4>
+            <p class="card-text text-muted text-uppercase">August 27, 2018</p>
+            <div class="card-text">
+                Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
+A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/post/algunsproblemasdekmeans/problemas-clustering-k-means/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Alguns pequenos problemas de clustering k-means</h4>
+            <p class="card-text text-muted text-uppercase">August 19, 2018</p>
+            <div class="card-text">
+                No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
+Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/post/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Viés de variáveis instrumentais</h4>
+            <p class="card-text text-muted text-uppercase">August 19, 2018</p>
+            <div class="card-text">
+                Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
+Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta&#43;e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+
+
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+---
+title: Monte Carlo 101
+author: Daniel Coutinho
+date: '2018-07-18'
+slug: monte-carlo-101
+categories:
+  - R
+  - Tutorial
+tags:
+  - Simulação
+  - Monte Carlo
+  - Tutoriais
+authors: ["danielc"]
+katex: true
+---
+
+Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las. Nos próximos posts, irei usar simulações frequentemente. Em uma nota histórica, os pais do método são von Neumann - conhecido pelos economistas devido aos axiomas de Neuman Morgenstern para utilidade esperada - Edward Teller e Stanislaw Ulam - pais da bomba de hidrogênio.
+
+Simulações, no nosso contexto, dependem de repetir a mesma operação várias vezes: fazemos vários sorteios de variáveis aleatórias no computador e usamos essas variáveis para testar ou ilustrar ou entender ou medir alguma coisa. A descrição anterior é vaga porque o método é muito amplo: podemos testar coisas relativamente triviais - por exemplo, que MQO é realmente não viesado - até medir as características de estimadores de ponta: a quantidade de artigos publicados que contam com uma seção de experimento Monte Carlo é notável.
+
+Uma boa pergunta é por que isso deveria funcionar? Isso é, como de fato nós sabemos que, fazendo alguns milhares de simulações obtemos um resultado final interessante? A ideia é intuitiva: o que aconteceria se eu pegasse um milhão de bases de dados e aplicasse esse método proposto para estimar o parâmetro de um modelo? A justificativa mais formal é incrivelmente simples: a lei dos grandes números. Sabemos que, sobre condições bem gerais, para a variável aleatória $x$ com média $\mu$:
+
+$$plim_{n \rightarrow \infty} \bar{X} = \mu$$
+
+Onde $\bar{X}$ é a média amostral e $plim$ é o limite em probabilidade. Então se repetirmos o mesmo experimento milhares de vezes (e, apesar de não ser infinito, milhares de vezes tende a ser o suficiente), devemos recuperar o valor aproximado do paramêtro de interesse.
+
+Aqui vai um passo a passo de como fazer simulações:
+
+* Temos que criar um objeto que vai receber as estimativas. Este objeto pode ser de diferentes formatos dependendo do que nós queremos: um vetor se é um único paramêtro, uma matriz se são vários vetores, ou até mesmo uma lista!
+
+* Escrever um for ou while para repetir a mesma tarefa milhares de vezes
+
+* Dentro do for (ou while), a operação que queremos repetir alguns milhares de vezes
+
+* Alguma maneira de vizualizar o que nós estimamos
+
+#Um exemplo
+
+Vamos fazer a seguinte simulação, que exemplifica a ideia geral: será que o estimador de MQO é realmente não viesado? Sabemos que sim - basta consultar qualquer livro de econometria - mas vamos proceder para ver quão poderosa é o método. Eu vou sortear os números de uma distribuição normal usando o comando `rnorm`. Não é estritamente necessário que as variáveis aleatórias sejam normalmente distribuídas: poderíamos testar com uma distribuição mais exótica, como uma t de student com 4 graus de liberdade. Eis o código:
+
+```{r}
+
+set.seed(985)
+
+bet <- rep(0,1000) #Vetor cheio de zeros para ser preenchido com as estimativas
+
+for(i in 1:1000){
+  x <- rnorm(100)
+  y <- 2+x+rnorm(100)
+  modelo <- lm(y ~ x)
+  bet[i] <- coef(modelo)[2]
+}
+
+mean(bet)
+
+```
+
+Veja que a média foi bem próxima do valor verdadeiro do parâmetro, mesmo com uma amostra relativamente pequena. Vamos levar isso além: vamos escrever uma função que nos permite alterar o tamanho da amostra do problema e vamos ver como a coisa evolui para cada tamanho de amostra:
+
+```{r}
+
+library(knitr)
+
+simu <- function(n, k =1000){ # n é o tamanho da amostra e k é o número de replicações
+  bet <- rep(0,k) #Vetor cheio de zeros para ser preenchido com as estimativas
+
+  for(i in 1:k){
+    x <- rnorm(n)
+    y <- 2+x+rnorm(n)
+    modelo <- lm(y ~ x)
+    bet[i] <- coef(modelo)[2]
+  }
+  return(bet)
+}
+
+n0 <- simu(10)
+n1 <- simu(25)
+n2 <- simu(50)
+n3 <- simu(100)
+n4 <- simu(125)
+n5 <- simu(150)
+
+medias <- c(mean(n0),mean(n1),mean(n2),mean(n3),mean(n4),mean(n5))
+dp <- c(sd(n0),sd(n1),sd(n2),sd(n3),sd(n4),sd(n5)) #por que não computar o erro padrão também?
+
+tabela <- rbind(medias,dp)
+rownames(tabela) <- c("Média", "Desvio Padrão")
+colnames(tabela) <- c("n = 10","n = 25","n = 50","n = 100","n = 125","n = 150")
+
+kable(tabela,caption = "Viés do estimador de MQO com diferentes tamanhos de amostra (n). Valor verdadeiro = 1")
+
+```
+
+Veja que, na tabela acima, o desvio padrão é o desvio padrão "verdadeiro", i.e., calculado usando os betas estimados na simulação. Veja que a estimativa do erro padrão dada pelo R não deve ser muito fora deste valor.
+
+Essa foi uma rápida introdução a como fazer simulações usando o R. Obviamente, é possível fazer simulações muito mais complicadas. Mas a ideia está bem representada no exemplo acima. Nos próximos posts, eu irei usar simulações para explorar propriedades de estimadores e ilustrar vários conceitos (não só em estatística).
