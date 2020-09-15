@@ -22,15 +22,14 @@ authors: ["pedrocava"]
 
 O querido [Daniel Duque](https://twitter.com/dannielduque) trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas. 
 
-```{R, include =FALSE}
-knitr::opts_chunk$set(message = FALSE, warning = FALSE)
-```
-
 Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação. Digamos que nós queremos simular várias normais com médias diferentes. Com loops:
 
 ```{R}
 
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
 library(tidyverse)
+library(magrittr)
 
 n <- 1000
 
@@ -182,24 +181,29 @@ Uma solução muito mais elegante te aguarda usando ``map2()``, que serve para -
 
 ```{R}
 
-expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) # as combinações
+expand_grid(media = seq(1, 5, .1), 
+            sd = seq(1, 5, .1)) # as combinações
 
-expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) %>%
-  mutate(
-    sims = map2(
-      .x = media,
-      .y = sd,
-      ~ rnorm(n = 100, mean = .x, sd = .y))
-  ) # criando a coluna
-  
-expand_grid(media = seq(1, 5, .1), sd = seq(1, 5, .1)) %>%
-  mutate(
-    sims = map2(
-      .x = media,
-      .y = sd,
-      ~ rnorm(n = 5, mean = .x, sd = .y))
-  ) %>%
-  unnest(sims)
+expand_grid(
+  media = seq(1, 5, .1), 
+  sd = seq(1, 5, .1)) %>%
+    mutate(
+      sims = map2(
+        .x = media,
+        .y = sd,
+        ~ rnorm(n = 100, mean = .x, sd = .y))
+    ) # criando a coluna
+    
+expand_grid(
+  media = seq(1, 5, .1), 
+  sd = seq(1, 5, .1)) %>%
+    mutate(
+      sims = map2(
+        .x = media,
+        .y = sd,
+        ~ rnorm(n = 5, mean = .x, sd = .y))
+    ) %>%
+    unnest(sims)
 ```
 
 Iterando sobre mais variáveis padrões mais sofisiticados podem ser escritos com pouco trabalho adicional. Em um loop cada camada extra requer a mesma quantidade de "infraestrutura" em código e cada vez mais atenção para acompanhar todos os procedimentos.  Perceba, trabalhar com processos aninhados é muito menos intuitivo que acompanhar o varrimento uniforme de uma grade de parâmetros.
@@ -220,28 +224,30 @@ Antes de prosseguir, pense um pouco em como você resolveria isso com loops. Se 
 library(lorem)
 library(glue)
 
-(tabela <- tibble(PL = as.character(glue("{ipsum_starts(30)} {ipsum_starts(30)}")),
-                  risco = sample(c("alto", "baixo", "médio"), 
-                                 size = length(PL), 
-                                 replace = TRUE),
-                  impacto = sample(c("alto", "baixo", "médio"), 
-                                   size = length(PL),
-                                   replace = TRUE)
-                  ))
+(tabela <- tibble(
+  PL = as.character(glue("{ipsum_starts(30)} {ipsum_starts(30)}")),
+  risco = sample(c("alto", "baixo", "médio"), 
+                 size = length(PL), 
+                 replace = TRUE),
+  impacto = sample(c("alto", "baixo", "médio"), 
+                   size = length(PL),
+                   replace = TRUE)))
 ```
 
 Vamos passo a passo construir a solução. Primeiro construímos a grade:
 
 ```{R}
-expand_grid(risco = unique(tabela$risco), 
-              impacto = unique(tabela$impacto))  # primeiro uma grade
+tabela %$%
+  expand_grid(risco = unique(risco), 
+              impacto = unique(impacto)) 
 ```
 
 Agora adicionamos ``mutate`` e dentro definimos a coluna ``PLs`` que é resultado da iteração sobre risco e impacto fiscal e filtra, na tabela original, apenas os nomes de projetos de lei que atendem simultaneamente a terem um certo risco e um certo impacto fiscal. Como estamos iterando sobre a grade, sabemos que todas as combinações serão avalidas.
 
 ```{R}
-expand_grid(risco = unique(tabela$risco), 
-              impacto = unique(tabela$impacto)) %>%
+tabela %$%
+  expand_grid(risco = unique(risco), 
+              impacto = unique(impacto))  %>%
   mutate(PLs = 
       map2(.x = risco, 
            .y = impacto,
@@ -254,25 +260,22 @@ expand_grid(risco = unique(tabela$risco),
   ) 
 ```
 
-Agora precisamos desaninhar essa lista em texto. Passamos a execução de ``map2()`` como argumento de outro mapeamento, agora com saída definida como vetor de texto, que a cada elemento da lista recebida colapsa todos, separando os elementos com uma vírgula e espaço.
-
+Agora precisamos desaninhar essa lista em texto. Passamos a execução de ``map2()`` como argumento de outro mapeamento, agora com saída definida como vetor de texto basta usar `reduce` com uma versão customizada de `paste` para reduzir tudo em um vetor.
 
 ```{R}
 expand_grid(risco = unique(tabela$risco), 
               impacto = unique(tabela$impacto)) %>%
   mutate(PLs = 
-    map_chr( # colocamos aquela lista anterior dentro de OUTRO MAP
-      map2(.x = risco, 
-           .y = impacto,
-           function(.x, .y) {
-              tabela %>%
-                filter(risco == .x, 
-                       impacto == .y) %>%
-                pull(PL)
-           }),
-      ~ paste0(.x, collapse = ", ")) # aplicamos paste com collapse
-              # dessa forma, os elementos em cada entrada da lista
-              # são colapsados no mesmo texto, separados pela ", " 
+      map2(
+        .x = risco, 
+        .y = impacto,
+        function(.x, .y) {
+          tabela %>%
+            filter(risco == .x, 
+                   impacto == .y) %>%
+            pull(PL) %>%
+            reduce(partial(paste, sep = ", "))
+        })
   ) 
 ```
 
@@ -280,7 +283,7 @@ Algumas vantagens não são óvbias. A primeira é que é apenas uma expressão 
 
 A terceira é que se você inicia uma expressão atribuindo o resultado dessa solução a um objeto, é uma operação _idempotente_, no sentido de que ao ser repetida sempre gera a mesma saída. Se você está sobreescrevendo o mesmo objeto várias vezes, então só terá o mesmo dado se repetir _todas as operações_. Essa é uma preocupação desnecessária se seu código for idempotente. Idempotência é uma propriedade especialmente importante quando se lida com código de execução automática (algo que rode todo dia às 9h da manhã por exemplo). Você *não quer* que um erro no sistema de filas ou execução do código altere o resultado do seus programas.
 
-Se faça um favor, largue os loops.
+Cuide da saúde, largue os loops.
 
 
 
