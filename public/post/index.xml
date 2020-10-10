@@ -7,20 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 10 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Verossimilhança, a Distribuição de Poisson e um Gráfico</title>
-      <link>/2020/10/10/verossimilhan%C3%A7a-a-distribui%C3%A7%C3%A3o-de-poisson-e-um-gr%C3%A1fico/</link>
-      <pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate>
+      <title>Verossimilhança da Poisson</title>
+      <link>/2020/10/09/verossimilhan%C3%A7a-da-poisson/</link>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/10/10/verossimilhan%C3%A7a-a-distribui%C3%A7%C3%A3o-de-poisson-e-um-gr%C3%A1fico/</guid>
+      <guid>/2020/10/09/verossimilhan%C3%A7a-da-poisson/</guid>
       <description>Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
-A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é descrita por:
-\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\] Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.</description>
+A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é:
+\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\]
+Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.</description>
     </item>
     
     <item>

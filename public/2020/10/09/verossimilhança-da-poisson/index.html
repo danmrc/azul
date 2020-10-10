@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Verossimilhança da Poisson | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
+
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="/2020/10/09/verossimilhan%C3%A7a-da-poisson/"><meta property="og:title" content="Verossimilhança da Poisson" />
+<meta property="og:description" content="Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
+A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é:
+\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\]
+Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/2020/10/09/verossimilhan%C3%A7a-da-poisson/" />
+<meta property="article:published_time" content="2020-10-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-10-09T00:00:00+00:00" />
+<meta itemprop="name" content="Verossimilhança da Poisson">
+<meta itemprop="description" content="Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
+A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é:
+\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\]
+Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.">
+<meta itemprop="datePublished" content="2020-10-09T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-10-09T00:00:00+00:00" />
+<meta itemprop="wordCount" content="627">
+
+
+
+<meta itemprop="keywords" content="R,Programação Funcional,Estatística," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Verossimilhança da Poisson"/>
+<meta name="twitter:description" content="Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
+A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é:
+\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\]
+Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">October 9, 2020</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>627 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>3 mins</span>
+                        </div>
+
+                        <h1>Verossimilhança da Poisson</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
+                            </h5><p class="social small text-muted">
+                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
+                                </p></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><em>Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério</em></p>
+<p>A distribuição de Poisson descreve a probabilidade de que <span class="math inline">\(k\)</span> eventos discretos ocorram em um espaço ou período de tempo em que <span class="math inline">\(\lambda\)</span> eventos eram esperados. A densidade é:</p>
+<p><span class="math display">\[f(k \, | \,\lambda) =  \frac{\lambda^k e^{-\lambda}}{k!}\]</span></p>
+<p>Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso. Duas propriedades que eu acho divertidinhas:</p>
+<ul>
+<li>O primeiro e o segundo momento são iguais, valem <span class="math inline">\(\lambda\)</span>.</li>
+<li>Seja <span class="math inline">\(X\)</span> um conjunto de variáveis aleatórias <span class="math inline">\(X_i \sim \text{Pois}(\lambda_i)\)</span>, então<span class="math inline">\(\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)\)</span>. A soma de várias Poisson, cada uma com <span class="math inline">\(\lambda_i\)</span> gera uma Poisson cujo parâmetro é a soma dos <span class="math inline">\(\lambda_i\)</span> individuais.</li>
+</ul>
+<p>A pergunta é muito simples. Dado que tenho várias observações <span class="math inline">\(k_1, k_2, ..., k_n\)</span> que suponho serem tiradas de um processo i.i.d de uma Poisson com parâmetro <span class="math inline">\(\lambda\)</span>, como estimo <span class="math inline">\(\lambda\)</span>?</p>
+<p>Note que cada observação é possível calcular <span class="math inline">\(P(k_i \, | \, \lambda)\)</span>. Como estamos falando de um processo i.i.d a probabilidade de que todas as observações <span class="math inline">\(k_i\)</span> tenham sido tiradas de uma mesma Poisson com parâmetro <span class="math inline">\(\lambda\)</span> é apenas o produto:</p>
+<p><span class="math display">\[P(k_1, k_2, ..., k_n \, | \, \lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}\]</span>
+Se você tomar as <span class="math inline">\(n\)</span> observações como dadas então temos uma curva relacionando cada potencial <span class="math inline">\(\lambda\)</span> à probabilidade de que os dados foram coletadas de uma Poisson com este parâmetro. Essa é a <em>verossimilhança</em>. Faz sentido então escolher o <span class="math inline">\(\lambda^*\)</span> que maximiza a verossimilhança. Os dados indicam que aí é onde está o nosso melhor chute educado sobre a verdadeira taxa de ocorrência do fenômeno.</p>
+<p><span class="math display">\[L(\lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}\]</span></p>
+<p>Precisamos otimizar <span class="math inline">\(L(\lambda)\)</span>, que tem uma forma funcional meio estranha. Uma boa ideia é otimizar o seu logaritmo, que chamaremos de <span class="math inline">\(l(\lambda)\)</span>. Se você fez inferência estatística na faculdade provavelmente já fez essa conta aqui (ou foi cobrado fazer):</p>
+<p><span class="math display">\[l(\lambda) = \sum_{i+1}^n k_i\log{\lambda}  - \lambda - \log{k_i!}\]</span></p>
+<p><span class="math display">\[\frac{d l}{d \lambda} = \sum_{i+1}^n \frac{k_i}{\lambda} - 1 = 0 \]</span>
+<span class="math display">\[\sum_{i+1}^n \frac{k_i}{\lambda}  = n \]</span>
+<span class="math display">\[\lambda^* = \frac{1}{n} \sum_{i+1}^n k_i \]</span></p>
+<p>Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência verdadeira é a média das taxas de ocorrência observadas. Faz sentido… eu acho.</p>
+<p>Tá agora vamos ver um pouco da magia acontecendo, coisa e tals. Primeiro simular uma amostra com um <span class="math inline">\(\lambda\)</span> positivo aleatório que precisaremos descobrir.</p>
+<pre class="r"><code>lambda_original &lt;- runif(1, 25, 100)
+
+amostra &lt;- rpois(1000, lambda_original)</code></pre>
+<p>Definir a função de fatorial porque eu nunca entendi onde está a fatorial implementada em R:</p>
+<pre class="r"><code>fatorial &lt;- function(n) {
+  
+  if(n == 0L | n == 1L) return(1)
+  if(n &gt; 1L)            return(n*fatorial(n - 1))
+  
+}
+
+fatorial(4) # teste</code></pre>
+<pre><code>## [1] 24</code></pre>
+<p>A agora a brincar:</p>
+<pre class="r"><code>(simulacao &lt;- tibble(lambda = seq(25, 100, by = 0.1)) %&gt;%
+  mutate(L = map_dbl(
+    lambda, 
+    function(.x) sum(amostra*log(.x) - .x - log(map_dbl(amostra, fatorial)))
+    )))</code></pre>
+<pre><code>## # A tibble: 751 x 2
+##    lambda       L
+##     &lt;dbl&gt;   &lt;dbl&gt;
+##  1   25   -11349.
+##  2   25.1 -11259.
+##  3   25.2 -11170.
+##  4   25.3 -11082.
+##  5   25.4 -10995.
+##  6   25.5 -10908.
+##  7   25.6 -10822.
+##  8   25.7 -10736.
+##  9   25.8 -10652.
+## 10   25.9 -10568.
+## # … with 741 more rows</code></pre>
+<pre class="r"><code>(results &lt;- simulacao %&gt;%
+  filter(L == max(L)))</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   lambda      L
+##    &lt;dbl&gt;  &lt;dbl&gt;
+## 1   47.5 -3333.</code></pre>
+<p>Já o <span class="math inline">\(\lambda\)</span> verdadeiro era:</p>
+<pre class="r"><code>lambda_original</code></pre>
+<pre><code>## [1] 47.38331</code></pre>
+<p>A curva que nós calculamos, por sinal, foi essa aqui:</p>
+<pre class="r"><code>simulacao %&gt;%
+  ggplot(aes(x = lambda, y = L)) +
+  geom_line(size = 1.2, col = &quot;red&quot;) +
+  geom_hline(yintercept = pull(results, L)) +
+  geom_vline(xintercept = pull(results, lambda)) +
+  labs(title = &quot;Curva da Verossimilhança para uma amostra&quot;,
+       x = &quot;Lambda&quot;,
+       y = &quot;L(.)&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/post/poissonML/poissonML_files/figure-html/unnamed-chunk-7-1.png" width="1260" /></p>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
+                                    <i class="fas fa-tag mr-2"></i>R
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/programa%C3%A7%C3%A3o-funcional">
+                                    <i class="fas fa-tag mr-2"></i>Programação Funcional
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/estat%C3%ADstica">
+                                    <i class="fas fa-tag mr-2"></i>Estatística
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2020%2f10%2f09%2fverossimilhan%25C3%25A7a-da-poisson%2f&text=Verossimilhan%c3%a7a%20da%20Poisson">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2020%2f10%2f09%2fverossimilhan%25C3%25A7a-da-poisson%2f&title=Verossimilhan%c3%a7a%20da%20Poisson">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2020%2f10%2f09%2fverossimilhan%25C3%25A7a-da-poisson%2f&t=Verossimilhan%c3%a7a%20da%20Poisson">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2020%2f10%2f09%2fverossimilhan%25C3%25A7a-da-poisson%2f&title=Verossimilhan%c3%a7a%20da%20Poisson">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/07/29/crescimento-exponencial-mas-sem-o-corona/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Crescimento Exponencial, mas sem o Corona</h4>
+            <p class="card-text text-muted text-uppercase">July 29, 2020</p>
+            <div class="card-text">
+                Uma família de funções que aparece em variados contextos é a exponencial:
+\[f(x) = ab^x\]
+Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&amp;gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
+Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual \(b\) passamos como base.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Classificando distribuições a partir dos momentos</h4>
+            <p class="card-text text-muted text-uppercase">July 28, 2020</p>
+            <div class="card-text">
+                Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
+A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Cuide da saúde, pare de fazer loops</h4>
+            <p class="card-text text-muted text-uppercase">June 6, 2020</p>
+            <div class="card-text">
+                Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
+O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
+
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123754589-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</body>
+</html>

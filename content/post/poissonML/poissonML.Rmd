@@ -1,7 +1,7 @@
 ---
-title: "Verossimilhança, a Distribuição de Poisson e um Gráfico"
+title: "Verossimilhança da Poisson"
 author: "Pedro Cavalcante"
-date: '2020-10-10'
+date: '2020-10-09'
 output:
   html_document:
     df_print: paged
@@ -22,12 +22,14 @@ authors: ["pedrocava"]
 
 *Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério*
 
-A distribuição de Poisson descreve a probabilidade de que $k$ eventos discretos ocorram em um espaço ou período de tempo em que $\lambda$ eventos eram esperados. A densidade é descrita por:
+A distribuição de Poisson descreve a probabilidade de que $k$ eventos discretos ocorram em um espaço ou período de tempo em que $\lambda$ eventos eram esperados. A densidade é:
 
 $$f(k \, | \,\lambda) =  \frac{\lambda^k e^{-\lambda}}{k!}$$
-Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.
 
-Algumas propriedades são interessantes. O primeiro e o segundo momento são iguais, valem $\lambda$. Para um conjunto de variáveis aleatórias $X_i \sim \text{Pois}(\lambda_i)$ vale que $\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)$. A soma de várias Poisson, cada uma com $\lambda_i$ gera uma Poisson cujo parâmetro é a soma dos $\lambda_i$ individuais.
+Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso. Duas propriedades que eu acho divertidinhas:
+
+* O primeiro e o segundo momento são iguais, valem $\lambda$. 
+* Seja $X$ um conjunto de variáveis aleatórias $X_i \sim \text{Pois}(\lambda_i)$, então$\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)$. A soma de várias Poisson, cada uma com $\lambda_i$ gera uma Poisson cujo parâmetro é a soma dos $\lambda_i$ individuais.
 
 A pergunta é muito simples. Dado que tenho várias observações $k_1, k_2, ..., k_n$ que suponho serem tiradas de um processo i.i.d de uma Poisson com parâmetro $\lambda$, como estimo $\lambda$?
 
@@ -47,9 +49,9 @@ $$\frac{d l}{d \lambda} = \sum_{i+1}^n \frac{k_i}{\lambda} - 1 = 0 $$
 $$\sum_{i+1}^n \frac{k_i}{\lambda}  = n $$
 $$\lambda^* = \frac{1}{n} \sum_{i+1}^n k_i $$
 
-Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência é a média das taxas de ocorrência. Faz sentido... eu acho.
+Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência verdadeira é a média das taxas de ocorrência observadas. Faz sentido... eu acho.
 
-Tá agora vamos ver a magia acontecedo coisa e tals. Primeiro simular uma amostra com um $\lambda$ positivo aleatório que precisaremos descobrir.
+Tá agora vamos ver um pouco da magia acontecendo, coisa e tals. Primeiro simular uma amostra com um $\lambda$ positivo aleatório que precisaremos descobrir.
 
 ```{R echo = FALSE, include = FALSE}
 knitr::opts_chunk$set(dpi = 180, error = TRUE, message = FALSE, warning = FALSE)
@@ -93,6 +95,20 @@ A agora a brincar:
 
 (results <- simulacao %>%
   filter(L == max(L)))
+
+```
+
+Já o $\lambda$ verdadeiro era:
+
+```{R}
+
+lambda_original
+
+```
+
+A curva que nós calculamos, por sinal, foi essa aqui:
+
+```{R}
 
 simulacao %>%
   ggplot(aes(x = lambda, y = L)) +
