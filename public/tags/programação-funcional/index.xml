@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 29 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/programa%C3%A7%C3%A3o-funcional/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Verossimilhança, a Distribuição de Poisson e um Gráfico</title>
+      <link>/2020/10/10/verossimilhan%C3%A7a-a-distribui%C3%A7%C3%A3o-de-poisson-e-um-gr%C3%A1fico/</link>
+      <pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/10/10/verossimilhan%C3%A7a-a-distribui%C3%A7%C3%A3o-de-poisson-e-um-gr%C3%A1fico/</guid>
+      <description>Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
+A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é descrita por:
+\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\] Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.</description>
+    </item>
     
     <item>
       <title>Crescimento Exponencial, mas sem o Corona</title>
@@ -41,8 +52,7 @@ A primeira coisa a fazer é uma função que recebe um nome de função que poss
       
       <guid>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</guid>
       <description>Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
-O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
-Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação.</description>
+O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.</description>
     </item>
     
     <item>

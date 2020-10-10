@@ -481,14 +481,13 @@ Os que já tiveram contato com python se lembrarão de várias funções do pand
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/07/29/crescimento-exponencial-mas-sem-o-corona/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Crescimento Exponencial, mas sem o Corona</h4>
-            <p class="card-text text-muted text-uppercase">July 29, 2020</p>
+    <a href="/2020/10/10/verossimilhan%C3%A7a-a-distribui%C3%A7%C3%A3o-de-poisson-e-um-gr%C3%A1fico/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Verossimilhança, a Distribuição de Poisson e um Gráfico</h4>
+            <p class="card-text text-muted text-uppercase">October 10, 2020</p>
             <div class="card-text">
-                Uma família de funções que aparece em variados contextos é a exponencial:
-\[f(x) = ab^x\]
-Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&amp;gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
-Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual \(b\) passamos como base.
+                Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
+A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é descrita por:
+\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\] Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.
             </div>
         </div>
     </a>
@@ -497,12 +496,14 @@ Não queria me alongar muito nem falar de corona então vou só fazer um gráfic
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Classificando distribuições a partir dos momentos</h4>
-            <p class="card-text text-muted text-uppercase">July 28, 2020</p>
+    <a href="/2020/07/29/crescimento-exponencial-mas-sem-o-corona/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Crescimento Exponencial, mas sem o Corona</h4>
+            <p class="card-text text-muted text-uppercase">July 29, 2020</p>
             <div class="card-text">
-                Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
-A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.
+                Uma família de funções que aparece em variados contextos é a exponencial:
+\[f(x) = ab^x\]
+Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&amp;gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
+Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual \(b\) passamos como base.
             </div>
         </div>
     </a>

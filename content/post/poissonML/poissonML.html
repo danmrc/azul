@@ -1,0 +1,91 @@
+---
+title: "Verossimilhança, a Distribuição de Poisson e um Gráfico"
+author: "Pedro Cavalcante"
+date: '2020-10-10'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+  - R
+  - Programação
+  - Estatística
+slug: 
+tags:
+  - R
+  - Programação Funcional
+  - Estatística
+authors: ["pedrocava"]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><em>Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério</em></p>
+<p>A distribuição de Poisson descreve a probabilidade de que <span class="math inline">\(k\)</span> eventos discretos ocorram em um espaço ou período de tempo em que <span class="math inline">\(\lambda\)</span> eventos eram esperados. A densidade é descrita por:</p>
+<p><span class="math display">\[f(k \, | \,\lambda) =  \frac{\lambda^k e^{-\lambda}}{k!}\]</span>
+Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.</p>
+<p>Algumas propriedades são interessantes. O primeiro e o segundo momento são iguais, valem <span class="math inline">\(\lambda\)</span>. Para um conjunto de variáveis aleatórias <span class="math inline">\(X_i \sim \text{Pois}(\lambda_i)\)</span> vale que <span class="math inline">\(\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)\)</span>. A soma de várias Poisson, cada uma com <span class="math inline">\(\lambda_i\)</span> gera uma Poisson cujo parâmetro é a soma dos <span class="math inline">\(\lambda_i\)</span> individuais.</p>
+<p>A pergunta é muito simples. Dado que tenho várias observações <span class="math inline">\(k_1, k_2, ..., k_n\)</span> que suponho serem tiradas de um processo i.i.d de uma Poisson com parâmetro <span class="math inline">\(\lambda\)</span>, como estimo <span class="math inline">\(\lambda\)</span>?</p>
+<p>Note que cada observação é possível calcular <span class="math inline">\(P(k_i \, | \, \lambda)\)</span>. Como estamos falando de um processo i.i.d a probabilidade de que todas as observações <span class="math inline">\(k_i\)</span> tenham sido tiradas de uma mesma Poisson com parâmetro <span class="math inline">\(\lambda\)</span> é apenas o produto:</p>
+<p><span class="math display">\[P(k_1, k_2, ..., k_n \, | \, \lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}\]</span>
+Se você tomar as <span class="math inline">\(n\)</span> observações como dadas então temos uma curva relacionando cada potencial <span class="math inline">\(\lambda\)</span> à probabilidade de que os dados foram coletadas de uma Poisson com este parâmetro. Essa é a <em>verossimilhança</em>. Faz sentido então escolher o <span class="math inline">\(\lambda^*\)</span> que maximiza a verossimilhança. Os dados indicam que aí é onde está o nosso melhor chute educado sobre a verdadeira taxa de ocorrência do fenômeno.</p>
+<p><span class="math display">\[L(\lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}\]</span></p>
+<p>Precisamos otimizar <span class="math inline">\(L(\lambda)\)</span>, que tem uma forma funcional meio estranha. Uma boa ideia é otimizar o seu logaritmo, que chamaremos de <span class="math inline">\(l(\lambda)\)</span>. Se você fez inferência estatística na faculdade provavelmente já fez essa conta aqui (ou foi cobrado fazer):</p>
+<p><span class="math display">\[l(\lambda) = \sum_{i+1}^n k_i\log{\lambda}  - \lambda - \log{k_i!}\]</span></p>
+<p><span class="math display">\[\frac{d l}{d \lambda} = \sum_{i+1}^n \frac{k_i}{\lambda} - 1 = 0 \]</span>
+<span class="math display">\[\sum_{i+1}^n \frac{k_i}{\lambda}  = n \]</span>
+<span class="math display">\[\lambda^* = \frac{1}{n} \sum_{i+1}^n k_i \]</span></p>
+<p>Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência é a média das taxas de ocorrência. Faz sentido… eu acho.</p>
+<p>Tá agora vamos ver a magia acontecedo coisa e tals. Primeiro simular uma amostra com um <span class="math inline">\(\lambda\)</span> positivo aleatório que precisaremos descobrir.</p>
+<pre class="r"><code>lambda_original &lt;- runif(1, 25, 100)
+
+amostra &lt;- rpois(1000, lambda_original)</code></pre>
+<p>Definir a função de fatorial porque eu nunca entendi onde está a fatorial implementada em R:</p>
+<pre class="r"><code>fatorial &lt;- function(n) {
+  
+  if(n == 0L | n == 1L) return(1)
+  if(n &gt; 1L)            return(n*fatorial(n - 1))
+  
+}
+
+fatorial(4) # teste</code></pre>
+<pre><code>## [1] 24</code></pre>
+<p>A agora a brincar:</p>
+<pre class="r"><code>(simulacao &lt;- tibble(lambda = seq(25, 100, by = 0.1)) %&gt;%
+  mutate(L = map_dbl(
+    lambda, 
+    function(.x) sum(amostra*log(.x) - .x - log(map_dbl(amostra, fatorial)))
+    )))</code></pre>
+<pre><code>## # A tibble: 751 x 2
+##    lambda      L
+##     &lt;dbl&gt;  &lt;dbl&gt;
+##  1   25   -9898.
+##  2   25.1 -9817.
+##  3   25.2 -9737.
+##  4   25.3 -9658.
+##  5   25.4 -9580.
+##  6   25.5 -9502.
+##  7   25.6 -9425.
+##  8   25.7 -9349.
+##  9   25.8 -9273.
+## 10   25.9 -9198.
+## # … with 741 more rows</code></pre>
+<pre class="r"><code>(results &lt;- simulacao %&gt;%
+  filter(L == max(L)))</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   lambda      L
+##    &lt;dbl&gt;  &lt;dbl&gt;
+## 1   45.2 -3315.</code></pre>
+<pre class="r"><code>simulacao %&gt;%
+  ggplot(aes(x = lambda, y = L)) +
+  geom_line(size = 1.2, col = &quot;red&quot;) +
+  geom_hline(yintercept = pull(results, L)) +
+  geom_vline(xintercept = pull(results, lambda)) +
+  labs(title = &quot;Curva da Verossimilhança para uma amostra&quot;,
+       x = &quot;Lambda&quot;,
+       y = &quot;L(.)&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="/post/poissonML/poissonML_files/figure-html/unnamed-chunk-5-1.png" width="1260" /></p>

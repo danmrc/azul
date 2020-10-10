@@ -1,0 +1,108 @@
+---
+title: "Verossimilhança, a Distribuição de Poisson e um Gráfico"
+author: "Pedro Cavalcante"
+date: '2020-10-10'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+katex: true
+draft: false
+categories:
+  - R
+  - Programação
+  - Estatística
+slug: 
+tags:
+  - R
+  - Programação Funcional
+  - Estatística
+authors: ["pedrocava"]
+---
+
+*Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério*
+
+A distribuição de Poisson descreve a probabilidade de que $k$ eventos discretos ocorram em um espaço ou período de tempo em que $\lambda$ eventos eram esperados. A densidade é descrita por:
+
+$$f(k \, | \,\lambda) =  \frac{\lambda^k e^{-\lambda}}{k!}$$
+Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.
+
+Algumas propriedades são interessantes. O primeiro e o segundo momento são iguais, valem $\lambda$. Para um conjunto de variáveis aleatórias $X_i \sim \text{Pois}(\lambda_i)$ vale que $\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)$. A soma de várias Poisson, cada uma com $\lambda_i$ gera uma Poisson cujo parâmetro é a soma dos $\lambda_i$ individuais.
+
+A pergunta é muito simples. Dado que tenho várias observações $k_1, k_2, ..., k_n$ que suponho serem tiradas de um processo i.i.d de uma Poisson com parâmetro $\lambda$, como estimo $\lambda$?
+
+Note que cada observação é possível calcular $P(k_i \, | \, \lambda)$. Como estamos falando de um processo i.i.d a probabilidade de que todas as observações $k_i$ tenham sido tiradas de uma mesma Poisson com parâmetro $\lambda$ é apenas o produto: 
+
+$$P(k_1, k_2, ..., k_n \, | \, \lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}$$
+Se você tomar as $n$ observações como dadas então temos uma curva relacionando cada potencial $\lambda$ à probabilidade de que os dados foram coletadas de uma Poisson com este parâmetro. Essa é a _verossimilhança_. Faz sentido então escolher o $\lambda^*$ que maximiza a verossimilhança. Os dados indicam que aí é onde está o nosso melhor chute educado sobre a verdadeira taxa de ocorrência do fenômeno. 
+
+$$L(\lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}$$
+
+Precisamos otimizar $L(\lambda)$, que tem uma forma funcional meio estranha. Uma boa ideia é otimizar o seu logaritmo, que chamaremos de $l(\lambda)$. Se você fez inferência estatística na faculdade provavelmente já fez essa conta aqui (ou foi cobrado fazer):
+
+$$l(\lambda) = \sum_{i+1}^n k_i\log{\lambda}  - \lambda - \log{k_i!}$$
+
+
+$$\frac{d l}{d \lambda} = \sum_{i+1}^n \frac{k_i}{\lambda} - 1 = 0 $$
+$$\sum_{i+1}^n \frac{k_i}{\lambda}  = n $$
+$$\lambda^* = \frac{1}{n} \sum_{i+1}^n k_i $$
+
+Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência é a média das taxas de ocorrência. Faz sentido... eu acho.
+
+Tá agora vamos ver a magia acontecedo coisa e tals. Primeiro simular uma amostra com um $\lambda$ positivo aleatório que precisaremos descobrir.
+
+```{R echo = FALSE, include = FALSE}
+knitr::opts_chunk$set(dpi = 180, error = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+```
+
+```{R, eval = FALSE}
+lambda_original <- runif(1, 25, 100)
+
+amostra <- rpois(1000, lambda_original)
+```
+
+```{R, include = FALSE}
+lambda_original <- runif(1, 40, 60)
+
+amostra <- rpois(1000, lambda_original)
+```
+
+Definir a função de fatorial porque eu nunca entendi onde está a fatorial implementada em R:
+
+```{R}
+
+fatorial <- function(n) {
+  
+  if(n == 0L | n == 1L) return(1)
+  if(n > 1L)            return(n*fatorial(n - 1))
+  
+}
+
+fatorial(4) # teste
+```
+A agora a brincar:
+
+```{R}
+
+(simulacao <- tibble(lambda = seq(25, 100, by = 0.1)) %>%
+  mutate(L = map_dbl(
+    lambda, 
+    function(.x) sum(amostra*log(.x) - .x - log(map_dbl(amostra, fatorial)))
+    )))
+
+(results <- simulacao %>%
+  filter(L == max(L)))
+
+simulacao %>%
+  ggplot(aes(x = lambda, y = L)) +
+  geom_line(size = 1.2, col = "red") +
+  geom_hline(yintercept = pull(results, L)) +
+  geom_vline(xintercept = pull(results, lambda)) +
+  labs(title = "Curva da Verossimilhança para uma amostra",
+       x = "Lambda",
+       y = "L(.)") +
+  theme_minimal()
+
+```
+

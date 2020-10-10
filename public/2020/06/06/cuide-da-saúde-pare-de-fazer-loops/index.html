@@ -37,19 +37,17 @@
 
 <link rel="canonical" href="/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/"><meta property="og:title" content="Cuide da saúde, pare de fazer loops" />
 <meta property="og:description" content="Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
-O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
-Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação." />
+O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/" />
 <meta property="article:published_time" content="2020-06-06T00:00:00+00:00" />
 <meta property="article:modified_time" content="2020-06-06T00:00:00+00:00" />
 <meta itemprop="name" content="Cuide da saúde, pare de fazer loops">
 <meta itemprop="description" content="Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
-O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
-Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação.">
+O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.">
 <meta itemprop="datePublished" content="2020-06-06T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-06-06T00:00:00+00:00" />
-<meta itemprop="wordCount" content="3648">
+<meta itemprop="wordCount" content="3683">
 
 
 
@@ -57,8 +55,7 @@ Antes do problema interessante do Daniel, um problema comum de simulações esta
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Cuide da saúde, pare de fazer loops"/>
 <meta name="twitter:description" content="Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
-O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
-Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação."/>
+O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
@@ -103,7 +100,7 @@ Antes do problema interessante do Daniel, um problema comum de simulações esta
                     <div class="col-lg-8">
                         <div class="meta text-muted mb-3">
                             <p class="created text-muted text-uppercase font-weight-bold mb-1">June 6, 2020</p>
-                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>3648 palavras</span>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>3683 palavras</span>
                             <span><i class="fas fa-clock mr-2"></i>18 mins</span>
                         </div>
 
@@ -122,6 +119,7 @@ Antes do problema interessante do Daniel, um problema comum de simulações esta
                     <div class="col-lg-8">
                         <div class="content">
                             
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p><em>Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério</em></p>
@@ -130,12 +128,12 @@ Antes do problema interessante do Daniel, um problema comum de simulações esta
 <pre class="r"><code>knitr::opts_chunk$set(message = FALSE, warning = FALSE)
 
 library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(magrittr)</code></pre>
@@ -179,16 +177,16 @@ dados_medias$sims &lt;- lista
 <pre><code>## # A tibble: 1,001,000 x 2
 ##    media  sims
 ##    &lt;dbl&gt; &lt;dbl&gt;
-##  1    -5 -4.59
-##  2    -5 -2.98
-##  3    -5 -6.23
-##  4    -5 -3.22
-##  5    -5 -4.52
-##  6    -5 -5.59
-##  7    -5 -6.88
-##  8    -5 -5.42
-##  9    -5 -6.41
-## 10    -5 -4.17
+##  1    -5 -5.48
+##  2    -5 -5.57
+##  3    -5 -5.04
+##  4    -5 -6.21
+##  5    -5 -6.00
+##  6    -5 -3.28
+##  7    -5 -3.68
+##  8    -5 -5.08
+##  9    -5 -6.40
+## 10    -5 -4.53
 ## # … with 1,000,990 more rows</code></pre>
 <p>Tenha em mente que com <code>tibbles</code> podemos usar listas como colunas, o que não acontece com os dataframes nativos do R então o código poderia ser ainda menos conciso.</p>
 <p>Existe outra abordagem para isso. Se entendermos que estamos na verdade aplicando funções várias vezes. <code>lista[[i]]] &lt;- ...</code> é a composição de duas funções no objeto lista: primeiro localize o i-ésimo elemento em lista e depois atributa o valor <code>...</code>.</p>
@@ -205,80 +203,80 @@ dados_medias$sims &lt;- lista
 <pre class="r"><code>map(1:10, # dos números de 1 a 10
     ~ rnorm(n = 5, mean = .x)) # tire 5 números da normal com a média dada</code></pre>
 <pre><code>## [[1]]
-## [1] 0.5874980 0.3162021 0.2973118 0.3528962 1.9650562
+## [1] 1.2986512 0.7486598 1.4350496 1.1078836 2.9176516
 ## 
 ## [[2]]
-## [1] 1.283580 1.409520 2.161786 3.283352 3.417835
+## [1] 1.8231324 2.3873826 0.3560564 3.2473069 2.6840332
 ## 
 ## [[3]]
-## [1] 0.8909022 3.6945316 3.3221867 2.2969530 1.8382619
+## [1] 1.022256 2.779507 3.508351 4.074603 3.689808
 ## 
 ## [[4]]
-## [1] 3.086490 4.362344 4.016966 3.868401 5.126277
+## [1] 2.718377 4.453863 4.133579 3.960361 3.165042
 ## 
 ## [[5]]
-## [1] 4.530037 7.464831 6.293188 5.306249 5.194267
+## [1] 3.059132 6.386267 5.676395 3.749667 6.236710
 ## 
 ## [[6]]
-## [1] 5.524400 5.364175 7.104951 4.565602 5.560014
+## [1] 5.446798 6.610045 5.806798 7.323396 7.127649
 ## 
 ## [[7]]
-## [1] 7.672898 6.675550 7.875866 5.911123 5.313491
+## [1] 6.184257 6.909693 7.540982 6.905253 8.675896
 ## 
 ## [[8]]
-## [1] 8.140466 7.234211 8.033562 8.407889 8.389368
+## [1] 9.646311 7.276319 8.880346 8.207127 8.258731
 ## 
 ## [[9]]
-## [1]  9.539409  9.155086  9.243294 10.907450  9.749834
+## [1]  9.411439  9.072689  9.079998 10.168214  9.869733
 ## 
 ## [[10]]
-## [1]  9.732787  9.277740 10.974690 11.449300  9.915623</code></pre>
+## [1]  9.073607  9.168484  9.701572 10.724999 11.063733</code></pre>
 <pre class="r"><code>map(1:10, 
     function(.x) rnorm(n = 5, mean = .x) ) # mesmo resultado que a abordagem com fórmulas</code></pre>
 <pre><code>## [[1]]
-## [1]  0.22970117  2.86229882  0.55141502 -0.95731827  0.06130874
+## [1]  0.79478576  1.86723711  1.91224409  1.59534831 -0.09859925
 ## 
 ## [[2]]
-## [1] 2.832147 3.538473 1.824089 2.289781 1.930517
+## [1] 1.1424059 3.0807964 1.1306434 2.4033044 0.4679187
 ## 
 ## [[3]]
-## [1] 3.993694 4.406134 4.295923 2.808360 3.835059
+## [1] 2.905119 4.289049 2.701481 4.555509 2.063379
 ## 
 ## [[4]]
-## [1] 4.887389 2.872560 3.443686 3.772131 3.331308
+## [1] 3.599202 1.739325 3.859524 5.459989 4.501931
 ## 
 ## [[5]]
-## [1] 3.308091 5.900157 7.516820 4.189067 4.627663
+## [1] 6.755611 3.735697 5.308191 5.999475 5.039320
 ## 
 ## [[6]]
-## [1] 6.335095 4.939414 6.217535 4.880294 6.173097
+## [1] 6.527621 6.991040 5.361904 5.001168 5.592128
 ## 
 ## [[7]]
-## [1] 6.842338 7.087840 6.279766 8.091748 7.265687
+## [1] 6.973325 5.779717 7.992567 6.485919 7.042540
 ## 
 ## [[8]]
-## [1] 8.295716 6.998900 9.047377 8.474703 7.151466
+## [1] 7.727175 8.383740 9.694532 8.017629 8.770065
 ## 
 ## [[9]]
-## [1] 10.201006  8.336859  8.900468  9.621617  8.343673
+## [1]  7.878371 10.037624  7.231069  7.178682  6.635536
 ## 
 ## [[10]]
-## [1] 11.786611 10.307102 10.434230  9.909434  8.563228</code></pre>
+## [1] 11.184230 12.344337  8.826568 10.390491  9.765765</code></pre>
 <pre class="r"><code>map_dfc(1:10,
         ~ rnorm(n = 10, mean = .x))</code></pre>
 <pre><code>## # A tibble: 10 x 10
 ##      ...1  ...2  ...3  ...4  ...5  ...6  ...7  ...8  ...9 ...10
 ##     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1 1.89   1.25  2.67   2.74  5.52  4.22  6.63  7.63  9.52 11.5 
-##  2 2.36   0.775 0.983  5.40  2.35  5.49  7.72  7.44  9.02 10.1 
-##  3 0.864  0.535 4.33   5.41  4.81  6.37  8.73  8.08  9.32 10.7 
-##  4 2.97   0.419 3.24   3.69  4.30  6.03  7.12  8.07  9.10  9.84
-##  5 1.69   1.68  2.89   3.86  5.32  5.88  7.07  7.46  7.97 11.2 
-##  6 2.31   2.00  4.07   3.71  5.90  5.69  7.64  6.33  8.87  9.84
-##  7 0.750  4.48  2.83   3.93  4.33  5.56  6.38  9.35  8.82 10.7 
-##  8 0.929  1.90  2.00   4.93  6.39  6.48  6.28  6.10 11.0  10.7 
-##  9 0.0936 2.27  3.39   4.76  4.75  6.12  6.77  7.93  7.53 11.1 
-## 10 1.26   2.10  3.77   4.08  3.86  6.49  4.43  7.78  9.40  9.94</code></pre>
+##  1  2.32  2.91  3.27   6.18  4.93  6.40  7.54  7.61 10.1   9.75
+##  2  0.552 2.55  4.87   4.08  6.04  5.74  5.89  8.58  9.58 10.9 
+##  3  0.874 3.79  2.89   2.50  4.95  7.42  6.63  9.56 10.4  10.3 
+##  4  0.715 0.619 2.85   3.73  6.78  7.12  4.08  8.53  8.01 10.7 
+##  5  0.646 0.913 2.29   5.53  5.27  5.35  5.15  5.52  7.93 10.4 
+##  6 -0.270 3.54  1.77   4.91  5.58  6.42  7.65  7.33 10.4  10.0 
+##  7  1.39  2.20  0.917  5.03  3.92  6.85  7.84  6.72 10.6  10.1 
+##  8  1.08  4.56  3.39   2.99  3.73  8.26  8.30  8.14  8.59  9.30
+##  9  1.00  2.61  3.83   2.81  4.26  6.81  7.82  7.97  8.52 10.0 
+## 10  1.48  2.20  4.11   4.19  6.16  6.01  7.67  8.10  9.30 12.6</code></pre>
 <pre class="r"><code>map_dbl(1:10,
         ~ rnorm(n = 10, mean = .x))</code></pre>
 <pre><code>## Error: Result 1 must be a single double, not a double vector of length 10</code></pre>
@@ -286,74 +284,75 @@ dados_medias$sims &lt;- lista
 <pre class="r"><code>map(1:10,
     ~ rnorm(n = 5, mean = .x)) # lista de vetores</code></pre>
 <pre><code>## [[1]]
-## [1]  0.002302446  1.612524071 -0.501723990 -0.488517499  1.085455687
+## [1] 1.0232989 2.4665407 0.1256423 1.3643727 2.0419386
 ## 
 ## [[2]]
-## [1] 1.720410 2.278715 3.375701 1.353630 1.825761
+## [1] 1.8856417 1.4484175 1.3915854 2.4004125 0.6686265
 ## 
 ## [[3]]
-## [1] 1.621314 4.021163 3.603952 3.785666 2.887870
+## [1] 2.073900 3.566305 3.568440 2.636959 3.541926
 ## 
 ## [[4]]
-## [1] 4.471248 5.658364 4.172828 4.141186 5.520597
+## [1] 4.479269 5.532486 4.650690 2.688973 3.557823
 ## 
 ## [[5]]
-## [1] 6.536568 3.408411 4.470655 4.415278 4.223857
+## [1] 6.136452 5.331405 4.361077 4.572062 5.261537
 ## 
 ## [[6]]
-## [1] 5.509859 6.647242 6.015595 3.850522 3.987026
+## [1] 4.577885 6.788825 4.277568 6.134379 6.485530
 ## 
 ## [[7]]
-## [1] 6.358766 6.735290 6.282852 6.973535 5.811953
+## [1] 7.718404 7.105651 6.968658 7.551956 7.634469
 ## 
 ## [[8]]
-## [1] 7.999925 7.598877 9.989604 8.976403 7.849019
+## [1] 6.793204 7.921184 8.485568 7.600133 8.816643
 ## 
 ## [[9]]
-## [1]  8.832874  8.020994  8.513185  8.710562 10.362655
+## [1] 9.554838 8.901278 9.235871 8.583850 6.863581
 ## 
 ## [[10]]
-## [1] 10.777558  9.464847 10.368250  8.954401  9.929569</code></pre>
+## [1] 11.236681  9.191221  9.986998  9.473153  9.542101</code></pre>
 <pre class="r"><code>map(1:10,
     ~ rnorm(n = 5, mean = .x)) %&gt;%
   reduce(c) # a função c() que combina vetores, apenas um vetor de saída</code></pre>
-<pre><code>##  [1] 1.6281704 1.4313353 0.6129550 1.0299510 1.1507987 3.1749797 1.6159580
-##  [8] 1.8914915 0.3378615 2.8218959 1.5484085 1.8872401 2.3720235 3.3191666
-## [15] 2.1544913 5.1908136 4.3170986 4.6378538 4.3159932 4.5199262 3.9393416
-## [22] 4.4019341 4.9582378 6.5226665 5.4741334 2.7187170 4.9019036 5.7293616
-## [29] 6.0281345 5.0807229 7.3578327 6.3407636 7.6830744 6.2611654 5.5149209
-## [36] 5.6828570 7.0955326 7.3969451 8.9797483 7.5768088 9.8387517 7.6823122
-## [43] 8.0957346 9.7837577 8.1392530 9.3246610 9.6464313 8.6477922 8.6134492
-## [50] 9.4923201</code></pre>
+<pre><code>##  [1]  0.9823800 -0.5590955 -0.2893896  1.5732983  1.9335737  2.1005423
+##  [7]  2.2307451  2.5275564  3.5365313  2.6342725  3.7549358  4.1221890
+## [13]  3.8850179  1.4343370  3.1133282  5.0036512  4.7592334  3.7514190
+## [19]  3.2305121  4.6195347  5.2345191  4.6162969  6.1716742  4.9404750
+## [25]  5.3207892  6.0850025  5.9884531  6.7644135  7.4325577  5.5433233
+## [31]  6.4363239  7.8573207  6.4639221  6.0220299  8.2033437  9.4111057
+## [37]  8.7519945  8.5905086  8.4904456  7.8904876  9.5251413  7.9265442
+## [43]  7.6968702  8.1650457  7.1230936  9.7507227  9.8295439  8.6837617
+## [49]  9.8014395  9.7632646</code></pre>
 <pre class="r"><code>map(1:10,
     ~ rnorm(n = 5, mean = .x)) %&gt;%
   reduce(cbind) # a função que une coluna a coluna</code></pre>
-<pre><code>##            out       elt      elt      elt      elt      elt      elt      elt
-## [1,] 0.4562294 1.7459987 2.606133 1.184798 4.799842 8.494348 7.940657 9.684936
-## [2,] 1.0655011 3.0525084 3.059934 4.589272 4.184080 6.696488 7.518082 8.435388
-## [3,] 0.9302053 4.0820744 1.348780 3.851859 5.418157 4.586204 7.876779 5.826149
-## [4,] 1.3237806 2.8120246 3.717191 3.949392 3.271489 6.557986 6.695232 8.246987
-## [5,] 0.8472404 0.7928645 4.852143 2.807378 4.989493 5.667737 7.572593 7.914475
-##           elt       elt
-## [1,] 7.014824 11.508281
-## [2,] 8.950806  9.317124
-## [3,] 8.017108  9.450765
-## [4,] 9.480787 11.285744
-## [5,] 8.391295 10.007897</code></pre>
+<pre><code>##             out      elt      elt      elt      elt      elt      elt      elt
+## [1,]  1.1954326 2.003682 1.937710 2.568004 4.782914 5.635794 7.040474 7.138417
+## [2,]  0.4550071 1.875988 4.369643 4.522479 3.786131 6.058918 7.009364 8.454644
+## [3,] -0.3365051 2.993770 2.220321 4.371179 6.289199 3.990460 6.730721 8.739152
+## [4,]  0.2914277 1.712711 1.313547 5.873006 3.442698 6.244251 6.870368 7.923810
+## [5,]  1.2157099 1.290400 2.173671 2.974740 3.015927 5.541186 7.441456 8.615194
+##            elt      elt
+## [1,]  8.931515 11.05303
+## [2,]  8.644173 10.01046
+## [3,]  9.435867 10.52089
+## [4,] 10.262942 10.90799
+## [5,]  9.965202 10.48335</code></pre>
 <pre class="r"><code>map(1:10,
     ~ rnorm(n = 5, mean = .x)) %&gt;%
   reduce(rbind) # a função que une linha a linha (do ingles, row)</code></pre>
-<pre><code>##         [,1]      [,2]       [,3]       [,4]      [,5]
-## out 1.447248  1.689656 -0.5158238 -0.6522745  2.337944
-## elt 2.134178  2.380840  1.9963218  3.0738272  3.095418
-## elt 3.548405  3.249343  2.2078480  3.4694052  3.174281
-## elt 4.668736  4.090834  4.5041978  5.5325980  4.161951
-## elt 7.418455  3.865139  4.7137525  4.7451619  5.112369
-## elt 4.709122  6.054451  5.6482479  5.7202852  6.154183
-## elt 6.332451  7.316403  7.2743564  6.1357298  6.470765
-## elt 7.655707  7.246656  6.1155906  9.1130607  7.924700
-## elt 8.228652  8.716468 10.1482869  9.1174599  9.042867
-## elt 9.327076 10.588864  7.3326313  8.5495582 10.452437</code></pre>
+<pre><code>##           [,1]      [,2]      [,3]      [,4]       [,5]
+## out  0.7291609  2.146816 -1.662501 2.3522701  1.8458298
+## elt  4.1847018  3.289067  2.593366 0.9760658  0.3947473
+## elt  4.1866884  3.035825  2.029659 2.6510648  2.0081253
+## elt  5.3270356  4.943940  2.976580 4.5063331  4.2678024
+## elt  5.1702530  4.367673  4.162555 4.4240096  5.8769766
+## elt  7.5628398  4.910778  4.964045 6.2312263  4.5634939
+## elt  6.0725933  7.924978  7.755264 6.9505149  7.6193810
+## elt  7.6984709  5.818453  8.809182 7.9845237  7.5133789
+## elt 10.4491688  8.119751  7.471278 9.7305512 10.2725894
+## elt 12.6119036 10.663322  9.498496 9.3556920  8.7113770</code></pre>
 <p>Importante deixar claro que <em>não</em> precisamos nos limitar ao fluxo do map-reduce - e operadores podem ser chamados se usarmos as aspas backtick.</p>
 <pre class="r"><code>reduce(1:10, c) # a função c, de novo</code></pre>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
@@ -376,19 +375,19 @@ dados_medias$sims &lt;- lista
 <pre><code>## [1] 1</code></pre>
 <p>Antes avançar, vamos apreciar um propriedade muito boa de R: funções são cidadãs de primeira classe e isso explica por que coisas como <code>%&gt;% reduce(cbind)</code> funcionam. Assim como tibbles, listas, vetores e outras formas de armazenar dados, funções também são objetos e podemos notar isso ao parar de usar <code>()</code> para sinalizar que aquela função deve ser aplicada (outro açúcar sintático por sinal).</p>
 <pre class="r"><code>Sys.time()</code></pre>
-<pre><code>## [1] &quot;2020-09-14 21:27:25 -03&quot;</code></pre>
+<pre><code>## [1] &quot;2020-10-09 21:06:34 -03&quot;</code></pre>
 <pre class="r"><code>Sys.time</code></pre>
 <pre><code>## function () 
 ## .POSIXct(.Internal(Sys.time()))
-## &lt;bytecode: 0x55b6136296d0&gt;
+## &lt;bytecode: 0x5640d70485f8&gt;
 ## &lt;environment: namespace:base&gt;</code></pre>
 <pre class="r"><code>rnorm(10)</code></pre>
-<pre><code>##  [1]  0.3742830 -1.7798858 -1.1750556 -1.2166057  0.1923741  0.9791561
-##  [7]  0.3650549  1.0269722 -0.3104734 -0.9893005</code></pre>
+<pre><code>##  [1]  0.52452822  0.15413661  0.65484095  0.36934282 -1.32381920  0.28209009
+##  [7] -0.67200562 -0.09619135  0.07626069  0.26644798</code></pre>
 <pre class="r"><code>rnorm</code></pre>
 <pre><code>## function (n, mean = 0, sd = 1) 
 ## .Call(C_rnorm, n, mean, sd)
-## &lt;bytecode: 0x55b61591ebd8&gt;
+## &lt;bytecode: 0x5640d9346f88&gt;
 ## &lt;environment: namespace:stats&gt;</code></pre>
 <p>R é uma linguagem inspirada no paradigma funcional e as marcas estão por todo canto. Até os insuspeitos operadores são funções.</p>
 <pre class="r"><code>is.function(`+`) # o operador de soma é uma função?</code></pre>
@@ -439,16 +438,16 @@ dados_medias$sims &lt;- lista
 <pre><code>## # A tibble: 4,001,000 x 2
 ##    media    sims
 ##    &lt;dbl&gt;   &lt;dbl&gt;
-##  1     1  0.329 
-##  2     1  0.321 
-##  3     1  1.18  
-##  4     1  1.78  
-##  5     1 -0.0878
-##  6     1 -1.39  
-##  7     1  2.38  
-##  8     1  1.94  
-##  9     1  1.49  
-## 10     1  1.71  
+##  1     1 -0.0666
+##  2     1  1.98  
+##  3     1  1.08  
+##  4     1  2.41  
+##  5     1  1.44  
+##  6     1  2.09  
+##  7     1 -0.296 
+##  8     1  2.56  
+##  9     1 -0.0707
+## 10     1  1.86  
 ## # … with 4,000,990 more rows</code></pre>
 <p>Não é tão mais simples que fazer um loop? Existe um custo mental inicial de pensar sobre o código de outro jeito, mas ele logo se paga em soluções mais rápidas e baratas para problemas de todo tipo. Programação funcional te permite ser mais expressivo, fazer mais falando menos.</p>
 <p>Lembra que ao invés de usar <code>i</code> para nos referir ao valor da iteração, usamos <code>.x</code>? Eu já te dei os motivos, antes de mostrar como isso tudo se aplica num problema prático muito típico, quero mostrar por quê o <code>.x</code> faz sentido.</p>
@@ -504,18 +503,18 @@ dados_medias$sims &lt;- lista
     ) %&gt;%
     unnest(sims)</code></pre>
 <pre><code>## # A tibble: 8,405 x 3
-##    media    sd   sims
-##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-##  1     1   1    0.814
-##  2     1   1   -0.407
-##  3     1   1    0.814
-##  4     1   1    2.03 
-##  5     1   1    1.87 
-##  6     1   1.1  0.273
-##  7     1   1.1  1.83 
-##  8     1   1.1  1.72 
-##  9     1   1.1  3.43 
-## 10     1   1.1  0.987
+##    media    sd    sims
+##    &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1     1   1    1.36  
+##  2     1   1    1.43  
+##  3     1   1    0.401 
+##  4     1   1    1.21  
+##  5     1   1    1.10  
+##  6     1   1.1  2.52  
+##  7     1   1.1  0.599 
+##  8     1   1.1  2.58  
+##  9     1   1.1 -0.0285
+## 10     1   1.1  2.65  
 ## # … with 8,395 more rows</code></pre>
 <p>Iterando sobre mais variáveis padrões mais sofisiticados podem ser escritos com pouco trabalho adicional. Em um loop cada camada extra requer a mesma quantidade de “infraestrutura” em código e cada vez mais atenção para acompanhar todos os procedimentos. Perceba, trabalhar com processos aninhados é muito menos intuitivo que acompanhar o varrimento uniforme de uma grade de parâmetros.</p>
 </div>
@@ -538,18 +537,18 @@ library(glue)
                    size = length(PL),
                    replace = TRUE)))</code></pre>
 <pre><code>## # A tibble: 30 x 3
-##    PL                risco impacto
-##    &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;  
-##  1 ipsum consectetur baixo alto   
-##  2 ipsum sit         médio alto   
-##  3 elit elit         alto  baixo  
-##  4 ipsum lorem       baixo baixo  
-##  5 sit dolor         alto  médio  
-##  6 dolor dolor       médio baixo  
-##  7 consectetur ipsum baixo médio  
-##  8 consectetur amet  alto  alto   
-##  9 elit lorem        baixo médio  
-## 10 adipiscing amet   médio alto   
+##    PL                    risco impacto
+##    &lt;chr&gt;                 &lt;chr&gt; &lt;chr&gt;  
+##  1 consectetur lorem     baixo alto   
+##  2 adipiscing dolor      médio médio  
+##  3 ipsum lorem           alto  baixo  
+##  4 amet ipsum            médio médio  
+##  5 sit amet              alto  baixo  
+##  6 adipiscing adipiscing baixo alto   
+##  7 dolor consectetur     alto  médio  
+##  8 amet ipsum            baixo alto   
+##  9 dolor sit             alto  médio  
+## 10 dolor consectetur     baixo alto   
 ## # … with 20 more rows</code></pre>
 <p>Vamos passo a passo construir a solução. Primeiro construímos a grade:</p>
 <pre class="r"><code>tabela %$%
@@ -559,18 +558,18 @@ library(glue)
 ##   risco impacto
 ##   &lt;chr&gt; &lt;chr&gt;  
 ## 1 baixo alto   
-## 2 baixo baixo  
-## 3 baixo médio  
+## 2 baixo médio  
+## 3 baixo baixo  
 ## 4 médio alto   
-## 5 médio baixo  
-## 6 médio médio  
+## 5 médio médio  
+## 6 médio baixo  
 ## 7 alto  alto   
-## 8 alto  baixo  
-## 9 alto  médio</code></pre>
+## 8 alto  médio  
+## 9 alto  baixo</code></pre>
 <p>Agora adicionamos <code>mutate</code> e dentro definimos a coluna <code>PLs</code> que é resultado da iteração sobre risco e impacto fiscal e filtra, na tabela original, apenas os nomes de projetos de lei que atendem simultaneamente a terem um certo risco e um certo impacto fiscal. Como estamos iterando sobre a grade, sabemos que todas as combinações serão avalidas.</p>
 <pre class="r"><code>tabela %$%
   expand_grid(risco = unique(risco), 
-              impacto = unique(impacto))  %&gt;%
+              impacto = unique(impacto)) %&gt;%
   mutate(PLs = 
       map2(.x = risco, 
            .y = impacto,
@@ -584,20 +583,21 @@ library(glue)
 <pre><code>## # A tibble: 9 x 3
 ##   risco impacto PLs      
 ##   &lt;chr&gt; &lt;chr&gt;   &lt;list&gt;   
-## 1 baixo alto    &lt;chr [2]&gt;
-## 2 baixo baixo   &lt;chr [3]&gt;
-## 3 baixo médio   &lt;chr [5]&gt;
+## 1 baixo alto    &lt;chr [7]&gt;
+## 2 baixo médio   &lt;chr [1]&gt;
+## 3 baixo baixo   &lt;chr [1]&gt;
 ## 4 médio alto    &lt;chr [3]&gt;
-## 5 médio baixo   &lt;chr [1]&gt;
-## 6 médio médio   &lt;chr [3]&gt;
-## 7 alto  alto    &lt;chr [6]&gt;
-## 8 alto  baixo   &lt;chr [3]&gt;
-## 9 alto  médio   &lt;chr [4]&gt;</code></pre>
+## 5 médio médio   &lt;chr [2]&gt;
+## 6 médio baixo   &lt;chr [3]&gt;
+## 7 alto  alto    &lt;chr [1]&gt;
+## 8 alto  médio   &lt;chr [5]&gt;
+## 9 alto  baixo   &lt;chr [7]&gt;</code></pre>
 <p>Agora precisamos desaninhar essa lista em texto. Passamos a execução de <code>map2()</code> como argumento de outro mapeamento, agora com saída definida como vetor de texto basta usar <code>reduce</code> com uma versão customizada de <code>paste</code> para reduzir tudo em um vetor.</p>
-<pre class="r"><code>expand_grid(risco = unique(tabela$risco), 
-              impacto = unique(tabela$impacto)) %&gt;%
+<pre class="r"><code>tabela %$%
+  expand_grid(risco = unique(risco), 
+              impacto = unique(impacto)) %&gt;%
   mutate(PLs = 
-      map2(
+      map2_chr(
         .x = risco, 
         .y = impacto,
         function(.x, .y) {
@@ -609,17 +609,17 @@ library(glue)
         })
   ) </code></pre>
 <pre><code>## # A tibble: 9 x 3
-##   risco impacto PLs      
-##   &lt;chr&gt; &lt;chr&gt;   &lt;list&gt;   
-## 1 baixo alto    &lt;chr [1]&gt;
-## 2 baixo baixo   &lt;chr [1]&gt;
-## 3 baixo médio   &lt;chr [1]&gt;
-## 4 médio alto    &lt;chr [1]&gt;
-## 5 médio baixo   &lt;chr [1]&gt;
-## 6 médio médio   &lt;chr [1]&gt;
-## 7 alto  alto    &lt;chr [1]&gt;
-## 8 alto  baixo   &lt;chr [1]&gt;
-## 9 alto  médio   &lt;chr [1]&gt;</code></pre>
+##   risco impacto PLs                                                             
+##   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                                                           
+## 1 baixo alto    consectetur lorem, adipiscing adipiscing, amet ipsum, dolor con…
+## 2 baixo médio   adipiscing consectetur                                          
+## 3 baixo baixo   adipiscing amet                                                 
+## 4 médio alto    elit dolor, elit consectetur, consectetur elit                  
+## 5 médio médio   adipiscing dolor, amet ipsum                                    
+## 6 médio baixo   dolor dolor, ipsum sit, amet ipsum                              
+## 7 alto  alto    ipsum consectetur                                               
+## 8 alto  médio   dolor consectetur, dolor sit, sit elit, adipiscing dolor, ipsum…
+## 9 alto  baixo   ipsum lorem, sit amet, dolor ipsum, lorem elit, lorem adipiscin…</code></pre>
 <p>Algumas vantagens não são óvbias. A primeira é que é apenas uma expressão a ser executada então você pode ter certeza que nunca terá erros em pedaços específicos do código então <em>todo</em> dado resultado dessa operação é válido. Se uma peça móvel falhar, a avaliação toda é cancelada e está claro que há um problema. A segunda é que - apesar de parecer mais difícil no começo - essa abordagem te faz precisar acompanhar menos detalhes da operação si, te liberado para focar no resultado desejado.</p>
 <p>A terceira é que se você inicia uma expressão atribuindo o resultado dessa solução a um objeto, é uma operação <em>idempotente</em>, no sentido de que ao ser repetida sempre gera a mesma saída. Se você está sobreescrevendo o mesmo objeto várias vezes, então só terá o mesmo dado se repetir <em>todas as operações</em>. Essa é uma preocupação desnecessária se seu código for idempotente. Idempotência é uma propriedade especialmente importante quando se lida com código de execução automática (algo que rode todo dia às 9h da manhã por exemplo). Você <em>não quer</em> que um erro no sistema de filas ou execução do código altere o resultado do seus programas.</p>
 <p>Cuide da saúde, largue os loops.</p>

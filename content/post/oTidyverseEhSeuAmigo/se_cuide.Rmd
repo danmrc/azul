@@ -247,7 +247,7 @@ Agora adicionamos ``mutate`` e dentro definimos a coluna ``PLs`` que é resultad
 ```{R}
 tabela %$%
   expand_grid(risco = unique(risco), 
-              impacto = unique(impacto))  %>%
+              impacto = unique(impacto)) %>%
   mutate(PLs = 
       map2(.x = risco, 
            .y = impacto,
@@ -263,10 +263,11 @@ tabela %$%
 Agora precisamos desaninhar essa lista em texto. Passamos a execução de ``map2()`` como argumento de outro mapeamento, agora com saída definida como vetor de texto basta usar `reduce` com uma versão customizada de `paste` para reduzir tudo em um vetor.
 
 ```{R}
-expand_grid(risco = unique(tabela$risco), 
-              impacto = unique(tabela$impacto)) %>%
+tabela %$%
+  expand_grid(risco = unique(risco), 
+              impacto = unique(impacto)) %>%
   mutate(PLs = 
-      map2(
+      map2_chr(
         .x = risco, 
         .y = impacto,
         function(.x, .y) {

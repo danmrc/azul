@@ -42,7 +42,7 @@
 <meta property="og:description" content="Economia, Estatística, Programação" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/" />
-<meta property="og:updated_time" content="2020-09-07T00:00:00+00:00" />
+<meta property="og:updated_time" content="2020-10-10T00:00:00+00:00" />
 <meta itemprop="name" content="AZUL">
 <meta itemprop="description" content="Economia, Estatística, Programação">
 <meta name="twitter:card" content="summary"/>
@@ -95,16 +95,33 @@
         <div class="latest row py-lg-5">
             <div class="col-lg-6 mb-3"></div>
             <div class="col-lg-6 mb-3">
-                <h5 class="created text-muted text-uppercase font-weight-bold">September 7, 2020</h5>
-                <h2><a href="/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/">Componentes Principais e decomposição de matrizes</a></h2>
+                <h5 class="created text-muted text-uppercase font-weight-bold">October 10, 2020</h5>
+                <h2><a href="/2020/10/10/verossimilhan%C3%A7a-a-distribui%C3%A7%C3%A3o-de-poisson-e-um-gr%C3%A1fico/">Verossimilhança, a Distribuição de Poisson e um Gráfico</a></h2>
 
                 <div class="content">
-                    Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
-Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
+                    Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
+A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é descrita por:
+\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\] Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.
                 </div>
             </div>
         </div>
     <div class="articles row row-cols-1 row-cols-lg-3">
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Componentes Principais e decomposição de matrizes</h4>
+            <p class="card-text text-muted text-uppercase">September 7, 2020</p>
+            <div class="card-text">
+                Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
+Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
         
             <div class="col mb-3">
                 <div class="card h-100">
@@ -197,7 +214,6 @@ No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um mé
             <div class="card-text">
                 Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
 O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
-Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação.
             </div>
         </div>
     </a>
