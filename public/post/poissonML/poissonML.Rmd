@@ -1,7 +1,7 @@
 ---
 title: "Verossimilhança da Poisson"
 author: "Pedro Cavalcante"
-date: '2020-10-09'
+date: '2020-10-10'
 output:
   html_document:
     df_print: paged
@@ -29,11 +29,11 @@ $$f(k \, | \,\lambda) =  \frac{\lambda^k e^{-\lambda}}{k!}$$
 Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso. Duas propriedades que eu acho divertidinhas:
 
 * O primeiro e o segundo momento são iguais, valem $\lambda$. 
-* Seja $X$ um conjunto de variáveis aleatórias $X_i \sim \text{Pois}(\lambda_i)$, então$\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)$. A soma de várias Poisson, cada uma com $\lambda_i$ gera uma Poisson cujo parâmetro é a soma dos $\lambda_i$ individuais.
+* Seja $X$ um conjunto de variáveis aleatórias onde vale que $X_i \sim \text{Pois}(\lambda_i)$, então$\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)$. A soma de várias Poisson, cada uma com $\lambda_i$ gera uma Poisson cujo parâmetro é a soma dos $\lambda_i$ individuais.
 
 A pergunta é muito simples. Dado que tenho várias observações $k_1, k_2, ..., k_n$ que suponho serem tiradas de um processo i.i.d de uma Poisson com parâmetro $\lambda$, como estimo $\lambda$?
 
-Note que cada observação é possível calcular $P(k_i \, | \, \lambda)$. Como estamos falando de um processo i.i.d a probabilidade de que todas as observações $k_i$ tenham sido tiradas de uma mesma Poisson com parâmetro $\lambda$ é apenas o produto: 
+Note que para cada observação é possível calcular $P(k_i \, | \, \lambda)$. Como estamos falando de um processo i.i.d a probabilidade de que todas as observações $k_i$ tenham sido tiradas de uma mesma Poisson com parâmetro $\lambda$ é apenas o produto: 
 
 $$P(k_1, k_2, ..., k_n \, | \, \lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}$$
 Se você tomar as $n$ observações como dadas então temos uma curva relacionando cada potencial $\lambda$ à probabilidade de que os dados foram coletadas de uma Poisson com este parâmetro. Essa é a _verossimilhança_. Faz sentido então escolher o $\lambda^*$ que maximiza a verossimilhança. Os dados indicam que aí é onde está o nosso melhor chute educado sobre a verdadeira taxa de ocorrência do fenômeno. 
@@ -49,9 +49,7 @@ $$\frac{d l}{d \lambda} = \sum_{i+1}^n \frac{k_i}{\lambda} - 1 = 0 $$
 $$\sum_{i+1}^n \frac{k_i}{\lambda}  = n $$
 $$\lambda^* = \frac{1}{n} \sum_{i+1}^n k_i $$
 
-Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência verdadeira é a média das taxas de ocorrência observadas. Faz sentido... eu acho.
-
-Tá agora vamos ver um pouco da magia acontecendo, coisa e tals. Primeiro simular uma amostra com um $\lambda$ positivo aleatório que precisaremos descobrir.
+Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência verdadeira é a média das taxas de ocorrência observadas. Faz sentido... Agora vamos ver um pouco da magia acontecendo. Primeiro simular uma amostra com um $\lambda$ positivo aleatório que precisaremos descobrir.
 
 ```{R echo = FALSE, include = FALSE}
 knitr::opts_chunk$set(dpi = 180, error = TRUE, message = FALSE, warning = FALSE)
@@ -104,6 +102,15 @@ Já o $\lambda$ verdadeiro era:
 
 lambda_original
 
+```
+
+O que dá um erro absoluto de:
+
+```{R}
+simulacao %>%
+  filter(L == max(L)) %>%
+  pull(lambda) -
+  lambda_original
 ```
 
 A curva que nós calculamos, por sinal, foi essa aqui:

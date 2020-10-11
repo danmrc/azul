@@ -51,7 +51,7 @@ A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discre
 Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.">
 <meta itemprop="datePublished" content="2020-10-09T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-10-09T00:00:00+00:00" />
-<meta itemprop="wordCount" content="627">
+<meta itemprop="wordCount" content="644">
 
 
 
@@ -106,8 +106,8 @@ Existe um bom número de situações em que essa distribuição pode não ser ad
                     <div class="col-lg-8">
                         <div class="meta text-muted mb-3">
                             <p class="created text-muted text-uppercase font-weight-bold mb-1">October 9, 2020</p>
-                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>627 palavras</span>
-                            <span><i class="fas fa-clock mr-2"></i>3 mins</span>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>644 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>4 mins</span>
                         </div>
 
                         <h1>Verossimilhança da Poisson</h1>
@@ -134,10 +134,10 @@ Existe um bom número de situações em que essa distribuição pode não ser ad
 <p>Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso. Duas propriedades que eu acho divertidinhas:</p>
 <ul>
 <li>O primeiro e o segundo momento são iguais, valem <span class="math inline">\(\lambda\)</span>.</li>
-<li>Seja <span class="math inline">\(X\)</span> um conjunto de variáveis aleatórias <span class="math inline">\(X_i \sim \text{Pois}(\lambda_i)\)</span>, então<span class="math inline">\(\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)\)</span>. A soma de várias Poisson, cada uma com <span class="math inline">\(\lambda_i\)</span> gera uma Poisson cujo parâmetro é a soma dos <span class="math inline">\(\lambda_i\)</span> individuais.</li>
+<li>Seja <span class="math inline">\(X\)</span> um conjunto de variáveis aleatórias onde vale que <span class="math inline">\(X_i \sim \text{Pois}(\lambda_i)\)</span>, então<span class="math inline">\(\sum_{i=1}^n X_i \sim \text{Pois}(\sum_{i=1}^n \lambda_i)\)</span>. A soma de várias Poisson, cada uma com <span class="math inline">\(\lambda_i\)</span> gera uma Poisson cujo parâmetro é a soma dos <span class="math inline">\(\lambda_i\)</span> individuais.</li>
 </ul>
 <p>A pergunta é muito simples. Dado que tenho várias observações <span class="math inline">\(k_1, k_2, ..., k_n\)</span> que suponho serem tiradas de um processo i.i.d de uma Poisson com parâmetro <span class="math inline">\(\lambda\)</span>, como estimo <span class="math inline">\(\lambda\)</span>?</p>
-<p>Note que cada observação é possível calcular <span class="math inline">\(P(k_i \, | \, \lambda)\)</span>. Como estamos falando de um processo i.i.d a probabilidade de que todas as observações <span class="math inline">\(k_i\)</span> tenham sido tiradas de uma mesma Poisson com parâmetro <span class="math inline">\(\lambda\)</span> é apenas o produto:</p>
+<p>Note que para cada observação é possível calcular <span class="math inline">\(P(k_i \, | \, \lambda)\)</span>. Como estamos falando de um processo i.i.d a probabilidade de que todas as observações <span class="math inline">\(k_i\)</span> tenham sido tiradas de uma mesma Poisson com parâmetro <span class="math inline">\(\lambda\)</span> é apenas o produto:</p>
 <p><span class="math display">\[P(k_1, k_2, ..., k_n \, | \, \lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}\]</span>
 Se você tomar as <span class="math inline">\(n\)</span> observações como dadas então temos uma curva relacionando cada potencial <span class="math inline">\(\lambda\)</span> à probabilidade de que os dados foram coletadas de uma Poisson com este parâmetro. Essa é a <em>verossimilhança</em>. Faz sentido então escolher o <span class="math inline">\(\lambda^*\)</span> que maximiza a verossimilhança. Os dados indicam que aí é onde está o nosso melhor chute educado sobre a verdadeira taxa de ocorrência do fenômeno.</p>
 <p><span class="math display">\[L(\lambda) = \prod_{i=1}^n \frac{\lambda^{k_i} e^{-\lambda}}{k_i!}\]</span></p>
@@ -146,8 +146,7 @@ Se você tomar as <span class="math inline">\(n\)</span> observações como dada
 <p><span class="math display">\[\frac{d l}{d \lambda} = \sum_{i+1}^n \frac{k_i}{\lambda} - 1 = 0 \]</span>
 <span class="math display">\[\sum_{i+1}^n \frac{k_i}{\lambda}  = n \]</span>
 <span class="math display">\[\lambda^* = \frac{1}{n} \sum_{i+1}^n k_i \]</span></p>
-<p>Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência verdadeira é a média das taxas de ocorrência observadas. Faz sentido… eu acho.</p>
-<p>Tá agora vamos ver um pouco da magia acontecendo, coisa e tals. Primeiro simular uma amostra com um <span class="math inline">\(\lambda\)</span> positivo aleatório que precisaremos descobrir.</p>
+<p>Esse trabalho todo para chegar na média. É isso, o melhor chute para a taxa de ocorrência verdadeira é a média das taxas de ocorrência observadas. Faz sentido… Agora vamos ver um pouco da magia acontecendo. Primeiro simular uma amostra com um <span class="math inline">\(\lambda\)</span> positivo aleatório que precisaremos descobrir.</p>
 <pre class="r"><code>lambda_original &lt;- runif(1, 25, 100)
 
 amostra &lt;- rpois(1000, lambda_original)</code></pre>
@@ -170,26 +169,32 @@ fatorial(4) # teste</code></pre>
 <pre><code>## # A tibble: 751 x 2
 ##    lambda       L
 ##     &lt;dbl&gt;   &lt;dbl&gt;
-##  1   25   -11349.
-##  2   25.1 -11259.
-##  3   25.2 -11170.
-##  4   25.3 -11082.
-##  5   25.4 -10995.
-##  6   25.5 -10908.
-##  7   25.6 -10822.
-##  8   25.7 -10736.
-##  9   25.8 -10652.
-## 10   25.9 -10568.
+##  1   25   -12037.
+##  2   25.1 -11943.
+##  3   25.2 -11850.
+##  4   25.3 -11758.
+##  5   25.4 -11666.
+##  6   25.5 -11575.
+##  7   25.6 -11485.
+##  8   25.7 -11396.
+##  9   25.8 -11307.
+## 10   25.9 -11219.
 ## # … with 741 more rows</code></pre>
 <pre class="r"><code>(results &lt;- simulacao %&gt;%
   filter(L == max(L)))</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##   lambda      L
 ##    &lt;dbl&gt;  &lt;dbl&gt;
-## 1   47.5 -3333.</code></pre>
+## 1   48.6 -3356.</code></pre>
 <p>Já o <span class="math inline">\(\lambda\)</span> verdadeiro era:</p>
 <pre class="r"><code>lambda_original</code></pre>
-<pre><code>## [1] 47.38331</code></pre>
+<pre><code>## [1] 48.72726</code></pre>
+<p>O que dá um erro absoluto de:</p>
+<pre class="r"><code>simulacao %&gt;%
+  filter(L == max(L)) %&gt;%
+  pull(lambda) -
+  lambda_original</code></pre>
+<pre><code>## [1] -0.1272615</code></pre>
 <p>A curva que nós calculamos, por sinal, foi essa aqui:</p>
 <pre class="r"><code>simulacao %&gt;%
   ggplot(aes(x = lambda, y = L)) +
@@ -200,7 +205,7 @@ fatorial(4) # teste</code></pre>
        x = &quot;Lambda&quot;,
        y = &quot;L(.)&quot;) +
   theme_minimal()</code></pre>
-<p><img src="/post/poissonML/poissonML_files/figure-html/unnamed-chunk-7-1.png" width="1260" /></p>
+<p><img src="/post/poissonML/poissonML_files/figure-html/unnamed-chunk-8-1.png" width="1260" /></p>
 
                         </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
                                     <i class="fas fa-tag mr-2"></i>R
