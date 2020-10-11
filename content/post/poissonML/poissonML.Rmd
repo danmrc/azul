@@ -107,11 +107,17 @@ lambda_original
 O que dá um erro absoluto de:
 
 ```{R}
-simulacao %>%
+(simulacao %>%
   filter(L == max(L)) %>%
   pull(lambda) -
-  lambda_original
+  lambda_original %>%
+  abs() ->
+  erro_abs)
+
+100 * erro_abs / lambda_original %>%
+  round(2) # erro percentual
 ```
+Algo próximo de 1,13%
 
 A curva que nós calculamos, por sinal, foi essa aqui:
 
@@ -122,9 +128,9 @@ simulacao %>%
   geom_line(size = 1.2, col = "red") +
   geom_hline(yintercept = pull(results, L)) +
   geom_vline(xintercept = pull(results, lambda)) +
-  labs(title = "Curva da Verossimilhança para uma amostra",
+  labs(title = "Curva da Log-Verossimilhança calculada a partir da amostra",
        x = "Lambda",
-       y = "L(.)") +
+       y = "l(.)") +
   theme_minimal()
 
 ```

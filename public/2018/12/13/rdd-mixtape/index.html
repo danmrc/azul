@@ -43,14 +43,13 @@
 <meta property="article:modified_time" content="2018-12-13T00:00:00+00:00" />
 <meta itemprop="name" content="RDD, inferência causal e um exemplo em R">
 <meta itemprop="description" content="Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.">
-<meta itemprop="datePublished" content="2018-12-13T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-12-13T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1523">
+<meta itemprop="datePublished" content="2018-12-13T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-12-13T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1527">
 
 
 
-<meta itemprop="keywords" content="RDD,Inferência Causal,Replicação," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="RDD,Inferência Causal,Replicação," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="RDD, inferência causal e um exemplo em R"/>
 <meta name="twitter:description" content="Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -97,7 +96,7 @@
                     <div class="col-lg-8">
                         <div class="meta text-muted mb-3">
                             <p class="created text-muted text-uppercase font-weight-bold mb-1">December 13, 2018</p>
-                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1523 palavras</span>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1527 palavras</span>
                             <span><i class="fas fa-clock mr-2"></i>8 mins</span>
                         </div>
 
@@ -150,13 +149,13 @@ lmb_data = as.tibble(lmb_data)
 head(lmb_data)</code></pre>
 <pre><code>## # A tibble: 6 x 178
 ##   state district incmbncy demvote repvote  year congress occupanc name 
-##   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
-## 1     1        1       -1  127802  103294  1948       81        0 RIBI~
-## 2     1        1       -1  127802  103294  1948       81        0 RIBI~
-## 3     1        1        1  134258   96251  1950       82        0 RIBI~
-## 4     1        1        1  134258   96251  1950       82        0 RIBI~
-## 5     1        1        1  148935  112526  1954       84        0 DODD 
-## 6     1        1        1  148935  112526  1954       84        0 DODD 
+##   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl+lb&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;
+## 1 1            1 -1        127802  103294  1948       81        0 RIBI~
+## 2 1            1 -1        127802  103294  1948       81        0 RIBI~
+## 3 1            1 &quot; 1&quot;      134258   96251  1950       82        0 RIBI~
+## 4 1            1 &quot; 1&quot;      134258   96251  1950       82        0 RIBI~
+## 5 1            1 &quot; 1&quot;      148935  112526  1954       84        0 DODD 
+## 6 1            1 &quot; 1&quot;      148935  112526  1954       84        0 DODD 
 ## # ... with 169 more variables: eq_Dwhip &lt;dbl&gt;, eq_Rwhip &lt;dbl&gt;,
 ## #   eq_Dlead &lt;dbl&gt;, eq_Rlead &lt;dbl&gt;, vote &lt;dbl&gt;, republic &lt;dbl&gt;,
 ## #   party &lt;dbl&gt;, office &lt;dbl&gt;, icpsr_id &lt;dbl&gt;, whip_D &lt;dbl&gt;, whip_R &lt;dbl&gt;,
