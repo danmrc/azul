@@ -1,0 +1,168 @@
+---
+title: 'Remastered: Programação Dinâmica'
+author: Daniel Coutinho
+date: '2020-10-21'
+slug: remastered-programação-dinâmica
+categories:
+  - Programação dinâmica
+  - Julia
+tags:
+  - Programação Dinâmica
+  - Julia
+  - Remastered
+images: []
+authors: ["danielc"]
+katex: true
+draft: true
+---
+
+<script src="2020-10-21-remastered-programação-dinâmica.pt-br_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das primeiras coisas do blog. Eu acho que chegou a hora de revisitar o tópico porque desde então eu aprendi maneiras mais “limpas” de programar e o programa antigo provavelmente é horroroso. Vocês podem levantar objeções de que essa é uma maneira barata de gerar post novo, mas eu acho que deixar o programa mais claro/mais eficiente é importante para transmitir a ideia. Eu vou repetir toda a história, mas se você não quer reler, pule a próxima seção e vá direto pro código.</p>
+<div id="o-problema" class="section level2">
+<h2>O problema</h2>
+<p>Suponha que a gente tem um agente que vive uma vida infinita e pode escolher entre consumo e bens de capital, que são usados para produzir bens via uma função de produção <span class="math inline">\(f\)</span>. O agente tem utilidade <span class="math inline">\(u\)</span> e existe um choque na produtividade que, <span class="math inline">\(\varepsilon\)</span>. Eu vou permitir que uma parte do capital passe de um período para o outro e se deprecie a taxa <span class="math inline">\(\delta\)</span>:</p>
+<p><span class="math display">\[
+\max_{\{c_t\}_{t=1}^{\infty},\{k_{t+1}\}_{t=1}^{\infty}} E\left[\sum_{t=1}^{\infty} \beta^t u(c_t) \right] \\
+\text{sujeito a}\\
+c_t + k_{t+1} = f(k_t,\varepsilon_t) + (1-\delta)k_t
+\]</span></p>
+<p>A gente pode substituir a restrição no problema e ficar com um problema sem restrição:</p>
+<p><span class="math display">\[
+\max_{\{k_{t+1}\}_{t=1}^{\infty}} E\left[\sum_{t=1}^{\infty} \beta^t u(f(k_t,\varepsilon_t)  + (1-\delta)k_t - k_{t+1}) \right] \\
+\]</span>
+Como no post anterior, eu vou escolher tudo de maneira que tenha uma solução analítica. Assim a gente vai poder comparar a solução numérica com a solução analítica. Então:</p>
+<ul>
+<li>A utilidade vai ser <span class="math inline">\(\log(c)\)</span></li>
+<li>A função de produção vai ser <span class="math inline">\(\varepsilon_t k_t^{\alpha}\)</span></li>
+<li>A depreciação vai ser igual a 1 - nenhum capital vai passar de um período pro outro</li>
+</ul>
+<p>O problema aqui é que como temos <em>infinitos</em> períodos, a gente tem que escolher <em>infinitos</em> controles. Isso é um problema, porque “derivar e igualar a zero” não vai ser suficiente para resolver o problema.</p>
+<p>A solução é relativamente simples: como sempre tem infinitos períodos a frente, então o valor futuro não depende do ponto no tempo, ou seja, a gente pode quebrar o problema acima como:</p>
+<p><span class="math display">\[
+\max_{\{k_{t+1}\}_{t=1}^{\infty}} \log(\varepsilon_1k_1^{\alpha} - k_{2}) + \beta E\left[\sum_{t=2}^{\infty} \beta^{t-1} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) \right]
+\]</span></p>
+<p>Veja que no período 2 o problema é idêntico: tem infinitos períodos a frente! Vamos chamar <span class="math inline">\(E\left[\sum_{t=2}^{\infty} \beta^{t-1} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) \right]\)</span> de <span class="math inline">\(V_{t+1}\)</span> e o problema se torna:</p>
+<p><span class="math display">\[
+V(k_{t}) = \max k_{t+1} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) + \beta{}V(k_{t+1}) \quad \quad (i)
+\]</span></p>
+<p>O problema agora é encontrar exatamente quem é a função <span class="math inline">\(V\)</span>, e a gente vai fazer a nossa coisa favorita: chutar a solução para V e iterar até convergir - a convergência é garantida pelo teorema ponto fixo de Banach, um dos xodós do blog. Veja que <span class="math inline">\(k_t\)</span> é quanto capital foi guardado do último período. Então:</p>
+<ol style="list-style-type: decimal">
+<li>Postule V</li>
+<li>Calcule o máximo da expressão (i) e guarde o valor do máximo</li>
+<li>O novo valor do máximo é o novo chute para V</li>
+<li>Itere</li>
+</ol>
+<p>Veja que a gente vai precisar “guardar” a função V. A maneira que vamos usar é simples: gere um grid de pontos e calcule o máximo para cada valor de <span class="math inline">\(k_t\)</span>. Isso vai implicitamente gerar um valor futuro de <span class="math inline">\(k\)</span>, e pode muito bem não ser um ponto do grid. Então use os valores de cada ponto e interpole entre eles de alguma maneira - nós vamos usar interpolação linear, literalmente conectando ponto com o ponto seguinte por uma reta.</p>
+</div>
+<div id="o-código" class="section level2">
+<h2>O código</h2>
+<p>Eu posso definir os parâmetros da função de produção e a taxa de desconto e eu vou começar por isso e carregando os pacotes:</p>
+<pre class="julia"><code>
+#Os ponto e vírgula são necessários somente no blog! Senão ele vai imprimir muita coisa e atrapalhar a vizualizar
+
+using Optim,Interpolations,Statistics,Plots
+
+α = 0.5;
+β = 0.99;
+δ = 1; #full depreciation</code></pre>
+<pre><code>## 1</code></pre>
+<p>A gente vai usar o <em>interpolation</em> para fazer a interpolação da função valor; o <em>Optim</em> vai ser encarregado de encontrar o ótimo; o <em>Statistics</em> vai ficar claro já já; e o <em>Plots</em> vai permitir a gente ilustrar os resultados. E sim, o Julia consegue lidar com parâmetros que são letras gregas!</p>
+<p>Vamos criar as funções utilidade e de produção e as matrizes que vão salvar tanto a função valor quanto a política ótima - o valor ótimo de consumo dado o estoque de capital</p>
+<pre class="julia"><code>iter_lim = 500;
+grid_size = 100;
+
+f(k) = k^α;
+u(c) = log(c);
+
+grid = range(0.02,5,length=grid_size);
+
+V = zeros(iter_lim,grid_size);
+V[1,:] = u.(grid);
+
+policy = zeros(iter_lim,grid_size);</code></pre>
+<p>Eu estabeleci o tamanho do grid em 100. Eu poderia adicionar mais pontos ou menos, e isso afeta tanto a qualidade da solução quanto a velocidade. O iter_lim vai controlar a quantidade de iterações.</p>
+<p>Veja que na derivação eu usei <span class="math inline">\(V(k_t)\)</span>, ou seja, a solução depende da quantidade de capital que você leva de um período para o outro. Eu acho essa a maneira mais natural de trabalhar, mas por motivos computacionais vai ser melhor definir <span class="math inline">\(V\)</span> como função da produção. Veja que é simples passar de um para o outro usando a função de produção.</p>
+<p>Veja que o meu chute inicial (<code>V[1,:] = u.(grid)</code>) involve o agente consumir toda a produção. Isso <em>dificilmente</em> será o ótimo, mas é um bom chute inicial: pense que se o problema fosse finito, o ótimo no último período seria consumir toda a produção (e é exatamente esse truque que justifica eu usar a função utilidade como função valor).</p>
+<p>Eu vou criar duas funções agora: uma função é a função objetivo e a outra é simplesmente uma função por conveniência para facilitar a minha vida na hora de iterar:</p>
+<pre class="julia"><code>
+function objective(c,y,interp)
+    k_old = y^(1/α)
+    next_y = f(y -c +(1-δ)*k_old)
+    return -u(c) - β*mean(interp.(exp.(0.1*randn(200))*next_y))
+end;
+
+function otimo(obj,grid,interp)
+    ot = optimize(x-&gt;objective(x,grid,interp),0.01,grid-0.0001)
+    return ot.minimum,ot.minimizer
+end;</code></pre>
+<p>Veja que a função objetivo recebe o ponto que a gente está hoje, <span class="math inline">\(y\)</span> (quanta produção é possível dado o capital herdado do último período); um objeto que faz a interpolação, <span class="math inline">\(interp\)</span>; e o consumo, <span class="math inline">\(c\)</span>, que é a variável de escolha. A segunda função simplesmente recebe a função objetivo, o ponto do grid que a gente tá e a função que faz a interpolação e realiza a otimização. Como o otimizador só faz minimização, multiplicar por <span class="math inline">\(-1\)</span> transforma o máximo em mínimo. Como a otimização é univariada, o algoritmo precisa
+do intervalo para buscar os valores: eu to estabelecendo o consumo como no mínimo um número pequeno - pequeno demais vai gerar algum número próximo de <span class="math inline">\(-\infty\)</span>. O valor máximo não pode ser consumir tudo porque isso implica em produção zero no próximo período e isso também gera um <span class="math inline">\(-\infty\)</span>.</p>
+<p>Veja que tem muita infraestrutura antes de começar a iteração de fato. A vantagem disso é que eu posso checar que todas as funções funcionam antes de rodar o <em>loop</em> e o <em>loop</em> fica extremamente conciso, especialmente usando o <code>map</code>:</p>
+<pre class="julia"><code>
+global j = 2;
+global err = 1;
+
+@time while j &lt;= iter_lim &amp;&amp; err &gt; 1e-5
+    interp = LinearInterpolation(grid,V[j-1,:])
+    res = map(y-&gt;otimo(objective,y,interp),grid)
+    V[j,:] = map(i-&gt;-1*res[i][1],1:grid_size)
+    policy[j,:] = map(i-&gt;res[i][2],1:grid_size)
+
+    global err = maximum(abs.(V[j,:] - V[j-1,:]))
+
+    global j += 1
+
+    mod(j,50) == 0 ? println(&quot;Interation &quot;,j,&quot; error &quot;,err) : nothing
+
+end</code></pre>
+<pre><code>## Interation 50 error 0.9046919598465166
+## Interation 100 error 0.5624151881789743
+## Interation 150 error 0.35029197293924597
+## Interation 200 error 0.21552394148692144
+## Interation 250 error 0.18474085258877437
+## Interation 300 error 0.10008527772625087
+## Interation 350 error 0.0854427182466111
+## Interation 400 error 0.04963526305411392
+## Interation 450 error 0.03695748831259493
+## Interation 500 error 0.055092989225812516
+##  25.645754 seconds (92.39 M allocations: 14.042 GiB, 13.02% gc time)</code></pre>
+<p>Primeiro: você precisa definir <code>j</code> e <code>err</code> como global para eles serem acessados pelo loop corretamente - senão ele vai criar variáveis dentro do escopo do loop. O <code>while</code> permite que o código pare de rodar se uma das duas coisas acontecer: ou atingir o máximo de iterações, que eu defini lá em cima ou se a diferença entre a função valor de duas iterações diferentes for menor que 1e-5.</p>
+<p>Veja que o primeiro <code>map</code> aplica a função <code>otimo</code> para cada ponto do grid. Veja que eu usei uma função anônima (<code>y-&gt;otimo(objective,y,interp)</code>) para o código passar o valor de cada ponto do grid para a função que eu fiz para buscar o ótimo. Os dois maps seguintes só pegam o resultado do primeiro <code>map</code> e quebra ele - o Julia permite arrays em que cada elemento tem mais de uma entra, então formalmente o objeto <code>res</code> tem 100 entradas, e cada entrada é um vetor. Veja que eu podia ter feito isso com um <code>for</code>:</p>
+<pre><code>
+while j &lt;= iter_lim &amp;&amp; err &gt; 1e-5
+    interp = LinearInterpolation(grid,V[j-1,:])
+    for i = 1:grid_size
+        ot = optimize(c-&gt;objective(c,grid[i],interp),0.01,grid[i] - 0.0001)
+        V[j,i] = -ot.minimum
+        policy[j,i] = ot.minimizer
+    end
+
+    global err = maximum(abs.(V[j,:] - V[j-1,:]))
+
+    global j += 1
+
+     mod(j,50) == 0 ? println(&quot;Interation &quot;,j,&quot; error &quot;,err) : nothing
+
+end</code></pre>
+<p>Em uma outra observação, a linha <code>mod(j,50) == 0 ? println("Interation ",j," error ",err) : nothing</code> é uma maneira extremamente concisa de escrever:</p>
+<pre><code>
+if(mod(j,50) == 0)
+  println(&quot;Interation &quot;,j,&quot; error &quot;,err)
+end</code></pre>
+<p>O <code>nothing</code> indica que caso a condição não seja verdade, nada deve ser feito.</p>
+<p>Tem uma pequena diferença entre a versão usando <code>map</code> e a versão usando <code>for</code>: a versão usando <code>map</code>
+é um pouco mais rápida. Fora do RStudio, a versão com <code>map</code> roda em 21s e a com <code>for</code> demora 25s. A diferença é muito pequena e provavelmente se deve menos ao for e mais ao fato de como a linguagem funciona (funções são sempre mais rápidas devido a compilação, por exemplo).</p>
+<p>Dito isso, vamos ver como fica a função consumo e comparar ela com a função consumo obtida analiticamente:</p>
+<pre class="julia"><code>
+plot(grid,policy[iter_lim,:], lab = &quot;Numerical Solution&quot;, legend = :topleft);
+apol(grid) = (1-α*β)*grid;
+plot!(grid,apol.(grid), lab = &quot;Analytical Solution&quot;);</code></pre>
+<p><img src="/post/Prog_dinamica/remastered_1.png" /></p>
+<p>Eu não fiquei inteiramente satisfeito com o quão bagunçado tava a linha no fim e eu aumentei o número de iterações para mil, com os seguintes resultados:</p>
+<p><img src="/post/Prog_dinamica/remastered_2.png" /></p>
+<p>Dá pra melhorar? Eu to usando só 100 pontos para calcular a expectância, de repente 400 pontos fazem um trabalho melhor (mantendo mil iterações):</p>
+<p><img src="/post/Prog_dinamica/remastered_3.png" /></p>
+<p>Melhorou! Mas eu realmente gostaria de ver menos ruído. Aumentar o número de iterações e o número de pontos para calcular a expectância provavelmente resolvem isso. Métodos usando as condições de primeira ordem, que eu já discuti <a href="https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/">aqui</a>, tendem a convergir mais rápido, então menos iterações vão ser necessárias.</p>
+</div>

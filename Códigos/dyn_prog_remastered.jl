@@ -1,0 +1,72 @@
+using Optim,Interpolations,Statistics,Plots
+
+α = 0.5
+β = 0.99
+δ = 1 #full depreciation
+
+grid_size = 100
+iter_lim = 500
+
+f(k) = k^α
+u(c) = log(c)
+
+grid = range(0.02,5,length=grid_size)
+
+V = zeros(iter_lim,grid_size)
+V[1,:] = u.(grid)
+
+policy = zeros(iter_lim,grid_size)
+
+function otimo(obj,grid,interp)
+    ot = optimize(x->objective(x,grid,interp),0.01,grid-0.0001)
+    return ot.minimum,ot.minimizer
+end
+
+function objective(c,y,interp)
+    k_old = y^(1/α)
+    next_y = f(y -c +(1-δ)*k_old)
+    return -u(c) - β*mean(interp.(exp.(0.1*randn(200))*next_y))
+end
+
+global j = 2
+global err = 1
+
+@time while j <= iter_lim && err > 1e-5
+    interp = LinearInterpolation(grid,V[j-1,:])
+    res = map(y->otimo(objective,y,interp),grid)
+    V[j,:] = map(i->-1*res[i][1],1:grid_size)
+    policy[j,:] = map(i->res[i][2],1:grid_size)
+
+    global err = maximum(abs.(V[j,:] - V[j-1,:]))
+
+    global j += 1
+
+    println("Interation ",j," error ",err)
+
+end
+
+plot(grid,V[2,:])
+plot!(grid,V[iter_lim,:])
+
+plot(grid,policy[iter_lim,:])
+apol(grid) = (1-α*β)*grid
+plot!(grid,apol.(grid))
+
+global j = 2
+global err = 1
+
+@time while j <= iter_lim && err > 1e-5
+    interp = LinearInterpolation(grid,V[j-1,:])
+    for i = 1:grid_size
+        ot = optimize(c->objective(c,grid[i],interp),0.01,grid[i] - 0.0001)
+        V[j,i] = -ot.minimum
+        policy[j,i] = ot.minimizer
+    end
+
+    global err = maximum(abs.(V[j,:] - V[j-1,:]))
+
+    global j += 1
+
+    println("Interation ",j," error ",err)
+
+end
