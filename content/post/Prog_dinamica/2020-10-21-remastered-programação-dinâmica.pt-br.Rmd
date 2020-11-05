@@ -13,7 +13,6 @@ tags:
 images: []
 authors: ["danielc"]
 katex: true
-draft: true
 ---
 
 Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das primeiras coisas do blog. Eu acho que chegou a hora de revisitar o tópico porque desde então eu aprendi maneiras mais "limpas" de programar e o programa antigo provavelmente é horroroso. Vocês podem levantar objeções de que essa é uma maneira barata de gerar post novo, mas eu acho que deixar o programa mais claro/mais eficiente é importante para transmitir a ideia. Eu vou repetir toda a história, mas se você não quer reler, pule a próxima seção e vá direto pro código. 
@@ -33,7 +32,7 @@ A gente pode substituir a restrição no problema e ficar com um problema sem re
 $$
 \max_{\{k_{t+1}\}_{t=1}^{\infty}} E\left[\sum_{t=1}^{\infty} \beta^t u(f(k_t,\varepsilon_t)  + (1-\delta)k_t - k_{t+1}) \right] \\
 $$
-Como no post anterior, eu vou escolher tudo de maneira que tenha uma solução analítica. Assim a gente vai poder comparar a solução numérica com a solução analítica. Então:
+Como no post anterior, eu vou escolher tudo de maneira que tenha uma solução analítica. Assim, a gente vai poder comparar a solução numérica com a solução analítica. Então:
 
 * A utilidade vai ser $\log(c)$
 * A função de produção vai ser $\varepsilon_t k_t^{\alpha}$
@@ -44,13 +43,13 @@ O problema aqui é que como temos _infinitos_ períodos, a gente tem que escolhe
 A solução é relativamente simples: como sempre tem infinitos períodos a frente, então o valor futuro não depende do ponto no tempo, ou seja, a gente pode quebrar o problema acima como:
 
 $$
-\max_{\{k_{t+1}\}_{t=1}^{\infty}} \log(\varepsilon_1k_1^{\alpha} - k_{2}) + \beta E\left[\sum_{t=2}^{\infty} \beta^{t-1} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) \right]
+\max_{\{k_{t+1}\}_{t=1}^{\infty}} \log(\varepsilon_1k_1^{\alpha} - k_{2}) + \beta E\left[\sum_{t=2}^{\infty} \beta^{t-2} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) \right]
 $$
 
-Veja que no período 2 o problema é idêntico: tem infinitos períodos a frente! Vamos chamar $E\left[\sum_{t=2}^{\infty} \beta^{t-1} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) \right]$ de $V_{t+1}$ e o problema se torna:
+No período 2 o problema é idêntico: tem infinitos períodos a frente! Vamos chamar $E\left[\sum_{t=2}^{\infty} \beta^{t-1} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) \right]$ de $V_{t+1}$ e o problema se torna:
 
 $$
-V(k_{t}) = \max k_{t+1} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) + \beta{}V(k_{t+1}) \quad \quad (i)
+V(k_{t}) = \max_{k_{t+1}} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) + \beta{}V(k_{t+1}) \quad \quad (i)
 $$
 
 O problema agora é encontrar exatamente quem é a função $V$, e a gente vai fazer a nossa coisa favorita: chutar a solução para V e iterar até convergir - a convergência é garantida pelo teorema ponto fixo de Banach, um dos xodós do blog. Veja que $k_t$ é quanto capital foi guardado do último período. Então:
@@ -60,7 +59,7 @@ O problema agora é encontrar exatamente quem é a função $V$, e a gente vai f
 3. O novo valor do máximo é o novo chute para V
 4. Itere
 
-Veja que a gente vai precisar "guardar" a função V. A maneira que vamos usar é simples: gere um grid de pontos e calcule o máximo para cada valor de $k_t$. Isso vai implicitamente gerar um valor futuro de $k$, que pode muito bem não ser um ponto do grid. Então use os valores de cada ponto e interpole entre eles de alguma maneira - nós vamos usar interpolação linear, literalmente conectando ponto com o ponto seguinte por uma reta.  
+A gente vai precisar "guardar" a função V. A maneira que vamos usar é simples: gere um grid de pontos e calcule o máximo para cada valor de $k_t$. Isso vai implicitamente gerar um valor futuro de $k$, que pode muito bem não ser um ponto do grid. Então use os valores de cada ponto e interpole entre eles de alguma maneira - nós vamos usar interpolação linear, literalmente conectando ponto com o ponto seguinte por uma reta.  
 
 ## O código
 
@@ -98,9 +97,9 @@ policy = zeros(iter_lim,grid_size);
 
 Eu estabeleci o tamanho do grid em 100. Eu poderia adicionar mais pontos ou menos, e isso afeta tanto a qualidade da solução quanto a velocidade. O iter_lim vai controlar a quantidade de iterações.
 
-Veja que na derivação eu usei $V(k_t)$, ou seja, a solução depende da quantidade de capital que você leva de um período para o outro. Eu acho essa a maneira mais natural de trabalhar, mas por motivos computacionais vai ser melhor definir $V$ como função da produção, $y_t$. Veja que é simples passar de um para o outro usando a função de produção. 
+Na derivação eu usei $V(k_t)$, ou seja, a solução depende da quantidade de capital que você leva de um período para o outro. Eu acho essa a maneira mais natural de trabalhar, mas por motivos computacionais vai ser melhor definir $V$ como função da produção, $y_t$. É simples passar de um para o outro usando a função de produção. 
 
-Veja que o meu chute inicial (`V[1,:] = u.(grid)`) involve o agente consumir toda a produção. Isso _dificilmente_ será o ótimo, mas é um bom chute inicial: pense que se o problema fosse finito, o ótimo no último período seria consumir toda a produção (e é exatamente esse truque que justifica eu usar a função utilidade como função valor para o chute inicial). 
+O meu chute inicial (`V[1,:] = u.(grid)`) involve o agente consumir toda a produção. Isso _dificilmente_ será o ótimo, mas é um bom chute inicial: pense que se o problema fosse finito, o ótimo no último período seria consumir toda a produção (e é exatamente esse truque que justifica eu usar a função utilidade como função valor para o chute inicial). 
 
 Eu vou criar duas funções agora: uma função é a função objetivo e a outra é simplesmente uma função para facilitar a minha vida na hora de iterar:
 
@@ -118,10 +117,10 @@ function otimo(obj,grid,interp)
 end;
 ```
 
-Veja que a função objetivo recebe o ponto que a gente está hoje, $y$ (quanta produção é possível dado o capital herdado do último período); um objeto que faz a interpolação, $interp$; e o consumo, $c$, que é a variável de escolha. A segunda função simplesmente recebe a função objetivo, o ponto do grid que a gente tá e a função que faz a interpolação e realiza a otimização. Como o otimizador só faz minimização, multiplicar por $-1$ transforma o máximo em mínimo. Como a otimização é univariada, o algoritmo precisa 
+A função objetivo recebe o ponto que a gente está hoje, $y$ (quanta produção é possível dado o capital herdado do último período); um objeto que faz a interpolação, $interp$; e o consumo, $c$, que é a variável de escolha. A segunda função simplesmente recebe a função objetivo, o ponto do grid que a gente tá e a função que faz a interpolação e realiza a otimização. Como o otimizador só faz minimização, multiplicar por $-1$ transforma o máximo em mínimo. Como a otimização é univariada, o algoritmo precisa 
 do intervalo para buscar os valores: eu to estabelecendo o consumo como no mínimo um número pequeno - pequeno demais vai gerar algum número próximo de $-\infty$. O valor máximo não pode ser consumir tudo porque isso implica em produção zero no próximo período e isso também gera um $-\infty$. 
 
-Veja que tem muita infraestrutura antes de começar a iteração de fato. A vantagem disso é que eu posso checar que todas as funções funcionam antes de rodar o _loop_ e o _loop_ fica extremamente conciso, especialmente usando o `map`:
+Eu escrevi muita infraestrutura antes de começar a iteração de fato. A vantagem disso é que eu posso checar que todas as funções funcionam antes de rodar o _loop_ e o _loop_ fica extremamente conciso, especialmente usando o `map`:
 
 ```{julia}
 
@@ -145,7 +144,7 @@ end
 
 Primeiro: você precisa definir `j` e `err` como global para eles serem acessados pelo loop corretamente - senão ele vai criar variáveis com esse nome dentro do escopo do loop. Mais importante, você precisa acessar elas dentro do _loop_ usando a _keyword_ `global`. O `while` permite que o código pare de rodar se uma das duas coisas acontecer: ou atingir o máximo de iterações, que eu defini lá em cima ou se a diferença entre a função valor de duas iterações diferentes for menor que 1e-5.
 
-Veja que o primeiro `map` aplica a função `otimo` para cada ponto do grid. Veja que eu usei uma função anônima (`y->otimo(objective,y,interp)`) para o código passar o valor de cada ponto do grid para a função que eu fiz para buscar o ótimo. Os dois maps seguintes só pegam o resultado do primeiro `map` e quebra ele - o Julia permite arrays em que cada elemento tem mais de uma entrada, então formalmente o objeto `res` tem 100 entradas, e cada entrada é um vetor. Veja que eu podia ter feito isso com um `for`:
+O primeiro `map` aplica a função `otimo` para cada ponto do grid. Eu usei uma função anônima (`y->otimo(objective,y,interp)`) para o código passar o valor de cada ponto do grid para a função que eu fiz para buscar o ótimo. Os dois maps seguintes só pegam o resultado do primeiro `map` e quebra ele - o Julia permite arrays em que cada elemento tem mais de uma entrada, então formalmente o objeto `res` tem 100 entradas, e cada entrada é um vetor. Eu podia ter feito isso com um `for`:
 
 ```
 
@@ -166,7 +165,7 @@ while j <= iter_lim && err > 1e-5
 end
 ```
 
-Em uma outra observação, a linha ` mod(j,50) == 0 ? println("Interation ",j," error ",err) : nothing` é uma maneira extremamente concisa de escrever:
+Note que em ambos os casos eu tenho que trocar o sinal de $V$, porque a gente usou $-V$ na minimização e queremos $V$ e não $-V$ - esse é um erro fácil de cometer, e que portanto eu cometi e a iteração não fazia nenhum sentido. Em uma outra observação, a linha ` mod(j,50) == 0 ? println("Interation ",j," error ",err) : nothing` é uma maneira extremamente concisa de escrever:
 
 ```
 
