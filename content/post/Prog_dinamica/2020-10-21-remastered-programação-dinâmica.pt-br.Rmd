@@ -1,7 +1,7 @@
 ---
 title: 'Remastered: Programação Dinâmica'
 author: Daniel Coutinho
-date: '2020-10-21'
+date: '2020-11-05'
 slug: remastered-programação-dinâmica
 categories:
   - Programação dinâmica
@@ -20,7 +20,7 @@ Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das pri
 
 ## O problema 
 
-Suponha que a gente tem um agente que vive uma vida infinita e pode escolher entre consumo e bens de capital, que são usados para produzir bens via uma função de produção $f$. O agente tem utilidade $u$ e existe um choque na produtividade que, $\varepsilon$. Eu vou permitir que uma parte do capital passe de um período para o outro e se deprecie a taxa $\delta$:
+Suponha que a gente tem um agente que vive uma vida infinita e pode escolher entre consumo e bens de capital, que são usados para produzir bens via uma função de produção $f$. O agente tem utilidade $u$ e existe um choque na produtividade $\varepsilon$. Eu vou permitir que uma parte do capital passe de um período para o outro e se deprecie a taxa $\delta$:
 
 $$
 \max_{\{c_t\}_{t=1}^{\infty},\{k_{t+1}\}_{t=1}^{\infty}} E\left[\sum_{t=1}^{\infty} \beta^t u(c_t) \right] \\
@@ -60,7 +60,7 @@ O problema agora é encontrar exatamente quem é a função $V$, e a gente vai f
 3. O novo valor do máximo é o novo chute para V
 4. Itere
 
-Veja que a gente vai precisar "guardar" a função V. A maneira que vamos usar é simples: gere um grid de pontos e calcule o máximo para cada valor de $k_t$. Isso vai implicitamente gerar um valor futuro de $k$, e pode muito bem não ser um ponto do grid. Então use os valores de cada ponto e interpole entre eles de alguma maneira - nós vamos usar interpolação linear, literalmente conectando ponto com o ponto seguinte por uma reta.  
+Veja que a gente vai precisar "guardar" a função V. A maneira que vamos usar é simples: gere um grid de pontos e calcule o máximo para cada valor de $k_t$. Isso vai implicitamente gerar um valor futuro de $k$, que pode muito bem não ser um ponto do grid. Então use os valores de cada ponto e interpole entre eles de alguma maneira - nós vamos usar interpolação linear, literalmente conectando ponto com o ponto seguinte por uma reta.  
 
 ## O código
 
@@ -98,11 +98,11 @@ policy = zeros(iter_lim,grid_size);
 
 Eu estabeleci o tamanho do grid em 100. Eu poderia adicionar mais pontos ou menos, e isso afeta tanto a qualidade da solução quanto a velocidade. O iter_lim vai controlar a quantidade de iterações.
 
-Veja que na derivação eu usei $V(k_t)$, ou seja, a solução depende da quantidade de capital que você leva de um período para o outro. Eu acho essa a maneira mais natural de trabalhar, mas por motivos computacionais vai ser melhor definir $V$ como função da produção. Veja que é simples passar de um para o outro usando a função de produção. 
+Veja que na derivação eu usei $V(k_t)$, ou seja, a solução depende da quantidade de capital que você leva de um período para o outro. Eu acho essa a maneira mais natural de trabalhar, mas por motivos computacionais vai ser melhor definir $V$ como função da produção, $y_t$. Veja que é simples passar de um para o outro usando a função de produção. 
 
-Veja que o meu chute inicial (`V[1,:] = u.(grid)`) involve o agente consumir toda a produção. Isso _dificilmente_ será o ótimo, mas é um bom chute inicial: pense que se o problema fosse finito, o ótimo no último período seria consumir toda a produção (e é exatamente esse truque que justifica eu usar a função utilidade como função valor). 
+Veja que o meu chute inicial (`V[1,:] = u.(grid)`) involve o agente consumir toda a produção. Isso _dificilmente_ será o ótimo, mas é um bom chute inicial: pense que se o problema fosse finito, o ótimo no último período seria consumir toda a produção (e é exatamente esse truque que justifica eu usar a função utilidade como função valor para o chute inicial). 
 
-Eu vou criar duas funções agora: uma função é a função objetivo e a outra é simplesmente uma função por conveniência para facilitar a minha vida na hora de iterar:
+Eu vou criar duas funções agora: uma função é a função objetivo e a outra é simplesmente uma função para facilitar a minha vida na hora de iterar:
 
 ```{julia}
 
@@ -143,9 +143,9 @@ global err = 1;
 end
 ```
 
-Primeiro: você precisa definir `j` e `err` como global para eles serem acessados pelo loop corretamente - senão ele vai criar variáveis dentro do escopo do loop. O `while` permite que o código pare de rodar se uma das duas coisas acontecer: ou atingir o máximo de iterações, que eu defini lá em cima ou se a diferença entre a função valor de duas iterações diferentes for menor que 1e-5.
+Primeiro: você precisa definir `j` e `err` como global para eles serem acessados pelo loop corretamente - senão ele vai criar variáveis com esse nome dentro do escopo do loop. Mais importante, você precisa acessar elas dentro do _loop_ usando a _keyword_ `global`. O `while` permite que o código pare de rodar se uma das duas coisas acontecer: ou atingir o máximo de iterações, que eu defini lá em cima ou se a diferença entre a função valor de duas iterações diferentes for menor que 1e-5.
 
-Veja que o primeiro `map` aplica a função `otimo` para cada ponto do grid. Veja que eu usei uma função anônima (`y->otimo(objective,y,interp)`) para o código passar o valor de cada ponto do grid para a função que eu fiz para buscar o ótimo. Os dois maps seguintes só pegam o resultado do primeiro `map` e quebra ele - o Julia permite arrays em que cada elemento tem mais de uma entra, então formalmente o objeto `res` tem 100 entradas, e cada entrada é um vetor. Veja que eu podia ter feito isso com um `for`:
+Veja que o primeiro `map` aplica a função `otimo` para cada ponto do grid. Veja que eu usei uma função anônima (`y->otimo(objective,y,interp)`) para o código passar o valor de cada ponto do grid para a função que eu fiz para buscar o ótimo. Os dois maps seguintes só pegam o resultado do primeiro `map` e quebra ele - o Julia permite arrays em que cada elemento tem mais de uma entrada, então formalmente o objeto `res` tem 100 entradas, e cada entrada é um vetor. Veja que eu podia ter feito isso com um `for`:
 
 ```
 
