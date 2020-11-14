@@ -5,7 +5,7 @@ using Optim,Interpolations,Statistics,Plots
 δ = 1 #full depreciation
 
 grid_size = 100
-iter_lim = 500
+iter_lim = 1000
 
 f(k) = k^α
 u(c) = log(c)
@@ -25,7 +25,7 @@ end
 function objective(c,y,interp)
     k_old = y^(1/α)
     next_y = f(y -c +(1-δ)*k_old)
-    return -u(c) - β*mean(interp.(exp.(0.1*randn(200))*next_y))
+    return -u(c) - β*mean(interp.(exp.(0.1*randn(400))*next_y))
 end
 
 global j = 2
@@ -48,9 +48,9 @@ end
 plot(grid,V[2,:])
 plot!(grid,V[iter_lim,:])
 
-plot(grid,policy[iter_lim,:])
+plot(grid,policy[iter_lim,:], label = "Numerical Solution", legend = :topleft)
 apol(grid) = (1-α*β)*grid
-plot!(grid,apol.(grid))
+plot!(grid,apol.(grid), label = "Analytic Solution")
 
 global j = 2
 global err = 1
