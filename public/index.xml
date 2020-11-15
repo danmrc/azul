@@ -7,10 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 05 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Faça um blog, não faça um fio</title>
+      <link>/2020/11/16/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/</link>
+      <pubDate>Mon, 16 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/11/16/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/</guid>
+      <description>Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado.</description>
+    </item>
+    
+    <item>
+      <title>Concentração de Medida</title>
+      <link>/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./</link>
+      <pubDate>Sat, 14 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./</guid>
+      <description>Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
+Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
+\[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]
+Nós todos conhecemos essa desigualdade e ela é usada como uma maneira de “provar” que a média é um estimador consistente: a variância da média de um processo i.</description>
+    </item>
     
     <item>
       <title>Remastered: Programação Dinâmica</title>

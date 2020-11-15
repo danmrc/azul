@@ -1,0 +1,25 @@
+---
+title: Faça um blog, não faça um fio
+author: Daniel Coutinho
+date: '2020-11-16'
+slug: faça-um-blog-não-faça-um-fio
+categories:
+  - Computação
+tags:
+  - Meta
+  - Blogdown
+images: []
+authors: ["danielc"]
+draft: true
+---
+
+<script src="2020-11-16-faça-um-blog-não-faça-um-fio_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado.</p>
+<p>Na verdade, essa é só uma ótima desculpa para explicar como funciona o blogdown, que pode ser usado para fazer blogs - é o que mantém o Azul, como alguns de vocês sabem - e sites em geral, inclusive sites pessoais. A coisa boa é que ele roda em R e os posts são escritos em Markdown, então você só precisa aprender um pacote novo e é fácil incorporar pedaços de código no texto, adicionar matemática, imagens, etc. O <a href="https://bookdown.org/yihui/blogdown/">guia do blogdown</a> é ótimo e mais do que suficiente para resolver tudo, mas meu plano aqui é mostrar que não é nenhum desafio usar o blogdown.</p>
+<p>A primeira coisa a fazer é instalar o pacote blogdown no R, como outro pacote qualquer. Depois disso, e que você carregar o pacote, você deve instalar o hugo. O hugo é o que funciona no fundo do blogdown e faz sites usando go, uma linguagem de programação da google. A boa notícia é que raramente você precisa olhar pro hugo e você pode instalar o hugo de dentro do R usando <code>install_hugo()</code>.</p>
+<p>Crie um projeto do RStudio. Ele atualmente te dá a opção de criar um projeto que é um <code>Website using blogdown</code>, que é exatamente o que queremos. Não mude os defaults.</p>
+<p>O próximo passo é escolher um tema para o blog. Você pode manter o tema padrão, mas tem uma variedade de temas <a href="https://themes.gohugo.io/">aqui</a>. Em geral todos eles estão no github, e quando você escolher um ao clicar em download, você vai ser levado para o github. Você pode baixar direto de lá ou dar clone. Copie tudo para a pasta theme: coloque tudo em um subdiretório com o nome do tema para ficar mais fácil de modificar depois.</p>
+<p>A coisa mais importante é que um dos arquivos que você vai copiar se chama <code>config.toml</code>: esse arquivo é onde as principais configurações ficam e deve ser movido para fora da pasta do tema e ir para a pasta principal. Cada tema tem pequenas diferenças no <code>config.toml</code>, então sempre que você mudar de tema você tem que atualizar o arquivo - mas frequentemente as primeiras linhas são muito parecidas. Dê uma olhada no github do Azul para ver se onde fica cada coisa.</p>
+<p>Feito isso, você vai querer ver a cara do blog. Para isso você deve usar o comando, no R, <code>serve_site()</code>. Se tudo estiver certo, isso vai demorar um pouco e gerar um site localmente, que no R Studio aparece no Viewer, no mesmo bloco que aparecem os gráficos.</p>

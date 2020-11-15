@@ -7,10 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 05 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/authors/danielc/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Faça um blog, não faça um fio</title>
+      <link>/2020/11/16/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/</link>
+      <pubDate>Mon, 16 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/11/16/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/</guid>
+      <description>Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado.</description>
+    </item>
+    
+    <item>
+      <title>Concentração de Medida</title>
+      <link>/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./</link>
+      <pubDate>Sat, 14 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./</guid>
+      <description>Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
+Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
+\[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]
+Nós todos conhecemos essa desigualdade e ela é usada como uma maneira de “provar” que a média é um estimador consistente: a variância da média de um processo i.</description>
+    </item>
     
     <item>
       <title>Remastered: Programação Dinâmica</title>
@@ -29,6 +50,17 @@
       <guid>/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</guid>
       <description>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
 Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
+    </item>
+    
+    <item>
+      <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
+      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
+\[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
     </item>
     
     <item>
