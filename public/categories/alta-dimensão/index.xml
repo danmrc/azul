@@ -21,7 +21,7 @@
       <description>Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
 Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
 \[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]
-Nós todos conhecemos essa desigualdade e ela é usada como uma maneira de “provar” que a média é um estimador consistente: a variância da média de um processo i.</description>
+Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “provar” que a média amostral é um estimador consistente: a variância da média de um processo i.</description>
     </item>
     
   </channel>

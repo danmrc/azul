@@ -20,11 +20,11 @@ Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
 
 $$P(|X-\mu| > t) \leq \frac{Var(x)}{t^2}$$
 
-Nós todos conhecemos essa desigualdade e ela é usada como uma maneira de "provar" que a média é um estimador consistente: a variância da média de um processo i.i.d. com variância $\sigma^2$ é $\sigma^2/n$ e portanto Chebyschev nos dá:
+Nós todos conhecemos essa desigualdade, que é usada como uma maneira de "provar" que a média amostral é um estimador consistente: a variância da média de um processo i.i.d. com variância $\sigma^2$ é $\sigma^2/n$ e portanto Chebyschev nos dá:
 
 $$P(|\bar{X}-\mu| > t) \leq \frac{\sigma^2}{nt^2}$$
 
-A Desigualdade de Chebyschev é uma aplicação de um resultado mais elementar, a desigualdade de Markov, que diz que para qualquer variável aleatória _positiva_: 
+Então quando $n \rightarrow \infty$, $\bar{X}$ está próximo de $\mu$. A Desigualdade de Chebyschev é uma aplicação de um resultado mais elementar, a desigualdade de Markov, que diz que para qualquer variável aleatória _positiva_: 
 
 $$P(X > t) \leq \frac{E(X)}{t}$$
 
@@ -95,7 +95,7 @@ ggplot(df3,aes(grid,value,color = name)) + geom_line()
 
 ```
 
-Veja que essa cota é bem generosa, mas bem melhor que do que a desigualdade de Chebyschev. Obviamente, pagamos um preço por isso: nem todas as funções com variância finita tem função geratriz de momentos.
+Veja que essa cota é bem generosa, mas bem melhor que a desigualdade de Chebyschev. Obviamente, pagamos um preço por isso: nem todas as funções com variância finita tem função geratriz de momentos.
 
 Um fato mais interessante é que você pode usar a desigualdade de Chernoff, exatamente como posta acima, para _outras distribuições além da gaussiana_. Basicamente, você está exigindo que a cauda da distribuição caia _tão rápido quanto a gaussiana_. Distribuições que atendem a esse requisito são chamadas de subgaussianas. Todas as distribuições com suporte finito atendem a esse pré requisito, por exemplo. Por sinal, $\sigma$ no caso mais geral não precisa ser a variância da distribuição. Nem todas as distribuições são subgaussianas: a qui-quadrado não é sub gaussiana, e é uma distribuição extremamente comum em estatística. 
 

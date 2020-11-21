@@ -20,9 +20,9 @@ draft: true
 <p>Este é um post meio maluco, porque é absolutamente específico a coisas de <em>machine learning</em> e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.</p>
 <p>Vamos começar com um velho conhecido, a desigualdade de Chebyschev:</p>
 <p><span class="math display">\[P(|X-\mu| &gt; t) \leq \frac{Var(x)}{t^2}\]</span></p>
-<p>Nós todos conhecemos essa desigualdade e ela é usada como uma maneira de “provar” que a média é um estimador consistente: a variância da média de um processo i.i.d. com variância <span class="math inline">\(\sigma^2\)</span> é <span class="math inline">\(\sigma^2/n\)</span> e portanto Chebyschev nos dá:</p>
+<p>Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “provar” que a média amostral é um estimador consistente: a variância da média de um processo i.i.d. com variância <span class="math inline">\(\sigma^2\)</span> é <span class="math inline">\(\sigma^2/n\)</span> e portanto Chebyschev nos dá:</p>
 <p><span class="math display">\[P(|\bar{X}-\mu| &gt; t) \leq \frac{\sigma^2}{nt^2}\]</span></p>
-<p>A Desigualdade de Chebyschev é uma aplicação de um resultado mais elementar, a desigualdade de Markov, que diz que para qualquer variável aleatória <em>positiva</em>:</p>
+<p>Então quando <span class="math inline">\(n \rightarrow \infty\)</span>, <span class="math inline">\(\bar{X}\)</span> está próximo de <span class="math inline">\(\mu\)</span>. A Desigualdade de Chebyschev é uma aplicação de um resultado mais elementar, a desigualdade de Markov, que diz que para qualquer variável aleatória <em>positiva</em>:</p>
 <p><span class="math display">\[P(X &gt; t) \leq \frac{E(X)}{t}\]</span></p>
 <p>Se você trabalhar com <span class="math inline">\((X-\mu)^2\)</span> e <span class="math inline">\(t^2\)</span>, você chega na desigualdade de Chebyschev.</p>
 <p>Existem outras maneiras de deixar uma variável positiva, e uma bacana é usando <span class="math inline">\(e^X\)</span>. Eu vou assumir média zero e trabalhar com <span class="math inline">\(e^{\lambda{}t}\)</span> e <span class="math inline">\(e^{\lambda{}x}\)</span>:</p>
@@ -69,6 +69,6 @@ df3 &lt;- pivot_longer(df3,cols = c(&quot;Empiric&quot;,&quot;Chernoff&quot;))
 
 ggplot(df3,aes(grid,value,color = name)) + geom_line()</code></pre>
 <p><img src="/post/2020-11-14-concentra%C3%A7%C3%A3o-de-medida_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Veja que essa cota é bem generosa, mas bem melhor que do que a desigualdade de Chebyschev. Obviamente, pagamos um preço por isso: nem todas as funções com variância finita tem função geratriz de momentos.</p>
+<p>Veja que essa cota é bem generosa, mas bem melhor que a desigualdade de Chebyschev. Obviamente, pagamos um preço por isso: nem todas as funções com variância finita tem função geratriz de momentos.</p>
 <p>Um fato mais interessante é que você pode usar a desigualdade de Chernoff, exatamente como posta acima, para <em>outras distribuições além da gaussiana</em>. Basicamente, você está exigindo que a cauda da distribuição caia <em>tão rápido quanto a gaussiana</em>. Distribuições que atendem a esse requisito são chamadas de subgaussianas. Todas as distribuições com suporte finito atendem a esse pré requisito, por exemplo. Por sinal, <span class="math inline">\(\sigma\)</span> no caso mais geral não precisa ser a variância da distribuição. Nem todas as distribuições são subgaussianas: a qui-quadrado não é sub gaussiana, e é uma distribuição extremamente comum em estatística.</p>
 <p>Veja que essa cota depende exponencialmente de <span class="math inline">\(t^2\)</span>, ao contrário de Chebyschev que depende de <span class="math inline">\(1/t^2\)</span>. Isso é um ganho dramático: com altíssima probabilidade a massa da distribuição está concentrada. Além de ser bem bacana, isto aparece em várias situações em <em>machine learning</em>.</p>
