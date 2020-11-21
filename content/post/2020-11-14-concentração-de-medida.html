@@ -1,7 +1,7 @@
 ---
 title: Concentração de Medida
 author: Daniel Coutinho
-date: '2020-11-14'
+date: '2020-11-21'
 slug: concentração-de-medida.
 categories:
   - Econometria
@@ -11,10 +11,10 @@ tags:
   - Estatística
 images: []
 authors: ["danielc"]
-draft: true
 ---
 
-<script src="2020-11-14-concentração-de-medida_files/header-attrs/header-attrs.js"></script>
+<link href="2020-11-14-concentração-de-medida_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2020-11-14-concentração-de-medida_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Este é um post meio maluco, porque é absolutamente específico a coisas de <em>machine learning</em> e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.</p>
@@ -27,7 +27,7 @@ draft: true
 <p>Se você trabalhar com <span class="math inline">\((X-\mu)^2\)</span> e <span class="math inline">\(t^2\)</span>, você chega na desigualdade de Chebyschev.</p>
 <p>Existem outras maneiras de deixar uma variável positiva, e uma bacana é usando <span class="math inline">\(e^X\)</span>. Eu vou assumir média zero e trabalhar com <span class="math inline">\(e^{\lambda{}t}\)</span> e <span class="math inline">\(e^{\lambda{}x}\)</span>:</p>
 <p><span class="math display">\[P(X &gt; t) = P(e^{\lambda{}X} &gt; e^{\lambda{}t}) \leq \frac{E(e^{\lambda{}X})}{e^{\lambda{}t}}\]</span></p>
-<p>Agora, alguns de vocês sabem, mas apenas para garantir que todo mundo tá no mesmo lugar: <span class="math inline">\(E(e^{\lambda{}X})\)</span> é conhecido como a função geratriz de momentos. Nem todas as distribuições tem função geratriz de momentos. A parte bacana é que as derivadas com respeito a <span class="math inline">\(\lambda\)</span> da função geratriz de momentos (avaliada em <span class="math inline">\(\lambda=0\)</span>) nos dão os momentos da distribuição. Por exemplo, a normal com média <span class="math inline">\(\mu\)</span> e variância <span class="math inline">\(\sigma^2\)</span> tem como função geratriz de momentos <span class="math inline">\(e^{\lambda\mu + \lambda^2 \sigma^2/2}\)</span>. Tire as derivadas e avalie em <span class="math inline">\(\lambda=0\)</span> para se convencer de que o que eu disse é verdade.</p>
+<p>Agora, alguns de vocês sabem, mas apenas para garantir: <span class="math inline">\(E(e^{\lambda{}X})\)</span> é conhecido como a função geratriz de momentos. Nem todas as distribuições tem função geratriz de momentos. A parte bacana é que as derivadas com respeito a <span class="math inline">\(\lambda\)</span> da função geratriz de momentos (avaliada em <span class="math inline">\(\lambda=0\)</span>) nos dão os momentos da distribuição. Por exemplo, a normal com média <span class="math inline">\(\mu\)</span> e variância <span class="math inline">\(\sigma^2\)</span> tem como função geratriz de momentos <span class="math inline">\(e^{\lambda\mu + \lambda^2 \sigma^2/2}\)</span>. Tire as derivadas e avalie em <span class="math inline">\(\lambda=0\)</span> para se convencer de que o que eu disse é verdade.</p>
 <p>Sabendo disso, nós podemos dizer que se <span class="math inline">\(X\)</span> é Normal com média zero e variância <span class="math inline">\(\sigma^2\)</span>, então a desigualdade que eu coloquei com exponencial implica:</p>
 <p><span class="math display">\[P(X &gt; t) \leq e^{\lambda^2\sigma^2/2 - \lambda{}t}\]</span></p>
 <p>Isso é verdade para qualquer <span class="math inline">\(\lambda\)</span>. A gente pode escolher o <span class="math inline">\(\lambda\)</span> que minimiza o valor na desigualdade, via as condições de primeira ordem, que nos dão:</p>
@@ -35,7 +35,7 @@ draft: true
 <p>Onde eu usei que <span class="math inline">\(\log\)</span> é monotônico e portanto não altera o ponto do máximo. Devolvendo isso para a desigualdade nós temos:</p>
 <p><span class="math display">\[P(X &gt; t) \leq \exp\left(\frac{t^2\sigma^2}{2(\sigma^2)^2} - \frac{t^2}{\sigma^2}\right) = e^{-t^2/(2\sigma^2)}\]</span>
 Essa desigualdade também tem um nome: Desigualdade de Chernoff (pra ser honesto: tudo que eu li disso é em inglês. Em inglês chamam de <em>Chernoff Bound</em>, mas eu traduzi para desigualdade já que temos a desigualdade de Chebyschev)</p>
-<p>Deixa eu convencer vocês que isso é bem legal: eu vou simular 10 mil sorteios da normal padrão e comparar o que cada uma dessas desigualdades significa. Eu vou contar a probabilidade de ser maior que <span class="math inline">\(t\)</span> simplesmente computando a frequência em que os valores simulados são maiores que <span class="math inline">\(t\)</span> para um grid de valores <span class="math inline">\(t\)</span>. Eu vou trabalhar com o valor absoluto de <span class="math inline">\(X\)</span>:</p>
+<p>Deixa eu convencer vocês que isso é bem legal: eu vou simular 10 mil sorteios da normal padrão e comparar o que cada uma dessas desigualdades significa. Eu vou contar a probabilidade de ser maior que <span class="math inline">\(t\)</span> simplesmente computando a frequência em que os valores simulados são maiores que <span class="math inline">\(t\)</span> para um grid de valores <span class="math inline">\(t\)</span>. Eu também vou trabalhar com o valor absoluto de <span class="math inline">\(X\)</span>:</p>
 <pre class="r"><code>library(ggplot2) #gráficos bonitos
 library(purrr) #pra computar o valor em cada um dos pontos do grid sem usar um for
 library(tidyr) #pros dados ficarem do formato certo pro ggplot
@@ -71,4 +71,4 @@ ggplot(df3,aes(grid,value,color = name)) + geom_line()</code></pre>
 <p><img src="/post/2020-11-14-concentra%C3%A7%C3%A3o-de-medida_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Veja que essa cota é bem generosa, mas bem melhor que a desigualdade de Chebyschev. Obviamente, pagamos um preço por isso: nem todas as funções com variância finita tem função geratriz de momentos.</p>
 <p>Um fato mais interessante é que você pode usar a desigualdade de Chernoff, exatamente como posta acima, para <em>outras distribuições além da gaussiana</em>. Basicamente, você está exigindo que a cauda da distribuição caia <em>tão rápido quanto a gaussiana</em>. Distribuições que atendem a esse requisito são chamadas de subgaussianas. Todas as distribuições com suporte finito atendem a esse pré requisito, por exemplo. Por sinal, <span class="math inline">\(\sigma\)</span> no caso mais geral não precisa ser a variância da distribuição. Nem todas as distribuições são subgaussianas: a qui-quadrado não é sub gaussiana, e é uma distribuição extremamente comum em estatística.</p>
-<p>Veja que essa cota depende exponencialmente de <span class="math inline">\(t^2\)</span>, ao contrário de Chebyschev que depende de <span class="math inline">\(1/t^2\)</span>. Isso é um ganho dramático: com altíssima probabilidade a massa da distribuição está concentrada. Além de ser bem bacana, isto aparece em várias situações em <em>machine learning</em>.</p>
+<p>Veja que essa cota depende exponencialmente de <span class="math inline">\(t^2\)</span>, ao contrário de Chebyschev que depende de <span class="math inline">\(1/t^2\)</span>. Isso é um ganho dramático: com altíssima probabilidade a massa da distribuição está concentrada. Além de ser bem bacana, isto aparece em várias situações em <em>machine learning</em>. Mas eu não consegui criar nenhum exemplo simples em que isso fique evidente, então fica pro próximo post.</p>

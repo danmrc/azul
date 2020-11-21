@@ -1,7 +1,7 @@
 ---
 title: Concentração de Medida
 author: Daniel Coutinho
-date: '2020-11-14'
+date: '2020-11-21'
 slug: concentração-de-medida.
 categories:
   - Econometria
@@ -11,7 +11,6 @@ tags:
   - Estatística
 images: []
 authors: ["danielc"]
-draft: true
 ---
 
 Este é um post meio maluco, porque é absolutamente específico a coisas de _machine learning_ e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível. 
@@ -34,7 +33,7 @@ Existem outras maneiras de deixar uma variável positiva, e uma bacana é usando
 
 $$P(X > t) = P(e^{\lambda{}X} > e^{\lambda{}t}) \leq \frac{E(e^{\lambda{}X})}{e^{\lambda{}t}}$$ 
 
-Agora, alguns de vocês sabem, mas apenas para garantir que todo mundo tá no mesmo lugar: $E(e^{\lambda{}X})$ é conhecido como a função geratriz de momentos. Nem todas as distribuições tem função geratriz de momentos. A parte bacana é que as derivadas com respeito a $\lambda$ da função geratriz de momentos (avaliada em $\lambda=0$) nos dão os momentos da distribuição. Por exemplo, a normal com média $\mu$ e variância $\sigma^2$ tem como função geratriz de momentos $e^{\lambda\mu + \lambda^2 \sigma^2/2}$. Tire as derivadas e avalie em $\lambda=0$ para se convencer de que o que eu disse é verdade. 
+Agora, alguns de vocês sabem, mas apenas para garantir: $E(e^{\lambda{}X})$ é conhecido como a função geratriz de momentos. Nem todas as distribuições tem função geratriz de momentos. A parte bacana é que as derivadas com respeito a $\lambda$ da função geratriz de momentos (avaliada em $\lambda=0$) nos dão os momentos da distribuição. Por exemplo, a normal com média $\mu$ e variância $\sigma^2$ tem como função geratriz de momentos $e^{\lambda\mu + \lambda^2 \sigma^2/2}$. Tire as derivadas e avalie em $\lambda=0$ para se convencer de que o que eu disse é verdade. 
 
 Sabendo disso, nós podemos dizer que se $X$ é Normal com média zero e variância $\sigma^2$, então a desigualdade que eu coloquei com exponencial implica:
 
@@ -49,7 +48,7 @@ Onde eu usei que $\log$ é monotônico e portanto não altera o ponto do máximo
 $$P(X > t) \leq \exp\left(\frac{t^2\sigma^2}{2(\sigma^2)^2} - \frac{t^2}{\sigma^2}\right) = e^{-t^2/(2\sigma^2)}$$
 Essa desigualdade também tem um nome: Desigualdade de Chernoff (pra ser honesto: tudo que eu li disso é em inglês. Em inglês chamam de _Chernoff Bound_, mas eu traduzi para desigualdade já que temos a desigualdade de Chebyschev)
 
-Deixa eu convencer vocês que isso é bem legal: eu vou simular 10 mil sorteios da normal padrão e comparar o que cada uma dessas desigualdades significa. Eu vou contar a probabilidade de ser maior que $t$ simplesmente computando a frequência em que os valores simulados são maiores que $t$ para um grid de valores $t$. Eu vou trabalhar com o valor absoluto de $X$:
+Deixa eu convencer vocês que isso é bem legal: eu vou simular 10 mil sorteios da normal padrão e comparar o que cada uma dessas desigualdades significa. Eu vou contar a probabilidade de ser maior que $t$ simplesmente computando a frequência em que os valores simulados são maiores que $t$ para um grid de valores $t$. Eu também vou trabalhar com o valor absoluto de $X$:
 
 ```{r}
 
@@ -99,4 +98,4 @@ Veja que essa cota é bem generosa, mas bem melhor que a desigualdade de Chebysc
 
 Um fato mais interessante é que você pode usar a desigualdade de Chernoff, exatamente como posta acima, para _outras distribuições além da gaussiana_. Basicamente, você está exigindo que a cauda da distribuição caia _tão rápido quanto a gaussiana_. Distribuições que atendem a esse requisito são chamadas de subgaussianas. Todas as distribuições com suporte finito atendem a esse pré requisito, por exemplo. Por sinal, $\sigma$ no caso mais geral não precisa ser a variância da distribuição. Nem todas as distribuições são subgaussianas: a qui-quadrado não é sub gaussiana, e é uma distribuição extremamente comum em estatística. 
 
-Veja que essa cota depende exponencialmente de $t^2$, ao contrário de Chebyschev que depende de $1/t^2$. Isso é um ganho dramático: com altíssima probabilidade a massa da distribuição está concentrada. Além de ser bem bacana, isto aparece em várias situações em _machine learning_.
+Veja que essa cota depende exponencialmente de $t^2$, ao contrário de Chebyschev que depende de $1/t^2$. Isso é um ganho dramático: com altíssima probabilidade a massa da distribuição está concentrada. Além de ser bem bacana, isto aparece em várias situações em _machine learning_. Mas eu não consegui criar nenhum exemplo simples em que isso fique evidente, então fica pro próximo post.
