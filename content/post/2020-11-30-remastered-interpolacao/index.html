@@ -1,0 +1,97 @@
+---
+title: 'Remastered: Interpolação'
+author: Daniel Coutinho
+date: '2020-11-28'
+slug: remastered-interpolação
+categories:
+  - Matemática
+  - Julia
+tags:
+  - Interpolação
+images: []
+authors: ["danielc"]
+draft: true
+---
+
+<script src="index_files/header-attrs/header-attrs.js"></script>
+<link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections/anchor-sections.js"></script>
+
+
+<p>Este é mais um post que já foi feito faz tempo, mas eu quero repetir mais pra mostrar um truque que eu aprendi, além de deixar a programação mais clara (com um pouco de sorte).</p>
+<p>Imagina que você conhece a função em alguns pontos. A gente teve um exemplo disso no <a href="/2020/11/05/remastered-programação-dinâmica/">post passado</a> de programação dinâmica: a gente calcula o valor da função valor ou da função política em alguns pontos. A interpolação garante que na hora de otimizar a gente vai poder visitar valores da função valor entre esses pontos.</p>
+<p>O problema é como conectar esses pontos. Os que entre vocês já fizeram análise sabem que sempre podemos arranjar um polinômio “próximo” de uma função qualquer se o espaço é compacto. Se você tem n pontos, você poderia se sentir tentado a buscar um polinômio de ordem <span class="math inline">\(n-1\)</span> que passe por todos os pontos.</p>
+<p>Isso nem sempre é razoável e a função super inocente <span class="math inline">\(\frac{1}{1+10x^2}\)</span> mostra porque não. Primeiro, vamos dar uma olhada nela:</p>
+<pre><code>
+using Plots #isso carrega o pacote plots
+
+grid2 =  range(-1,1,length=50) #um grid de pontos para avaliar a função
+
+f(x)=(1+10*x^2)^(-1) #a função
+
+plot(grid2,f.(grid2))</code></pre>
+<p><img src="/post/2020-11-30-remastered-interpolacao/fig1.png" /></p>
+<p>É uma função não muito maluca. Eu vou usar o pacote <em>polynomials</em> pra gerar um polinômio de grau 50, a partir de 50 pontos equiespaçados:</p>
+<pre><code>
+grid =  range(-2,2,length=10) #um grid de pontos para avaliar a função
+
+f_hat = Polynomials.fit(grid,f.(grid))
+
+plot(grid2,f.(grid2))
+plot!(grid2,f_hat.(grid2))</code></pre>
+<p><img src="/post/2020-11-30-remastered-interpolacao/fig2.png" /></p>
+<p>A interpolação gera uma função que oscila malucamente entre os pontos. O mais curioso é que aumentar o número de pontos <em>piora</em> a situação. Com 50 pontos:</p>
+<pre><code>
+f_hat = Polynomials.fit(grid2,f.(grid2))
+
+plot(grid2,f.(grid2))
+plot!(grid2,f_hat.(grid2))</code></pre>
+<p><img src="/post/2020-11-30-remastered-interpolacao/fig3.png" /></p>
+<p>Isso serve como exemplo de como interpolações podem dar profundamente erradas. Nós estamos acostumados a pensar em overfitting quando a gente extrapola os dados, mas mesmo interpolações podem ser “do mal”. A interpolação claramente está fazendo um overfitting: nos pontos observados a aproximação é exata, mas fora deles é completamente maluco.</p>
+<p>No post original eu sugeria fazer interpolação por pedaços, ligando cada pedaço por uma reta: eu vou usar o pacote <em>Interpolations</em> e o comando <code>LinearInterpolation</code> pra isso:</p>
+<pre><code>using Interpolations
+
+
+lin_interp = LinearInterpolation(grid,f.(grid))
+
+plot(grid2,f.(grid2))
+plot!(grid2,lin_interp.(grid2))</code></pre>
+<p><img src="/post/2020-11-30-remastered-interpolacao/fig4.png" /></p>
+<p>Veja que ficou bem feio porque tem só 10 pedaços. Com mais pedaços a interpolação fica indistinguível da função verdadeira:</p>
+<pre><code>
+grid3 = range(-2,2,length = 100)
+
+lin_interp = LinearInterpolation(grid2,f.(grid2))
+
+plot(grid3,f.(grid3))
+plot!(grid3,lin_interp.(grid3))</code></pre>
+<p><img src="/post/2020-11-30-remastered-interpolacao/fig5.png" /></p>
+<p>Você pode aproximar por coisas que não são lineares, por exemplo, polinômios. Você pode usar polinômios de maneira que as derivadas existem e são contínuas: splines fazem isso.</p>
+<p>Mas mais interessante é que o grande problema aqui não é simplesmente o método de interpolação: é como o grid é gerado. Via de regra o grid é gerado com pontos equiespaçados - que é a maneira mais normal de pensar no problema. A gente não precisa necessariamente gerar pontos assim. Uma maneira totalmente maluca de gerar <span class="math inline">\(m\)</span> pontos é:</p>
+<p><span class="math display">\[x_k = -\cos\left(\frac{2k-1}{2m}\pi\right) \quad k =1, \ldots,m \]</span></p>
+<p>Que gera pontos entre <span class="math inline">\(-[1,1]\)</span>. Veja que podemos pensar em maneiras de mover e encolher/crescer o intervalo para ficar entre <span class="math inline">\([a,b]\)</span>. Vamos criar uma função que pega uma sequência de pontos e gera o grid:</p>
+<pre><code>function cheby_nod(seq)
+    m = length(seq)
+     return map(k-&gt;-cos((2k-1)/(2m)*pi),seq)
+ end</code></pre>
+<p>Escrevendo o post eu me dei conta que era mais simples passar <span class="math inline">\(m\)</span> e criar a sequência depois. Eu podia muito bem ter usado um <code>for</code>, mas o <code>map</code> é brutalmente mais conciso. Vamos ver a qualidade da interpolação:</p>
+<pre><code>new_grid = 2*cheby_nod(1:10)
+
+fit_cheb = Polynomials.fit(new_grid,f.(new_grid))
+
+plot(grid2,f.(grid2))
+plot!(grid2,fit_cheb.(grid2))</code></pre>
+<p><img src="/post/2020-11-30-remastered-interpolacao/fig6.png" /></p>
+<p>A coisa realmente legal aqui é que aumentar a quantidade de pontos <em>melhora</em> a qualidade da interpolação:</p>
+<pre><code>new_grid = 2*cheby_nod(1:20)
+
+fit_cheb = Polynomials.fit(new_grid,f.(new_grid))
+
+plot(grid2,f.(grid2))
+plot!(grid2,fit_cheb.(grid2))</code></pre>
+<p><img src="/post/2020-11-30-remastered-interpolacao/fig7.png" /></p>
+<p>Eu nunca pensaria que gerar um grid usando cosseno seria uma boa ideia!</p>
+<hr />
+<p>Alguns de vocês podem ter notado que eu gerei dois grids, um para gerar a interpolação e outro para avaliar a interpolação. Se vocês ainda não sacaram, o <em>plot</em> é gerado conectando os pontos por segmentos de reta, então se eu fizesse o gráfico da função original com o grid da interpolação os dois iam ser indistinguíveis.</p>
+<hr />
+<p>Este post basicamente deve a sua existência ao <em>Numerical Methods in Economics</em> do Kenneth Judd - aparentemente uma segunda edição sairá em breve.</p>

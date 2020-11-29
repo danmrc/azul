@@ -19,10 +19,49 @@ Na verdade, essa é só uma ótima desculpa para explicar como funciona o blogdo
 
 A primeira coisa a fazer é instalar o pacote blogdown no R, como outro pacote qualquer. Depois disso, e que você carregar o pacote, você deve instalar o hugo. O hugo é o que funciona no fundo do blogdown e faz sites usando go, uma linguagem de programação da google. A boa notícia é que raramente você precisa olhar pro hugo e você pode instalar o hugo de dentro do R usando `install_hugo()`.
 
-Crie um projeto do RStudio. Ele atualmente te dá a opção de criar um projeto que é um `Website using blogdown`, que é exatamente o que queremos. Não mude os defaults. 
+Crie um projeto do RStudio. Ele atualmente te dá a opção de criar um projeto que é um **Website using blogdown**, que é exatamente o que queremos. Eu não mudaria os defaults. 
 
 O próximo passo é escolher um tema para o blog. Você pode manter o tema padrão, mas tem uma variedade de temas [aqui](https://themes.gohugo.io/). Em geral todos eles estão no github, e quando você escolher um ao clicar em download, você vai ser levado para o github. Você pode baixar direto de lá ou dar clone. Copie tudo para a pasta theme: coloque tudo em um subdiretório com o nome do tema para ficar mais fácil de modificar depois. 
 
-A coisa mais importante é que um dos arquivos que você vai copiar se chama `config.toml`: esse arquivo é onde as principais configurações ficam e deve ser movido para fora da pasta do tema e ir para a pasta principal. Cada tema tem pequenas diferenças no `config.toml`, então sempre que você mudar de tema você tem que atualizar o arquivo - mas frequentemente as primeiras linhas são muito parecidas. Dê uma olhada no github do Azul para ver se onde fica cada coisa. 
+Você também pode criar um projeto normal (ou atribuir um diretório que já existe, por exemplo um diretório do git), usando o comando `new_site`. O `new_site` permite você criar um blog com o tema que você quiser. Você tem que colocar o endereço repo do github no formato `username/repo` (dá pra mudar para outros lugares que hospedam o tema usando a opção hostname). Por exemplo, o tema hugo-icarus está hospedado no gitlab:
 
-Feito isso, você vai querer ver a cara do blog. Para isso você deve usar o comando, no R, `serve_site()`. Se tudo estiver certo, isso vai demorar um pouco e gerar um site localmente, que no R Studio aparece no Viewer, no mesmo bloco que aparecem os gráficos. 
+```{r,eval=FALSE}
+
+new_site(theme = "toryanderson/hugo-icarus", 
+         sample = TRUE, 
+         theme_example = TRUE, 
+         empty_dirs = TRUE,
+         to_yaml = TRUE,
+         hostname = "gitlab.com")
+```
+
+Usando esse comando o tema já vai parar em um subdiretório e parte da configuração fica mais fácil. 
+
+A coisa mais importante é que um dos arquivos que você vai copiar se chama `config.toml`: esse arquivo é onde as principais configurações ficam e deve ser movido para fora da pasta do tema e ir para a pasta principal. Cada tema tem pequenas diferenças no `config.toml`, então sempre que você mudar de tema você tem que atualizar o arquivo - mas frequentemente as primeiras linhas são muito parecidas. Dê uma olhada no github do Azul para ver se onde fica cada coisa. Você precisa configurar, entre outras coisas, o endereço do site.
+
+Feito isso, você vai querer ver a cara do blog. Para isso você deve usar o comando, no R, `serve_site()`. Se tudo estiver certo, isso vai demorar um pouco e gerar um site localmente, que no R Studio aparece no Viewer, no mesmo bloco que aparecem os gráficos. Abra no browser clicando na opção que tme uma janela e uma setinha. 
+
+## Criando um post
+
+A melhor maneira de criar um post é usar o addin: vá no menu de addins (na mesma barra de criar um arquivo novo) e escolha a opção new post. Ai você vai poder escolher o título, a data, tags e categorias. Você também vai poder escolher o formato do arquivo - markdown puro ou R Markdown. 
+
+Depois de criado, as opções vão aparecer como um YAMl no início do arquivo. Existem algumas opções que não aparecem no addin que podem ser úteis: por exemplo, `draft=true` permite que o post seja gerado localmente mas não aparece no sie. Alguns temas permitem opções extras, como nome do autor e imagem do banner. Este post antes de ser publicado tinha o seguinte cabeçalho:
+
+```
+---
+title: Faça um blog, não faça um fio
+author: Daniel Coutinho
+date: '2020-11-16'
+slug: faça-um-blog-não-faça-um-fio
+categories:
+  - Computação
+tags:
+  - Meta
+  - Blogdown
+images: []
+authors: ["danielc"]
+draft: true
+---
+```
+
+
