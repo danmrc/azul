@@ -16,6 +16,8 @@ katex: true
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 
 <p><em>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia</em></p>
@@ -38,7 +40,8 @@ katex: true
 </ol>
 <p>Noutras palavras, dê meio passo no momento, veja a sua posição e dê mais meio passo. Talvez seja excesso de zelo, mas: para cada parâmetro nós temos um momento, então se temos <span class="math inline">\(p\)</span> parâmetros, <span class="math inline">\(\phi\)</span> é um vetor de dimensão <span class="math inline">\(p\)</span>.</p>
 <p>Um <em>leapfrog integrator</em> tem a seguinte cara - eu vou implementar tudo em Julia por motivos que já já vão ficar claros:</p>
-<pre><code>mom_dist = MvNormal(M)
+<pre class="julia"><code>
+mom_dist = MvNormal(M)
 
 psi = rand(mom_dist)
 for i = 1:L
@@ -58,9 +61,9 @@ yy &lt;- dlaplace(xx)
 df &lt;- data.frame(x = xx,y=yy)
 
 ggplot(df,aes(xx,yy)) + geom_line() </code></pre>
-<p><img src="/post/mcmc/2020-06-22-hamiltonian-monte-carlo_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/mcmc/2020-06-22-hamiltonian-monte-carlo_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>(O <code>dlaplace</code> é do pacote extraDistr) A densidade dela é <span class="math inline">\(1/(2b)*exp(-|x-\mu|/b)\)</span>. Com uma verossimelhança normal, a <em>posterior</em> é exatamente o estimador do LASSO - fica como exercício para o leitor (dica: log). Vamos começar carregando os pacotes e criando as funções que precisamos:</p>
-<pre><code>
+<pre class="julia"><code>
 using Distributions,StatsPlots, ForwardDiff, LinearAlgebra, PositiveFactorizations, Optim
 
 n_samples = 2000
@@ -82,22 +85,22 @@ init = rand(prior,50)
 grad(theta) = ForwardDiff.gradient(post,theta)
 </code></pre>
 <p>O vetor de parâmetros verdadeiro é esparso e os dez primeiros valores são 1, todo o resto é 0. Eu vou procurar o máximo para obter a matriz de variância covariância dos parâmetros:</p>
-<pre><code>
+<pre class="julia"><code>
 ot = optimize(x-&gt;-1*ll(x),zeros(50),BFGS(), autodiff=:forward)
 
 M = grad(ot.minimizer)*grad(ot.minimizer)&#39;#mass matrix
 M = inv(diagm(diag(M)))
 </code></pre>
 <p>Veja que eu já garanti que a matriz é diagonal com <code>diagm(diag())</code>. Vamos definir a distribuição do momento:</p>
-<pre><code>
+<pre class="julia"><code>
 mom_dist = MvNormal(M)
 </code></pre>
 <p>Agora, o momento depende do gradiente da função. Nós podemos gerar, propostas que jogam a gente em regiões que o gradiente é muito alto e isso vai envolver um valor da energia altíssimo. Usando nossa analogia física, seria equivalente a dar tanto impulso ao nosso foguete que ele vai dar um passeio no sistema solar. Uma coisa que gera isso são erros numéricos na simulação da trajetória. Para evitar isso, eu vou colocar um limite superior do momento. Mais alto que isso é sinal que tem alguma coisa profundamente errada na simulação.</p>
-<pre><code>
+<pre class="julia"><code>
 tol_psi = 1e15
 </code></pre>
 <p>O setup básico: um array para receber os parâmetros, a distribuição uniforme entre 0 e 1 para decidir se aceita ou não na etapa do metropolis, o valor de <span class="math inline">\(\epsilon\)</span>, de L, um parâmetro para monitorar a aceitação e um chute inicial:</p>
-<pre><code>
+<pre class="julia"><code>
 pars = zeros(n_samples,50)
 
 uni = Uniform(0,1)
@@ -113,7 +116,7 @@ old_par = init#repeat([0],50)
 leap_dist = Normal(leap_step,0.05)
 </code></pre>
 <p>Veja que a última linha cria uma distribuição centrada no valor de <code>leap_step</code> que sorteia aleatoriamente o tamanho do <em>stepsize</em>. Eu faço uns 500 passos para fazer fine tunning do <em>stepsize</em> e obter um ponto um pouquinho melhor que o chute inicial. Eu poderia usar o valor do ótimo que eu obtive otimização a máxima verossimelhança, mas eu não vou fazer:</p>
-<pre><code>
+<pre class="julia"><code>
 for j = 1:n_samples
     psi = rand(mom_dist)
     old_psi = psi
@@ -150,6 +153,7 @@ end
 <img src="/post/mcmc/par24.png" /></p>
 <p>Eles não estão perfeitamente centrados nem super bonitos, mas funciona bastante bem. O último gráfico claramente tem um pequeno problema. Veja que nesse exemplo de brincadeira o RWMH usual deve funcionar bem, mas eu tenho as minhas dúvidas se um espaço com 500 parâmetros ia transmitir melhor as ideias (e meu computador ia sofrer um bocado).</p>
 <p>O stan não usa esse algoritmo exatamente: ele usa uma variação do HMC chamado NUTS - No U Turns. A ideia em uma frase: toda vez que a gente começa a virar para voltar para o início da trajetória - um U turn - o algoritmo para. Fazer isso exatamente como eu escrevi destroi as propriedades da distribuição estacionária ser a distribuição alvo, então tem vários passos intermediários que implementam isso.</p>
+<hr />
 <div id="bibliografia" class="section level2">
 <h2>Bibliografia</h2>
 <p>O site do stan tem bastante coisa para entender como aplicar e os fundamentos do HMC</p>

@@ -48,7 +48,8 @@ Noutras palavras, dê meio passo no momento, veja a sua posição e dê mais mei
 
 Um _leapfrog integrator_ tem a seguinte cara - eu vou implementar tudo em Julia por motivos que já já vão ficar claros:
 
-```
+```{julia, eval = FALSE}
+
 mom_dist = MvNormal(M)
 
 psi = rand(mom_dist)
@@ -73,6 +74,7 @@ Um truque maravilhoso que eu vou usar é que, apesar de calibrar o $\epsilon$, e
 Para esse exemplo eu vou jogar um problema que tem 100 observações e 50 parâmetros. Eu vou colocar todas as priors com distribuição de Laplace, que tem a seguinte cara:
 
 ```{r}
+
 xx <- seq(-3,3,0.05)
 yy <- dlaplace(xx)
 df <- data.frame(x = xx,y=yy)
@@ -83,7 +85,7 @@ ggplot(df,aes(xx,yy)) + geom_line()
 
 (O `dlaplace` é do pacote extraDistr) A densidade dela é $1/(2b)*exp(-|x-\mu|/b)$. Com uma verossimelhança normal, a _posterior_ é exatamente o estimador do LASSO - fica como exercício para o leitor (dica: log). Vamos começar carregando os pacotes e criando as funções que precisamos:
 
-```
+```{julia, eval = FALSE}
 
 using Distributions,StatsPlots, ForwardDiff, LinearAlgebra, PositiveFactorizations, Optim
 
@@ -109,7 +111,7 @@ grad(theta) = ForwardDiff.gradient(post,theta)
 
 O vetor de parâmetros verdadeiro é esparso e os dez primeiros valores são 1, todo o resto é 0. Eu vou procurar o máximo para obter a matriz de variância covariância dos parâmetros:
 
-```
+```{julia, eval = FALSE}
 
 ot = optimize(x->-1*ll(x),zeros(50),BFGS(), autodiff=:forward)
 
@@ -120,7 +122,7 @@ M = inv(diagm(diag(M)))
 
 Veja que eu já garanti que a matriz é diagonal com `diagm(diag())`. Vamos definir a distribuição do momento:
 
-```
+```{julia, eval = FALSE}
 
 mom_dist = MvNormal(M)
 
@@ -128,7 +130,7 @@ mom_dist = MvNormal(M)
 
 Agora, o momento depende do gradiente da função. Nós podemos gerar, propostas que jogam a gente em regiões que o gradiente é muito alto e isso vai envolver um valor da energia altíssimo. Usando nossa analogia física, seria equivalente a dar tanto impulso ao nosso foguete que ele vai dar um passeio no sistema solar. Uma coisa que gera isso são erros numéricos na simulação da trajetória. Para evitar isso, eu vou colocar um limite superior do momento. Mais alto que isso é sinal que tem alguma coisa profundamente errada na simulação.
 
-```
+```{julia, eval = FALSE}
 
 tol_psi = 1e15
 
@@ -136,7 +138,7 @@ tol_psi = 1e15
 
 O setup básico: um array para receber os parâmetros, a distribuição uniforme entre 0 e 1 para decidir se aceita ou não na etapa do metropolis, o valor de $\epsilon$, de L, um parâmetro para monitorar a aceitação e um chute inicial:
 
-```
+```{julia, eval = FALSE}
 
 pars = zeros(n_samples,50)
 
@@ -156,7 +158,7 @@ leap_dist = Normal(leap_step,0.05)
 
 Veja que a última linha cria uma distribuição centrada no valor de `leap_step` que sorteia aleatoriamente o tamanho do _stepsize_. Eu faço uns 500 passos para fazer fine tunning do _stepsize_ e obter um ponto um pouquinho melhor que o chute inicial. Eu poderia usar o valor do ótimo que eu obtive otimização a máxima verossimelhança, mas eu não vou fazer:
 
-```
+```{julia, eval = FALSE}
 
 for j = 1:n_samples
     psi = rand(mom_dist)
@@ -203,6 +205,8 @@ Como o exemplo tem 50 parâmetros, eu não vou fazer a maldade de colocar aqui o
 Eles não estão perfeitamente centrados nem super bonitos, mas funciona bastante bem. O último gráfico claramente tem um pequeno problema. Veja que nesse exemplo de brincadeira o RWMH usual deve funcionar bem, mas eu tenho as minhas dúvidas se um espaço com 500 parâmetros ia transmitir melhor as ideias (e meu computador ia sofrer um bocado). 
 
 O stan não usa esse algoritmo exatamente: ele usa uma variação do HMC chamado NUTS - No U Turns. A ideia em uma frase: toda vez que a gente começa a virar para voltar para o início da trajetória - um U turn - o algoritmo para. Fazer isso exatamente como eu escrevi destroi as propriedades da distribuição estacionária ser a distribuição alvo, então tem vários passos intermediários que implementam isso. 
+
+---
 
 ## Bibliografia
 

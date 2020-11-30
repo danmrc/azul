@@ -11,6 +11,9 @@ tags:
 images: []
 authors: ["danielc"]
 draft: true
+output:
+  html_document:
+    pandoc_args: [ "--lua-filter codeblock.lua"]
 ---
 
 Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado. 
@@ -37,9 +40,27 @@ new_site(theme = "toryanderson/hugo-icarus",
 
 Usando esse comando o tema já vai parar em um subdiretório e parte da configuração fica mais fácil. 
 
-A coisa mais importante é que um dos arquivos que você vai copiar se chama `config.toml`: esse arquivo é onde as principais configurações ficam e deve ser movido para fora da pasta do tema e ir para a pasta principal. Cada tema tem pequenas diferenças no `config.toml`, então sempre que você mudar de tema você tem que atualizar o arquivo - mas frequentemente as primeiras linhas são muito parecidas. Dê uma olhada no github do Azul para ver se onde fica cada coisa. Você precisa configurar, entre outras coisas, o endereço do site.
+A coisa mais importante é que um dos arquivos que você vai copiar se chama `config.toml`: esse arquivo é onde as principais configurações ficam e deve ser movido para fora da pasta do tema e ir para a pasta principal. Cada tema tem pequenas diferenças no `config.toml`, então sempre que você mudar de tema você tem que atualizar o arquivo - mas frequentemente as primeiras linhas são muito parecidas. Dê uma olhada no github do Azul para ver se onde fica cada coisa. Você precisa configurar, entre outras coisas, o endereço do site. Por exemplo, o `config.toml` do Azul tem:
 
-Feito isso, você vai querer ver a cara do blog. Para isso você deve usar o comando, no R, `serve_site()`. Se tudo estiver certo, isso vai demorar um pouco e gerar um site localmente, que no R Studio aparece no Viewer, no mesmo bloco que aparecem os gráficos. Abra no browser clicando na opção que tme uma janela e uma setinha. 
+```toml
+
+baseURL = "https://azul.netlify.app/"
+title = "AZUL"
+copyright = "Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved."
+paginate = 2
+languageCode = "pt-br"
+DefaultContentLanguage = "pt-br"
+enableInlineShortcodes = true
+footnoteReturnLinkContents = "^"
+googleAnalytics = ""
+DisqusShortname = ""
+theme = "hugo-theme-chunky-poster"
+
+[permalinks]
+  post = "/:year/:month/:day/:slug/"
+```
+
+Feito isso, você vai querer ver a cara do blog. Para isso você deve usar o comando, no R, `serve_site()`. Se tudo estiver certo, isso vai demorar um pouco e gerar um site localmente, que no R Studio aparece no Viewer, no mesmo bloco que aparecem os gráficos. Abra no browser clicando na opção que tem uma janela e uma setinha. 
 
 ## Criando um post
 
@@ -47,7 +68,7 @@ A melhor maneira de criar um post é usar o addin: vá no menu de addins (na mes
 
 Depois de criado, as opções vão aparecer como um YAMl no início do arquivo. Existem algumas opções que não aparecem no addin que podem ser úteis: por exemplo, `draft=true` permite que o post seja gerado localmente mas não aparece no sie. Alguns temas permitem opções extras, como nome do autor e imagem do banner. Este post antes de ser publicado tinha o seguinte cabeçalho:
 
-```
+```yaml
 ---
 title: Faça um blog, não faça um fio
 author: Daniel Coutinho
@@ -64,4 +85,6 @@ draft: true
 ---
 ```
 
+Tem dois campos de autor porque o _authors_ liga todos os posts do mesmo post e só está disponível em alguns temas. O resto do post é um arquivo Markdown usual, e a maioria dos comandos estão disponíveis. Só que nem sempre o suporte de gerar equações via notação do LaTeX e fazer _syntax highlight_ vem _out of the box_. Existem várias formas de colocar suporte para os dois, e eu vou começar com a matemática.
 
+Para matemática, eu acho que a solução mais simples é usar o [KaTeX](https://katex.org/).

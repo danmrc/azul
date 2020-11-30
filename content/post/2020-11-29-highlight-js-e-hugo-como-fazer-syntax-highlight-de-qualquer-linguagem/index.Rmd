@@ -66,7 +66,7 @@ Ainda na pasta **static** coloque o tema que você escolheu dentro da pasta `css
 
 ### 3. Habilitando o _highlight.js_
 
-Coloque em qualquer lugar no arquivo `head.html` (que aqui fica dentro de `layout/partials`):
+Essa etapa provavelmente não é necessária se o seu tema permite javascript e css personalizados. Coloque em qualquer lugar no arquivo `head.html` (que aqui fica dentro de `layout/partials`):
 
 ```html
 
