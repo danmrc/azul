@@ -1,0 +1,27 @@
+---
+title: 'Highlight.js e Hugo: como fazer _syntax highlight_ de _qualquer_ linguagem'
+author: Daniel Coutinho
+date: '2020-11-29'
+slug: highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem
+categories:
+  - Meta
+  - Blog
+tags:
+  - Blogdown
+  - Syntax Highlight
+  - Julia
+  - R
+  - Highlight.js
+images: []
+authors: ["danielc"]
+draft: true
+---
+
+Esse é a continuação de um post que ainda não foi publicado porque o primeiro é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js como explicado no guia do blogdown fala pra você colocar alguma coisa como isso no `head.html` do blog:
+
+```html
+
+<link href="//YOUR-CDN-LINK/styles/github.min.css" rel="stylesheet">
+```
+
+

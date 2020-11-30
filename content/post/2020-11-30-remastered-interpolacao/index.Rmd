@@ -21,9 +21,9 @@ O problema é como conectar esses pontos. Os que entre vocês já fizeram análi
 
 Isso nem sempre é razoável e a função super inocente $\frac{1}{1+10x^2}$ mostra porque não. Primeiro, vamos dar uma olhada nela:
 
-```
+```{julia, eval = FALSE}
 
-using Plots #isso carrega o pacote plots
+using Plots; #isso carrega o pacote plots
 
 grid2 =  range(-1,1,length=50) #um grid de pontos para avaliar a função
 
@@ -36,7 +36,7 @@ plot(grid2,f.(grid2))
 
 É uma função não muito maluca. Eu vou usar o pacote _polynomials_ pra gerar um polinômio de grau 50, a partir de 50 pontos equiespaçados:
 
-```
+```{julia, eval = FALSE}
 
 grid =  range(-2,2,length=10) #um grid de pontos para avaliar a função
 
@@ -50,7 +50,7 @@ plot!(grid2,f_hat.(grid2))
 
 A interpolação gera uma função que oscila malucamente entre os pontos. O mais curioso é que aumentar o número de pontos _piora_ a situação. Com 50 pontos:
 
-```
+```{julia, eval = FALSE}
 
 f_hat = Polynomials.fit(grid2,f.(grid2))
 
@@ -64,7 +64,7 @@ Isso serve como exemplo de como interpolações podem dar profundamente erradas.
 
 No post original eu sugeria fazer interpolação por pedaços, ligando cada pedaço por uma reta: eu vou usar o pacote _Interpolations_ e o comando `LinearInterpolation` pra isso:
 
-```
+```{julia, eval = FALSE}
 using Interpolations
 
 
@@ -78,7 +78,7 @@ plot!(grid2,lin_interp.(grid2))
 
 Veja que ficou bem feio porque tem só 10 pedaços. Com mais pedaços a interpolação fica indistinguível da função verdadeira:
 
-```
+```{julia, eval = FALSE}
 
 grid3 = range(-2,2,length = 100)
 
@@ -98,7 +98,8 @@ $$x_k = -\cos\left(\frac{2k-1}{2m}\pi\right) \quad k =1, \ldots,m $$
 
 Que gera pontos entre $-[1,1]$. Veja que podemos pensar em maneiras de mover e encolher/crescer o intervalo para ficar entre $[a,b]$. Vamos criar uma função que pega uma sequência de pontos e gera o grid:
 
-```
+```{julia, eval = FALSE}
+
 function cheby_nod(seq)
     m = length(seq)
      return map(k->-cos((2k-1)/(2m)*pi),seq)
@@ -107,7 +108,8 @@ function cheby_nod(seq)
 
 Escrevendo o post eu me dei conta que era mais simples passar $m$ e criar a sequência depois. Eu podia muito bem ter usado um `for`, mas o `map` é brutalmente mais conciso. Vamos ver a qualidade da interpolação:
 
-```
+```{julia, eval = FALSE}
+
 new_grid = 2*cheby_nod(1:10)
 
 fit_cheb = Polynomials.fit(new_grid,f.(new_grid))
@@ -120,7 +122,8 @@ plot!(grid2,fit_cheb.(grid2))
 
 A coisa realmente legal aqui é que aumentar a quantidade de pontos _melhora_ a qualidade da interpolação:
 
-```
+```{julia, eval = FALSE}
+
 new_grid = 2*cheby_nod(1:20)
 
 fit_cheb = Polynomials.fit(new_grid,f.(new_grid))

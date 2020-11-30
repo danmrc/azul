@@ -56,7 +56,7 @@ Veja que a ideia aqui é basicamente "operar" usando os mesmos valores que resol
 
 Veja que para o caso onde $\delta = 1$, $u(C_t) = \ln(C_t)$ e $y_t = k_t ^\alpha$, o problema tem solução analítica. O código que implementa o problema e resolve no Julia segue abaixo:
 
-```
+```{julia, eval = FALSE}
 
 using Interpolations
 using Plots
@@ -134,7 +134,7 @@ Isso significa que das duas uma: ou a restrição vale com igualdade, e o termo 
 
 Veja que esse algoritmo é ligeiramente diferente do algoritmo do Bianchi em alguns pontos - e porque o problema que eu estou resolvendo aqui no blog é mais simples que o problema dele. Eu vou usar preferências log, que geram como derivada $u'(c)=1/c$. Além disso eu vou adotar uma hipótese simplificadora de que a dotação só pode adotar 4 valores: 2,3,4,5, todos com a mesma probabilidade (0.25). Isso é porque nós vamos ter duas variáveis de estado, a quantidade de títulos e a renda no período - já que um pedaço fundamental do problema é a restrição de endividamento, que depende da renda. Vamos ao algoritmo em si:
 
-```
+```{julia, eval = FALSE}
 
 beta = 0.96
 r = 0.04
@@ -208,7 +208,8 @@ Um outro detalhe técnico é que como temos dois bens e eu vou fazer com que amb
 
 O código em si:
 
-```
+```{julia, eval = FALSE}
+
 beta = 0.96
 r = 0.04
 sigma = 2
@@ -290,6 +291,9 @@ De fato cresce. Vamos ver o gráfico de qual a escolha de títulos amanhã dado 
 
 Veja que na ponta esquerda, quando a restrição está ativa, você vai escolher se endividar mais do que você se endividou hoje. Isso deprime os preços do bem y o que piora a restrição de endividamento do agente. Isso reduz o consumo dos agentes, o que deprime ainda mais os preços. O excesso de endividamento dos agentes leva a uma crise. Isso de forma alguma é uma ideia nova: Irving Fischer pós a crise de 1929 sugeriu esse mecanismo.     
 
-O post apresentou um método diferente de resolver problemas de programção dinâmica. Ele é mais eficiente e pode ser facilmente alterado para permitir restrições que ocasionalmente estão ativas. Isso é essencial para entender problemas chaves em macroeconomia, como restrições de endividamento. O formalismo matemático dá substância a ideia econônomica.  
+O post apresentou um método diferente de resolver problemas de programção dinâmica. Ele é mais eficiente e pode ser facilmente alterado para permitir restrições que ocasionalmente estão ativas. Isso é essencial para entender problemas chaves em macroeconomia, como restrições de endividamento. O formalismo 
+matemático dá substância a ideia econônomica.  
+
+---
 
 (Mais um post que o Sargent escreveu antes de mim e melhor (obviamente), [mas em inglês](https://lectures.quantecon.org/jl/coleman_policy_iter.html). Imitação é a mais forma mais sincera de admiração. A outra fonte é, obviamente, o artigo do [Bianchi](http://www.javierbianchi.com/uploads/8/8/5/8/8858198/overborrowing.pdf))
