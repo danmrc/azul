@@ -1,5 +1,5 @@
 ---
-title: 'Highlight.js e Hugo: como fazer _syntax highlight_ de _qualquer_ linguagem'
+title: 'Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem'
 author: Daniel Coutinho
 date: '2020-11-29'
 slug: highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem
@@ -14,7 +14,6 @@ tags:
   - Highlight.js
 images: []
 authors: ["danielc"]
-draft: true
 ---
 
 <script src="index_files/header-attrs/header-attrs.js"></script>
@@ -22,6 +21,48 @@ draft: true
 <script src="index_files/anchor-sections/anchor-sections.js"></script>
 
 
-<p>Esse é a continuação de um post que ainda não foi publicado porque o primeiro é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js como explicado no guia do blogdown fala pra você colocar alguma coisa como isso no <code>head.html</code> do blog:</p>
+<p>Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no <code>head.html</code> do blog:</p>
 <pre class="html"><code>
 &lt;link href=&quot;//YOUR-CDN-LINK/styles/github.min.css&quot; rel=&quot;stylesheet&quot;&gt;</code></pre>
+<p>Mas o problema é que isso adiciona apenas <em>algumas</em> linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis! Infelizmente, esse minímo possível não inclui julia, nem R. A solução do Blogdown é adicionar a seguinte linha:</p>
+<pre class="html"><code>
+&lt;script src=&quot;//YOUR-CDN-LINK/languages/r.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>Eu imagino que seja possível adicionar linhas similares pra Julia e outras linguagens, mas isso me parece extremamente ruim: toda vez que você quiser uma linguagem nova você tem que buscar uma linha nova.</p>
+<p>A coisa bacana é que você pode você mesmo pode baixar tudo do highlight.js, escolher quais linguagens você quer fazer <em>syntax highlight</em> e colocar no blog. Eu vou quebrar em um passo a passo já que quem vai ler isso é mero entusiasta e (muito provavlemente) lê e testa e teima e sua até ficar do jeito que quer.</p>
+<p>Talvez ver o commit que eu fiz no Azul ajude vocês a entender o que se passa, então <a href="https://github.com/danmrc/azul/commit/0c15bb58b7d50d53ad431ea98fabc1e4fb072070">cliquem aqui para ver o commit</a></p>
+<div id="baixando-o-highlight.js" class="section level3">
+<h3>1. Baixando o <em>highlight.js</em></h3>
+<p>Primeiro, <a href="https://highlightjs.org/download/">clique aqui</a> e escolha no <em>custom package</em> as linguagens que você quer e mande baixar. Você vai ter um arquivo <code>.zip</code> que tem as seguintes coisas:</p>
+<ol style="list-style-type: decimal">
+<li>Um arquivo <code>highlight.pack.js</code> (ou parecido)</li>
+<li>Uma pasta com vários css, chamada <strong>styles</strong></li>
+<li>Vários arquivos readme, license</li>
+</ol>
+<p>O arquivo <code>.js</code> é o script que faz o highlight e os styles são diferentes estilos de como fazer o <em>syntax highlight</em>, assim como você pode escolher o tema do RStudio.</p>
+</div>
+<div id="colocando-os-arquivos-no-blog" class="section level3">
+<h3>2. Colocando os arquivos no blog</h3>
+<p>Aqui a gente tem uma bifurcação: se o seu tema permite javascript e css personalizado, use o caminho que o tema manda e coloque o arquivo <code>.js</code> na pasta de javacript e o <code>.css</code>no tema personalizado. O tema do Azul permite isso, e no <code>config.toml</code> eu poderia colocar:</p>
+<pre class="toml"><code>
+# Custom CSS and JS. Relative to /static/css and /static/js respectively.
+  customCSS = [&quot;vs2015.css&quot;]
+  customJS = [&quot;highlight.pack.js&quot;]
+</code></pre>
+<p>(O comentário veio do próprio tema) Por exemplo, então eu colocaria o <code>.js</code> no <code>/themes/hugo-chunky-poster/static/js/</code> - a pasta não existia e eu criei. Eu escolhi o tema vs2015, mas escolha o seu favorito! Eu <em>não</em> implementei assim no Azul porque eu queria fazer de maneira que fosse independente do tema.</p>
+<p>Se o seu tema não permite javascript e css personalizados, então: na pasta <strong>static</strong>* dentro da pasta do tema, coloque o <code>highlight.pack.js</code> dentro da pasta <code>js</code> - se não existir, crie. Pro Azul, o caminho seria <code>/themes/hugo-chunky-poster/static/js/highlight.pack.js</code>. (Dê uma olhada no GitHub do blog).</p>
+<p>Ainda na pasta <strong>static</strong> coloque o tema que você escolheu dentro da pasta <code>css</code> - novamente, se a pasta não existe, crie. Pro Azul, eu escolhi o tema vs2015, e o caminho seria <code>/themes/hugo-chunky-poster/static/css/vs2015.css</code>.</p>
+</div>
+<div id="habilitando-o-highlight.js" class="section level3">
+<h3>3. Habilitando o <em>highlight.js</em></h3>
+<p>Coloque em qualquer lugar no arquivo <code>head.html</code> (que aqui fica dentro de <code>layout/partials</code>):</p>
+<pre class="html"><code>
+&lt;link rel=&quot;stylesheet&quot; href=&quot;/css/vs2015.css&quot;&gt;
+&lt;script src=&quot;/js/highlight.pack.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p><strong>Mude o css pro tema que você escolheu!</strong> Coloque no <code>foot.html</code>:</p>
+<pre class="html"><code>
+&lt;script&gt;
+hljs.initHighlightingOnLoad();
+&lt;/script&gt;</code></pre>
+<p>Se o seu tema permite javascript e css personalizado, os <code>hrefs</code> não parecem ser essenciais. Se você quiser implementar sem isso, o caminho do script tem que estar certo. Eu não sei se a maneira que eu fiz aqui funciona sempre, então talvez vocês tenham que proceder um pouco na tentativa e erro e com ajuda do Google.</p>
+<p>Você deve ser capaz de ver o highlight no preview e funciona no netlifly. Talvez alguém tenha um bom motivo para <em>não</em> fazer <em>self host</em> do highlight.js, mas parece um pouco mais prático que adicionar uma montanha de links no <code>head.html</code> - e eu estou pronto para ser convencido de que esse post é desnecessário!</p>
+</div>

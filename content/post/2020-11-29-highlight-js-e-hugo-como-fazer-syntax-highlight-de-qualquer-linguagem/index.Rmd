@@ -1,5 +1,5 @@
 ---
-title: 'Highlight.js e Hugo: como fazer _syntax highlight_ de _qualquer_ linguagem'
+title: 'Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem'
 author: Daniel Coutinho
 date: '2020-11-29'
 slug: highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem
@@ -14,14 +14,75 @@ tags:
   - Highlight.js
 images: []
 authors: ["danielc"]
-draft: true
 ---
 
-Esse é a continuação de um post que ainda não foi publicado porque o primeiro é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js como explicado no guia do blogdown fala pra você colocar alguma coisa como isso no `head.html` do blog:
+Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no `head.html` do blog:
 
 ```html
 
 <link href="//YOUR-CDN-LINK/styles/github.min.css" rel="stylesheet">
 ```
 
+Mas o problema é que isso adiciona apenas _algumas_ linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis! Infelizmente, esse minímo possível não inclui julia, nem R. A solução do Blogdown é adicionar a seguinte linha:
 
+```html
+
+<script src="//YOUR-CDN-LINK/languages/r.min.js"></script>
+```
+
+Eu imagino que seja possível adicionar linhas similares pra Julia e outras linguagens, mas isso me parece extremamente ruim: toda vez que você quiser uma linguagem nova você tem que buscar uma linha nova. 
+
+A coisa bacana é que você pode você mesmo pode baixar tudo do highlight.js, escolher quais linguagens você quer fazer _syntax highlight_ e colocar no blog. Eu vou quebrar em um passo a passo já que quem vai ler isso é mero entusiasta e (muito provavlemente) lê e testa e teima e sua até ficar do jeito que quer. 
+
+Talvez ver o commit que eu fiz no Azul ajude vocês a entender o que se passa, então [cliquem aqui para ver o commit](https://github.com/danmrc/azul/commit/0c15bb58b7d50d53ad431ea98fabc1e4fb072070) 
+
+### 1. Baixando o _highlight.js_
+
+Primeiro, [clique aqui](https://highlightjs.org/download/) e escolha no _custom package_ as linguagens que você quer e mande baixar. Você vai ter um arquivo `.zip` que tem as seguintes coisas:
+
+1. Um arquivo `highlight.pack.js` (ou parecido)
+2. Uma pasta com vários css, chamada **styles**
+3. Vários arquivos readme, license
+
+O arquivo `.js` é o script que faz o highlight e os styles são diferentes estilos de como fazer o _syntax highlight_, assim como você pode escolher o tema do RStudio. 
+
+### 2. Colocando os arquivos no blog
+
+Aqui a gente tem uma bifurcação: se o seu tema permite javascript e css personalizado, use o caminho que o tema manda e coloque o arquivo `.js` na pasta de javacript e o `.css`no tema personalizado. O tema do Azul permite isso, e no `config.toml` eu poderia colocar:
+
+```toml
+
+# Custom CSS and JS. Relative to /static/css and /static/js respectively.
+  customCSS = ["vs2015.css"]
+  customJS = ["highlight.pack.js"]
+
+```
+
+(O comentário veio do próprio tema) Por exemplo, então eu colocaria o `.js` no `/themes/hugo-chunky-poster/static/js/` - a pasta não existia e eu criei. Eu escolhi o tema vs2015, mas escolha o seu favorito! Eu _não_ implementei assim no Azul porque eu queria fazer de maneira que fosse independente do tema.
+
+Se o seu tema não permite javascript e css personalizados, então: na pasta **static*** dentro da pasta do tema, coloque o `highlight.pack.js` dentro da pasta `js`  - se não existir, crie. Pro Azul, o caminho seria `/themes/hugo-chunky-poster/static/js/highlight.pack.js`. (Dê uma olhada no GitHub do blog). 
+
+Ainda na pasta **static** coloque o tema que você escolheu dentro da pasta `css` - novamente, se a pasta não existe, crie.  Pro Azul, eu escolhi o tema vs2015, e  o caminho seria `/themes/hugo-chunky-poster/static/css/vs2015.css`.
+
+### 3. Habilitando o _highlight.js_
+
+Coloque em qualquer lugar no arquivo `head.html` (que aqui fica dentro de `layout/partials`):
+
+```html
+
+<link rel="stylesheet" href="/css/vs2015.css">
+<script src="/js/highlight.pack.js"></script>
+```
+
+**Mude o css pro tema que você escolheu!** Coloque no `foot.html`:
+
+```html
+
+<script>
+hljs.initHighlightingOnLoad();
+</script>
+```
+
+Se o seu tema permite javascript e css personalizado, os `hrefs` não parecem ser essenciais. Se você quiser implementar sem isso, o caminho do script tem que estar certo. Eu não sei se a maneira que eu fiz aqui funciona sempre, então talvez vocês tenham que proceder um pouco na tentativa e erro e com ajuda do Google.
+
+Você deve ser capaz de ver o highlight no preview e funciona no netlifly. Talvez alguém tenha um bom motivo para _não_ fazer _self host_ do highlight.js, mas parece um pouco mais prático que adicionar uma montanha de links no `head.html` - e eu estou pronto para ser convencido de que esse post é desnecessário!
