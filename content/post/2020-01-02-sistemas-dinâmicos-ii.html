@@ -10,10 +10,18 @@ tags:
   - Sistemas Dinâmicos
   - Blanchard Khan
   - Álgebra Linear
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
-<script src="2020-01-02-sistemas-dinâmicos-ii_files/jquery/jquery.min.js"></script>
-<script src="2020-01-02-sistemas-dinâmicos-ii_files/elevate-section-attrs/elevate-section-attrs.js"></script>
+<script src="2020-01-02-sistemas-dinâmicos-ii_files/header-attrs/header-attrs.js"></script>
+<link href="2020-01-02-sistemas-dinâmicos-ii_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2020-01-02-sistemas-dinâmicos-ii_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Há muito tempo atrás eu escrevi sobre <a href="https://azul.netlify.com/2018/11/06/sistemas-dinamicos-e-algebra-linear/">Álgebra Linear e sistemas dinâmicos</a>. Lá, eu falava de um caso em que o sistema era <span class="math inline">\(x_t = Ax_{t-1}\)</span>, onde <span class="math inline">\(x_t\)</span> era um vetor e <span class="math inline">\(A\)</span> tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com <em>expectativas</em> e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente. Um caso “famoso” de expectativas racionais é a curva de Phillips novo keynesiana:</p>
@@ -87,7 +95,7 @@ i_t\\
 i_{t-1}\\
 \end{bmatrix} + \begin{bmatrix} 0 \\ 0\\ 1\\ \end{bmatrix} \varepsilon_t\]</span></p>
 <p>Se você lembra dos cursos de macro (e aprendeu isso), o princípio de Tayor impõe que <span class="math inline">\(\phi &gt; 1\)</span> para o Banco Central controlar a inflação. Isso se traduz no sistema acima como “para o sistema satisfazer as condições de Blanchard Khan, <span class="math inline">\(\phi &gt; 1\)</span>”. É possível verificar isso analiticamente, mas vamos usar o R para isso. Vamos montar as equações, colocar alguns valores para os parâmetros e checar o número de autovalores maiores que 1. Primeiro, vamos checar que com <span class="math inline">\(\phi &gt; 1\)</span> temos o número de autovalores certos:</p>
-<pre class="r"><code>bet = 0.99
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">bet = 0.99
 sig = 1
 phi = 1.5
 
@@ -96,7 +104,7 @@ C = rbind(c(1,-1,0),c(0,-sig,0),c(phi,0,0))
 
 A = qr.solve(B)%*%C
 eigen(A)</code></pre>
-<pre><code>## eigen() decomposition
+<pre ><code >## eigen() decomposition
 ## $values
 ## [1] -2.165909  1.165909  0.000000
 ## 
@@ -106,7 +114,7 @@ eigen(A)</code></pre>
 ## [2,] -0.9326410  0.0942406    0
 ## [3,]  0.2054227 -0.7860316    1</code></pre>
 <p>Temos dois autovalores maiores que 1 em módulo (um deles é um -2) e um menor que 1 em módulo (0). Logo, o sistema tem uma única solução (“as condições de Blanchard Khan são atentidas” usando os jargões de macro). Um pequeno detalhe: eu usei o comando <code>qr.solve</code> que faz a mesma coisa que o <code>solve</code>, mas é mais estável. Vamos testar vários valores para <span class="math inline">\(\phi\)</span> e recuperar quantos autovalores são maiores que 1 em módulo:</p>
-<pre class="r"><code>bet = 0.99
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">bet = 0.99
 sig = 1
 
 phi_vals = seq(0,1.5, length.out = 100)
@@ -126,7 +134,7 @@ for(i in 1:length(phi_vals)){
 
 library(ggplot2)
 
-dados &lt;- data.frame(&quot;phi_vals&quot; = phi_vals,&quot;eigs&quot; = eigs_maior_que_um)
+dados &lt;- data.frame("phi_vals" = phi_vals,"eigs" = eigs_maior_que_um)
 
 g &lt;- ggplot(dados, aes(phi_vals,eigs))
 g + geom_line() + theme_bw() </code></pre>
@@ -154,7 +162,7 @@ i_t\\
 i_{t-1}\\
 \end{bmatrix} + \begin{bmatrix} 0 \\ 0\\ 1\\ \end{bmatrix} \varepsilon_t\]</span></p>
 <p>Vamos repetir todo o experimento:</p>
-<pre class="r"><code>bet = 0.99
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">bet = 0.99
 sig = 1
 rho = 0.95
 
@@ -173,7 +181,7 @@ for(i in 1:length(phi_vals)){
   eigs_maior_que_um[i] &lt;- sum(abs(eigg$values) &gt; 1)
 }
 
-dados_com_suav &lt;- data.frame(&quot;phi_vals&quot; = phi_vals,&quot;eigs&quot; = eigs_maior_que_um)
+dados_com_suav &lt;- data.frame("phi_vals" = phi_vals,"eigs" = eigs_maior_que_um)
 
 g &lt;- ggplot(dados_com_suav, aes(phi_vals,eigs))
 g + geom_line() + theme_bw() </code></pre>

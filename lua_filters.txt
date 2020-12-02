@@ -1,0 +1,36 @@
+# Lua scripts for pandoc
+
+These scripts change how pandoc renders posts. Pandoc's behaviour now is to put a code section in `<pre class="name"><code>` while html 5 spec is `<pre><code class="lang-name">`. In order to use the script, you must add the following to the the yaml header:
+
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_no_braces.lua"
+      ]
+      
+Notice that we need the path with ../ for posts inside folders in the /content/post and just the filename if the post is not in a folder in /content/post
+
+There are three options:
+
+* script_no_braces_no_number.lua: just syntax highligthing, no number on lines and no brace matching
+* script_number_and_braces.lua: syntax highligthing, number on lines and brace matching
+* script_no_braces.lua: only syntax highlighting and number on lines
+
+(There is nothing sacred on the scripts above: we could have any combination of syntax highlighting/brace matching/number on lines)
+
+These features are all a consequence of using prism.js, that _requires_ that the html is complaint with html5 spec
+
+# Observations:
+
+* Brace matching is now done with rainbow braces. This can be easily changed by removing the rainbow-braces on the only place it shows up in the code. Then brace matching will be done by moving the mouse to one brace and the other will be a cursor hover. 
+
+* All options add a copy button to the code box and the name of the language (you may need to move the cursor to the box to see this options)
+
+---
+
+Credits
+
+Original Lua code from Tim Sokollek: https://github.com/pandoc/lua-filters/tree/master/revealjs-codeblock
+
+Minor changes by Daniel Coutinho

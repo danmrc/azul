@@ -9,14 +9,23 @@ categories:
 tags:
   - Viés de Atenuação
   - Variáveis Instrumentais
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 <script src="2020-04-22-viés-de-atenuação_files/header-attrs/header-attrs.js"></script>
+<link href="2020-04-22-viés-de-atenuação_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2020-04-22-viés-de-atenuação_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O <em>catch</em>: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</p>
 <p>Como de praxe, começamos com uma simulação. Vou fazer uma regressão besta. A variável y vai ser <span class="math inline">\(y = x +u\)</span>, mil observações. Eu vou adicionar um erro ao x - chame essa nova variável de <span class="math inline">\(\tilde{x}\)</span> e fazer uma regressão y em <span class="math inline">\(\tilde{x}\)</span>.</p>
-<pre class="r"><code>cofs &lt;- rep(NA,2000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs &lt;- rep(NA,2000)
 
 for(i in 1:2000){
   x &lt;- rnorm(1000)
@@ -26,10 +35,10 @@ for(i in 1:2000){
   cofs[i] &lt;- coef(reg)[2]
 }</code></pre>
 <p>Vamos ver a distribuição dos coeficientes:</p>
-<pre class="r"><code>cofs_df &lt;- data.frame(cofs = cofs)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs_df &lt;- data.frame(cofs = cofs)
 
 ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2020-04-22-vi%C3%A9s-de-atenua%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>A moda está em 0.5. Por que? Bom, considere o estimador que estamos usando:</p>
 <p><span class="math display">\[\hat{\beta} = \frac{\sum_{i=1}^N \tilde{x}_i y_i}{\sum_{i=1}^N \tilde{x}_i^2}\]</span></p>
@@ -39,7 +48,7 @@ ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
 <p><span class="math display">\[\hat{\beta} = \frac{\sum_{i=1}^N x^2_i}{\sum_{i=1}^N \tilde{x}_i^2}\]</span></p>
 <p>Agora, veja que embaixo temos basicamente a variância de <span class="math inline">\(\tilde{x}_i\)</span> e em cima a variância de de <span class="math inline">\(x_i\)</span>. E como <span class="math inline">\(\tilde{x}_i = x_i + u_i\)</span> portanto <span class="math inline">\(Var(\tilde{x}_i) = Var(x_i) + Var(u_i) &gt; Var(x_i)\)</span>. Então, o coeficiente está abaixo de 1. Veja que podemos trabalhar com o caso geral que ao invés de 1 temos <span class="math inline">\(\beta\)</span>. Veja que como eu coloquei tudo a normal padrão, <span class="math inline">\(Var(\tilde{x}_i)= 2\)</span> e <span class="math inline">\(Var(x_i) = 1\)</span>, então a conta acima dá 1/2.</p>
 <p>Curiosamente tem uma solução super simples: variáveis instrumentais. Você pode usar qualquer variável relacionada a <span class="math inline">\(x\)</span>, até outra copia com erros, desde que não seja a mesma variável. Eu vou criar uma variável nova, z, para servir como instrumento:</p>
-<pre class="r"><code>cofs &lt;- rep(NA,2000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs &lt;- rep(NA,2000)
 
 for(i in 1:2000){
   x &lt;- rnorm(1000)
@@ -53,6 +62,6 @@ for(i in 1:2000){
 cofs_iv_df &lt;- data.frame(cofs = cofs)
 
 ggplot(cofs_iv_df,aes(cofs)) + geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2020-04-22-vi%C3%A9s-de-atenua%C3%A7%C3%A3o_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Esse é um uso bem legal de IV. Quem quiser referências: Eu imagino que quase todo livro de econometria básica deve ter isso. O Stock &amp; Watson e Wooldridge muito provavelmente tem. O livro do Hayashi tem.</p>

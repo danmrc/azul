@@ -11,6 +11,12 @@ tags:
   - Instrumentos Fracos
 authors: ["danielc"]
 katex: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
 ---
 
 ```{r,message=FALSE,echo=FALSE}

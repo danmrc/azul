@@ -10,6 +10,13 @@ categories:
 - Programação Dinâmica
 - Julia
 - Computação
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 *Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava $\beta$ e não $\beta^t$. Se tratava de um typo. Agradeço a Marcelo Moraes pela observação*
@@ -45,7 +52,7 @@ Ou seja, quebramos o problema do agente em dois problemas separados e ressolvemo
 
 O programa em Julia que resolve o problema segue abaixo. Eu uso w para gerar o grid de riqueza e utilizo a utilidade log. Eu inicialmente coloco um agente trabalhando 65 anos e vivendo 20 anos aposentado, um total de 85 anos. O valor da aposentadoria é 1. A média da distribuição Gama(5,1) é 5, então nossa aposentadoria é bem menor que o que o agente vai ganhar em média durante a vida. 
 
-```
+```{julia,eval=FALSE}
 #Carregando os pacotes que precisamos
 using Distributions
 using Plots
@@ -106,7 +113,7 @@ end
 
 Podemos usar essas soluções e simular uma trajetória de salário para obter a escolha ótima de consumo e de poupança do agente. O código a seguir faz isso. Observe que, como em posts anteriores, eu deixei o primeiro elemento da matriz ser o último período do agente, então aqui eu preciso plotar e simular tudo de trás pra frente: 
 
-```
+```{julia,eval=FALSE}
 start = 2
 wage = rand(d,65)
 
@@ -180,7 +187,7 @@ $$\omega_t = \epsilon_t + \mu + \sigma z,\quad z \sim N(0,1)$$
 
 O código para estimar a melhor resposta nesse modelo muda apenas um pouco:
 
-```
+```{julia,eval=FALSE}
 inc = range(0,stop=3,length=65) #esse é o epsilon_t da fórmula acima
 inc = inc[65:-1:1] #Lembrem que eu faço tudo de trás pra frente
 
@@ -232,7 +239,7 @@ end
 O código para gerar uma trajetória é idêntico, exceto na hora de gear o salário, que envolve uma ligeira mudança para alocar a mudança na distribuição: 
 
 
-```
+```{julia,eval=FALSE}
 wage5 = zeros(65)
 
 for i in 65:-1:1

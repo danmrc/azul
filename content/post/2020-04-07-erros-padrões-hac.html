@@ -9,9 +9,18 @@ categories:
 tags:
   - HAC
   - Erro Padrão Robustos
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 <script src="2020-04-07-erros-padrões-hac_files/header-attrs/header-attrs.js"></script>
+<link href="2020-04-07-erros-padrões-hac_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2020-04-07-erros-padrões-hac_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.</p>
@@ -21,7 +30,7 @@ tags:
 <p><span class="math display">\[Var(1/T\sum_{t=1}^T u_t) = 1/T^2 Var(\sum_{t=1}^T u_t) = 1/T^2 Var(u_t + u_{t+1} + u_{t+2})  = \]</span></p>
 <p><span class="math display">\[=1/T^2(TVar(u_t) + (T-1) Cov(u_t,u_{t-1}) + (T-2)Cov(u_t,u_{t-2}) + ...)\]</span></p>
 <p>Veja que eu estou trabalhando com processos estacionários, e isso me permite dizer que <span class="math inline">\(Cov(u_t,u_{t+1}) = Cov(u_{t+1},u_{t+2})\)</span> etc.</p>
-<p>Que teremos T covariâncias parece simples, mas como eu sei que teremos T-1 covariâncias entre dois períodos sequenciais? Veja que como a amostra está limitada até T, todos os períodos menos o T tem um vizinho seguinte: portanto T-1 covariâncias seguintes. Já para <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>, tanto o período <span class="math inline">\(T\)</span> quanto o período <span class="math inline">\(T-1\)</span> não tem vizinhos para frente: logo temos $(T-2) <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>. Etc etc. Isso exige uma certa imaginação, eu admito.</p>
+<p>Que teremos T covariâncias parece simples, mas como eu sei que teremos T-1 covariâncias entre dois períodos sequenciais? Veja que como a amostra está limitada até T, todos os períodos menos o T tem um vizinho seguinte: portanto T-1 covariâncias seguintes. Já para <span class="math inline">\(Cov(u_t,u_{t+2})\)</span>, tanto o período <span class="math inline">\(T\)</span> quanto o período <span class="math inline">\(T-1\)</span> não tem vizinhos para frente: logo temos <span class="math inline">\((T-2) Cov(u_t,u_{t+2})\)</span>. Etc etc. Isso exige uma certa imaginação, eu admito.</p>
 <p>O mais incrível é que nós também temos que considerar as covariâncias para trás, ou seja <span class="math inline">\(Cov(u_t,u_{t-1})\)</span>, <span class="math inline">\(Cov(u_t,u_{t-2})\)</span> etc. Felizmente, graças ao fato de o processo ser estacionário de segunda ordem, temos que <span class="math inline">\(Cov(u_t,u_{t-1}) = Cov(u_t,u_{t+1})\)</span> e portanto:</p>
 <p><span class="math display">\[Var(1/T\sum_{t=1}^T u_t) = 1/T^2(TVar(u_t)+2(T-1)Cov(u_t,u_{t-1}) + ...)\]</span></p>
 <p>Ou seja, a variância da média de <span class="math inline">\(u_t\)</span> depende da soma das covariâncias do processo. Antes de prosseguirmos, só um pequeno <em>detour</em>. Para deixar a notação menos carregada, faça <span class="math inline">\(\gamma_0 = var(u_t)\)</span>, <span class="math inline">\(\gamma_1 = cov(u_t,u_{t-1})\)</span>,…, <span class="math inline">\(\gamma_j = cov(u_t,u_{t-j})\)</span>, e a expressão acima pode ser reescrita como:</p>
@@ -30,7 +39,7 @@ tags:
 <p><span class="math display">\[2\left(\sum_{t=0}^{T-1} \gamma_t - 1/T\sum_{j=0}^{T-1} j\gamma_j\right)\]</span></p>
 <p>Logo a variância assintótica ($T ) depende do somatório das auto-covariâncias - e das covariâncias daqui até o infinito! Obviamente, nós não temos nenhuma chance de conseguir isso.</p>
 <p>Isso gera também o seguinte problema: podemos ter auto-covariâncias negativas (um ar(1) com parâmetro negativo vai gerar autocorrelações pares que são positivas mas ímpares negativas). Usando a autocovariância amostral, podemos ter isso. Por exemplo, vamos trabalhar com um AR(1) com parâmetro 0.5 e a inovação tem variância 1. Eu vou usar 50 observações. Veja que se truncassemos entre os lags 10 e 20, teríamos uma variância negativa:</p>
-<pre class="r"><code>set.seed(9872)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">set.seed(9872)
 
 T &lt;- 50 #numero de periodos
 k &lt;- 40#numero de lags
@@ -42,7 +51,7 @@ for(i in 1:(T-1)){
   u[i+1] &lt;- rho*u[i] + rnorm(1)  
 }
 
-acf &lt;- Acf(u,plot=F, type = &quot;covariance&quot;,lag.max = k)
+acf &lt;- Acf(u,plot=F, type = "covariance",lag.max = k)
 
 var_partial &lt;- rep(0,k+1)
 var_partial[1] &lt;- T*acf$acf[1]
@@ -65,7 +74,7 @@ pp + geom_point() + geom_hline(aes(yintercept=0))</code></pre>
 <p>Em geral nós usamos erro padrão HAC para testar uma hipótese em regressão em que podemos ter erros autocorrelacionados. Quando fazemos testes a 5%, nós estamos controlando a probabilidade de cometer um erro do tipo I (i.e. rejeitar a hipótese nula quando ela é verdadeira) de no máximo 5%. Mais que isso é sinal que nosso teste tem algum problema. Para ilustrar isso, eu vou fazer algumas simulações monte carlo (como de praxe).</p>
 <p>Para ficar fácil, eu vou trabalhar com uma regressão com um único coeficiente, que vai ser zero, sempre. Vão mudar o tamanho da amostra e o processo gerador de dados. Eu vou sempre testar 3 maneiras: ignorando o problema, usando o padrão do pacote <strong>sandwhich</strong> (que é o sugerido pelo Andrews), e a primeira HAC sugerida, o Newey-West.</p>
 <p>Para começar, vamos testar o caso em que nós somos meramente preguiçosos e colocamos erros robustos a autocorrelação sem pensar muito no tema:</p>
-<pre class="r"><code>s &lt;- matrix(0,nrow = 3000,ncol=3)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">s &lt;- matrix(0,nrow = 3000,ncol=3)
 
 for(j in 1:3000){
 
@@ -83,7 +92,7 @@ for(j in 1:3000){
 
 
 tab0 &lt;- colMeans(s &lt; 0.05)
-names(tab0) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+names(tab0) &lt;- c("Sem correção", "HAC Default", "Newey West")
 knitr::kable(tab0)</code></pre>
 <table>
 <thead>
@@ -108,7 +117,7 @@ knitr::kable(tab0)</code></pre>
 </tbody>
 </table>
 <p>Ser preguiçoso é problemático: nós rejeitamos quase 1% a mais do que os 5% que queremos alcançar ao usar o padrão do pacote - e se usarmos a proposta do Newey West, a situação é ainda pior. Agora, vamos colocar erros auto regressivos:</p>
-<pre class="r"><code>s &lt;- matrix(0,nrow = 3000,ncol=3)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">s &lt;- matrix(0,nrow = 3000,ncol=3)
 
 for(j in 1:3000){
 
@@ -126,7 +135,7 @@ for(j in 1:3000){
 
 
 tab1 &lt;- colMeans(s &lt; 0.05)
-names(tab1) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+names(tab1) &lt;- c("Sem correção", "HAC Default", "Newey West")
 knitr::kable(tab1)</code></pre>
 <table>
 <thead>
@@ -151,7 +160,7 @@ knitr::kable(tab1)</code></pre>
 </tbody>
 </table>
 <p>Newey-West é desastroso, com um tamanho de 8%. Ignorar o problema parece, estranhamente, a melhor estratégia! Vamos aumentar a persistência do erro colocando o parâmetro auto regressivo em 0.95 e aumentar o número de observações, o que vai ajudar na convergência dos estimadores HAC:</p>
-<pre class="r"><code>s &lt;- matrix(0,nrow=3000,ncol=3)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">s &lt;- matrix(0,nrow=3000,ncol=3)
 
 for(j in 1:3000){
 
@@ -168,7 +177,7 @@ for(j in 1:3000){
 }
 
 tab2 &lt;- colMeans(s &lt; 0.05)
-names(tab2) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+names(tab2) &lt;- c("Sem correção", "HAC Default", "Newey West")
 knitr::kable(tab2)</code></pre>
 <table>
 <thead>
@@ -193,7 +202,7 @@ knitr::kable(tab2)</code></pre>
 </tbody>
 </table>
 <p>Mais um caso, com erro seguindo um MA:</p>
-<pre class="r"><code>s &lt;- matrix(0,nrow=3000,ncol=3)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">s &lt;- matrix(0,nrow=3000,ncol=3)
 
 for(j in 1:3000){
 
@@ -211,7 +220,7 @@ for(j in 1:3000){
 
 
 tab3 &lt;- colMeans(s &lt; 0.05)
-names(tab3) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+names(tab3) &lt;- c("Sem correção", "HAC Default", "Newey West")
 knitr::kable(tab3)</code></pre>
 <table>
 <thead>
@@ -236,7 +245,7 @@ knitr::kable(tab3)</code></pre>
 </tbody>
 </table>
 <p>Vamos aumentar o número de observações para mil:</p>
-<pre class="r"><code>s &lt;- matrix(0,nrow=3000,ncol=3)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">s &lt;- matrix(0,nrow=3000,ncol=3)
 
 for(j in 1:3000){
 
@@ -254,7 +263,7 @@ for(j in 1:3000){
 
 
 tab3 &lt;- colMeans(s &lt; 0.05)
-names(tab3) &lt;- c(&quot;Sem correção&quot;, &quot;HAC Default&quot;, &quot;Newey West&quot;)
+names(tab3) &lt;- c("Sem correção", "HAC Default", "Newey West")
 knitr::kable(tab3)</code></pre>
 <table>
 <thead>

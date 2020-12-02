@@ -11,6 +11,12 @@ tags:
 images: []
 authors: ["danielc"]
 draft: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
 Este é mais um post que já foi feito faz tempo, mas eu quero repetir mais pra mostrar um truque que eu aprendi, além de deixar a programação mais clara (com um pouco de sorte).
@@ -142,4 +148,4 @@ Alguns de vocês podem ter notado que eu gerei dois grids, um para gerar a inter
 
 ---
 
-Este post basicamente deve a sua existência ao _Numerical Methods in Economics_ do Kenneth Judd - aparentemente uma segunda edição sairá em breve.
+Este post basicamente deve a sua existência ao _Numerical Methods in Economics_ do Kenneth Judd - aparentemente uma segunda edição sairá em breve. 

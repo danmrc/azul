@@ -9,6 +9,13 @@ slug: lasso-adaptativo
 tags:
   - LASSO
 katex: yes
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 Em um [post anterior](https://azul.netlify.com/2018/09/16/lasso/), eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia: 

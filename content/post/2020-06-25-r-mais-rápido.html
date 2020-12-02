@@ -10,8 +10,18 @@ tags:
   - pqR
   - R
   - Computação Científica
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
+<script src="2020-06-25-r-mais-rápido_files/header-attrs/header-attrs.js"></script>
+<link href="2020-06-25-r-mais-rápido_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2020-06-25-r-mais-rápido_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.</p>
@@ -36,7 +46,7 @@ tags:
 </ol>
 <p>Nesse caso 2 eu dei uma colher de chá pro R normal - porque eu vi o resultado do caso 1 - e fiz com o purrr, que é mais rápido que o for e <em>não</em> está disponível pro pqR.</p>
 <p>O terceiro exemplo é cortesia <a href="https://twitter.com/jpgmv1998/status/1278733768510095371">do Twitter</a>: a galera de econometria espacial me disse que “rasterização de polígonos” é intensivo e eu achei que era uma boa testar. O primeiro pacote que me sugeriram não tinha para o pqR, mas o <code>raster</code> tinha. Eu rodei o seguinte código, baseado em um exemplo do pacote:</p>
-<pre class="r"><code>library(raster)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(raster)
 
 r &lt;- raster(nrow=1440, ncol=1440)
 r[] &lt;- runif(ncell(r)) * 10
@@ -78,7 +88,7 @@ pol &lt;- rasterToPolygons(r, fun=function(x){x&gt;6})</code></pre>
 <p>(Na página do pqR tem alguns testes comparando com o R 3.0.1, que podem ser interessantes)</p>
 <p>Outra coisa legal do pqR é que na versão mais recente - a que ainda está em teste - tem automatic differentiation (ou auto diff, para os íntimos). Auto diff é uma tentativa de ser mais preciso e mais rápido que diferenciação numérica (diferenças finitas) e mais rápido que diferenciação simbólica. O Julia tem e é muito usado lá. O tensorflow também implementa auto diff. Como eu já discuti em um post anterior, o R não tem um pacote que faça isso nativamente - o task view de matemática numérica sugere um pacote do GitHub (!) que usa o Julia para calcular as derivadas (!!) e devolve pro R.</p>
 <p>Só para dar um exemplo, vamos estimar alguma coisa por máxima verossimilhança. Vai ser uma normal com 50 variáveis e 100 observações. Eu vou escrever a função de máximia verossimillhança e usar o <code>optim</code> para achar o ótimo usando BFGS, que requer o gradiente. Eu vou rodar o comando duas vezes no pqR, uma fornecendo o gradiente para o <code>optim</code> usando automatic differentation e a outra eu vou deixar rodar sem fornecer o gradiente, então o R automaticamente usa diferenças finitas. O código:</p>
-<pre><code>
+<pre ><code >
 library(tictoc)
 
 log_mvn &lt;- function(x,mu,S){
@@ -91,14 +101,14 @@ x &lt;- matrix(rnorm(100*50),ncol = 50)
 y &lt;- x%*%par + rnorm(100)
 
 ll &lt;- function(par) -1*log_mvn(y,x%*%par,diag(100))
-grad &lt;- function(par) attr(with gradient(par=par) ll(par),&quot;gradient&quot;)   
+grad &lt;- function(par) attr(with gradient(par=par) ll(par),"gradient")   
 
 tic()
-otim_auto &lt;- optim(rep(0,50),ll,grad, method = &quot;BFGS&quot;)
+otim_auto &lt;- optim(rep(0,50),ll,grad, method = "BFGS")
 toc()  
 
 tic()
-otim &lt;- optim(rep(0,50),ll, method = &quot;BFGS&quot;)
+otim &lt;- optim(rep(0,50),ll, method = "BFGS")
 toc()  
 </code></pre>
 <p>Veja que esse código não vai rodar no R normal. O comando de gradiente é realmente esquisito e eu embalei ele numa função. As diferenças de qualidade da estimação não são visíveis:</p>
@@ -126,9 +136,9 @@ toc()
 <li>FFLAGS=“-fallow-argument-mismatch”</li>
 </ul>
 <p>Portanto, o comando vai ser:</p>
-<pre><code>./configure CFLAGS=&quot;-g -O3 -fcommon -ffp-contract=off&quot; FFLAGS=&quot;-fallow-argument-mismatch&quot;</code></pre>
+<pre ><code >./configure CFLAGS="-g -O3 -fcommon -ffp-contract=off" FFLAGS="-fallow-argument-mismatch"</code></pre>
 <p>Cuidado que espaço no lugar errado vai gerar um erro. Se você quer usar o pqR dentro do RStudio, você tem que adicionar também <code>--enable-R-shlib</code>. O comando fica:</p>
-<pre><code>./configure --enable-R-shlib CFLAGS=&quot;-g -O3 -fcommon -ffp-contract=off&quot; FFLAGS=&quot;-fallow-argument-mismatch&quot;</code></pre>
+<pre ><code >./configure --enable-R-shlib CFLAGS="-g -O3 -fcommon -ffp-contract=off" FFLAGS="-fallow-argument-mismatch"</code></pre>
 <p>Isso vai demorar um pouco e vai imprimir uma montanha de coisas no terminal. No fim, se tudo der certo, pode aparecer um warning ou outro. Um erro é um erro e você vai ter que fuçar a internet para ver se resolver - comece checando as coisas óbvias, como pacotes faltando e as instruções do pqR.</p>
 <p>O passo seguinte é compilar o pacote, dando o comando <code>make</code> (sem necessidade de ./). Vai demorar um tempo e é totalmente normal aparecer warnings, coisas coloridas etc. Vá fazer um café ou leia outros posts do blog enquanto isso.</p>
 <p>Se tudo der certo, ele vai sair sem dar nenhum erro. Eu achei um pouco obscuro quando deu erro, e no fim da compilação não aparece uma mensagem óbvia que foi bem sucedido, então leia com calma o que saiu no terminal.</p>
@@ -136,10 +146,10 @@ toc()
 <p>Se você quer usar no RStudio, <a href="https://support.rstudio.com/hc/en-us/articles/200486138-Changing-R-versions-for-RStudio-desktop">esta página do RStudio explica</a>. Basicamente você vai executar o comando <code>export RSTUDIO_WHICH_R=pathtopqR</code> no terminal. A parte importante: isso <em>só vai alterar as seções do rstudio iniciadas do terminal</em>, então você vai ter que iniciar o RStudio do terminal. O link comenta que esse é o padrão no Ubuntu e aparentemente também é o padrão no arch.</p>
 <p>É possível trocar para o que é iniciado direto do icone da interface gráfica. Eu não tentei isso porque eu achei extremamente conveniente ter como iniciar o R “normal” e o pqR no RStudio sem precisar toda vez trocar um arquivo escondido em algum canto.</p>
 <p>Se você acha meio inconveniente toda vez abrir o terminal, dá pra criar um icone na área de trabalho abrindo um arquivo em branco e salvando com o nome pqR.desktop e com o seguinte conteúdo:</p>
-<pre><code>#!/usr/bin/env xdg-open
+<pre ><code >#!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
-Exec=sh -c &#39;export RSTUDIO_WHICH_R=pathto/pqR-2019-07-05/bin/R; rstudio-bin&#39;
+Exec=sh -c 'export RSTUDIO_WHICH_R=pathto/pqR-2019-07-05/bin/R; rstudio-bin'
 Icon=pathto/pqR-2019-07-05/doc/html/pqR.ico
 Name=pqR
 Terminal=true

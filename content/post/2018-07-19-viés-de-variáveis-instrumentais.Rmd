@@ -14,6 +14,12 @@ tags:
   - Variáveis Instrumentais
 authors: ["danielc"]
 katex: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
 ---
 
 ```{r echo=FALSE, message=FALSE}

@@ -11,8 +11,15 @@ tags:
   - Estatística
 images: []
 authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
 ---
 
+<script src="2020-11-14-concentração-de-medida_files/header-attrs/header-attrs.js"></script>
 <link href="2020-11-14-concentração-de-medida_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
 <script src="2020-11-14-concentração-de-medida_files/anchor-sections/anchor-sections.js"></script>
 
@@ -36,7 +43,7 @@ authors: ["danielc"]
 <p><span class="math display">\[P(X &gt; t) \leq \exp\left(\frac{t^2\sigma^2}{2(\sigma^2)^2} - \frac{t^2}{\sigma^2}\right) = e^{-t^2/(2\sigma^2)}\]</span>
 Essa desigualdade também tem um nome: Desigualdade de Chernoff (pra ser honesto: tudo que eu li disso é em inglês. Em inglês chamam de <em>Chernoff Bound</em>, mas eu traduzi para desigualdade já que temos a desigualdade de Chebyschev)</p>
 <p>Deixa eu convencer vocês que isso é bem legal: eu vou simular 10 mil sorteios da normal padrão e comparar o que cada uma dessas desigualdades significa. Eu vou contar a probabilidade de ser maior que <span class="math inline">\(t\)</span> simplesmente computando a frequência em que os valores simulados são maiores que <span class="math inline">\(t\)</span> para um grid de valores <span class="math inline">\(t\)</span>. Eu também vou trabalhar com o valor absoluto de <span class="math inline">\(X\)</span>:</p>
-<pre class="r"><code>library(ggplot2) #gráficos bonitos
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(ggplot2) #gráficos bonitos
 library(purrr) #pra computar o valor em cada um dos pontos do grid sem usar um for
 library(tidyr) #pros dados ficarem do formato certo pro ggplot
 
@@ -51,9 +58,9 @@ freq &lt;- map_dbl(tt,~(sum(abs(yy) &gt; .))/n)
 
 tt &lt;- do.call(c,tt)
 
-df &lt;- data.frame(&quot;grid&quot; = tt,&quot;Empiric&quot; = freq,&quot;Chernoff&quot; = 2*exp(-tt^2/2),&quot;Chebyschev&quot; = 1/tt^2)
+df &lt;- data.frame("grid" = tt,"Empiric" = freq,"Chernoff" = 2*exp(-tt^2/2),"Chebyschev" = 1/tt^2)
 
-df2 &lt;- pivot_longer(df,cols = c(&quot;Empiric&quot;,&quot;Chernoff&quot;,&quot;Chebyschev&quot;))
+df2 &lt;- pivot_longer(df,cols = c("Empiric","Chernoff","Chebyschev"))
 
 ggplot(df2,aes(grid,value,color = name)) + geom_line()</code></pre>
 <p><img src="/post/2020-11-14-concentra%C3%A7%C3%A3o-de-medida_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
@@ -63,9 +70,9 @@ ggplot(df2,aes(grid,value,color = name)) + geom_line()</code></pre>
 <li><p>Chebyschev distorce totalmente o gráfico porque é extremamente generosa</p></li>
 </ol>
 <p>Vamos eliminar Chebyschev do gráfico:</p>
-<pre class="r"><code>df3 &lt;-df[,-4]
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">df3 &lt;-df[,-4]
 
-df3 &lt;- pivot_longer(df3,cols = c(&quot;Empiric&quot;,&quot;Chernoff&quot;))
+df3 &lt;- pivot_longer(df3,cols = c("Empiric","Chernoff"))
 
 ggplot(df3,aes(grid,value,color = name)) + geom_line()</code></pre>
 <p><img src="/post/2020-11-14-concentra%C3%A7%C3%A3o-de-medida_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>

@@ -10,9 +10,18 @@ tags:
   - Double Selection
   - Efeito de Tratamento
   - Seleção de Modelos
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.</p>
@@ -20,7 +29,7 @@ tags:
 <p>Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</p>
 <p>Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável <span class="math inline">\(x\)</span> e uma variável <span class="math inline">\(trat\)</span>. No fim a gente vai querer saber o efeito do tratamento sobre a variável <span class="math inline">\(y\)</span>, que é afetado por x e pelo trtamento. A variável <span class="math inline">\(trat\)</span> vai ser influenciada por x, e eu vou fazer a regressão <span class="math inline">\(y \sim x + trat\)</span>, mas vou excluir <span class="math inline">\(x\)</span> quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira de selecionar as variáveis vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.</p>
 <p>Eu vou replicar isso umas 2000 vezes e vamos olhar o histograma do coeficiente de tratamento:</p>
-<pre class="r"><code>set.seed(2126111)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">set.seed(2126111)
 
 cofs &lt;- rep(NA,2000)
 dropped &lt;- rep(NA,2000)
@@ -42,13 +51,13 @@ for(i in 1:2000){
   }
 }</code></pre>
 <p>Tem bastante coisa acontecendo nas linhas acima, então vamos passar as coisas com calma: primeiro, 0 tratamento começa como uma variável contínua que depende de x e de um erro com variância 2. Na linha seguinte, eu transformo essa variável em uma coisa binária: se for maior que 0, o sujeito é tratado. O problema seguinte é o p-valor de x na regressão para avaliar o efeito de tratamento: se for abaixo de 0.05, a regressão segue inalterada. Senão, ai a gente faz só a regressão de y no tratamento. O efeito real do tratamento é 1.5. Veja que eu tenho uma variável que diz quantas vezes a variável x foi excluida. Na simulação acima isso ocorreu em 1189 casos. Vamos ver o histograma do efeito de tratamento:</p>
-<pre class="r"><code>cofs_df &lt;- data.frame(cofs = cofs)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs_df &lt;- data.frame(cofs = cofs)
 
 ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Essa distribuição é bastante esquisita. Como isso afeta os testes de hipótese?</p>
-<pre class="r"><code>p_vals &lt;- rep(NA,2000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">p_vals &lt;- rep(NA,2000)
 dropped &lt;- rep(NA,2000)
 
 for(i in 1:2000){
@@ -71,7 +80,7 @@ for(i in 1:2000){
 pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
 <p>Nós rejeitamos a hipótese nula quando ela é verdadeira em 28.4% dos casos, quando nós deveríamos rejeitar para apenas 5% dos casos.</p>
 <p>Como contornar isso? Bom, você sempre pode encher de todos os controles possíveis e imagináveis. É claro que podemos ter um caso em que o número de controles é maior que o número de observações, isso não funciona. É ai que entra uma ideia simples e super esperta: no lugar de você olhar só se a variável de controle só na regressão de y no tratamento, <em>também olhe se o controle é significativo na regressão do tratamento</em>. Esse procedimento é chamado de <em>double selection</em>. O procedimento anterior que eu fiz é chamado de <em>single selection</em>. Vamos testar isso:</p>
-<pre class="r"><code>cofs &lt;- rep(NA,2000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs &lt;- rep(NA,2000)
 dropped &lt;- rep(NA,2000)
 
 for(i in 1:2000){
@@ -92,13 +101,13 @@ for(i in 1:2000){
     dropped[i] &lt;- 1
   }
 }</code></pre>
-<pre class="r"><code>cofs_ds_df &lt;- data.frame(cofs = cofs)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs_ds_df &lt;- data.frame(cofs = cofs)
 
 ggplot(cofs_ds_df,aes(cofs)) + geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>A distribuição fica bem melhor. Vamos ver como fica o erro de tipo I a 5% quando o tratamento não tem efeito:</p>
-<pre class="r"><code>p_vals &lt;- rep(NA,2000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">p_vals &lt;- rep(NA,2000)
 dropped &lt;- rep(NA,2000)
 
 for(i in 1:2000){

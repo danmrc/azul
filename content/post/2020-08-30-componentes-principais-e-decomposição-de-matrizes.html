@@ -11,10 +11,18 @@ tags:
   - Álgebra Linear
   - SVD
   - Autovalores
-authors: ["danielc"]  
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
 ---
 
 <script src="2020-08-30-componentes-principais-e-decomposição-de-matrizes_files/header-attrs/header-attrs.js"></script>
+<link href="2020-08-30-componentes-principais-e-decomposição-de-matrizes_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2020-08-30-componentes-principais-e-decomposição-de-matrizes_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.</p>
@@ -22,7 +30,7 @@ authors: ["danielc"]
 <h2>Componentes Principais</h2>
 <p>Eu vou trabalhar no <span class="math inline">\(\mathbb{R}^2\)</span> pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis. Veja que <span class="math inline">\(\mathbb{R}^2\)</span> é extremamente infeliz para isso - afinal qual a graça de resumir <em>duas</em> variáveis. Mas a visualização fica bem mais fácil.</p>
 <p>Eu vou gerar uma amostra aleatória da normal bivariada, com variância 1, correlação 0.7 e média zero e plottar isso:</p>
-<pre class="r"><code>library(MASS)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(MASS)
 library(ggplot2)
 
 S &lt;- cbind(c(1,.7),c(.7,1))
@@ -31,16 +39,16 @@ df &lt;- data.frame(ams)
 ggplot(df,aes(X1,X2)) + geom_point()</code></pre>
 <p><img src="/post/2020-08-30-componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Veja que se eu traçar uma reta na diagonal e uma reta ortogonal a ela, eu vou ter um novo sistema de coordenadas no qual um dos eixos está na direção que tem o máximo de variação:</p>
-<pre class="r"><code>ggplot(df,aes(X1,X2)) + geom_point() + geom_abline(slope=1,intercept=0)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(df,aes(X1,X2)) + geom_point() + geom_abline(slope=1,intercept=0)</code></pre>
 <p><img src="/post/2020-08-30-componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(df,aes(X1,X2)) + geom_point() + geom_abline(slope=1,intercept=0) + geom_abline(slope=-1,intercept=0)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(df,aes(X1,X2)) + geom_point() + geom_abline(slope=1,intercept=0) + geom_abline(slope=-1,intercept=0)</code></pre>
 <p><img src="/post/2020-08-30-componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 <p>O segundo gráfico só coloca um segundo eixo. Formalizar isso requer o uso de um velho conhecido nosso, os autovalores.</p>
 </div>
 <div id="componentes-principais-são-autovetores" class="section level2">
 <h2>Componentes Principais são autovetores</h2>
 <p>Como eu quero o máximo de variação, faz sentido começar pensando na matriz de variância, <span class="math inline">\(\Sigma\)</span>. Como <span class="math inline">\(\Sigma\)</span> é uma matriz simétrica, positiva definida, nós sabemos que os autovetores formam uma base ortogonal e os autovalores são positivos. Eu vou fazer a decomposição em autovalores da matriz de variância, S, e plotar o autovetor associado ao maior autovalor:</p>
-<pre class="r"><code>auto &lt;- eigen(S)$vectors
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">auto &lt;- eigen(S)$vectors
 
 ggplot(df,aes(X1,X2)) + geom_point() + geom_segment(x=0,y=0, yend=auto[2,1],xend=auto[1,1],arrow=arrow())</code></pre>
 <p><img src="/post/2020-08-30-componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
@@ -74,35 +82,35 @@ ggplot(df,aes(X1,X2)) + geom_point() + geom_segment(x=0,y=0, yend=auto[2,1],xend
 <p>Então veja que os autovalores de <span class="math inline">\(A^{\prime}A\)</span> são os quadrados dos valores singulares de A e os autovetores são <span class="math inline">\(V\)</span>. Uma relação similar vale para <span class="math inline">\(AA^{\prime}\)</span>.</p>
 <p>Como a variância empírica dos dados é calculada com <span class="math inline">\(X^{\prime}X\)</span>, a gente sequer precisa se preocupar em calcular a matriz de variância covariância dos dados, basta passar o SVD na matriz de dados.</p>
 <p>Só para dar um exemplo, vamos pegar o famoso <code>mtcars</code>:</p>
-<pre class="r"><code>data(&quot;mtcars&quot;)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">data("mtcars")
 
 xx &lt;- cbind(mtcars$mpg,mtcars$cyl,mtcars$disp,mtcars$hp)</code></pre>
 <p>Tirando os componentes principais:</p>
-<pre class="r"><code>comp &lt;- prcomp(xx,scale=T,center=T)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">comp &lt;- prcomp(xx,scale=T,center=T)</code></pre>
 <p>Vamos ver a matriz de rotação:</p>
-<pre class="r"><code>comp$rotation</code></pre>
-<pre><code>##             PC1         PC2        PC3          PC4
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">comp$rotation</code></pre>
+<pre ><code >##             PC1         PC2        PC3          PC4
 ## [1,] -0.4963126  0.41505710 -0.7624369 -0.009557844
 ## [2,]  0.5126614 -0.08416586 -0.3698824 -0.770247652
 ## [3,]  0.5060829 -0.31928855 -0.5109886  0.617110666
 ## [4,]  0.4844917  0.84776090  0.1441097  0.160628854</code></pre>
 <p>Agora vamos tirar o SVD da matriz e ver a matriz <span class="math inline">\(V\)</span> da decomposição. Não esqueça que eu preciso centrar e escalar<code>xx</code> (os dados) para ter variância 1 (o que eu vou fazer com o <code>scale</code>):</p>
-<pre class="r"><code>x_sc &lt;- scale(xx)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">x_sc &lt;- scale(xx)
 svd_x &lt;- svd(x_sc)
 
 svd_x$v</code></pre>
-<pre><code>##            [,1]        [,2]       [,3]         [,4]
+<pre ><code >##            [,1]        [,2]       [,3]         [,4]
 ## [1,] -0.4963126  0.41505710 -0.7624369 -0.009557844
 ## [2,]  0.5126614 -0.08416586 -0.3698824 -0.770247652
 ## [3,]  0.5060829 -0.31928855 -0.5109886  0.617110666
 ## [4,]  0.4844917  0.84776090  0.1441097  0.160628854</code></pre>
 <p>Veja que devido a representação do computador de um número real ser finita, as duas representações podiam diferir um pouquinho por erro numérico - isso não acontece justamente porque o <code>prcomp</code> usa svd!</p>
 <p>A gente pode fazer a mesma decomposição a partir da matriz de correlação usando os autovalores:</p>
-<pre class="r"><code>cov_mat &lt;- cor(xx)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cov_mat &lt;- cor(xx)
 eigs &lt;- eigen(cov_mat)
 
 eigs$vectors</code></pre>
-<pre><code>##            [,1]        [,2]       [,3]         [,4]
+<pre ><code >##            [,1]        [,2]       [,3]         [,4]
 ## [1,]  0.4963126  0.41505710  0.7624369 -0.009557844
 ## [2,] -0.5126614 -0.08416586  0.3698824 -0.770247652
 ## [3,] -0.5060829 -0.31928855  0.5109886  0.617110666

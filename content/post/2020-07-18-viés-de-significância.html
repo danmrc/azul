@@ -8,9 +8,18 @@ categories:
 tags:
   - Poder de teste
   - Significância
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 <script src="2020-07-18-viés-de-significância_files/header-attrs/header-attrs.js"></script>
+<link href="2020-07-18-viés-de-significância_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2020-07-18-viés-de-significância_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Esse post trata de um troço que eu nunca tinha pensado e é sensacional, talvez dê um nó na cabeça. Ele é 100% baseado neste <a href="http://www.erikdrysdale.com/winners_curse/">post aqui</a>, que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui, eu vou explicar tudo.</p>
@@ -19,7 +28,7 @@ tags:
 <p>A intuição é bem simples: se o seu teste tem poder baixo, você dificilmente vai rejeitar a hipótese nula quando ela é falsa. Isso pode acontecer especialmente se você estimar o efeito muito alto OU estimar o erro padrão muito baixo. O post foca no primeiro e vou fazer o mesmo.</p>
 <p>Veja que isso sugere que <em>o estimador é viesado</em> e o viés advém todo de ficar olhando o nível de significância. Isso não seria muito grave se a gente não tivesse uma enorme paixão em publicar efeitos significantes por mais maluco que seja.</p>
 <p>Eu vou fazer uma simulação de um caso bem simples mostrando isso: eu vou simular um amostra com média 0.1 de uma normal e testar para a hipótese nula de média 0. Eu vou colocar a variância um pouquinho alta para reduzir o poder:</p>
-<pre class="r"><code>library(ggplot2)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(ggplot2)
 library(tibble)
 library(truncnorm)
 library(purrr)
@@ -36,11 +45,11 @@ for(i in 1:rept){
 
 df &lt;- data.frame(dados)
 df[,2] &lt;- as.logical(df[,2])
-names(df) &lt;- c(&quot;Val&quot;,&quot;Sig&quot;)
+names(df) &lt;- c("Val","Sig")
 
-ggplot(df,aes(Sig,Val)) + geom_boxplot() + labs(x = &quot;P-value &lt; 0.05?&quot;)</code></pre>
+ggplot(df,aes(Sig,Val)) + geom_boxplot() + labs(x = "P-value &lt; 0.05?")</code></pre>
 <p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>A média no caso significante é 0.2846841, enquanto a média ignorando isso é 0.0992918. Mais uma vez: isso <em>não</em> seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto.</p>
+<p>A média no caso significante é 0.2807827, enquanto a média ignorando isso é 0.0987592. Mais uma vez: isso <em>não</em> seria um problema muito grande se não houvesse um viés de só publicar resultado significativo ou se todos os estudos tivessem poder alto.</p>
 <p>Vamos pra matemática por trás desse resultado</p>
 <div id="a-matemática" class="section level2">
 <h2>A matemática</h2>
@@ -57,7 +66,7 @@ Veja que o denominador é o termo que encontramos para o poder e que dentro da d
 <p><span class="math display">\[E(\hat{\beta}|\beta/SE &gt; c_\alpha) = \beta + SE\frac{\phi(\Phi^{-1}(b))}{1-b}\]</span></p>
 <p>Veja que temos um viés no estimador que depende basicamente do poder do teste <span class="math inline">\((1-b)\)</span>: se <span class="math inline">\(b \rightarrow 0\)</span>, então <span class="math inline">\(\Phi^{-1}(b) \rightarrow -\infty\)</span> e <span class="math inline">\(\lim_{x\rightarrow -\infty} \phi(x) = 0\)</span>. Trocando em miúdos, quando o poder é alto o viés é baixo. Quando o poder tende a 1, o viés desaparece.</p>
 <p>No blog, o autor discute várias possíveis soluções e basicamente chega a conclusão que a melhor maneira é corrigir o estimador por esse viés é assumir que <span class="math inline">\(b=0\)</span> e reduzir o estimador por <span class="math inline">\(SE \frac{\phi(c_\alpha)}{1-\Phi(c_\alpha)}2(1-F(\hat{\beta}|\beta&gt;c_\alpha))\)</span>. Em português: você pondera o viés sob a hipótese nula do efeito ser zero vezes a probabilidade do estimador ser maior que o valor estimado na distribuição truncada. Eu vou repetir o exemplo ali de cima e no post original tem:</p>
-<pre class="r"><code>correction &lt;- function(smp,alfa = 0.05){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">correction &lt;- function(smp,alfa = 0.05){
   m &lt;- mean(smp)
   se &lt;- sd(smp)/sqrt(length(smp))
   c_a &lt;- -qnorm(alfa)
@@ -67,7 +76,7 @@ Veja que o denominador é o termo que encontramos para o poder e que dentro da d
 
 exper &lt;- function(mm){
   samp &lt;- rnorm(100,mean = mm,sd = 1.2)
-  tt &lt;- t.test(samp,alternative = &quot;greater&quot;)
+  tt &lt;- t.test(samp,alternative = "greater")
   return(c(mean(samp),correction(samp),tt$p.value))
 }
 
@@ -79,10 +88,10 @@ dff &lt;- do.call(rbind,dff)
 dff_sig &lt;- dff[dff[,3] &lt; 0.05,1:2]
 
 colMeans(dff_sig)</code></pre>
-<pre><code>## [1] 0.2607181 0.1587481</code></pre>
-<pre class="r"><code>print(paste(nrow(dff_sig), &quot;significant cases&quot;))</code></pre>
-<pre><code>## [1] &quot;598 significant cases&quot;</code></pre>
-<pre class="r"><code>tag &lt;-c(rep(&quot;Without Correction&quot;,nrow(dff_sig)),rep(&quot;With Correction&quot;,nrow(dff_sig)))
+<pre ><code >## [1] 0.2607181 0.1587481</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">print(paste(nrow(dff_sig), "significant cases"))</code></pre>
+<pre ><code >## [1] "598 significant cases"</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tag &lt;-c(rep("Without Correction",nrow(dff_sig)),rep("With Correction",nrow(dff_sig)))
 
 df &lt;- data.frame(tag = tag, vals = as.vector(dff_sig))
 
@@ -108,18 +117,18 @@ f_x(x|x \in A) = \frac{\phi\left(\frac{x-\mu}{\sigma}\right)/\sigma} {1-\left[\P
 <p><span class="math display">\[E(x|x \in A) = \mu + 2\sigma\frac{\phi\left(c_{\alpha/2}\right)}{\alpha}\]</span></p>
 <p>O <span class="math inline">\(\alpha\)</span> apareceu no denominador se deve ao fato que <span class="math inline">\(\Phi(c_\alpha)=\alpha\)</span>, por definição . Se você tá trabalhando com o nível de 5%, <span class="math inline">\(c_{\alpha/2}\)</span> corresponde ao valor crítico para 2,5% e <span class="math inline">\(\alpha = 0.05\)</span>.</p>
 <p>Veja que essa função densidade é bemm esquisita:</p>
-<pre class="r"><code>ww &lt;- function(x,alpha,sd){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ww &lt;- function(x,alpha,sd){
   c_a &lt;- qnorm(alpha/2)
   if(x/sd &lt; c_a){
     return(pnorm(x/sd)/alpha)
-  } else if(x/sd &lt; -c_a &amp;&amp; x/sd &gt; c_a){
+  } else if(x/sd &lt; -c_a && x/sd &gt; c_a){
     return(pnorm(c_a)/alpha)
   } else {
     return(pnorm(c_a)/alpha + (pnorm(x/sd)-pnorm(-c_a))/alpha)
   }
 }
 
-ww &lt;- Vectorize(ww,&quot;x&quot;)
+ww &lt;- Vectorize(ww,"x")
 
 xx &lt;- seq(-3,3,by=0.05)
 yy &lt;- ww(xx,alpha = 0.05,sd=1)
@@ -129,7 +138,7 @@ df &lt;- data.frame(x=xx,y=yy)
 ggplot(df,aes(x,y)) + geom_line()</code></pre>
 <p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>A função que faz a correção é muito parecida:</p>
-<pre class="r"><code>correction &lt;- function(sample,confidence = 0.05){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">correction &lt;- function(sample,confidence = 0.05){
   m &lt;- mean(sample)
   se &lt;- sd(sample)/sqrt(length(sample))
   c_a &lt;- qnorm(confidence/2)
@@ -137,7 +146,7 @@ ggplot(df,aes(x,y)) + geom_line()</code></pre>
   return(sign(m)*(abs(m)-cor))
 }</code></pre>
 <p>Ela tem uma pequena maldade pra lidar com casos negativos que é transformar tudo em valor absoluto e depois devolver o sinal (acho que o LASSO opera assim). A simulação, para valores da média entre -1 e 1:</p>
-<pre class="r"><code>exper &lt;- function(m){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">exper &lt;- function(m){
   samp &lt;- rnorm(100,mean = m,sd=1.5)
   tt &lt;- t.test(samp)
   return(c(mean(samp),correction(samp),tt$p.value &lt; 0.05))
@@ -154,7 +163,7 @@ for(j in 1:length(mm)){
   tab[,,j] &lt;- res
 }</code></pre>
 <p>Eu salvei isso num array e vou transformar isso em um df que o ggplot aceite:</p>
-<pre class="r"><code>tab_sig &lt;- list()
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tab_sig &lt;- list()
 
 for(j in 1:length(mm)){
   tab_temp &lt;- tab[tab[,3,j] == T,1:2,j]
@@ -185,8 +194,8 @@ dff_all &lt;- data.frame(t(dff_all))
 dff &lt;- rownames_to_column(dff)
 dff_all &lt;- rownames_to_column(dff_all)
 
-names(dff) &lt;- c(&quot;Tag&quot;,&quot;Mean&quot;,&quot;Mean_cor&quot;,&quot;SE&quot;,&quot;SE_cor&quot;)
-names(dff_all) &lt;- c(&quot;Tag&quot;,&quot;Mean&quot;,&quot;Mean_cor&quot;,&quot;SE&quot;,&quot;SE_cor&quot;)
+names(dff) &lt;- c("Tag","Mean","Mean_cor","SE","SE_cor")
+names(dff_all) &lt;- c("Tag","Mean","Mean_cor","SE","SE_cor")
 
 dff[,1] &lt;- as.numeric(dff[,1])
 dff[,1] &lt;- as.numeric(dff_all[,1])
@@ -198,21 +207,21 @@ dff_aux_all &lt;- as.matrix(dff_all[,-1])
 dff_aux_all &lt;- rbind(dff_aux_all[,c(1,3)],dff_aux_all[,c(2,4)])
 
 vals &lt;- rep(mm,2)
-tags &lt;- c(rep(&quot;Usual&quot;,length(mm)),rep(&quot;Corrected&quot;,length(mm)))
+tags &lt;- c(rep("Usual",length(mm)),rep("Corrected",length(mm)))
 
 dff_aux &lt;- data.frame(vals,tags,dff_aux)
 dff_aux_all &lt;- data.frame(vals,tags,dff_aux_all)
 
-names(dff_aux) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&quot;SE&quot;)
-names(dff_aux_all) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&quot;SE&quot;)</code></pre>
+names(dff_aux) &lt;- c("Vals","Tags","Mean","SE")
+names(dff_aux_all) &lt;- c("Vals","Tags","Mean","SE")</code></pre>
 <p>Finalmente, o gráfico para os casos significantes. A linha mostra o valor verdadeiro da média:</p>
-<pre class="r"><code>ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) + geom_pointrange() + geom_abline()</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) + geom_pointrange() + geom_abline()</code></pre>
 <p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Veja que se o valor verdadeiro é grande o bastante o viés sequer existe e como a correção é ponderada pela probabilidade, ela não faz nada. Se eu pegar todas as estimativas, e não só as significantes, eu na verdade estou introduzindo viés:</p>
-<pre class="r"><code>ggplot(dff_aux_all,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) + geom_pointrange() + geom_abline()</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(dff_aux_all,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) + geom_pointrange() + geom_abline()</code></pre>
 <p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>Dá pra fazer isso com coeficiente de regressão também (novamente, isso tá no post original!), e agora no lugar de <span class="math inline">\(\sigma\)</span> você coloca o erro padrão. A função que eu escrevi pega um objeto gerado pelo <code>lm</code> e corrige o primeiro coeficiente que não é o intercepto - mas é fácil mudar pra ser qualquer coeficiente:</p>
-<pre class="r"><code>low_power_lm &lt;- function(lm_obj,alpha = 0.05){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">low_power_lm &lt;- function(lm_obj,alpha = 0.05){
   #n &lt;- length(resid(lm_obj))
   data &lt;- summary(lm_obj)$coefficients[2,1:2]
   b_hat &lt;- data[1]
@@ -222,7 +231,7 @@ names(dff_aux_all) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&q
   return(sign(b_hat)*(abs(b_hat)-cor))                                     
 }</code></pre>
 <p>Vamos fazer uma simulação e um gráfico igual fizemos pra média:</p>
-<pre class="r"><code>exper &lt;- function(cof){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">exper &lt;- function(cof){
   x &lt;- rnorm(100)
   y &lt;- 1 + cof*x + rnorm(100)
 
@@ -276,8 +285,8 @@ dff_all &lt;- data.frame(t(dff_all))
 dff &lt;- rownames_to_column(dff)
 dff_all &lt;- rownames_to_column(dff_all)
 
-names(dff) &lt;- c(&quot;Tag&quot;,&quot;Mean&quot;,&quot;Mean_cor&quot;,&quot;SE&quot;,&quot;SE_cor&quot;)
-names(dff_all) &lt;- c(&quot;Tag&quot;,&quot;Mean&quot;,&quot;Mean_cor&quot;,&quot;SE&quot;,&quot;SE_cor&quot;)
+names(dff) &lt;- c("Tag","Mean","Mean_cor","SE","SE_cor")
+names(dff_all) &lt;- c("Tag","Mean","Mean_cor","SE","SE_cor")
 
 dff[,1] &lt;- as.numeric(dff[,1])
 dff[,1] &lt;- as.numeric(dff_all[,1])
@@ -289,13 +298,13 @@ dff_aux_all &lt;- as.matrix(dff_all[,-1])
 dff_aux_all &lt;- rbind(dff_aux_all[,c(1,3)],dff_aux_all[,c(2,4)])
 
 vals &lt;- rep(mm,2)
-tags &lt;- c(rep(&quot;Usual&quot;,length(mm)),rep(&quot;Corrected&quot;,length(mm)))
+tags &lt;- c(rep("Usual",length(mm)),rep("Corrected",length(mm)))
 
 dff_aux &lt;- data.frame(vals,tags,dff_aux)
 dff_aux_all &lt;- data.frame(vals,tags,dff_aux_all)
 
-names(dff_aux) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&quot;SE&quot;)
-names(dff_aux_all) &lt;- c(&quot;Vals&quot;,&quot;Tags&quot;,&quot;Mean&quot;,&quot;SE&quot;)
+names(dff_aux) &lt;- c("Vals","Tags","Mean","SE")
+names(dff_aux_all) &lt;- c("Vals","Tags","Mean","SE")
 
 ggplot(dff_aux,aes(Vals,Mean,ymin = Mean -2*SE,ymax = Mean+2*SE,color = Tags)) + geom_pointrange() + geom_abline()</code></pre>
 <p><img src="/post/2020-07-18-vi%C3%A9s-de-signific%C3%A2ncia_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>

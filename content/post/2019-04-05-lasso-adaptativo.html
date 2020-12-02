@@ -9,15 +9,25 @@ slug: lasso-adaptativo
 tags:
   - LASSO
 katex: yes
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Em um <a href="https://azul.netlify.com/2018/09/16/lasso/">post anterior</a>, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:</p>
 <p><span class="math display">\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]</span></p>
 <p>(Onde <span class="math inline">\(|.|\)</span> é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não. Vamos fazer um pequeno teste com o LASSO: eu vou gerar 50 variáveis normais, independentes, e dessas dez - as dez primeiras - eu colocarei <span class="math inline">\(\beta=1\)</span>. As outra vão ser irrelevantes para o problema e vão ter <span class="math inline">\(\beta=0\)</span>. O tamanho da amostra vai ser igual a 100.</p>
 <p>Como de praxe, nós podemos ter diversos objetivos ao estimar um modelo. Eu vou comparar 3 coisas: a quantidade de vezes que o LASSO coloca as variáveis relevantes, a quantidade de vezes que ele exclui as variáveis irrelevantes e quando ele obtém o modelo certo - o que exige colocar todo mundo que é relevante <strong>e</strong> excluir todos os irrelevantes. Vou fazer só 500 replicações e usar o Cross Validation (que eu já discuti aqui) para escolher o <span class="math inline">\(\lambda\)</span>:</p>
-<pre class="r"><code>library(glmnet)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(glmnet)
 
 coeficientes &lt;- Matrix(0,ncol=500,nrow=51)
 
@@ -32,7 +42,7 @@ for(i in 1:500){
 #Fim da simulação
 
 analise &lt;- matrix(0,ncol=3,nrow=500)
-colnames(analise)&lt;- c(&quot;Não zeros certos&quot;,&quot;Zeros certos&quot;, &quot;Modelo certo?&quot;)
+colnames(analise)&lt;- c("Não zeros certos","Zeros certos", "Modelo certo?")
 
 for(i in 1:500){
   analise[i,1]&lt;- mean(coeficientes[2:11,i] != 0)
@@ -41,27 +51,27 @@ for(i in 1:500){
 }
 
 tabela_final &lt;- colMeans(analise)*100
-knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;)</code></pre>
+knitr::kable(tabela_final,caption = "Os valores estão em porcentagem")</code></pre>
 <table>
 <caption><span id="tab:unnamed-chunk-1">Table 1: </span>Os valores estão em porcentagem</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Não zeros certos</td>
-<td align="right">100.000</td>
+<td align="left">Não zeros certos</td>
+<td align="right">100.00</td>
 </tr>
 <tr class="even">
-<td>Zeros certos</td>
-<td align="right">83.525</td>
+<td align="left">Zeros certos</td>
+<td align="right">83.31</td>
 </tr>
 <tr class="odd">
-<td>Modelo certo?</td>
-<td align="right">0.600</td>
+<td align="left">Modelo certo?</td>
+<td align="right">0.20</td>
 </tr>
 </tbody>
 </table>
@@ -77,7 +87,7 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <p>A boa notícia é que o <em>glmnet</em> já nos oferece uma opção para colocar o peso, via o argumento <em>penalty.factor</em>. Nosso trabalho é basicamente reduzido a escrever umas duas linhas de código a mais: uma que faz o LASSO de “primeiro estágio” e outra que define os pesos.</p>
 <p>Uma coisa deve ficar evidente: da maneira que os pesos foram estabelecidos no meu algoritmo, coeficientes que são zerados pelo LASSO serão automaticamente excluídos pelo LASSO adaptativo: teremos como peso <span class="math inline">\(1/0\)</span> (com perdão aos matemáticos), que no limite é infinito. Como o LASSO não excluiu as variáveis relevantes em nenhum caso, não vamos nos preocupar. Mas é possível imaginar situações em que o LASSO poderia ter problemas (pense em coeficientes altissimamente correlacionados em uma amostra relativamente pequena). Outra coisa que deve ficar clara é que precisamos selecionar o <span class="math inline">\(\lambda\)</span> agora duas vezes, uma para o LASSO e outra para a etapa “adaptativa” do LASSO!</p>
 <p>Vamos repetir a simulação ali de cima, mas usando o adaLASSO. Em ambos os estágios eu vou usar o Cross Validation:</p>
-<pre class="r"><code>coeficientes_adalasso &lt;- Matrix(0,ncol=500,nrow=51)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">coeficientes_adalasso &lt;- Matrix(0,ncol=500,nrow=51)
 
 for(i in 1:500){
   x &lt;- matrix(rnorm(50*100),ncol = 50) #gerando x
@@ -92,7 +102,7 @@ for(i in 1:500){
 #Fim da simulação
 
 analise &lt;- matrix(0,ncol=3,nrow=500)
-colnames(analise)&lt;- c(&quot;Não zeros certos&quot;,&quot;Zeros certos&quot;, &quot;Modelo certo?&quot;)
+colnames(analise)&lt;- c("Não zeros certos","Zeros certos", "Modelo certo?")
 
 for(i in 1:500){
   analise[i,1]&lt;- mean(coeficientes_adalasso[2:11,i] != 0)
@@ -101,27 +111,27 @@ for(i in 1:500){
 }
 
 tabela_final &lt;- colMeans(analise)*100
-knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;)</code></pre>
+knitr::kable(tabela_final,caption = "Os valores estão em porcentagem")</code></pre>
 <table>
 <caption><span id="tab:unnamed-chunk-2">Table 2: </span>Os valores estão em porcentagem</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Não zeros certos</td>
+<td align="left">Não zeros certos</td>
 <td align="right">100.00</td>
 </tr>
 <tr class="even">
-<td>Zeros certos</td>
-<td align="right">96.81</td>
+<td align="left">Zeros certos</td>
+<td align="right">96.84</td>
 </tr>
 <tr class="odd">
-<td>Modelo certo?</td>
-<td align="right">61.00</td>
+<td align="left">Modelo certo?</td>
+<td align="right">58.20</td>
 </tr>
 </tbody>
 </table>
@@ -135,7 +145,7 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
 <li>Escolha o lambda que minimiza o valor de IC</li>
 </ol>
 <p>Vamos escrever uma função que faz cada um dos passos. Veja que você não precisa fazer isso: existe um pacote excelente que já implementa isso no GitHub chamado <a href="https://github.com/gabrielrvsc/HDeconometrics">HDeconometrics</a>, mantido pelo Gabriel Vasconcelos. Mas seguindo o espírito do blog, eu vou implementar “no braço”. Eu vou permitir que o usuário escolha qualquer um dos 3 critérios, e para isso eu usarei uns if:</p>
-<pre class="r"><code>ic_glmnet &lt;- function(x,y,penalty.factor,ic){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ic_glmnet &lt;- function(x,y,penalty.factor,ic){
   require(glmnet)
   n &lt;- length(y)
   modelo &lt;- glmnet(x,y) #passo 1
@@ -147,61 +157,60 @@ knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;
   #passo 4
   conj_ativo &lt;- colSums(coef(modelo) !=0)
   #vamos permitir o usuário escolha qual critério de informação vai ser usado
-  if(ic == &quot;aic&quot;|ic==&quot;AIC&quot;){
-    ic_val &lt;- 2} else if(ic==&quot;bic&quot;|ic==&quot;BIC&quot;){
+  if(ic == "aic"|ic=="AIC"){
+    ic_val &lt;- 2} else if(ic=="bic"|ic=="BIC"){
       ic_val &lt;- log(n)
-    } else if(ic == &quot;hqc&quot;|ic == &quot;HQC&quot;){
+    } else if(ic == "hqc"|ic == "HQC"){
       ic_val &lt;- 2* log(log(n))
     } else{
-      stop(&quot;IC not implemented&quot;)
+      stop("IC not implemented")
     }
   #passo 5
   val &lt;- n*log(ssr)+ic_val*conj_ativo
   #passo 6
   selecionado &lt;- which.min(val)
-  return(list(&quot;modelo_selecionado&quot; = coef(modelo)[,selecionado],&quot;modelo_glmnet&quot; = modelo, &quot;lambda_selecionado&quot; = modelo$lambda[selecionado]))
+  return(list("modelo_selecionado" = coef(modelo)[,selecionado],"modelo_glmnet" = modelo, "lambda_selecionado" = modelo$lambda[selecionado]))
 }</code></pre>
 <p>Veja que eu faço a função retorna os coeficientes escolhidos, o modelo inteiro escolhido e o <span class="math inline">\(\lambda\)</span> escolhido ( o motivo para isso vai ficar claro). Vamos fazer um pequeno teste da nossa função:</p>
-<pre class="r"><code>x &lt;- matrix(rnorm(50*100),ncol = 50) #gerando x
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">x &lt;- matrix(rnorm(50*100),ncol = 50) #gerando x
 betas &lt;- c(rep(1,10),rep(0,40)) #
 y &lt;- x%*%betas + rnorm(100)
-teste &lt;- ic_glmnet(x,y,ic=&quot;BIC&quot;)</code></pre>
-<pre><code>## Carregando pacotes exigidos: glmnet</code></pre>
-<pre><code>## Carregando pacotes exigidos: Matrix</code></pre>
-<pre><code>## Carregando pacotes exigidos: foreach</code></pre>
-<pre><code>## Loaded glmnet 2.0-16</code></pre>
-<pre class="r"><code>teste$modelo_selecionado</code></pre>
-<pre><code>## (Intercept)          V1          V2          V3          V4          V5 
-##  0.02919496  0.80721826  0.72118478  1.03292107  1.01925350  1.02434786 
+teste &lt;- ic_glmnet(x,y,ic="BIC")</code></pre>
+<pre ><code >## Carregando pacotes exigidos: glmnet</code></pre>
+<pre ><code >## Carregando pacotes exigidos: Matrix</code></pre>
+<pre ><code >## Loaded glmnet 4.0-2</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">teste$modelo_selecionado</code></pre>
+<pre ><code >## (Intercept)          V1          V2          V3          V4          V5 
+## -0.07163931  0.91825550  0.82485362  0.80345212  0.81528969  0.68988950 
 ##          V6          V7          V8          V9         V10         V11 
-##  0.88267714  0.97021225  1.02600355  0.82197093  1.04430256  0.00000000 
+##  0.89619273  0.82549050  0.81241610  0.90796060  0.77718892  0.00000000 
 ##         V12         V13         V14         V15         V16         V17 
-##  0.00000000  0.00000000  0.00000000 -0.07179414 -0.02062124 -0.11321705 
+##  0.00000000  0.00000000 -0.11836918  0.00000000  0.00000000  0.00000000 
 ##         V18         V19         V20         V21         V22         V23 
-## -0.05150767 -0.07230270 -0.10303200  0.08321580  0.00000000 -0.04758250 
+## -0.01061692  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000 
 ##         V24         V25         V26         V27         V28         V29 
-##  0.00000000  0.13620516  0.01186514  0.00000000  0.00000000  0.04777503 
+##  0.00000000  0.00000000  0.02245120  0.00000000  0.00000000  0.00000000 
 ##         V30         V31         V32         V33         V34         V35 
-##  0.15935506 -0.15618481  0.00000000  0.00000000  0.00000000  0.12979546 
+##  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000 
 ##         V36         V37         V38         V39         V40         V41 
-##  0.00000000 -0.07786625  0.00000000 -0.13100984 -0.11033866  0.00000000 
+##  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000 
 ##         V42         V43         V44         V45         V46         V47 
-##  0.00000000  0.00000000  0.18164362 -0.04883286  0.05119821  0.00000000 
+##  0.00000000  0.00000000  0.00000000  0.00000000  0.00000000  0.08652614 
 ##         V48         V49         V50 
-##  0.00000000  0.20137211  0.03448675</code></pre>
+##  0.00000000  0.00000000  0.00000000</code></pre>
 <p>E uma simulação, com uma mudança: nós não vamos escolher o <span class="math inline">\(\lambda\)</span> duas vezes. Nós vamos repetir o <span class="math inline">\(\lambda\)</span> escolhido no primeiro estágio para o segundo estágio. Isso tem dois objetivos:</p>
 <ol style="list-style-type: decimal">
 <li>Isola o efeito da seleção do lambda dos efeitos da pessagem do LASSO adaptativo</li>
 <li>Ao invés de termos de selecionar os paramêtros duas vezes, selecionamos apenas uma vez.</li>
 </ol>
 <p>Vamos a simulação:</p>
-<pre class="r"><code>coeficientes_adalasso_bic &lt;- Matrix(0,ncol=500,nrow=51)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">coeficientes_adalasso_bic &lt;- Matrix(0,ncol=500,nrow=51)
 
 for(i in 1:500){
   x &lt;- matrix(rnorm(50*100),ncol = 50) #gerando x
   betas &lt;- c(rep(1,10),rep(0,40)) #
   y &lt;- x%*%betas + rnorm(100)
-  primeiro_estagio &lt;- ic_glmnet(x,y,ic = &quot;BIC&quot;) #estimando usando LASSO e BIC
+  primeiro_estagio &lt;- ic_glmnet(x,y,ic = "BIC") #estimando usando LASSO e BIC
   pesos &lt;- 1/abs(primeiro_estagio$modelo_selecionado[-1]) #veja que eu tenho que jogar fora o intercepto
   adalasso &lt;- glmnet(x,y,lambda = primeiro_estagio$lambda_selecionado,penalty.factor = pesos)
   coeficientes_adalasso_bic[,i] &lt;- coef(adalasso)
@@ -210,7 +219,7 @@ for(i in 1:500){
 #Fim da simulação
 
 analise &lt;- matrix(0,ncol=3,nrow=500)
-colnames(analise)&lt;- c(&quot;Não zeros certos&quot;,&quot;Zeros certos&quot;, &quot;Modelo certo?&quot;)
+colnames(analise)&lt;- c("Não zeros certos","Zeros certos", "Modelo certo?")
 
 for(i in 1:500){
   analise[i,1]&lt;- mean(coeficientes_adalasso_bic[2:11,i] != 0)
@@ -219,27 +228,27 @@ for(i in 1:500){
 }
 
 tabela_final &lt;- colMeans(analise)*100
-knitr::kable(tabela_final,caption = &quot;Os valores estão em porcentagem&quot;)</code></pre>
+knitr::kable(tabela_final,caption = "Os valores estão em porcentagem")</code></pre>
 <table>
 <caption><span id="tab:unnamed-chunk-5">Table 3: </span>Os valores estão em porcentagem</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">x</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Não zeros certos</td>
-<td align="right">100.000</td>
+<td align="left">Não zeros certos</td>
+<td align="right">99.980</td>
 </tr>
 <tr class="even">
-<td>Zeros certos</td>
-<td align="right">95.375</td>
+<td align="left">Zeros certos</td>
+<td align="right">95.305</td>
 </tr>
 <tr class="odd">
-<td>Modelo certo?</td>
-<td align="right">42.400</td>
+<td align="left">Modelo certo?</td>
+<td align="right">44.000</td>
 </tr>
 </tbody>
 </table>

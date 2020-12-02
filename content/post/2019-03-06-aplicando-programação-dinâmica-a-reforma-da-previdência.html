@@ -10,8 +10,18 @@ categories:
 - Programação Dinâmica
 - Julia
 - Computação
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
+<script src="2019-03-06-aplicando-programação-dinâmica-a-reforma-da-previdência_files/header-attrs/header-attrs.js"></script>
+<link href="2019-03-06-aplicando-programação-dinâmica-a-reforma-da-previdência_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2019-03-06-aplicando-programação-dinâmica-a-reforma-da-previdência_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p><em>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava <span class="math inline">\(\beta\)</span> e não <span class="math inline">\(\beta^t\)</span>. Se tratava de um typo. Agradeço a Marcelo Moraes pela observação</em></p>
@@ -39,7 +49,7 @@ s &amp; \text{se } T_{aposentadoria} \leq t \leq T\\
 </ol>
 <p>Ou seja, quebramos o problema do agente em dois problemas separados e ressolvemos eles separadamente, com a ligação entre eles feita pela função valor dos dois problemas.</p>
 <p>O programa em Julia que resolve o problema segue abaixo. Eu uso w para gerar o grid de riqueza e utilizo a utilidade log. Eu inicialmente coloco um agente trabalhando 65 anos e vivendo 20 anos aposentado, um total de 85 anos. O valor da aposentadoria é 1. A média da distribuição Gama(5,1) é 5, então nossa aposentadoria é bem menor que o que o agente vai ganhar em média durante a vida.</p>
-<pre><code>#Carregando os pacotes que precisamos
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">#Carregando os pacotes que precisamos
 using Distributions
 using Plots
 using Interpolations
@@ -72,7 +82,7 @@ for j in 2:ret_age
         choice_ret[j,i] = Optim.minimizer(otm)
         value_ret[j,i] = -Optim.minimum(otm)
     end
-    println(&quot;Iteration &quot;, j)
+    println("Iteration ", j)
 end
 
 #Resolvendo o problema do trabalhador
@@ -92,11 +102,11 @@ for k in 2:work_age
         choice_trab[k,i] = Optim.minimizer(otm)
         value_trab[k,i] = -Optim.minimum(otm)
     end
-    println(&quot;Iteration &quot;,k)
+    println("Iteration ",k)
 end
 </code></pre>
 <p>Podemos usar essas soluções e simular uma trajetória de salário para obter a escolha ótima de consumo e de poupança do agente. O código a seguir faz isso. Observe que, como em posts anteriores, eu deixei o primeiro elemento da matriz ser o último período do agente, então aqui eu preciso plotar e simular tudo de trás pra frente:</p>
-<pre><code>start = 2
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">start = 2
 wage = rand(d,65)
 
 cons = zeros(85)
@@ -122,10 +132,10 @@ rett = zeros(20)
 fill!(rett,s)
 income = [wage[65:-1:1]; rett]
 
-plot(asset[85:-1:1], lab = &quot;Assets&quot;, xlab = &quot;Tempo&quot;,legend = :topleft)
-plot!(cons[85:-1:1], lab = &quot;Consumption&quot;)
-plot!(income[1:85], lab = &quot;Income&quot;)
-vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
+plot(asset[85:-1:1], lab = "Assets", xlab = "Tempo",legend = :topleft)
+plot!(cons[85:-1:1], lab = "Consumption")
+plot!(income[1:85], lab = "Income")
+vline!([66],lab = "Aposentadoria", lw = 2)</code></pre>
 <p>Obtemos a seguinte imagem:</p>
 <p><img src="/post/prev/exemplo.png" /></p>
 <p>Várias coisas são interessantes nessa imagem e mostram como programação dinâmica formaliza a nossa intuição econômica:</p>
@@ -142,7 +152,7 @@ vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
 <p>Outra maneira de vizualizar a mesma ideia é ver o consumo ótimo para cada nível de riqueza para cada um dos problemas. Eu escolhi um ponto arbitrário (a décima entrada em cada um deles, ou seja, faltando 10 anos para se aposentar) do tempo para comparar:</p>
 <p><img src="/post/prev/otm_pol_comparada.png" /></p>
 <p>Veja que para valores maiores de <span class="math inline">\(s\)</span>, maior o nível de consumo dado a mesma riqueza. Veja que aqui o consumo ótimo depende da data que estamos olhando, ao contrário do problema em tempo infinito. Mas de forma geral as funções não mudam muito, e a imagem acima é bem representativa de se fossemos olhar período por período.</p>
-<div id="salarios-crescendo-no-tempo" class="section level2">
+<div id="salários-crescendo-no-tempo" class="section level2">
 <h2>Salários crescendo no tempo</h2>
 <p>A hipótese de um salário i.i.d. é bastante irrealista. Espera-se que o salário do agente cresca com o tempo, conforme ele vai acumulando capital humano, por exemplo. Existem várias maneiras de inserir isso no modelo.</p>
 <p>Eu vou adotar uma maneira curiosa, que vai envolver uma mudança de distribuição: a cada período o salário é distribuído usando uma <span class="math inline">\(Normal(\mu+\epsilon_t,\sigma)\)</span>, onde <span class="math inline">\(\epsilon_t\)</span> é um aumento determinístico da média. Eu uso a normal ao invés da Gama porque a variância da distribuição Gama depende dos dois paramêtros: aumentar a média assim aumentaria a variância. Eu vou definir <span class="math inline">\(\epsilon_t\)</span> de maneira que no último período a média seja 8, e vou colocar <span class="math inline">\(\mu = 5, \sigma = 1\)</span>. Isso coloca a probabilidade de um salário negativo virtualmente zero, já que exigiria mais de 5 desvios padrões para alcançarmos o zero. Veja que isso é equivalente a:</p>
@@ -150,7 +160,7 @@ vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
 <p>Eu escolho mudar direto na distribuição porque (a) eu testei inicialmente com a distribuição Gama onde a conta acima não é verdade (b) isso permite facilmente adicionar heterocedasticidade aos salários, o que eu não vou fazer. A animação abaixo (feita no Julia) mostra a ideia de como o salário vai mudar ao longo do tempo.</p>
 <p><img src="/post/prev/teste.gif" /></p>
 <p>O código para estimar a melhor resposta nesse modelo muda apenas um pouco:</p>
-<pre><code>inc = range(0,stop=3,length=65) #esse é o epsilon_t da fórmula acima
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">inc = range(0,stop=3,length=65) #esse é o epsilon_t da fórmula acima
 inc = inc[65:-1:1] #Lembrem que eu faço tudo de trás pra frente
 
 s = 1
@@ -171,7 +181,7 @@ for j in 2:ret_age
         choice_ret5[j,i] = Optim.minimizer(otm)
         value_ret5[j,i] = -Optim.minimum(otm)
     end
-    println(&quot;Iteration &quot;, j)
+    println("Iteration ", j)
 end
 
 value_trab5 = zeros(work_age,length(w))
@@ -193,11 +203,11 @@ for k in 2:work_age
         choice_trab5[k,i] = Optim.minimizer(otm)
         value_trab5[k,i] = -Optim.minimum(otm)
     end
-    println(&quot;Iteration &quot;,k)
+    println("Iteration ",k)
 end
 </code></pre>
 <p>O código para gerar uma trajetória é idêntico, exceto na hora de gear o salário, que envolve uma ligeira mudança para alocar a mudança na distribuição:</p>
-<pre><code>wage5 = zeros(65)
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">wage5 = zeros(65)
 
 for i in 65:-1:1
     y = 5+inc[i]

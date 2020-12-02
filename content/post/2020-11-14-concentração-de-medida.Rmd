@@ -11,6 +11,12 @@ tags:
   - Estatística
 images: []
 authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
 ---
 
 Este é um post meio maluco, porque é absolutamente específico a coisas de _machine learning_ e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível. 
