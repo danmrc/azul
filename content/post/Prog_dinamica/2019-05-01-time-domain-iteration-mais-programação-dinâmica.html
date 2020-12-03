@@ -13,6 +13,12 @@ tags:
   - Coleman Operator
   - Firesale
 authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
 <script src="2019-05-01-time-domain-iteration-mais-programação-dinâmica_files/header-attrs/header-attrs.js"></script>
@@ -46,7 +52,7 @@ authors: ["danielc"]
 </ul>
 <p>Veja que a ideia aqui é basicamente “operar” usando os mesmos valores que resolvem a condição de primeira ordem para sempre. Uma solução do problema é alcançada quando <span class="math inline">\(C_t = C_{t+1}\)</span>. Por incrível que possa parecer, é mais uma aplicação do <a href="https://azul.netlify.com/2018/10/31/banach/">teorema de ponto fixo que o Pedro descreveu faz um tempo aqui no blog</a>.</p>
 <p>Veja que para o caso onde <span class="math inline">\(\delta = 1\)</span>, <span class="math inline">\(u(C_t) = \ln(C_t)\)</span> e <span class="math inline">\(y_t = k_t ^\alpha\)</span>, o problema tem solução analítica. O código que implementa o problema e resolve no Julia segue abaixo:</p>
-<pre class="julia"><code>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 using Interpolations
 using Plots
 using Roots
@@ -107,7 +113,7 @@ b_{t+1} &gt; -\kappa w_t \quad (3)\]</span></p>
 <li>Proceda até convergência</li>
 </ol>
 <p>Veja que esse algoritmo é ligeiramente diferente do algoritmo do Bianchi em alguns pontos - e porque o problema que eu estou resolvendo aqui no blog é mais simples que o problema dele. Eu vou usar preferências log, que geram como derivada <span class="math inline">\(u&#39;(c)=1/c\)</span>. Além disso eu vou adotar uma hipótese simplificadora de que a dotação só pode adotar 4 valores: 2,3,4,5, todos com a mesma probabilidade (0.25). Isso é porque nós vamos ter duas variáveis de estado, a quantidade de títulos e a renda no período - já que um pedaço fundamental do problema é a restrição de endividamento, que depende da renda. Vamos ao algoritmo em si:</p>
-<pre class="julia"><code>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 beta = 0.96
 r = 0.04
 sigma = 2
@@ -133,26 +139,26 @@ err = 1
 
 #o algoritmo em si
 
-while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política for maior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+while i &lt;=iter&&err&gt;1e-9 #enquanto a maior mudança na política for maior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
     foo_c = LinearInterpolation((bond_grid,y_grid),cons[i-1,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
     for k in 1:y_grid_size
         b_aux = -kappa*y_grid[k] #o maximo de endividamento
         for j in 1:bond_grid_size
             c_aux = (1+r)*bond_grid[j] + y_grid[k] - b_aux # o consumo no máximo de endividamento
-            teste = uline(c_aux) - beta*(1+r)*prob&#39;*uline.(foo_c(b_aux,y_grid)) #aqui é o teste da etapa 3 do algoritmo
+            teste = uline(c_aux) - beta*(1+r)*prob'*uline.(foo_c(b_aux,y_grid)) #aqui é o teste da etapa 3 do algoritmo
             if teste &gt; 0 #eis a etapa 3
                 cons[i,j,k] = max(c_aux,0)
             else
                 function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
                     bb = (1+r)*bond_grid[j] + y_grid[k] -c
-                    uline(c) - beta*(1+r)*prob&#39;*uline.(foo_c(bb,y_grid))
+                    uline(c) - beta*(1+r)*prob'*uline.(foo_c(bb,y_grid))
                 end
                 cons[i,j,k] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + y_grid[k]+1)[1] #busca por um zero na equação de Euler e salva o valor que zera
             end
         end
     end
     global err = maximum(abs.(cons[i,:,:]-cons[i-1,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
-    println(&quot;iteration&quot;,i,&quot;error&quot;,err) #só nos informa da evolução do algoritmo
+    println("iteration",i,"error",err) #só nos informa da evolução do algoritmo
     global i = i+1
 end</code></pre>
 <p>Vamos ver como é a função consumo na última iteração:</p>
@@ -168,7 +174,7 @@ b_{t+1} &gt; -\kappa(\omega^x_t + p_y \omega^y_t)\]</span></p>
 <p>Veja que para facilitar a vida eu vou impor que em equilíbrio <span class="math inline">\(y_t = w^y_t\)</span> - pense que isso pode ser a produção doméstica do agente (ou no caso de uma economia aberta, a produção de <em>non tradables</em>). Isso faz com que em equlíbrio, <span class="math inline">\(x_t + b_{t+1} = (1+r)b_t + \omega^x_t\)</span>.</p>
 <p>Um outro detalhe técnico é que como temos dois bens e eu vou fazer com que ambos sigam uma distribuição discreta uniforme entre 2 e 5 (ou seja, P(2) = P(3) = P(4) = P(5) = 0.25), nós teremos 16 estados possíveis - e nesse caso a probabilidade de cada estado é <span class="math inline">\(0.25 \times 0.25 = 0.0625\)</span> - e precisamos fazer todas as combinações possíveis de dotações dos dois bens (bem x com dotação 1 e bem y com dotação 1, bem x com dotação 1 e bem y com dotação 2, bem x com dotação 2 e bem y com dotação 1 etc). Felizmente a função <code>Product</code> do pacote Iterators (que já vem com o Julia) faz isso para gente. Só precisamos reorganizar porque ele devolve um objeto tuple e queremos arrumar isso em um array. Isso deixa o código um pouco mais indigesto, mas a ideia geral é igual ao do código anterior.</p>
 <p>O código em si:</p>
-<pre class="julia"><code>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 beta = 0.96
 r = 0.04
 sigma = 2
@@ -210,7 +216,7 @@ py[1,:,:,:] .= 1
 i=2
 err = 1
 
-while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+while i &lt;=iter&&err&gt;1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
     foo_c = LinearInterpolation((bond_grid,y_grid,x_grid),cons[i-1,:,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
     for k in 1:16
         index_x = findfirst(x_grid .== endow[k,1])
@@ -218,7 +224,7 @@ while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política f
         for j in 1:bond_grid_size
             b_aux = -kappa*(x_grid[index_x] + py[i-1,j,index_x,index_y]*y_grid[index_y]) #o maximo de endividamento
             c_aux = (1+r)*bond_grid[j] + x_grid[index_x] - b_aux # o consumo no máximo de endividamento
-            teste_aux = prob&#39;*reshape(uline.(foo_c(b_aux,x_grid,y_grid)),16,1)
+            teste_aux = prob'*reshape(uline.(foo_c(b_aux,x_grid,y_grid)),16,1)
             teste = uline(c_aux) - beta*(1+r)*teste_aux[1] #aqui é o teste da etapa 3 do algoritmo
             if teste &gt; 0 #eis a etapa 3
                 cons[i,j,index_x,index_y] = max(c_aux,0)
@@ -226,7 +232,7 @@ while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política f
             else
                 function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
                     bb = (1+r)*bond_grid[j] + x_grid[index_x] -c
-                    aux = prob&#39;*reshape(uline.(foo_c(bb,x_grid,y_grid)),16,1)
+                    aux = prob'*reshape(uline.(foo_c(bb,x_grid,y_grid)),16,1)
                     uline(c) - beta*(1+r)*aux[1]
                 end
                 cons[i,j,index_x,index_y] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + x_grid[index_x]+2)[1] #busca por um zero na equação de Euler e salva o valor que zera
@@ -235,7 +241,7 @@ while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política f
         end
     end
     global err = maximum(abs.(cons[i,:,:,:]-cons[i-1,:,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
-    println(&quot;iteration&quot;,i,&quot;error&quot;,err) #só nos informa da evolução do algoritmo
+    println("iteration",i,"error",err) #só nos informa da evolução do algoritmo
     global i = i+1
 end</code></pre>
 <p>Vamos ver se o preço do bem y de fato cresce com a quantidade de títulos:</p>

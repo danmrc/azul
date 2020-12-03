@@ -14,6 +14,12 @@ tags:
   - Highlight.js
 images: []
 authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
 Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no `head.html` do blog:

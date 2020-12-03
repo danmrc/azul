@@ -11,16 +11,24 @@ tags:
   - R
 authors: ["danielc"]
 katex: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.</p>
 <p>Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes. Este post vai colocar a prova a velocidade do Julia: será que ele realmente é mais rápido? O quão mais rápido? Para isso, eu vou comparar o Julia com o R. Ambos são open source. O R é extremamente popular e usado amplamente em diversas áreas. Eu não vou comparar o Matlab com o Julia: o matlab é um programa que tem que ser comprado (e não é barato), e portanto comparar os dois não vai ser tão informativo. Mal comparando, ninguém ficaria muto feliz de ser informado que ir de jatinho é mais rápido que ir de ônibus: não é surpreendente, mas ei, eu não tenho dinheiro para alugar um jatinho.</p>
 <p>Eu vou fazer alguns testes em um Dell Vostro 2012, Windows 10, 6 GB de Ram e processador i5. Eu vou rodar o R direto do RStudio e o Julia do Atom. Eu deixei apenas o RStudio e o Atom abertos. Vamos a bateria de testes. Para o R, eu usei o pacote <strong>benchr</strong> para fazer o benchmarking. Em todas as tabelas, está reportado a <em>mediana</em> das 100 replicações. Eu explico o motivo no fim do artigo.</p>
 <p>E aqui estão os códigos para o <a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.R">R</a> e para o <a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/tempo_1.jl">Julia</a>.</p>
-<div id="mqo" class="section level2">
-<h2>1.MQO</h2>
+<p>##1.MQO</p>
 <p>O estimador de MQO é um ótimo teste. Não só é muito usado, como ele trabalha com matrizes, faz uma inversa de matriz, que são operações muito comuns em estatística. O teste para comparar os dois vai ser bem simples:</p>
 <ol style="list-style-type: decimal">
 <li><p>Eu vou escrever uma função que faz o estimador de MQO “no braço”, ou seja, cospe <span class="math inline">\((X&#39;X)^{-1}X&#39;y\)</span></p></li>
@@ -43,11 +51,9 @@ katex: true
 </tbody>
 </table>
 <p>O Julia é muito mais rápido. Mas uma pergunta justa é se usando o <code>lm(y ~x)</code> nativo do R nós não obtemos resultados melhores. Esse é o objetivo do segundo teste no arquivo acima. O resultado da mesma simulação usando o <code>lm</code> são estúpidos 1020 microsegundos.</p>
-</div>
-<div id="otimizacao" class="section level2">
-<h2>2. Otimização</h2>
+<p>##2. Otimização</p>
 <p>É muito comum precisar encontrar o máximo ou mínimo de uma função. Vamos testar isso comparando o <code>optim</code> do próprio R e o pacote do Julia <strong>optim</strong>, que foi escrito em Julia. O nosso teste vai ser a maximização da log verossimelhança de uma distribuição Weibull - afinal, de distribuições como a normal podemos encontrar a solução analiticamente, e não é o caso com os dois parâmetros da Weibull. O código para o R tem a seguinte cara:</p>
-<pre><code>weib &lt;- function(par){
+<pre ><code >weib &lt;- function(par){
   -1*sum(log(par[2]) - log(par[1]) + (par[2]-1)*(log(x)-log(par[1]))-(x/par[1])^par[2])
 }
 
@@ -55,7 +61,7 @@ x0 = c(2,2)
 
 func2 &lt;- function(){
   x &lt;- rweibull(500,1)
-  optim(x0,weib,method=&quot;L-BFGS-B&quot;,lower=c(0,0))
+  optim(x0,weib,method="L-BFGS-B",lower=c(0,0))
 }
 
 benchmark(func2())</code></pre>
@@ -75,9 +81,7 @@ benchmark(func2())</code></pre>
 </tbody>
 </table>
 <p>Curiosamente, o Julia é bem mais lento que o R.</p>
-</div>
-<div id="uma-simulacao-pequena" class="section level2">
-<h2>3. Uma simulação pequena</h2>
+<p>##3. Uma simulação pequena</p>
 <p>Vamos ver como cada uma das linguagens se comporta com uma simulação pequena. Para variar um pouco, eu vou escrever uma função que calcula o desvio padrão numericamente a partir de uma amostra <span class="math inline">\(x\)</span> da seguinte forma:</p>
 <ul>
 <li>Tire uma amostra aleatória de <span class="math inline">\(X\)</span>, permitindo repetições. Esta amostra tem o tamanho <span class="math inline">\(n\)</span>, que você quiser.</li>
@@ -85,7 +89,7 @@ benchmark(func2())</code></pre>
 <li>Calcule o desvio padrão de <span class="math inline">\(b\)</span>. Ele deve ser igual a <span class="math inline">\(\frac{\sigma}{\sqrt{n}}\)</span>, onde <span class="math inline">\(\sigma\)</span> é o desvio padrão da variável <span class="math inline">\(x\)</span>.</li>
 </ul>
 <p>Este procedimento é conhecido como <em>bootstrap</em>. Apenas para garantir que o procedimento faz sentido, eu deixo abaixo a versão do R. Vamos fazer uma amostra de 100 observações distribuídas <span class="math inline">\(N(0,1)\)</span>. A nossa reamostragem vai ter 100 observações também.</p>
-<pre class="r"><code>amostra &lt;- rnorm(1000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">amostra &lt;- rnorm(1000)
 
 boot &lt;- rep(0,10000)
 
@@ -95,7 +99,7 @@ for(i in 1:10000){
 }
 
 tabela &lt;- cbind(sd(boot),sd(amostra)/sqrt(500))
-knitr::kable(tabela, col.names = c(&quot;Desvio padrão bootstrap&quot;,&quot;Desvio padrão analítico&quot;))</code></pre>
+knitr::kable(tabela, col.names = c("Desvio padrão bootstrap","Desvio padrão analítico"))</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -105,8 +109,8 @@ knitr::kable(tabela, col.names = c(&quot;Desvio padrão bootstrap&quot;,&quot;De
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">0.0443277</td>
-<td align="right">0.0443293</td>
+<td align="right">0.0429252</td>
+<td align="right">0.0427853</td>
 </tr>
 </tbody>
 </table>
@@ -126,21 +130,18 @@ knitr::kable(tabela, col.names = c(&quot;Desvio padrão bootstrap&quot;,&quot;De
 </tbody>
 </table>
 <p>O R é um pouco menos eficiente que o Julia. A situação não é tão dramática quanto no exemplo 1, mas ainda assim há um ganho significativo em usar o Julia.</p>
-</div>
-<div id="por-que-nao-usar-o-julia" class="section level2">
+<div id="por-que-não-usar-o-julia" class="section level2">
 <h2>Por que não usar o Julia?</h2>
 <p>Dado todos os elogios ao Julia até aqui, talvez seja uma boa hora de dizer quais as coisas ruins do Julia. A primeira é que não há tantos pacotes quanto o R, e nem temos uma IDE tão boa quanto o RStudio (apesar do Atom ser bastante competente). Por exemplo, não estamos nem perto de integrar arquivos markdown com código em Julia direto no Atom, com todos os recursos que o RStudio oferece.</p>
 <p>Como o Julia é uma linguagem muito nova, as mudanças entre versões anteriores a 1.0 eram brutais - espero que a linguagem se estabilize a partir de agora. Um outro “problema” é que a primeira vez que você roda um código, o Julia é lento. Isso é ilustrado na seção abaixo.</p>
-</div>
-<div id="por-que-usei-a-mediana" class="section level2">
-<h2>Por que usei a mediana?</h2>
+<p>##Por que usei a mediana?</p>
 <p>Eis os valores da média de cada um dos sistemas, e eu divide no caso em que eu tiro a primeira observação do caso cheio. Os tempos estão em microsegundos:</p>
-<table style="width:96%;">
+<table>
 <colgroup>
-<col width="23%" />
-<col width="25%" />
-<col width="23%" />
-<col width="23%" />
+<col width="24%" />
+<col width="26%" />
+<col width="24%" />
+<col width="24%" />
 </colgroup>
 <thead>
 <tr class="header">

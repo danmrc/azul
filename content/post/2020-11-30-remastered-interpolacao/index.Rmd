@@ -44,9 +44,11 @@ plot(grid2,f.(grid2))
 
 ```{julia, eval = FALSE}
 
+using Polynomials #o pacote polynomials tem uma função fit que busca o polinômio que passa por todos os pontos
+
 grid =  range(-2,2,length=10) #um grid de pontos para avaliar a função
 
-f_hat = Polynomials.fit(grid,f.(grid))
+f_hat = fit(grid,f.(grid)) #isso vai gerar um polinômio que passa por todos os pontos - ele retorna uma função, então você pode passar pontos e obter os valores da função de volta em qualquer ponto
 
 plot(grid2,f.(grid2))
 plot!(grid2,f_hat.(grid2))
@@ -71,10 +73,10 @@ Isso serve como exemplo de como interpolações podem dar profundamente erradas.
 No post original eu sugeria fazer interpolação por pedaços, ligando cada pedaço por uma reta: eu vou usar o pacote _Interpolations_ e o comando `LinearInterpolation` pra isso:
 
 ```{julia, eval = FALSE}
+
 using Interpolations
 
-
-lin_interp = LinearInterpolation(grid,f.(grid))
+lin_interp = LinearInterpolation(grid,f.(grid)) #gera uma interpolação linear, e retorna uma função
 
 plot(grid2,f.(grid2))
 plot!(grid2,lin_interp.(grid2))

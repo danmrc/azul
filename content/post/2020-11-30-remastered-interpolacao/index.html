@@ -39,9 +39,11 @@ plot(grid2,f.(grid2))</code></pre>
 <p><img src="/post/2020-11-30-remastered-interpolacao/fig1.png" /></p>
 <p>É uma função não muito maluca. Eu vou usar o pacote <em>polynomials</em> pra gerar um polinômio de grau 50, a partir de 50 pontos equiespaçados:</p>
 <pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+using Polynomials #o pacote polynomials tem uma função fit que busca o polinômio que passa por todos os pontos
+
 grid =  range(-2,2,length=10) #um grid de pontos para avaliar a função
 
-f_hat = Polynomials.fit(grid,f.(grid))
+f_hat = fit(grid,f.(grid)) #isso vai gerar um polinômio que passa por todos os pontos - ele retorna uma função, então você pode passar pontos e obter os valores da função de volta em qualquer ponto
 
 plot(grid2,f.(grid2))
 plot!(grid2,f_hat.(grid2))</code></pre>
@@ -55,10 +57,10 @@ plot!(grid2,f_hat.(grid2))</code></pre>
 <p><img src="/post/2020-11-30-remastered-interpolacao/fig3.png" /></p>
 <p>Isso serve como exemplo de como interpolações podem dar profundamente erradas. Nós estamos acostumados a pensar em overfitting quando a gente extrapola os dados, mas mesmo interpolações podem ser “do mal”. A interpolação claramente está fazendo um overfitting: nos pontos observados a aproximação é exata, mas fora deles é completamente maluco.</p>
 <p>No post original eu sugeria fazer interpolação por pedaços, ligando cada pedaço por uma reta: eu vou usar o pacote <em>Interpolations</em> e o comando <code>LinearInterpolation</code> pra isso:</p>
-<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">using Interpolations
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+using Interpolations
 
-
-lin_interp = LinearInterpolation(grid,f.(grid))
+lin_interp = LinearInterpolation(grid,f.(grid)) #gera uma interpolação linear, e retorna uma função
 
 plot(grid2,f.(grid2))
 plot!(grid2,lin_interp.(grid2))</code></pre>

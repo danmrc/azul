@@ -10,13 +10,13 @@ tags:
     - Julia
 authors: ["danielc"]
 katex: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
-
-```{r message=FALSE,echo=FALSE}
-JuliaCall::julia_setup()
-JuliaCall::plotsViewer()
-
-```
 
 Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
 
@@ -60,7 +60,7 @@ O básico de matemática com o Julia é obvio: `2+2` retorna 4 etc. O Julia usa 
 
 Criar matrizes no Julia é muitissimo parecido com o matlab (a ponto de você poder copiar um código que criar uma matriz no Julia para o matlab e vice versa). Para exemplificar, vamos construir a matriz identidade:
 
-```{julia}
+```{julia,eval = FALSE}
 [[1 0];[0 1]]
 ```
 
@@ -74,7 +74,7 @@ Outra operação muito comum é aplicar uma função a todos os elementos do _ar
 
 Como qualquer linguagem que se preze, Julia tem `for` e `if`. Um exemplo de for seria:
 
-```
+```{julia,eval = FALSE}
 for i = 1:100
   println(i)
 end
@@ -87,13 +87,15 @@ Isso faria os números de 1 a 100 serem exibidos no console, um em cada linha - 
 
 Existem duas maneiras básicas de criar uma função no Julia. Se a sua função é meramente matemática, você pode definir como você faria no papel:
 
-```
+```{julia,eval = FALSE}
+
 f(x)=x^2
 ```
 
 Mas as vezes queremos construir funções que ocupam várias linhas. Nesse caso, fariamos:
 
-```
+```{julia,eval = FALSE}
+
 function nome_da_função
 
   código aqui
@@ -105,7 +107,7 @@ end
 
 Representar visualmente nossos resultados é importante. O pacote **Plots** é a melhor biblioteca disponível - em part por ela ser uma interface para várias outras. Vamos gerar alguns números aleatórios e usar o plot para ilustrar:
 
-```{julia}
+```{julia,eval = FALSE}
 
 using Plots
 
@@ -118,7 +120,7 @@ plot(x)
 
 Nós poderíamos querer plotar os pontos, e neste caso o comando é `scatter`
 
-```{julia}
+```{julia,eval = FALSE}
 scatter(x)
 ```
 
@@ -126,7 +128,7 @@ scatter(x)
 
 Podemos sobrepor plots simplesmente usando `plot!` depois do primeiro plot. Por exemplo, eu vou sobrepor duas "séries" cointegradas:
 
-```{julia}
+```{julia,eval = FALSE}
 
 x = randn(200)
 x = cumsum(x)
@@ -147,7 +149,7 @@ Existe vários pacotes para fazer otimização no Julia: **Optim**, **JuMP**, **
 
 Suponha que queremos encontrar o mínimo de $f(x,y) = x^2+3x*y$. Vamos definir a função do Julia. Veja que ela vai receber um único argumento, que é um vetor, onde a segunda posição do vetor é o y:
 
-```{julia}
+```{julia,eval = FALSE}
 
 using Optim
 
@@ -156,7 +158,7 @@ f(x) = x[1]^2+3*x[1]*x[2]
 
 O comando do **Optim** é `optimize`. Ela exige a função e um chute inicial:
 
-```{julia}
+```{julia,eval = FALSE}
 
 sol = optimize(f,zeros(2))
 
@@ -166,7 +168,7 @@ Optim.minimizer(sol)
 
 O **Optim** vem com diferentes algoritmos de solução, e podemos definir qual usar. Por padrão, ele usa o Nelder-Mead, queé o mesmo padrão que o R usa. Vamos testar o LBFGS:
 
-```{julia}
+```{julia,eval = FALSE}
 
 sol2 = optimize(f,zeros(2),LBFGS())
 
@@ -176,7 +178,7 @@ Optim.minimizer(sol2)
 
 ## Julia Markdown
 
-O Julia já tem pacotes que permitem escrever um documento markdown com _chincks_ em Julia. Se você já usou o RMarkdown, a ideia é igual, mas ao invés de se usar \`\`\`{r}, usamos \`\`\`{julia}. O pacote que permite compilar o documento é o **Weave**. O documento deve ser salvo com a extensão _.jmd_. Compilar ele é uma simples questão de `weave("caminho do documento")`. O pacote dá várias opções de como compilar, e você deve olhar a documentação dele para ver a mais adequada.
+O Julia já tem pacotes que permitem escrever um documento markdown com _chuncks_ em Julia. Se você já usou o RMarkdown, a ideia é igual, mas ao invés de se usar \`\`\`{r}, usamos \`\`\`{julia}. O pacote que permite compilar o documento é o **Weave**. O documento deve ser salvo com a extensão _.jmd_. Compilar ele é uma simples questão de `weave("caminho do documento")`. O pacote dá várias opções de como compilar, e você deve olhar a documentação dele para ver a mais adequada.
 
 ## Conclusão
 

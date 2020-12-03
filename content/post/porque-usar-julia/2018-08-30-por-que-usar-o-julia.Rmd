@@ -11,6 +11,12 @@ tags:
   - R
 authors: ["danielc"]
 katex: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
 Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R. 

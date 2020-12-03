@@ -13,6 +13,12 @@ tags:
   - R
 authors: ["danielc"]
 katex: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
 Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa *Least Absolute Shrinkage and Select Operator*. Como o nome sugere, o LASSO **seleciona quais regressores são relevantes e quais não são**. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes. O LASSO está centrado na ideia de *esparsidade*: poucos coeficientes vão ser diferentes de zero; poucas variáveis vão ser relevantes numa regressão.

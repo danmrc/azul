@@ -13,6 +13,12 @@ tags:
   - Coleman Operator
   - Firesale
 authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
 Em posts anteriores eu apresentei uma maneira de resolver o problema:

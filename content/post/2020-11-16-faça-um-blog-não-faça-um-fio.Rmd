@@ -12,8 +12,11 @@ images: []
 authors: ["danielc"]
 draft: true
 output:
-  html_document:
-    pandoc_args: [ "--lua-filter codeblock.lua"]
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
 Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado. 
