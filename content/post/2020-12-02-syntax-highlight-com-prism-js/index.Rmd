@@ -1,0 +1,37 @@
+---
+title: Syntax Highlight com prism.js
+author: Daniel Coutinho
+date: '2020-12-02'
+slug: syntax-highlight-com-prism-js
+categories:
+  - Blog
+  - Meta
+tags:
+  - Syntax Highlight
+  - prismjs
+images: []
+authors: ["danielc"]
+draft: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+Este é uma continuação [desse post](/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/) e é claramente uma dessas coisas que foram longe demais. Talvez vocês já tenham visto como ficou o _syntax highlight_ do blog. Senão, eis uma amostra grátis:
+
+```{r}
+
+foo <- function(){
+  print("Hello, world!")
+  x <- rnorm(1)
+  print(paste("Your number is",x))
+}
+
+```
+
+Tem várias coisas legais: botão de copiar, o nome da linguagem, marcação dos parênteses, número da linha... Eu gostei das duas primeiras coisas o suficiente para decidir tentar colocar isso no blog, e apesar de ter alguma dessas coisas no highlight.js (via plugins externos) o [prism.js](https://prismjs.com/) tem todas essas coisas _out of the box_. 
+
+Obviamente, tem um enorme porém: o prism.js exige que o HTML siga o padrão do HTML 5, no qual um bloco de código deve ser `<code class = "lang-name">`. Mas o pandoc não gera htmls assim. A solução é usar um script que mude o processamento do pandoc. Aparentemente várias linguagens podem ser usadas, mas o mais eficiente é lua. Enfim, depois de muito lutar para entender minimamente o script 

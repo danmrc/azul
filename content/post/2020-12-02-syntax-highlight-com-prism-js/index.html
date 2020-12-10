@@ -1,0 +1,35 @@
+---
+title: Syntax Highlight com prism.js
+author: Daniel Coutinho
+date: '2020-12-02'
+slug: syntax-highlight-com-prism-js
+categories:
+  - Blog
+  - Meta
+tags:
+  - Syntax Highlight
+  - prismjs
+images: []
+authors: ["danielc"]
+draft: true
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+<script src="index_files/header-attrs/header-attrs.js"></script>
+<link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections/anchor-sections.js"></script>
+
+
+<p>Este é uma continuação <a href="/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/">desse post</a> e é claramente uma dessas coisas que foram longe demais. Talvez vocês já tenham visto como ficou o <em>syntax highlight</em> do blog. Senão, eis uma amostra grátis:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo &lt;- function(){
+  print("Hello, world!")
+  x &lt;- rnorm(1)
+  print(paste("Your number is",x))
+}</code></pre>
+<p>Tem várias coisas legais: botão de copiar, o nome da linguagem, marcação dos parênteses, número da linha… Eu gostei das duas primeiras coisas o suficiente para decidir tentar colocar isso no blog, e apesar de ter alguma dessas coisas no highlight.js (via plugins externos), mas o <a href="https://prismjs.com/">prism.js</a> deixa todas essas coisas <em>out of the box</em>.</p>
+<p>Obviamente, tem um enorme porém: o prism.js exige que o HTML siga o padrão do HTML 5, no qual um bloco de código deve ser <code>&lt;code class = "lang-name"&gt;</code>. Mas o pandoc não gera htmls assim. A solução é usar um script que mude o processamento do pandoc. Aparentemente várias linguagens podem ser usadas, mas o mais eficiente é lua.</p>
