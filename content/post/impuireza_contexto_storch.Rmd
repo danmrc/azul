@@ -1,8 +1,8 @@
 ---
-title: 'Impureza, Ergonomia e Simulações'
-author: Pedro Cavalcante
+title: '{tidyverse}, Simulações e Processamento de Séries Temporais'
+author: 'Pedro Cavalcante'
 date: '2020-12-10'
-slug: impureza-e-contexto-storch
+slug: 'impureza-e-contexto-storch'
 categories:
   - Programação
   - R
@@ -22,11 +22,9 @@ output:
       ]
 ---
 
-```{R}
+```{R include = FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, dpi = 120)
 ```
-
-# Impureza
 
 Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função _impura_: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
 
@@ -42,7 +40,7 @@ foo1(1)
 foo1(1)
 
 ```
-Funções impuras também podem ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.
+Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.
 
 ```{R}
 
@@ -54,7 +52,7 @@ foo2 <- function(x) {
 
 ```
 
-Isso não é necessariamente _ruim_, o objetivo final de código em produção é essencialmente desencadear efeitos colaterais, mas gera código com consequências menos claras. Vou tentar ilustrar um exemplo em que impureza traz ergonomia.
+Isso não é necessariamente _ruim_, o objetivo final de código em produção é desencadear efeitos colaterais, mas isso leva à código com consequências menos claras e por isso eu aprendi nos manuais e com os erros a evitar impureza. Pelo exercício vou tentar ilustrar uma aplicação onde impureza traz ergonomia.
 
 É bem comum que eu simule dados de processos estocásticos aqui. Um AR1 com $\beta = 1$, por exemplo:
 
@@ -64,7 +62,7 @@ library(tidyverse)
 N <- 1000
 
 (data <- tibble(t = 1:N,
-               y = accumulate(rnorm(N), ~ .x + .y)))
+                y = accumulate(rnorm(N), ~ .x + .y)))
 
 data %>%
   ggplot(aes(x = t, y = y)) +
@@ -77,12 +75,26 @@ data %>%
 
 E tem duas coisas aí que eu gostaria de mudar:
 
-* Referência explícita e repetida ao tamanho da amostra, que é sempre igual e dado pelo tamanho do tibble
+* Referência explícita e repetida ao tamanho da amostra, que é sempre igual e dado pelo tamanho do tibble, contextual
 * Me referir ao processo gerador com alguma abstração, ao invés de explicitamente simular choques e soma-los.
 
-Podemos resolver isso tudo em uma função que (i) sabe que precisa gerar um AR1 de certo tamanho e (ii) é agnóstica em relação à distribuição dos choques.
+Podemos resolver isso tudo em uma função que (i) sabe que precisa gerar um AR1 com certo $n$ e (ii) é agnóstica em relação à distribuição dos choques.
 
-Primeiro, descobrir se a função foi chamada em um contexto de dados, dentro de um tibble:
+Primeiro, descobrir se a função foi chamada em um contexto de dados, dentro de um tibble. A ideia aqui é olhar como se comporta `dplyr::n`, que traz a informação contextual do tamanho do tibble usado como ambiente quando foi executada. Se não foi chamada dentro de um tibble, vai retornar erro: 
+
+```{R error = TRUE}
+
+n()
+
+tibble(A = rnorm(100, mean = -1),
+       sinal = A > 0) %>%
+  group_by(sinal) %>%
+  summarise(N = n())
+
+```
+
+Dito isso, precisamos capturar o erro, caso ocorra, então é bom embrulhar a função em algum advérbio do purrr. 
+
 
 ```{R}
 
@@ -90,7 +102,7 @@ data_context <- function() {
   
    foo <- purrr::possibly(dplyr::n, otherwise = NULL)
    
-   if(is.null(foo())) {
+   if(rlang::is_null(foo())) {
      
      return(FALSE)
      
@@ -124,7 +136,7 @@ ar <- function(
     
   }
   
-  if(!rlang::is_integer(.n) & !data_context()) {
+  if(rlang::is_null(.n) & !data_context()) {
     
     rlang::abort('Function called outside a tibble, provide .n argument.')
     
@@ -167,18 +179,12 @@ E agora podemos fazer coisas como isso:
 
 ```{R}
 
+plot(ar(.n = 100))
+
 tibble(t = 1:100) %>%
   mutate(
-    y1 = ar(
-      sd = .2,
-      beta = .7,
-      .init = 3),
-    y2 = ar(
-      runif, 
-      min = -1, 
-      .k = 10, 
-      beta = runif(10, max = .1),
-      .init = 4)) %>%
+    y1 = ar(sd = .2, beta = .7),
+    y2 = ar(runif, min = -1, .k = 10, beta = runif(10, max = .1))) %>%
   pivot_longer(-t, names_to = 'processo') %>%
   ggplot(aes(x = t, y = value, color = processo, group = processo)) +
   geom_line(size = 1.2) +
@@ -186,7 +192,23 @@ tibble(t = 1:100) %>%
 
 ```
 
+Um próximo passo seria extrair alguns momentos ao longo do tempo nesses processos. Para isso não precisamos implementar soluções, o `slider` dá conta. É uma espécie de `purrr` para operações em janelas móveis. Nele a prima mais próxima de `purrr::map` é `slider::slide`, que também tem variantes tipadas com terminações em `_lgl`, `_dbl` e etc. 
 
+```{R}
+library(slider)
+
+tibble(t = 1:1000) %>%
+  mutate(y = ar(.k = 3, beta = rep(1, times = 3)),
+         media = slide_dbl(y, mean, .before = 25),
+         desvio = slide_dbl(y, sd, .before = 25)) %>%
+  pivot_longer(media:desvio) %>%
+  ggplot(aes(x = t, y = value, color = name, group = name)) +
+  geom_line(size = 1.2, aplha = .9) +
+  theme_minimal() +
+  labs(x = '',
+       y = '')
+
+```
 
 
 

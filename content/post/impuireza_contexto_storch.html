@@ -1,0 +1,191 @@
+---
+title: '{tidyverse}, Simulações e Processamento de Séries Temporais'
+author: 'Pedro Cavalcante'
+date: '2020-12-10'
+slug: 'impureza-e-contexto-storch'
+categories:
+  - Programação
+  - R
+tags:
+  - Computação
+  - Programação
+  - R
+images: []
+katex: true,
+draft: false,
+authors: ["pedrocava"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função <em>impura</em>: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo1 &lt;- function(x) {
+  
+  lubridate::now() + lubridate::dseconds(x + sample(-10:10, size = 1))
+  
+} 
+
+foo1(1)</code></pre>
+<pre ><code >## [1] "2020-12-11 07:03:25 -03"</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo1(1)</code></pre>
+<pre ><code >## [1] "2020-12-11 07:03:22 -03"</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo1(1)</code></pre>
+<pre ><code >## [1] "2020-12-11 07:03:40 -03"</code></pre>
+<p>Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo2 &lt;- function(x) {
+  
+  file.create(glue::glue('{x}.txt'))
+  
+}</code></pre>
+<p>Isso não é necessariamente <em>ruim</em>, o objetivo final de código em produção é desencadear efeitos colaterais, mas isso leva à código com consequências menos claras e por isso eu aprendi nos manuais e com os erros a evitar impureza. Pelo exercício vou tentar ilustrar uma aplicação onde impureza traz ergonomia.</p>
+<p>É bem comum que eu simule dados de processos estocásticos aqui. Um AR1 com <span class="math inline">\(\beta = 1\)</span>, por exemplo:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(tidyverse)
+
+N &lt;- 1000
+
+(data &lt;- tibble(t = 1:N,
+                y = accumulate(rnorm(N), ~ .x + .y)))</code></pre>
+<pre ><code >## # A tibble: 1,000 x 2
+##        t     y
+##    &lt;int&gt; &lt;dbl&gt;
+##  1     1 0.229
+##  2     2 1.68 
+##  3     3 1.94 
+##  4     4 3.28 
+##  5     5 3.28 
+##  6     6 3.03 
+##  7     7 4.01 
+##  8     8 4.09 
+##  9     9 3.75 
+## 10    10 6.03 
+## # … with 990 more rows</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">data %&gt;%
+  ggplot(aes(x = t, y = y)) +
+  geom_line(size = 1.2, color = 'red') +
+  theme_minimal() +
+  labs(x = 't',
+       y = '')</code></pre>
+<p><img src="/post/impuireza_contexto_storch_files/figure-html/unnamed-chunk-4-1.png" width="840" /></p>
+<p>E tem duas coisas aí que eu gostaria de mudar:</p>
+<ul>
+<li>Referência explícita e repetida ao tamanho da amostra, que é sempre igual e dado pelo tamanho do tibble, contextual</li>
+<li>Me referir ao processo gerador com alguma abstração, ao invés de explicitamente simular choques e soma-los.</li>
+</ul>
+<p>Podemos resolver isso tudo em uma função que (i) sabe que precisa gerar um AR1 com certo <span class="math inline">\(n\)</span> e (ii) é agnóstica em relação à distribuição dos choques.</p>
+<p>Primeiro, descobrir se a função foi chamada em um contexto de dados, dentro de um tibble. A ideia aqui é olhar como se comporta <code>dplyr::n</code>, que traz a informação contextual do tamanho do tibble usado como ambiente quando foi executada. Se não foi chamada dentro de um tibble, vai retornar erro:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">n()</code></pre>
+<pre ><code >## Error: `n()` must only be used inside dplyr verbs.</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tibble(A = rnorm(100, mean = -1),
+       sinal = A &gt; 0) %&gt;%
+  group_by(sinal) %&gt;%
+  summarise(N = n())</code></pre>
+<pre ><code >## # A tibble: 2 x 2
+##   sinal     N
+##   &lt;lgl&gt; &lt;int&gt;
+## 1 FALSE    81
+## 2 TRUE     19</code></pre>
+<p>Dito isso, precisamos capturar o erro, caso ocorra, então é bom embrulhar a função em algum advérbio do purrr.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">data_context &lt;- function() {
+  
+   foo &lt;- purrr::possibly(dplyr::n, otherwise = NULL)
+   
+   if(rlang::is_null(foo())) {
+     
+     return(FALSE)
+     
+   } else {
+     
+     return(TRUE)
+     
+   }
+  
+}</code></pre>
+<p>E agora a função que simula o processo em si.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ar &lt;- function(
+  .distfn = rnorm, 
+  ..., 
+  .k = 1L,
+  beta = runif(n = .k), 
+  .init = 0, 
+  .n = NULL) {
+
+  # Guardião -------------------------
+  
+  if(length(beta) != .k) {
+    
+    rlang::abort('Parameter vector must have one ')
+    
+  }
+  
+  if(rlang::is_null(.n) & !data_context()) {
+    
+    rlang::abort('Function called outside a tibble, provide .n argument.')
+    
+  } 
+    
+  if(data_context()) {
+    
+    n &lt;- dplyr::n()
+    
+  } else {
+    
+    n &lt;- .n
+    
+  }
+  
+  # Computando as inovações ------------------
+  
+  params &lt;- list(..., n = n)
+  
+  innovations &lt;- rlang::exec(.distfn, !!!params)
+  
+  # gerando os lags e computando os valores ----------------
+  
+  as.list(1:.k) %&gt;% 
+    purrr::set_names(1:.k) %&gt;%
+    purrr::map_dfc(~ dplyr::lag(innovations, .x)) %&gt;%
+      dplyr::rowwise() %&gt;%
+      dplyr::mutate(
+        total = 
+          sum(
+            beta*dplyr::c_across(tidyselect::everything()),
+            na.rm = TRUE) +
+          .init) %&gt;%
+      dplyr::pull(total) 
+  
+}</code></pre>
+<p>E agora podemos fazer coisas como isso:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">plot(ar(.n = 100))</code></pre>
+<p><img src="/post/impuireza_contexto_storch_files/figure-html/unnamed-chunk-8-1.png" width="840" /></p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tibble(t = 1:100) %&gt;%
+  mutate(
+    y1 = ar(sd = .2, beta = .7),
+    y2 = ar(runif, min = -1, .k = 10, beta = runif(10, max = .1))) %&gt;%
+  pivot_longer(-t, names_to = 'processo') %&gt;%
+  ggplot(aes(x = t, y = value, color = processo, group = processo)) +
+  geom_line(size = 1.2) +
+  theme_minimal()</code></pre>
+<p><img src="/post/impuireza_contexto_storch_files/figure-html/unnamed-chunk-8-2.png" width="840" /></p>
+<p>Um próximo passo seria extrair alguns momentos ao longo do tempo nesses processos. Para isso não precisamos implementar soluções, o <code>slider</code> dá conta. É uma espécie de <code>purrr</code> para operações em janelas móveis. Nele a prima mais próxima de <code>purrr::map</code> é <code>slider::slide</code>, que também tem variantes tipadas com terminações em <code>_lgl</code>, <code>_dbl</code> e etc.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(slider)
+
+tibble(t = 1:1000) %&gt;%
+  mutate(y = ar(.k = 3, beta = rep(1, times = 3)),
+         media = slide_dbl(y, mean, .before = 25),
+         desvio = slide_dbl(y, sd, .before = 25)) %&gt;%
+  pivot_longer(media:desvio) %&gt;%
+  ggplot(aes(x = t, y = value, color = name, group = name)) +
+  geom_line(size = 1.2, aplha = .9) +
+  theme_minimal() +
+  labs(x = '',
+       y = '')</code></pre>
+<p><img src="/post/impuireza_contexto_storch_files/figure-html/unnamed-chunk-9-1.png" width="840" /></p>
