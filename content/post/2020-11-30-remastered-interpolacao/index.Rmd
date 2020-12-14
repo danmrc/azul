@@ -8,9 +8,10 @@ categories:
   - Julia
 tags:
   - Interpolação
+  - Chebyschev
+  - Remastered
 images: []
 authors: ["danielc"]
-draft: true
 output:
   blogdown::html_page:
     pandoc_args: 
@@ -98,13 +99,13 @@ plot!(grid3,lin_interp.(grid3))
 
 ![](/post/2020-11-30-remastered-interpolacao/fig5.png)
 
-Você pode aproximar por coisas que não são lineares, por exemplo, polinômios. Você pode usar polinômios de maneira que as derivadas existem e são contínuas: splines fazem isso. 
+Você pode conectar os pontos por coisas que não são lineares - por exemplo, polinômios. Usar polinômios tem a vantagem que as derivadas de ordem mais alta existem - splines fazem isso e evitam o problema de oscilarem malucamente. 
 
 Mas mais interessante é que o grande problema aqui não é simplesmente o método de interpolação: é como o grid é gerado. Via de regra o grid é gerado com pontos equiespaçados - que é a maneira mais normal de pensar no problema. A gente não precisa necessariamente gerar pontos assim. Uma maneira totalmente maluca de gerar $m$ pontos é:
 
 $$x_k = -\cos\left(\frac{2k-1}{2m}\pi\right) \quad k =1, \ldots,m $$
 
-Que gera pontos entre $-[1,1]$. Veja que podemos pensar em maneiras de mover e encolher/crescer o intervalo para ficar entre $[a,b]$. Vamos criar uma função que pega uma sequência de pontos e gera o grid:
+Que gera pontos entre $[-1,1]$. Esse grid se deve ao Chebyschev. Veja que podemos pensar em maneiras de mover e encolher/crescer o intervalo para ficar entre $[a,b]$. Vamos criar uma função que pega uma sequência de pontos e gera o grid:
 
 ```{julia, eval = FALSE}
 
