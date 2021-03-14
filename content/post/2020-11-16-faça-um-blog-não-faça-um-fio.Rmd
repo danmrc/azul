@@ -1,7 +1,7 @@
 ---
 title: Faça um blog, não faça um fio
 author: Daniel Coutinho
-date: '2021-03-14'
+date: '2020-11-16'
 slug: faça-um-blog-não-faça-um-fio
 categories:
   - Computação
@@ -10,17 +10,18 @@ tags:
   - Blogdown
 images: []
 authors: ["danielc"]
+draft: true
 output:
   blogdown::html_page:
     pandoc_args: 
       [
-      "--lua-filter=script_number_and_braces.lua"
+      "--lua-filter=../script_number_and_braces.lua"
       ]
 ---
 
-Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente para convencer que o formato não é adequado. 
+Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado. 
 
-Na verdade, essa é só uma ótima desculpa para explicar como funciona o `blogdown`, que pode ser usado para fazer blogs - é o que mantém o Azul, como alguns de vocês sabem - e sites em geral, inclusive pessoais. A coisa boa é que ele roda em R e os posts são escritos em Markdown, então você só precisa aprender um pacote novo e é fácil incorporar pedaços de código no texto, adicionar matemática, imagens, etc. O [guia do blogdown](https://bookdown.org/yihui/blogdown/) é ótimo e mais do que suficiente para resolver seus problemas. Meu plano aqui é mostrar que não é nenhum desafio usar o blogdown. 
+Na verdade, essa é só uma ótima desculpa para explicar como funciona o `blogdown`, que pode ser usado para fazer blogs - é o que mantém o Azul, como alguns de vocês sabem - e sites em geral, inclusive pessoais. A coisa boa é que ele roda em R e os posts são escritos em Markdown, então você só precisa aprender um pacote novo e é fácil incorporar pedaços de código no texto, adicionar matemática, imagens, etc. O [guia do blogdown](https://bookdown.org/yihui/blogdown/) é ótimo e mais do que suficiente para resolver seus problemas. Mmeu plano aqui é mostrar que não é nenhum desafio usar o blogdown. 
 
 A primeira coisa a fazer é instalar o pacote como outro qualquer. Depois disso, e carregar o pacote, você deve instalar o `hugo`. É o que funciona no fundo do blogdown e faz sites usando go, uma linguagem de programação da google. A boa notícia é que raramente você precisa olhar pro hugo e pode instalar de dentro do R usando `install_hugo()`.
 
@@ -66,9 +67,9 @@ Feito isso, você vai querer ver a cara do blog. Para isso você deve usar o com
 
 ## Criando um post
 
-A melhor maneira de criar um post é usar o addin: vá no menu de addins (na mesma barra de criar um arquivo novo) e escolha a opção new post. Você vai poder escolher o título, a data, tags e categorias. Você também vai poder escolher o formato do arquivo - markdown puro ou R Markdown. 
+A melhor maneira de criar um post é usar o addin: vá no menu de addins (na mesma barra de criar um arquivo novo) e escolha a opção new post. Ai você vai poder escolher o título, a data, tags e categorias. Você também vai poder escolher o formato do arquivo - markdown puro ou R Markdown. 
 
-Depois de criado, as opções vão aparecer como um YAMl no início do arquivo. Existem algumas opções que não aparecem no addin que podem ser úteis: por exemplo, `draft=true` permite que o post seja gerado localmente mas não aparece no site. Alguns temas permitem opções extras, como nome do autor e imagem do banner. Este post antes de ser publicado tinha o seguinte cabeçalho:
+Depois de criado, as opções vão aparecer como um YAMl no início do arquivo. Existem algumas opções que não aparecem no addin que podem ser úteis: por exemplo, `draft=true` permite que o post seja gerado localmente mas não aparece no sie. Alguns temas permitem opções extras, como nome do autor e imagem do banner. Este post antes de ser publicado tinha o seguinte cabeçalho:
 
 ```yaml
 ---
@@ -89,20 +90,4 @@ draft: true
 
 Tem dois campos de autor porque o _authors_ liga todos os posts do mesmo post e só está disponível em alguns temas. O resto do post é um arquivo Markdown usual, e a maioria dos comandos estão disponíveis. Só que nem sempre o suporte de gerar equações via notação do LaTeX e fazer _syntax highlight_ vem _out of the box_. Existem várias formas de colocar suporte para os dois, e eu vou começar com a matemática.
 
-Para matemática, eu acho que a solução mais simples é usar o [KaTeX](https://katex.org/). Isso em geral exige colocar um pedaço de código no html do site. No caso do azul eu criei um arquivo chamado `math.html` e adicionei um pedaço de código no `head.html`. Em geral, cada tema tem um site de demonstração e o site tem instruções de como colocar o KaTeX para funcionar. 
-
-Syntax Highlighting também é possível, e alguns temas oferecem isso _out of box_. Se não for o caso no seu tema, ou se a opção do site não funcionar, as instruções do [guia do blogdown](https://bookdown.org/yihui/blogdown/templates.html#how-to) funcionam bastante bem. Veja que no momento, o azul usa o prism.js com várias customizações, que foram não triviais de serem implementadas e envolvem scripts em lua para o pandoc... Isso per se já é outro post
-
-## Hosteando
-
-A última coisa que falta é você disponibilizar o site em algum domínio. O Azul usa o Netlifly, que permite a gente só passar o repositório e o mínimo de configurações necessárias e ele gera o site e te dá um endereço. Outra opção é usar o GitHub pages, que eu já usei para outros projetos. Ambos funcionam bem, e eu não vou entrar em detalhes porque:
-
-1. Eu configurei o Netlifly quando criamos o blog e nunca mais precisei mexer (o que é ótimo), então eu não lembro dos detalhes (o que não é ótimo)
-2. Existem outras opções e elas em geral são bem didáticas
-3. Eu quero focar no Blogdown
-
-Parem de fazer fios e coloquem as coisas bacanas que vocês fazem em um formato adequado!
-
---- 
-
-PS: Enquanto eu escrevia esse post, o Pedro me chamou atenção para o [distill](https://rstudio.github.io/distill/), que é ainda mais simples que o Hugo. Eu achei bastante bacana, mas não brinquei o suficiente com ele para me sentir capaz de escrever um post sobre!
+Para matemática, eu acho que a solução mais simples é usar o [KaTeX](https://katex.org/).
