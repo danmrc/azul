@@ -1,4 +1,3 @@
-
 #order of par
 #
 #1. β
@@ -10,6 +9,7 @@
 using ForwardDiff
 using LinearAlgebra
 using NLsolve
+using Dates
 
 function foc(yt,yf,x1t,x1f,x2t,x2f,par)
     eq1 =  yt[1]^(-par[2]) - par[1]*yf[1]^(-par[2])*(par[3]*x2t[1]*x1f[1]^(par[3]-1) + 1-par[4])
@@ -20,14 +20,12 @@ end
 
 # Steady state, numeric solution
 
-function foc_ss(vars,par)
+function foc_steady(vars,par)
     eq1 =  vars[1]^(-par[2]) - par[1]*vars[1]^(-par[2])*(par[3]*vars[3]*vars[2]^(par[3]-1) + 1-par[4])
     eq2 = vars[1] + vars[2] - (1-par[4])*vars[2] - vars[3]*vars[2]^par[3]
     eq3 = (vars[3] - 1) - par[5]*(vars[3]-1)
     return [eq1;eq2;eq3]
 end
-
-nlsolve(x->foc_ss(x,pp),ss,autodiff = :forward)
 
 # Steady State, Analytic solution
 
@@ -38,26 +36,31 @@ function steady(par)
     return [c,k,A]
 end
 
+start_t = now()
 
 pp = [0.99,1,1/3,1,0.5]
 
-ss = steady(pp)
+nlsolve(x->foc_steady(x,pp),[0.3;1.0;1],autodiff = :forward)
+
+start_t2 = now()
+
+steady_an = steady(pp)
 
 # checking that the steady state is the steady state - this should be 0 or close too
-foc(ss[1],ss[1],ss[2],ss[2],ss[3],ss[3],pp)
+foc(steady_an[1],steady_an[1],steady_an[2],steady_an[2],steady_an[3],steady_an[3],pp)
 
 # Perturbation part:
 
-fyt = ForwardDiff.derivative(x->foc(x,ss[1],ss[2],ss[2],ss[3],ss[3],pp),ss[1])
-fyf = ForwardDiff.derivative(x->foc(ss[1],x,ss[2],ss[2],ss[3],ss[3],pp),ss[1])
+fyt = ForwardDiff.derivative(x->foc(x,steady_an[1],steady_an[2],steady_an[2],steady_an[3],steady_an[3],pp),steady_an[1])
+fyf = ForwardDiff.derivative(x->foc(steady_an[1],x,steady_an[2],steady_an[2],steady_an[3],steady_an[3],pp),steady_an[1])
 
-fxt = ForwardDiff.jacobian(x->foc(ss[1],ss[1],x[1],ss[2],x[2],ss[3],pp),[ss[2] ss[3]])
-fxf = ForwardDiff.jacobian(x->foc(ss[1],ss[1],ss[2],x[1],ss[3],x[2],pp),[ss[2] ss[3]])
+fxt = ForwardDiff.jacobian(x->foc(steady_an[1],steady_an[1],x[1],steady_an[2],x[2],steady_an[3],pp),[steady_an[2] steady_an[3]])
+fxf = ForwardDiff.jacobian(x->foc(steady_an[1],steady_an[1],steady_an[2],x[1],steady_an[3],x[2],pp),[steady_an[2] steady_an[3]])
 
 A = [fxf fyf]
 B = [fxt fyt]
 
-vals,vec = eigen(-B,A)
+vals,vec = eigen(-B,A,sortby = x->abs(x))
 
 nx = 2
 ny = 1
@@ -80,15 +83,19 @@ D11 = diagm(vals[indx])
 hx = V11*D11*inv(V11)
 gx = V12*inv(V11)
 
-irfx = mapreduce(t->hx^t*[0;0.1],hcat,1:10)
+end_t = now()
+
+irfx = mapreduce(t->hx^t*[0;1],hcat,0:10)
 irfx = irfx'
 
 using Plots
 
-plot(irfx[:,1])
-plot(irfx[:,2])
+plot(irfx[:,1],label = "k")
+plot(irfx[:,2], label = "ϵ")
 
 irfy = irfx*gx'
+
+plot(irfy[:,1],label = "c")
 
 #order of par
 #
