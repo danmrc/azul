@@ -1,7 +1,7 @@
 ---
 title: "Método de Perturbação: linerizando modelos sem mistério"
 author: Daniel Coutinho
-date: '2021-03-14'
+date: '2021-03-23'
 slug: metodo-de-perturbacao
 categories:
   - Economia
@@ -13,7 +13,6 @@ tags:
   - Aproximação de Modelos Macro
 images: []
 authors: ["danielc"]
-draft: true
 output:
   blogdown::html_page:
     pandoc_args: 
@@ -24,7 +23,7 @@ output:
 
 (Este é mais um post completamente maluco)
 
-Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de [programação dinâmica](https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/). Por exemplo, o problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive "para sempre" e pode acumular um ativo. Matematicamente:
+Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de [programação dinâmica](https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/). Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive "para sempre" e pode acumular um ativo. Matematicamente:
 
 $$
 \max_{\{C\}_{t=1}^{\infty}, \{k_{t+1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\
@@ -45,9 +44,9 @@ Quando eu apresentei esse problema no blog eu construi soluções que iteravam s
 
 No caso que eu postei no blog eu nem considerei a tecnologia seguindo um AR(1) porque isso adiciona a complicação de aproximar o AR(1) por uma cadeia de Markov finita e computar o consumo ótimo considerando o estoque de capital e em qual estado a gente está na Cadeia de Markov. Eu fiz isso uma vez e eu posso garantir que dá trabalho.
 
-Veja que tudo isso é só um caso *simples* de um agente, que escolhe um ativo, que tem um choque AR(1). Modelos macro razoáveis gostariam de incorporar mais coisas. Por exemplo, nosso modelo não tem muito espaço para política monetária. Modelos básicos incorporam isso considerando que a firma também resolve um problema dinâmico, porque os preços não podem ser mudados a todo momento. Veja que ainda precisamos garantir que os preços limpam o mercado, então nós vamos exigir a solução dos dois problemas dinâmicos de maneira que limpe os mercados. Por exemplo, o apêndice [desse paper](https://fguvenendotcom.files.wordpress.com/2014/05/habhet_econometrica_published_2009.pdf) discute uma coisa como 13 horas para resolver o modelo.
+Veja que tudo isso é só um caso *simples* de um agente, que escolhe um ativo, que tem um choque AR(1). Modelos macro razoáveis gostariam de incorporar mais coisas. Por exemplo, nosso modelo não tem muito espaço para política monetária. Modelos básicos incorporam isso considerando que a firma também resolve um problema dinâmico, porque os preços não podem ser mudados a todo momento. Veja que ainda precisamos garantir que os preços limpam o mercado, então nós vamos exigir a solução dos dois problemas dinâmicos de maneira que limpe os mercados. Por exemplo, o apêndice [desse paper](https://fguvenendotcom.files.wordpress.com/2014/05/habhet_econometrica_published_2009.pdf) fala em 13 horas para resolver o modelo que o autor propõe.
 
-Se você quiser estimar o modelo, você vai precisar fazer uma otimização (ou rodar um MCMC, que a gente já discutiu no blog) e isso vai requerer resolver o modelo várias e várias vezes para diferentes valores dos parâmetros. Claramente esperar 13h pra cada solução não é uma opção.
+Se você quiser estimar o modelo, você vai precisar fazer uma otimização (ou rodar um MCMC, que a gente [já discutiu no blog](https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/)) e isso vai requerer resolver o modelo várias e várias vezes para diferentes valores dos parâmetros. Claramente esperar 13h pra cada solução não é uma opção.
 
 Uma solução recorrente é linearizar o modelo, e é disso que eu vou tratar neste post. A beleza de linearizar é que a solução do modelo em geral vira um problema de álgebra linear, e mesmo para sistemas grandes isso é relativamente rápido. Mais ainda, linearizar não requer nada além de saber calcular derivada e usar a regra da cadeia. Nós reduzimos todo o problema de agentes devem formar expectativas corretas do modelo em operações relativamente simples. 
 
@@ -107,7 +106,7 @@ Eu usei que $E_t(\epsilon_t) = 0$ na última equação.
 
 ------------------------------------------------------------------------
 
-Eu acharia injusto com o leitor não citar pelo menos porque linearizar não funciona sempre e isso é uma discussão bem longa. O problema de linearizar é que é uma aproximação local. Longe do ponto em que nós linearizamos, a aproximação piora. Quando nós olhamos muito longe do steady state? Em modelos no qual o interesse é em agentes heterogêneos isso é verdade (com alta probabilidade). O artigo que eu coloquei trata exatamente disso, e por isso alguém ainda trabalha com modelos que demorarm 13h para computar (e são muito bem publicados!)
+Eu acharia injusto com o leitor não citar pelo menos porque linearizar não funciona sempre e isso é uma discussão bem longa. O problema de linearizar é que é uma aproximação local. Longe do ponto em que nós linearizamos, a aproximação piora. Quando nós olhamos muito longe do steady state? Em modelos no qual o interesse é em agentes heterogêneos isso é verdade (com alta probabilidade). O artigo que eu coloquei trata exatamente disso, e por isso alguém ainda trabalha com modelos que demoram 13h para computar (e são muito bem publicados!)
 
 ------------------------------------------------------------------------
 
@@ -149,7 +148,7 @@ $$
 
 Então defina $A = [f_{x_{t+1}} \; \; F_{y_{t+1}}]$ e $B = [F_{x_t} \; \; F_{y_t}]$
 
-Agora é hora de usar uma velha conhecida nossa: faça a decomposição de autovalor em $h_x$. Então $h_x = P\Lambda P^{-1}$ e substituindo na equação acima:
+Agora é hora de usar uma velha conhecida nossa: faça a decomposição de autovalor de $h_x$. Então $h_x = P\Lambda P^{-1}$ e substituindo na equação acima:
 
 $$
 A\begin{bmatrix}I \\ g_{x_t} \end{bmatrix} P \Lambda P^{-1} + B\begin{bmatrix}I \\ g_{x_t} \end{bmatrix} = 0 
@@ -188,7 +187,7 @@ Agora, lembrem que toda essa motivação partiu dos autovalores de $h_{x}$, que 
 
 E os outros $n_y$ autovalores? Eles devem ser maiores que 1. [Nós já discutimos isso em outro post do blog.](https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/)
 
-Vamos voltar a fazer as contas: relembre (1) e veja que:
+Vamos voltar a fazer as contas: relembre (1) quebrando $V_1$ em $V_{11}$ e $V_{12}$ nós temos: 
 
 $$
 \begin{bmatrix}
@@ -209,7 +208,7 @@ $$
 
 # Resolvendo isso no computador
 
-Eu obviamente não tenho nenhum plano de resolver os autovalores da matriz $A^{-1}B$ na mão, então vamos implementar tudo com o computador - inclusive as derivadas de $F$, porque realmente o computador existe pra fazer as contas chatas. Lembre que o nosso sistema é:
+Eu obviamente não tenho nenhum plano de resolver os autovalores da matriz $A^{-1}B$ na mão, então vamos implementar tudo com o computador - inclusive as derivadas de $F$, porque o computador existe pra fazer as contas chatas. Lembre que o nosso sistema é:
 
 $$
 F(C_t,C_{t+1},k_t,k_{t+1},A_t,A_{t-1}) = E_t
@@ -256,7 +255,7 @@ pp = [0.99,1,1/3,1,0.5]
 
 ```
 
-Veja que a gente vai querer avaliar as derivadas no _steady state_, então a gente precisa saber o steady state. Lembrem, no steady state o valor da variável hoje e amanhã são iguais. Tem duas possibilidades:
+Veja que a gente vai querer avaliar as derivadas no _steady state_, então a gente precisa saber o steady state. Lembrem, no steady state o valor da variável hoje e amanhã são iguais. Existem duas possibilidades:
 
 1. Pegar um pedaço de papel e fazer a conta
 2. Escrever uma função e pedir pro computador encontrar a solução usando um solver de equações não lineares.
@@ -267,7 +266,7 @@ Eu vou fazer os dois:
 
 # Solução numérica do Steady State
 
-function foc_ss(vars,par)
+function foc_steady(vars,par)
     eq1 =  vars[1]^(-par[2]) - par[1]*vars[1]^(-par[2])*(par[3]*vars[3]*vars[2]^(par[3]-1) + 1-par[4])
     eq2 = vars[1] + vars[2] - (1-par[4])*vars[2] - vars[3]*vars[2]^par[3]
     eq3 = (vars[3] - 1) - par[5]*(vars[3]-1)
@@ -288,7 +287,7 @@ Veja que os dois devem ser iguais (lembrem que vai ter alguma diferença, mas el
 
 ```{julia}
 
-steady_num = nlsolve(x->foc_ss(x,pp),[0.3;1;1],autodiff = :forward);
+steady_num = nlsolve(x->foc_steady(x,pp),[0.3;1;1],autodiff = :forward);
 steady_an = steady(pp);
 ```
 
@@ -331,7 +330,7 @@ vals,vec = eigen(-B,A, sortby = x->abs(x))
 
 ```
 
-Eu podia fazer um `if` checando que a quantidade de autovalores menores que um é igual a quantidade de variáveis de estado (no arquivo do GitHub eu faço isso). Por motivos narrativos eu vou omitir isso. Vamos isolar os autovetores associados aos autovalores menores que 1 e encontrar $V_{11}$ e $V_{12}$ e encontrar $h_x$ e $g_x$: 
+Eu podia fazer um `if` checando que a quantidade de autovalores menores que um é igual a quantidade de variáveis de estado ([no arquivo do GitHub](https://github.com/danmrc/azul/blob/master/C%C3%B3digos/pertur.jl) eu faço isso). Por motivos narrativos eu vou omitir essa verificação. Vamos isolar os autovetores associados aos autovalores menores que 1 e encontrar $V_{11}$ e $V_{12}$ e encontrar $h_x$ e $g_x$: 
 
 ```{julia}
 
@@ -364,9 +363,28 @@ irfy = irfx*gx'
 
 ![](/post/2021-03-14-método-de-perturbação/irf_c.png)
 
-# "Você falou que era mais rápido"
-
 Os tempos: resolvendo numericamente o steady state demora 18s. Sem esse passo demora 6s. O melhor é que isso escala muito bem, então modelos maiores podem ser resolvidos usando um pouco mais de tempo! 
+
+Depois de eu ter escrito o post quase inteiro, me ocorreu que seria legal comparar isso com a solução analítica. A gente sabe que se o choque não tiver um componente autoregressivo, as preferências forem $\log(C)$ e a depreciação for igual a 1, o consumo ótimo é $C = (1-\alpha\beta)y$. Eu vou criar um grid ao redor do steady state e computar a regra ótima usando a solução analítica e esses parâmetros. Isso requer rodar o programa todo de novo com $\rho = 0$ - eu vou omitir essa parte e colocar só as contas da aproximação e do grid. Eu tenho que fazer dois grids diferentes: um para a solução analítica e outra para a solução aproximada. O grid da solução analítica usa os valores ao redor do _steady state_, enquanto o grid da solução aproximada usa diferenças entre o valor e o _steady state_. 
+
+```{julia}
+
+grid = range(-0.1,0.1,length = 100);
+grid2 = grid .+ steady_an[2];
+
+sol_guess = (1-pp[1]*pp[3])*grid2 .^pp[3];
+
+linear_approx_points = [grid zeros(length(grid))];
+
+linear_approx =  steady_an[1] .+ linear_approx_points*gx';
+
+```
+
+![](/post/2021-03-14-método-de-perturbação/approx1.png)
+
+Como prometido, mais longe do Steady State, pior a aproximação. Eu vou diminuir o grid para gente ver pertinho do steady state:
+
+![](/post/2021-03-14-método-de-perturbação/approx2.png)
 
 Quem poderia imaginar que as muitas páginas de contas de alunos de macro se resumiriam a uma ideia tão elegante?
 

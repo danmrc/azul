@@ -38,7 +38,7 @@ end
 
 start_t = now()
 
-pp = [0.99,1,1/3,1,0.5]
+pp = [0.99,1,1/3,1,0]
 
 nlsolve(x->foc_steady(x,pp),[0.3;1.0;1],autodiff = :forward)
 
@@ -96,6 +96,19 @@ plot(irfx[:,2], label = "ϵ")
 irfy = irfx*gx'
 
 plot(irfy[:,1],label = "c")
+
+grid = range(-0.1,0.1,length = 100);
+grid2 = grid .+ steady_an[2];
+
+sol_guess = (1-pp[1]*pp[3])*grid2 .^pp[3];
+
+linear_approx_points = [grid zeros(length(grid))];
+
+linear_approx =  steady_an[1] .+ linear_approx_points*gx';
+
+plot(grid2,sol_guess, label = "Solução analítica", legend = :topleft)
+plot!(grid2,linear_approx, label = "Solução aproximada")
+vline!([steady_an[2]], label = "Steady state")
 
 #order of par
 #
