@@ -60,7 +60,7 @@ global err = 1
 
 @time while j <= iter_lim && err > 1e-5
     interp = LinearInterpolation(grid,V[j-1,:])
-    Threads.@threads for i = 1:grid_size
+    for i = 1:grid_size
         ot = optimize(c->objective(c,grid[i],interp),0.01,grid[i] - 0.0001)
         V[j,i] = -ot.minimum
         policy[j,i] = ot.minimizer
