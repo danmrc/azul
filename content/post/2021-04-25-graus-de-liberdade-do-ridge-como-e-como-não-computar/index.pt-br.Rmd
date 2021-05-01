@@ -1,0 +1,119 @@
+---
+title: 'Calculando graus de liberdade do Ridge'
+author: Daniel Coutinho
+date: '2021-04-25'
+slug: calculando-graus-de-liberdade-do-ridge
+categories:
+  - Econometria
+  - Machine Learning
+  - R
+tags:
+  - SVD
+  - Ridge
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma $\sum_j |\beta_j|$, nós temos uma penalidade na forma $\sum_j \beta_j^2$. Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge _não induz_ esparsidade, ele simplesmente encolhe os coeficientes.
+
+A coisa interessante é que existe uma fórmula fechada para os graus de liberdade do Ridge, que é dado por:
+
+$$
+df_{ridge} = tr(X(X^TX+ \lambda{}I)^{-1}X^T)
+$$
+
+Onde $tr$ é o traço. Talvez não seja óbvio que não colocar alguns coeficientes zeros altere os graus de liberdade, uma vez que a gente está acostumado a pensar nos graus de liberdade como um número inteiro igual ao número de parâmetros do modelo. 
+
+---
+
+Veja que usando o traço da matriz de projeção dos mínimos quadrados, nós obtemos $tr(X(X^TX)^{-1}X^T)$, e usando o truque que $tr(AB) = tr(BA)$, nós obtemos que os graus de liberdade de MQO é o número de colunas de $X$ - que é exatamente a nossa intuição usual. 
+
+---
+
+O problema é que estimar os graus de liberdade usando a fórmula acima é _extremamente lento_ para um modelo muito grande. Eu vou fazer um caso com 2500 colunas:
+
+```{r,cache=TRUE}
+
+library(microbenchmark)
+
+k <- 2500
+
+x <- matrix(rnorm(k*100),ncol = k)
+lamb <- 0.45
+
+df1 <- function(x,lamb){
+  x2 <- t(x)%*%x
+  diag_lamb <- diag(lamb,ncol = ncol(x2),nrow=ncol(x2))
+  gram <- solve(x2 + diag_lamb)
+  vals <- x%*%gram%*%t(x)
+  return(sum(diag(vals)))
+}
+
+res <- microbenchmark(df1(x,lamb))
+
+knitr::kable(summary(res, unit = "ms"), caption = "Tempo para calcular os graus de liberdade, em milisegundos")
+
+```
+
+Um segundo é bastante tempo, se você precisa repetir isso para 100 modelos, por exemplo. O _Elements of Statistical Learning_ sugere a seguinte maneira de calcular os graus de liberdade: seja $d_i$ os valores singulares de $X$, então os graus de liberdade são $\sum_i \frac{d_i^2}{d_i^2 + \lambda}$
+
+Só para alguma coisa neste post não sair da cartola, deixa eu mostrar como a gente sai da conta a partir do traço para esta conta bem mais simples. Comece com a decomposição em valor singular de $X$, que é $UDV^T$ onde $D$ é diagonal e $U$ e $V$ são matrizes ortonormais. Então: 
+
+$$X^TX = VDU^TUDV^T = VD^2V^T \tag{i}$$ 
+
+Usando o fato de $U$ ser ortonormal. Logo, $(X^TX + \lambda{}I)^{-1} = (V(D^{2} + \lambda{}I)V^T)^{-1}$, usando que $V$ é ortonormal. 
+
+Agora, usando o fato de $tr(AB) = tr(BA)$ e (i), nós temos:
+
+$$
+tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^T(X^TX + \lambda{}I)^{-1}) 
+$$
+
+Agora use a expressão que encontramos para a inversa e o fato que, se $A,B,C$ são quadradas, $(ABC)^{-1} = C^{-1}B^{-1}A^{-1}$: 
+
+$$
+tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^TV(D^2 + \lambda{}I)V^T) = \\
+= tr(VD^2(D^2 + \lambda{}I)V^T) = tr(V^TVD^2(D^2 + \lambda{}I)) = tr(D^2(D^2 + \lambda{}I))
+$$
+
+Onde eu usei ortogonalidade de $V$ para afirmar que $V^{-1} = V^T$ e novamente $tr(AB) = tr(BA)$. 
+
+Bom, isso assume que calcular o SVD é muito mais rápido que calcular a inversa. Vamos ver se isso é verdade:
+
+```{r,cache = TRUE}
+
+df2 <- function(x,lamb){
+  svd_x <- svd(x)
+  d2 <- (svd_x$d)^2
+  ans <- sum(d2/(d2+lamb))
+  return(ans)
+}
+
+res2 <- microbenchmark(df2(x,lamb))
+
+```
+
+E os resultados são:
+
+Table: Tempo para calcular os graus de liberdade, em milisegundos
+
+|expr         |        min|         lq|       mean|     median|         uq|       max| neval|
+|:------------|----------:|----------:|----------:|----------:|----------:|---------:|-----:|
+|df1(x, lamb) | 1847.28812| 1933.34602| 2108.35402| 2025.51353| 2198.12094| 3192.9819|   100|
+|df2(x, lamb) |   38.64892|   41.40672|   57.34588|   44.32647|   48.92384|  444.2084|   100|
+
+Comparando usando as medianas, o código usando SVD é 45 vezes mais rápido. Se você quer calcular os graus de liberdade para 100 modelos, usando SVD no lugar de inverter a matriz, você economiza uns 3 minutos. Se você está estimando 100 modelos em uma janela móvel que tem mil passos, então você economiza uns 50 minutos.
+
+Inverter matriz é (em geral) muito lento. Eu fiz só a etapa de inversão no benchmark, e ela gasta quase dois segundos. Talvez nossa intuição seja que calcular decomposições é extremamente complicado, mas ela é muito mais rápida que inversão. 
+
+Outro ponto interessante é que isso não é absoluto: mais linhas na matriz $X$ deixa o tempo do svd e da inversão mais parecidos. Isso se deve (provavelmente) porque o número de valores singulares diferentes de zero é igual ao posto da matriz: por exemplo uma matriz $100 \times 2500$ só tem 100 valores singulares não nulos, enquanto $1000 \times 2500$ tem mil valores singulares não nulos. 
+
+----
+
+Isso tudo está no excepcional **Elements of Statistical Learning** que vocês podem baixar legitimamente [aqui](https://web.stanford.edu/~hastie/ElemStatLearn/)

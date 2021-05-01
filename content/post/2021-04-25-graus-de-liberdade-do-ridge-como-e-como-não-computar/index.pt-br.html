@@ -1,0 +1,156 @@
+---
+title: 'Calculando graus de liberdade do Ridge'
+author: Daniel Coutinho
+date: '2021-04-25'
+slug: calculando-graus-de-liberdade-do-ridge
+categories:
+  - Econometria
+  - Machine Learning
+  - R
+tags:
+  - SVD
+  - Ridge
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma <span class="math inline">\(\sum_j |\beta_j|\)</span>, nós temos uma penalidade na forma <span class="math inline">\(\sum_j \beta_j^2\)</span>. Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge <em>não induz</em> esparsidade, ele simplesmente encolhe os coeficientes.</p>
+<p>A coisa interessante é que existe uma fórmula fechada para os graus de liberdade do Ridge, que é dado por:</p>
+<p><span class="math display">\[
+df_{ridge} = tr(X(X^TX+ \lambda{}I)^{-1}X^T)
+\]</span></p>
+<p>Onde <span class="math inline">\(tr\)</span> é o traço. Talvez não seja óbvio que não colocar alguns coeficientes zeros altere os graus de liberdade, uma vez que a gente está acostumado a pensar nos graus de liberdade como um número inteiro igual ao número de parâmetros do modelo.</p>
+<hr />
+<p>Veja que usando o traço da matriz de projeção dos mínimos quadrados, nós obtemos <span class="math inline">\(tr(X(X^TX)^{-1}X^T)\)</span>, e usando o truque que <span class="math inline">\(tr(AB) = tr(BA)\)</span>, nós obtemos que os graus de liberdade de MQO é o número de colunas de <span class="math inline">\(X\)</span> - que é exatamente a nossa intuição usual.</p>
+<hr />
+<p>O problema é que estimar os graus de liberdade usando a fórmula acima é <em>extremamente lento</em> para um modelo muito grande. Eu vou fazer um caso com 2500 colunas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(microbenchmark)
+
+k &lt;- 2500
+
+x &lt;- matrix(rnorm(k*100),ncol = k)
+lamb &lt;- 0.45
+
+df1 &lt;- function(x,lamb){
+  x2 &lt;- t(x)%*%x
+  diag_lamb &lt;- diag(lamb,ncol = ncol(x2),nrow=ncol(x2))
+  gram &lt;- solve(x2 + diag_lamb)
+  vals &lt;- x%*%gram%*%t(x)
+  return(sum(diag(vals)))
+}
+
+res &lt;- microbenchmark(df1(x,lamb))
+
+knitr::kable(summary(res, unit = "ms"), caption = "Tempo para calcular os graus de liberdade, em milisegundos")</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Tempo para calcular os graus de liberdade, em milisegundos</caption>
+<thead>
+<tr class="header">
+<th align="left">expr</th>
+<th align="right">min</th>
+<th align="right">lq</th>
+<th align="right">mean</th>
+<th align="right">median</th>
+<th align="right">uq</th>
+<th align="right">max</th>
+<th align="right">neval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">df1(x, lamb)</td>
+<td align="right">1805.659</td>
+<td align="right">1836.835</td>
+<td align="right">1869.71</td>
+<td align="right">1849.659</td>
+<td align="right">1873.502</td>
+<td align="right">2647.016</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table>
+<p>Um segundo é bastante tempo, se você precisa repetir isso para 100 modelos, por exemplo. O <em>Elements of Statistical Learning</em> sugere a seguinte maneira de calcular os graus de liberdade: seja <span class="math inline">\(d_i\)</span> os valores singulares de <span class="math inline">\(X\)</span>, então os graus de liberdade são <span class="math inline">\(\sum_i \frac{d_i^2}{d_i^2 + \lambda}\)</span></p>
+<p>Só para alguma coisa neste post não sair da cartola, deixa eu mostrar como a gente sai da conta a partir do traço para esta conta bem mais simples. Comece com a decomposição em valor singular de <span class="math inline">\(X\)</span>, que é <span class="math inline">\(UDV^T\)</span> onde <span class="math inline">\(D\)</span> é diagonal e <span class="math inline">\(U\)</span> e <span class="math inline">\(V\)</span> são matrizes ortonormais. Então:</p>
+<p><span class="math display">\[X^TX = VDU^TUDV^T = VD^2V^T \tag{i}\]</span></p>
+<p>Usando o fato de <span class="math inline">\(U\)</span> ser ortonormal. Logo, <span class="math inline">\((X^TX + \lambda{}I)^{-1} = (V(D^{2} + \lambda{}I)V^T)^{-1}\)</span>, usando que <span class="math inline">\(V\)</span> é ortonormal.</p>
+<p>Agora, usando o fato de <span class="math inline">\(tr(AB) = tr(BA)\)</span> e (i), nós temos:</p>
+<p><span class="math display">\[
+tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^T(X^TX + \lambda{}I)^{-1}) 
+\]</span></p>
+<p>Agora use a expressão que encontramos para a inversa e o fato que, se <span class="math inline">\(A,B,C\)</span> são quadradas, <span class="math inline">\((ABC)^{-1} = C^{-1}B^{-1}A^{-1}\)</span>:</p>
+<p><span class="math display">\[
+tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^TV(D^2 + \lambda{}I)V^T) = \\
+= tr(VD^2(D^2 + \lambda{}I)V^T) = tr(V^TVD^2(D^2 + \lambda{}I)) = tr(D^2(D^2 + \lambda{}I))
+\]</span></p>
+<p>Onde eu usei ortogonalidade de <span class="math inline">\(V\)</span> para afirmar que <span class="math inline">\(V^{-1} = V^T\)</span> e novamente <span class="math inline">\(tr(AB) = tr(BA)\)</span>.</p>
+<p>Bom, isso assume que calcular o SVD é muito mais rápido que calcular a inversa. Vamos ver se isso é verdade:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">df2 &lt;- function(x,lamb){
+  svd_x &lt;- svd(x)
+  d2 &lt;- (svd_x$d)^2
+  ans &lt;- sum(d2/(d2+lamb))
+  return(ans)
+}
+
+res2 &lt;- microbenchmark(df2(x,lamb))</code></pre>
+<p>E os resultados são:</p>
+<table style="width:100%;">
+<caption>Tempo para calcular os graus de liberdade, em milisegundos</caption>
+<colgroup>
+<col width="15%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="11%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">expr</th>
+<th align="right">min</th>
+<th align="right">lq</th>
+<th align="right">mean</th>
+<th align="right">median</th>
+<th align="right">uq</th>
+<th align="right">max</th>
+<th align="right">neval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">df1(x, lamb)</td>
+<td align="right">1847.28812</td>
+<td align="right">1933.34602</td>
+<td align="right">2108.35402</td>
+<td align="right">2025.51353</td>
+<td align="right">2198.12094</td>
+<td align="right">3192.9819</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="left">df2(x, lamb)</td>
+<td align="right">38.64892</td>
+<td align="right">41.40672</td>
+<td align="right">57.34588</td>
+<td align="right">44.32647</td>
+<td align="right">48.92384</td>
+<td align="right">444.2084</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table>
+<p>Comparando usando as medianas, o código usando SVD é 45 vezes mais rápido. Se você quer calcular os graus de liberdade para 100 modelos, usando SVD no lugar de inverter a matriz, você economiza uns 3 minutos. Se você está estimando 100 modelos em uma janela móvel que tem mil passos, então você economiza uns 50 minutos.</p>
+<p>Inverter matriz é (em geral) muito lento. Eu fiz só a etapa de inversão no benchmark, e ela gasta quase dois segundos. Talvez nossa intuição seja que calcular decomposições é extremamente complicado, mas ela é muito mais rápida que inversão.</p>
+<p>Outro ponto interessante é que isso não é absoluto: mais linhas na matriz <span class="math inline">\(X\)</span> deixa o tempo do svd e da inversão mais parecidos. Isso se deve (provavelmente) porque o número de valores singulares diferentes de zero é igual ao posto da matriz: por exemplo uma matriz <span class="math inline">\(100 \times 2500\)</span> só tem 100 valores singulares não nulos, enquanto <span class="math inline">\(1000 \times 2500\)</span> tem mil valores singulares não nulos.</p>
+<hr />
+<p>Isso tudo está no excepcional <strong>Elements of Statistical Learning</strong> que vocês podem baixar legitimamente <a href="https://web.stanford.edu/~hastie/ElemStatLearn/">aqui</a></p>
