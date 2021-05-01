@@ -63,7 +63,7 @@ knitr::kable(summary(res, unit = "ms"), caption = "Tempo para calcular os graus 
 
 Um segundo é bastante tempo, se você precisa repetir isso para 100 modelos, por exemplo. O _Elements of Statistical Learning_ sugere a seguinte maneira de calcular os graus de liberdade: seja $d_i$ os valores singulares de $X$, então os graus de liberdade são $\sum_i \frac{d_i^2}{d_i^2 + \lambda}$
 
-Só para alguma coisa neste post não sair da cartola, deixa eu mostrar como a gente sai da conta a partir do traço para esta conta bem mais simples. Comece com a decomposição em valor singular de $X$, que é $UDV^T$ onde $D$ é diagonal e $U$ e $V$ são matrizes ortonormais. Então: 
+Só para alguma coisa neste post não sair da cartola, deixa eu mostrar como a gente sai da conta a partir do traço para esta conta bem mais simples. Comece com a decomposição em valor singular de $X$, que é $UDV^T$ onde $D$ é diagonal e $U$ e $V$ são matrizes ortonormais (leia o PS no fim da página se você tiver dúvidas sobre a dimensão). Então: 
 
 $$X^TX = VDU^TUDV^T = VD^2V^T \tag{i}$$ 
 
@@ -78,8 +78,8 @@ $$
 Agora use a expressão que encontramos para a inversa e o fato que, se $A,B,C$ são quadradas, $(ABC)^{-1} = C^{-1}B^{-1}A^{-1}$: 
 
 $$
-tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^TV(D^2 + \lambda{}I)V^T) = \\
-= tr(VD^2(D^2 + \lambda{}I)V^T) = tr(V^TVD^2(D^2 + \lambda{}I)) = tr(D^2(D^2 + \lambda{}I))
+tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^T(V(D^2 + \lambda{}I)V^T)^{-1}) = \\
+= tr(VD^2(D^2 + \lambda{}I)^{-1}V^T) = tr(V^TVD^2(D^2 + \lambda{}I)^{-1}) = tr(D^2(D^2 + \lambda{}I))
 $$
 
 Onde eu usei ortogonalidade de $V$ para afirmar que $V^{-1} = V^T$ e novamente $tr(AB) = tr(BA)$. 
@@ -115,5 +115,7 @@ Inverter matriz é (em geral) muito lento. Eu fiz só a etapa de inversão no be
 Outro ponto interessante é que isso não é absoluto: mais linhas na matriz $X$ deixa o tempo do svd e da inversão mais parecidos. Isso se deve (provavelmente) porque o número de valores singulares diferentes de zero é igual ao posto da matriz: por exemplo uma matriz $100 \times 2500$ só tem 100 valores singulares não nulos, enquanto $1000 \times 2500$ tem mil valores singulares não nulos. 
 
 ----
+
+**PS.:** Tinha faltado umas inversas nas contas da primeira vez que eu postei - o que é fácil de resolver. Um problema mais grave era que algumas definições de SVD _não usam_ $V$ quadrada, o que jogava a propriedade $(ABC)^{-1} = C^{-1}B^{-1}A^{-1}. A definição do _Elemnts_ usa V quadrada. 
 
 Isso tudo está no excepcional **Elements of Statistical Learning** que vocês podem baixar legitimamente [aqui](https://web.stanford.edu/~hastie/ElemStatLearn/)

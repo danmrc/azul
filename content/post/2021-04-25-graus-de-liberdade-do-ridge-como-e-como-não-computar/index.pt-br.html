@@ -79,7 +79,7 @@ knitr::kable(summary(res, unit = "ms"), caption = "Tempo para calcular os graus 
 </tbody>
 </table>
 <p>Um segundo é bastante tempo, se você precisa repetir isso para 100 modelos, por exemplo. O <em>Elements of Statistical Learning</em> sugere a seguinte maneira de calcular os graus de liberdade: seja <span class="math inline">\(d_i\)</span> os valores singulares de <span class="math inline">\(X\)</span>, então os graus de liberdade são <span class="math inline">\(\sum_i \frac{d_i^2}{d_i^2 + \lambda}\)</span></p>
-<p>Só para alguma coisa neste post não sair da cartola, deixa eu mostrar como a gente sai da conta a partir do traço para esta conta bem mais simples. Comece com a decomposição em valor singular de <span class="math inline">\(X\)</span>, que é <span class="math inline">\(UDV^T\)</span> onde <span class="math inline">\(D\)</span> é diagonal e <span class="math inline">\(U\)</span> e <span class="math inline">\(V\)</span> são matrizes ortonormais. Então:</p>
+<p>Só para alguma coisa neste post não sair da cartola, deixa eu mostrar como a gente sai da conta a partir do traço para esta conta bem mais simples. Comece com a decomposição em valor singular de <span class="math inline">\(X\)</span>, que é <span class="math inline">\(UDV^T\)</span> onde <span class="math inline">\(D\)</span> é diagonal e <span class="math inline">\(U\)</span> e <span class="math inline">\(V\)</span> são matrizes ortonormais (leia o PS no fim da página se você tiver dúvidas sobre a dimensão). Então:</p>
 <p><span class="math display">\[X^TX = VDU^TUDV^T = VD^2V^T \tag{i}\]</span></p>
 <p>Usando o fato de <span class="math inline">\(U\)</span> ser ortonormal. Logo, <span class="math inline">\((X^TX + \lambda{}I)^{-1} = (V(D^{2} + \lambda{}I)V^T)^{-1}\)</span>, usando que <span class="math inline">\(V\)</span> é ortonormal.</p>
 <p>Agora, usando o fato de <span class="math inline">\(tr(AB) = tr(BA)\)</span> e (i), nós temos:</p>
@@ -88,8 +88,8 @@ tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^T(
 \]</span></p>
 <p>Agora use a expressão que encontramos para a inversa e o fato que, se <span class="math inline">\(A,B,C\)</span> são quadradas, <span class="math inline">\((ABC)^{-1} = C^{-1}B^{-1}A^{-1}\)</span>:</p>
 <p><span class="math display">\[
-tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^TV(D^2 + \lambda{}I)V^T) = \\
-= tr(VD^2(D^2 + \lambda{}I)V^T) = tr(V^TVD^2(D^2 + \lambda{}I)) = tr(D^2(D^2 + \lambda{}I))
+tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^T(V(D^2 + \lambda{}I)V^T)^{-1}) = \\
+= tr(VD^2(D^2 + \lambda{}I)^{-1}V^T) = tr(V^TVD^2(D^2 + \lambda{}I)^{-1}) = tr(D^2(D^2 + \lambda{}I))
 \]</span></p>
 <p>Onde eu usei ortogonalidade de <span class="math inline">\(V\)</span> para afirmar que <span class="math inline">\(V^{-1} = V^T\)</span> e novamente <span class="math inline">\(tr(AB) = tr(BA)\)</span>.</p>
 <p>Bom, isso assume que calcular o SVD é muito mais rápido que calcular a inversa. Vamos ver se isso é verdade:</p>
@@ -153,4 +153,5 @@ res2 &lt;- microbenchmark(df2(x,lamb))</code></pre>
 <p>Inverter matriz é (em geral) muito lento. Eu fiz só a etapa de inversão no benchmark, e ela gasta quase dois segundos. Talvez nossa intuição seja que calcular decomposições é extremamente complicado, mas ela é muito mais rápida que inversão.</p>
 <p>Outro ponto interessante é que isso não é absoluto: mais linhas na matriz <span class="math inline">\(X\)</span> deixa o tempo do svd e da inversão mais parecidos. Isso se deve (provavelmente) porque o número de valores singulares diferentes de zero é igual ao posto da matriz: por exemplo uma matriz <span class="math inline">\(100 \times 2500\)</span> só tem 100 valores singulares não nulos, enquanto <span class="math inline">\(1000 \times 2500\)</span> tem mil valores singulares não nulos.</p>
 <hr />
+<p><strong>PS.:</strong> Tinha faltado umas inversas nas contas da primeira vez que eu postei - o que é fácil de resolver. Um problema mais grave era que algumas definições de SVD <em>não usam</em> <span class="math inline">\(V\)</span> quadrada, o que jogava a propriedade $(ABC)^{-1} = C<sup>{-1}B</sup>{-1}A^{-1}. A definição do <em>Elemnts</em> usa V quadrada.</p>
 <p>Isso tudo está no excepcional <strong>Elements of Statistical Learning</strong> que vocês podem baixar legitimamente <a href="https://web.stanford.edu/~hastie/ElemStatLearn/">aqui</a></p>
