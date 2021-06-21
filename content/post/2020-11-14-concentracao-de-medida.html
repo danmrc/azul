@@ -19,9 +19,7 @@ output:
       ]
 ---
 
-<script src="2020-11-14-concentração-de-medida_files/header-attrs/header-attrs.js"></script>
-<link href="2020-11-14-concentração-de-medida_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
-<script src="2020-11-14-concentração-de-medida_files/anchor-sections/anchor-sections.js"></script>
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>Este é um post meio maluco, porque é absolutamente específico a coisas de <em>machine learning</em> e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.</p>
@@ -63,7 +61,7 @@ df &lt;- data.frame("grid" = tt,"Empiric" = freq,"Chernoff" = 2*exp(-tt^2/2),"Ch
 df2 &lt;- pivot_longer(df,cols = c("Empiric","Chernoff","Chebyschev"))
 
 ggplot(df2,aes(grid,value,color = name)) + geom_line()</code></pre>
-<p><img src="/post/2020-11-14-concentra%C3%A7%C3%A3o-de-medida_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="/post/2020-11-14-concentracao-de-medida_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Veja que eu fiz um <em>hardcode</em> de que a variância é 1. Fica bem claro que:</p>
 <ol style="list-style-type: decimal">
 <li><p>As duas desigualdades fazem o que prometem: elas estão sempre acima na probabilidade verdadeira</p></li>
@@ -75,7 +73,7 @@ ggplot(df2,aes(grid,value,color = name)) + geom_line()</code></pre>
 df3 &lt;- pivot_longer(df3,cols = c("Empiric","Chernoff"))
 
 ggplot(df3,aes(grid,value,color = name)) + geom_line()</code></pre>
-<p><img src="/post/2020-11-14-concentra%C3%A7%C3%A3o-de-medida_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/2020-11-14-concentracao-de-medida_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Veja que essa cota é bem generosa, mas bem melhor que a desigualdade de Chebyschev. Obviamente, pagamos um preço por isso: nem todas as funções com variância finita tem função geratriz de momentos.</p>
 <p>Um fato mais interessante é que você pode usar a desigualdade de Chernoff, exatamente como posta acima, para <em>outras distribuições além da gaussiana</em>. Basicamente, você está exigindo que a cauda da distribuição caia <em>tão rápido quanto a gaussiana</em>. Distribuições que atendem a esse requisito são chamadas de subgaussianas. Todas as distribuições com suporte finito atendem a esse pré requisito, por exemplo. Por sinal, <span class="math inline">\(\sigma\)</span> no caso mais geral não precisa ser a variância da distribuição. Nem todas as distribuições são subgaussianas: a qui-quadrado não é sub gaussiana, e é uma distribuição extremamente comum em estatística.</p>
 <p>Veja que essa cota depende exponencialmente de <span class="math inline">\(t^2\)</span>, ao contrário de Chebyschev que depende de <span class="math inline">\(1/t^2\)</span>. Isso é um ganho dramático: com altíssima probabilidade a massa da distribuição está concentrada. Além de ser bem bacana, isto aparece em várias situações em <em>machine learning</em>. Mas eu não consegui criar nenhum exemplo simples em que isso fique evidente, então fica pro próximo post.</p>
