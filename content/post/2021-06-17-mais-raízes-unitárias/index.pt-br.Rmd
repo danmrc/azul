@@ -18,9 +18,9 @@ output:
 draft: true
 ---
 
-O Pedro já fez um post sobre [regressão espúria](https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/), que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente ~~isso voltou a moda~~ eu decidi escrever um post sobre isso. 
+O Pedro já fez um post sobre [regressão espúria](https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/), que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente ~~isso voltou a moda~~ eu decidi escrever sobre isso. 
 
-O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que "isso não é exatamente uma regressão espúria": uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias! Mais importante, eu acho mais incrível o caso em que _não existe nenhuma tendência determinística_. 
+O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que "isso não é exatamente uma regressão espúria": uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias^[Nota do Pedro: o caso de dois processos estocásticos com tendência determinística que mostrei não é um exemplo de regressão espúria, de fato. O que está acontecendo é _confounding_. O efeito da passagem do tempo operando sobre os dois processos causa a inflação de métricas de sucesso, o que não é o mesmo que dois processos integrados porém não-cointegrados serem bons explicadores (espúrios) um do outro!]! Mais importante, eu acho mais incrível o caso em que _não existe nenhuma tendência determinística_. 
 
 Eu vou fazer uma simulação absolutamente simples, de dois random walks, e vou regredir um no outro. O _random walk_ é um processo fascinante e extremamente simples:
 
