@@ -1,7 +1,7 @@
 ---
 title: Mais raízes unitárias
 author: Daniel Coutinho
-date: '2021-06-17'
+date: '2021-06-24'
 slug: mais-raizes-unitarias
 categories:
   - Econometria
@@ -15,14 +15,13 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<p>O Pedro já fez um post sobre <a href="https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/">regressão espúria</a>, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente <del>isso voltou a moda</del> eu decidi escrever um post sobre isso.</p>
-<p>O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias! Mais importante, eu acho mais incrível o caso em que <em>não existe nenhuma tendência determinística</em>.</p>
+<p>O Pedro já fez um post sobre <a href="https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/">regressão espúria</a>, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente <del>isso voltou a moda</del> eu decidi escrever sobre isso.</p>
+<p>O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>! Mais importante, eu acho mais incrível o caso em que <em>não existe nenhuma tendência determinística</em>.</p>
 <p>Eu vou fazer uma simulação absolutamente simples, de dois random walks, e vou regredir um no outro. O <em>random walk</em> é um processo fascinante e extremamente simples:</p>
 <p><span class="math display">\[
 x_t = x_{t-1} + \epsilon_t
@@ -178,3 +177,9 @@ ggplot(data.frame(data = time(cambio_ts2),cambio = cambio_ts2),aes(data,cambio))
 ## tau1 -2.58 -1.95 -1.62</code></pre>
 <p>A estatística do teste cai um pouco, mas não corre nenhum risco de a gente rejeitar a hipótese nula aos níveis usuais de significância. A gente pode cortar mais ainda a série, mas em geral taxa de câmbio não é estacionária - e isso não é só pro Brasil.</p>
 <p>Não estacionariedade é um tema fascinante e que apresenta várias armadilhas para quem trabalha com séries temporais.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Nota do Pedro: o caso de dois processos estocásticos com tendência determinística que mostrei não é um exemplo de regressão espúria, de fato. O que está acontecendo é <em>confounding</em>. O efeito da passagem do tempo operando sobre os dois processos causa a inflação de métricas de sucesso, o que não é o mesmo que dois processos integrados porém não-cointegrados serem bons explicadores (espúrios) um do outro!<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

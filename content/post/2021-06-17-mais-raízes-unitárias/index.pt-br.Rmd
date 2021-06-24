@@ -1,7 +1,7 @@
 ---
 title: Mais raízes unitárias
 author: Daniel Coutinho
-date: '2021-06-17'
+date: '2021-06-24'
 slug: mais-raizes-unitarias
 categories:
   - Econometria
@@ -15,7 +15,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true
 ---
 
 O Pedro já fez um post sobre [regressão espúria](https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/), que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente ~~isso voltou a moda~~ eu decidi escrever sobre isso. 
