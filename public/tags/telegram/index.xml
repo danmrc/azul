@@ -2,34 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Telegram on AZUL</title>
-    <link>/tags/telegram/</link>
+    <link>https://azul.netlify.app/tags/telegram/</link>
     <description>Recent content in Telegram on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 03 Dec 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/telegram/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 03 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/telegram/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Como receber atualizações do blog no celular</title>
-      <link>/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</link>
+      <link>https://azul.netlify.app/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</link>
       <pubDate>Mon, 03 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</guid>
+      <guid>https://azul.netlify.app/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</guid>
       <description>(TL;DR: você pode receber os posts novos do azul no seu celular, veja a lista no fim dois parágrafos abaixo)
 Nós passamos algum tempo pensando em como melhorar a distribuição de posts para os nossos leitores. Afinal, é extremamente ineficiente abrir o blog na esperança de ver um novo post e.. nada novo. Economistas sempre criticam ineficiências, e nós não poderíamos ser exceção.
 Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa automaticamente quando sai um post novo no blog.</description>
-    </item>
-    
-    <item>
-      <title>Integrando o Telegram e R</title>
-      <link>/2018/11/30/telegram-e-r/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/30/telegram-e-r/</guid>
-      <description>Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.</description>
     </item>
     
   </channel>

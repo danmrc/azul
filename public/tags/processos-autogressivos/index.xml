@@ -2,22 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Processos Autogressivos on AZUL</title>
-    <link>/tags/processos-autogressivos/</link>
+    <link>https://azul.netlify.app/tags/processos-autogressivos/</link>
     <description>Recent content in Processos Autogressivos on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 20 Sep 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/processos-autogressivos/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 20 Sep 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/processos-autogressivos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Medindo a inércia da inflação brasileira com Rolling Window Regression</title>
-      <link>/2019/09/20/inercia-inflacao-rolling-window/</link>
+      <link>https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/</link>
       <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/09/20/inercia-inflacao-rolling-window/</guid>
+      <guid>https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/</guid>
       <description>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</description>
     </item>
     

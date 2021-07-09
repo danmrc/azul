@@ -7,6 +7,13 @@ categories:
   - Econometria
 tags:
   - Variáveis Instrumentais
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 _Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência_ 

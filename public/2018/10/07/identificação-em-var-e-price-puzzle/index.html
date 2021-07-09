@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,26 +34,22 @@
 
 
 
-<link rel="canonical" href="/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/"><meta property="og:title" content="Identificação em VAR e Price Puzzle I" />
+<link rel="canonical" href="https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/"><meta property="og:title" content="Identificação em VAR e Price Puzzle I" />
 <meta property="og:description" content="O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} &#43; \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/" />
-<meta property="article:published_time" content="2018-10-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-10-07T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-10-07T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2018-10-07T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Identificação em VAR e Price Puzzle I">
 <meta itemprop="description" content="O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} &#43; \mathbf{u_t}\]
-Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.">
-<meta itemprop="datePublished" content="2018-10-07T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-10-07T00:00:00+00:00" />
+Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados."><meta itemprop="datePublished" content="2018-10-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-07T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="2202">
-
-
-
-<meta itemprop="keywords" content="Price Puzzle,VAR,Blanchard Quah," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Price Puzzle,VAR,Blanchard Quah," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Identificação em VAR e Price Puzzle I"/>
 <meta name="twitter:description" content="O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} &#43; \mathbf{u_t}\]
@@ -71,7 +66,7 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -120,6 +115,9 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
                     <div class="col-lg-8">
                         <div class="content">
                             
+<script src="2018-09-17-identificação-em-var-e-price-puzzle_files/header-attrs/header-attrs.js"></script>
+<link href="2018-09-17-identificação-em-var-e-price-puzzle_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2018-09-17-identificação-em-var-e-price-puzzle_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>O VAR (<em>Vector Autoregression</em>, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis <span class="math inline">\(x_t,y_t\)</span> em um vetor <span class="math inline">\(\mathbf{x_t} = (x_t \phantom{0} y_t)&#39;\)</span>. Um VAR seria:</p>
@@ -132,7 +130,8 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
 <p>E sobre condições bastante gerais, <span class="math inline">\(\widehat{C}\)</span> vai ser consistente.</p>
 <p>Se em equações <em>cross-section</em> o nosso interesse é em um coeficiente particular - que dá um efeito causal - em um contexto de VAR, temos interesse na <em>dinâmica</em>, ou seja, numa sequência de efeitos parciais de uma variável em outra. Em geral, a nossa pergunta é “Dado um choque exógeno na variável x no período t, como o sistema se comporta?”. Veja que temos que considerar que um choque em <span class="math inline">\(x_t\)</span> pode afetar <span class="math inline">\(y_t\)</span> de maneira defasada, atraves do coeficiente <span class="math inline">\(c_{21}\)</span>, que pode afetar <span class="math inline">\(x_t\)</span> no outro período através de <span class="math inline">\(c_{12}\)</span>. Esta trajetória recebe o nome de Função de Resposta ao Impulso (FRI), ou em inglês <em>Impulse Response Function</em> (IRF).</p>
 <p>Felizmente temos uma maneira fácil de encontrar a FRI. Veja que da equação de <span class="math inline">\(\mathbf{x_t}\)</span>, temos que</p>
-<p><span class="math display">\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]</span> <span class="math display">\[\mathbf{x_{t+1}} = C\mathbf{x_{t}} + \mathbf{u_{t+1}} = C^2\mathbf{x_{t-1}} + C\mathbf{u_t} + \mathbf{u_{t+1}}\]</span></p>
+<p><span class="math display">\[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]</span>
+<span class="math display">\[\mathbf{x_{t+1}} = C\mathbf{x_{t}} + \mathbf{u_{t+1}} = C^2\mathbf{x_{t-1}} + C\mathbf{u_t} + \mathbf{u_{t+1}}\]</span></p>
 <p>E continuando a iteração, descobrimos que o efeito de um choque em <span class="math inline">\(t\)</span> no período <span class="math inline">\(t+h\)</span> é <span class="math inline">\(C^h\)</span>. Veja que <span class="math inline">\(C^h\)</span> é uma matriz e cada posição da matriz dá o efeito de um choque em alguma variável: a posição [1,1] dá o efeito de um choque na variável 1 sobre a variável 1; [1,2] o efeito de um choque na variável <strong>2</strong> sobre a variável 1; etc. Nosso interesse é em toda a sequência <span class="math inline">\(\left\{C^h\right\}_{h=0}^{T}\)</span>, onde <span class="math inline">\(T\)</span> é algum período distante no tempo onde o choque não tem mais nenhum efeito sobre as variáveis.</p>
 <p>Por enquanto, tudo muito fácil: temos um objeto bem definido, a FRI; e uma maneira de estimar este objeto que é relativamente simples, o estimador de MQO. Mas veja que eu permiti correlação entre os erro, o que não é interessante. De fato, gostaríamos de erros que tivessem interpretações diretas. Para deixar este ponto claro, vamos especializar o nosso VAR: suponha que o vetor <span class="math inline">\(\mathbf{x_{t}} = (y_t \phantom{0} \pi_t \phantom{0} i_t)^{\prime}\)</span>, onde os termos são, respectivamente, uma medida de crescimento do produto (para termos estacionariedade), inflação, e juros. Se tivessemos erros correlacionados, um choque na equação de inflação não tem uma interpretação clara: ele acarreta um choque em alguma das outras equações. Gostariamos de conhecer o efeito de um choque que afetasse somente a inflação. Podemos reescrever todo o sistema da seguinte forma:</p>
 <p><span class="math display">\[B\mathbf{x_{t}} = A\mathbf{x_t} + \mathbf{e_t}\]</span></p>
@@ -141,45 +140,44 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
 <p>Se <span class="math inline">\(B\)</span> não tiver alguma estrutura muito particular, teremos problemas na hora de tentar estimar: se <span class="math inline">\(\pi_t\)</span> causa <span class="math inline">\(y_t\)</span> e <span class="math inline">\(y_t\)</span> causa <span class="math inline">\(\pi_t\)</span>, teremos o clássico problema de identificação em sistemas de equações. Uma solução possível é achar algum instrumento, mas isso pode ser extremamente desafiador. Qual variável é causada exogenamente neste sistema? E será que ela tem uma correlação com a variável que nos interessa?</p>
 <p>Uma solução padrão na literatura de VAR é impor que algumas variáveis não se afetam mutuamente. Por exemplo, podemos estabelecer que inflação causa mudança nos juros hoje, mas o efeito dos juros sobre a inflação é defasado. Isso recebe o chique nome de <em>decomposição de Choleski</em>. Mas não é nada além de impor algumas restrições sobre o sistema de efeitos que tem que ser zero. Essa não é a única maneira de impor restrições sobre a matriz <span class="math inline">\(B\)</span>, mas é uma das mais populares.</p>
 <p>Vamos levar todo este papo aos dados, como de praxe.</p>
-<div id="um-var-para-o-brasil" class="section level2">
-<h2>Um VAR para o Brasil</h2>
-<p>Vamos fazer um VAR para o Brasil no R. Eu vou usar o excelente pacotes <em>BETS</em> para obter os dados de taxa Selic, IPCA e do IBC-Br, um índice do BCB que é mensal que serve como <em>proxy</em> para o PIB. Os dados são mensais. Eu usarei o pacote <em>dynlm</em> para fazer a estimação do VAR. Existe um ótimo pacote que faz estimação do VAR direto, o <em>vars</em>. No código, eu uso ele para checar se tudo está funcionando direitinho (essa parte eu não reproduzi aqui, mas você encontra (<a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/VAR.R">https://github.com/danmrc/azul/blob/master/C%C3%B3digos/VAR.R</a>)[aqui]). O <em>expm</em> permite fazer potenciação de matriz, que vai ser essencial na hora de calcular a FRI.</p>
-<pre class="r"><code>library(BETS)
+<p>##Um VAR para o Brasil</p>
+<p>Vamos fazer um VAR para o Brasil no R. Eu vou usar o excelente pacotes <em>BETS</em> para obter os dados de taxa Selic, IPCA e do IBC-Br, um índice do BCB que é mensal que serve como <em>proxy</em> para o PIB. Os dados são mensais. Eu usarei o pacote <em>dynlm</em> para fazer a estimação do VAR. Existe um ótimo pacote que faz estimação do VAR direto, o <em>vars</em>. No código, eu uso ele para checar se tudo está funcionando direitinho (essa parte eu não reproduzi aqui, mas você encontra (<a href="https://github.com/danmrc/azul/blob/master/C%C3%B3digos/VAR.R" class="uri">https://github.com/danmrc/azul/blob/master/C%C3%B3digos/VAR.R</a>)[aqui]). O <em>expm</em> permite fazer potenciação de matriz, que vai ser essencial na hora de calcular a FRI.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(BETS)
 library(dynlm)
 library(expm)
 library(vars)
 
-ipca &lt;- BETSget(13522, from=&quot;2003-01-01&quot;, to = &quot;2017-12-31&quot;)
-ibc_br &lt;- BETSget(24364, to = &quot;2017-12-31&quot;)
-selic &lt;- BETSget(4189,from=&quot;2003-01-01&quot;, to = &quot;2017-12-31&quot;)</code></pre>
+ipca &lt;- BETSget(13522, from="2003-01-01", to = "2017-12-31")
+ibc_br &lt;- BETSget(24364, to = "2017-12-31")
+selic &lt;- BETSget(4189,from="2003-01-01", to = "2017-12-31")</code></pre>
 <p>O IBC-Br só tem dados disponíveis a partir de 2003. Vamos fazer o plot das séries, mas antes definimos a variável <code>def</code> com as configurações default do plot do R para podermos retornar sem estresse para o default:</p>
-<pre class="r"><code>def &lt;- par()
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">def &lt;- par()
 
 #par(mfrow = c(3,1))
 
-plot(ibc_br, main = &quot;IBC-Br&quot;)
-grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-1.png" width="672" /></p>
-<pre class="r"><code>plot(ipca, main = &quot;IPCA&quot;)
-grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-2.png" width="672" /></p>
-<pre class="r"><code>plot(selic, main = &quot;Selic&quot;)
-grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-3.png" width="672" /></p>
-<pre class="r"><code>par(def)</code></pre>
+plot(ibc_br, main = "IBC-Br")
+grid(col = "grey")</code></pre>
+<p><img src="/post/VetoresAutoregressivosPrizePuzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-1.png" width="672" /></p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">plot(ipca, main = "IPCA")
+grid(col = "grey")</code></pre>
+<p><img src="/post/VetoresAutoregressivosPrizePuzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-2.png" width="672" /></p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">plot(selic, main = "Selic")
+grid(col = "grey")</code></pre>
+<p><img src="/post/VetoresAutoregressivosPrizePuzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/plot-3.png" width="672" /></p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">par(def)</code></pre>
 <p>Veja que <code>par(mfrow = c(3,1))</code> permite com que eu plote as três séries uma debaixo da outra - eu desativei essa opção no post por motivos meramente estéticos, mas funciona muito bem usando a função zoom do RStudio e permite nós vermos as 3 séries uma embaixo da outra. Como esperado, a série do IBC é não estacionária. Vamos precisar deixar ela estacionária, e a solução óbvia é passar log e tirar a primeira diferença - obtendo assim a taxa de crescimento:</p>
-<pre class="r"><code>dibc &lt;- diff(log(ibc_br))
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">dibc &lt;- diff(log(ibc_br))
 ipca &lt;- window(ipca, start = c(2003,02))
 selic &lt;- window(selic, start = c(2003,02))</code></pre>
 <p>Ao diferenciar, perdemos a primeira observação. O comando <code>window</code> limita as observações das outras séries para retirar a primeira observação. Vamos olhar a cara do crescimento do IBC:</p>
-<pre class="r"><code>plot(dibc)
-grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/ibc-1.png" width="672" /></p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">plot(dibc)
+grid(col = "grey")</code></pre>
+<p><img src="/post/VetoresAutoregressivosPrizePuzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/ibc-1.png" width="672" /></p>
 <p>O pacote <em>vars</em> oferece o comando <code>VARselect</code>, que informa vários critérios de informação e quantos lags minimizam o critério. Vamos usar este comando para saber quantos lags devemos usar:</p>
-<pre class="r"><code>X &lt;- cbind(selic,ipca,dibc)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">X &lt;- cbind(selic,ipca,dibc)
 
 VARselect(X)$selection</code></pre>
-<pre><code>## AIC(n)  HQ(n)  SC(n) FPE(n) 
+<pre ><code >## AIC(n)  HQ(n)  SC(n) FPE(n) 
 ##      8      5      2      8</code></pre>
 <p>Eu vou ficar com o SBC (também conhecido como BIC), que sugere um modelo relativamente enxuto com 2 lags. Estimação de VAR é sempre um desafio porque se temos <span class="math inline">\(k\)</span> variáveis e <span class="math inline">\(l\)</span> lags, temos <span class="math inline">\(lk^2+k\)</span> regressores na forma reduzida. Assim estimar um VAR com 8 lags, como sugerido pelo AIC, envolveria 75 parâmetros!</p>
 <p>Eu vou estabelecer a seguinte ordem para a <em>decomposição de Chosleki</em> - isso é, para ter uma matriz <span class="math inline">\(B\)</span> identificada:</p>
@@ -198,11 +196,11 @@ b_{31} &amp; b_{32} &amp; 1\\
 y_t\\ \pi_t \\ i_t \\
 \end{pmatrix} \]</span></p>
 <p>Assim, vamos poder fazer regressões do IBC em duas defasagens do próprio IBC, da inflação e da Selic; regressão do IPCA no IBC do mesmo período, em duas defasagens do IBC, da inflação e da Selic; e regressão da Selic no IPCA e em duas defasagens do IBC, da inflação e da Selic:</p>
-<pre class="r"><code>eq1 &lt;- dynlm(dibc ~ L(dibc,1:2) + L(ipca,1:2) + L(selic,1:2))
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">eq1 &lt;- dynlm(dibc ~ L(dibc,1:2) + L(ipca,1:2) + L(selic,1:2))
 eq2 &lt;- dynlm(ipca ~ dibc + L(dibc,1:2) + L(ipca,1:2) + L(selic,1:2))
 eq3 &lt;- dynlm(selic ~ dibc + ipca + L(dibc,1:2) + L(ipca,1:2) + L(selic,1:2))</code></pre>
 <p>Vamos rearrumar os coeficientes que saem dessas regressões para formar as matrizes <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> e obter <span class="math inline">\(C\)</span> dai:</p>
-<pre class="r"><code>B &lt;- diag(1,ncol = 6, nrow = 6)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">B &lt;- diag(1,ncol = 6, nrow = 6)
 B[2,1] &lt;- -coef(eq2)[2]
 B[3,1:2] &lt;- -coef(eq3)[2:3]
 
@@ -216,10 +214,10 @@ A[3,c(1,4,2,5,3,6)] &lt;- coef(eq3)[4:9]
 
 C &lt;- solve(B)%*%A</code></pre>
 <p>Veja que podemos usar o pacote vars para checar se <code>C</code>está certa, através do comando VAR, que estima a forma reduzida de um VAR. Eu faço isso no código desse post, mas não aqui no blog. Eu também vou criar uma matriz com o desvio padrão do choque na diagonal principal. Assim, a nossa FRI vai dar um choque do tamanho “usual” na economia. Essa será a matriz sd_C:</p>
-<pre class="r"><code>sd_c &lt;- matrix(0,ncol = 6,nrow=6)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">sd_c &lt;- matrix(0,ncol = 6,nrow=6)
 diag(sd_c) &lt;- c(sd(resid(eq1)),sd(resid(eq2)),sd(resid(eq3)),0,0,0)</code></pre>
 <p>Com as matrizes <span class="math inline">\(B\)</span> e <span class="math inline">\(C\)</span> em mãos, podemos criar duas funções para obter a FRI: a primeira vai obter a resposta ao impulso em um determinado período. A outra vai iterar essa primeira função um número de vezes e guardar cada matriz de resposta ao impulso em um <code>array</code> uma generalização de matrizes para mais de duas dimensões (nosso array vai ter 3 dimensões, a terceira sendo o tempo):</p>
-<pre class="r"><code>fri_em_t &lt;- function(C,B,h){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">fri_em_t &lt;- function(C,B,h){
   require(expm)
   return((C%^%h)%*%B)
 }
@@ -232,25 +230,20 @@ fri &lt;- function(C,B,t_max){
   return(FRI)
 }</code></pre>
 <p>Vamos usar essas funções para obter a resposta a impulso do sistema dez período a frente, e vamos regularizar para que os choques tenham o tamanho médio dos choques da economia:</p>
-<pre class="r"><code>resposta &lt;- fri(C,solve(B),10)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">resposta &lt;- fri(C,solve(B),10)
 for(i in 1:dim(resposta)[3]){
   resposta[,,i] &lt;- resposta[,,i]%*%sd_c
 }</code></pre>
 <p>Em particular, eu estou interessado na resposta a impulso de choques na Selic sobre a inflação. Isso corresponde a posição [2,3] na matriz de resposta ao impulso do período t. Eu coloco, por conveniência, a linha vermelha onde é o zero:</p>
-<pre class="r"><code>plot(0:10,resposta[2,3,1:11], type = &quot;l&quot;, main = &quot;Resposta ao Impulso&quot;, sub = &quot;Impulso sobre a Selic na Inflação&quot;, xlab = &quot;t&quot;, ylab = &quot;&quot;)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">plot(0:10,resposta[2,3,1:11], type = "l", main = "Resposta ao Impulso", sub = "Impulso sobre a Selic na Inflação", xlab = "t", ylab = "")
 lines(0:10,rep(0,11),col=2)
-grid(col = &quot;grey&quot;)</code></pre>
-<p><img src="/post/VAR_price_puzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/fri%20infl-1.png" width="672" /></p>
+grid(col = "grey")</code></pre>
+<p><img src="/post/VetoresAutoregressivosPrizePuzzle/2018-09-17-identifica%C3%A7%C3%A3o-em-var-e-price-puzzle_files/figure-html/fri%20infl-1.png" width="672" /></p>
 <p>Ou seja, segundo o nosso VAR, um aumento na selic <strong>aumenta</strong> a inflação. Por que isso? Algo está realmente errado com o nosso VAR? Ou o Brasil é realmente inexplicável? Ou, ainda pior, será que passamos este tempo todo entendo a economia errado?</p>
 <p>A boa notícia é que este fenômeno é bem conhecido na literatura de VAR, e recebe o nome de <em>price puzzle</em>. <a href="https://www.dallasfed.org/~/media/documents/research/er/1994/er9404b.pdf">Balke e Emery (1994)</a> tem um gráfico muitissimo parecido com o nosso, para dados dos EUA:</p>
-<div class="figure">
-<img src="/post/VAR_price_puzzle/price_puzzle.png" />
-
-</div>
+<p><img src="/post/VAR_price_puzzle/price_puzzle.png" /></p>
 <p>Logo, o problema não está no nosso VAR nem no Brasil. No próximo post eu trarei uma solução</p>
-</div>
-<div id="escrevendo-um-varp-como-um-var1" class="section level2">
-<h2>Escrevendo um VAR(p) como um VAR(1)</h2>
+<p>##Escrevendo um VAR(p) como um VAR(1)</p>
 <p>Peguemos um VAR qualquer:</p>
 <p><span class="math display">\[\mathbf{x_{t}} = C_1 \mathbf{x_{t-1}} + C_2 \mathbf{x_{t-2}} + ... + C_p\mathbf{x_{t-p}}+ \mathbf{u_t}\]</span></p>
 <p>Vamos definir <span class="math inline">\(\mathbf{z_t} = (\mathbf{x_t} \phantom{0} \mathbf{x_{t-1}} \phantom{0} \mathbf{x_{t-2}} \cdots)^{&#39;}\)</span> Podemos criar uma matriz C que é uma salsicha esperta das matrizes <span class="math inline">\(C_1, C_2,...\)</span>:</p>
@@ -262,7 +255,6 @@ I &amp; 0 &amp; \cdots &amp; 0 &amp; 0\\
 0 &amp; 0 &amp; \cdots &amp; I &amp; 0\\
 \end{pmatrix}\]</span></p>
 <p>Suponha, para facilitar a vida, que <span class="math inline">\(\mathbf{x_t} = (y_{1t} \phantom{0} y_{2t})&#39;\)</span>, e que temos um VAR(2). Nesse caso, <span class="math inline">\(\mathbf{z_t} = (y_{1t} \phantom{0} y_{2t} \phantom{0}y_{1(t-1)} \phantom{0} y_{2(t-1)})&#39;\)</span></p>
-</div>
 
                         </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/price-puzzle">
                                     <i class="fas fa-tag mr-2"></i>Price Puzzle
@@ -272,22 +264,22 @@ I &amp; 0 &amp; \cdots &amp; 0 &amp; 0\\
                                     <i class="fas fa-tag mr-2"></i>Blanchard Quah
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f10%2f07%2fidentifica%25C3%25A7%25C3%25A3o-em-var-e-price-puzzle%2f&text=Identifica%c3%a7%c3%a3o%20em%20VAR%20e%20Price%20Puzzle%20I">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2018%2f10%2f07%2fidentifica%25C3%25A7%25C3%25A3o-em-var-e-price-puzzle%2f&text=Identifica%c3%a7%c3%a3o%20em%20VAR%20e%20Price%20Puzzle%20I">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f10%2f07%2fidentifica%25C3%25A7%25C3%25A3o-em-var-e-price-puzzle%2f&title=Identifica%c3%a7%c3%a3o%20em%20VAR%20e%20Price%20Puzzle%20I">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2018%2f10%2f07%2fidentifica%25C3%25A7%25C3%25A3o-em-var-e-price-puzzle%2f&title=Identifica%c3%a7%c3%a3o%20em%20VAR%20e%20Price%20Puzzle%20I">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f10%2f07%2fidentifica%25C3%25A7%25C3%25A3o-em-var-e-price-puzzle%2f&t=Identifica%c3%a7%c3%a3o%20em%20VAR%20e%20Price%20Puzzle%20I">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2018%2f10%2f07%2fidentifica%25C3%25A7%25C3%25A3o-em-var-e-price-puzzle%2f&t=Identifica%c3%a7%c3%a3o%20em%20VAR%20e%20Price%20Puzzle%20I">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f10%2f07%2fidentifica%25C3%25A7%25C3%25A3o-em-var-e-price-puzzle%2f&title=Identifica%c3%a7%c3%a3o%20em%20VAR%20e%20Price%20Puzzle%20I">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2018%2f10%2f07%2fidentifica%25C3%25A7%25C3%25A3o-em-var-e-price-puzzle%2f&title=Identifica%c3%a7%c3%a3o%20em%20VAR%20e%20Price%20Puzzle%20I">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -327,7 +319,7 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -368,28 +360,9 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

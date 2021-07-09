@@ -2,22 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Syntax highlighting on AZUL</title>
-    <link>/tags/syntax-highlighting/</link>
+    <link>https://azul.netlify.app/tags/syntax-highlighting/</link>
     <description>Recent content in Syntax highlighting on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 26 Dec 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/syntax-highlighting/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 26 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/syntax-highlighting/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ano novo, layout novo</title>
-      <link>/2018/12/26/ano-novo-layout-novo/</link>
+      <link>https://azul.netlify.app/2018/12/26/ano-novo-layout-novo/</link>
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/26/ano-novo-layout-novo/</guid>
+      <guid>https://azul.netlify.app/2018/12/26/ano-novo-layout-novo/</guid>
       <description>Um novo ano se aproxima. E junto dele, temos um novo tema para o blog, com um layout ainda mais minimalista, descrições dos posts na página inicial (na verdade um trecho do texto), mas mais importante (e o principal motivo) é que o novo tema faz syntax highlighting, ou seja, o código dos nossos posts agora vão se parecer mais com os códigos que você normalmente vê em uma IDE, como o RStudio.</description>
     </item>
     

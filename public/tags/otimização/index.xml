@@ -2,32 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Otimização on AZUL</title>
-    <link>/tags/otimiza%C3%A7%C3%A3o/</link>
+    <link>https://azul.netlify.app/tags/otimiza%C3%A7%C3%A3o/</link>
     <description>Recent content in Otimização on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 04 Apr 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/otimiza%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 04 Apr 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/otimiza%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Modelo de Cournot no R com o pacote Recon</title>
-      <link>/2019/04/04/recon-comp-micro/</link>
+      <link>https://azul.netlify.app/2019/04/04/recon-comp-micro/</link>
       <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/04/04/recon-comp-micro/</guid>
+      <guid>https://azul.netlify.app/2019/04/04/recon-comp-micro/</guid>
       <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;) para instalar a última versão enviada ao repositório ou devtools::install_github(&amp;quot;pedrocava/Recon&amp;quot;) para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
 Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.</description>
     </item>
     
     <item>
       <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
-      <link>/2019/03/28/consistencia-assintotica-ols/</link>
+      <link>https://azul.netlify.app/2019/03/28/consistencia-assintotica-ols/</link>
       <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/03/28/consistencia-assintotica-ols/</guid>
+      <guid>https://azul.netlify.app/2019/03/28/consistencia-assintotica-ols/</guid>
       <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
     </item>
     

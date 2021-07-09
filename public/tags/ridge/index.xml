@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ridge on AZUL</title>
+    <link>https://azul.netlify.app/tags/ridge/</link>
+    <description>Recent content in Ridge on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Sun, 25 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/ridge/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Calculando graus de liberdade do Ridge</title>
+      <link>https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/</link>
+      <pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/</guid>
+      <description>Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes.</description>
+    </item>
+    
+  </channel>
+</rss>

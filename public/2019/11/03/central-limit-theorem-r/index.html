@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,22 +34,18 @@
 
 
 
-<link rel="canonical" href="/2019/11/03/central-limit-theorem-r/"><meta property="og:title" content="Simulando o Teorema Central do Limite no R" />
+<link rel="canonical" href="https://azul.netlify.app/2019/11/03/central-limit-theorem-r/"><meta property="og:title" content="Simulando o Teorema Central do Limite no R" />
 <meta property="og:description" content="O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/11/03/central-limit-theorem-r/" />
-<meta property="article:published_time" content="2019-11-03T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-11-03T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2019/11/03/central-limit-theorem-r/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-11-03T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-11-03T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Simulando o Teorema Central do Limite no R">
-<meta itemprop="description" content="O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.">
-<meta itemprop="datePublished" content="2019-11-03T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-11-03T00:00:00+00:00" />
+<meta itemprop="description" content="O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos."><meta itemprop="datePublished" content="2019-11-03T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-03T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="826">
-
-
-
-<meta itemprop="keywords" content="Econometria,CLT,Simulações," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Econometria,CLT,Simulações," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Simulando o Teorema Central do Limite no R"/>
 <meta name="twitter:description" content="O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -65,7 +60,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -234,22 +229,22 @@ testes %&gt;%
                                     <i class="fas fa-tag mr-2"></i>Simulações
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2019%2f11%2f03%2fcentral-limit-theorem-r%2f&text=Simulando%20o%20Teorema%20Central%20do%20Limite%20no%20R">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2019%2f11%2f03%2fcentral-limit-theorem-r%2f&text=Simulando%20o%20Teorema%20Central%20do%20Limite%20no%20R">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2019%2f11%2f03%2fcentral-limit-theorem-r%2f&title=Simulando%20o%20Teorema%20Central%20do%20Limite%20no%20R">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2019%2f11%2f03%2fcentral-limit-theorem-r%2f&title=Simulando%20o%20Teorema%20Central%20do%20Limite%20no%20R">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2019%2f11%2f03%2fcentral-limit-theorem-r%2f&t=Simulando%20o%20Teorema%20Central%20do%20Limite%20no%20R">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2019%2f11%2f03%2fcentral-limit-theorem-r%2f&t=Simulando%20o%20Teorema%20Central%20do%20Limite%20no%20R">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2019%2f11%2f03%2fcentral-limit-theorem-r%2f&title=Simulando%20o%20Teorema%20Central%20do%20Limite%20no%20R">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2019%2f11%2f03%2fcentral-limit-theorem-r%2f&title=Simulando%20o%20Teorema%20Central%20do%20Limite%20no%20R">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -274,7 +269,7 @@ testes %&gt;%
             <div class="card-text">
                 Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
             </div>
         </div>
     </a>
@@ -315,7 +310,7 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -356,28 +351,9 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

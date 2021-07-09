@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paralelização on AZUL</title>
+    <link>https://azul.netlify.app/tags/paraleliza%C3%A7%C3%A3o/</link>
+    <description>Recent content in Paralelização on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 08 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/paraleliza%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Multithreading no Julia: ainda mais rápido</title>
+      <link>https://azul.netlify.app/2021/04/08/multithreading-no-julia/</link>
+      <pubDate>Thu, 08 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/04/08/multithreading-no-julia/</guid>
+      <description>(Esse é um post bem curto para compensar o post anterior)
+Eu tava passeando pelo Julia Packages (não me julguem, 1 ano de lockdown) e achei um pacote chamado ThreadsX. A ideia é paralelizar algumas funções da base do Julia, e entre as funções temos o map. Obviamente eu fiquei interessado, especialmente porque não faz muito tempo eu fiz o problema de programação dinâmica usando map. O pacote me prometia acelerar o código simplesmente adicionando uma coisinha, e isso é muito tentador para eu deixar passar.</description>
+    </item>
+    
+  </channel>
+</rss>

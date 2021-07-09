@@ -2,41 +2,49 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Economia on AZUL</title>
-    <link>/categories/economia/</link>
+    <link>https://azul.netlify.app/categories/economia/</link>
     <description>Recent content in Economia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 12 Apr 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/economia/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/economia/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Método de Perturbação: linerizando modelos sem mistério</title>
+      <link>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</link>
+      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</guid>
+      <description>(Este é mais um post completamente maluco)
+Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de programação dinâmica. Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive “para sempre” e pode acumular um ativo. Matematicamente:
+\[\max_{\{C\}_{t=1}^{\infty}, \{k_{t+1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\\text{sujeito a}\\k_{t+1} + C_t = A_tk_t^{\alpha} + (1-\delta)k_t\]
+Nesse caso o agente acumula capital, que se deprecia a taxa \(\delta\) e pode ser usada para produzir bens com uma função de produção \(A_tk_t^{\alpha}\).</description>
+    </item>
     
     <item>
       <title>Erros padrões HAC</title>
-      <link>/2020/04/12/erros-padr%C3%B5es-hac/</link>
+      <link>https://azul.netlify.app/2020/04/12/erros-padr%C3%B5es-hac/</link>
       <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/12/erros-padr%C3%B5es-hac/</guid>
+      <guid>https://azul.netlify.app/2020/04/12/erros-padr%C3%B5es-hac/</guid>
       <description>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
 Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</description>
     </item>
     
     <item>
       <title>Mas e a indústria?</title>
-      <link>/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
+      <link>https://azul.netlify.app/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
       <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
+      <guid>https://azul.netlify.app/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
       <description>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar não é coincidência.</description>
     </item>
     
     <item>
       <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
-      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <link>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
       <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
@@ -44,10 +52,10 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     
     <item>
       <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
-      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <link>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
       <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
@@ -55,108 +63,78 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     
     <item>
       <title>Programação Dinâmica IIB</title>
-      <link>/2018/12/27/programacao-dinamica-ii-b/</link>
+      <link>https://azul.netlify.app/2018/12/27/programacao-dinamica-ii-b/</link>
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/27/programacao-dinamica-ii-b/</guid>
+      <guid>https://azul.netlify.app/2018/12/27/programacao-dinamica-ii-b/</guid>
       <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
 \[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
     </item>
     
     <item>
       <title>Como eu rodei Stata dentro do R para replicar um paper</title>
-      <link>/2018/11/29/patronagem/</link>
+      <link>https://azul.netlify.app/2018/11/29/patronagem/</link>
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <guid>https://azul.netlify.app/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
       <title>Como eu rodei Stata dentro do R para replicar um paper</title>
-      <link>/2018/11/29/patronagem/</link>
+      <link>https://azul.netlify.app/2018/11/29/patronagem/</link>
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
+      <guid>https://azul.netlify.app/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
       <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
-      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <link>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</guid>
       <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
 Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
     </item>
     
     <item>
       <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
-      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <link>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</guid>
       <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
 Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
     </item>
     
     <item>
       <title>Programação Dinâmica I</title>
-      <link>/2018/09/08/programacao-dinamica-i/</link>
+      <link>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/08/programacao-dinamica-i/</guid>
+      <guid>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</guid>
       <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
     </item>
     
     <item>
       <title>Programação Dinâmica I</title>
-      <link>/2018/09/08/programacao-dinamica-i/</link>
+      <link>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/08/programacao-dinamica-i/</guid>
+      <guid>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</guid>
       <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
     </item>
     
     <item>
       <title>Usando clustering para identificar cursos no Prouni</title>
-      <link>/2018/08/11/prouni-clustering/</link>
+      <link>https://azul.netlify.app/2018/08/11/prouni-clustering/</link>
       <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/11/prouni-clustering/</guid>
+      <guid>https://azul.netlify.app/2018/08/11/prouni-clustering/</guid>
       <description>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
 Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</description>
     </item>

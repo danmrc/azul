@@ -2,32 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Authors on AZUL</title>
-    <link>/authors/</link>
+    <link>https://azul.netlify.app/authors/</link>
     <description>Recent content in Authors on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/authors/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 24 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/authors/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>/authors/danielc/</link>
-      <pubDate>Mon, 16 Nov 2020 00:00:00 +0000</pubDate>
+      <link>https://azul.netlify.app/authors/danielc/</link>
+      <pubDate>Thu, 24 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>/authors/danielc/</guid>
+      <guid>https://azul.netlify.app/authors/danielc/</guid>
       <description>Formado em economia pela PUC Rio</description>
     </item>
     
     <item>
       <title></title>
-      <link>/authors/pedrocava/</link>
-      <pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate>
+      <link>https://azul.netlify.app/authors/pedrocava/</link>
+      <pubDate>Tue, 22 Jun 2021 00:00:00 +0000</pubDate>
       
-      <guid>/authors/pedrocava/</guid>
-      <description></description>
+      <guid>https://azul.netlify.app/authors/pedrocava/</guid>
+      <description>Formado em Economia pela UFF. Trabalha como Cientista/ Engenheiro de Dados.</description>
     </item>
     
   </channel>

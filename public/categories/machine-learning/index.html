@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,16 +34,15 @@
 
 
 
-<link rel="canonical" href="/categories/machine-learning/">
-  <link href="/categories/machine-learning/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
-  <link href="/categories/machine-learning/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Machine Learning" />
+<link rel="canonical" href="https://azul.netlify.app/categories/machine-learning/">
+  <link href="https://azul.netlify.app/categories/machine-learning/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
+  <link href="https://azul.netlify.app/categories/machine-learning/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Machine Learning" />
 <meta property="og:description" content="Economia, Estatística, Programação" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/categories/machine-learning/" />
-<meta property="og:updated_time" content="2020-09-07T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/categories/machine-learning/" />
+
 <meta itemprop="name" content="Machine Learning">
-<meta itemprop="description" content="Economia, Estatística, Programação">
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Machine Learning"/>
 <meta name="twitter:description" content="Economia, Estatística, Programação"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -59,7 +57,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -90,12 +88,27 @@
             <div class="col mb-3">
                 <div class="card h-100">
     
+    <a href="/2021/04/25/calculando-graus-de-liberdade-do-ridge/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Calculando graus de liberdade do Ridge</h4>
+            <p class="card-text text-muted text-uppercase">April 25, 2021</p>
+            <div class="card-text">
+                Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
     <a href="/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/" class="d-block"><div class="card-body">
             <h4 class="card-title">Componentes Principais e decomposição de matrizes</h4>
             <p class="card-text text-muted text-uppercase">September 7, 2020</p>
             <div class="card-text">
                 Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
-Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
+Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
             </div>
         </div>
     </a>
@@ -154,23 +167,6 @@ Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2019/05/17/prouni-rf-classificacao/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Manipulação de Sementes em Geradores Pseudoaleatórios</h4>
-            <p class="card-text text-muted text-uppercase">May 17, 2019</p>
-            <div class="card-text">
-                Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
     <a href="/2019/05/07/prouni-rf-classificacao/" class="d-block"><div class="card-body">
             <h4 class="card-title">Classificando cursos no ProUni com Random Forest</h4>
             <p class="card-text text-muted text-uppercase">May 7, 2019</p>
@@ -217,22 +213,6 @@ A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em 
 
             </div>
         
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/12/10/prouni-rf-svm/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Usando Random Forest e SVMs para classificar cursos no ProUni</h4>
-            <p class="card-text text-muted text-uppercase">December 10, 2018</p>
-            <div class="card-text">
-                 Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
-Random Forests  Support Vector Machines  Rodando tudo  
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
     </div>
 </main>
 
@@ -242,7 +222,7 @@ Random Forests  Support Vector Machines  Rodando tudo
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -283,28 +263,9 @@ Random Forests  Support Vector Machines  Rodando tudo
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

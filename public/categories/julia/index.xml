@@ -2,140 +2,116 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Julia on AZUL</title>
-    <link>/categories/julia/</link>
+    <link>https://azul.netlify.app/categories/julia/</link>
     <description>Recent content in Julia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 05 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/julia/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Multithreading no Julia: ainda mais rápido</title>
+      <link>https://azul.netlify.app/2021/04/08/multithreading-no-julia/</link>
+      <pubDate>Thu, 08 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/04/08/multithreading-no-julia/</guid>
+      <description>(Esse é um post bem curto para compensar o post anterior)
+Eu tava passeando pelo Julia Packages (não me julguem, 1 ano de lockdown) e achei um pacote chamado ThreadsX. A ideia é paralelizar algumas funções da base do Julia, e entre as funções temos o map. Obviamente eu fiquei interessado, especialmente porque não faz muito tempo eu fiz o problema de programação dinâmica usando map. O pacote me prometia acelerar o código simplesmente adicionando uma coisinha, e isso é muito tentador para eu deixar passar.</description>
+    </item>
     
-	<atom:link href="/categories/julia/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>Remastered: Interpolação</title>
+      <link>https://azul.netlify.app/2020/12/13/remastered-interpola%C3%A7%C3%A3o/</link>
+      <pubDate>Sun, 13 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2020/12/13/remastered-interpola%C3%A7%C3%A3o/</guid>
+      <description>Este é mais um post que já foi feito faz tempo, mas eu quero repetir mais pra mostrar um truque que eu aprendi, além de deixar a programação mais clara (com um pouco de sorte).
+Imagina que você conhece a função em alguns pontos. A gente teve um exemplo disso no post passado de programação dinâmica: a gente calcula o valor da função valor ou da função política em alguns pontos.</description>
+    </item>
     
     <item>
       <title>Remastered: Programação Dinâmica</title>
-      <link>/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <link>https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
       <pubDate>Thu, 05 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das primeiras coisas do blog. Eu acho que chegou a hora de revisitar o tópico porque desde então eu aprendi maneiras mais “limpas” de programar e o programa antigo provavelmente é horroroso. Vocês podem levantar objeções de que essa é uma maneira barata de gerar post novo, mas eu acho que deixar o programa mais claro/mais eficiente é importante para transmitir a ideia.</description>
     </item>
     
     <item>
       <title>Hamiltonian Monte Carlo</title>
-      <link>/2020/06/22/hamiltonian-monte-carlo/</link>
+      <link>https://azul.netlify.app/2020/06/22/hamiltonian-monte-carlo/</link>
       <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
+      <guid>https://azul.netlify.app/2020/06/22/hamiltonian-monte-carlo/</guid>
       <description>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
 No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.</description>
     </item>
     
     <item>
-      <title>Workflow - Como funciona o AZUL</title>
-      <link>/2020/04/25/workflow/</link>
-      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/25/workflow/</guid>
-      <description>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
-Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown, que no fundo roda um software chamado hugo.</description>
-    </item>
-    
-    <item>
       <title>Aplicando Programação Dinâmica à Reforma da Previdência</title>
-      <link>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</link>
+      <link>https://azul.netlify.app/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</link>
       <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</guid>
+      <guid>https://azul.netlify.app/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</guid>
       <description>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
 Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.</description>
     </item>
     
     <item>
       <title>Programação Dinâmica IIB</title>
-      <link>/2018/12/27/programacao-dinamica-ii-b/</link>
+      <link>https://azul.netlify.app/2018/12/27/programacao-dinamica-ii-b/</link>
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/27/programacao-dinamica-ii-b/</guid>
+      <guid>https://azul.netlify.app/2018/12/27/programacao-dinamica-ii-b/</guid>
       <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
 \[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
     </item>
     
     <item>
       <title>Julia 101</title>
-      <link>/2018/12/10/julia-101/</link>
+      <link>https://azul.netlify.app/2018/12/10/julia-101/</link>
       <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/10/julia-101/</guid>
+      <guid>https://azul.netlify.app/2018/12/10/julia-101/</guid>
       <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
+InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
     </item>
     
     <item>
       <title>Prog Dinâmica IIA</title>
-      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <link>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <guid>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
 Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
     
     <item>
       <title>Prog Dinâmica IIA</title>
-      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <link>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <guid>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
 Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
     </item>
     
     <item>
       <title>Programação Dinâmica I</title>
-      <link>/2018/09/08/programacao-dinamica-i/</link>
+      <link>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/08/programacao-dinamica-i/</guid>
+      <guid>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</guid>
       <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
     </item>
     
     <item>
       <title>Programação Dinâmica I</title>
-      <link>/2018/09/08/programacao-dinamica-i/</link>
+      <link>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/08/programacao-dinamica-i/</guid>
+      <guid>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</guid>
       <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
     </item>
     

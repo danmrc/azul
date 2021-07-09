@@ -2,22 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Raiz unitária on AZUL</title>
-    <link>/tags/raiz-unit%C3%A1ria/</link>
+    <link>https://azul.netlify.app/tags/raiz-unit%C3%A1ria/</link>
     <description>Recent content in Raiz unitária on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 19 Oct 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/raiz-unit%C3%A1ria/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Thu, 24 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/raiz-unit%C3%A1ria/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mais raízes unitárias</title>
+      <link>https://azul.netlify.app/2021/06/24/mais-raizes-unitarias/</link>
+      <pubDate>Thu, 24 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/06/24/mais-raizes-unitarias/</guid>
+      <description>O Pedro já fez um post sobre regressão espúria, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente isso voltou a moda eu decidi escrever sobre isso.
+O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias1!</description>
+    </item>
     
     <item>
       <title>Testes de raiz unitária</title>
-      <link>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
+      <link>https://azul.netlify.app/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
       <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</guid>
+      <guid>https://azul.netlify.app/2018/10/19/testes-de-raiz-unit%C3%A1ria/</guid>
       <description>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
 Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.</description>
     </item>

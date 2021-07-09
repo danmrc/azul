@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2020/01/05/linux-e-windows/"><meta property="og:title" content="Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot" />
+<link rel="canonical" href="https://azul.netlify.app/2020/01/05/linux-e-windows/"><meta property="og:title" content="Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot" />
 <meta property="og:description" content="Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
 Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2020/01/05/linux-e-windows/" />
-<meta property="article:published_time" content="2020-01-05T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-01-05T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2020/01/05/linux-e-windows/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-01-05T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-01-05T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot">
 <meta itemprop="description" content="Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
-Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!">
-<meta itemprop="datePublished" content="2020-01-05T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-01-05T00:00:00+00:00" />
+Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!"><meta itemprop="datePublished" content="2020-01-05T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-01-05T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="2331">
-
-
-
-<meta itemprop="keywords" content="Linux,Dual Boot,Computação Científica," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Linux,Dual Boot,Computação Científica," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot"/>
 <meta name="twitter:description" content="Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
 Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!"/>
@@ -68,7 +63,7 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -196,22 +191,22 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
                                     <i class="fas fa-tag mr-2"></i>Computação Científica
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2020%2f01%2f05%2flinux-e-windows%2f&text=Linux%20e%20Windows%2c%20Ou%20como%20eu%20parei%20de%20me%20preocupar%20e%20passei%20a%20amar%20o%20dual%20boot">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2020%2f01%2f05%2flinux-e-windows%2f&text=Linux%20e%20Windows%2c%20Ou%20como%20eu%20parei%20de%20me%20preocupar%20e%20passei%20a%20amar%20o%20dual%20boot">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2020%2f01%2f05%2flinux-e-windows%2f&title=Linux%20e%20Windows%2c%20Ou%20como%20eu%20parei%20de%20me%20preocupar%20e%20passei%20a%20amar%20o%20dual%20boot">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2020%2f01%2f05%2flinux-e-windows%2f&title=Linux%20e%20Windows%2c%20Ou%20como%20eu%20parei%20de%20me%20preocupar%20e%20passei%20a%20amar%20o%20dual%20boot">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2020%2f01%2f05%2flinux-e-windows%2f&t=Linux%20e%20Windows%2c%20Ou%20como%20eu%20parei%20de%20me%20preocupar%20e%20passei%20a%20amar%20o%20dual%20boot">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2020%2f01%2f05%2flinux-e-windows%2f&t=Linux%20e%20Windows%2c%20Ou%20como%20eu%20parei%20de%20me%20preocupar%20e%20passei%20a%20amar%20o%20dual%20boot">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2020%2f01%2f05%2flinux-e-windows%2f&title=Linux%20e%20Windows%2c%20Ou%20como%20eu%20parei%20de%20me%20preocupar%20e%20passei%20a%20amar%20o%20dual%20boot">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2020%2f01%2f05%2flinux-e-windows%2f&title=Linux%20e%20Windows%2c%20Ou%20como%20eu%20parei%20de%20me%20preocupar%20e%20passei%20a%20amar%20o%20dual%20boot">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -236,7 +231,7 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -277,28 +272,9 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

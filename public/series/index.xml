@@ -2,14 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Series on AZUL</title>
-    <link>/series/</link>
+    <link>https://azul.netlify.app/series/</link>
     <description>Recent content in Series on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    
-	<atom:link href="/series/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright><atom:link href="https://azul.netlify.app/series/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

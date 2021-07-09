@@ -8,6 +8,13 @@ categories:
 tags:
   - Filtros Lineares
   - Filtro HP
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 Um filtro (linear) é basicamente qualquer polinômio $\alpha(B)$ a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:  

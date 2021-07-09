@@ -9,7 +9,7 @@
      Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales) | 
     AZUL
   
-</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,26 +34,22 @@
 
 
 
-<link rel="canonical" href="/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/"><meta property="og:title" content="Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)" />
+<link rel="canonical" href="https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/"><meta property="og:title" content="Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)" />
 <meta property="og:description" content="Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/" />
-<meta property="article:published_time" content="2019-05-13T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-05-13T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-05-13T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-05-13T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)">
 <meta itemprop="description" content="Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
-O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.">
-<meta itemprop="datePublished" content="2019-05-13T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-05-13T00:00:00+00:00" />
+O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor."><meta itemprop="datePublished" content="2019-05-13T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-05-13T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="2867">
-
-
-
-<meta itemprop="keywords" content="Time Domain Iteration,Coleman Operator,Firesale," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Time Domain Iteration,Coleman Operator,Firesale," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)"/>
 <meta name="twitter:description" content="Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
@@ -71,7 +66,7 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -109,12 +104,20 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
 
                         <h1>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</h1>
 
-                        
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
                     </div>
                 </div><div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="content">
                             
+<script src="2019-05-01-time-domain-iteration-mais-programação-dinâmica_files/header-attrs/header-attrs.js"></script>
+<link href="2019-05-01-time-domain-iteration-mais-programação-dinâmica_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2019-05-01-time-domain-iteration-mais-programação-dinâmica_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Em posts anteriores eu apresentei uma maneira de resolver o problema:</p>
@@ -143,7 +146,7 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
 </ul>
 <p>Veja que a ideia aqui é basicamente “operar” usando os mesmos valores que resolvem a condição de primeira ordem para sempre. Uma solução do problema é alcançada quando <span class="math inline">\(C_t = C_{t+1}\)</span>. Por incrível que possa parecer, é mais uma aplicação do <a href="https://azul.netlify.com/2018/10/31/banach/">teorema de ponto fixo que o Pedro descreveu faz um tempo aqui no blog</a>.</p>
 <p>Veja que para o caso onde <span class="math inline">\(\delta = 1\)</span>, <span class="math inline">\(u(C_t) = \ln(C_t)\)</span> e <span class="math inline">\(y_t = k_t ^\alpha\)</span>, o problema tem solução analítica. O código que implementa o problema e resolve no Julia segue abaixo:</p>
-<pre><code>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 using Interpolations
 using Plots
 using Roots
@@ -204,7 +207,7 @@ b_{t+1} &gt; -\kappa w_t \quad (3)\]</span></p>
 <li>Proceda até convergência</li>
 </ol>
 <p>Veja que esse algoritmo é ligeiramente diferente do algoritmo do Bianchi em alguns pontos - e porque o problema que eu estou resolvendo aqui no blog é mais simples que o problema dele. Eu vou usar preferências log, que geram como derivada <span class="math inline">\(u&#39;(c)=1/c\)</span>. Além disso eu vou adotar uma hipótese simplificadora de que a dotação só pode adotar 4 valores: 2,3,4,5, todos com a mesma probabilidade (0.25). Isso é porque nós vamos ter duas variáveis de estado, a quantidade de títulos e a renda no período - já que um pedaço fundamental do problema é a restrição de endividamento, que depende da renda. Vamos ao algoritmo em si:</p>
-<pre><code>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 beta = 0.96
 r = 0.04
 sigma = 2
@@ -230,26 +233,26 @@ err = 1
 
 #o algoritmo em si
 
-while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política for maior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+while i &lt;=iter&&err&gt;1e-9 #enquanto a maior mudança na política for maior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
     foo_c = LinearInterpolation((bond_grid,y_grid),cons[i-1,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
     for k in 1:y_grid_size
         b_aux = -kappa*y_grid[k] #o maximo de endividamento
         for j in 1:bond_grid_size
             c_aux = (1+r)*bond_grid[j] + y_grid[k] - b_aux # o consumo no máximo de endividamento
-            teste = uline(c_aux) - beta*(1+r)*prob&#39;*uline.(foo_c(b_aux,y_grid)) #aqui é o teste da etapa 3 do algoritmo
+            teste = uline(c_aux) - beta*(1+r)*prob'*uline.(foo_c(b_aux,y_grid)) #aqui é o teste da etapa 3 do algoritmo
             if teste &gt; 0 #eis a etapa 3
                 cons[i,j,k] = max(c_aux,0)
             else
                 function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
                     bb = (1+r)*bond_grid[j] + y_grid[k] -c
-                    uline(c) - beta*(1+r)*prob&#39;*uline.(foo_c(bb,y_grid))
+                    uline(c) - beta*(1+r)*prob'*uline.(foo_c(bb,y_grid))
                 end
                 cons[i,j,k] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + y_grid[k]+1)[1] #busca por um zero na equação de Euler e salva o valor que zera
             end
         end
     end
     global err = maximum(abs.(cons[i,:,:]-cons[i-1,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
-    println(&quot;iteration&quot;,i,&quot;error&quot;,err) #só nos informa da evolução do algoritmo
+    println("iteration",i,"error",err) #só nos informa da evolução do algoritmo
     global i = i+1
 end</code></pre>
 <p>Vamos ver como é a função consumo na última iteração:</p>
@@ -265,7 +268,8 @@ b_{t+1} &gt; -\kappa(\omega^x_t + p_y \omega^y_t)\]</span></p>
 <p>Veja que para facilitar a vida eu vou impor que em equilíbrio <span class="math inline">\(y_t = w^y_t\)</span> - pense que isso pode ser a produção doméstica do agente (ou no caso de uma economia aberta, a produção de <em>non tradables</em>). Isso faz com que em equlíbrio, <span class="math inline">\(x_t + b_{t+1} = (1+r)b_t + \omega^x_t\)</span>.</p>
 <p>Um outro detalhe técnico é que como temos dois bens e eu vou fazer com que ambos sigam uma distribuição discreta uniforme entre 2 e 5 (ou seja, P(2) = P(3) = P(4) = P(5) = 0.25), nós teremos 16 estados possíveis - e nesse caso a probabilidade de cada estado é <span class="math inline">\(0.25 \times 0.25 = 0.0625\)</span> - e precisamos fazer todas as combinações possíveis de dotações dos dois bens (bem x com dotação 1 e bem y com dotação 1, bem x com dotação 1 e bem y com dotação 2, bem x com dotação 2 e bem y com dotação 1 etc). Felizmente a função <code>Product</code> do pacote Iterators (que já vem com o Julia) faz isso para gente. Só precisamos reorganizar porque ele devolve um objeto tuple e queremos arrumar isso em um array. Isso deixa o código um pouco mais indigesto, mas a ideia geral é igual ao do código anterior.</p>
 <p>O código em si:</p>
-<pre><code>beta = 0.96
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+beta = 0.96
 r = 0.04
 sigma = 2
 kappa = 0.32
@@ -306,7 +310,7 @@ py[1,:,:,:] .= 1
 i=2
 err = 1
 
-while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
+while i &lt;=iter&&err&gt;1e-9 #enquanto a maior mudança na política formaior que 1e-9 o algoritmo. Ele para de qualquer forma se alcançar o número máximo de iterações
     foo_c = LinearInterpolation((bond_grid,y_grid,x_grid),cons[i-1,:,:,:],extrapolation_bc = Flat()) #interpolando a função consumo
     for k in 1:16
         index_x = findfirst(x_grid .== endow[k,1])
@@ -314,7 +318,7 @@ while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política f
         for j in 1:bond_grid_size
             b_aux = -kappa*(x_grid[index_x] + py[i-1,j,index_x,index_y]*y_grid[index_y]) #o maximo de endividamento
             c_aux = (1+r)*bond_grid[j] + x_grid[index_x] - b_aux # o consumo no máximo de endividamento
-            teste_aux = prob&#39;*reshape(uline.(foo_c(b_aux,x_grid,y_grid)),16,1)
+            teste_aux = prob'*reshape(uline.(foo_c(b_aux,x_grid,y_grid)),16,1)
             teste = uline(c_aux) - beta*(1+r)*teste_aux[1] #aqui é o teste da etapa 3 do algoritmo
             if teste &gt; 0 #eis a etapa 3
                 cons[i,j,index_x,index_y] = max(c_aux,0)
@@ -322,7 +326,7 @@ while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política f
             else
                 function f(c) #etapa 4: vamos primeiro estabelecer uma função para a rotina do Julia buscar por zeros
                     bb = (1+r)*bond_grid[j] + x_grid[index_x] -c
-                    aux = prob&#39;*reshape(uline.(foo_c(bb,x_grid,y_grid)),16,1)
+                    aux = prob'*reshape(uline.(foo_c(bb,x_grid,y_grid)),16,1)
                     uline(c) - beta*(1+r)*aux[1]
                 end
                 cons[i,j,index_x,index_y] = find_zeros(f,1e-8,(1+r)*bond_grid[j] + x_grid[index_x]+2)[1] #busca por um zero na equação de Euler e salva o valor que zera
@@ -331,7 +335,7 @@ while i &lt;=iter&amp;&amp;err&gt;1e-9 #enquanto a maior mudança na política f
         end
     end
     global err = maximum(abs.(cons[i,:,:,:]-cons[i-1,:,:,:])) #qual a mudança máxima em valor absoluto entre as duas iterações?
-    println(&quot;iteration&quot;,i,&quot;error&quot;,err) #só nos informa da evolução do algoritmo
+    println("iteration",i,"error",err) #só nos informa da evolução do algoritmo
     global i = i+1
 end</code></pre>
 <p>Vamos ver se o preço do bem y de fato cresce com a quantidade de títulos:</p>
@@ -339,7 +343,9 @@ end</code></pre>
 <p>De fato cresce. Vamos ver o gráfico de qual a escolha de títulos amanhã dado os títulos hoje:</p>
 <p><img src="/post/Prog_dinamica/firesale2.png" /></p>
 <p>Veja que na ponta esquerda, quando a restrição está ativa, você vai escolher se endividar mais do que você se endividou hoje. Isso deprime os preços do bem y o que piora a restrição de endividamento do agente. Isso reduz o consumo dos agentes, o que deprime ainda mais os preços. O excesso de endividamento dos agentes leva a uma crise. Isso de forma alguma é uma ideia nova: Irving Fischer pós a crise de 1929 sugeriu esse mecanismo.</p>
-<p>O post apresentou um método diferente de resolver problemas de programção dinâmica. Ele é mais eficiente e pode ser facilmente alterado para permitir restrições que ocasionalmente estão ativas. Isso é essencial para entender problemas chaves em macroeconomia, como restrições de endividamento. O formalismo matemático dá substância a ideia econônomica.</p>
+<p>O post apresentou um método diferente de resolver problemas de programção dinâmica. Ele é mais eficiente e pode ser facilmente alterado para permitir restrições que ocasionalmente estão ativas. Isso é essencial para entender problemas chaves em macroeconomia, como restrições de endividamento. O formalismo
+matemático dá substância a ideia econônomica.</p>
+<hr />
 <p>(Mais um post que o Sargent escreveu antes de mim e melhor (obviamente), <a href="https://lectures.quantecon.org/jl/coleman_policy_iter.html">mas em inglês</a>. Imitação é a mais forma mais sincera de admiração. A outra fonte é, obviamente, o artigo do <a href="http://www.javierbianchi.com/uploads/8/8/5/8/8858198/overborrowing.pdf">Bianchi</a>)</p>
 
                         </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/time-domain-iteration">
@@ -350,22 +356,22 @@ end</code></pre>
                                     <i class="fas fa-tag mr-2"></i>Firesale
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2019%2f05%2f13%2ftime-domain-iteration-mais-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&text=Time%20Domain%20Iteration%3a%20mais%20programa%c3%a7%c3%a3o%20din%c3%a2mica%20%28Ou%3a%20como%20modelar%20firesales%29">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2019%2f05%2f13%2ftime-domain-iteration-mais-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&text=Time%20Domain%20Iteration%3a%20mais%20programa%c3%a7%c3%a3o%20din%c3%a2mica%20%28Ou%3a%20como%20modelar%20firesales%29">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2019%2f05%2f13%2ftime-domain-iteration-mais-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&title=Time%20Domain%20Iteration%3a%20mais%20programa%c3%a7%c3%a3o%20din%c3%a2mica%20%28Ou%3a%20como%20modelar%20firesales%29">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2019%2f05%2f13%2ftime-domain-iteration-mais-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&title=Time%20Domain%20Iteration%3a%20mais%20programa%c3%a7%c3%a3o%20din%c3%a2mica%20%28Ou%3a%20como%20modelar%20firesales%29">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2019%2f05%2f13%2ftime-domain-iteration-mais-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&t=Time%20Domain%20Iteration%3a%20mais%20programa%c3%a7%c3%a3o%20din%c3%a2mica%20%28Ou%3a%20como%20modelar%20firesales%29">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2019%2f05%2f13%2ftime-domain-iteration-mais-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&t=Time%20Domain%20Iteration%3a%20mais%20programa%c3%a7%c3%a3o%20din%c3%a2mica%20%28Ou%3a%20como%20modelar%20firesales%29">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2019%2f05%2f13%2ftime-domain-iteration-mais-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&title=Time%20Domain%20Iteration%3a%20mais%20programa%c3%a7%c3%a3o%20din%c3%a2mica%20%28Ou%3a%20como%20modelar%20firesales%29">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2019%2f05%2f13%2ftime-domain-iteration-mais-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&title=Time%20Domain%20Iteration%3a%20mais%20programa%c3%a7%c3%a3o%20din%c3%a2mica%20%28Ou%3a%20como%20modelar%20firesales%29">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -405,7 +411,7 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -446,28 +452,9 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

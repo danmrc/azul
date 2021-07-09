@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,16 +34,15 @@
 
 
 
-<link rel="canonical" href="/tags/econometria/">
-  <link href="/tags/econometria/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
-  <link href="/tags/econometria/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Econometria" />
+<link rel="canonical" href="https://azul.netlify.app/tags/econometria/">
+  <link href="https://azul.netlify.app/tags/econometria/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
+  <link href="https://azul.netlify.app/tags/econometria/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Econometria" />
 <meta property="og:description" content="Economia, Estatística, Programação" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/tags/econometria/" />
-<meta property="og:updated_time" content="2020-11-14T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/tags/econometria/" />
+
 <meta itemprop="name" content="Econometria">
-<meta itemprop="description" content="Economia, Estatística, Programação">
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Econometria"/>
 <meta name="twitter:description" content="Economia, Estatística, Programação"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -59,7 +57,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -90,9 +88,9 @@
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./" class="d-block"><div class="card-body">
+    <a href="/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/" class="d-block"><div class="card-body">
             <h4 class="card-title">Concentração de Medida</h4>
-            <p class="card-text text-muted text-uppercase">November 14, 2020</p>
+            <p class="card-text text-muted text-uppercase">November 21, 2020</p>
             <div class="card-text">
                 Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
 Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
@@ -144,7 +142,7 @@ Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “pro
             <div class="card-text">
                 Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
             </div>
         </div>
     </a>
@@ -192,7 +190,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -233,28 +231,9 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

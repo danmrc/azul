@@ -2,50 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Matemática on AZUL</title>
-    <link>/tags/matem%C3%A1tica/</link>
+    <link>https://azul.netlify.app/tags/matem%C3%A1tica/</link>
     <description>Recent content in Matemática on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 25 May 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/matem%C3%A1tica/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>{purrr} para simular Sistemas Dinâmicos</title>
-      <link>/2020/05/25/funprog-dyn-sys/</link>
-      <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/05/25/funprog-dyn-sys/</guid>
-      <description>Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
-\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.</description>
-    </item>
-    
+    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/matem%C3%A1tica/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jogo da Velha com Q-Learning</title>
-      <link>/2020/04/21/jogo-da-velha-com-q-learning/</link>
+      <link>https://azul.netlify.app/2020/04/21/jogo-da-velha-com-q-learning/</link>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/21/jogo-da-velha-com-q-learning/</guid>
+      <guid>https://azul.netlify.app/2020/04/21/jogo-da-velha-com-q-learning/</guid>
       <description>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</description>
     </item>
     
     <item>
       <title>Mas e a indústria?</title>
-      <link>/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
+      <link>https://azul.netlify.app/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
       <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
+      <guid>https://azul.netlify.app/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
       <description>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar não é coincidência.</description>
     </item>
     
     <item>
       <title>Gerando um padrão de difusão com soma de um termo gaussiano</title>
-      <link>/2020/02/09/difusao-gaussiana/</link>
+      <link>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/02/09/difusao-gaussiana/</guid>
+      <guid>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</guid>
       <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
 Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
     </item>

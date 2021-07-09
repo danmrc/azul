@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/"><meta property="og:title" content="Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem" />
+<meta property="og:description" content="Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no head.html do blog:
+&lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&gt;Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-11-29T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-29T00:00:00&#43;00:00" />
+
+<meta itemprop="name" content="Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem">
+<meta itemprop="description" content="Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no head.html do blog:
+&lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&gt;Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!"><meta itemprop="datePublished" content="2020-11-29T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-11-29T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="667">
+<meta itemprop="keywords" content="Blogdown,Syntax Highlight,Julia,R,Highlight.js," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem"/>
+<meta name="twitter:description" content="Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no head.html do blog:
+&lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&gt;Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">November 29, 2020</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>667 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>4 mins</span>
+                        </div>
+
+                        <h1>Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="index_files/header-attrs/header-attrs.js"></script>
+<link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections/anchor-sections.js"></script>
+
+
+<p>Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no <code>head.html</code> do blog:</p>
+<pre class = "line-numbers"><code class="language-html match-braces rainbow-braces">
+&lt;link href="//YOUR-CDN-LINK/styles/github.min.css" rel="stylesheet"&gt;</code></pre>
+<p>Mas o problema é que isso adiciona apenas <em>algumas</em> linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis! Infelizmente, esse minímo possível não inclui julia, nem R. A solução do Blogdown é adicionar a seguinte linha:</p>
+<pre class = "line-numbers"><code class="language-html match-braces rainbow-braces">
+&lt;script src="//YOUR-CDN-LINK/languages/r.min.js"&gt;&lt;/script&gt;</code></pre>
+<p>Eu imagino que seja possível adicionar linhas similares pra Julia e outras linguagens, mas isso me parece extremamente ruim: toda vez que você quiser uma linguagem nova você tem que buscar uma linha nova.</p>
+<p>A coisa bacana é que você pode você mesmo pode baixar tudo do highlight.js, escolher quais linguagens você quer fazer <em>syntax highlight</em> e colocar no blog. Eu vou quebrar em um passo a passo já que quem vai ler isso é mero entusiasta e (muito provavlemente) lê e testa e teima e sua até ficar do jeito que quer.</p>
+<p>Talvez ver o commit que eu fiz no Azul ajude vocês a entender o que se passa, então <a href="https://github.com/danmrc/azul/commit/0c15bb58b7d50d53ad431ea98fabc1e4fb072070">cliquem aqui para ver o commit</a></p>
+<div id="baixando-o-highlight.js" class="section level3">
+<h3>1. Baixando o <em>highlight.js</em></h3>
+<p>Primeiro, <a href="https://highlightjs.org/download/">clique aqui</a> e escolha no <em>custom package</em> as linguagens que você quer e mande baixar. Você vai ter um arquivo <code>.zip</code> que tem as seguintes coisas:</p>
+<ol style="list-style-type: decimal">
+<li>Um arquivo <code>highlight.pack.js</code> (ou parecido)</li>
+<li>Uma pasta com vários css, chamada <strong>styles</strong></li>
+<li>Vários arquivos readme, license</li>
+</ol>
+<p>O arquivo <code>.js</code> é o script que faz o highlight e os styles são diferentes estilos de como fazer o <em>syntax highlight</em>, assim como você pode escolher o tema do RStudio.</p>
+</div>
+<div id="colocando-os-arquivos-no-blog" class="section level3">
+<h3>2. Colocando os arquivos no blog</h3>
+<p>Aqui a gente tem uma bifurcação: se o seu tema permite javascript e css personalizado, use o caminho que o tema manda e coloque o arquivo <code>.js</code> na pasta de javacript e o <code>.css</code>no tema personalizado. O tema do Azul permite isso, e no <code>config.toml</code> eu poderia colocar:</p>
+<pre class = "line-numbers"><code class="language-toml match-braces rainbow-braces">
+# Custom CSS and JS. Relative to /static/css and /static/js respectively.
+  customCSS = ["vs2015.css"]
+  customJS = ["highlight.pack.js"]
+</code></pre>
+<p>(O comentário veio do próprio tema) Por exemplo, então eu colocaria o <code>.js</code> no <code>/themes/hugo-chunky-poster/static/js/</code> - a pasta não existia e eu criei. Eu escolhi o tema vs2015, mas escolha o seu favorito! Eu <em>não</em> implementei assim no Azul porque eu queria fazer de maneira que fosse independente do tema.</p>
+<p>Se o seu tema não permite javascript e css personalizados, então: na pasta <strong>static</strong>* dentro da pasta do tema, coloque o <code>highlight.pack.js</code> dentro da pasta <code>js</code> - se não existir, crie. Pro Azul, o caminho seria <code>/themes/hugo-chunky-poster/static/js/highlight.pack.js</code>. (Dê uma olhada no GitHub do blog).</p>
+<p>Ainda na pasta <strong>static</strong> coloque o tema que você escolheu dentro da pasta <code>css</code> - novamente, se a pasta não existe, crie. Pro Azul, eu escolhi o tema vs2015, e o caminho seria <code>/themes/hugo-chunky-poster/static/css/vs2015.css</code>.</p>
+</div>
+<div id="habilitando-o-highlight.js" class="section level3">
+<h3>3. Habilitando o <em>highlight.js</em></h3>
+<p>Essa etapa provavelmente não é necessária se o seu tema permite javascript e css personalizados. Coloque em qualquer lugar no arquivo <code>head.html</code> (que aqui fica dentro de <code>layout/partials</code>):</p>
+<pre class = "line-numbers"><code class="language-html match-braces rainbow-braces">
+&lt;link rel="stylesheet" href="/css/vs2015.css"&gt;
+&lt;script src="/js/highlight.pack.js"&gt;&lt;/script&gt;</code></pre>
+<p><strong>Mude o css pro tema que você escolheu!</strong> Coloque no <code>foot.html</code>:</p>
+<pre class = "line-numbers"><code class="language-html match-braces rainbow-braces">
+&lt;script&gt;
+hljs.initHighlightingOnLoad();
+&lt;/script&gt;</code></pre>
+<p>Se o seu tema permite javascript e css personalizado, os <code>hrefs</code> não parecem ser essenciais. Se você quiser implementar sem isso, o caminho do script tem que estar certo. Eu não sei se a maneira que eu fiz aqui funciona sempre, então talvez vocês tenham que proceder um pouco na tentativa e erro e com ajuda do Google.</p>
+<p>Você deve ser capaz de ver o highlight no preview e funciona no netlifly. Talvez alguém tenha um bom motivo para <em>não</em> fazer <em>self host</em> do highlight.js, mas parece um pouco mais prático que adicionar uma montanha de links no <code>head.html</code> - e eu estou pronto para ser convencido de que esse post é desnecessário!</p>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/blogdown">
+                                    <i class="fas fa-tag mr-2"></i>Blogdown
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/syntax-highlight">
+                                    <i class="fas fa-tag mr-2"></i>Syntax Highlight
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/julia">
+                                    <i class="fas fa-tag mr-2"></i>Julia
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
+                                    <i class="fas fa-tag mr-2"></i>R
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/highlight.js">
+                                    <i class="fas fa-tag mr-2"></i>Highlight.js
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2020%2f11%2f29%2fhighlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem%2f&text=Highlight.js%20e%20Hugo%3a%20como%20fazer%20syntax%20highlight%20de%20qualquer%20linguagem">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2020%2f11%2f29%2fhighlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem%2f&title=Highlight.js%20e%20Hugo%3a%20como%20fazer%20syntax%20highlight%20de%20qualquer%20linguagem">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2020%2f11%2f29%2fhighlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem%2f&t=Highlight.js%20e%20Hugo%3a%20como%20fazer%20syntax%20highlight%20de%20qualquer%20linguagem">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2020%2f11%2f29%2fhighlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem%2f&title=Highlight.js%20e%20Hugo%3a%20como%20fazer%20syntax%20highlight%20de%20qualquer%20linguagem">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/10/28/por-que-usar-o-julia/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Por que usar o Julia?</h4>
+            <p class="card-text text-muted text-uppercase">October 28, 2018</p>
+            <div class="card-text">
+                Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/10/28/por-que-usar-o-julia/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Por que usar o Julia?</h4>
+            <p class="card-text text-muted text-uppercase">October 28, 2018</p>
+            <div class="card-text">
+                Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
+Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/08/27/interpolacao/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Interpolação</h4>
+            <p class="card-text text-muted text-uppercase">August 27, 2018</p>
+            <div class="card-text">
+                Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
+A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

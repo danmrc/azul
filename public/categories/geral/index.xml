@@ -2,22 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Geral on AZUL</title>
-    <link>/categories/geral/</link>
+    <link>https://azul.netlify.app/categories/geral/</link>
     <description>Recent content in Geral on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/geral/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/geral/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>print(&#34;Hello,world!&#34;)</title>
-      <link>/2018/07/18/print-hello-world/</link>
+      <link>https://azul.netlify.app/2018/07/18/print-hello-world/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/07/18/print-hello-world/</guid>
+      <guid>https://azul.netlify.app/2018/07/18/print-hello-world/</guid>
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</description>

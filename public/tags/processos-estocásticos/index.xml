@@ -2,22 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Processos Estocásticos on AZUL</title>
-    <link>/tags/processos-estoc%C3%A1sticos/</link>
+    <link>https://azul.netlify.app/tags/processos-estoc%C3%A1sticos/</link>
     <description>Recent content in Processos Estocásticos on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/processos-estoc%C3%A1sticos/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/processos-estoc%C3%A1sticos/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Regredindo séries temporais aleatórias para quem gosta de regressão</title>
-      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
+      <link>https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
+      <guid>https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/</guid>
       <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
     </item>
     

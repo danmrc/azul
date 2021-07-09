@@ -9,7 +9,7 @@
      Double Selection | 
     AZUL
   
-</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,26 +34,22 @@
 
 
 
-<link rel="canonical" href="/2020/05/01/double-selection/"><meta property="og:title" content="Double Selection" />
+<link rel="canonical" href="https://azul.netlify.app/2020/05/01/double-selection/"><meta property="og:title" content="Double Selection" />
 <meta property="og:description" content="Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
 Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
 Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2020/05/01/double-selection/" />
-<meta property="article:published_time" content="2020-05-01T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-05-01T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2020/05/01/double-selection/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-05-01T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-05-01T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Double Selection">
 <meta itemprop="description" content="Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
 Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
-Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.">
-<meta itemprop="datePublished" content="2020-05-01T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-05-01T00:00:00+00:00" />
+Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida."><meta itemprop="datePublished" content="2020-05-01T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-05-01T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="884">
-
-
-
-<meta itemprop="keywords" content="Double Selection,Efeito de Tratamento,Seleção de Modelos," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Double Selection,Efeito de Tratamento,Seleção de Modelos," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Double Selection"/>
 <meta name="twitter:description" content="Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
 Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
@@ -71,7 +66,7 @@ Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -109,13 +104,20 @@ Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés
 
                         <h1>Double Selection</h1>
 
-                        
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
                     </div>
                 </div><div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="content">
                             
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.</p>
@@ -123,7 +125,7 @@ Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés
 <p>Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</p>
 <p>Para mostrar o efeito disso, eu vou fazer uma simulação. Vai ter uma variável <span class="math inline">\(x\)</span> e uma variável <span class="math inline">\(trat\)</span>. No fim a gente vai querer saber o efeito do tratamento sobre a variável <span class="math inline">\(y\)</span>, que é afetado por x e pelo trtamento. A variável <span class="math inline">\(trat\)</span> vai ser influenciada por x, e eu vou fazer a regressão <span class="math inline">\(y \sim x + trat\)</span>, mas vou excluir <span class="math inline">\(x\)</span> quando o p-valor for maior que 5%. Eu podia usar alguma coisa mais moderna, tipo LASSO, mas o problema é de seleção de variável, então qualquer maneira de selecionar as variáveis vai gerar o problema. Eu vou colocar 100 observações, para maximizar a chance da gente excluir x.</p>
 <p>Eu vou replicar isso umas 2000 vezes e vamos olhar o histograma do coeficiente de tratamento:</p>
-<pre class="r"><code>set.seed(2126111)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">set.seed(2126111)
 
 cofs &lt;- rep(NA,2000)
 dropped &lt;- rep(NA,2000)
@@ -145,13 +147,13 @@ for(i in 1:2000){
   }
 }</code></pre>
 <p>Tem bastante coisa acontecendo nas linhas acima, então vamos passar as coisas com calma: primeiro, 0 tratamento começa como uma variável contínua que depende de x e de um erro com variância 2. Na linha seguinte, eu transformo essa variável em uma coisa binária: se for maior que 0, o sujeito é tratado. O problema seguinte é o p-valor de x na regressão para avaliar o efeito de tratamento: se for abaixo de 0.05, a regressão segue inalterada. Senão, ai a gente faz só a regressão de y no tratamento. O efeito real do tratamento é 1.5. Veja que eu tenho uma variável que diz quantas vezes a variável x foi excluida. Na simulação acima isso ocorreu em 1189 casos. Vamos ver o histograma do efeito de tratamento:</p>
-<pre class="r"><code>cofs_df &lt;- data.frame(cofs = cofs)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs_df &lt;- data.frame(cofs = cofs)
 
 ggplot(cofs_df,aes(cofs)) + geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Essa distribuição é bastante esquisita. Como isso afeta os testes de hipótese?</p>
-<pre class="r"><code>p_vals &lt;- rep(NA,2000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">p_vals &lt;- rep(NA,2000)
 dropped &lt;- rep(NA,2000)
 
 for(i in 1:2000){
@@ -174,7 +176,7 @@ for(i in 1:2000){
 pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
 <p>Nós rejeitamos a hipótese nula quando ela é verdadeira em 28.4% dos casos, quando nós deveríamos rejeitar para apenas 5% dos casos.</p>
 <p>Como contornar isso? Bom, você sempre pode encher de todos os controles possíveis e imagináveis. É claro que podemos ter um caso em que o número de controles é maior que o número de observações, isso não funciona. É ai que entra uma ideia simples e super esperta: no lugar de você olhar só se a variável de controle só na regressão de y no tratamento, <em>também olhe se o controle é significativo na regressão do tratamento</em>. Esse procedimento é chamado de <em>double selection</em>. O procedimento anterior que eu fiz é chamado de <em>single selection</em>. Vamos testar isso:</p>
-<pre class="r"><code>cofs &lt;- rep(NA,2000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs &lt;- rep(NA,2000)
 dropped &lt;- rep(NA,2000)
 
 for(i in 1:2000){
@@ -195,13 +197,13 @@ for(i in 1:2000){
     dropped[i] &lt;- 1
   }
 }</code></pre>
-<pre class="r"><code>cofs_ds_df &lt;- data.frame(cofs = cofs)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cofs_ds_df &lt;- data.frame(cofs = cofs)
 
 ggplot(cofs_ds_df,aes(cofs)) + geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2020-04-28-double-selection_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>A distribuição fica bem melhor. Vamos ver como fica o erro de tipo I a 5% quando o tratamento não tem efeito:</p>
-<pre class="r"><code>p_vals &lt;- rep(NA,2000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">p_vals &lt;- rep(NA,2000)
 dropped &lt;- rep(NA,2000)
 
 for(i in 1:2000){
@@ -239,22 +241,22 @@ pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
                                     <i class="fas fa-tag mr-2"></i>Seleção de Modelos
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2020%2f05%2f01%2fdouble-selection%2f&text=Double%20Selection">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2020%2f05%2f01%2fdouble-selection%2f&text=Double%20Selection">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2020%2f05%2f01%2fdouble-selection%2f&title=Double%20Selection">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2020%2f05%2f01%2fdouble-selection%2f&title=Double%20Selection">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2020%2f05%2f01%2fdouble-selection%2f&t=Double%20Selection">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2020%2f05%2f01%2fdouble-selection%2f&t=Double%20Selection">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2020%2f05%2f01%2fdouble-selection%2f&title=Double%20Selection">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2020%2f05%2f01%2fdouble-selection%2f&title=Double%20Selection">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -279,7 +281,7 @@ pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -320,28 +322,9 @@ pp &lt;- mean(p_vals &lt; 0.05)</code></pre>
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

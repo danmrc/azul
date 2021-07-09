@@ -2,61 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Curtas on AZUL</title>
-    <link>/categories/curtas/</link>
+    <link>https://azul.netlify.app/categories/curtas/</link>
     <description>Recent content in Curtas on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 24 Apr 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/curtas/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 24 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/curtas/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Viés de Atenuação</title>
-      <link>/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
+      <link>https://azul.netlify.app/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
       <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
+      <guid>https://azul.netlify.app/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
       <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</description>
     </item>
     
     <item>
-      <title>Bootstrap: uma introdução</title>
-      <link>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</link>
-      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</guid>
-      <description>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</description>
-    </item>
-    
-    <item>
       <title>Uma introdução à Cross Validation</title>
-      <link>/2019/04/20/cross-validation/</link>
+      <link>https://azul.netlify.app/2019/04/20/cross-validation/</link>
       <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/04/20/cross-validation/</guid>
+      <guid>https://azul.netlify.app/2019/04/20/cross-validation/</guid>
       <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
 A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
     </item>
     
     <item>
-      <title>Sazonalidade, x13, e dummies: Muito barulho por nada</title>
-      <link>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</link>
-      <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</guid>
-      <description>Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?
-Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças.</description>
-    </item>
-    
-    <item>
       <title>Interpolação</title>
-      <link>/2018/08/27/interpolacao/</link>
+      <link>https://azul.netlify.app/2018/08/27/interpolacao/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/27/interpolacao/</guid>
+      <guid>https://azul.netlify.app/2018/08/27/interpolacao/</guid>
       <description>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.</description>
     </item>

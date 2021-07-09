@@ -2,40 +2,48 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Macroeconomia on AZUL</title>
-    <link>/categories/macroeconomia/</link>
+    <link>https://azul.netlify.app/categories/macroeconomia/</link>
     <description>Recent content in Macroeconomia on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 17 Jan 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/macroeconomia/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/macroeconomia/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Método de Perturbação: linerizando modelos sem mistério</title>
+      <link>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</link>
+      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</guid>
+      <description>(Este é mais um post completamente maluco)
+Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de programação dinâmica. Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive “para sempre” e pode acumular um ativo. Matematicamente:
+\[\max_{\{C\}_{t=1}^{\infty}, \{k_{t+1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\\text{sujeito a}\\k_{t+1} + C_t = A_tk_t^{\alpha} + (1-\delta)k_t\]
+Nesse caso o agente acumula capital, que se deprecia a taxa \(\delta\) e pode ser usada para produzir bens com uma função de produção \(A_tk_t^{\alpha}\).</description>
+    </item>
     
     <item>
       <title>Sistemas dinâmicos II: Expectativas racionais</title>
-      <link>/2020/01/17/sistemas-din%C3%A2micos-ii/</link>
+      <link>https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/</link>
       <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/01/17/sistemas-din%C3%A2micos-ii/</guid>
+      <guid>https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/</guid>
       <description>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</description>
     </item>
     
     <item>
       <title>Medindo a inércia da inflação brasileira com Rolling Window Regression</title>
-      <link>/2019/09/20/inercia-inflacao-rolling-window/</link>
+      <link>https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/</link>
       <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/09/20/inercia-inflacao-rolling-window/</guid>
+      <guid>https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/</guid>
       <description>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</description>
     </item>
     
     <item>
       <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
-      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <link>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
       <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
@@ -43,10 +51,10 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     
     <item>
       <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
-      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <link>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
       <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
@@ -54,10 +62,10 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     
     <item>
       <title>Identificação em VAR e Price Puzzle I</title>
-      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <link>https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
       <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&amp;#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
@@ -65,10 +73,10 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     
     <item>
       <title>Identificação em VAR e Price Puzzle I</title>
-      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <link>https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
       <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&amp;#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
@@ -76,20 +84,20 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     
     <item>
       <title>Explorando o Modelo de Solow com a ajuda do R</title>
-      <link>/2018/09/11/solow/</link>
+      <link>https://azul.netlify.app/2018/09/11/solow/</link>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/11/solow/</guid>
+      <guid>https://azul.netlify.app/2018/09/11/solow/</guid>
       <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
     </item>
     
     <item>
       <title>Explorando o Modelo de Solow com a ajuda do R</title>
-      <link>/2018/09/11/solow/</link>
+      <link>https://azul.netlify.app/2018/09/11/solow/</link>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/11/solow/</guid>
+      <guid>https://azul.netlify.app/2018/09/11/solow/</guid>
       <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
     </item>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Método de Perturbação on AZUL</title>
+    <link>https://azul.netlify.app/tags/m%C3%A9todo-de-perturba%C3%A7%C3%A3o/</link>
+    <description>Recent content in Método de Perturbação on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/m%C3%A9todo-de-perturba%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Método de Perturbação: linerizando modelos sem mistério</title>
+      <link>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</link>
+      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</guid>
+      <description>(Este é mais um post completamente maluco)
+Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de programação dinâmica. Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive “para sempre” e pode acumular um ativo. Matematicamente:
+\[\max_{\{C\}_{t=1}^{\infty}, \{k_{t+1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\\text{sujeito a}\\k_{t+1} + C_t = A_tk_t^{\alpha} + (1-\delta)k_t\]
+Nesse caso o agente acumula capital, que se deprecia a taxa \(\delta\) e pode ser usada para produzir bens com uma função de produção \(A_tk_t^{\alpha}\).</description>
+    </item>
+    
+  </channel>
+</rss>

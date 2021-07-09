@@ -2,22 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Alta Dimensão on AZUL</title>
-    <link>/categories/alta-dimens%C3%A3o/</link>
+    <link>https://azul.netlify.app/categories/alta-dimens%C3%A3o/</link>
     <description>Recent content in Alta Dimensão on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 14 Nov 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/alta-dimens%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 21 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/alta-dimens%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Concentração de Medida</title>
-      <link>/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./</link>
-      <pubDate>Sat, 14 Nov 2020 00:00:00 +0000</pubDate>
+      <link>https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/</link>
+      <pubDate>Sat, 21 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./</guid>
+      <guid>https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/</guid>
       <description>Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
 Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
 \[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]

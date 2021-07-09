@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,16 +34,15 @@
 
 
 
-<link rel="canonical" href="/categories/curtas/">
-  <link href="/categories/curtas/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
-  <link href="/categories/curtas/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Curtas" />
+<link rel="canonical" href="https://azul.netlify.app/categories/curtas/">
+  <link href="https://azul.netlify.app/categories/curtas/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
+  <link href="https://azul.netlify.app/categories/curtas/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Curtas" />
 <meta property="og:description" content="Economia, Estatística, Programação" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/categories/curtas/" />
-<meta property="og:updated_time" content="2020-04-24T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/categories/curtas/" />
+
 <meta itemprop="name" content="Curtas">
-<meta itemprop="description" content="Economia, Estatística, Programação">
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Curtas"/>
 <meta name="twitter:description" content="Economia, Estatística, Programação"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -59,7 +57,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -105,44 +103,12 @@
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Bootstrap: uma introdução</h4>
-            <p class="card-text text-muted text-uppercase">February 22, 2020</p>
-            <div class="card-text">
-                Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
     <a href="/2019/04/20/cross-validation/" class="d-block"><div class="card-body">
             <h4 class="card-title">Uma introdução à Cross Validation</h4>
             <p class="card-text text-muted text-uppercase">April 20, 2019</p>
             <div class="card-text">
                 Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
 A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Sazonalidade, x13, e dummies: Muito barulho por nada</h4>
-            <p class="card-text text-muted text-uppercase">September 24, 2018</p>
-            <div class="card-text">
-                Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?
-Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças.
             </div>
         </div>
     </a>
@@ -175,7 +141,7 @@ A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunt
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -216,28 +182,9 @@ A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunt
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

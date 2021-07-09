@@ -9,7 +9,7 @@
      Stranger things: Distribuição exata de IV em um exemplo extremamente simples | 
     AZUL
   
-</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/"><meta property="og:title" content="Stranger things: Distribuição exata de IV em um exemplo extremamente simples" />
+<link rel="canonical" href="https://azul.netlify.app/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/"><meta property="og:title" content="Stranger things: Distribuição exata de IV em um exemplo extremamente simples" />
 <meta property="og:description" content="Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
 Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/" />
-<meta property="article:published_time" content="2019-06-15T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-06-15T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-06-15T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-06-15T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Stranger things: Distribuição exata de IV em um exemplo extremamente simples">
 <meta itemprop="description" content="Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
-Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.">
-<meta itemprop="datePublished" content="2019-06-15T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-06-15T00:00:00+00:00" />
+Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos."><meta itemprop="datePublished" content="2019-06-15T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-06-15T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1319">
-
-
-
-<meta itemprop="keywords" content="Variáveis Instrumentais," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Variáveis Instrumentais," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Stranger things: Distribuição exata de IV em um exemplo extremamente simples"/>
 <meta name="twitter:description" content="Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
 Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos."/>
@@ -68,7 +63,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -106,12 +101,20 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
 
                         <h1>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</h1>
 
-                        
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
                     </div>
                 </div><div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="content">
                             
+<script src="2019-06-08-stranger-things-distribuição-exata-de-iv_files/header-attrs/header-attrs.js"></script>
+<link href="2019-06-08-stranger-things-distribuição-exata-de-iv_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2019-06-08-stranger-things-distribuição-exata-de-iv_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p><em>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência</em></p>
@@ -161,36 +164,36 @@ E equivalentemente para <span class="math inline">\(\sum_i z_i x_i\)</span>:</p>
 <p><span class="math display">\[\exp\left(-\frac{\gamma \sum_i z_i^2}{2\sigma^2_u}\left(\frac{\hat{\beta} - \beta}{(1-\hat{\beta})}\right)^2\right)\]</span></p>
 <hr />
 </div>
-<div id="a-distribuicao" class="section level2">
+<div id="a-distribuição" class="section level2">
 <h2>A distribuição</h2>
 <p>A distribuição do estimador é <span class="math inline">\(f(\hat{\beta}) = \frac{\lambda_n}{\sqrt{2\pi}\sigma_u}\frac{|1-\beta|}{(1-\hat{\beta})^2}\exp\left(-\frac{\gamma \sum_i z_i^2}{2\sigma^2_u}\left(\frac{\hat{\beta} - \beta}{(1-\hat{\beta})}\right)^2\right)\)</span>, onde <span class="math inline">\(\lambda_n = \gamma/n\sum_i z_i^2\)</span>. Veja que <span class="math inline">\(\lambda_n\)</span> mede o quão forte é o instrumentos: isso depende tanto da variância do <span class="math inline">\(z\)</span> (medido pelo <span class="math inline">\(\sum_i z_i^2\)</span>) e do valor de <span class="math inline">\(\gamma\)</span>.</p>
 <p>Vamos usar o R para olhar como é essa distribuição para diferentes valores de <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\beta\)</span> e <span class="math inline">\(\sigma^2_u\)</span>. Veja que se <span class="math inline">\(\beta = 1\)</span> o problema não vai ser bem definido. Eu vou começar com <span class="math inline">\(\lambda =1\)</span> e vou fixar <span class="math inline">\(\sigma^2_u=1\)</span> e <span class="math inline">\(\beta = 0.6\)</span>.</p>
-<pre class="r"><code>dist &lt;- function(x,lambda,btrue,varu){
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">dist &lt;- function(x,lambda,btrue,varu){
   sqrt(lambda/(2*pi*varu))*abs(1-btrue)/(1-x)^2*exp(-lambda/(2*varu)*((x-btrue)/(1-x))^2)
 }
 
 xx &lt;- seq(-1,2,by = 0.01)
 yy &lt;- dist(xx,1,0.6,1)
-plot(xx,yy, type = &quot;l&quot;)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+plot(xx,yy, type = "l")</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Veja que a distribuição é bem exótica e que ela não está definida quando a estimativa é 1. Ela tem um pico em 0.6 (como deveria ser) e tem um máximo local logo depois de 1, que pode gerar problemas para a estimação. O mais divertido é quando a gente reduz <span class="math inline">\(\lambda_n\)</span>. Eu vou colocar 0.1:</p>
-<pre class="r"><code>yy &lt;- dist(xx,0.1,0.6,1)
-plot(xx,yy, type = &quot;l&quot;)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">yy &lt;- dist(xx,0.1,0.6,1)
+plot(xx,yy, type = "l")</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Agora a bimodalidade é evidente e preocupante. Podemos reduzir ainda mais <span class="math inline">\(\lambda_n\)</span>, para 0.01:</p>
-<pre class="r"><code>yy &lt;- dist(xx,0.01,0.6,1)
-plot(xx,yy, type = &quot;l&quot;)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">yy &lt;- dist(xx,0.01,0.6,1)
+plot(xx,yy, type = "l")</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>A distribuição é bimodal com duas modas perto de 1 - que não é o valor verdadeiro do parâmetro! Veja que mesmo mudando o valor verdadeiro do parâmetro e com um instrumento relativamente forte (<span class="math inline">\(\lambda_n = 1\)</span>), a distribuição não tem moda no valor verdadeiro do parâmetro.</p>
-<pre class="r"><code>library(latex2exp)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(latex2exp)
 yy &lt;- dist(xx,1,0,1)
 yy2 &lt;- dist(xx,1,0.6,1)
-plot(xx,yy2, type = &quot;l&quot;)
+plot(xx,yy2, type = "l")
 lines(xx,yy,col=2)
-legend(&quot;topleft&quot;, legend = c(TeX(&#39;$\\beta = 0.6$&#39;),TeX(&#39;$\\beta = 0$&#39;)),lty=1,col=c(1,2))</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+legend("topleft", legend = c(TeX('$\\beta = 0.6$'),TeX('$\\beta = 0$')),lty=1,col=c(1,2))</code></pre>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Os comandos LaTeX na legenda são processados pela função <code>TeX()</code>, do pacote <em>latex2exp</em> .Podemos fazer algumas simulações para testar isso. Eu vou escolher os parâmetros de maneira que o problema seja equivalente ao da distribuição que a gente usou e fazer amostras relativamente grandes:</p>
-<pre class="r"><code>library(AER)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(AER)
 set.seed(9076)
 
 gama &lt;- 1
@@ -211,9 +214,9 @@ for(i in 1:1000){
 }
 
 hist(estimativas, freq = F)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Apesar da distribuição do estimador ter um máximo local, o estimador até sobrevive bem. Vamos deixar o instrumento fraco reduzindo gama:</p>
-<pre class="r"><code>gama &lt;- 0.1
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">gama &lt;- 0.1
 beta &lt;- 0.6
 sigma_u &lt;- 1
 sigma_z &lt;- 1
@@ -231,11 +234,11 @@ for(i in 1:1000){
 }
 
 hist(estimativas, freq = F)</code></pre>
-<p><img src="/post/2019-06-08-stranger-things-distribuição-exata-de-iv_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2019-06-08-stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Como esperado, o resultado é catastrófico. A distribuição fica com toda a massa concentrada em 1, que sequer é o valor verdadeiro do parâmetro - na verdade, nesse ponto o estimador sequer está bem definido.</p>
 <p>Esse post serve como um belo exercício de estatística - como obter uma distribuição exata de um estimador que estamos acostumados a pensar apenas em termos assintóticos - e serve como um alerta sobre o uso de variáveis instrumentais: mesmo em uma situação extremamente simples, nós podemos ter sério problemas. Isso depende do tamanho da amostra e do fatos dos instrumentos serem fracos - o que nem sempre é corretamente diagnosticado.</p>
 </div>
-<div id="referencias" class="section level2">
+<div id="referências" class="section level2">
 <h2>Referências</h2>
 <p>Some Further Results on the Exact Small Sample Properties of the Instrumental Variable
 Estimator, Charles R. Nelson and Richard Startz, Econometrica, 1990</p>
@@ -246,22 +249,22 @@ Estimator, Charles R. Nelson and Richard Startz, Econometrica, 1990</p>
                                     <i class="fas fa-tag mr-2"></i>Variáveis Instrumentais
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2019%2f06%2f15%2fstranger-things-distribui%25C3%25A7%25C3%25A3o-exata-de-iv%2f&text=Stranger%20things%3a%20Distribui%c3%a7%c3%a3o%20exata%20de%20IV%20em%20um%20exemplo%20extremamente%20simples">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2019%2f06%2f15%2fstranger-things-distribui%25C3%25A7%25C3%25A3o-exata-de-iv%2f&text=Stranger%20things%3a%20Distribui%c3%a7%c3%a3o%20exata%20de%20IV%20em%20um%20exemplo%20extremamente%20simples">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2019%2f06%2f15%2fstranger-things-distribui%25C3%25A7%25C3%25A3o-exata-de-iv%2f&title=Stranger%20things%3a%20Distribui%c3%a7%c3%a3o%20exata%20de%20IV%20em%20um%20exemplo%20extremamente%20simples">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2019%2f06%2f15%2fstranger-things-distribui%25C3%25A7%25C3%25A3o-exata-de-iv%2f&title=Stranger%20things%3a%20Distribui%c3%a7%c3%a3o%20exata%20de%20IV%20em%20um%20exemplo%20extremamente%20simples">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2019%2f06%2f15%2fstranger-things-distribui%25C3%25A7%25C3%25A3o-exata-de-iv%2f&t=Stranger%20things%3a%20Distribui%c3%a7%c3%a3o%20exata%20de%20IV%20em%20um%20exemplo%20extremamente%20simples">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2019%2f06%2f15%2fstranger-things-distribui%25C3%25A7%25C3%25A3o-exata-de-iv%2f&t=Stranger%20things%3a%20Distribui%c3%a7%c3%a3o%20exata%20de%20IV%20em%20um%20exemplo%20extremamente%20simples">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2019%2f06%2f15%2fstranger-things-distribui%25C3%25A7%25C3%25A3o-exata-de-iv%2f&title=Stranger%20things%3a%20Distribui%c3%a7%c3%a3o%20exata%20de%20IV%20em%20um%20exemplo%20extremamente%20simples">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2019%2f06%2f15%2fstranger-things-distribui%25C3%25A7%25C3%25A3o-exata-de-iv%2f&title=Stranger%20things%3a%20Distribui%c3%a7%c3%a3o%20exata%20de%20IV%20em%20um%20exemplo%20extremamente%20simples">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -314,7 +317,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -355,28 +358,9 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

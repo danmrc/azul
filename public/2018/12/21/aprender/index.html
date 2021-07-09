@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2018/12/21/aprender/"><meta property="og:title" content="Por quê todo estudante de Economia deveria aprender R e por onde começar" />
+<link rel="canonical" href="https://azul.netlify.app/2018/12/21/aprender/"><meta property="og:title" content="Por quê todo estudante de Economia deveria aprender R e por onde começar" />
 <meta property="og:description" content="Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
 Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/12/21/aprender/" />
-<meta property="article:published_time" content="2018-12-21T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-12-21T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2018/12/21/aprender/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-12-21T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2018-12-21T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Por quê todo estudante de Economia deveria aprender R e por onde começar">
 <meta itemprop="description" content="Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
-Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.">
-<meta itemprop="datePublished" content="2018-12-21T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-12-21T00:00:00+00:00" />
+Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa."><meta itemprop="datePublished" content="2018-12-21T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-12-21T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1675">
-
-
-
-<meta itemprop="keywords" content="R," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="R," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Por quê todo estudante de Economia deveria aprender R e por onde começar"/>
 <meta name="twitter:description" content="Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
 Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa."/>
@@ -68,7 +63,7 @@ Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -204,22 +199,22 @@ Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre
                                     <i class="fas fa-tag mr-2"></i>R
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f12%2f21%2faprender%2f&text=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2018%2f12%2f21%2faprender%2f&text=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f12%2f21%2faprender%2f&title=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2018%2f12%2f21%2faprender%2f&title=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f12%2f21%2faprender%2f&t=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2018%2f12%2f21%2faprender%2f&t=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f12%2f21%2faprender%2f&title=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2018%2f12%2f21%2faprender%2f&title=Por%20qu%c3%aa%20todo%20estudante%20de%20Economia%20deveria%20aprender%20R%20e%20por%20onde%20come%c3%a7ar">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -242,8 +237,8 @@ Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre
             <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
             <p class="card-text text-muted text-uppercase">November 29, 2018</p>
             <div class="card-text">
-                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
+                Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
             </div>
         </div>
     </a>
@@ -256,8 +251,8 @@ Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre
             <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
             <p class="card-text text-muted text-uppercase">November 29, 2018</p>
             <div class="card-text">
-                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
+                Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
             </div>
         </div>
     </a>
@@ -271,7 +266,7 @@ Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre
             <p class="card-text text-muted text-uppercase">October 31, 2018</p>
             <div class="card-text">
                 Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
             </div>
         </div>
     </a>
@@ -286,7 +281,7 @@ O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegan
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -327,28 +322,9 @@ O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegan
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

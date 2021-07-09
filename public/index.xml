@@ -2,31 +2,108 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AZUL</title>
-    <link>/</link>
+    <link>https://azul.netlify.app/</link>
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mais raízes unitárias</title>
+      <link>https://azul.netlify.app/2021/06/24/mais-raizes-unitarias/</link>
+      <pubDate>Thu, 24 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/06/24/mais-raizes-unitarias/</guid>
+      <description>O Pedro já fez um post sobre regressão espúria, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente isso voltou a moda eu decidi escrever sobre isso.
+O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias1!</description>
+    </item>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Categorias</title>
+      <link>https://azul.netlify.app/2021/06/22/categorias-uteis/</link>
+      <pubDate>Tue, 22 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/06/22/categorias-uteis/</guid>
+      <description>Hoje eu vi um tweet que me fez pensar. É gostoso pensar por escrito, sigam-me os desocupados.
+Uma turistada por NaturâniaCorrendo o risco de alienar alguns leitores, imagine a terra mágica dos números naturais, Naturânia. Seus habitantes são… bem, os números naturais, eu espero que tenha ficado claro. Temos o Sr. Zero (eu disse que ia correr o risco de alienar alguns de vocês), a Sra. Quatrocentos e Setenta e Dois Mil, o googol, alguma potência de 10 menos sexy.</description>
+    </item>
     
+    <item>
+      <title>Calculando graus de liberdade do Ridge</title>
+      <link>https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/</link>
+      <pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/</guid>
+      <description>Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes.</description>
+    </item>
+    
+    <item>
+      <title>Multithreading no Julia: ainda mais rápido</title>
+      <link>https://azul.netlify.app/2021/04/08/multithreading-no-julia/</link>
+      <pubDate>Thu, 08 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/04/08/multithreading-no-julia/</guid>
+      <description>(Esse é um post bem curto para compensar o post anterior)
+Eu tava passeando pelo Julia Packages (não me julguem, 1 ano de lockdown) e achei um pacote chamado ThreadsX. A ideia é paralelizar algumas funções da base do Julia, e entre as funções temos o map. Obviamente eu fiquei interessado, especialmente porque não faz muito tempo eu fiz o problema de programação dinâmica usando map. O pacote me prometia acelerar o código simplesmente adicionando uma coisinha, e isso é muito tentador para eu deixar passar.</description>
+    </item>
+    
+    <item>
+      <title>Método de Perturbação: linerizando modelos sem mistério</title>
+      <link>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</link>
+      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</guid>
+      <description>(Este é mais um post completamente maluco)
+Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de programação dinâmica. Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive “para sempre” e pode acumular um ativo. Matematicamente:
+\[\max_{\{C\}_{t=1}^{\infty}, \{k_{t+1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\\text{sujeito a}\\k_{t+1} + C_t = A_tk_t^{\alpha} + (1-\delta)k_t\]
+Nesse caso o agente acumula capital, que se deprecia a taxa \(\delta\) e pode ser usada para produzir bens com uma função de produção \(A_tk_t^{\alpha}\).</description>
+    </item>
     
     <item>
       <title>Faça um blog, não faça um fio</title>
-      <link>/2020/11/16/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/</link>
-      <pubDate>Mon, 16 Nov 2020 00:00:00 +0000</pubDate>
+      <link>https://azul.netlify.app/2021/03/14/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/</link>
+      <pubDate>Sun, 14 Mar 2021 00:00:00 +0000</pubDate>
       
-      <guid>/2020/11/16/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/</guid>
-      <description>Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado.</description>
+      <guid>https://azul.netlify.app/2021/03/14/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/</guid>
+      <description>Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente para convencer que o formato não é adequado.</description>
+    </item>
+    
+    <item>
+      <title>Remastered: Interpolação</title>
+      <link>https://azul.netlify.app/2020/12/13/remastered-interpola%C3%A7%C3%A3o/</link>
+      <pubDate>Sun, 13 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2020/12/13/remastered-interpola%C3%A7%C3%A3o/</guid>
+      <description>Este é mais um post que já foi feito faz tempo, mas eu quero repetir mais pra mostrar um truque que eu aprendi, além de deixar a programação mais clara (com um pouco de sorte).
+Imagina que você conhece a função em alguns pontos. A gente teve um exemplo disso no post passado de programação dinâmica: a gente calcula o valor da função valor ou da função política em alguns pontos.</description>
+    </item>
+    
+    <item>
+      <title>{tidyverse}, Simulações e Processamento de Séries Temporais</title>
+      <link>https://azul.netlify.app/2020/12/10/impureza-e-contexto-storch/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2020/12/10/impureza-e-contexto-storch/</guid>
+      <description>Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
+foo1 &amp;lt;- function(x) {lubridate::now() + lubridate::dseconds(x + sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.</description>
+    </item>
+    
+    <item>
+      <title>Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem</title>
+      <link>https://azul.netlify.app/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/</link>
+      <pubDate>Sun, 29 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/</guid>
+      <description>Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no head.html do blog:
+&amp;lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&amp;gt;Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!</description>
     </item>
     
     <item>
       <title>Concentração de Medida</title>
-      <link>/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./</link>
-      <pubDate>Sat, 14 Nov 2020 00:00:00 +0000</pubDate>
+      <link>https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/</link>
+      <pubDate>Sat, 21 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./</guid>
+      <guid>https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/</guid>
       <description>Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
 Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
 \[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]
@@ -35,19 +112,19 @@ Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “pro
     
     <item>
       <title>Remastered: Programação Dinâmica</title>
-      <link>/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <link>https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
       <pubDate>Thu, 05 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das primeiras coisas do blog. Eu acho que chegou a hora de revisitar o tópico porque desde então eu aprendi maneiras mais “limpas” de programar e o programa antigo provavelmente é horroroso. Vocês podem levantar objeções de que essa é uma maneira barata de gerar post novo, mas eu acho que deixar o programa mais claro/mais eficiente é importante para transmitir a ideia.</description>
     </item>
     
     <item>
       <title>Verossimilhança da Poisson</title>
-      <link>/2020/10/10/verossimilhan%C3%A7a-da-poisson/</link>
+      <link>https://azul.netlify.app/2020/10/10/verossimilhan%C3%A7a-da-poisson/</link>
       <pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/10/10/verossimilhan%C3%A7a-da-poisson/</guid>
+      <guid>https://azul.netlify.app/2020/10/10/verossimilhan%C3%A7a-da-poisson/</guid>
       <description>Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
 A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é:
 \[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\]
@@ -56,20 +133,20 @@ Existe um bom número de situações em que essa distribuição pode não ser ad
     
     <item>
       <title>Componentes Principais e decomposição de matrizes</title>
-      <link>/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</link>
+      <link>https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</link>
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</guid>
+      <guid>https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</guid>
       <description>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
-Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
+Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
     </item>
     
     <item>
       <title>Crescimento Exponencial, mas sem o Corona</title>
-      <link>/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</link>
+      <link>https://azul.netlify.app/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</link>
       <pubDate>Wed, 29 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</guid>
+      <guid>https://azul.netlify.app/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</guid>
       <description>Uma família de funções que aparece em variados contextos é a exponencial:
 \[f(x) = ab^x\]
 Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&amp;gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
@@ -78,296 +155,224 @@ Não queria me alongar muito nem falar de corona então vou só fazer um gráfic
     
     <item>
       <title>Classificando distribuições a partir dos momentos</title>
-      <link>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</link>
+      <link>https://azul.netlify.app/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</link>
       <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</guid>
+      <guid>https://azul.netlify.app/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</guid>
       <description>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
 A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.</description>
     </item>
     
     <item>
       <title>Viés de significância</title>
-      <link>/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</link>
+      <link>https://azul.netlify.app/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</link>
       <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</guid>
+      <guid>https://azul.netlify.app/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</guid>
       <description>Esse post trata de um troço que eu nunca tinha pensado e é sensacional, talvez dê um nó na cabeça. Ele é 100% baseado neste post aqui, que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui, eu vou explicar tudo.
 Tem muita conta e vou deixar elas no fim. A ideia é extremamente simples: se você está numa situação em que o poder do teste é baixo e encontra um efeito significante, esse efeito provavelmente está sobreestimado.</description>
     </item>
     
     <item>
       <title>R mais rápido</title>
-      <link>/2020/07/02/r-mais-r%C3%A1pido/</link>
+      <link>https://azul.netlify.app/2020/07/02/r-mais-r%C3%A1pido/</link>
       <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/02/r-mais-r%C3%A1pido/</guid>
+      <guid>https://azul.netlify.app/2020/07/02/r-mais-r%C3%A1pido/</guid>
       <description>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.
 Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usa vários processadores sem precisar fazer nenhum setup.</description>
     </item>
     
     <item>
       <title>Hamiltonian Monte Carlo</title>
-      <link>/2020/06/22/hamiltonian-monte-carlo/</link>
+      <link>https://azul.netlify.app/2020/06/22/hamiltonian-monte-carlo/</link>
       <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/06/22/hamiltonian-monte-carlo/</guid>
+      <guid>https://azul.netlify.app/2020/06/22/hamiltonian-monte-carlo/</guid>
       <description>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
 No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.</description>
     </item>
     
     <item>
       <title>Cuide da saúde, pare de fazer loops</title>
-      <link>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</link>
+      <link>https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</link>
       <pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</guid>
+      <guid>https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</guid>
       <description>Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
 O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.</description>
     </item>
     
     <item>
-      <title>Modelagem com {tidymodels}</title>
-      <link>/2020/06/02/modelagem-com-tidymodels/</link>
-      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/02/modelagem-com-tidymodels/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>{purrr} para simular Sistemas Dinâmicos</title>
-      <link>/2020/05/25/funprog-dyn-sys/</link>
-      <pubDate>Mon, 25 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/05/25/funprog-dyn-sys/</guid>
-      <description>Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
-\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.</description>
-    </item>
-    
-    <item>
       <title>Double Selection</title>
-      <link>/2020/05/01/double-selection/</link>
+      <link>https://azul.netlify.app/2020/05/01/double-selection/</link>
       <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/05/01/double-selection/</guid>
+      <guid>https://azul.netlify.app/2020/05/01/double-selection/</guid>
       <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
 Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
 Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
     </item>
     
     <item>
-      <title>Workflow - Como funciona o AZUL</title>
-      <link>/2020/04/25/workflow/</link>
-      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/04/25/workflow/</guid>
-      <description>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
-Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown, que no fundo roda um software chamado hugo.</description>
-    </item>
-    
-    <item>
       <title>Viés de Atenuação</title>
-      <link>/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
+      <link>https://azul.netlify.app/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
       <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
+      <guid>https://azul.netlify.app/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
       <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</description>
     </item>
     
     <item>
       <title>Jogo da Velha com Q-Learning</title>
-      <link>/2020/04/21/jogo-da-velha-com-q-learning/</link>
+      <link>https://azul.netlify.app/2020/04/21/jogo-da-velha-com-q-learning/</link>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/21/jogo-da-velha-com-q-learning/</guid>
+      <guid>https://azul.netlify.app/2020/04/21/jogo-da-velha-com-q-learning/</guid>
       <description>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</description>
     </item>
     
     <item>
       <title>Erros padrões HAC</title>
-      <link>/2020/04/12/erros-padr%C3%B5es-hac/</link>
+      <link>https://azul.netlify.app/2020/04/12/erros-padr%C3%B5es-hac/</link>
       <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/12/erros-padr%C3%B5es-hac/</guid>
+      <guid>https://azul.netlify.app/2020/04/12/erros-padr%C3%B5es-hac/</guid>
       <description>Provavelmente vocês já se depararam com a situação de que você precisa usar erros que corrigem para o fato do erro ser possivelmente autocorrelacionados ou heterocedásticos. Enquanto a parte de heterocedasticidade é bastante interessante, esse post vai focar no problema de erros consistentes para processos correlacionados.
 Para começar, suponha que temos um processo estocástico \(u_t\) que é autocorrelacionado. Suponha que queremos calcular a média do processo, então teremos \(1/T\sum_{t=1}^{T} u_t\).</description>
     </item>
     
     <item>
       <title>Mas e a indústria?</title>
-      <link>/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
+      <link>https://azul.netlify.app/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
       <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
+      <guid>https://azul.netlify.app/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
       <description>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar não é coincidência.</description>
     </item>
     
     <item>
-      <title>Bootstrap: uma introdução</title>
-      <link>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</link>
-      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</guid>
-      <description>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</description>
-    </item>
-    
-    <item>
       <title>Gerando um padrão de difusão com soma de um termo gaussiano</title>
-      <link>/2020/02/09/difusao-gaussiana/</link>
+      <link>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/02/09/difusao-gaussiana/</guid>
+      <guid>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</guid>
       <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
 Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
     </item>
     
     <item>
       <title>Amostrando de distribuições difíceis: o Markov Chain Monte Carlo</title>
-      <link>/2020/02/08/markov-chain-monte-carlo/</link>
+      <link>https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/</link>
       <pubDate>Sat, 08 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/02/08/markov-chain-monte-carlo/</guid>
+      <guid>https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/</guid>
       <description>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</description>
     </item>
     
     <item>
       <title>Sistemas dinâmicos II: Expectativas racionais</title>
-      <link>/2020/01/17/sistemas-din%C3%A2micos-ii/</link>
+      <link>https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/</link>
       <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/01/17/sistemas-din%C3%A2micos-ii/</guid>
+      <guid>https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/</guid>
       <description>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</description>
     </item>
     
     <item>
       <title>Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot</title>
-      <link>/2020/01/05/linux-e-windows/</link>
+      <link>https://azul.netlify.app/2020/01/05/linux-e-windows/</link>
       <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/01/05/linux-e-windows/</guid>
+      <guid>https://azul.netlify.app/2020/01/05/linux-e-windows/</guid>
       <description>Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
 Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!</description>
     </item>
     
     <item>
       <title>Simulando o Teorema Central do Limite no R</title>
-      <link>/2019/11/03/central-limit-theorem-r/</link>
+      <link>https://azul.netlify.app/2019/11/03/central-limit-theorem-r/</link>
       <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/11/03/central-limit-theorem-r/</guid>
+      <guid>https://azul.netlify.app/2019/11/03/central-limit-theorem-r/</guid>
       <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
     </item>
     
     <item>
       <title>Regredindo séries temporais aleatórias para quem gosta de regressão</title>
-      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
+      <link>https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
+      <guid>https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/</guid>
       <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
     </item>
     
     <item>
       <title>Medindo a inércia da inflação brasileira com Rolling Window Regression</title>
-      <link>/2019/09/20/inercia-inflacao-rolling-window/</link>
+      <link>https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/</link>
       <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/09/20/inercia-inflacao-rolling-window/</guid>
+      <guid>https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/</guid>
       <description>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</description>
     </item>
     
     <item>
-      <title>O Teorema do Macaco Infito: quanto tempo até sair Hamlet?</title>
-      <link>/2019/09/08/macaco-infinito-hamlet/</link>
-      <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/09/08/macaco-infinito-hamlet/</guid>
-      <description>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
-    </item>
-    
-    <item>
       <title>Visualizando um critério de estacionariedade em Processos AR</title>
-      <link>/2019/08/20/viz-estacionariedade-gganim/</link>
+      <link>https://azul.netlify.app/2019/08/20/viz-estacionariedade-gganim/</link>
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
+      <guid>https://azul.netlify.app/2019/08/20/viz-estacionariedade-gganim/</guid>
       <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
-    </item>
-    
-    <item>
-      <title>Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen</title>
-      <link>/2019/08/15/born-with-the-gift-of-a-golden-voice/</link>
-      <pubDate>Thu, 15 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/08/15/born-with-the-gift-of-a-golden-voice/</guid>
-      <description>I was born like this
-I had no choice
-I was born with the gift of a golden voice
- – Leonard Cohen
-Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.</description>
+\[y_t = \beta y_{t-1} + \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
     </item>
     
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</title>
-      <link>/2019/08/12/perron-frobenius-verificando-comp-1/</link>
+      <link>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-1/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
+      <guid>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
+      <description>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
     </item>
     
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</title>
-      <link>/2019/08/12/perron-frobenius-verificando-comp-2/</link>
+      <link>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-2/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+      <guid>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
+      <description>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
     </item>
     
     <item>
       <title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</title>
-      <link>/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
+      <link>https://azul.netlify.app/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
       <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
+      <guid>https://azul.netlify.app/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
       <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
 Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
     </item>
     
     <item>
       <title>Comportamento de Random Walks</title>
-      <link>/2019/06/10/var-random-walks/</link>
+      <link>https://azul.netlify.app/2019/06/10/var-random-walks/</link>
       <pubDate>Mon, 10 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/06/10/var-random-walks/</guid>
+      <guid>https://azul.netlify.app/2019/06/10/var-random-walks/</guid>
       <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
-    </item>
-    
-    <item>
-      <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
-      <link>/2019/05/17/prouni-rf-classificacao/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/17/prouni-rf-classificacao/</guid>
-      <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.</description>
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
     </item>
     
     <item>
       <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
-      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <link>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
       <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
@@ -375,10 +380,10 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     
     <item>
       <title>Time Domain Iteration: mais programação dinâmica (Ou: como modelar firesales)</title>
-      <link>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
+      <link>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</link>
       <pubDate>Mon, 13 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
+      <guid>https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/</guid>
       <description>Em posts anteriores eu apresentei uma maneira de resolver o problema:
 \[\max \displaystyle \sum_{t=0}^\infty \beta^t u(C_t) \text{ sujeito a uma restrição orçamentária}\]
 O método que eu apresentei se valia de reescrever o problema como um problema recursivo usando a função valor, um método que também recebe o nome de Bellman Operator, devido a Richard Bellman, o desenvolvedor original da ideia. O método também é chamado de value function iteration, já que a cada iteração do algoritmo nós mudamos a aproximação da função valor.</description>
@@ -386,20 +391,20 @@ O método que eu apresentei se valia de reescrever o problema como um problema r
     
     <item>
       <title>Classificando cursos no ProUni com Random Forest</title>
-      <link>/2019/05/07/prouni-rf-classificacao/</link>
+      <link>https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/</link>
       <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/07/prouni-rf-classificacao/</guid>
+      <guid>https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
 Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
     </item>
     
     <item>
       <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
-      <link>/2019/05/02/lasso-adaptativo/</link>
+      <link>https://azul.netlify.app/2019/05/02/lasso-adaptativo/</link>
       <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/02/lasso-adaptativo/</guid>
+      <guid>https://azul.netlify.app/2019/05/02/lasso-adaptativo/</guid>
       <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
 \[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
 (Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
@@ -407,59 +412,49 @@ Já aviso de antemão que a explicaçõe será muito superficial. É um assunto 
     
     <item>
       <title>Uma introdução à Cross Validation</title>
-      <link>/2019/04/20/cross-validation/</link>
+      <link>https://azul.netlify.app/2019/04/20/cross-validation/</link>
       <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/04/20/cross-validation/</guid>
+      <guid>https://azul.netlify.app/2019/04/20/cross-validation/</guid>
       <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
 A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
     </item>
     
     <item>
       <title>Modelo de Cournot no R com o pacote Recon</title>
-      <link>/2019/04/04/recon-comp-micro/</link>
+      <link>https://azul.netlify.app/2019/04/04/recon-comp-micro/</link>
       <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/04/04/recon-comp-micro/</guid>
+      <guid>https://azul.netlify.app/2019/04/04/recon-comp-micro/</guid>
       <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;) para instalar a última versão enviada ao repositório ou devtools::install_github(&amp;quot;pedrocava/Recon&amp;quot;) para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
 Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.</description>
     </item>
     
     <item>
       <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
-      <link>/2019/03/28/consistencia-assintotica-ols/</link>
+      <link>https://azul.netlify.app/2019/03/28/consistencia-assintotica-ols/</link>
       <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/03/28/consistencia-assintotica-ols/</guid>
+      <guid>https://azul.netlify.app/2019/03/28/consistencia-assintotica-ols/</guid>
       <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
     </item>
     
     <item>
       <title>Aplicando Programação Dinâmica à Reforma da Previdência</title>
-      <link>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</link>
+      <link>https://azul.netlify.app/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</link>
       <pubDate>Wed, 06 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</guid>
+      <guid>https://azul.netlify.app/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/</guid>
       <description>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
 Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.</description>
     </item>
     
     <item>
-      <title>Still Haven&#39;t Found What I am looking for: modelos de search para emprego</title>
-      <link>/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/</link>
-      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/</guid>
-      <description>(Sim, o título é uma referência a música do U2. Não só de economia vive um homem.)
-Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos posts anteriores1 para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário \(w\), onde \(w\) sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?</description>
-    </item>
-    
-    <item>
       <title>Filtros: Uma Introdução</title>
-      <link>/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</link>
+      <link>https://azul.netlify.app/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</link>
       <pubDate>Sat, 09 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</guid>
+      <guid>https://azul.netlify.app/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/</guid>
       <description>Um filtro (linear) é basicamente qualquer polinômio \(\alpha(B)\) a ser aplicado a uma série. De maneira geral, podemos representar um filtro como:
 \[ \alpha(B) = \displaystyle \sum_{j=-\infty}^{\infty} a_j B^{j} \]
 Onde B é o operador backshift, logo para uma série temporal \(y_t\), \(By_t = y_{t-1}\) e \(B^ny_t = y_{t-n}\). A forma acima é conhecida como a representação no domínio temporal (time domain) do filtro. Filtros podem “existir” em duas formas, que carregam a mesma informação: a de time domain e a frequency domain (que, em tradução literal, é o domínio da frequência ou domínio frequencial.</description>
@@ -467,255 +462,197 @@ Onde B é o operador backshift, logo para uma série temporal \(y_t\), \(By_t = 
     
     <item>
       <title>Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate</title>
-      <link>/2019/01/07/prob-animate/</link>
+      <link>https://azul.netlify.app/2019/01/07/prob-animate/</link>
       <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/01/07/prob-animate/</guid>
+      <guid>https://azul.netlify.app/2019/01/07/prob-animate/</guid>
       <description>Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&amp;quot;gganimate&amp;quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R.</description>
     </item>
     
     <item>
       <title>Programação Dinâmica IIB</title>
-      <link>/2018/12/27/programacao-dinamica-ii-b/</link>
+      <link>https://azul.netlify.app/2018/12/27/programacao-dinamica-ii-b/</link>
       <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/27/programacao-dinamica-ii-b/</guid>
+      <guid>https://azul.netlify.app/2018/12/27/programacao-dinamica-ii-b/</guid>
       <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
 \[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
     </item>
     
     <item>
       <title>Ano novo, layout novo</title>
-      <link>/2018/12/26/ano-novo-layout-novo/</link>
+      <link>https://azul.netlify.app/2018/12/26/ano-novo-layout-novo/</link>
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/26/ano-novo-layout-novo/</guid>
+      <guid>https://azul.netlify.app/2018/12/26/ano-novo-layout-novo/</guid>
       <description>Um novo ano se aproxima. E junto dele, temos um novo tema para o blog, com um layout ainda mais minimalista, descrições dos posts na página inicial (na verdade um trecho do texto), mas mais importante (e o principal motivo) é que o novo tema faz syntax highlighting, ou seja, o código dos nossos posts agora vão se parecer mais com os códigos que você normalmente vê em uma IDE, como o RStudio.</description>
     </item>
     
     <item>
       <title>Por quê todo estudante de Economia deveria aprender R e por onde começar</title>
-      <link>/2018/12/21/aprender/</link>
+      <link>https://azul.netlify.app/2018/12/21/aprender/</link>
       <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/21/aprender/</guid>
+      <guid>https://azul.netlify.app/2018/12/21/aprender/</guid>
       <description>Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
 Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.</description>
     </item>
     
     <item>
       <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos</title>
-      <link>/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
+      <link>https://azul.netlify.app/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
       <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
+      <guid>https://azul.netlify.app/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
       <description>(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
 Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
     </item>
     
     <item>
       <title>RDD, inferência causal e um exemplo em R</title>
-      <link>/2018/12/13/rdd-mixtape/</link>
+      <link>https://azul.netlify.app/2018/12/13/rdd-mixtape/</link>
       <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <guid>https://azul.netlify.app/2018/12/13/rdd-mixtape/</guid>
       <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
     </item>
     
     <item>
       <title>RDD, inferência causal e um exemplo em R</title>
-      <link>/2018/12/13/rdd-mixtape/</link>
+      <link>https://azul.netlify.app/2018/12/13/rdd-mixtape/</link>
       <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <guid>https://azul.netlify.app/2018/12/13/rdd-mixtape/</guid>
       <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
     </item>
     
     <item>
       <title>Julia 101</title>
-      <link>/2018/12/10/julia-101/</link>
+      <link>https://azul.netlify.app/2018/12/10/julia-101/</link>
       <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/10/julia-101/</guid>
+      <guid>https://azul.netlify.app/2018/12/10/julia-101/</guid>
       <description>Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
-    </item>
-    
-    <item>
-      <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
-      <link>/2018/12/10/prouni-rf-svm/</link>
-      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/12/10/prouni-rf-svm/</guid>
-      <description> Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
-Random Forests  Support Vector Machines  Rodando tudo  </description>
+InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.</description>
     </item>
     
     <item>
       <title>Como receber atualizações do blog no celular</title>
-      <link>/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</link>
+      <link>https://azul.netlify.app/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</link>
       <pubDate>Mon, 03 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</guid>
+      <guid>https://azul.netlify.app/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</guid>
       <description>(TL;DR: você pode receber os posts novos do azul no seu celular, veja a lista no fim dois parágrafos abaixo)
 Nós passamos algum tempo pensando em como melhorar a distribuição de posts para os nossos leitores. Afinal, é extremamente ineficiente abrir o blog na esperança de ver um novo post e.. nada novo. Economistas sempre criticam ineficiências, e nós não poderíamos ser exceção.
 Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa automaticamente quando sai um post novo no blog.</description>
     </item>
     
     <item>
-      <title>Integrando o Telegram e R</title>
-      <link>/2018/11/30/telegram-e-r/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
+      <title>Como eu rodei Stata dentro do R para replicar um paper</title>
+      <link>https://azul.netlify.app/2018/11/29/patronagem/</link>
+      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/30/telegram-e-r/</guid>
-      <description>Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.</description>
+      <guid>https://azul.netlify.app/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
       <title>Como eu rodei Stata dentro do R para replicar um paper</title>
-      <link>/2018/11/29/patronagem/</link>
+      <link>https://azul.netlify.app/2018/11/29/patronagem/</link>
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
-    </item>
-    
-    <item>
-      <title>Como eu rodei Stata dentro do R para replicar um paper</title>
-      <link>/2018/11/29/patronagem/</link>
-      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <guid>https://azul.netlify.app/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
       <title>Prog Dinâmica IIA</title>
-      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <link>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <guid>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
 Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
     
     <item>
       <title>Prog Dinâmica IIA</title>
-      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <link>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <guid>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
 Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
     
     <item>
       <title>Sistemas Dinâmicos e Álgebra Linear</title>
-      <link>/2018/11/06/sistemas-dinamicos-e-algebra-linear/</link>
+      <link>https://azul.netlify.app/2018/11/06/sistemas-dinamicos-e-algebra-linear/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/06/sistemas-dinamicos-e-algebra-linear/</guid>
+      <guid>https://azul.netlify.app/2018/11/06/sistemas-dinamicos-e-algebra-linear/</guid>
       <description>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.
 Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo.</description>
     </item>
     
     <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
+      <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
+      <link>https://azul.netlify.app/2018/10/31/banach/</link>
+      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t \]</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
-    </item>
-    
-    <item>
-      <title>Programação Dinâmica IIB</title>
-      <link>/2018/11/02/programacao-dinamica-ii-b/</link>
-      <pubDate>Fri, 02 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/02/programacao-dinamica-ii-b/</guid>
-      <description>No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t$$</description>
+      <guid>https://azul.netlify.app/2018/10/31/banach/</guid>
+      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
       <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
-      <link>/2018/10/31/banach/</link>
+      <link>https://azul.netlify.app/2018/10/31/banach/</link>
       <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/31/banach/</guid>
+      <guid>https://azul.netlify.app/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
-    </item>
-    
-    <item>
-      <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
-      <link>/2018/10/31/banach/</link>
-      <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/10/31/banach/</guid>
-      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
       <title>Por que usar o Julia?</title>
-      <link>/2018/10/28/por-que-usar-o-julia/</link>
+      <link>https://azul.netlify.app/2018/10/28/por-que-usar-o-julia/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/28/por-que-usar-o-julia/</guid>
+      <guid>https://azul.netlify.app/2018/10/28/por-que-usar-o-julia/</guid>
       <description>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
 Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</description>
     </item>
     
     <item>
       <title>Por que usar o Julia?</title>
-      <link>/2018/10/28/por-que-usar-o-julia/</link>
+      <link>https://azul.netlify.app/2018/10/28/por-que-usar-o-julia/</link>
       <pubDate>Sun, 28 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/28/por-que-usar-o-julia/</guid>
+      <guid>https://azul.netlify.app/2018/10/28/por-que-usar-o-julia/</guid>
       <description>Eu já fiz alguns posts em que eu usava a linguagem de programação Julia. O Julia é relativamente novo: o projeto começou em 2009 e a versão 1.0 foi lançada esse ano. Apesar disso, ela já é um relativamente conhecida. O Julia promete ter uma sintaxe clara e ser mais rápido do que linguagens como o Matlab e o R.
 Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido que os concorrentes.</description>
     </item>
     
     <item>
       <title>Testes de raiz unitária</title>
-      <link>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
+      <link>https://azul.netlify.app/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
       <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/19/testes-de-raiz-unit%C3%A1ria/</guid>
+      <guid>https://azul.netlify.app/2018/10/19/testes-de-raiz-unit%C3%A1ria/</guid>
       <description>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
 Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.</description>
     </item>
     
     <item>
-      <title>Identificação em VAR e Price Puzzle</title>
-      <link>/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
-      <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Identificação em VAR e Price Puzzle I</title>
-      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <link>https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
       <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&amp;#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
@@ -723,10 +660,10 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     
     <item>
       <title>Identificação em VAR e Price Puzzle I</title>
-      <link>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
+      <link>https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/</guid>
       <description>O VAR (Vector Autoregression, em inglês; em tradução livre, autoregressão vetorial) é um método padrão em estudos empíricos em macroeconomia. VARs são simplesmente empilhamentos de variáveis nas quais estimamos uma autoregressão. Para solidificar a ideia, suponha que temos duas variáveis \(x_t,y_t\) em um vetor \(\mathbf{x_t} = (x_t \phantom{0} y_t)&amp;#39;\). Um VAR seria:
 \[\mathbf{x_t} = C\mathbf{x_{t-1}} + \mathbf{u_t}\]
 Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choques, possivelmente correlacionados.</description>
@@ -734,230 +671,200 @@ Onde \(C\) é uma matriz \(2 \times 2\) e \(\mathbf{u_t}\) é um vetor de choque
     
     <item>
       <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
-      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <link>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</guid>
       <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
 Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
     </item>
     
     <item>
       <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
-      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <link>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</guid>
       <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
 Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
-    </item>
-    
-    <item>
-      <title>Sazonalidade, x13, e dummies: Muito barulho por nada</title>
-      <link>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</link>
-      <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/</guid>
-      <description>Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?
-Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças.</description>
     </item>
     
     <item>
       <title>O LASSO</title>
-      <link>/2018/09/16/lasso/</link>
+      <link>https://azul.netlify.app/2018/09/16/lasso/</link>
       <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/16/lasso/</guid>
+      <guid>https://azul.netlify.app/2018/09/16/lasso/</guid>
       <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
     </item>
     
     <item>
       <title>Explorando o Modelo de Solow com a ajuda do R</title>
-      <link>/2018/09/11/solow/</link>
+      <link>https://azul.netlify.app/2018/09/11/solow/</link>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/11/solow/</guid>
+      <guid>https://azul.netlify.app/2018/09/11/solow/</guid>
       <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
     </item>
     
     <item>
       <title>Explorando o Modelo de Solow com a ajuda do R</title>
-      <link>/2018/09/11/solow/</link>
+      <link>https://azul.netlify.app/2018/09/11/solow/</link>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/11/solow/</guid>
+      <guid>https://azul.netlify.app/2018/09/11/solow/</guid>
       <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
     </item>
     
     <item>
       <title>Programação Dinâmica I</title>
-      <link>/2018/09/08/programacao-dinamica-i/</link>
+      <link>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/08/programacao-dinamica-i/</guid>
+      <guid>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</guid>
       <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
     </item>
     
     <item>
       <title>Programação Dinâmica I</title>
-      <link>/2018/09/08/programacao-dinamica-i/</link>
+      <link>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</link>
       <pubDate>Sat, 08 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/08/programacao-dinamica-i/</guid>
+      <guid>https://azul.netlify.app/2018/09/08/programacao-dinamica-i/</guid>
       <description>Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.</description>
     </item>
     
     <item>
       <title>Um pouco de microeconomia, dualidade e R</title>
-      <link>/2018/09/01/microeconomia/</link>
+      <link>https://azul.netlify.app/2018/09/01/microeconomia/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/01/microeconomia/</guid>
+      <guid>https://azul.netlify.app/2018/09/01/microeconomia/</guid>
       <description>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
 Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.</description>
     </item>
     
     <item>
       <title>Um pouco de microeconomia, dualidade e R</title>
-      <link>/2018/09/01/microeconomia/</link>
+      <link>https://azul.netlify.app/2018/09/01/microeconomia/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/01/microeconomia/</guid>
+      <guid>https://azul.netlify.app/2018/09/01/microeconomia/</guid>
       <description>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
 Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.</description>
     </item>
     
     <item>
       <title>Interpolação</title>
-      <link>/2018/08/27/interpolacao/</link>
+      <link>https://azul.netlify.app/2018/08/27/interpolacao/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/27/interpolacao/</guid>
+      <guid>https://azul.netlify.app/2018/08/27/interpolacao/</guid>
       <description>Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.</description>
     </item>
     
     <item>
       <title>Alguns pequenos problemas de clustering k-means</title>
-      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <link>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <guid>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</guid>
       <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
 Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>
     
     <item>
       <title>Alguns pequenos problemas de clustering k-means</title>
-      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <link>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <guid>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</guid>
       <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
 Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>
     
     <item>
       <title>Viés de variáveis instrumentais</title>
-      <link>/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
+      <link>https://azul.netlify.app/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
+      <guid>https://azul.netlify.app/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
       <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
 Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
     </item>
     
     <item>
       <title>Homens têm mais casos extraconjugais?</title>
-      <link>/2018/08/17/homens-traicao/</link>
+      <link>https://azul.netlify.app/2018/08/17/homens-traicao/</link>
       <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/17/homens-traicao/</guid>
+      <guid>https://azul.netlify.app/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
       <title>Homens têm mais casos extraconjugais?</title>
-      <link>/2018/08/17/homens-traicao/</link>
+      <link>https://azul.netlify.app/2018/08/17/homens-traicao/</link>
       <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/17/homens-traicao/</guid>
+      <guid>https://azul.netlify.app/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
       <title>Usando clustering para identificar cursos no Prouni</title>
-      <link>/2018/08/11/prouni-clustering/</link>
+      <link>https://azul.netlify.app/2018/08/11/prouni-clustering/</link>
       <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/11/prouni-clustering/</guid>
+      <guid>https://azul.netlify.app/2018/08/11/prouni-clustering/</guid>
       <description>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
 Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</description>
     </item>
     
     <item>
       <title>Sobre o Blog</title>
-      <link>/about/</link>
+      <link>https://azul.netlify.app/about/</link>
       <pubDate>Wed, 18 Jul 2018 21:48:51 -0700</pubDate>
       
-      <guid>/about/</guid>
+      <guid>https://azul.netlify.app/about/</guid>
       <description>Este blog é mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Escrevemos sobre economia, estatística e programação, frequentemente misturando os três. A ideia é escrever de maneira replicável e acessível (na medida do possível) sobre assuntos que gostaríamos de ter visto de outra forma, que estamos estudando ou o que tenham nos chamado a atenção. Acreditamos em aprender fazendo.
-Os Autores Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
+Os AutoresDaniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição.</description>
     </item>
     
     <item>
       <title>Monte Carlo 101</title>
-      <link>/2018/07/18/monte-carlo-101/</link>
+      <link>https://azul.netlify.app/2018/07/18/monte-carlo-101/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/07/18/monte-carlo-101/</guid>
+      <guid>https://azul.netlify.app/2018/07/18/monte-carlo-101/</guid>
       <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
     
     <item>
       <title>Monte Carlo 101</title>
-      <link>/2018/07/18/monte-carlo-101/</link>
+      <link>https://azul.netlify.app/2018/07/18/monte-carlo-101/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/07/18/monte-carlo-101/</guid>
+      <guid>https://azul.netlify.app/2018/07/18/monte-carlo-101/</guid>
       <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
     
     <item>
       <title>print(&#34;Hello,world!&#34;)</title>
-      <link>/2018/07/18/print-hello-world/</link>
+      <link>https://azul.netlify.app/2018/07/18/print-hello-world/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/07/18/print-hello-world/</guid>
+      <guid>https://azul.netlify.app/2018/07/18/print-hello-world/</guid>
       <description>Este é o primeiro post do AZUL, um blog mantido por Daniel Coutinho e Pedro “Cava” Cavalcante. Sem mais delongas, eis os dois autores:
 Daniel Coutinho é formado em economia pela PUC-Rio (2018) e faz mestrado em economia na mesma instituição. É louco o suficiente para ter feito a monografia de fim de curso em econometria, e gosta de escrever sobre si próprio na terceira pessoa.
 Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pesquisa no IPEA.</description>
-    </item>
-    
-    <item>
-      <title>R do Zero (1): Sintaxe Básica</title>
-      <link>/1/01/01/r-zero-1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/r-zero-1/</guid>
-      <description>Contexto Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio a pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, que tal disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.
-Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno.</description>
-    </item>
-    
-    <item>
-      <title>R do Zero (2): Manipulando dados com {dplyr}</title>
-      <link>/1/01/01/r-zero-2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/1/01/01/r-zero-2/</guid>
-      <description>Qual é a ideia do dplyr? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o %&amp;gt;% para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.
-Os que já tiveram contato com python se lembrarão de várias funções do pandas.</description>
     </item>
     
   </channel>

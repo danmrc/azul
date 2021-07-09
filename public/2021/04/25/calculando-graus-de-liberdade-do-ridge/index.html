@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Calculando graus de liberdade do Ridge | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/"><meta property="og:title" content="Calculando graus de liberdade do Ridge" />
+<meta property="og:description" content="Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-04-25T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-04-25T00:00:00&#43;00:00" />
+
+<meta itemprop="name" content="Calculando graus de liberdade do Ridge">
+<meta itemprop="description" content="Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes."><meta itemprop="datePublished" content="2021-04-25T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-04-25T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="841">
+<meta itemprop="keywords" content="SVD,Ridge," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Calculando graus de liberdade do Ridge"/>
+<meta name="twitter:description" content="Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">April 25, 2021</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>841 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>4 mins</span>
+                        </div>
+
+                        <h1>Calculando graus de liberdade do Ridge</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma <span class="math inline">\(\sum_j |\beta_j|\)</span>, nós temos uma penalidade na forma <span class="math inline">\(\sum_j \beta_j^2\)</span>. Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge <em>não induz</em> esparsidade, ele simplesmente encolhe os coeficientes.</p>
+<p>A coisa interessante é que existe uma fórmula fechada para os graus de liberdade do Ridge, que é dado por:</p>
+<p><span class="math display">\[
+df_{ridge} = tr(X(X^TX+ \lambda{}I)^{-1}X^T)
+\]</span></p>
+<p>Onde <span class="math inline">\(tr\)</span> é o traço. Talvez não seja óbvio que não colocar alguns coeficientes zeros altere os graus de liberdade, uma vez que a gente está acostumado a pensar nos graus de liberdade como um número inteiro igual ao número de parâmetros do modelo.</p>
+<hr />
+<p>Veja que usando o traço da matriz de projeção dos mínimos quadrados, nós obtemos <span class="math inline">\(tr(X(X^TX)^{-1}X^T)\)</span>, e usando o truque que <span class="math inline">\(tr(AB) = tr(BA)\)</span>, nós obtemos que os graus de liberdade de MQO é o número de colunas de <span class="math inline">\(X\)</span> - que é exatamente a nossa intuição usual.</p>
+<hr />
+<p>O problema é que estimar os graus de liberdade usando a fórmula acima é <em>extremamente lento</em> para um modelo muito grande. Eu vou fazer um caso com 2500 colunas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(microbenchmark)
+
+k &lt;- 2500
+
+x &lt;- matrix(rnorm(k*100),ncol = k)
+lamb &lt;- 0.45
+
+df1 &lt;- function(x,lamb){
+  x2 &lt;- t(x)%*%x
+  diag_lamb &lt;- diag(lamb,ncol = ncol(x2),nrow=ncol(x2))
+  gram &lt;- solve(x2 + diag_lamb)
+  vals &lt;- x%*%gram%*%t(x)
+  return(sum(diag(vals)))
+}
+
+res &lt;- microbenchmark(df1(x,lamb))
+
+knitr::kable(summary(res, unit = "ms"), caption = "Tempo para calcular os graus de liberdade, em milisegundos")</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>Tempo para calcular os graus de liberdade, em milisegundos</caption>
+<thead>
+<tr class="header">
+<th align="left">expr</th>
+<th align="right">min</th>
+<th align="right">lq</th>
+<th align="right">mean</th>
+<th align="right">median</th>
+<th align="right">uq</th>
+<th align="right">max</th>
+<th align="right">neval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">df1(x, lamb)</td>
+<td align="right">1805.659</td>
+<td align="right">1836.835</td>
+<td align="right">1869.71</td>
+<td align="right">1849.659</td>
+<td align="right">1873.502</td>
+<td align="right">2647.016</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table>
+<p>Um segundo é bastante tempo, se você precisa repetir isso para 100 modelos, por exemplo. O <em>Elements of Statistical Learning</em> sugere a seguinte maneira de calcular os graus de liberdade: seja <span class="math inline">\(d_i\)</span> os valores singulares de <span class="math inline">\(X\)</span>, então os graus de liberdade são <span class="math inline">\(\sum_i \frac{d_i^2}{d_i^2 + \lambda}\)</span></p>
+<p>Só para alguma coisa neste post não sair da cartola, deixa eu mostrar como a gente sai da conta a partir do traço para esta conta bem mais simples. Comece com a decomposição em valor singular de <span class="math inline">\(X\)</span>, que é <span class="math inline">\(UDV^T\)</span> onde <span class="math inline">\(D\)</span> é diagonal e <span class="math inline">\(U\)</span> e <span class="math inline">\(V\)</span> são matrizes ortonormais (leia o PS no fim da página se você tiver dúvidas sobre a dimensão). Então:</p>
+<p><span class="math display">\[X^TX = VDU^TUDV^T = VD^2V^T \tag{i}\]</span></p>
+<p>Usando o fato de <span class="math inline">\(U\)</span> ser ortonormal. Logo, <span class="math inline">\((X^TX + \lambda{}I)^{-1} = (V(D^{2} + \lambda{}I)V^T)^{-1}\)</span>, usando que <span class="math inline">\(V\)</span> é ortonormal.</p>
+<p>Agora, usando o fato de <span class="math inline">\(tr(AB) = tr(BA)\)</span> e (i), nós temos:</p>
+<p><span class="math display">\[
+tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^T(X^TX + \lambda{}I)^{-1}) 
+\]</span></p>
+<p>Agora use a expressão que encontramos para a inversa e o fato que, se <span class="math inline">\(A,B,C\)</span> são quadradas, <span class="math inline">\((ABC)^{-1} = C^{-1}B^{-1}A^{-1}\)</span>:</p>
+<p><span class="math display">\[
+tr(X(X^TX+ \lambda{}I)^{-1}X^T) = tr(X^TX(X^TX + \lambda{}I)^{-1}) = tr(VD^2V^T(V(D^2 + \lambda{}I)V^T)^{-1}) = \\
+= tr(VD^2(D^2 + \lambda{}I)^{-1}V^T) = tr(V^TVD^2(D^2 + \lambda{}I)^{-1}) = tr(D^2(D^2 + \lambda{}I))
+\]</span></p>
+<p>Onde eu usei ortogonalidade de <span class="math inline">\(V\)</span> para afirmar que <span class="math inline">\(V^{-1} = V^T\)</span> e novamente <span class="math inline">\(tr(AB) = tr(BA)\)</span>.</p>
+<p>Bom, isso assume que calcular o SVD é muito mais rápido que calcular a inversa. Vamos ver se isso é verdade:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">df2 &lt;- function(x,lamb){
+  svd_x &lt;- svd(x)
+  d2 &lt;- (svd_x$d)^2
+  ans &lt;- sum(d2/(d2+lamb))
+  return(ans)
+}
+
+res2 &lt;- microbenchmark(df2(x,lamb))</code></pre>
+<p>E os resultados são:</p>
+<table style="width:100%;">
+<caption>Tempo para calcular os graus de liberdade, em milisegundos</caption>
+<colgroup>
+<col width="15%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="11%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">expr</th>
+<th align="right">min</th>
+<th align="right">lq</th>
+<th align="right">mean</th>
+<th align="right">median</th>
+<th align="right">uq</th>
+<th align="right">max</th>
+<th align="right">neval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">df1(x, lamb)</td>
+<td align="right">1847.28812</td>
+<td align="right">1933.34602</td>
+<td align="right">2108.35402</td>
+<td align="right">2025.51353</td>
+<td align="right">2198.12094</td>
+<td align="right">3192.9819</td>
+<td align="right">100</td>
+</tr>
+<tr class="even">
+<td align="left">df2(x, lamb)</td>
+<td align="right">38.64892</td>
+<td align="right">41.40672</td>
+<td align="right">57.34588</td>
+<td align="right">44.32647</td>
+<td align="right">48.92384</td>
+<td align="right">444.2084</td>
+<td align="right">100</td>
+</tr>
+</tbody>
+</table>
+<p>Comparando usando as medianas, o código usando SVD é 45 vezes mais rápido. Se você quer calcular os graus de liberdade para 100 modelos, usando SVD no lugar de inverter a matriz, você economiza uns 3 minutos. Se você está estimando 100 modelos em uma janela móvel que tem mil passos, então você economiza uns 50 minutos.</p>
+<p>Inverter matriz é (em geral) muito lento. Eu fiz só a etapa de inversão no benchmark, e ela gasta quase dois segundos. Talvez nossa intuição seja que calcular decomposições é extremamente complicado, mas ela é muito mais rápida que inversão.</p>
+<p>Outro ponto interessante é que isso não é absoluto: mais linhas na matriz <span class="math inline">\(X\)</span> deixa o tempo do svd e da inversão mais parecidos. Isso se deve (provavelmente) porque o número de valores singulares diferentes de zero é igual ao posto da matriz: por exemplo uma matriz <span class="math inline">\(100 \times 2500\)</span> só tem 100 valores singulares não nulos, enquanto <span class="math inline">\(1000 \times 2500\)</span> tem mil valores singulares não nulos.</p>
+<hr />
+<p><strong>PS.:</strong> Tinha faltado umas inversas nas contas da primeira vez que eu postei - o que é fácil de resolver. Um problema mais grave era que algumas definições de SVD <em>não usam</em> <span class="math inline">\(V\)</span> quadrada, o que jogava a propriedade <span class="math inline">\((ABC)^{-1} = C^{-1}B^{-1}A^{-1}\)</span>. A definição do <em>Elements</em> usa <span class="math inline">\(V\)</span> quadrada.</p>
+<p>Isso tudo está no excepcional <strong>Elements of Statistical Learning</strong> que vocês podem baixar legitimamente <a href="https://web.stanford.edu/~hastie/ElemStatLearn/">aqui</a></p>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/svd">
+                                    <i class="fas fa-tag mr-2"></i>SVD
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/ridge">
+                                    <i class="fas fa-tag mr-2"></i>Ridge
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2021%2f04%2f25%2fcalculando-graus-de-liberdade-do-ridge%2f&text=Calculando%20graus%20de%20liberdade%20do%20Ridge">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2021%2f04%2f25%2fcalculando-graus-de-liberdade-do-ridge%2f&title=Calculando%20graus%20de%20liberdade%20do%20Ridge">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2021%2f04%2f25%2fcalculando-graus-de-liberdade-do-ridge%2f&t=Calculando%20graus%20de%20liberdade%20do%20Ridge">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2021%2f04%2f25%2fcalculando-graus-de-liberdade-do-ridge%2f&title=Calculando%20graus%20de%20liberdade%20do%20Ridge">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Componentes Principais e decomposição de matrizes</h4>
+            <p class="card-text text-muted text-uppercase">September 7, 2020</p>
+            <div class="card-text">
+                Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
+Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

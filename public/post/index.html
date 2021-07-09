@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,16 +34,15 @@
 
 
 
-<link rel="canonical" href="/post/">
-  <link href="/post/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
-  <link href="/post/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Posts" />
+<link rel="canonical" href="https://azul.netlify.app/post/">
+  <link href="https://azul.netlify.app/post/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
+  <link href="https://azul.netlify.app/post/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Posts" />
 <meta property="og:description" content="Economia, Estatística, Programação" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/post/" />
-<meta property="og:updated_time" content="2020-11-16T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/post/" />
+
 <meta itemprop="name" content="Posts">
-<meta itemprop="description" content="Economia, Estatística, Programação">
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content="Economia, Estatística, Programação"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -59,7 +57,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -90,11 +88,12 @@
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/11/16/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Faça um blog, não faça um fio</h4>
-            <p class="card-text text-muted text-uppercase">November 16, 2020</p>
+    <a href="/2021/06/24/mais-raizes-unitarias/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Mais raízes unitárias</h4>
+            <p class="card-text text-muted text-uppercase">June 24, 2021</p>
             <div class="card-text">
-                Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado.
+                O Pedro já fez um post sobre regressão espúria, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente isso voltou a moda eu decidi escrever sobre isso.
+O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias1!
             </div>
         </div>
     </a>
@@ -105,9 +104,137 @@
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/11/14/concentra%C3%A7%C3%A3o-de-medida./" class="d-block"><div class="card-body">
+    <a href="/2021/06/22/categorias-uteis/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Categorias</h4>
+            <p class="card-text text-muted text-uppercase">June 22, 2021</p>
+            <div class="card-text">
+                Hoje eu vi um tweet que me fez pensar. É gostoso pensar por escrito, sigam-me os desocupados.
+Uma turistada por NaturâniaCorrendo o risco de alienar alguns leitores, imagine a terra mágica dos números naturais, Naturânia. Seus habitantes são… bem, os números naturais, eu espero que tenha ficado claro. Temos o Sr. Zero (eu disse que ia correr o risco de alienar alguns de vocês), a Sra. Quatrocentos e Setenta e Dois Mil, o googol, alguma potência de 10 menos sexy.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2021/04/25/calculando-graus-de-liberdade-do-ridge/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Calculando graus de liberdade do Ridge</h4>
+            <p class="card-text text-muted text-uppercase">April 25, 2021</p>
+            <div class="card-text">
+                Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2021/04/08/multithreading-no-julia/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Multithreading no Julia: ainda mais rápido</h4>
+            <p class="card-text text-muted text-uppercase">April 8, 2021</p>
+            <div class="card-text">
+                (Esse é um post bem curto para compensar o post anterior)
+Eu tava passeando pelo Julia Packages (não me julguem, 1 ano de lockdown) e achei um pacote chamado ThreadsX. A ideia é paralelizar algumas funções da base do Julia, e entre as funções temos o map. Obviamente eu fiquei interessado, especialmente porque não faz muito tempo eu fiz o problema de programação dinâmica usando map. O pacote me prometia acelerar o código simplesmente adicionando uma coisinha, e isso é muito tentador para eu deixar passar.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2021/03/23/metodo-de-perturbacao/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Método de Perturbação: linerizando modelos sem mistério</h4>
+            <p class="card-text text-muted text-uppercase">March 23, 2021</p>
+            <div class="card-text">
+                (Este é mais um post completamente maluco)
+Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de programação dinâmica. Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive “para sempre” e pode acumular um ativo. Matematicamente:
+\[\max_{\{C\}_{t=1}^{\infty}, \{k_{t&#43;1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\\text{sujeito a}\\k_{t&#43;1} &#43; C_t = A_tk_t^{\alpha} &#43; (1-\delta)k_t\]
+Nesse caso o agente acumula capital, que se deprecia a taxa \(\delta\) e pode ser usada para produzir bens com uma função de produção \(A_tk_t^{\alpha}\).
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2021/03/14/fa%C3%A7a-um-blog-n%C3%A3o-fa%C3%A7a-um-fio/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Faça um blog, não faça um fio</h4>
+            <p class="card-text text-muted text-uppercase">March 14, 2021</p>
+            <div class="card-text">
+                Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente para convencer que o formato não é adequado.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/12/13/remastered-interpola%C3%A7%C3%A3o/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Remastered: Interpolação</h4>
+            <p class="card-text text-muted text-uppercase">December 13, 2020</p>
+            <div class="card-text">
+                Este é mais um post que já foi feito faz tempo, mas eu quero repetir mais pra mostrar um truque que eu aprendi, além de deixar a programação mais clara (com um pouco de sorte).
+Imagina que você conhece a função em alguns pontos. A gente teve um exemplo disso no post passado de programação dinâmica: a gente calcula o valor da função valor ou da função política em alguns pontos.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/12/10/impureza-e-contexto-storch/" class="d-block"><div class="card-body">
+            <h4 class="card-title">{tidyverse}, Simulações e Processamento de Séries Temporais</h4>
+            <p class="card-text text-muted text-uppercase">December 10, 2020</p>
+            <div class="card-text">
+                Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
+foo1 &amp;lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem</h4>
+            <p class="card-text text-muted text-uppercase">November 29, 2020</p>
+            <div class="card-text">
+                Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no head.html do blog:
+&amp;lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&amp;gt;Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/" class="d-block"><div class="card-body">
             <h4 class="card-title">Concentração de Medida</h4>
-            <p class="card-text text-muted text-uppercase">November 14, 2020</p>
+            <p class="card-text text-muted text-uppercase">November 21, 2020</p>
             <div class="card-text">
                 Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
 Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
@@ -161,7 +288,7 @@ Existe um bom número de situações em que essa distribuição pode não ser ad
             <p class="card-text text-muted text-uppercase">September 7, 2020</p>
             <div class="card-text">
                 Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
-Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
+Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
             </div>
         </div>
     </a>
@@ -270,37 +397,6 @@ O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da s
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/06/02/modelagem-com-tidymodels/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Modelagem com {tidymodels}</h4>
-            <p class="card-text text-muted text-uppercase">June 2, 2020</p>
-            <div class="card-text">
-                
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2020/05/25/funprog-dyn-sys/" class="d-block"><div class="card-body">
-            <h4 class="card-title">{purrr} para simular Sistemas Dinâmicos</h4>
-            <p class="card-text text-muted text-uppercase">May 25, 2020</p>
-            <div class="card-text">
-                Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
-\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
     <a href="/2020/05/01/double-selection/" class="d-block"><div class="card-body">
             <h4 class="card-title">Double Selection</h4>
             <p class="card-text text-muted text-uppercase">May 1, 2020</p>
@@ -308,22 +404,6 @@ O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da s
                 Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
 Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
 Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2020/04/25/workflow/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Workflow - Como funciona o AZUL</h4>
-            <p class="card-text text-muted text-uppercase">April 25, 2020</p>
-            <div class="card-text">
-                Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
-Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown, que no fundo roda um software chamado hugo.
             </div>
         </div>
     </a>
@@ -385,22 +465,6 @@ Para começar, suponha que temos um processo estocástico \(u_t\) que é autocor
             <p class="card-text text-muted text-uppercase">April 12, 2020</p>
             <div class="card-text">
                 Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar não é coincidência.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Bootstrap: uma introdução</h4>
-            <p class="card-text text-muted text-uppercase">February 22, 2020</p>
-            <div class="card-text">
-                Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).
             </div>
         </div>
     </a>
@@ -518,47 +582,13 @@ Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. 
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2019/09/08/macaco-infinito-hamlet/" class="d-block"><div class="card-body">
-            <h4 class="card-title">O Teorema do Macaco Infito: quanto tempo até sair Hamlet?</h4>
-            <p class="card-text text-muted text-uppercase">September 8, 2019</p>
-            <div class="card-text">
-                O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
     <a href="/2019/08/20/viz-estacionariedade-gganim/" class="d-block"><div class="card-body">
             <h4 class="card-title">Visualizando um critério de estacionariedade em Processos AR</h4>
             <p class="card-text text-muted text-uppercase">August 20, 2019</p>
             <div class="card-text">
                 Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} &#43; \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2019/08/15/born-with-the-gift-of-a-golden-voice/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Born with the gift of a golden voice: usando LDA para analisar as músicas de Leonard Cohen</h4>
-            <p class="card-text text-muted text-uppercase">August 15, 2019</p>
-            <div class="card-text">
-                I was born like this
-I had no choice
-I was born with the gift of a golden voice
- – Leonard Cohen
-Este post vai fazer uma coisa que está na moda atualmente: análise textual. A ideia é pegar textos e colocar para serem analisados por métodos estátisticos. Uma variedade de métodos existem, com diversos enfoques. O R tem um task view para pacotes relacionadas a análise de texto.
+\[y_t = \beta y_{t-1} &#43; \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.
             </div>
         </div>
     </a>
@@ -573,7 +603,7 @@ Este post vai fazer uma coisa que está na moda atualmente: análise textual. A 
             <h4 class="card-title">A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</h4>
             <p class="card-text text-muted text-uppercase">August 12, 2019</p>
             <div class="card-text">
-                Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
+                Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
             </div>
         </div>
     </a>
@@ -588,8 +618,8 @@ Este post vai fazer uma coisa que está na moda atualmente: análise textual. A 
             <h4 class="card-title">A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</h4>
             <p class="card-text text-muted text-uppercase">August 12, 2019</p>
             <div class="card-text">
-                Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.
+                Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.
             </div>
         </div>
     </a>
@@ -622,24 +652,7 @@ Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver
             <div class="card-text">
                 Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2019/05/17/prouni-rf-classificacao/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Manipulação de Sementes em Geradores Pseudoaleatórios</h4>
-            <p class="card-text text-muted text-uppercase">May 17, 2019</p>
-            <div class="card-text">
-                Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
             </div>
         </div>
     </a>
@@ -780,22 +793,6 @@ Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sit
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2019/02/18/still-haven-t-found-what-i-am-looking-for-modelos-de-search-para-emprego/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Still Haven&#39;t Found What I am looking for: modelos de search para emprego</h4>
-            <p class="card-text text-muted text-uppercase">February 18, 2019</p>
-            <div class="card-text">
-                (Sim, o título é uma referência a música do U2. Não só de economia vive um homem.)
-Neste post eu vou usar as ferramentas de programação dinâmica desenvolvida nos posts anteriores1 para estudar um problema interessante em economia: Imagine que você está desempregado, buscando um emprego. A cada período você recebe uma oferta de emprego com salário \(w\), onde \(w\) sai de uma distribuição de probabilidade conhecida. Você deveria aceitar o emprego ou ficar mais um período desempregado esperando um salário melhor?
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
     <a href="/2019/02/09/filtros-uma-introdu%C3%A7%C3%A3o/" class="d-block"><div class="card-body">
             <h4 class="card-title">Filtros: Uma Introdução</h4>
             <p class="card-text text-muted text-uppercase">February 9, 2019</p>
@@ -926,23 +923,7 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
             <p class="card-text text-muted text-uppercase">December 10, 2018</p>
             <div class="card-text">
                 Numa miríade de posts eu usei uma linguagem de programação chamada Julia. Entretanto, eu nunca escrevi um post introduzindo o Julia, o que parece injusto. Este post corrige essa injustiça explicando o básico e o sistema de pacotes, bem como interfaces para o Julia.
-Instalando Primeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/12/10/prouni-rf-svm/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Usando Random Forest e SVMs para classificar cursos no ProUni</h4>
-            <p class="card-text text-muted text-uppercase">December 10, 2018</p>
-            <div class="card-text">
-                 Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
-Random Forests  Support Vector Machines  Rodando tudo  
+InstalandoPrimeiramente, o site do Julia é este aqui. O download é óbvio e funciona sem mistérios, bem como a instalação. Se voce usa alguma distribuição de Linux, você também pode baixar pela “loja” do linux.
             </div>
         </div>
     </a>
@@ -970,11 +951,12 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/11/30/telegram-e-r/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Integrando o Telegram e R</h4>
-            <p class="card-text text-muted text-uppercase">November 30, 2018</p>
+    <a href="/2018/11/29/patronagem/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
+            <p class="card-text text-muted text-uppercase">November 29, 2018</p>
             <div class="card-text">
-                Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.
+                Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
             </div>
         </div>
     </a>
@@ -989,24 +971,8 @@ Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa au
             <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
             <p class="card-text text-muted text-uppercase">November 29, 2018</p>
             <div class="card-text">
-                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/11/29/patronagem/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
-            <p class="card-text text-muted text-uppercase">November 29, 2018</p>
-            <div class="card-text">
-                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
+                Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
             </div>
         </div>
     </a>
@@ -1065,44 +1031,12 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Programação Dinâmica IIB</h4>
-            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+    <a href="/2018/10/31/banach/" class="d-block"><div class="card-body">
+            <h4 class="card-title">O Teorema do Ponto Fixo de Banach e uma visualização no R</h4>
+            <p class="card-text text-muted text-uppercase">October 31, 2018</p>
             <div class="card-text">
-                No post passado eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-\[Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t \]
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Programação Dinâmica IIB</h4>
-            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
-            <div class="card-text">
-                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Programação Dinâmica IIB</h4>
-            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
-            <div class="card-text">
-                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
+                Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
             </div>
         </div>
     </a>
@@ -1118,23 +1052,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\de
             <p class="card-text text-muted text-uppercase">October 31, 2018</p>
             <div class="card-text">
                 Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/10/31/banach/" class="d-block"><div class="card-body">
-            <h4 class="card-title">O Teorema do Ponto Fixo de Banach e uma visualização no R</h4>
-            <p class="card-text text-muted text-uppercase">October 31, 2018</p>
-            <div class="card-text">
-                Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
             </div>
         </div>
     </a>
@@ -1193,21 +1111,6 @@ Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar p
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/10/15/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Identificação em VAR e Price Puzzle</h4>
-            <p class="card-text text-muted text-uppercase">October 15, 2018</p>
-            <div class="card-text">
-                
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
     <a href="/2018/10/07/identifica%C3%A7%C3%A3o-em-var-e-price-puzzle/" class="d-block"><div class="card-body">
             <h4 class="card-title">Identificação em VAR e Price Puzzle I</h4>
             <p class="card-text text-muted text-uppercase">October 7, 2018</p>
@@ -1264,22 +1167,6 @@ Análise de Sobrevivência é um termo bem amplo para descrever modelos que serv
             <div class="card-text">
                 Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
 Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/09/24/sazonalidade-x13-e-dummies-muito-barulho-por-nada/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Sazonalidade, x13, e dummies: Muito barulho por nada</h4>
-            <p class="card-text text-muted text-uppercase">September 24, 2018</p>
-            <div class="card-text">
-                Todo mundo já enfrentou uma série temporal que tinha sazonalidade. Sempre precisamos de uma maneira de dessazonalizar. Dois métodos vem a mente: o simples use dummies para cada período, faça uma regressão e pegue os resíduos e o elaborado, quase caixa preta, x13-SEATS. Mas, faz tanta diferença qual dos dois usar?
-Neste post, eu vou dessazonalizar a série de capacidade instalada da FGV usando os dois métodos - e vamos comparar as diferenças.
             </div>
         </div>
     </a>
@@ -1469,7 +1356,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
             <div class="card-text">
                 Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
             </div>
         </div>
     </a>
@@ -1486,7 +1373,7 @@ Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em qu
             <div class="card-text">
                 Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
             </div>
         </div>
     </a>
@@ -1557,38 +1444,6 @@ Pedro “Cava” Cavalcante é graduando em economia na UFF e estagiário de pes
 
             </div>
         
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/1/01/01/r-zero-1/" class="d-block"><div class="card-body">
-            <h4 class="card-title">R do Zero (1): Sintaxe Básica</h4>
-            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
-            <div class="card-text">
-                Contexto Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio a pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, que tal disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.
-Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/1/01/01/r-zero-2/" class="d-block"><div class="card-body">
-            <h4 class="card-title">R do Zero (2): Manipulando dados com {dplyr}</h4>
-            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
-            <div class="card-text">
-                Qual é a ideia do dplyr? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o %&amp;gt;% para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.
-Os que já tiveram contato com python se lembrarão de várias funções do pandas.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
     </div>
 </main>
 
@@ -1598,7 +1453,7 @@ Os que já tiveram contato com python se lembrarão de várias funções do pand
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -1639,28 +1494,9 @@ Os que já tiveram contato com python se lembrarão de várias funções do pand
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

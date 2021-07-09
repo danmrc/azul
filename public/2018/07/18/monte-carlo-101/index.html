@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,22 +34,18 @@
 
 
 
-<link rel="canonical" href="/2018/07/18/monte-carlo-101/"><meta property="og:title" content="Monte Carlo 101" />
+<link rel="canonical" href="https://azul.netlify.app/2018/07/18/monte-carlo-101/"><meta property="og:title" content="Monte Carlo 101" />
 <meta property="og:description" content="Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/07/18/monte-carlo-101/" />
-<meta property="article:published_time" content="2018-07-18T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-07-18T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2018/07/18/monte-carlo-101/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-07-18T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2018-07-18T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Monte Carlo 101">
-<meta itemprop="description" content="Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.">
-<meta itemprop="datePublished" content="2018-07-18T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-07-18T00:00:00+00:00" />
+<meta itemprop="description" content="Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las."><meta itemprop="datePublished" content="2018-07-18T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-07-18T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="854">
-
-
-
-<meta itemprop="keywords" content="Simulação,Monte Carlo,Tutoriais," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Simulação,Monte Carlo,Tutoriais," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Monte Carlo 101"/>
 <meta name="twitter:description" content="Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -65,7 +60,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -220,22 +215,22 @@ kable(tabela,caption = &quot;Viés do estimador de MQO com diferentes tamanhos d
                                     <i class="fas fa-tag mr-2"></i>Tutoriais
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f07%2f18%2fmonte-carlo-101%2f&text=Monte%20Carlo%20101">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2018%2f07%2f18%2fmonte-carlo-101%2f&text=Monte%20Carlo%20101">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f07%2f18%2fmonte-carlo-101%2f&title=Monte%20Carlo%20101">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2018%2f07%2f18%2fmonte-carlo-101%2f&title=Monte%20Carlo%20101">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f07%2f18%2fmonte-carlo-101%2f&t=Monte%20Carlo%20101">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2018%2f07%2f18%2fmonte-carlo-101%2f&t=Monte%20Carlo%20101">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f07%2f18%2fmonte-carlo-101%2f&title=Monte%20Carlo%20101">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2018%2f07%2f18%2fmonte-carlo-101%2f&title=Monte%20Carlo%20101">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -273,7 +268,7 @@ kable(tabela,caption = &quot;Viés do estimador de MQO com diferentes tamanhos d
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -314,28 +309,9 @@ kable(tabela,caption = &quot;Viés do estimador de MQO com diferentes tamanhos d
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

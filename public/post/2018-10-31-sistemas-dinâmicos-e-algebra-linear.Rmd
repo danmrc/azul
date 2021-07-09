@@ -11,7 +11,13 @@ tags:
   - Álgebra Linear
   - Sistemas Dinâmicos
   - Autovalores
-authors: [danielc]
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
 ---
 
 Este é mais um post na linha de "como eu gostaria de ter sido apresentado à". O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso. 

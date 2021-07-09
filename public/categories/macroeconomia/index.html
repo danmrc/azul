@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,16 +34,15 @@
 
 
 
-<link rel="canonical" href="/categories/macroeconomia/">
-  <link href="/categories/macroeconomia/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
-  <link href="/categories/macroeconomia/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Macroeconomia" />
+<link rel="canonical" href="https://azul.netlify.app/categories/macroeconomia/">
+  <link href="https://azul.netlify.app/categories/macroeconomia/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
+  <link href="https://azul.netlify.app/categories/macroeconomia/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Macroeconomia" />
 <meta property="og:description" content="Economia, Estatística, Programação" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/categories/macroeconomia/" />
-<meta property="og:updated_time" content="2020-01-17T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/categories/macroeconomia/" />
+
 <meta itemprop="name" content="Macroeconomia">
-<meta itemprop="description" content="Economia, Estatística, Programação">
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Macroeconomia"/>
 <meta name="twitter:description" content="Economia, Estatística, Programação"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -59,7 +57,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -86,6 +84,24 @@
         <div class="col">
             <h3 class="display-4">Macroeconomia</h3></div>
     </div><div class="row row-cols-1 row-cols-lg-3">
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2021/03/23/metodo-de-perturbacao/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Método de Perturbação: linerizando modelos sem mistério</h4>
+            <p class="card-text text-muted text-uppercase">March 23, 2021</p>
+            <div class="card-text">
+                (Este é mais um post completamente maluco)
+Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de programação dinâmica. Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive “para sempre” e pode acumular um ativo. Matematicamente:
+\[\max_{\{C\}_{t=1}^{\infty}, \{k_{t&#43;1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\\text{sujeito a}\\k_{t&#43;1} &#43; C_t = A_tk_t^{\alpha} &#43; (1-\delta)k_t\]
+Nesse caso o agente acumula capital, que se deprecia a taxa \(\delta\) e pode ser usada para produzir bens com uma função de produção \(A_tk_t^{\alpha}\).
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
         
             <div class="col mb-3">
                 <div class="card h-100">
@@ -226,7 +242,7 @@ Apesar de já existirem à época trabalhos importantes na área, como o de Rams
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -267,28 +283,9 @@ Apesar de já existirem à época trabalhos importantes na área, como o de Rams
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Mais raízes unitárias | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2021/06/24/mais-raizes-unitarias/"><meta property="og:title" content="Mais raízes unitárias" />
+<meta property="og:description" content="O Pedro já fez um post sobre regressão espúria, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente isso voltou a moda eu decidi escrever sobre isso.
+O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias1!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2021/06/24/mais-raizes-unitarias/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-06-24T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-06-24T00:00:00&#43;00:00" />
+
+<meta itemprop="name" content="Mais raízes unitárias">
+<meta itemprop="description" content="O Pedro já fez um post sobre regressão espúria, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente isso voltou a moda eu decidi escrever sobre isso.
+O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias1!"><meta itemprop="datePublished" content="2021-06-24T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-06-24T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1081">
+<meta itemprop="keywords" content="Raiz unitária," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mais raízes unitárias"/>
+<meta name="twitter:description" content="O Pedro já fez um post sobre regressão espúria, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente isso voltou a moda eu decidi escrever sobre isso.
+O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias1!"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">June 24, 2021</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1081 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>6 mins</span>
+                        </div>
+
+                        <h1>Mais raízes unitárias</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>O Pedro já fez um post sobre <a href="https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/">regressão espúria</a>, que vai direto ao ponto. Mas faz muito tempo (2019) e recentemente <del>isso voltou a moda</del> eu decidi escrever sobre isso.</p>
+<p>O post do Pedro comete um pequeno deslize, que é fazer as coisas com uma tendência determinística. Algumas pessoas podem argumentar que “isso não é exatamente uma regressão espúria”: uma regressão espúria é o caso em que nós temos dois processos com raízes unitárias<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>! Mais importante, eu acho mais incrível o caso em que <em>não existe nenhuma tendência determinística</em>.</p>
+<p>Eu vou fazer uma simulação absolutamente simples, de dois random walks, e vou regredir um no outro. O <em>random walk</em> é um processo fascinante e extremamente simples:</p>
+<p><span class="math display">\[
+x_t = x_{t-1} + \epsilon_t
+\]</span></p>
+<p>Onde <span class="math inline">\(\epsilon_t\)</span> é um choque normal com média zero e variância 1. A primeira coisa a se atentar é que <span class="math inline">\(x_t\)</span> pode ser escrito como uma soma dos choques:</p>
+<p><span class="math display">\[
+x_t = \sum_{j=0}^t \epsilon_j
+\]</span></p>
+<p>Voltando a simulação: a função que vai fazer todo o trabalho só recebe o tamanho da série a ser gerada e gera duas séries de números saídos da normal e gera dois random walks. Por último, ela regride um random walk no outro:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(ggplot2)
+library(purrr)
+library(BETS)</code></pre>
+<pre ><code >## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo</code></pre>
+<pre ><code >## 
+## Attaching package: 'BETS'</code></pre>
+<pre ><code >## The following object is masked from 'package:stats':
+## 
+##     predict</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(urca)
+library(zoo)</code></pre>
+<pre ><code >## 
+## Attaching package: 'zoo'</code></pre>
+<pre ><code >## The following objects are masked from 'package:base':
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">set.seed(202106)
+
+testa_rw &lt;- function(n){
+  
+  x &lt;- cumsum(rnorm(n))
+  y &lt;- cumsum(rnorm(n))
+  
+  reg &lt;- lm(y ~ x)
+  
+  return(reg)
+  
+}</code></pre>
+<p>A simulação:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">lista &lt;- replicate(2000,1000,simplify = FALSE)
+
+resultados &lt;- map(lista,testa_rw)</code></pre>
+<p>O resultados tem várias coisas legais. Por exemplo, como é a distribuição da estatística t? A nossa intuição manda que dois processos independentes, o coeficiente da estatística <span class="math inline">\(t\)</span> seja baixo. Mas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">t_stat &lt;- map_dbl(resultados,~(summary(.)$coefficients[2,3]))
+
+ggplot(data.frame(t_stat = t_stat),aes(t_stat)) + geom_histogram() + theme_minimal()</code></pre>
+<p><img src="/post/2021-06-17-mais-raízes-unitárias/index.pt-br_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>A imagem pode dar uma enganada: observe o eixo x. Os valores variam entre -100 e 100! Qual a proporção de casos que estão acima de 2 (em módulo)?</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">acima2 &lt;- abs(t_stat) &gt; 2
+
+mean(acima2)</code></pre>
+<pre ><code >## [1] 0.923</code></pre>
+<p>Sim, mais de 90% dos casos estão acima de 2.</p>
+<p>Veja que, ao contrário do post do Pedro, aqui não tem nenhuma tendência. Os processos são puramente <em>random walks</em> gerados independentemente.</p>
+<p>Só porque eu quero martelar esse ponto, eu vou mostrar o histograma das correlações:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">teste_rw &lt;- function(n){
+  
+  x &lt;- cumsum(rnorm(n))
+  y &lt;- cumsum(rnorm(n))
+  
+  return(cor(x,y))
+}
+
+resultados2 &lt;- map_dbl(lista,teste_rw)
+
+ggplot(data.frame(cor = resultados2),aes(cor)) + geom_histogram() + theme_minimal()</code></pre>
+<p><img src="/post/2021-06-17-mais-raízes-unitárias/index.pt-br_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Portanto, proceder no caso de raiz unitária com regressões pode levar a resultados extremamente inesperados. Para entender parte do problema, relembre como a gente escreveu o <em>random walk</em>:</p>
+<p><span class="math display">\[
+x_t = \sum_{j=1}^t \epsilon_j
+\]</span>
+Lembre que os <span class="math inline">\(\epsilon_j\)</span> são independentes, e considere <span class="math inline">\(t \rightarrow \infty\)</span>. A variância do processo estoura para infinito.</p>
+<p>Eu quero adicionar que, como humilhação pouca é bobagem, testes de raiz unitária são notoriamente problemáticos (sofrem baixo poder), o que compõe o problema. É difícil separar uma série não estacionária de uma série estacionária extremamente persistente.</p>
+<p>Para ter um exemplo empírico, vamos olhar uma série que eu <em>achava</em> que era não estacionária: o câmbio.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cambio &lt;- BETSget(1)
+
+cambio_ts &lt;- zoo(cambio$value,cambio$date)</code></pre>
+<p>Eu vou pegar a partir de 2004 porque isso evita o período do Lula. Isso não é uma escolha sem efeitos colaterais: eu preferiria uma série mais longa para testar. Mais ainda, se eu estou eliminando o ruído do Lula I, então porque não focar até antes de 2008, para evitar a crise? Ai eu teria uma série curta demais:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cambio_ts &lt;- window(cambio_ts, start = as.Date("2004-01-01"))
+
+ggplot(data.frame(data = time(cambio_ts),cambio = cambio_ts),aes(data,cambio)) + geom_line() + theme_minimal()</code></pre>
+<p><img src="/post/2021-06-17-mais-raízes-unitárias/index.pt-br_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Eu acho a série gritantemente não estacionária. Vamos fazer o teste ADF:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">summary(ur.df(cambio_ts))</code></pre>
+<pre ><code >## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression none 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 - 1 + z.diff.lag)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.249548 -0.012298 -0.000674  0.011161  0.272278 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## z.lag.1    0.0001646  0.0001541   1.068    0.286
+## z.diff.lag 0.0204572  0.0151091   1.354    0.176
+## 
+## Residual standard error: 0.03024 on 4380 degrees of freedom
+## Multiple R-squared:  0.0006966,  Adjusted R-squared:  0.0002403 
+## F-statistic: 1.527 on 2 and 4380 DF,  p-value: 0.2174
+## 
+## 
+## Value of test-statistic is: 1.0679 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau1 -2.58 -1.95 -1.62</code></pre>
+<p>(Sim, um lag é suficiente) O teste rejeita a hipótese de estacionariedade.</p>
+<p>Só porque eu quero matar uma possível crítica: o que acontece se eu excluir o período Bolsonaro?</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">cambio_ts2 &lt;- window(cambio_ts, end= as.Date("2018-12-31"))
+
+ggplot(data.frame(data = time(cambio_ts2),cambio = cambio_ts2),aes(data,cambio)) + geom_line() + theme_minimal()</code></pre>
+<p><img src="/post/2021-06-17-mais-raízes-unitárias/index.pt-br_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Isso retira o pedaço final da série em que a taxa de câmbio se desvaloriza. De repente é essa mudança, e não nenhuma coisa de não estacionariedade, que leva o teste a apontar uma raiz unitária:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">summary(ur.df(cambio_ts2))</code></pre>
+<pre ><code >## 
+## ############################################### 
+## # Augmented Dickey-Fuller Test Unit Root Test # 
+## ############################################### 
+## 
+## Test regression none 
+## 
+## 
+## Call:
+## lm(formula = z.diff ~ z.lag.1 - 1 + z.diff.lag)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.247073 -0.011132 -0.000630  0.009905  0.272865 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## z.lag.1     0.0000927  0.0001584   0.585    0.558
+## z.diff.lag -0.0034790  0.0163062  -0.213    0.831
+## 
+## Residual standard error: 0.02478 on 3761 degrees of freedom
+## Multiple R-squared:  0.0001019,  Adjusted R-squared:  -0.0004298 
+## F-statistic: 0.1917 on 2 and 3761 DF,  p-value: 0.8256
+## 
+## 
+## Value of test-statistic is: 0.5852 
+## 
+## Critical values for test statistics: 
+##       1pct  5pct 10pct
+## tau1 -2.58 -1.95 -1.62</code></pre>
+<p>A estatística do teste cai um pouco, mas não corre nenhum risco de a gente rejeitar a hipótese nula aos níveis usuais de significância. A gente pode cortar mais ainda a série, mas em geral taxa de câmbio não é estacionária - e isso não é só pro Brasil.</p>
+<p>Não estacionariedade é um tema fascinante e que apresenta várias armadilhas para quem trabalha com séries temporais.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Nota do Pedro: o caso de dois processos estocásticos com tendência determinística que mostrei não é um exemplo de regressão espúria, de fato. O que está acontecendo é <em>confounding</em>. O efeito da passagem do tempo operando sobre os dois processos causa a inflação de métricas de sucesso, o que não é o mesmo que dois processos integrados porém não-cointegrados serem bons explicadores (espúrios) um do outro!<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/raiz-unit%C3%A1ria">
+                                    <i class="fas fa-tag mr-2"></i>Raiz unitária
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2021%2f06%2f24%2fmais-raizes-unitarias%2f&text=Mais%20ra%c3%adzes%20unit%c3%a1rias">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2021%2f06%2f24%2fmais-raizes-unitarias%2f&title=Mais%20ra%c3%adzes%20unit%c3%a1rias">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2021%2f06%2f24%2fmais-raizes-unitarias%2f&t=Mais%20ra%c3%adzes%20unit%c3%a1rias">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2021%2f06%2f24%2fmais-raizes-unitarias%2f&title=Mais%20ra%c3%adzes%20unit%c3%a1rias">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2018/10/19/testes-de-raiz-unit%C3%A1ria/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Testes de raiz unitária</h4>
+            <p class="card-text text-muted text-uppercase">October 19, 2018</p>
+            <div class="card-text">
+                Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
+Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

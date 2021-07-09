@@ -1,6 +1,79 @@
 ---
 title: Faça um blog, não faça um fio
 author: Daniel Coutinho
+date: '2021-03-14'
+slug: faça-um-blog-não-faça-um-fio
+categories:
+  - Computação
+tags:
+  - Meta
+  - Blogdown
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+---
+
+Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente para convencer que o formato não é adequado. 
+
+Na verdade, essa é só uma ótima desculpa para explicar como funciona o `blogdown`, que pode ser usado para fazer blogs - é o que mantém o Azul, como alguns de vocês sabem - e sites em geral, inclusive pessoais. A coisa boa é que ele roda em R e os posts são escritos em Markdown, então você só precisa aprender um pacote novo e é fácil incorporar pedaços de código no texto, adicionar matemática, imagens, etc. O [guia do blogdown](https://bookdown.org/yihui/blogdown/) é ótimo e mais do que suficiente para resolver seus problemas. Meu plano aqui é mostrar que não é nenhum desafio usar o blogdown. 
+
+A primeira coisa a fazer é instalar o pacote como outro qualquer. Depois disso, e carregar o pacote, você deve instalar o `hugo`. É o que funciona no fundo do blogdown e faz sites usando go, uma linguagem de programação da google. A boa notícia é que raramente você precisa olhar pro hugo e pode instalar de dentro do R usando `install_hugo()`.
+
+Crie um projeto do RStudio - o botão fica no canto direito superior. Ele atualmente te dá a opção de criar um projeto que é um **Website using blogdown**, que é exatamente o que queremos. Eu não mudaria os defaults. 
+
+O próximo passo é escolher um tema para o blog. Você pode manter o padrão, mas existe uma variedade de temas [aqui](https://themes.gohugo.io/). Em geral todos eles estão no github, e quando você escolher um ao clicar em download, será levado lá. Você pode baixar direto de lá ou clonar. Copie tudo para a pasta `theme`: coloque tudo em um subdiretório com o nome do tema para ficar mais fácil de modificar depois. 
+
+Você também pode criar um projeto normal (ou atribuir um diretório que já existe, por exemplo um diretório do git), usando o comando `new_site`. O `new_site` permite você criar um blog com o tema que você quiser. Você tem que colocar o endereço repo do github no formato `username/repo` (dá pra mudar para outros lugares que hospedam o tema usando a opção hostname). Por exemplo, o tema hugo-icarus está hospedado no gitlab:
+
+```{r,eval=FALSE}
+
+new_site(theme = "toryanderson/hugo-icarus", 
+         sample = TRUE, 
+         theme_example = TRUE, 
+         empty_dirs = TRUE,
+         to_yaml = TRUE,
+         hostname = "gitlab.com")
+```
+
+Usando esse comando o tema já vai parar em um subdiretório e parte da configuração fica mais fácil. 
+
+A coisa mais importante é que um dos arquivos que você vai copiar se chama `config.toml`: esse arquivo é onde as principais configurações ficam e deve ser movido para fora da pasta do tema e ir para a pasta principal. Cada tema tem pequenas diferenças no `config.toml`, então sempre que você mudar de tema você tem que atualizar o arquivo - mas frequentemente as primeiras linhas são muito parecidas. Dê uma olhada no github do Azul para ver se onde fica cada coisa. Você precisa configurar, entre outras coisas, o endereço do site. Por exemplo, o `config.toml` do Azul tem:
+
+```toml
+
+baseURL = "https://azul.netlify.app/"
+title = "AZUL"
+copyright = "Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved."
+paginate = 2
+languageCode = "pt-br"
+DefaultContentLanguage = "pt-br"
+enableInlineShortcodes = true
+footnoteReturnLinkContents = "^"
+googleAnalytics = ""
+DisqusShortname = ""
+theme = "hugo-theme-chunky-poster"
+
+[permalinks]
+  post = "/:year/:month/:day/:slug/"
+```
+
+Feito isso, você vai querer ver a cara do blog. Para isso você deve usar o comando, no R, `serve_site()`. Se tudo estiver certo, isso vai demorar um pouco e gerar um site localmente, que no R Studio aparece no Viewer, no mesmo bloco que aparecem os gráficos. Abra no browser clicando na opção que tem uma janela e uma setinha. 
+
+## Criando um post
+
+A melhor maneira de criar um post é usar o addin: vá no menu de addins (na mesma barra de criar um arquivo novo) e escolha a opção new post. Você vai poder escolher o título, a data, tags e categorias. Você também vai poder escolher o formato do arquivo - markdown puro ou R Markdown. 
+
+Depois de criado, as opções vão aparecer como um YAMl no início do arquivo. Existem algumas opções que não aparecem no addin que podem ser úteis: por exemplo, `draft=true` permite que o post seja gerado localmente mas não aparece no site. Alguns temas permitem opções extras, como nome do autor e imagem do banner. Este post antes de ser publicado tinha o seguinte cabeçalho:
+
+```yaml
+---
+title: Faça um blog, não faça um fio
+author: Daniel Coutinho
 date: '2020-11-16'
 slug: faça-um-blog-não-faça-um-fio
 categories:
@@ -12,17 +85,24 @@ images: []
 authors: ["danielc"]
 draft: true
 ---
+```
 
-Desde que eu voltei a usar o Twitter eu vejo muita gente fazendo threads (ou fios). Vocês podem continuar fazendo fios, é claro, mas eu realmente acho que vocês e os leitores seriam mais felizes com um blog. Tem muitas coisas bacanas sendo colocadas em fios, mas o formato é ruim (por motivos óbvios). Existem bots que transformam fios em texto contínuo, e isso deveria ser suficiente pra vocês se convencerem que o formato não é adequado. 
+Tem dois campos de autor porque o _authors_ liga todos os posts do mesmo post e só está disponível em alguns temas. O resto do post é um arquivo Markdown usual, e a maioria dos comandos estão disponíveis. Só que nem sempre o suporte de gerar equações via notação do LaTeX e fazer _syntax highlight_ vem _out of the box_. Existem várias formas de colocar suporte para os dois, e eu vou começar com a matemática.
 
-Na verdade, essa é só uma ótima desculpa para explicar como funciona o blogdown, que pode ser usado para fazer blogs - é o que mantém o Azul, como alguns de vocês sabem - e sites em geral, inclusive sites pessoais. A coisa boa é que ele roda em R e os posts são escritos em Markdown, então você só precisa aprender um pacote novo e é fácil incorporar pedaços de código no texto, adicionar matemática, imagens, etc. O [guia do blogdown](https://bookdown.org/yihui/blogdown/) é ótimo e mais do que suficiente para resolver tudo, mas meu plano aqui é mostrar que não é nenhum desafio usar o blogdown. 
+Para matemática, eu acho que a solução mais simples é usar o [KaTeX](https://katex.org/). Isso em geral exige colocar um pedaço de código no html do site. No caso do azul eu criei um arquivo chamado `math.html` e adicionei um pedaço de código no `head.html`. Em geral, cada tema tem um site de demonstração e o site tem instruções de como colocar o KaTeX para funcionar. 
 
-A primeira coisa a fazer é instalar o pacote blogdown no R, como outro pacote qualquer. Depois disso, e que você carregar o pacote, você deve instalar o hugo. O hugo é o que funciona no fundo do blogdown e faz sites usando go, uma linguagem de programação da google. A boa notícia é que raramente você precisa olhar pro hugo e você pode instalar o hugo de dentro do R usando `install_hugo()`.
+Syntax Highlighting também é possível, e alguns temas oferecem isso _out of box_. Se não for o caso no seu tema, ou se a opção do site não funcionar, as instruções do [guia do blogdown](https://bookdown.org/yihui/blogdown/templates.html#how-to) funcionam bastante bem. Veja que no momento, o azul usa o prism.js com várias customizações, que foram não triviais de serem implementadas e envolvem scripts em lua para o pandoc... Isso per se já é outro post
 
-Crie um projeto do RStudio. Ele atualmente te dá a opção de criar um projeto que é um `Website using blogdown`, que é exatamente o que queremos. Não mude os defaults. 
+## Hosteando
 
-O próximo passo é escolher um tema para o blog. Você pode manter o tema padrão, mas tem uma variedade de temas [aqui](https://themes.gohugo.io/). Em geral todos eles estão no github, e quando você escolher um ao clicar em download, você vai ser levado para o github. Você pode baixar direto de lá ou dar clone. Copie tudo para a pasta theme: coloque tudo em um subdiretório com o nome do tema para ficar mais fácil de modificar depois. 
+A última coisa que falta é você disponibilizar o site em algum domínio. O Azul usa o Netlifly, que permite a gente só passar o repositório e o mínimo de configurações necessárias e ele gera o site e te dá um endereço. Outra opção é usar o GitHub pages, que eu já usei para outros projetos. Ambos funcionam bem, e eu não vou entrar em detalhes porque:
 
-A coisa mais importante é que um dos arquivos que você vai copiar se chama `config.toml`: esse arquivo é onde as principais configurações ficam e deve ser movido para fora da pasta do tema e ir para a pasta principal. Cada tema tem pequenas diferenças no `config.toml`, então sempre que você mudar de tema você tem que atualizar o arquivo - mas frequentemente as primeiras linhas são muito parecidas. Dê uma olhada no github do Azul para ver se onde fica cada coisa. 
+1. Eu configurei o Netlifly quando criamos o blog e nunca mais precisei mexer (o que é ótimo), então eu não lembro dos detalhes (o que não é ótimo)
+2. Existem outras opções e elas em geral são bem didáticas
+3. Eu quero focar no Blogdown
 
-Feito isso, você vai querer ver a cara do blog. Para isso você deve usar o comando, no R, `serve_site()`. Se tudo estiver certo, isso vai demorar um pouco e gerar um site localmente, que no R Studio aparece no Viewer, no mesmo bloco que aparecem os gráficos. 
+Parem de fazer fios e coloquem as coisas bacanas que vocês fazem em um formato adequado!
+
+--- 
+
+PS: Enquanto eu escrevia esse post, o Pedro me chamou atenção para o [distill](https://rstudio.github.io/distill/), que é ainda mais simples que o Hugo. Eu achei bastante bacana, mas não brinquei o suficiente com ele para me sentir capaz de escrever um post sobre!

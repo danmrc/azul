@@ -2,53 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Meta on AZUL</title>
-    <link>/categories/meta/</link>
+    <link>https://azul.netlify.app/categories/meta/</link>
     <description>Recent content in Meta on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/meta/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 29 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/meta/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Workflow - Como funciona o AZUL</title>
-      <link>/2020/04/25/workflow/</link>
-      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      <title>Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem</title>
+      <link>https://azul.netlify.app/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/</link>
+      <pubDate>Sun, 29 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/25/workflow/</guid>
-      <description>Neste post eu irei discutir como nós fazemos um post no blog. Eu não sei exatamente como eles surgem. Ideias para o post surgem das mais diversas maneiras: dúvidas de outras pessoas, ideias antigas, aulas. Aqui eu vou focar no processo de escrever o post.
-Uma idiosincrasia do blog é que ele não é feito usando as ferramentas usuais de blog, como Wordpress ou Google. Nós usamos um pacote do R chamado blogdown, que no fundo roda um software chamado hugo.</description>
+      <guid>https://azul.netlify.app/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/</guid>
+      <description>Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no head.html do blog:
+&amp;lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&amp;gt;Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!</description>
     </item>
     
     <item>
       <title>Ano novo, layout novo</title>
-      <link>/2018/12/26/ano-novo-layout-novo/</link>
+      <link>https://azul.netlify.app/2018/12/26/ano-novo-layout-novo/</link>
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/26/ano-novo-layout-novo/</guid>
+      <guid>https://azul.netlify.app/2018/12/26/ano-novo-layout-novo/</guid>
       <description>Um novo ano se aproxima. E junto dele, temos um novo tema para o blog, com um layout ainda mais minimalista, descrições dos posts na página inicial (na verdade um trecho do texto), mas mais importante (e o principal motivo) é que o novo tema faz syntax highlighting, ou seja, o código dos nossos posts agora vão se parecer mais com os códigos que você normalmente vê em uma IDE, como o RStudio.</description>
     </item>
     
     <item>
       <title>Como receber atualizações do blog no celular</title>
-      <link>/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</link>
+      <link>https://azul.netlify.app/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</link>
       <pubDate>Mon, 03 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</guid>
+      <guid>https://azul.netlify.app/2018/12/03/como-receber-atualiza%C3%A7%C3%B5es-do-blog-no-celular/</guid>
       <description>(TL;DR: você pode receber os posts novos do azul no seu celular, veja a lista no fim dois parágrafos abaixo)
 Nós passamos algum tempo pensando em como melhorar a distribuição de posts para os nossos leitores. Afinal, é extremamente ineficiente abrir o blog na esperança de ver um novo post e.. nada novo. Economistas sempre criticam ineficiências, e nós não poderíamos ser exceção.
 Por isso, criamos um bot no Telegram (o concorrente do Whatsapp) que te avisa automaticamente quando sai um post novo no blog.</description>
-    </item>
-    
-    <item>
-      <title>Integrando o Telegram e R</title>
-      <link>/2018/11/30/telegram-e-r/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/30/telegram-e-r/</guid>
-      <description>Algum tempo atrás eu achei este post no R Bloggers, que discutia como criar um bot no Telegram e integrar ele com o R. No post, a ideia era permitir com que o R informasse a você quando ele acabasse uma tarefa longa - uma ideia que no passado me teria sido muito útil. Mas me ocorreu que eu poderia tentar fazer um bot para alertar pessoas sobre atualizações nest blog.</description>
     </item>
     
   </channel>

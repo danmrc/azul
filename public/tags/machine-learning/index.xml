@@ -2,31 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Machine Learning on AZUL</title>
-    <link>/tags/machine-learning/</link>
+    <link>https://azul.netlify.app/tags/machine-learning/</link>
     <description>Recent content in Machine Learning on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 02 Jun 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Modelagem com {tidymodels}</title>
-      <link>/2020/06/02/modelagem-com-tidymodels/</link>
-      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/02/modelagem-com-tidymodels/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Sun, 16 Sep 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>O LASSO</title>
-      <link>/2018/09/16/lasso/</link>
+      <link>https://azul.netlify.app/2018/09/16/lasso/</link>
       <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/16/lasso/</guid>
+      <guid>https://azul.netlify.app/2018/09/16/lasso/</guid>
       <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
     </item>
     

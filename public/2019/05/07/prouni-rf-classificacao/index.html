@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2019/05/07/prouni-rf-classificacao/"><meta property="og:title" content="Classificando cursos no ProUni com Random Forest" />
+<link rel="canonical" href="https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/"><meta property="og:title" content="Classificando cursos no ProUni com Random Forest" />
 <meta property="og:description" content="Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
 Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/05/07/prouni-rf-classificacao/" />
-<meta property="article:published_time" content="2019-05-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-05-07T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-05-07T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-05-07T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Classificando cursos no ProUni com Random Forest">
 <meta itemprop="description" content="Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
-Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.">
-<meta itemprop="datePublished" content="2019-05-07T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-05-07T00:00:00+00:00" />
+Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa."><meta itemprop="datePublished" content="2019-05-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-05-07T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="991">
-
-
-
-<meta itemprop="keywords" content="Random Forest,Cross Validation," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Random Forest,Cross Validation," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Classificando cursos no ProUni com Random Forest"/>
 <meta name="twitter:description" content="Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
 Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa."/>
@@ -68,7 +63,7 @@ Já aviso de antemão que a explicaçõe será muito superficial. É um assunto 
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -236,22 +231,22 @@ toc()</code></pre>
                                     <i class="fas fa-tag mr-2"></i>Cross Validation
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2019%2f05%2f07%2fprouni-rf-classificacao%2f&text=Classificando%20cursos%20no%20ProUni%20com%20Random%20Forest">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2019%2f05%2f07%2fprouni-rf-classificacao%2f&text=Classificando%20cursos%20no%20ProUni%20com%20Random%20Forest">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2019%2f05%2f07%2fprouni-rf-classificacao%2f&title=Classificando%20cursos%20no%20ProUni%20com%20Random%20Forest">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2019%2f05%2f07%2fprouni-rf-classificacao%2f&title=Classificando%20cursos%20no%20ProUni%20com%20Random%20Forest">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2019%2f05%2f07%2fprouni-rf-classificacao%2f&t=Classificando%20cursos%20no%20ProUni%20com%20Random%20Forest">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2019%2f05%2f07%2fprouni-rf-classificacao%2f&t=Classificando%20cursos%20no%20ProUni%20com%20Random%20Forest">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2019%2f05%2f07%2fprouni-rf-classificacao%2f&title=Classificando%20cursos%20no%20ProUni%20com%20Random%20Forest">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2019%2f05%2f07%2fprouni-rf-classificacao%2f&title=Classificando%20cursos%20no%20ProUni%20com%20Random%20Forest">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -281,20 +276,6 @@ A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em 
     </a>
 </div>
 
-            </div><div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/2018/12/10/prouni-rf-svm/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Usando Random Forest e SVMs para classificar cursos no ProUni</h4>
-            <p class="card-text text-muted text-uppercase">December 10, 2018</p>
-            <div class="card-text">
-                 Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
-Random Forests  Support Vector Machines  Rodando tudo  
-            </div>
-        </div>
-    </a>
-</div>
-
             </div></div>
 </main>
 
@@ -304,7 +285,7 @@ Random Forests  Support Vector Machines  Rodando tudo
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -345,28 +326,9 @@ Random Forests  Support Vector Machines  Rodando tudo
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

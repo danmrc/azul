@@ -2,34 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Séries Temporais on AZUL</title>
-    <link>/tags/s%C3%A9ries-temporais/</link>
+    <link>https://azul.netlify.app/tags/s%C3%A9ries-temporais/</link>
     <description>Recent content in Séries Temporais on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/s%C3%A9ries-temporais/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 28 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/s%C3%A9ries-temporais/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Regredindo séries temporais aleatórias para quem gosta de regressão</title>
-      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
+      <link>https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
+      <guid>https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/</guid>
       <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
     </item>
     
     <item>
       <title>Visualizando um critério de estacionariedade em Processos AR</title>
-      <link>/2019/08/20/viz-estacionariedade-gganim/</link>
+      <link>https://azul.netlify.app/2019/08/20/viz-estacionariedade-gganim/</link>
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
+      <guid>https://azul.netlify.app/2019/08/20/viz-estacionariedade-gganim/</guid>
       <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+\[y_t = \beta y_{t-1} + \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
     </item>
     
   </channel>

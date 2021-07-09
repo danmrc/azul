@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,16 +34,15 @@
 
 
 
-<link rel="canonical" href="/tags/programa%C3%A7%C3%A3o/">
-  <link href="/tags/programa%C3%A7%C3%A3o/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
-  <link href="/tags/programa%C3%A7%C3%A3o/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Programação" />
+<link rel="canonical" href="https://azul.netlify.app/tags/programa%C3%A7%C3%A3o/">
+  <link href="https://azul.netlify.app/tags/programa%C3%A7%C3%A3o/index.xml" rel="alternate" type="application/rss+xml" title="AZUL">
+  <link href="https://azul.netlify.app/tags/programa%C3%A7%C3%A3o/index.xml" rel="feed" type="application/rss+xml" title="AZUL"><meta property="og:title" content="Programação" />
 <meta property="og:description" content="Economia, Estatística, Programação" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/tags/programa%C3%A7%C3%A3o/" />
+<meta property="og:url" content="https://azul.netlify.app/tags/programa%C3%A7%C3%A3o/" />
 
 <meta itemprop="name" content="Programação">
-<meta itemprop="description" content="Economia, Estatística, Programação">
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Programação"/>
 <meta name="twitter:description" content="Economia, Estatística, Programação"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -59,7 +57,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -90,28 +88,12 @@
             <div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/1/01/01/r-zero-1/" class="d-block"><div class="card-body">
-            <h4 class="card-title">R do Zero (1): Sintaxe Básica</h4>
-            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
+    <a href="/2020/12/10/impureza-e-contexto-storch/" class="d-block"><div class="card-body">
+            <h4 class="card-title">{tidyverse}, Simulações e Processamento de Séries Temporais</h4>
+            <p class="card-text text-muted text-uppercase">December 10, 2020</p>
             <div class="card-text">
-                Contexto Eu queria dar um curso de R presencial no Rio e cobrar por isso (apenas precificando custos, meu tempo e networking), mas veio a pandemia. Pensei que já que vamos todos nos isolar por um tempo mesmo e os tempos estão complicados, que tal disponibilizar algum substituto parcial e gratuito do material que eu queria compartilhar em pessoa. Só que, né, de graça e em um blog.
-Eu espero que esse post evolua para uma série de posts com foco específico em didática e popularização de R moderno.
-            </div>
-        </div>
-    </a>
-</div>
-
-            </div>
-        
-            <div class="col mb-3">
-                <div class="card h-100">
-    
-    <a href="/1/01/01/r-zero-2/" class="d-block"><div class="card-body">
-            <h4 class="card-title">R do Zero (2): Manipulando dados com {dplyr}</h4>
-            <p class="card-text text-muted text-uppercase">January 1, 0001</p>
-            <div class="card-text">
-                Qual é a ideia do dplyr? Oferecer uma gramática de manipulação de dados. Temos verbos, funções com nomes muito intuitivos que recebem e devolvem dataframes, para executar tarefas comuns e um operador, o %&amp;gt;% para ligar verbos, bem como uma seleção de advérbios que modificam o comportamento e resultado dos verbos. Algumas outras ferramentas que te oferecem maneiras de expressar operações comuns com dados vêm na biblioteca.
-Os que já tiveram contato com python se lembrarão de várias funções do pandas.
+                Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
+foo1 &amp;lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.
             </div>
         </div>
     </a>
@@ -128,7 +110,7 @@ Os que já tiveram contato com python se lembrarão de várias funções do pand
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -169,28 +151,9 @@ Os que já tiveram contato com python se lembrarão de várias funções do pand
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

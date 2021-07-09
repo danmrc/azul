@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,22 +34,18 @@
 
 
 
-<link rel="canonical" href="/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/"><meta property="og:title" content="Remastered: Programação Dinâmica" />
+<link rel="canonical" href="https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/"><meta property="og:title" content="Remastered: Programação Dinâmica" />
 <meta property="og:description" content="Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das primeiras coisas do blog. Eu acho que chegou a hora de revisitar o tópico porque desde então eu aprendi maneiras mais “limpas” de programar e o programa antigo provavelmente é horroroso. Vocês podem levantar objeções de que essa é uma maneira barata de gerar post novo, mas eu acho que deixar o programa mais claro/mais eficiente é importante para transmitir a ideia." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/" />
-<meta property="article:published_time" content="2020-11-05T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-11-05T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-11-05T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-11-05T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Remastered: Programação Dinâmica">
-<meta itemprop="description" content="Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das primeiras coisas do blog. Eu acho que chegou a hora de revisitar o tópico porque desde então eu aprendi maneiras mais “limpas” de programar e o programa antigo provavelmente é horroroso. Vocês podem levantar objeções de que essa é uma maneira barata de gerar post novo, mas eu acho que deixar o programa mais claro/mais eficiente é importante para transmitir a ideia.">
-<meta itemprop="datePublished" content="2020-11-05T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-11-05T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1728">
-
-
-
-<meta itemprop="keywords" content="Programação Dinâmica,Julia,Remastered," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="description" content="Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das primeiras coisas do blog. Eu acho que chegou a hora de revisitar o tópico porque desde então eu aprendi maneiras mais “limpas” de programar e o programa antigo provavelmente é horroroso. Vocês podem levantar objeções de que essa é uma maneira barata de gerar post novo, mas eu acho que deixar o programa mais claro/mais eficiente é importante para transmitir a ideia."><meta itemprop="datePublished" content="2020-11-05T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-11-05T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1731">
+<meta itemprop="keywords" content="Programação Dinâmica,Julia,Remastered," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Remastered: Programação Dinâmica"/>
 <meta name="twitter:description" content="Há muito tempo atrás eu escrevi sobre programação dinâmica: foi uma das primeiras coisas do blog. Eu acho que chegou a hora de revisitar o tópico porque desde então eu aprendi maneiras mais “limpas” de programar e o programa antigo provavelmente é horroroso. Vocês podem levantar objeções de que essa é uma maneira barata de gerar post novo, mas eu acho que deixar o programa mais claro/mais eficiente é importante para transmitir a ideia."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -65,7 +60,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -97,7 +92,7 @@
                     <div class="col-lg-8">
                         <div class="meta text-muted mb-3">
                             <p class="created text-muted text-uppercase font-weight-bold mb-1">November 5, 2020</p>
-                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1728 palavras</span>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1731 palavras</span>
                             <span><i class="fas fa-clock mr-2"></i>9 mins</span>
                         </div>
 
@@ -157,7 +152,7 @@ V(k_{t}) = \max_{k_{t+1}} \log(\varepsilon_tk_t^{\alpha} - k_{t+1}) + \beta{}V(k
 <div id="o-código" class="section level2">
 <h2>O código</h2>
 <p>Eu posso definir os parâmetros da função de produção e a taxa de desconto e eu vou começar por isso e carregando os pacotes:</p>
-<pre class="julia"><code>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 #Os ponto e vírgula são necessários somente no blog! Senão ele vai imprimir muita coisa e atrapalhar a vizualizar
 
 using Optim,Interpolations,Statistics,Plots
@@ -165,10 +160,10 @@ using Optim,Interpolations,Statistics,Plots
 α = 0.5;
 β = 0.99;
 δ = 1; #full depreciation</code></pre>
-<pre><code>## 1</code></pre>
+<pre ><code >## 1</code></pre>
 <p>A gente vai usar o <em>interpolation</em> para fazer a interpolação da função valor; o <em>Optim</em> vai ser encarregado de encontrar o ótimo; o <em>Statistics</em> vai ficar claro já já; e o <em>Plots</em> vai permitir a gente ilustrar os resultados. E sim, o Julia consegue lidar com parâmetros que são letras gregas!</p>
 <p>Vamos criar as funções utilidade e de produção e as matrizes que vão salvar tanto a função valor quanto a política ótima - o valor ótimo de consumo dado o estoque de capital</p>
-<pre class="julia"><code>iter_lim = 500;
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">iter_lim = 500;
 grid_size = 100;
 
 f(k) = k^α;
@@ -184,7 +179,7 @@ policy = zeros(iter_lim,grid_size);</code></pre>
 <p>Na derivação eu usei <span class="math inline">\(V(k_t)\)</span>, ou seja, a solução depende da quantidade de capital que você leva de um período para o outro. Eu acho essa a maneira mais natural de trabalhar, mas por motivos computacionais vai ser melhor definir <span class="math inline">\(V\)</span> como função da produção, <span class="math inline">\(y_t\)</span>. É simples passar de um para o outro usando a função de produção.</p>
 <p>O meu chute inicial (<code>V[1,:] = u.(grid)</code>) involve o agente consumir toda a produção. Isso <em>dificilmente</em> será o ótimo, mas é um bom chute inicial: pense que se o problema fosse finito, o ótimo no último período seria consumir toda a produção (e é exatamente esse truque que justifica eu usar a função utilidade como função valor para o chute inicial).</p>
 <p>Eu vou criar duas funções agora: uma função é a função objetivo e a outra é simplesmente uma função para facilitar a minha vida na hora de iterar:</p>
-<pre class="julia"><code>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 function objective(c,y,interp)
     k_old = y^(1/α)
     next_y = f(y -c +(1-δ)*k_old)
@@ -198,11 +193,11 @@ end;</code></pre>
 <p>A função objetivo recebe o ponto que a gente está hoje, <span class="math inline">\(y\)</span> (quanta produção é possível dado o capital herdado do último período); um objeto que faz a interpolação, <span class="math inline">\(interp\)</span>; e o consumo, <span class="math inline">\(c\)</span>, que é a variável de escolha. A segunda função simplesmente recebe a função objetivo, o ponto do grid que a gente tá e a função que faz a interpolação e realiza a otimização. Como o otimizador só faz minimização, multiplicar por <span class="math inline">\(-1\)</span> transforma o máximo em mínimo. Como a otimização é univariada, o algoritmo precisa
 do intervalo para buscar os valores: eu to estabelecendo o consumo como no mínimo um número pequeno - pequeno demais vai gerar algum número próximo de <span class="math inline">\(-\infty\)</span>. O valor máximo não pode ser consumir tudo porque isso implica em produção zero no próximo período e isso também gera um <span class="math inline">\(-\infty\)</span>.</p>
 <p>Eu escrevi muita infraestrutura antes de começar a iteração de fato. A vantagem disso é que eu posso checar que todas as funções funcionam antes de rodar o <em>loop</em> e o <em>loop</em> fica extremamente conciso, especialmente usando o <code>map</code>:</p>
-<pre class="julia"><code>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 global j = 2;
 global err = 1;
 
-@time while j &lt;= iter_lim &amp;&amp; err &gt; 1e-5
+@time while j &lt;= iter_lim && err &gt; 1e-5
     interp = LinearInterpolation(grid,V[j-1,:])
     res = map(y-&gt;otimo(objective,y,interp),grid)
     V[j,:] = map(i-&gt;-1*res[i][1],1:grid_size)
@@ -212,24 +207,24 @@ global err = 1;
 
     global j += 1
 
-    mod(j,50) == 0 ? println(&quot;Interation &quot;,j,&quot; error &quot;,err) : nothing
+    mod(j,50) == 0 ? println("Interation ",j," error ",err) : nothing
 
 end</code></pre>
-<pre><code>## Interation 50 error 0.8879026913722186
-## Interation 100 error 0.5383027862772707
-## Interation 150 error 0.3537575169032863
-## Interation 200 error 0.23136760211500018
-## Interation 250 error 0.13867906897819182
-## Interation 300 error 0.11973899101840857
-## Interation 350 error 0.07151948229166294
-## Interation 400 error 0.06409352220151732
-## Interation 450 error 0.051128703900673145
-## Interation 500 error 0.0435221889579509
-##  26.000782 seconds (92.49 M allocations: 14.059 GiB, 12.94% gc time)</code></pre>
+<pre ><code >## Interation 50 error 0.8768164087817638
+## Interation 100 error 0.5655717548204677
+## Interation 150 error 0.3367009294676109
+## Interation 200 error 0.23243552432830938
+## Interation 250 error 0.15783334358057743
+## Interation 300 error 0.09153294330783979
+## Interation 350 error 0.07163775730728617
+## Interation 400 error 0.059016687308826477
+## Interation 450 error 0.062496249791820446
+## Interation 500 error 0.052774645535947684
+##  27.932710 seconds (93.45 M allocations: 14.099 GiB, 11.74% gc time, 17.97% compilation time)</code></pre>
 <p>Primeiro: você precisa definir <code>j</code> e <code>err</code> como global para eles serem acessados pelo loop corretamente - senão ele vai criar variáveis com esse nome dentro do escopo do loop. Mais importante, você precisa acessar elas dentro do <em>loop</em> usando a <em>keyword</em> <code>global</code>. O <code>while</code> permite que o código pare de rodar se uma das duas coisas acontecer: ou atingir o máximo de iterações, que eu defini lá em cima ou se a diferença entre a função valor de duas iterações diferentes for menor que 1e-5.</p>
 <p>O primeiro <code>map</code> aplica a função <code>otimo</code> para cada ponto do grid. Eu usei uma função anônima (<code>y-&gt;otimo(objective,y,interp)</code>) para o código passar o valor de cada ponto do grid para a função que eu fiz para buscar o ótimo. Os dois maps seguintes só pegam o resultado do primeiro <code>map</code> e quebra ele - o Julia permite arrays em que cada elemento tem mais de uma entrada, então formalmente o objeto <code>res</code> tem 100 entradas, e cada entrada é um vetor. Eu podia ter feito isso com um <code>for</code>:</p>
-<pre><code>
-while j &lt;= iter_lim &amp;&amp; err &gt; 1e-5
+<pre ><code >
+while j &lt;= iter_lim && err &gt; 1e-5
     interp = LinearInterpolation(grid,V[j-1,:])
     for i = 1:grid_size
         ot = optimize(c-&gt;objective(c,grid[i],interp),0.01,grid[i] - 0.0001)
@@ -241,22 +236,22 @@ while j &lt;= iter_lim &amp;&amp; err &gt; 1e-5
 
     global j += 1
 
-     mod(j,50) == 0 ? println(&quot;Interation &quot;,j,&quot; error &quot;,err) : nothing
+     mod(j,50) == 0 ? println("Interation ",j," error ",err) : nothing
 
 end</code></pre>
 <p>Note que em ambos os casos eu tenho que trocar o sinal de <span class="math inline">\(V\)</span>, porque a gente usou <span class="math inline">\(-V\)</span> na minimização e queremos <span class="math inline">\(V\)</span> e não <span class="math inline">\(-V\)</span> - esse é um erro fácil de cometer, e que portanto eu cometi e a iteração não fazia nenhum sentido. Em uma outra observação, a linha <code>mod(j,50) == 0 ? println("Interation ",j," error ",err) : nothing</code> é uma maneira extremamente concisa de escrever:</p>
-<pre><code>
+<pre ><code >
 if(mod(j,50) == 0)
-  println(&quot;Interation &quot;,j,&quot; error &quot;,err)
+  println("Interation ",j," error ",err)
 end</code></pre>
 <p>O <code>nothing</code> indica que caso a condição não seja verdade, nada deve ser feito.</p>
 <p>Tem uma pequena diferença entre a versão usando <code>map</code> e a versão usando <code>for</code>: a versão usando <code>map</code>
 é um pouco mais rápida. Fora do RStudio, a versão com <code>map</code> roda em 21s e a com <code>for</code> demora 25s. A diferença é muito pequena e provavelmente se deve menos ao for e mais ao fato de como a linguagem funciona (funções são sempre mais rápidas devido a compilação, por exemplo).</p>
 <p>Dito isso, vamos ver como fica a função consumo e comparar ela com a função consumo obtida analiticamente:</p>
-<pre class="julia"><code>
-plot(grid,policy[iter_lim,:], lab = &quot;Numerical Solution&quot;, legend = :topleft);
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+plot(grid,policy[iter_lim,:], lab = "Numerical Solution", legend = :topleft);
 apol(grid) = (1-α*β)*grid;
-plot!(grid,apol.(grid), lab = &quot;Analytical Solution&quot;);</code></pre>
+plot!(grid,apol.(grid), lab = "Analytical Solution");</code></pre>
 <p><img src="/post/Prog_dinamica/remastered_1.png" /></p>
 <p>Eu não fiquei inteiramente satisfeito com o quão bagunçado tava a linha no fim e eu aumentei o número de iterações para mil, com os seguintes resultados:</p>
 <p><img src="/post/Prog_dinamica/remastered_2.png" /></p>
@@ -273,22 +268,22 @@ plot!(grid,apol.(grid), lab = &quot;Analytical Solution&quot;);</code></pre>
                                     <i class="fas fa-tag mr-2"></i>Remastered
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2020%2f11%2f05%2fremastered-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&text=Remastered%3a%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2020%2f11%2f05%2fremastered-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&text=Remastered%3a%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2020%2f11%2f05%2fremastered-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&title=Remastered%3a%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2020%2f11%2f05%2fremastered-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&title=Remastered%3a%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2020%2f11%2f05%2fremastered-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&t=Remastered%3a%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2020%2f11%2f05%2fremastered-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&t=Remastered%3a%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2020%2f11%2f05%2fremastered-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&title=Remastered%3a%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2020%2f11%2f05%2fremastered-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica%2f&title=Remastered%3a%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -321,12 +316,11 @@ plot!(grid,apol.(grid), lab = &quot;Analytical Solution&quot;);</code></pre>
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Programação Dinâmica IIB</h4>
-            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+    <a href="/2018/09/08/programacao-dinamica-i/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica I</h4>
+            <p class="card-text text-muted text-uppercase">September 8, 2018</p>
             <div class="card-text">
-                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
+                Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.
             </div>
         </div>
     </a>
@@ -335,12 +329,11 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\de
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2018/11/02/programacao-dinamica-ii-b/" class="d-block"><div class="card-body">
-            <h4 class="card-title">Programação Dinâmica IIB</h4>
-            <p class="card-text text-muted text-uppercase">November 2, 2018</p>
+    <a href="/2018/09/08/programacao-dinamica-i/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Programação Dinâmica I</h4>
+            <p class="card-text text-muted text-uppercase">September 8, 2018</p>
             <div class="card-text">
-                No (https://azul.netlify.com/2018/09/08/programacao-dinamica-i/)[post passado] eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\delta)k_t &#43; f(k_t) - c_t$$
+                Este é o primeiro de uma série de posts que eu pretendo fazer sobre um tema interessante, complicado e que usa programação pesadamente - o que faz dele um carro chefe para a proposta desse blog: programação dinâmica. O nome engana: apesar de usarmos ferramentas computacionais para resolver o problema, a programação dinâmica trata de problemas de otimização no tempo. O nosso objetivo final vai ser resolver um problema de um agente otimizando a sua utilidade no tempo sem uma data final - o tempo vai para o infinito - sujeito à alguma restrição de recursos.
             </div>
         </div>
     </a>
@@ -355,7 +348,7 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\de
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -396,28 +389,9 @@ $$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t&#43;1} = (1-\de
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

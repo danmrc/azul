@@ -2,22 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Estatística on AZUL</title>
-    <link>/categories/estat%C3%ADstica/</link>
+    <link>https://azul.netlify.app/categories/estat%C3%ADstica/</link>
     <description>Recent content in Estatística on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 10 Oct 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/estat%C3%ADstica/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 10 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/estat%C3%ADstica/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Verossimilhança da Poisson</title>
-      <link>/2020/10/10/verossimilhan%C3%A7a-da-poisson/</link>
+      <link>https://azul.netlify.app/2020/10/10/verossimilhan%C3%A7a-da-poisson/</link>
       <pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/10/10/verossimilhan%C3%A7a-da-poisson/</guid>
+      <guid>https://azul.netlify.app/2020/10/10/verossimilhan%C3%A7a-da-poisson/</guid>
       <description>Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
 A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é:
 \[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\]
@@ -26,98 +22,79 @@ Existe um bom número de situações em que essa distribuição pode não ser ad
     
     <item>
       <title>Componentes Principais e decomposição de matrizes</title>
-      <link>/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</link>
+      <link>https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</link>
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</guid>
+      <guid>https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</guid>
       <description>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
-Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
+Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
     </item>
     
     <item>
       <title>Classificando distribuições a partir dos momentos</title>
-      <link>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</link>
+      <link>https://azul.netlify.app/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</link>
       <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</guid>
+      <guid>https://azul.netlify.app/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</guid>
       <description>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
 A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.</description>
     </item>
     
     <item>
       <title>Viés de significância</title>
-      <link>/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</link>
+      <link>https://azul.netlify.app/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</link>
       <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</guid>
+      <guid>https://azul.netlify.app/2020/07/18/vi%C3%A9s-de-signific%C3%A2ncia/</guid>
       <description>Esse post trata de um troço que eu nunca tinha pensado e é sensacional, talvez dê um nó na cabeça. Ele é 100% baseado neste post aqui, que eu achei via o blog do Andrew Gelman. Você não precisa ler o post pra entender o que eu vou fazer aqui, eu vou explicar tudo.
 Tem muita conta e vou deixar elas no fim. A ideia é extremamente simples: se você está numa situação em que o poder do teste é baixo e encontra um efeito significante, esse efeito provavelmente está sobreestimado.</description>
     </item>
     
     <item>
-      <title>Modelagem com {tidymodels}</title>
-      <link>/2020/06/02/modelagem-com-tidymodels/</link>
-      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/02/modelagem-com-tidymodels/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bootstrap: uma introdução</title>
-      <link>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</link>
-      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/02/22/bootstrap-uma-introdu%C3%A7%C3%A3o/</guid>
-      <description>Bootstrap é um método de resampling pra obter alguma estatística de um estimador (usualmente). A ideia é que pode ser muito difícil obter a estatística usando uma expressão analítica fechada - ou a expressão analítica só vale assintoticamente. A ideia é bem simples: seja \(x\) representar a coleção dos dados com amostra de tamanho N. O algoritmo é:
-Faça uma reamostragem com reposição de x com a amostra de algum tamanho (usualmente N) Calcule a estatística de interesse nessa nova amostra Repita 1 e 2 várias vezes  Eu vou começar com um exemplo 100% bobo: vamos calcular o intervalo de confiança de 95% de uma variável Normal(0,1).</description>
-    </item>
-    
-    <item>
       <title>Gerando um padrão de difusão com soma de um termo gaussiano</title>
-      <link>/2020/02/09/difusao-gaussiana/</link>
+      <link>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/02/09/difusao-gaussiana/</guid>
+      <guid>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</guid>
       <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
 Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
     </item>
     
     <item>
       <title>Simulando o Teorema Central do Limite no R</title>
-      <link>/2019/11/03/central-limit-theorem-r/</link>
+      <link>https://azul.netlify.app/2019/11/03/central-limit-theorem-r/</link>
       <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/11/03/central-limit-theorem-r/</guid>
+      <guid>https://azul.netlify.app/2019/11/03/central-limit-theorem-r/</guid>
       <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
     </item>
     
     <item>
       <title>Comportamento de Random Walks</title>
-      <link>/2019/06/10/var-random-walks/</link>
+      <link>https://azul.netlify.app/2019/06/10/var-random-walks/</link>
       <pubDate>Mon, 10 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/06/10/var-random-walks/</guid>
+      <guid>https://azul.netlify.app/2019/06/10/var-random-walks/</guid>
       <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
     </item>
     
     <item>
       <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
-      <link>/2019/03/28/consistencia-assintotica-ols/</link>
+      <link>https://azul.netlify.app/2019/03/28/consistencia-assintotica-ols/</link>
       <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/03/28/consistencia-assintotica-ols/</guid>
+      <guid>https://azul.netlify.app/2019/03/28/consistencia-assintotica-ols/</guid>
       <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
     </item>
     
     <item>
       <title>Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate</title>
-      <link>/2019/01/07/prob-animate/</link>
+      <link>https://azul.netlify.app/2019/01/07/prob-animate/</link>
       <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/01/07/prob-animate/</guid>
+      <guid>https://azul.netlify.app/2019/01/07/prob-animate/</guid>
       <description>Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&amp;quot;gganimate&amp;quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R.</description>
     </item>
     

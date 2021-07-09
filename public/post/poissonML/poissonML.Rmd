@@ -3,9 +3,11 @@ title: "Verossimilhança da Poisson"
 author: "Pedro Cavalcante"
 date: '2020-10-10'
 output:
-  html_document:
-    df_print: paged
-  pdf_document: default
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
 katex: true
 draft: false
 categories:

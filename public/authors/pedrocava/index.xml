@@ -2,22 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AZUL</title>
-    <link>/authors/pedrocava/</link>
+    <link>https://azul.netlify.app/authors/pedrocava/</link>
     <description>Recent content on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 10 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/authors/pedrocava/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Categorias</title>
+      <link>https://azul.netlify.app/2021/06/22/categorias-uteis/</link>
+      <pubDate>Tue, 22 Jun 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2021/06/22/categorias-uteis/</guid>
+      <description>Hoje eu vi um tweet que me fez pensar. É gostoso pensar por escrito, sigam-me os desocupados.
+Uma turistada por NaturâniaCorrendo o risco de alienar alguns leitores, imagine a terra mágica dos números naturais, Naturânia. Seus habitantes são… bem, os números naturais, eu espero que tenha ficado claro. Temos o Sr. Zero (eu disse que ia correr o risco de alienar alguns de vocês), a Sra. Quatrocentos e Setenta e Dois Mil, o googol, alguma potência de 10 menos sexy.</description>
+    </item>
     
-	<atom:link href="/authors/pedrocava/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>{tidyverse}, Simulações e Processamento de Séries Temporais</title>
+      <link>https://azul.netlify.app/2020/12/10/impureza-e-contexto-storch/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://azul.netlify.app/2020/12/10/impureza-e-contexto-storch/</guid>
+      <description>Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
+foo1 &amp;lt;- function(x) {lubridate::now() + lubridate::dseconds(x + sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.</description>
+    </item>
     
     <item>
       <title>Verossimilhança da Poisson</title>
-      <link>/2020/10/10/verossimilhan%C3%A7a-da-poisson/</link>
+      <link>https://azul.netlify.app/2020/10/10/verossimilhan%C3%A7a-da-poisson/</link>
       <pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/10/10/verossimilhan%C3%A7a-da-poisson/</guid>
+      <guid>https://azul.netlify.app/2020/10/10/verossimilhan%C3%A7a-da-poisson/</guid>
       <description>Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
 A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é:
 \[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\]
@@ -26,10 +42,10 @@ Existe um bom número de situações em que essa distribuição pode não ser ad
     
     <item>
       <title>Crescimento Exponencial, mas sem o Corona</title>
-      <link>/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</link>
+      <link>https://azul.netlify.app/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</link>
       <pubDate>Wed, 29 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</guid>
+      <guid>https://azul.netlify.app/2020/07/29/crescimento-exponencial-mas-sem-o-corona/</guid>
       <description>Uma família de funções que aparece em variados contextos é a exponencial:
 \[f(x) = ab^x\]
 Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&amp;gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
@@ -38,373 +54,334 @@ Não queria me alongar muito nem falar de corona então vou só fazer um gráfic
     
     <item>
       <title>Classificando distribuições a partir dos momentos</title>
-      <link>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</link>
+      <link>https://azul.netlify.app/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</link>
       <pubDate>Tue, 28 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</guid>
+      <guid>https://azul.netlify.app/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/</guid>
       <description>Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
 A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.</description>
     </item>
     
     <item>
       <title>Cuide da saúde, pare de fazer loops</title>
-      <link>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</link>
+      <link>https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</link>
       <pubDate>Sat, 06 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</guid>
+      <guid>https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/</guid>
       <description>Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
 O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.</description>
     </item>
     
     <item>
-      <title>Modelagem com {tidymodels}</title>
-      <link>/2020/06/02/modelagem-com-tidymodels/</link>
-      <pubDate>Tue, 02 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/06/02/modelagem-com-tidymodels/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Jogo da Velha com Q-Learning</title>
-      <link>/2020/04/21/jogo-da-velha-com-q-learning/</link>
+      <link>https://azul.netlify.app/2020/04/21/jogo-da-velha-com-q-learning/</link>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/21/jogo-da-velha-com-q-learning/</guid>
+      <guid>https://azul.netlify.app/2020/04/21/jogo-da-velha-com-q-learning/</guid>
       <description>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</description>
     </item>
     
     <item>
       <title>Mas e a indústria?</title>
-      <link>/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
+      <link>https://azul.netlify.app/2020/04/12/mas-e-a-ind%C3%BAstria/</link>
       <pubDate>Sun, 12 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
+      <guid>https://azul.netlify.app/2020/04/12/mas-e-a-ind%C3%BAstria/</guid>
       <description>Dia desses li coisas tristes. A narrativa era de que alguns setores são por alguma propriedade vinda dos céus (alguns dirão ah mas e a complexidade… e eu direi que são eles os que invejam os físicos) mais “importantes” que outros e que, de fato, o processo de desenvolvimento econômico é sim substituir participação de setores menos complexos por outros mais complexos. A magia, o pulo do gato, o estopim de um ciclo virtuoso de crescimento estaria em produzir menos soja e mais massa proteica, menos ferro e mais carros, menos bananas e mais microchips… Qualquer semelhança com as viúvas do regime militar não é coincidência.</description>
     </item>
     
     <item>
       <title>Gerando um padrão de difusão com soma de um termo gaussiano</title>
-      <link>/2020/02/09/difusao-gaussiana/</link>
+      <link>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/02/09/difusao-gaussiana/</guid>
+      <guid>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</guid>
       <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
 Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
     </item>
     
     <item>
       <title>Simulando o Teorema Central do Limite no R</title>
-      <link>/2019/11/03/central-limit-theorem-r/</link>
+      <link>https://azul.netlify.app/2019/11/03/central-limit-theorem-r/</link>
       <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/11/03/central-limit-theorem-r/</guid>
+      <guid>https://azul.netlify.app/2019/11/03/central-limit-theorem-r/</guid>
       <description>O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.</description>
     </item>
     
     <item>
       <title>Regredindo séries temporais aleatórias para quem gosta de regressão</title>
-      <link>/2019/10/28/reg-esppuria-integracao-perfect/</link>
+      <link>https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/</link>
       <pubDate>Mon, 28 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/10/28/reg-esppuria-integracao-perfect/</guid>
+      <guid>https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/</guid>
       <description>Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.</description>
     </item>
     
     <item>
       <title>Medindo a inércia da inflação brasileira com Rolling Window Regression</title>
-      <link>/2019/09/20/inercia-inflacao-rolling-window/</link>
+      <link>https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/</link>
       <pubDate>Fri, 20 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/09/20/inercia-inflacao-rolling-window/</guid>
+      <guid>https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/</guid>
       <description>Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias.</description>
     </item>
     
     <item>
-      <title>O Teorema do Macaco Infito: quanto tempo até sair Hamlet?</title>
-      <link>/2019/09/08/macaco-infinito-hamlet/</link>
-      <pubDate>Sun, 08 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/09/08/macaco-infinito-hamlet/</guid>
-      <description>O Enunciado e Quase-Certeza  Probabilidades de palavras em particular com alfabetos finitos  Simulação library(dplyr) library(tibble) library(rio) palavras &amp;lt;- import(&amp;quot;https://github.com/pythonprobr/palavras/blob/master/palavras.txt?raw=true&amp;quot;) %&amp;gt;% as_tibble() palavras$tamanho &amp;lt;- stringr::str_length(palavras$a) # tamanho das palavras Existem maneiras mais elegantes de armazenar os resultados desta simulação, mas eu fiz isso com pressa e - convenhamos - isso aqui é só um blog. Vamos ao passo a passo do desenho da simulação. Primeiro definimos parâmetros e objetos:</description>
-    </item>
-    
-    <item>
       <title>Visualizando um critério de estacionariedade em Processos AR</title>
-      <link>/2019/08/20/viz-estacionariedade-gganim/</link>
+      <link>https://azul.netlify.app/2019/08/20/viz-estacionariedade-gganim/</link>
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/20/viz-estacionariedade-gganim/</guid>
+      <guid>https://azul.netlify.app/2019/08/20/viz-estacionariedade-gganim/</guid>
       <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+\[y_t = \beta y_{t-1} + \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
     </item>
     
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</title>
-      <link>/2019/08/12/perron-frobenius-verificando-comp-1/</link>
+      <link>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-1/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
+      <guid>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
+      <description>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
     </item>
     
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</title>
-      <link>/2019/08/12/perron-frobenius-verificando-comp-2/</link>
+      <link>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-2/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
- Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+      <guid>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
+      <description>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
     </item>
     
     <item>
       <title>Comportamento de Random Walks</title>
-      <link>/2019/06/10/var-random-walks/</link>
+      <link>https://azul.netlify.app/2019/06/10/var-random-walks/</link>
       <pubDate>Mon, 10 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/06/10/var-random-walks/</guid>
+      <guid>https://azul.netlify.app/2019/06/10/var-random-walks/</guid>
       <description>Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} + \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
-    </item>
-    
-    <item>
-      <title>Manipulação de Sementes em Geradores Pseudoaleatórios</title>
-      <link>/2019/05/17/prouni-rf-classificacao/</link>
-      <pubDate>Fri, 17 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/2019/05/17/prouni-rf-classificacao/</guid>
-      <description>Você já usou funções como rnorm()? Se sim você já usou algum tipo de Gerador de Números Pseudoaleatório.
-set.seed(1234) n &amp;lt;- 5000 amostra1 = rbinom(n= n, size = 1, prob = .5) mean(amostra1) ## [1] 0.5014 Tivemos uma taxa de 0.5014 com a semente \(1234\). Como funciona com outras sementes?
-library(ggplot2) library(dplyr) library(gganimate) m &amp;lt;- 100000 n &amp;lt;- 100 amostras &amp;lt;- double(length = 0) for(i in 1:m) { set.</description>
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.</description>
     </item>
     
     <item>
       <title>Classificando cursos no ProUni com Random Forest</title>
-      <link>/2019/05/07/prouni-rf-classificacao/</link>
+      <link>https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/</link>
       <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/07/prouni-rf-classificacao/</guid>
+      <guid>https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
 Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
     </item>
     
     <item>
       <title>Modelo de Cournot no R com o pacote Recon</title>
-      <link>/2019/04/04/recon-comp-micro/</link>
+      <link>https://azul.netlify.app/2019/04/04/recon-comp-micro/</link>
       <pubDate>Thu, 04 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/04/04/recon-comp-micro/</guid>
+      <guid>https://azul.netlify.app/2019/04/04/recon-comp-micro/</guid>
       <description>Dia desses eu concluí o primeiro release estável do Recon e inclusive já está disponível no CRAN para download, é só rodar install.packages(&amp;quot;Recon&amp;quot;) para instalar a última versão enviada ao repositório ou devtools::install_github(&amp;quot;pedrocava/Recon&amp;quot;) para baixar a versão mais recente. Com meu primeiro pacote finalmente no CRAN pensei fazer um post mostrando o que ele é capaz de fazer, afinal eu quero downloads.
 Ano passado eu fiz alguns posts aqui mostrando trabalho em progresso do pacote.</description>
     </item>
     
     <item>
       <title>Verificando algumas propriedades de Mínimos Quadrados com o R</title>
-      <link>/2019/03/28/consistencia-assintotica-ols/</link>
+      <link>https://azul.netlify.app/2019/03/28/consistencia-assintotica-ols/</link>
       <pubDate>Thu, 28 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/03/28/consistencia-assintotica-ols/</guid>
+      <guid>https://azul.netlify.app/2019/03/28/consistencia-assintotica-ols/</guid>
       <description>Para você, bravo leitor que conseguiu superar o título horrível deste post e abriu o link, devo algo interessante. Já adianto que normalidade (assintótica) de um estimador não é lá o assunto mais empolgante do mundo. Fiz esse post pensando que esse tema faz parte da longa lista de assuntos tratados de maneira assustadoramente teórica em salas de aula pelo mundo. Consistência assintótica, convergência em distribuição e Teorema do Limite Central são excelentes conceitos para serem introduzidos com uma abordagem computacional, do ver acontecendo.</description>
     </item>
     
     <item>
       <title>Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate</title>
-      <link>/2019/01/07/prob-animate/</link>
+      <link>https://azul.netlify.app/2019/01/07/prob-animate/</link>
       <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/01/07/prob-animate/</guid>
+      <guid>https://azul.netlify.app/2019/01/07/prob-animate/</guid>
       <description>Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&amp;quot;gganimate&amp;quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R.</description>
     </item>
     
     <item>
       <title>Por quê todo estudante de Economia deveria aprender R e por onde começar</title>
-      <link>/2018/12/21/aprender/</link>
+      <link>https://azul.netlify.app/2018/12/21/aprender/</link>
       <pubDate>Fri, 21 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/21/aprender/</guid>
+      <guid>https://azul.netlify.app/2018/12/21/aprender/</guid>
       <description>Em março do ano que vem vou dar um “curso” de R na faculdade. Uma imersão rápida de uma semana nesse lindo mundo da análise de dados. Estava montando algum material para as “aulas”, procurando motivações razoáveis para que meus colegas queiram perder uma semana de férias programando.
 Nessa breve meditação eu concluí algumas coisas e vou organizar a mente sobre elas aqui. Depois, nada mais justo que indicar para quem não teve a chance de aprender essa maravilhosa ferramenta ainda o caminho das pedras de por onde começar, o que fazer, o que esperar e esse tipo de coisa.</description>
     </item>
     
     <item>
       <title>RDD, inferência causal e um exemplo em R</title>
-      <link>/2018/12/13/rdd-mixtape/</link>
+      <link>https://azul.netlify.app/2018/12/13/rdd-mixtape/</link>
       <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <guid>https://azul.netlify.app/2018/12/13/rdd-mixtape/</guid>
       <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
     </item>
     
     <item>
       <title>RDD, inferência causal e um exemplo em R</title>
-      <link>/2018/12/13/rdd-mixtape/</link>
+      <link>https://azul.netlify.app/2018/12/13/rdd-mixtape/</link>
       <pubDate>Thu, 13 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/13/rdd-mixtape/</guid>
+      <guid>https://azul.netlify.app/2018/12/13/rdd-mixtape/</guid>
       <description>Uma das coisas que mais me fascinam em econometria é inferência causal, a arte de separar o sinal do ruído. Boa parte do trabalho de economistas sérios que estudam temas aplicados é conseguir inferir relações causais e não meramente correlações de dados que não são laboratoriais. É difícil controlar todas as variáveis possíveis que afetem performance de alunos - não podemos designar pais atenciosos (!) - e impossível observar dois Brasis, um em que vigora uma regra \(X\) e outro em que não vigora.</description>
     </item>
     
     <item>
-      <title>Usando Random Forest e SVMs para classificar cursos no ProUni</title>
-      <link>/2018/12/10/prouni-rf-svm/</link>
-      <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
+      <title>Como eu rodei Stata dentro do R para replicar um paper</title>
+      <link>https://azul.netlify.app/2018/11/29/patronagem/</link>
+      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/12/10/prouni-rf-svm/</guid>
-      <description> Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com ferramentas diferentes: Random Forests e Support Vector Machines.
-Random Forests  Support Vector Machines  Rodando tudo  </description>
+      <guid>https://azul.netlify.app/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
       <title>Como eu rodei Stata dentro do R para replicar um paper</title>
-      <link>/2018/11/29/patronagem/</link>
+      <link>https://azul.netlify.app/2018/11/29/patronagem/</link>
       <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
-    </item>
-    
-    <item>
-      <title>Como eu rodei Stata dentro do R para replicar um paper</title>
-      <link>/2018/11/29/patronagem/</link>
-      <pubDate>Thu, 29 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/11/29/patronagem/</guid>
-      <description>Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
- O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
+      <guid>https://azul.netlify.app/2018/11/29/patronagem/</guid>
+      <description>Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.</description>
     </item>
     
     <item>
       <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
-      <link>/2018/10/31/banach/</link>
+      <link>https://azul.netlify.app/2018/10/31/banach/</link>
       <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/31/banach/</guid>
+      <guid>https://azul.netlify.app/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
       <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
-      <link>/2018/10/31/banach/</link>
+      <link>https://azul.netlify.app/2018/10/31/banach/</link>
       <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/31/banach/</guid>
+      <guid>https://azul.netlify.app/2018/10/31/banach/</guid>
       <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
     
     <item>
       <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
-      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <link>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</guid>
       <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
 Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
     </item>
     
     <item>
       <title>Usando dados da RAIS e Análise de Sobrevivência para entender desemprego</title>
-      <link>/2018/10/07/rais-cox-desemprego/</link>
+      <link>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</link>
       <pubDate>Sun, 07 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/10/07/rais-cox-desemprego/</guid>
+      <guid>https://azul.netlify.app/2018/10/07/rais-cox-desemprego/</guid>
       <description>Negros estão mais sujeitos à rotatividade de trabalhos? Se sim, isso se explica por variáveis observáveis como escolaridade ou não? E mulheres? Essas são questões muito comuns entre economistas do trabalho e podem ser atacadas de várias maneiras. Uma delas, que eu acho particularmente interessante, é com Análise de Sobrevivência.
 Análise de Sobrevivência é um termo bem amplo para descrever modelos que servem para explorar tempo até que um evento de interesse aconteça.</description>
     </item>
     
     <item>
       <title>Explorando o Modelo de Solow com a ajuda do R</title>
-      <link>/2018/09/11/solow/</link>
+      <link>https://azul.netlify.app/2018/09/11/solow/</link>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/11/solow/</guid>
+      <guid>https://azul.netlify.app/2018/09/11/solow/</guid>
       <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
     </item>
     
     <item>
       <title>Explorando o Modelo de Solow com a ajuda do R</title>
-      <link>/2018/09/11/solow/</link>
+      <link>https://azul.netlify.app/2018/09/11/solow/</link>
       <pubDate>Tue, 11 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/11/solow/</guid>
+      <guid>https://azul.netlify.app/2018/09/11/solow/</guid>
       <description>Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.</description>
     </item>
     
     <item>
       <title>Um pouco de microeconomia, dualidade e R</title>
-      <link>/2018/09/01/microeconomia/</link>
+      <link>https://azul.netlify.app/2018/09/01/microeconomia/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/01/microeconomia/</guid>
+      <guid>https://azul.netlify.app/2018/09/01/microeconomia/</guid>
       <description>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
 Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.</description>
     </item>
     
     <item>
       <title>Um pouco de microeconomia, dualidade e R</title>
-      <link>/2018/09/01/microeconomia/</link>
+      <link>https://azul.netlify.app/2018/09/01/microeconomia/</link>
       <pubDate>Sat, 01 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/09/01/microeconomia/</guid>
+      <guid>https://azul.netlify.app/2018/09/01/microeconomia/</guid>
       <description>No meu segundo período da graduação em economia entrei em contato com a área que hoje me fascina, a cadeira era Teoria Micreconômica I. Ali tive um gostinho - à custa de algum sofrimento com listas e provas, confesso - do que é microeconomia. A cadeira tinha duas seções. A primeira era teoria da firma, a segunda, teoria do consumidor.
 Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua planta e como um consumidor escolhe suas cestas de consumo.</description>
     </item>
     
     <item>
       <title>Alguns pequenos problemas de clustering k-means</title>
-      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <link>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <guid>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</guid>
       <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
 Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>
     
     <item>
       <title>Alguns pequenos problemas de clustering k-means</title>
-      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <link>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <guid>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</guid>
       <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
 Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>
     
     <item>
       <title>Homens têm mais casos extraconjugais?</title>
-      <link>/2018/08/17/homens-traicao/</link>
+      <link>https://azul.netlify.app/2018/08/17/homens-traicao/</link>
       <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/17/homens-traicao/</guid>
+      <guid>https://azul.netlify.app/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
       <title>Homens têm mais casos extraconjugais?</title>
-      <link>/2018/08/17/homens-traicao/</link>
+      <link>https://azul.netlify.app/2018/08/17/homens-traicao/</link>
       <pubDate>Fri, 17 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/17/homens-traicao/</guid>
+      <guid>https://azul.netlify.app/2018/08/17/homens-traicao/</guid>
       <description>Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
+ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.</description>
     </item>
     
     <item>
       <title>Usando clustering para identificar cursos no Prouni</title>
-      <link>/2018/08/11/prouni-clustering/</link>
+      <link>https://azul.netlify.app/2018/08/11/prouni-clustering/</link>
       <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/11/prouni-clustering/</guid>
+      <guid>https://azul.netlify.app/2018/08/11/prouni-clustering/</guid>
       <description>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
 Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</description>
     </item>

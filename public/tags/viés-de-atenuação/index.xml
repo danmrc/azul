@@ -2,22 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Viés de Atenuação on AZUL</title>
-    <link>/tags/vi%C3%A9s-de-atenua%C3%A7%C3%A3o/</link>
+    <link>https://azul.netlify.app/tags/vi%C3%A9s-de-atenua%C3%A7%C3%A3o/</link>
     <description>Recent content in Viés de Atenuação on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 24 Apr 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/vi%C3%A9s-de-atenua%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 24 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/vi%C3%A9s-de-atenua%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Viés de Atenuação</title>
-      <link>/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
+      <link>https://azul.netlify.app/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
       <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
+      <guid>https://azul.netlify.app/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
       <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</description>
     </item>
     

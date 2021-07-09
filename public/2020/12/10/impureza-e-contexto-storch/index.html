@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     {tidyverse}, Simulações e Processamento de Séries Temporais | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2020/12/10/impureza-e-contexto-storch/"><meta property="og:title" content="{tidyverse}, Simulações e Processamento de Séries Temporais" />
+<meta property="og:description" content="Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
+foo1 &lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2020/12/10/impureza-e-contexto-storch/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-12-10T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-12-10T00:00:00&#43;00:00" />
+
+<meta itemprop="name" content="{tidyverse}, Simulações e Processamento de Séries Temporais">
+<meta itemprop="description" content="Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
+foo1 &lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória."><meta itemprop="datePublished" content="2020-12-10T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-12-10T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="762">
+<meta itemprop="keywords" content="Computação,Programação,R," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="{tidyverse}, Simulações e Processamento de Séries Temporais"/>
+<meta name="twitter:description" content="Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
+foo1 &lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">December 10, 2020</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>762 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>4 mins</span>
+                        </div>
+
+                        <h1>{tidyverse}, Simulações e Processamento de Séries Temporais</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
+                            </h5><p class="social small text-muted">
+                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
+                                </p></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função <em>impura</em>: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo1 &lt;- function(x) {
+  
+  lubridate::now() + lubridate::dseconds(x + sample(-10:10, size = 1))
+  
+} 
+
+foo1(1)</code></pre>
+<pre ><code >## [1] "2020-12-11 07:03:25 -03"</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo1(1)</code></pre>
+<pre ><code >## [1] "2020-12-11 07:03:22 -03"</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo1(1)</code></pre>
+<pre ><code >## [1] "2020-12-11 07:03:40 -03"</code></pre>
+<p>Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">foo2 &lt;- function(x) {
+  
+  file.create(glue::glue('{x}.txt'))
+  
+}</code></pre>
+<p>Isso não é necessariamente <em>ruim</em>, o objetivo final de código em produção é desencadear efeitos colaterais, mas isso leva à código com consequências menos claras e por isso eu aprendi nos manuais e com os erros a evitar impureza. Pelo exercício vou tentar ilustrar uma aplicação onde impureza traz ergonomia.</p>
+<p>É bem comum que eu simule dados de processos estocásticos aqui. Um AR1 com <span class="math inline">\(\beta = 1\)</span>, por exemplo:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(tidyverse)
+
+N &lt;- 1000
+
+(data &lt;- tibble(t = 1:N,
+                y = accumulate(rnorm(N), ~ .x + .y)))</code></pre>
+<pre ><code >## # A tibble: 1,000 x 2
+##        t     y
+##    &lt;int&gt; &lt;dbl&gt;
+##  1     1 0.229
+##  2     2 1.68 
+##  3     3 1.94 
+##  4     4 3.28 
+##  5     5 3.28 
+##  6     6 3.03 
+##  7     7 4.01 
+##  8     8 4.09 
+##  9     9 3.75 
+## 10    10 6.03 
+## # … with 990 more rows</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">data %&gt;%
+  ggplot(aes(x = t, y = y)) +
+  geom_line(size = 1.2, color = 'red') +
+  theme_minimal() +
+  labs(x = 't',
+       y = '')</code></pre>
+<p><img src="/post/impuireza_contexto_storch_files/figure-html/unnamed-chunk-4-1.png" width="840" /></p>
+<p>E tem duas coisas aí que eu gostaria de mudar:</p>
+<ul>
+<li>Referência explícita e repetida ao tamanho da amostra, que é sempre igual e dado pelo tamanho do tibble, contextual</li>
+<li>Me referir ao processo gerador com alguma abstração, ao invés de explicitamente simular choques e soma-los.</li>
+</ul>
+<p>Podemos resolver isso tudo em uma função que (i) sabe que precisa gerar um AR1 com certo <span class="math inline">\(n\)</span> e (ii) é agnóstica em relação à distribuição dos choques.</p>
+<p>Primeiro, descobrir se a função foi chamada em um contexto de dados, dentro de um tibble. A ideia aqui é olhar como se comporta <code>dplyr::n</code>, que traz a informação contextual do tamanho do tibble usado como ambiente quando foi executada. Se não foi chamada dentro de um tibble, vai retornar erro:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">n()</code></pre>
+<pre ><code >## Error: `n()` must only be used inside dplyr verbs.</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tibble(A = rnorm(100, mean = -1),
+       sinal = A &gt; 0) %&gt;%
+  group_by(sinal) %&gt;%
+  summarise(N = n())</code></pre>
+<pre ><code >## # A tibble: 2 x 2
+##   sinal     N
+##   &lt;lgl&gt; &lt;int&gt;
+## 1 FALSE    81
+## 2 TRUE     19</code></pre>
+<p>Dito isso, precisamos capturar o erro, caso ocorra, então é bom embrulhar a função em algum advérbio do purrr.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">data_context &lt;- function() {
+  
+   foo &lt;- purrr::possibly(dplyr::n, otherwise = NULL)
+   
+   if(rlang::is_null(foo())) {
+     
+     return(FALSE)
+     
+   } else {
+     
+     return(TRUE)
+     
+   }
+  
+}</code></pre>
+<p>E agora a função que simula o processo em si.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ar &lt;- function(
+  .distfn = rnorm, 
+  ..., 
+  .k = 1L,
+  beta = runif(n = .k), 
+  .init = 0, 
+  .n = NULL) {
+
+  # Guardião -------------------------
+  
+  if(length(beta) != .k) {
+    
+    rlang::abort('Parameter vector must have one ')
+    
+  }
+  
+  if(rlang::is_null(.n) & !data_context()) {
+    
+    rlang::abort('Function called outside a tibble, provide .n argument.')
+    
+  } 
+    
+  if(data_context()) {
+    
+    n &lt;- dplyr::n()
+    
+  } else {
+    
+    n &lt;- .n
+    
+  }
+  
+  # Computando as inovações ------------------
+  
+  params &lt;- list(..., n = n)
+  
+  innovations &lt;- rlang::exec(.distfn, !!!params)
+  
+  # gerando os lags e computando os valores ----------------
+  
+  as.list(1:.k) %&gt;% 
+    purrr::set_names(1:.k) %&gt;%
+    purrr::map_dfc(~ dplyr::lag(innovations, .x)) %&gt;%
+      dplyr::rowwise() %&gt;%
+      dplyr::mutate(
+        total = 
+          sum(
+            beta*dplyr::c_across(tidyselect::everything()),
+            na.rm = TRUE) +
+          .init) %&gt;%
+      dplyr::pull(total) 
+  
+}</code></pre>
+<p>E agora podemos fazer coisas como isso:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">plot(ar(.n = 100))</code></pre>
+<p><img src="/post/impuireza_contexto_storch_files/figure-html/unnamed-chunk-8-1.png" width="840" /></p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tibble(t = 1:100) %&gt;%
+  mutate(
+    y1 = ar(sd = .2, beta = .7),
+    y2 = ar(runif, min = -1, .k = 10, beta = runif(10, max = .1))) %&gt;%
+  pivot_longer(-t, names_to = 'processo') %&gt;%
+  ggplot(aes(x = t, y = value, color = processo, group = processo)) +
+  geom_line(size = 1.2) +
+  theme_minimal()</code></pre>
+<p><img src="/post/impuireza_contexto_storch_files/figure-html/unnamed-chunk-8-2.png" width="840" /></p>
+<p>Um próximo passo seria extrair alguns momentos ao longo do tempo nesses processos. Para isso não precisamos implementar soluções, o <code>slider</code> dá conta. É uma espécie de <code>purrr</code> para operações em janelas móveis. Nele a prima mais próxima de <code>purrr::map</code> é <code>slider::slide</code>, que também tem variantes tipadas com terminações em <code>_lgl</code>, <code>_dbl</code> e etc.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(slider)
+
+tibble(t = 1:1000) %&gt;%
+  mutate(y = ar(.k = 3, beta = rep(1, times = 3)),
+         media = slide_dbl(y, mean, .before = 25),
+         desvio = slide_dbl(y, sd, .before = 25)) %&gt;%
+  pivot_longer(media:desvio) %&gt;%
+  ggplot(aes(x = t, y = value, color = name, group = name)) +
+  geom_line(size = 1.2, aplha = .9) +
+  theme_minimal() +
+  labs(x = '',
+       y = '')</code></pre>
+<p><img src="/post/impuireza_contexto_storch_files/figure-html/unnamed-chunk-9-1.png" width="840" /></p>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/computa%C3%A7%C3%A3o">
+                                    <i class="fas fa-tag mr-2"></i>Computação
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/programa%C3%A7%C3%A3o">
+                                    <i class="fas fa-tag mr-2"></i>Programação
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/r">
+                                    <i class="fas fa-tag mr-2"></i>R
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2020%2f12%2f10%2fimpureza-e-contexto-storch%2f&text=%7btidyverse%7d%2c%20Simula%c3%a7%c3%b5es%20e%20Processamento%20de%20S%c3%a9ries%20Temporais">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2020%2f12%2f10%2fimpureza-e-contexto-storch%2f&title=%7btidyverse%7d%2c%20Simula%c3%a7%c3%b5es%20e%20Processamento%20de%20S%c3%a9ries%20Temporais">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2020%2f12%2f10%2fimpureza-e-contexto-storch%2f&t=%7btidyverse%7d%2c%20Simula%c3%a7%c3%b5es%20e%20Processamento%20de%20S%c3%a9ries%20Temporais">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2020%2f12%2f10%2fimpureza-e-contexto-storch%2f&title=%7btidyverse%7d%2c%20Simula%c3%a7%c3%b5es%20e%20Processamento%20de%20S%c3%a9ries%20Temporais">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/11/29/highlight-js-e-hugo-como-fazer-syntax-highlight-de-qualquer-linguagem/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Highlight.js e Hugo: como fazer syntax highlight de qualquer linguagem</h4>
+            <p class="card-text text-muted text-uppercase">November 29, 2020</p>
+            <div class="card-text">
+                Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no head.html do blog:
+&amp;lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&amp;gt;Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/10/10/verossimilhan%C3%A7a-da-poisson/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Verossimilhança da Poisson</h4>
+            <p class="card-text text-muted text-uppercase">October 10, 2020</p>
+            <div class="card-text">
+                Dislaimer: eu tenho a formação em estatística de uma batata, não me leve muito a sério
+A distribuição de Poisson descreve a probabilidade de que \(k\) eventos discretos ocorram em um espaço ou período de tempo em que \(\lambda\) eventos eram esperados. A densidade é:
+\[f(k \, | \,\lambda) = \frac{\lambda^k e^{-\lambda}}{k!}\]
+Existe um bom número de situações em que essa distribuição pode não ser adequada para modelar o que se propõe, mas vamos passar por cima disso.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/07/29/crescimento-exponencial-mas-sem-o-corona/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Crescimento Exponencial, mas sem o Corona</h4>
+            <p class="card-text text-muted text-uppercase">July 29, 2020</p>
+            <div class="card-text">
+                Uma família de funções que aparece em variados contextos é a exponencial:
+\[f(x) = ab^x\]
+Se diferenciarmos em particular a função \(b^x\) vamos ter \(b^x \log_e b\). Se \(b&amp;gt;1\) a função cresce, se for menor, decresce. A constante \(e\) é a única que equaliza a função e a derivada.
+Não queria me alongar muito nem falar de corona então vou só fazer um gráfico bonito mostrando como a função muda a depender de qual \(b\) passamos como base.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

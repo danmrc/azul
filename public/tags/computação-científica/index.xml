@@ -2,32 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Computação Científica on AZUL</title>
-    <link>/tags/computa%C3%A7%C3%A3o-cient%C3%ADfica/</link>
+    <link>https://azul.netlify.app/tags/computa%C3%A7%C3%A3o-cient%C3%ADfica/</link>
     <description>Recent content in Computação Científica on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 02 Jul 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/computa%C3%A7%C3%A3o-cient%C3%ADfica/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 02 Jul 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/computa%C3%A7%C3%A3o-cient%C3%ADfica/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>R mais rápido</title>
-      <link>/2020/07/02/r-mais-r%C3%A1pido/</link>
+      <link>https://azul.netlify.app/2020/07/02/r-mais-r%C3%A1pido/</link>
       <pubDate>Thu, 02 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/07/02/r-mais-r%C3%A1pido/</guid>
+      <guid>https://azul.netlify.app/2020/07/02/r-mais-r%C3%A1pido/</guid>
       <description>Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.
 Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usa vários processadores sem precisar fazer nenhum setup.</description>
     </item>
     
     <item>
       <title>Linux e Windows, Ou como eu parei de me preocupar e passei a amar o dual boot</title>
-      <link>/2020/01/05/linux-e-windows/</link>
+      <link>https://azul.netlify.app/2020/01/05/linux-e-windows/</link>
       <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/2020/01/05/linux-e-windows/</guid>
+      <guid>https://azul.netlify.app/2020/01/05/linux-e-windows/</guid>
       <description>Pedro Cavalcante, o outro autor deste blog, deu várias sugestões que foram prontamente incorporadas
 Depois de muito tempo sem escrever no blog, por motivos acadêmicos, eu voltei. Eu poderia voltar com as maluquices usuais de econometria/economia/programação, mas eu vou falar de um assunto mais leve menos matemático. Recentemente várias pessoas me perguntaram sobre Linux (e alguns foram corajosos o suficiente para deixar eu instalar o Linux no computador delas!</description>
     </item>

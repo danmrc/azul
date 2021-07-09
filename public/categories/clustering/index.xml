@@ -2,42 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Clustering on AZUL</title>
-    <link>/categories/clustering/</link>
+    <link>https://azul.netlify.app/categories/clustering/</link>
     <description>Recent content in Clustering on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 19 Aug 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/clustering/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 19 Aug 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/clustering/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Alguns pequenos problemas de clustering k-means</title>
-      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <link>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <guid>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</guid>
       <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
 Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>
     
     <item>
       <title>Alguns pequenos problemas de clustering k-means</title>
-      <link>/2018/08/19/problemas-clustering-k-means/</link>
+      <link>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/19/problemas-clustering-k-means/</guid>
+      <guid>https://azul.netlify.app/2018/08/19/problemas-clustering-k-means/</guid>
       <description>No meu último post mostrei como podíamos usar clustering \(k\)-means para tentar identificar - com relativo sucesso - cursos de medicina no ProUni. Hoje, ao contrário de mostrar um uso interessante de \(k\)-means, quero mostrar um problema do algoritimo relacionado a uma de suas hipoteses.
 Hipoteses são ferramentas curiosas. Quem é familiarizado com economia sabe como a profissão as ama. Num geral, elas funcionam como foram concebidas: maneiras de tirar ruído e complexidade de uma questão que não são particularmente relevantes aqui.</description>
     </item>
     
     <item>
       <title>Usando clustering para identificar cursos no Prouni</title>
-      <link>/2018/08/11/prouni-clustering/</link>
+      <link>https://azul.netlify.app/2018/08/11/prouni-clustering/</link>
       <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/08/11/prouni-clustering/</guid>
+      <guid>https://azul.netlify.app/2018/08/11/prouni-clustering/</guid>
       <description>Você provavelmente conhece alguém que se formou no ensino médio e foi fazer um infame cursinho pensando em uma aprovação numa graduação em Medicina. Pois é esperado, são cursos estranhamente competitivos e com as - de longe - maiores notas de corte. Por serem tão anômalos, podem ser um exercício interessante de classificação.
 Vou expor brevemente a matemática por trás do processo de Clustering k-means, alguns problemas que surgem na hora de aplicar o algoritimo e aplica-lo em uma questão interessante de economia da educação, carrer choice.</description>
     </item>

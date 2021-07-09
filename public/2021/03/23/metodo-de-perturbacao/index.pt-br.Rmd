@@ -1,0 +1,395 @@
+---
+title: "Método de Perturbação: linerizando modelos sem mistério"
+author: Daniel Coutinho
+date: '2021-03-23'
+slug: metodo-de-perturbacao
+categories:
+  - Economia
+  - Programação Dinâmica
+  - Macroeconomia
+  - Matemática
+tags:
+  - Método de Perturbação
+  - Aproximação de Modelos Macro
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+(Este é mais um post completamente maluco)
+
+Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de [programação dinâmica](https://azul.netlify.app/2020/11/05/remastered-programa%C3%A7%C3%A3o-din%C3%A2mica/). Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive "para sempre" e pode acumular um ativo. Matematicamente:
+
+$$
+\max_{\{C\}_{t=1}^{\infty}, \{k_{t+1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\
+\text{sujeito a}\\
+k_{t+1} + C_t = A_tk_t^{\alpha} + (1-\delta)k_t
+$$
+
+Nesse caso o agente acumula capital, que se deprecia a taxa $\delta$ e pode ser usada para produzir bens com uma função de produção $A_tk_t^{\alpha}$. $A_t$ é a tecnologia, que vai seguir um AR(1) e ter média 1:
+
+$$
+(A_t-1) = \rho_a (A_{t-1}-1) + \epsilon_t
+$$
+
+Quando eu apresentei esse problema no blog eu construi soluções que iteravam sobre um grid e buscavam a resposta ótima sobre o grid considerando a função valor... Aquela maneira tem suas belezas mas tem alguns problemas:
+
+1.  Ela é relativamente lenta
+2.  Ela sofre do *curse of dimensionality*: quando o nosso espaço de estados e variáveis cresce, a solução fica ainda mais lenta. Se o grid de cada variável de estado tem $n$ pontos e você tem $k$ variáveis de estado, você deve visitar $n^k$ pontos em cada iteração da função valor.
+
+No caso que eu postei no blog eu nem considerei a tecnologia seguindo um AR(1) porque isso adiciona a complicação de aproximar o AR(1) por uma cadeia de Markov finita e computar o consumo ótimo considerando o estoque de capital e em qual estado a gente está na Cadeia de Markov. Eu fiz isso uma vez e eu posso garantir que dá trabalho.
+
+Veja que tudo isso é só um caso *simples* de um agente, que escolhe um ativo, que tem um choque AR(1). Modelos macro razoáveis gostariam de incorporar mais coisas. Por exemplo, nosso modelo não tem muito espaço para política monetária. Modelos básicos incorporam isso considerando que a firma também resolve um problema dinâmico, porque os preços não podem ser mudados a todo momento. Veja que ainda precisamos garantir que os preços limpam o mercado, então nós vamos exigir a solução dos dois problemas dinâmicos de maneira que limpe os mercados. Por exemplo, o apêndice [desse paper](https://fguvenendotcom.files.wordpress.com/2014/05/habhet_econometrica_published_2009.pdf) fala em 13 horas para resolver o modelo que o autor propõe.
+
+Se você quiser estimar o modelo, você vai precisar fazer uma otimização (ou rodar um MCMC, que a gente [já discutiu no blog](https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/)) e isso vai requerer resolver o modelo várias e várias vezes para diferentes valores dos parâmetros. Claramente esperar 13h pra cada solução não é uma opção.
+
+Uma solução recorrente é linearizar o modelo, e é disso que eu vou tratar neste post. A beleza de linearizar é que a solução do modelo em geral vira um problema de álgebra linear, e mesmo para sistemas grandes isso é relativamente rápido. Mais ainda, linearizar não requer nada além de saber calcular derivada e usar a regra da cadeia. Nós reduzimos todo o problema de agentes devem formar expectativas corretas do modelo em operações relativamente simples. 
+
+# Um pouquinho de estrutura
+
+Eu nunca falei em muitos detalhes da estrutura do modelo e da solução, mas vai ser importante. A gente divide as variáveis em variáveis de **controle** e em variáveis de **estado**. As variáveis de controle são escolhidas pelo agente. As variáveis de estado nos dizem como está o sistema naquele momento. Variáveis de estado são divididas endógenas e exógenas: as exógenas estão fora do nosso controle e as endógenas podem ser afetadas pelo agente.
+
+No exemplo acima nós temos 3 variáveis: $C_t$ (consumo), $K_t$ (capital) e $A_t$ (tecnologia). O consumo claramente é uma variável de escolha; a tecnologia segue um processo aleatório então é uma variável exógena. Como a tecnologia segue um AR(1), passa a ser importante saber o valor dela: choques positivos são seguidos por períodos de tecnologia mais alta. Nossa intuição manda que nós deveríamos consumir mais quando temos um choque positivo de tecnologia - no fim deste post nós iremos checar isso matematicamente.
+
+Já o capital claramente é uma variável de estado - quanto capital nós temos é uma informação importante - mas nós também escolhemos ele (implicitamente, quando escolhemos $C_t$). Isso é uma variável de estado endógena.
+
+Daqui por diante eu vou adotar que $x_t$ são as variáveis de estado e $y_t$ são as variáveis de controle. O vetor $x_t$ tem tamanho $n_x$ e o vetor $y_t$ tem tamanho $n_y$. 
+
+# O que é resolver o modelo?
+
+Por "resolver" o modelo nós queremos encontrar duas funções, $g(x_t)$ e $h(x_t)$, tais que:
+
+$$
+x_{t+1} = h(x_t) + \varepsilon_t\\
+y_t = g(x_t)
+$$
+
+Onde $\varepsilon_t$ é a parte aleatória. A solução é escrita como função das variáveis de estado. Como temos um problema de maximização, nós vamos escolher as variáveis de controle como função do estado de maneira a alcançar o ótimo. Voltando ao nosso exemplo: nós estamos escolhendo o consumo dado o capital e a tecnologia de maneira a maximizar a utilidade do agente.
+
+# Aproximando a solução
+
+Veja que nós não sabemos $g$ e $h$. Mas suponha que nós soubessemos. Poderíamos aproximar ela fazendo uma aproximação linear ao redor do ponto $\bar{x}$:
+
+$$
+g(x) \approx g(\bar{x}) + g_x(\bar{x})(x-\bar{x})\\
+h(x) \approx h(\bar{x}) + h_x(\bar{x})(x-\bar{x}) + \epsilon
+$$
+
+Veja que sem saber *alguma coisa* da solução nós não temos nenhuma esperança de sair do lugar. Mas nós sabemos duas coisas, logo de cara:
+
+-  A restrição de recursos $C_t + K_{t+1} = A_tK_t^\alpha + (1-\delta)K_t$
+-  A lei de movimento da tecnologia: $(A_t-1) = \rho_a (A_{t-1}-1) + \epsilon_t$
+
+Veja que a partir do problema de maximização, [nós podemos encontrar as condições de primeira ordem com respeito a $C_t$ e $K_{t+1}$](https://azul.netlify.app/2019/05/13/time-domain-iteration-mais-programa%C3%A7%C3%A3o-din%C3%A2mica/). Nós obtemos uma terceira equação:
+
+$$
+u^{\prime}(C_t) = \beta{}E_t[u^{\prime}(C_{t+1})(\alpha{}A_tk_{t+1}^{\alpha-1} + 1 -\delta)]
+$$
+
+Veja que nós podemos escrever isso tudo como um sistema de equações iguais a zero:
+
+$$
+F(C_t,C_{t+1},k_t,k_{t+1},A_t,A_{t-1}) = E_t
+\begin{bmatrix}
+u^{\prime}(C_t) - \beta{}u^{\prime}(C_{t+1})(\alpha{}A_tk_{t+1}^{\alpha-1} + 1 -\delta)\\
+C_t + K_{t+1} - A_tK_t^\alpha - (1-\delta)K_t\\
+(A_t-1) - \rho_a (A_{t-1}-1)
+\end{bmatrix} = 0
+$$
+
+Eu usei que $E_t(\epsilon_t) = 0$ na última equação. 
+
+------------------------------------------------------------------------
+
+Eu acharia injusto com o leitor não citar pelo menos porque linearizar não funciona sempre e isso é uma discussão bem longa. O problema de linearizar é que é uma aproximação local. Longe do ponto em que nós linearizamos, a aproximação piora. Quando nós olhamos muito longe do steady state? Em modelos no qual o interesse é em agentes heterogêneos isso é verdade (com alta probabilidade). O artigo que eu coloquei trata exatamente disso, e por isso alguém ainda trabalha com modelos que demoram 13h para computar (e são muito bem publicados!)
+
+------------------------------------------------------------------------
+
+Vamos voltar para o caso no qual as variáveis de controle são $y_t$ e os estados são $x_t$. Nós sabemos que a solução do modelo passa por:
+
+$$
+F(y_{t+1},y_t,x_{t+1},x_t) = 0
+$$
+[^1]
+
+Agora vamos colocar aquelas funções que são as escolhas ótimas em equilíbrio - $g$ e $h$ - na função acima. Dessa maneira, nós vamos obter a solução do problema como função da variável de estado:
+
+$$
+F(g(h(x_t) + \epsilon),g(x_t),h(x_t) + \epsilon,x_t) = 0
+$$
+
+Então tome a derivada com relação a $x_t$, o que vai exigir várias aplicações da regra da cadeia. Eu vou representar a derivada da função $f$ com respeito a $x$ como $f_x$ e não vou escrever mais os argumentos das funções porque senão a expressão vai ficar ainda mais longa:
+
+$$
+F_{y_{t+1}}g_{x_{t+1}}h_{x_t} + F_{y_t}g_{x_t} + F_{x_{t+1}}h_{x_t} + F_{x_t} = 0
+$$
+
+Nós sabemos as derivadas de $F$ e queremos saber as derivadas de $g$ e $h$. Vamos reescrever a equação acima como multiplicação de matrizes e isolar o que a gente sabe do que a gente não sabe em diferentes matrizes:
+
+$$
+\begin{bmatrix}
+F_{x_{t+1}} & F_{y_{t+1}}
+\end{bmatrix}
+\begin{bmatrix}
+I \\ g_{x_{t+1}}
+\end{bmatrix}h_{x_t} + 
+\begin{bmatrix}
+F_{x_{t}} & F_{y_{t}}
+\end{bmatrix}
+\begin{bmatrix}
+I \\ g_{x_{t}}
+\end{bmatrix} = 0
+$$
+
+Então defina $A = [f_{x_{t+1}} \; \; F_{y_{t+1}}]$ e $B = [F_{x_t} \; \; F_{y_t}]$
+
+Agora é hora de usar uma velha conhecida nossa: faça a decomposição de autovalor de $h_x$. Então $h_x = P\Lambda P^{-1}$ e substituindo na equação acima:
+
+$$
+A\begin{bmatrix}I \\ g_{x_t} \end{bmatrix} P \Lambda P^{-1} + B\begin{bmatrix}I \\ g_{x_t} \end{bmatrix} = 0 
+$$
+
+Pós multiplique tudo por $P$ para obter:
+
+$$
+A\begin{bmatrix}I \\ g_{x_t} \end{bmatrix}P\Lambda + B\begin{bmatrix}I \\ g_{x_t} \end{bmatrix}P = 0
+$$
+
+Agora eu vou fazer duas contas simples para rearrumar a equação acima da maneira que ela fique familiar:
+
+$$
+B\begin{bmatrix}I \\ g_{x_t} \end{bmatrix}P = -A\begin{bmatrix}I \\ g_{x_t} \end{bmatrix}P\Lambda \\
+-A^{-1}B\begin{bmatrix}I \\ g_{x_t} \end{bmatrix}P = \begin{bmatrix}I \\ g_{x_t} \end{bmatrix}P\Lambda \\
+-A^{-1}B =\begin{bmatrix}I \\ g_{x_t} \end{bmatrix}P\Lambda \left(\begin{bmatrix}I \\ g_{x_t} \end{bmatrix}P\right)^{-1} \tag{1}
+$$
+
+Basicamente, eu to afirmando que a solução depende dos autovalores de $A^{-1}B$! Isso necessita da hipótese que $A$ é não singular, o que não é necessariamente verdade. Felizmente, para driblar esse problema, existem autovalores generalizados que calcula os autovalores que satisfazem $\lambda Gx - Hx = 0$. Veja que se $G$ não é singular, então nós obtemos que o problema anterior é equivalente a $\lambda x - G^{-1}Hx$! Daqui por diante eu vou me referir aos autovalores do par de matrizes $(A,B)$ como _autovalores generalizados_ e eles vão ser representados pela matriz $D$. Os _autovetores generalizados_ são os autovetores associados e ficam na matriz $V$. 
+
+Então quebre $D$ em:
+
+$$
+D = \begin{bmatrix}
+D_{11} & 0 \\
+0 & D_{22} \\
+\end{bmatrix}
+$$
+
+E suponha que $D_{11}$ só tem autovalores menores que 1 e $D_{22}$ autovalores maiores que 1. Quebre os autovetores em $\begin{bmatrix}V_1 & V_2\end{bmatrix}^T$ e $V_1$ são os autovetores associados aos autovalores menores que 1 e $V_2$ os autovetores associados aos autovalores maiores que 1.
+
+## Condições sobre os autovalores
+
+Agora, lembrem que toda essa motivação partiu dos autovalores de $h_{x}$, que é a derivada de $h$ com respeito a $x$, e eu lembro que eu estou aproximando a lei de movimento do estado usando $x_{t+1} = h_x x_{t}$. Note que $h_x$ é uma matriz $n_x \times n_x$. [Em um post anterior](https://azul.netlify.app/2018/11/06/sistemas-dinamicos-e-algebra-linear/), a gente já falou que para esse sistema dinâmico ser estável, os autovalores de $h_x$ devem ser menores que 1. Então $\Lambda = D_{11}$ se a economia for estável. **Isso é uma hipótese que a gente deve checar**. Como $A$ tem dimensão $(n_x + n_y) \times (n_x + n_y)$ e $h_x$ tem dimensão $n_x \times n_x$, então o que a gente está afirmando é que o número de autovalores menores que 1 é igual a $n_x$. 
+
+E os outros $n_y$ autovalores? Eles devem ser maiores que 1. [Nós já discutimos isso em outro post do blog.](https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/)
+
+Vamos voltar a fazer as contas: relembre (1) quebrando $V_1$ em $V_{11}$ e $V_{12}$ nós temos: 
+
+$$
+\begin{bmatrix}
+I\\
+g_{x_t}
+\end{bmatrix}P = V_1 = \begin{bmatrix}
+V_{11} \\
+V_{12}
+\end{bmatrix}
+$$
+
+Então $P = V_{11}$ e portanto:
+
+$$
+h_x = V_{11}D_{11}V_{11}^{-1}\\
+g_x = V_{12}V_{11}^{-1}
+$$
+
+# Resolvendo isso no computador
+
+Eu obviamente não tenho nenhum plano de resolver os autovalores da matriz $A^{-1}B$ na mão, então vamos implementar tudo com o computador - inclusive as derivadas de $F$, porque o computador existe pra fazer as contas chatas. Lembre que o nosso sistema é:
+
+$$
+F(C_t,C_{t+1},k_t,k_{t+1},A_t,A_{t-1}) = E_t
+\begin{bmatrix}
+u^{\prime}(C_t) - \beta{}u^{\prime}(C_{t+1})(\alpha{}A_tk_{t+1}^{\alpha-1} + 1 -\delta)\\
+C_t + K_{t+1} - A_tK_t^\alpha - (1-\delta)K_t\\
+(A_t-1) - \rho_a (A_{t-1}-1)
+\end{bmatrix} = 0
+$$
+
+Eu vou usar como função utilidade $u(C) = \frac{C^{1-\gamma}}{1-\gamma}$. Quando $\gamma =1$, isso é a função $log$
+
+Vamos escrever uma função que é exatamente isso no Julia:
+
+```{julia}
+
+#Vamos carregar alguns pacotes antes
+
+using ForwardDiff
+using LinearAlgebra
+using NLsolve
+
+function foc(yt,yf,x1t,x1f,x2t,x2f,par)
+    eq1 =  yt[1]^(-par[2]) - par[1]*yf[1]^(-par[2])*(par[3]*x2t[1]*x1f[1]^(par[3]-1) + 1-par[4])
+    eq2 = yt[1] + x1f[1] - (1-par[4])*x1t[1] - x2t[1]*x1t[1]^par[3]
+    eq3 = (x2f[1] - 1) - par[5]*(x2t[1]-1)
+    return [eq1;eq2;eq3]
+end
+```
+
+Então `yt` é $y_t$ e `yf` é $y_{t+1}$. Eu separei as variáveis de estado em variáveis endógenas (`x1t`e `x1f`) e exógenas (`x2t` `x2f`). Se tem um `f` é porque está no futuro, logo é o valor em $t+1$. O `par` é um vetor de parâmetros do problema. Nós temos, na ordem que eu estou passando os parâmetros para a função:
+
+1. $\beta$, a taxa de desconto. Vai ser igual a $0.99$
+2. $\gamma$, o parâmetro da função utilidade. Vai ser igual a $1$ (então eu tenho a utilidade log)
+3. $\alpha$ que é o parâmetro da função de produção. Vai ser igual a $1/3$
+4. $\delta$ a taxa de depreciação. Vai ser igual a $1$
+5. $\rho$, o parâmetro do processo AR(1) da tecnologia. Vai ser igual a $0.5$
+
+Vamos chamar o vetor de parâmetros de `pp`:
+
+```{julia}
+
+pp = [0.99,1,1/3,1,0.5]
+
+```
+
+Veja que a gente vai querer avaliar as derivadas no _steady state_, então a gente precisa saber o steady state. Lembrem, no steady state o valor da variável hoje e amanhã são iguais. Existem duas possibilidades:
+
+1. Pegar um pedaço de papel e fazer a conta
+2. Escrever uma função e pedir pro computador encontrar a solução usando um solver de equações não lineares.
+
+Eu vou fazer os dois:
+
+```{julia}
+
+# Solução numérica do Steady State
+
+function foc_steady(vars,par)
+    eq1 =  vars[1]^(-par[2]) - par[1]*vars[1]^(-par[2])*(par[3]*vars[3]*vars[2]^(par[3]-1) + 1-par[4])
+    eq2 = vars[1] + vars[2] - (1-par[4])*vars[2] - vars[3]*vars[2]^par[3]
+    eq3 = (vars[3] - 1) - par[5]*(vars[3]-1)
+    return [eq1;eq2;eq3]
+end
+
+# Solução analítica do Steady State
+
+function steady(par)
+    k = (1/par[3]*(1/par[1] + par[4]-1))^(1/(par[3]-1))
+    c = k^par[3] - par[4]*k
+    A = 1
+    return [c,k,A]
+end
+```
+
+Veja que os dois devem ser iguais (lembrem que vai ter alguma diferença, mas ela deve ser pequena):
+
+```{julia}
+
+steady_num = nlsolve(x->foc_steady(x,pp),[0.3;1;1],autodiff = :forward);
+steady_an = steady(pp);
+```
+
+Vamos verificar os valores do _steady state_ e comparar a solução numérica com a analítica:
+
+```{julia}
+
+steady_num.zero
+steady_an
+foc(steady_an[1],steady_an[1],steady_an[2],steady_an[2],steady_an[3],steady_an[3],pp)
+```
+
+As soluções estão próximas. Vamos calcular as derivadas de $F$ com respeito as variáveis de estado e de controle:
+
+```{julia}
+
+fyt = ForwardDiff.derivative(x->foc(x,steady_an[1],steady_an[2],steady_an[2],steady_an[3],steady_an[3],pp),steady_an[1])
+fyf = ForwardDiff.derivative(x->foc(steady_an[1],x,steady_an[2],steady_an[2],steady_an[3],steady_an[3],pp),steady_an[1])
+
+fxt = ForwardDiff.jacobian(x->foc(steady_an[1],steady_an[1],x[1],steady_an[2],x[2],steady_an[3],pp),[steady_an[2] steady_an[3]])
+fxf = ForwardDiff.jacobian(x->foc(steady_an[1],steady_an[1],steady_an[2],x[1],steady_an[3],x[2],pp),[steady_an[2] steady_an[3]])
+```
+
+`fyt` e `fyf` são as derivadas com respeito ao controle em $t$ e $t+1$, respectivamente, e `fxt` e `fxf` são as derivadas com respeito aos controles. Note que as funções que eu uso para tirar derivada são diferentes porque para o controle é um escalar e para a variável de estado é um vetor. 
+
+Vamos criar as matrizes $A$ e $B$:
+
+```{julia}
+
+A = [fxf fyf]
+B = [fxt fyt]
+
+```
+
+Hora de calcular os autovalores generalizados. O help do Julia não me ajudou a matar qual a ordem que as matrizes deveriam aparecer na função - isso depende de quem ele define como $H$ e $G$ nas equações anteriores. Eu fiz um pouco de tentativa tendo em mente que (1) a parametrização é extremamente razoável e (2) como a gente tem duas variáveis de estado, a gente precisa ter dois autovalores menores que 1. Eu vou colocar o Julia para ordernar os autovalores em ordem decrescentes (em valor absoluto) usando a opção `sortby`:
+
+```{julia}
+
+vals,vec = eigen(-B,A, sortby = x->abs(x))
+
+```
+
+Eu podia fazer um `if` checando que a quantidade de autovalores menores que um é igual a quantidade de variáveis de estado ([no arquivo do GitHub](https://github.com/danmrc/azul/blob/master/C%C3%B3digos/pertur.jl) eu faço isso). Por motivos narrativos eu vou omitir essa verificação. Vamos isolar os autovetores associados aos autovalores menores que 1 e encontrar $V_{11}$ e $V_{12}$ e encontrar $h_x$ e $g_x$: 
+
+```{julia}
+
+indx = findall(abs.(vals) .< 1)
+
+V1 = vec[:,indx]
+
+V11 = V1[1:length(indx),:]
+V12 = V1[length(indx)+1:size(V1,1),:]
+
+D11 = diagm(vals[indx])
+
+hx = V11*D11*inv(V11)
+gx = V12*inv(V11)
+```
+
+Com $h_x$ e $g_x$, nós podemos calcular momentos do modelo linearizado e as respostas a impulso. A resposta em $t$ a um choque $\epsilon_0$ que ocorreu $t = 0$ é $h_x^t\epsilon_0$. 
+
+```{julia}
+
+irfx = mapreduce(t->hx^t*[0;0.1],hcat,0:10)
+irfx = irfx'
+
+irfy = irfx*gx'
+```
+
+![](/post/2021-03-14-método-de-perturbação/irf_k.png)
+
+![](/post/2021-03-14-método-de-perturbação/irf_err.png)
+
+![](/post/2021-03-14-método-de-perturbação/irf_c.png)
+
+Os tempos: resolvendo numericamente o steady state demora 18s. Sem esse passo demora 6s. O melhor é que isso escala muito bem, então modelos maiores podem ser resolvidos usando um pouco mais de tempo! 
+
+Depois de eu ter escrito o post quase inteiro, me ocorreu que seria legal comparar isso com a solução analítica. A gente sabe que se o choque não tiver um componente autoregressivo, as preferências forem $\log(C)$ e a depreciação for igual a 1, o consumo ótimo é $C = (1-\alpha\beta)y$. Eu vou criar um grid ao redor do steady state e computar a regra ótima usando a solução analítica e esses parâmetros. Isso requer rodar o programa todo de novo com $\rho = 0$ - eu vou omitir essa parte e colocar só as contas da aproximação e do grid. Eu tenho que fazer dois grids diferentes: um para a solução analítica e outra para a solução aproximada. O grid da solução analítica usa os valores ao redor do _steady state_, enquanto o grid da solução aproximada usa diferenças entre o valor e o _steady state_. 
+
+```{julia}
+
+grid = range(-0.1,0.1,length = 100);
+grid2 = grid .+ steady_an[2];
+
+sol_guess = (1-pp[1]*pp[3])*grid2 .^pp[3];
+
+linear_approx_points = [grid zeros(length(grid))];
+
+linear_approx =  steady_an[1] .+ linear_approx_points*gx';
+
+```
+
+![](/post/2021-03-14-método-de-perturbação/approx1.png)
+
+Como prometido, mais longe do Steady State, pior a aproximação. Eu vou diminuir o grid para gente ver pertinho do steady state:
+
+![](/post/2021-03-14-método-de-perturbação/approx2.png)
+
+Quem poderia imaginar que as muitas páginas de contas de alunos de macro se resumiriam a uma ideia tão elegante?
+
+--------------------------
+
+[Baseado nas notas de aula da Stephanie Schmitt-Grohé e do Martín Uribe](http://www.columbia.edu/~mu2166/1st_order/Perturbation%20Methods%20Lecture%20Notes.pdf)
+
+[^1]: Isso requer misturar os subescritos de tempo $x_t = [k_t \; \; A_{t-1}]$. 

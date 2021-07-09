@@ -2,32 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cadeias de Markov on AZUL</title>
-    <link>/tags/cadeias-de-markov/</link>
+    <link>https://azul.netlify.app/tags/cadeias-de-markov/</link>
     <description>Recent content in Cadeias de Markov on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Wed, 14 Nov 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/cadeias-de-markov/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 14 Nov 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/cadeias-de-markov/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Prog Dinâmica IIA</title>
-      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <link>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <guid>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
 Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
     
     <item>
       <title>Prog Dinâmica IIA</title>
-      <link>/2018/11/14/prog-din%C3%A2mica-2a/</link>
+      <link>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/11/14/prog-din%C3%A2mica-2a/</guid>
+      <guid>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</guid>
       <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
 Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>

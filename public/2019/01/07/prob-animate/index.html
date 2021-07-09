@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,22 +34,18 @@
 
 
 
-<link rel="canonical" href="/2019/01/07/prob-animate/"><meta property="og:title" content="Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate" />
+<link rel="canonical" href="https://azul.netlify.app/2019/01/07/prob-animate/"><meta property="og:title" content="Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate" />
 <meta property="og:description" content="Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&quot;gganimate&quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/01/07/prob-animate/" />
-<meta property="article:published_time" content="2019-01-07T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-01-07T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2019/01/07/prob-animate/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-01-07T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-01-07T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate">
-<meta itemprop="description" content="Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&quot;gganimate&quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R.">
-<meta itemprop="datePublished" content="2019-01-07T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-01-07T00:00:00+00:00" />
+<meta itemprop="description" content="Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&quot;gganimate&quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R."><meta itemprop="datePublished" content="2019-01-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-01-07T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="643">
-
-
-
-<meta itemprop="keywords" content="Convergência,Animação,Visualização de Dados," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Convergência,Animação,Visualização de Dados," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Visualizando comportamento de uma distribuição e de processos autoregressivos com o gganimate"/>
 <meta name="twitter:description" content="Dia desses o gganimate finalmente foi liberado no CRAN e agora é instalável na sua máquina simplesmente executando o comando install.packages(&quot;gganimate&quot;) - mas se prepare porque ele têm muitas dependências. Muita gente esperava esse pacote porque até então, animações com a qualidade e gramática do ggplot2 não eram humanamente possíveis. Você teria que renderizar e salvar todos os frames da animação e depois junta-las com software externo. Foram quase três anos de desenvolvimento, entre o primeiro commit no GitHub e o lançamento oficial no CRAN e muita coisa mudou no meio do caminho, especialmente porque o pacote que começou sendo desenvolvimento por Dave Robinson eventualmente trocou para as habilidosas mãos do dinamarquês Thomas Lin Pedersen, que desenvolve vários pacotes excelentes de R."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -65,7 +60,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -218,22 +213,22 @@ anim_save(&quot;animacao2.gif&quot;)</code></pre>
                                     <i class="fas fa-tag mr-2"></i>Visualização de Dados
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2019%2f01%2f07%2fprob-animate%2f&text=Visualizando%20comportamento%20de%20uma%20distribui%c3%a7%c3%a3o%20e%20de%20processos%20autoregressivos%20com%20o%20gganimate">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2019%2f01%2f07%2fprob-animate%2f&text=Visualizando%20comportamento%20de%20uma%20distribui%c3%a7%c3%a3o%20e%20de%20processos%20autoregressivos%20com%20o%20gganimate">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2019%2f01%2f07%2fprob-animate%2f&title=Visualizando%20comportamento%20de%20uma%20distribui%c3%a7%c3%a3o%20e%20de%20processos%20autoregressivos%20com%20o%20gganimate">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2019%2f01%2f07%2fprob-animate%2f&title=Visualizando%20comportamento%20de%20uma%20distribui%c3%a7%c3%a3o%20e%20de%20processos%20autoregressivos%20com%20o%20gganimate">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2019%2f01%2f07%2fprob-animate%2f&t=Visualizando%20comportamento%20de%20uma%20distribui%c3%a7%c3%a3o%20e%20de%20processos%20autoregressivos%20com%20o%20gganimate">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2019%2f01%2f07%2fprob-animate%2f&t=Visualizando%20comportamento%20de%20uma%20distribui%c3%a7%c3%a3o%20e%20de%20processos%20autoregressivos%20com%20o%20gganimate">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2019%2f01%2f07%2fprob-animate%2f&title=Visualizando%20comportamento%20de%20uma%20distribui%c3%a7%c3%a3o%20e%20de%20processos%20autoregressivos%20com%20o%20gganimate">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2019%2f01%2f07%2fprob-animate%2f&title=Visualizando%20comportamento%20de%20uma%20distribui%c3%a7%c3%a3o%20e%20de%20processos%20autoregressivos%20com%20o%20gganimate">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -258,7 +253,7 @@ anim_save(&quot;animacao2.gif&quot;)</code></pre>
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -299,28 +294,9 @@ anim_save(&quot;animacao2.gif&quot;)</code></pre>
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

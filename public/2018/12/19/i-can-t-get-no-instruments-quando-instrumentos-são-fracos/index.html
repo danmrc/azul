@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/"><meta property="og:title" content="I Can&#39;t Get No Instruments: quando instrumentos são fracos" />
+<link rel="canonical" href="https://azul.netlify.app/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/"><meta property="og:title" content="I Can&#39;t Get No Instruments: quando instrumentos são fracos" />
 <meta property="og:description" content="(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
 Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta &#43; \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/" />
-<meta property="article:published_time" content="2018-12-19T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-12-19T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-12-19T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2018-12-19T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="I Can&#39;t Get No Instruments: quando instrumentos são fracos">
 <meta itemprop="description" content="(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
-Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta &#43; \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.">
-<meta itemprop="datePublished" content="2018-12-19T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-12-19T00:00:00+00:00" />
+Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta &#43; \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância."><meta itemprop="datePublished" content="2018-12-19T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-12-19T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1577">
-
-
-
-<meta itemprop="keywords" content="Variáveis Instrumentais,Instrumentos Fracos," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Variáveis Instrumentais,Instrumentos Fracos," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="I Can&#39;t Get No Instruments: quando instrumentos são fracos"/>
 <meta name="twitter:description" content="(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
 Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta &#43; \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância."/>
@@ -68,7 +63,7 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -117,11 +112,14 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
                     <div class="col-lg-8">
                         <div class="content">
                             
+<script src="2018-12-17-i-can-t-get-no-instruments-quando-instrumentos-são-fracos_files/header-attrs/header-attrs.js"></script>
+<link href="2018-12-17-i-can-t-get-no-instruments-quando-instrumentos-são-fracos_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2018-12-17-i-can-t-get-no-instruments-quando-instrumentos-são-fracos_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p><em>(O título desse post é uma piada com o <a href="http://www.mostlyharmlesseconometrics.com/book-contents/">título do capítulo do Mostly Harmless Econometrics</a> sobre instrumentos)</em></p>
 <p>Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO <span class="math inline">\(E(u|\textbf{X}) = 0\)</span>, em uma regressão <span class="math inline">\(\textbf{y} = \textbf{X}\beta + \textbf{u}\)</span>. Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância. Um instrumento <span class="math inline">\(z\)</span> é exógeno se <span class="math inline">\(E(u|z) = 0\)</span>. Essa hipótse não é testável, em geral. A segunda hipótese, de relevância, significa que <span class="math inline">\(z\)</span> é capaz de explicar alguma variação em <span class="math inline">\(x\)</span>. Ela é muitas vezes ignorada, mas vamos falar dela neste artigo, porque ele é importantíssima e testável.</p>
-<div id="quando-um-instrumento-e-fraco-e-porque-se-preocupar" class="section level2">
+<div id="quando-um-instrumento-é-fraco-e-porque-se-preocupar" class="section level2">
 <h2>Quando um instrumento é fraco e porque se preocupar</h2>
 <p>Como eu já adiantei, um instrumento é fraco se ele não consegue explicar muito da variação de <span class="math inline">\(X\)</span>. Vamos criar um problema em que há uma variável omitida <span class="math inline">\(h\)</span>, que fazem parte tanto da equação de <span class="math inline">\(y\)</span> como da de <span class="math inline">\(x\)</span> (o exemplo vai ter só um regressor pra ficar simples), mas <span class="math inline">\(x\)</span> também é influenciada por <span class="math inline">\(z\)</span> (novamente, univariado). Vamos começar com um caso em que as equação são:</p>
 <p><span class="math display">\[
@@ -129,7 +127,7 @@ y = h + 2x + u\\
 x = h + z + v\\
 \]</span></p>
 <p>Onde <span class="math inline">\(u\)</span> e <span class="math inline">\(v\)</span> são erros iid Normais com média zero, variância um e independentes entre si. Eu vou usar o pacote <strong>AER</strong> pra estimar a regressão <span class="math inline">\(y\)</span> em <span class="math inline">\(x\)</span> usando <span class="math inline">\(z\)</span> como instrumentos, o conhecido MQ2E. Vamos usar 1000 observações,e vou fazer a regressão por MQO pra nós compararmos o resultado das duas:</p>
-<pre class="r"><code>set.seed(1928376)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">set.seed(1928376)
 
 u &lt;- rnorm(1000)
 v &lt;- rnorm(1000)
@@ -141,7 +139,7 @@ y &lt;- h + 2*x + u
 
 reg_mqo &lt;- lm(y ~ x)
 reg_iv &lt;- ivreg(y ~x,~z)</code></pre>
-<pre class="r"><code>stargazer(reg_iv,reg_mqo,type = &quot;html&quot;, column.labels = c(&quot;MQ2E&quot;,&quot;MQO&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">stargazer(reg_iv,reg_mqo,type = "html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">
@@ -289,13 +287,13 @@ F Statistic
 <p>Agora, vamos fazer uma simples alteração no processo gerador de dados. A equação de <span class="math inline">\(x\)</span> vai ser:</p>
 <p><span class="math display">\[x = h + 0.01z + v\]</span></p>
 <p>Vamos repetir o nosso experimento:</p>
-<pre class="r"><code>x2 &lt;- h + 0.01*z + v
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">x2 &lt;- h + 0.01*z + v
 y2 &lt;- h + 2*x2 + u
 
 reg_mqo &lt;- lm(y2 ~ x2)
 reg_iv &lt;- ivreg(y2 ~x2,~z)</code></pre>
 <p>E eis os resultados:</p>
-<pre class="r"><code>stargazer(reg_iv,reg_mqo,type =&quot;html&quot;, column.labels = c(&quot;MQ2E&quot;,&quot;MQO&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">stargazer(reg_iv,reg_mqo,type ="html", column.labels = c("MQ2E","MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">
@@ -441,7 +439,7 @@ F Statistic
 </table>
 <p>Veja que agora os resultado da regressão com variáveis instrumentais se aproxima dos resultados obtidos pelo MQO. Veja também que, olhando as tabelas acima, não há nenhuma maneira de advinhar que nossos instrumentos são fracos. Mas, ao contrário da exogenidade dos instrumentos, podemos testar se os instrumentos são forte.</p>
 <p>Em um exemplo mais dramático do tamanho do problema, eu vou usar um vetor inventado <span class="math inline">\(zi\)</span> que nada tem nenhuma relação com o nosso processo gerador de dados e usar como instrumento e comparar com o nosso instrumento fraco. Só que, ao invés da nossa amostra relativamente grande de 1000 obs, eu usarei apenas 100 para gerar <span class="math inline">\(y_3\)</span>,<span class="math inline">\(x_3\)</span>,<span class="math inline">\(z_3\)</span>:</p>
-<pre class="r"><code>u &lt;- rnorm(100)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">u &lt;- rnorm(100)
 v &lt;- rnorm(100)
 h &lt;- rnorm(100)
 z3 &lt;- rnorm(100)
@@ -453,7 +451,7 @@ reg1 &lt;- lm(y3 ~ x3)
 reg2 &lt;- ivreg(y3 ~x3,~z3)
 zi &lt;- rnorm(100)
 reg3 &lt;- ivreg(y3~x3,~zi)</code></pre>
-<pre class="r"><code>stargazer(reg1,reg2,reg3,type =&quot;html&quot;, column.labels = c(&quot;MQO&quot;,&quot;MQ2E&quot;,&quot;MQ2E com instrumento inventado&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">stargazer(reg1,reg2,reg3,type ="html", column.labels = c("MQO","MQ2E","MQ2E com instrumento inventado"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black">
@@ -626,7 +624,7 @@ F Statistic
 </table>
 <p>Apesar do desvio padrão alto, o resultado da variável instrumental inventada é numericamente mais próximo do real que o instrumento fraco! Isso não ocorre só em amostras pequenas. O livro <em>Econometria</em>, de Stock e Watson, diz que esse mesmo efeito pode ocorrer com amostras grandes!</p>
 <p>“Mas isso é só uma regressão, você não pode fazer inferência com uma única observação!” Ok, vamos fazer uma simulação de monte carlo e ver qual é o beta médio que sai. Eu serei generoso o suficiente e usarei 1000 obs e farei mil replicações:</p>
-<pre class="r"><code>beta &lt;- rep(0,1000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">beta &lt;- rep(0,1000)
 
 for(k in 1:1000){
   z &lt;- rnorm(1000)
@@ -639,43 +637,41 @@ for(k in 1:1000){
 } 
 
 tabela &lt;- matrix(c(max(beta),min(beta),mean(beta),sd(beta)),ncol=1)
-rownames(tabela) &lt;- c(paste0(&quot;Max dos &quot;,&#39;\u03b2&#39;),paste0(&quot;Min dos &quot;,&#39;\u03b2&#39;),paste0(&quot;Média dos &quot;,&#39;\u03b2&#39;),paste0(&quot;Desvio Padrão dos &quot;,&#39;\u03b2&#39;))
-knitr::kable(tabela,row.names = T,col.names = &quot;Resultados da simulação&quot;)</code></pre>
+rownames(tabela) &lt;- c(paste0("Max dos ",'\u03b2'),paste0("Min dos ",'\u03b2'),paste0("Média dos ",'\u03b2'),paste0("Desvio Padrão dos ",'\u03b2'))
+knitr::kable(tabela,row.names = T,col.names = "Resultados da simulação")</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Resultados da simulação</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Max dos β</td>
+<td align="left">Max dos β</td>
 <td align="right">224.204857</td>
 </tr>
 <tr class="even">
-<td>Min dos β</td>
+<td align="left">Min dos β</td>
 <td align="right">-692.931448</td>
 </tr>
 <tr class="odd">
-<td>Média dos β</td>
+<td align="left">Média dos β</td>
 <td align="right">1.516544</td>
 </tr>
 <tr class="even">
-<td>Desvio Padrão dos β</td>
+<td align="left">Desvio Padrão dos β</td>
 <td align="right">25.760984</td>
 </tr>
 </tbody>
 </table>
 <p>O desvio padrão é tão absurdamente alto que eu decidi colocar o máximo e o mínimo. A tabela fala por si só: com instrumentos fracos, regressões por MQ2E não merecem confiança. Temos que saber se nossos instrumentos são fortes (ou não).</p>
-</div>
-<div id="testando-se-instrumentos-fracos" class="section level2">
-<h2>Testando se instrumentos fracos</h2>
+<p>##Testando se instrumentos fracos</p>
 <p>Se fizermos a regressão de x em z - do intrumentado em cima do instrumento, o que é conhecido como primeiro estágio do MQ2E - podemos olhar <em>a estatística F</em> da regressão para saber se o instrumento é forte ou não. Veja que isso só vale se for uma variável instrumentada. Stock e Watson dão como regra de bolso <span class="math inline">\(F &gt; 10\)</span> para consideramos o instrumento forte. Vamos testar isso para o nosso caso:</p>
-<pre class="r"><code>primeiro_estagio1 &lt;- lm(x ~z)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">primeiro_estagio1 &lt;- lm(x ~z)
 primeiro_estagio2 &lt;- lm(x2 ~z)</code></pre>
 <p>E os resultados são:</p>
-<pre class="r"><code>stargazer(primeiro_estagio1,primeiro_estagio2, type = &quot;html&quot;, column.labels = c(&quot;Instrumento Forte&quot;,&quot;Instrumento Fraco&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">stargazer(primeiro_estagio1,primeiro_estagio2, type = "html", column.labels = c("Instrumento Forte","Instrumento Fraco"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">
@@ -824,7 +820,7 @@ F Statistic (df = 1; 998)
 </tr>
 </table>
 <p>Seguindo a regra de bolso do Stock e Watson, veríamos que o nosso instrumento de fato é fraco. Veja que esse teste vale para mais de um instrumento, mas não para mais de uma variável instrumentadada. Trocando em miúdos: podemos ter muitos <span class="math inline">\(z\)</span>, mas apenas um <span class="math inline">\(x\)</span>. Vamos fazer um exemplo em que temos duas variáveis instrumentais, <span class="math inline">\(z_1\)</span> e <span class="math inline">\(z_2\)</span>, e em um dos casos ambas serão fortes e em outro ambas serão fracas:</p>
-<pre class="r"><code>z1 &lt;- rnorm(1000)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">z1 &lt;- rnorm(1000)
 z2 &lt;- rnorm(1000)
 h &lt;- rnorm(1000)
 
@@ -842,7 +838,7 @@ modelo4 &lt;- lm(y2 ~x2)
 pri_estg1 &lt;- lm(x1 ~z1+z2)
 pri_estg2 &lt;- lm(x2 ~z1+z2)</code></pre>
 <p>Vamos começar vendo os resultados para a regressão que nós teríamos mais interesse, na qual usamos <span class="math inline">\(z_1\)</span> e <span class="math inline">\(z_2\)</span> como instrumento:</p>
-<pre class="r"><code>stargazer(modelo2,modelo3,modelo4,type =&quot;html&quot;, column.labels = c(&quot;Inst Forte&quot;,&quot;Inst Fraco&quot;, &quot;MQO&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">stargazer(modelo2,modelo3,modelo4,type ="html", column.labels = c("Inst Forte","Inst Fraco", "MQO"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="4" style="border-bottom: 1px solid black">
@@ -1048,7 +1044,7 @@ F Statistic
 </tr>
 </table>
 <p>Veja que na regressão com instrumentos fracos, o coeficiente saiu com metade do valor verdadeiro <em>e</em> não significante. Um pesquisador levando essa regressão a sério teria obtido resultados totalmente enganosos. Vamos checar a regressão de primeiro estágio:</p>
-<pre class="r"><code>stargazer(pri_estg1,pri_estg2,type =&quot;html&quot;, column.labels = c(&quot;Inst Forte&quot;,&quot;Inst Fraco&quot;),model.names = FALSE,omit.stat = c(&quot;ser&quot;,&quot;n&quot;),style = &quot;aer&quot;,omit.table.layout = &quot;#&quot;)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">stargazer(pri_estg1,pri_estg2,type ="html", column.labels = c("Inst Forte","Inst Fraco"),model.names = FALSE,omit.stat = c("ser","n"),style = "aer",omit.table.layout = "#")</code></pre>
 <table style="text-align:center">
 <tr>
 <td colspan="3" style="border-bottom: 1px solid black">
@@ -1235,22 +1231,22 @@ F Statistic (df = 2; 997)
                                     <i class="fas fa-tag mr-2"></i>Instrumentos Fracos
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f12%2f19%2fi-can-t-get-no-instruments-quando-instrumentos-s%25C3%25A3o-fracos%2f&text=I%20Can%26%2339%3bt%20Get%20No%20Instruments%3a%20quando%20instrumentos%20s%c3%a3o%20fracos">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2018%2f12%2f19%2fi-can-t-get-no-instruments-quando-instrumentos-s%25C3%25A3o-fracos%2f&text=I%20Can%26%2339%3bt%20Get%20No%20Instruments%3a%20quando%20instrumentos%20s%c3%a3o%20fracos">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f12%2f19%2fi-can-t-get-no-instruments-quando-instrumentos-s%25C3%25A3o-fracos%2f&title=I%20Can%26%2339%3bt%20Get%20No%20Instruments%3a%20quando%20instrumentos%20s%c3%a3o%20fracos">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2018%2f12%2f19%2fi-can-t-get-no-instruments-quando-instrumentos-s%25C3%25A3o-fracos%2f&title=I%20Can%26%2339%3bt%20Get%20No%20Instruments%3a%20quando%20instrumentos%20s%c3%a3o%20fracos">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f12%2f19%2fi-can-t-get-no-instruments-quando-instrumentos-s%25C3%25A3o-fracos%2f&t=I%20Can%26%2339%3bt%20Get%20No%20Instruments%3a%20quando%20instrumentos%20s%c3%a3o%20fracos">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2018%2f12%2f19%2fi-can-t-get-no-instruments-quando-instrumentos-s%25C3%25A3o-fracos%2f&t=I%20Can%26%2339%3bt%20Get%20No%20Instruments%3a%20quando%20instrumentos%20s%c3%a3o%20fracos">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f12%2f19%2fi-can-t-get-no-instruments-quando-instrumentos-s%25C3%25A3o-fracos%2f&title=I%20Can%26%2339%3bt%20Get%20No%20Instruments%3a%20quando%20instrumentos%20s%c3%a3o%20fracos">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2018%2f12%2f19%2fi-can-t-get-no-instruments-quando-instrumentos-s%25C3%25A3o-fracos%2f&title=I%20Can%26%2339%3bt%20Get%20No%20Instruments%3a%20quando%20instrumentos%20s%c3%a3o%20fracos">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -1289,7 +1285,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -1330,28 +1326,9 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

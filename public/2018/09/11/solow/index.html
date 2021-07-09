@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2018/09/11/solow/"><meta property="og:title" content="Explorando o Modelo de Solow com a ajuda do R" />
+<link rel="canonical" href="https://azul.netlify.app/2018/09/11/solow/"><meta property="og:title" content="Explorando o Modelo de Solow com a ajuda do R" />
 <meta property="og:description" content="Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/09/11/solow/" />
-<meta property="article:published_time" content="2018-09-11T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-09-11T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2018/09/11/solow/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-09-11T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2018-09-11T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Explorando o Modelo de Solow com a ajuda do R">
 <meta itemprop="description" content="Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
-Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987.">
-<meta itemprop="datePublished" content="2018-09-11T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-09-11T00:00:00+00:00" />
+Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987."><meta itemprop="datePublished" content="2018-09-11T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-09-11T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1369">
-
-
-
-<meta itemprop="keywords" content="Solow,R,Macroeconomia," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Solow,R,Macroeconomia," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Explorando o Modelo de Solow com a ajuda do R"/>
 <meta name="twitter:description" content="Em fevereiro de 1956 foi publicado no Quarterly Journal of Economics o trabalho A Contribution to the Theory of Economic Growth, de Robert Solow. Segundo o Google Scholar o paper acumulou cerca de 26000 citações de lá para cá e isso não deve ser uma grande surpresa.
 Apesar de já existirem à época trabalhos importantes na área, como o de Ramsey (1928), Solow é quase um fundador da moderna teoria do crescimento econômico e por suas contribuições importantíssimas à essa literatura foi laureado com o Prêmio Nobel de Economia em 1987."/>
@@ -68,7 +63,7 @@ Apesar de já existirem à época trabalhos importantes na área, como o de Rams
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -241,22 +236,22 @@ r = \frac{\partial \pi }{\partial K} = \alpha \frac{Y}{K}\]</span></p>
                                     <i class="fas fa-tag mr-2"></i>Macroeconomia
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f09%2f11%2fsolow%2f&text=Explorando%20o%20Modelo%20de%20Solow%20com%20a%20ajuda%20do%20R">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2018%2f09%2f11%2fsolow%2f&text=Explorando%20o%20Modelo%20de%20Solow%20com%20a%20ajuda%20do%20R">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f09%2f11%2fsolow%2f&title=Explorando%20o%20Modelo%20de%20Solow%20com%20a%20ajuda%20do%20R">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2018%2f09%2f11%2fsolow%2f&title=Explorando%20o%20Modelo%20de%20Solow%20com%20a%20ajuda%20do%20R">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f09%2f11%2fsolow%2f&t=Explorando%20o%20Modelo%20de%20Solow%20com%20a%20ajuda%20do%20R">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2018%2f09%2f11%2fsolow%2f&t=Explorando%20o%20Modelo%20de%20Solow%20com%20a%20ajuda%20do%20R">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f09%2f11%2fsolow%2f&title=Explorando%20o%20Modelo%20de%20Solow%20com%20a%20ajuda%20do%20R">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2018%2f09%2f11%2fsolow%2f&title=Explorando%20o%20Modelo%20de%20Solow%20com%20a%20ajuda%20do%20R">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -323,7 +318,7 @@ Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua plan
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -364,28 +359,9 @@ Estudamos os canônicos modelos neoclássicos de como uma firma escolhe sua plan
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

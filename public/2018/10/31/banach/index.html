@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,27 +34,23 @@
 
 
 
-<link rel="canonical" href="/2018/10/31/banach/"><meta property="og:title" content="O Teorema do Ponto Fixo de Banach e uma visualização no R" />
+<link rel="canonical" href="https://azul.netlify.app/2018/10/31/banach/"><meta property="og:title" content="O Teorema do Ponto Fixo de Banach e uma visualização no R" />
 <meta property="og:description" content="Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício." />
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/10/31/banach/" />
-<meta property="article:published_time" content="2018-10-31T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-10-31T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2018/10/31/banach/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-10-31T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2018-10-31T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="O Teorema do Ponto Fixo de Banach e uma visualização no R">
 <meta itemprop="description" content="Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.">
-<meta itemprop="datePublished" content="2018-10-31T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-10-31T00:00:00+00:00" />
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício."><meta itemprop="datePublished" content="2018-10-31T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-31T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1505">
-
-
-
-<meta itemprop="keywords" content="R,Simulação,Ponto Fixo," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="R,Simulação,Ponto Fixo," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="O Teorema do Ponto Fixo de Banach e uma visualização no R"/>
 <meta name="twitter:description" content="Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício."/>
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
@@ -68,7 +63,7 @@ O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegan
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -191,22 +186,22 @@ purrr::map_dfc(1:20, ~ contracao(.x)) %&gt;% # aplicando aos números 1,2,..., 2
                                     <i class="fas fa-tag mr-2"></i>Ponto Fixo
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f10%2f31%2fbanach%2f&text=O%20Teorema%20do%20Ponto%20Fixo%20de%20Banach%20e%20uma%20visualiza%c3%a7%c3%a3o%20no%20R">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2018%2f10%2f31%2fbanach%2f&text=O%20Teorema%20do%20Ponto%20Fixo%20de%20Banach%20e%20uma%20visualiza%c3%a7%c3%a3o%20no%20R">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f10%2f31%2fbanach%2f&title=O%20Teorema%20do%20Ponto%20Fixo%20de%20Banach%20e%20uma%20visualiza%c3%a7%c3%a3o%20no%20R">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2018%2f10%2f31%2fbanach%2f&title=O%20Teorema%20do%20Ponto%20Fixo%20de%20Banach%20e%20uma%20visualiza%c3%a7%c3%a3o%20no%20R">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f10%2f31%2fbanach%2f&t=O%20Teorema%20do%20Ponto%20Fixo%20de%20Banach%20e%20uma%20visualiza%c3%a7%c3%a3o%20no%20R">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2018%2f10%2f31%2fbanach%2f&t=O%20Teorema%20do%20Ponto%20Fixo%20de%20Banach%20e%20uma%20visualiza%c3%a7%c3%a3o%20no%20R">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f10%2f31%2fbanach%2f&title=O%20Teorema%20do%20Ponto%20Fixo%20de%20Banach%20e%20uma%20visualiza%c3%a7%c3%a3o%20no%20R">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2018%2f10%2f31%2fbanach%2f&title=O%20Teorema%20do%20Ponto%20Fixo%20de%20Banach%20e%20uma%20visualiza%c3%a7%c3%a3o%20no%20R">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -230,7 +225,7 @@ purrr::map_dfc(1:20, ~ contracao(.x)) %&gt;% # aplicando aos números 1,2,..., 2
             <p class="card-text text-muted text-uppercase">October 31, 2018</p>
             <div class="card-text">
                 Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
+O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
             </div>
         </div>
     </a>
@@ -273,7 +268,7 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -314,28 +309,9 @@ Eu sempre tomei como certo a afirmação do Julia de que ele era mais rápido qu
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

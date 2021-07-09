@@ -9,7 +9,7 @@
      Aplicando Programação Dinâmica à Reforma da Previdência | 
     AZUL
   
-</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/"><meta property="og:title" content="Aplicando Programação Dinâmica à Reforma da Previdência" />
+<link rel="canonical" href="https://azul.netlify.app/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/"><meta property="og:title" content="Aplicando Programação Dinâmica à Reforma da Previdência" />
 <meta property="og:description" content="Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
 Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/" />
-<meta property="article:published_time" content="2019-03-06T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-03-06T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2019/03/06/aplicando-programa%C3%A7%C3%A3o-din%C3%A2mica-a-reforma-da-previd%C3%AAncia/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-03-06T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-03-06T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Aplicando Programação Dinâmica à Reforma da Previdência">
 <meta itemprop="description" content="Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
-Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões.">
-<meta itemprop="datePublished" content="2019-03-06T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-03-06T00:00:00+00:00" />
+Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões."><meta itemprop="datePublished" content="2019-03-06T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-03-06T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="2038">
-
-
-
-<meta itemprop="keywords" content="Reforma da Previdência,Modelo de Ciclo de Vida," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Reforma da Previdência,Modelo de Ciclo de Vida," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Aplicando Programação Dinâmica à Reforma da Previdência"/>
 <meta name="twitter:description" content="Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava \(\beta\) e não \(\beta^t\). Se tratava de um typo. Agradeço a Marcelo Moraes pela observação
 Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sites, com autores competentes, o fazem. É uma simples questão de vantagens comparativas. Mas nós nos contagiamos pelo clima da reforma da previdência, como quase todos os economistas. E a reforma da previdência vem a ser um excelente tema para ser explorado usando programação dinâmica, que eu já tratei aqui no blog em outras ocasiões."/>
@@ -68,7 +63,7 @@ Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sit
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -106,12 +101,20 @@ Nós no Azul não discutimos políticas públicas diretamente. Muitos outros sit
 
                         <h1>Aplicando Programação Dinâmica à Reforma da Previdência</h1>
 
-                        
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
                     </div>
                 </div><div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="content">
                             
+<script src="2019-03-06-aplicando-programação-dinâmica-a-reforma-da-previdência_files/header-attrs/header-attrs.js"></script>
+<link href="2019-03-06-aplicando-programação-dinâmica-a-reforma-da-previdência_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2019-03-06-aplicando-programação-dinâmica-a-reforma-da-previdência_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p><em>Nota: Originalmente o problema do agente, que é a primeira equação deste post, estava <span class="math inline">\(\beta\)</span> e não <span class="math inline">\(\beta^t\)</span>. Se tratava de um typo. Agradeço a Marcelo Moraes pela observação</em></p>
@@ -139,7 +142,7 @@ s &amp; \text{se } T_{aposentadoria} \leq t \leq T\\
 </ol>
 <p>Ou seja, quebramos o problema do agente em dois problemas separados e ressolvemos eles separadamente, com a ligação entre eles feita pela função valor dos dois problemas.</p>
 <p>O programa em Julia que resolve o problema segue abaixo. Eu uso w para gerar o grid de riqueza e utilizo a utilidade log. Eu inicialmente coloco um agente trabalhando 65 anos e vivendo 20 anos aposentado, um total de 85 anos. O valor da aposentadoria é 1. A média da distribuição Gama(5,1) é 5, então nossa aposentadoria é bem menor que o que o agente vai ganhar em média durante a vida.</p>
-<pre><code>#Carregando os pacotes que precisamos
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">#Carregando os pacotes que precisamos
 using Distributions
 using Plots
 using Interpolations
@@ -172,7 +175,7 @@ for j in 2:ret_age
         choice_ret[j,i] = Optim.minimizer(otm)
         value_ret[j,i] = -Optim.minimum(otm)
     end
-    println(&quot;Iteration &quot;, j)
+    println("Iteration ", j)
 end
 
 #Resolvendo o problema do trabalhador
@@ -192,11 +195,11 @@ for k in 2:work_age
         choice_trab[k,i] = Optim.minimizer(otm)
         value_trab[k,i] = -Optim.minimum(otm)
     end
-    println(&quot;Iteration &quot;,k)
+    println("Iteration ",k)
 end
 </code></pre>
 <p>Podemos usar essas soluções e simular uma trajetória de salário para obter a escolha ótima de consumo e de poupança do agente. O código a seguir faz isso. Observe que, como em posts anteriores, eu deixei o primeiro elemento da matriz ser o último período do agente, então aqui eu preciso plotar e simular tudo de trás pra frente:</p>
-<pre><code>start = 2
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">start = 2
 wage = rand(d,65)
 
 cons = zeros(85)
@@ -222,10 +225,10 @@ rett = zeros(20)
 fill!(rett,s)
 income = [wage[65:-1:1]; rett]
 
-plot(asset[85:-1:1], lab = &quot;Assets&quot;, xlab = &quot;Tempo&quot;,legend = :topleft)
-plot!(cons[85:-1:1], lab = &quot;Consumption&quot;)
-plot!(income[1:85], lab = &quot;Income&quot;)
-vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
+plot(asset[85:-1:1], lab = "Assets", xlab = "Tempo",legend = :topleft)
+plot!(cons[85:-1:1], lab = "Consumption")
+plot!(income[1:85], lab = "Income")
+vline!([66],lab = "Aposentadoria", lw = 2)</code></pre>
 <p>Obtemos a seguinte imagem:</p>
 <p><img src="/post/prev/exemplo.png" /></p>
 <p>Várias coisas são interessantes nessa imagem e mostram como programação dinâmica formaliza a nossa intuição econômica:</p>
@@ -242,7 +245,7 @@ vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
 <p>Outra maneira de vizualizar a mesma ideia é ver o consumo ótimo para cada nível de riqueza para cada um dos problemas. Eu escolhi um ponto arbitrário (a décima entrada em cada um deles, ou seja, faltando 10 anos para se aposentar) do tempo para comparar:</p>
 <p><img src="/post/prev/otm_pol_comparada.png" /></p>
 <p>Veja que para valores maiores de <span class="math inline">\(s\)</span>, maior o nível de consumo dado a mesma riqueza. Veja que aqui o consumo ótimo depende da data que estamos olhando, ao contrário do problema em tempo infinito. Mas de forma geral as funções não mudam muito, e a imagem acima é bem representativa de se fossemos olhar período por período.</p>
-<div id="salarios-crescendo-no-tempo" class="section level2">
+<div id="salários-crescendo-no-tempo" class="section level2">
 <h2>Salários crescendo no tempo</h2>
 <p>A hipótese de um salário i.i.d. é bastante irrealista. Espera-se que o salário do agente cresca com o tempo, conforme ele vai acumulando capital humano, por exemplo. Existem várias maneiras de inserir isso no modelo.</p>
 <p>Eu vou adotar uma maneira curiosa, que vai envolver uma mudança de distribuição: a cada período o salário é distribuído usando uma <span class="math inline">\(Normal(\mu+\epsilon_t,\sigma)\)</span>, onde <span class="math inline">\(\epsilon_t\)</span> é um aumento determinístico da média. Eu uso a normal ao invés da Gama porque a variância da distribuição Gama depende dos dois paramêtros: aumentar a média assim aumentaria a variância. Eu vou definir <span class="math inline">\(\epsilon_t\)</span> de maneira que no último período a média seja 8, e vou colocar <span class="math inline">\(\mu = 5, \sigma = 1\)</span>. Isso coloca a probabilidade de um salário negativo virtualmente zero, já que exigiria mais de 5 desvios padrões para alcançarmos o zero. Veja que isso é equivalente a:</p>
@@ -250,7 +253,7 @@ vline!([66],lab = &quot;Aposentadoria&quot;, lw = 2)</code></pre>
 <p>Eu escolho mudar direto na distribuição porque (a) eu testei inicialmente com a distribuição Gama onde a conta acima não é verdade (b) isso permite facilmente adicionar heterocedasticidade aos salários, o que eu não vou fazer. A animação abaixo (feita no Julia) mostra a ideia de como o salário vai mudar ao longo do tempo.</p>
 <p><img src="/post/prev/teste.gif" /></p>
 <p>O código para estimar a melhor resposta nesse modelo muda apenas um pouco:</p>
-<pre><code>inc = range(0,stop=3,length=65) #esse é o epsilon_t da fórmula acima
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">inc = range(0,stop=3,length=65) #esse é o epsilon_t da fórmula acima
 inc = inc[65:-1:1] #Lembrem que eu faço tudo de trás pra frente
 
 s = 1
@@ -271,7 +274,7 @@ for j in 2:ret_age
         choice_ret5[j,i] = Optim.minimizer(otm)
         value_ret5[j,i] = -Optim.minimum(otm)
     end
-    println(&quot;Iteration &quot;, j)
+    println("Iteration ", j)
 end
 
 value_trab5 = zeros(work_age,length(w))
@@ -293,11 +296,11 @@ for k in 2:work_age
         choice_trab5[k,i] = Optim.minimizer(otm)
         value_trab5[k,i] = -Optim.minimum(otm)
     end
-    println(&quot;Iteration &quot;,k)
+    println("Iteration ",k)
 end
 </code></pre>
 <p>O código para gerar uma trajetória é idêntico, exceto na hora de gear o salário, que envolve uma ligeira mudança para alocar a mudança na distribuição:</p>
-<pre><code>wage5 = zeros(65)
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">wage5 = zeros(65)
 
 for i in 65:-1:1
     y = 5+inc[i]
@@ -326,22 +329,22 @@ end
                                     <i class="fas fa-tag mr-2"></i>Modelo de Ciclo de Vida
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2019%2f03%2f06%2faplicando-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica-a-reforma-da-previd%25C3%25AAncia%2f&text=Aplicando%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica%20%c3%a0%20Reforma%20da%20Previd%c3%aancia">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2019%2f03%2f06%2faplicando-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica-a-reforma-da-previd%25C3%25AAncia%2f&text=Aplicando%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica%20%c3%a0%20Reforma%20da%20Previd%c3%aancia">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2019%2f03%2f06%2faplicando-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica-a-reforma-da-previd%25C3%25AAncia%2f&title=Aplicando%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica%20%c3%a0%20Reforma%20da%20Previd%c3%aancia">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2019%2f03%2f06%2faplicando-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica-a-reforma-da-previd%25C3%25AAncia%2f&title=Aplicando%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica%20%c3%a0%20Reforma%20da%20Previd%c3%aancia">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2019%2f03%2f06%2faplicando-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica-a-reforma-da-previd%25C3%25AAncia%2f&t=Aplicando%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica%20%c3%a0%20Reforma%20da%20Previd%c3%aancia">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2019%2f03%2f06%2faplicando-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica-a-reforma-da-previd%25C3%25AAncia%2f&t=Aplicando%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica%20%c3%a0%20Reforma%20da%20Previd%c3%aancia">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2019%2f03%2f06%2faplicando-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica-a-reforma-da-previd%25C3%25AAncia%2f&title=Aplicando%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica%20%c3%a0%20Reforma%20da%20Previd%c3%aancia">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2019%2f03%2f06%2faplicando-programa%25C3%25A7%25C3%25A3o-din%25C3%25A2mica-a-reforma-da-previd%25C3%25AAncia%2f&title=Aplicando%20Programa%c3%a7%c3%a3o%20Din%c3%a2mica%20%c3%a0%20Reforma%20da%20Previd%c3%aancia">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -366,7 +369,7 @@ end
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -407,28 +410,9 @@ end
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

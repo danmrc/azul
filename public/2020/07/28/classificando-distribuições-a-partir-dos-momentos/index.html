@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/"><meta property="og:title" content="Classificando distribuições a partir dos momentos" />
+<link rel="canonical" href="https://azul.netlify.app/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/"><meta property="og:title" content="Classificando distribuições a partir dos momentos" />
 <meta property="og:description" content="Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
 A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/" />
-<meta property="article:published_time" content="2020-07-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-07-28T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2020/07/28/classificando-distribui%C3%A7%C3%B5es-a-partir-dos-momentos/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-07-28T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-07-28T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Classificando distribuições a partir dos momentos">
 <meta itemprop="description" content="Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
-A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process.">
-<meta itemprop="datePublished" content="2020-07-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-07-28T00:00:00+00:00" />
+A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process."><meta itemprop="datePublished" content="2020-07-28T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-07-28T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1306">
-
-
-
-<meta itemprop="keywords" content="R,Programação Funcional," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="R,Programação Funcional," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Classificando distribuições a partir dos momentos"/>
 <meta name="twitter:description" content="Surgiu uma curiosidade legítima na minha cabeça ontem e eu queria saber se consigo, a partir dos momentos amostrais, treinar um classificador razoável para a família do processo gerador. Responder isso vai ser divertido porque é um bom playgrond para ferramentas do tidyverse e deixa de exemplo um fluxo mínimo de modelagem com tidymodels.
 A primeira coisa a fazer é uma função que recebe um nome de função que possa gerar dados aleatórios seguindo algum processo conhecido - o parâmetro dgp vem de data generating process."/>
@@ -68,7 +63,7 @@ A primeira coisa a fazer é uma função que recebe um nome de função que poss
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -361,22 +356,22 @@ data_prep &lt;- prep(data_rec)
                                     <i class="fas fa-tag mr-2"></i>Programação Funcional
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f&text=Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f&text=Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f&title=Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f&title=Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f&t=Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f&t=Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f&title=Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2020%2f07%2f28%2fclassificando-distribui%25C3%25A7%25C3%25B5es-a-partir-dos-momentos%2f&title=Classificando%20distribui%c3%a7%c3%b5es%20a%20partir%20dos%20momentos">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -409,12 +404,12 @@ O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da s
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/05/25/funprog-dyn-sys/" class="d-block"><div class="card-body">
-            <h4 class="card-title">{purrr} para simular Sistemas Dinâmicos</h4>
-            <p class="card-text text-muted text-uppercase">May 25, 2020</p>
+    <a href="/2020/07/02/r-mais-r%C3%A1pido/" class="d-block"><div class="card-body">
+            <h4 class="card-title">R mais rápido</h4>
+            <p class="card-text text-muted text-uppercase">July 2, 2020</p>
             <div class="card-text">
-                Compor funções é uma maneira muito intuitiva e sã de organizar código e eu quero mostrar isso na prática simulando um sistema dinâmico com \(n\) objetos sob o efeito de algum campo de vetores.
-\(n = 1\) é por onde se começa Vamos pensar no que precisamos. Para simular um campo no plano precisamos um vetor com tipagem double e duas entradas caracteriza uma posição pontual. Queremos que o vetor entre, seja adicionado um termo que depende dos valores do vetor e um termo estocástico.
+                Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.
+Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usa vários processadores sem precisar fazer nenhum setup.
             </div>
         </div>
     </a>
@@ -423,12 +418,11 @@ O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da s
             </div><div class="col mb-3">
                 <div class="card h-100">
     
-    <a href="/2020/07/02/r-mais-r%C3%A1pido/" class="d-block"><div class="card-body">
-            <h4 class="card-title">R mais rápido</h4>
-            <p class="card-text text-muted text-uppercase">July 2, 2020</p>
+    <a href="/2020/04/21/jogo-da-velha-com-q-learning/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Jogo da Velha com Q-Learning</h4>
+            <p class="card-text text-muted text-uppercase">April 21, 2020</p>
             <div class="card-text">
-                Os problemas de velocidade do R são muito conhecidos. Já foram feitos vários esforços para acelerar a linguagem no base-R, colocando Just In Time Compilation, por exemplo. Mesmo assim a linguagem ainda é relativamente lenta.
-Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Microsoft, o R Open. Eles usam bibliotecas que agilizam as contas e usa vários processadores sem precisar fazer nenhum setup.
+                Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.
             </div>
         </div>
     </a>
@@ -443,7 +437,7 @@ Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Mi
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -484,28 +478,9 @@ Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Mi
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

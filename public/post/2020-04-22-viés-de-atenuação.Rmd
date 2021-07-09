@@ -9,6 +9,13 @@ categories:
 tags:
   - Viés de Atenuação
   - Variáveis Instrumentais
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=script_number_and_braces.lua"
+      ]
+authors: ["danielc"]
 ---
 
 ```{r, include=FALSE,echo=FALSE}

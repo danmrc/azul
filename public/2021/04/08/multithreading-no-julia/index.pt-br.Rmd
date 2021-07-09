@@ -1,0 +1,68 @@
+---
+title: 'Multithreading no Julia: ainda mais rápido'
+author: Daniel Coutinho
+date: '2021-04-08'
+slug: "multithreading-no-julia"
+categories:
+  - Julia
+  - Computação
+  - Programação dinâmica
+tags:
+  - Programação dinâmica
+  - Paralelização
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+(Esse é um post bem curto para compensar o post anterior) 
+
+Eu tava passeando pelo [Julia Packages](https://juliapackages.com/) (não me julguem, 1 ano de lockdown) e achei um pacote chamado [ThreadsX](https://juliapackages.com/p/threadsx). A ideia é paralelizar algumas funções da base do Julia, e entre as funções temos o `map`. Obviamente eu fiquei interessado, especialmente porque [não faz muito tempo eu fiz o problema de programação dinâmica usando map](/2020/11/05/remastered-programação-dinâmica/). O pacote me prometia acelerar o código simplesmente adicionando uma coisinha, e isso é muito tentador para eu deixar passar. 
+
+---
+
+Talvez nem todos vocês saibam o que é paralelizar - se você sabe, pule até a próxima quebra de página. Computadores atualmente contam com processadores com mais de um núcleo. Se você quer uma metáfora de como isso funciona, pense em fazer contas manualmente: suponha que você quer calcular $7!$. Uma maneira é você sentar e fazer todas as multiplicações. Outra é você dividir com 3 pessoas: uma faz $7\times 6$, outra faz $4\times 5$, e a última faz $3\times 2$. 
+
+Veja que a metáfora acima transmite também vários dos problemas: 
+
+* Nem todas as tarefas podem ser paralelizadas: tarefas sequenciais não são facilmente paralelizadas
+* Ás vezes o custo de paralelizar é maior que o ganho: dá para paralelizar $2+3+5+6$, mas provavelmente eu perderia mais tempo contando pros outros a conta do que fazendo a conta. 
+
+No exemplo de programação dinâmica, o loop mais de fora, que itera a função valor, é sequencial: para saber qual é o valor da função valor na iteração que estamos processando, eu preciso da função valor da iteração anterior. Veja que  os pontos do _grid_ para valores do capital, nós visitamos cada ponto separadamente, e portanto ele é um forte candidato a paralelização. 
+
+---
+
+Existem várias maneiras de paralelizar, e o ThreadsX usa _multithreding_. Qual a diferença disso para a paralelização "usual" - como, por exemplo, o R faz quando usamos o foreach? Eu não consegui achar os detalhes, mas uma diferença é que o ThreadsX _não_ gera novos processos do Julia. 
+
+Veja que a diferença do código é minúscula, simplesmente adicionar um `ThreadsX.` antes do `map`:
+
+```julia
+
+@time while j <= iter_lim && err > 1e-5
+    interp = LinearInterpolation(grid,V[j-1,:])
+    res = ThreadsX.map(y->otimo(objective,y,interp),grid)
+    V[j,:] = map(i->-1*res[i][1],1:grid_size)
+    policy[j,:] = map(i->res[i][2],1:grid_size)
+
+    global err = maximum(abs.(V[j,:] - V[j-1,:]))
+
+    global j += 1
+
+    println("Interation ",j," error ",err)
+
+end
+```
+(A diferença está na linha 4)
+
+O tempo? O código agora demora 30s para rodar mil iterações, mais ou menos. O código sem o ThreadsX demora uns 58s para rodar[^1].  É 48% mais rápido. Eu não tenho certeza que isso vai escalar perfeitamente para casos maiores ou mais complicados. Mesmo 10% de ganho seria legal, e dada a simplicidade da troca, é algo que eu vou incorporar. 
+
+Você precisa alterar a inicialização do Julia: se você lança da linha de comando e quer usar 4 cores, você deve digitar `julia -t 4`. Em diferentes IDE, veja a documentação do pacote para a IDE - no Atom, por exemplo, você não precisa fazer nada (aparentemente). Se você quiser checar se funcionou, o comando `Threads.nthreads()` deve mostrar com quatas threads o Julia está trabalhando. 
+
+"Ah mas eu quero usar `for` e não `map`": é até mais fácil usar multithreading nesse caso! Basta colocar `Threads.@threads` antes do `for`. O tempo de execução muda quase igual ao caso com `map`.
+
+[^1]: Note que no [post](/2020/11/05/remastered-programação-dinâmica/) eu afirmei que demorava 25s, porque eu estava usando 500 iterações. Aqui eu estou fazendo mil iterações.  

@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,22 +34,18 @@
 
 
 
-<link rel="canonical" href="/2019/10/28/reg-esppuria-integracao-perfect/"><meta property="og:title" content="Regredindo séries temporais aleatórias para quem gosta de regressão" />
+<link rel="canonical" href="https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/"><meta property="og:title" content="Regredindo séries temporais aleatórias para quem gosta de regressão" />
 <meta property="og:description" content="Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2019/10/28/reg-esppuria-integracao-perfect/" />
-<meta property="article:published_time" content="2019-10-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-10-28T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2019/10/28/reg-esppuria-integracao-perfect/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-10-28T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2019-10-28T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Regredindo séries temporais aleatórias para quem gosta de regressão">
-<meta itemprop="description" content="Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.">
-<meta itemprop="datePublished" content="2019-10-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2019-10-28T00:00:00+00:00" />
+<meta itemprop="description" content="Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar."><meta itemprop="datePublished" content="2019-10-28T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-10-28T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="681">
-
-
-
-<meta itemprop="keywords" content="Econometria,Séries Temporais,Processos Estocásticos," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Econometria,Séries Temporais,Processos Estocásticos," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Regredindo séries temporais aleatórias para quem gosta de regressão"/>
 <meta name="twitter:description" content="Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -65,7 +60,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -232,22 +227,22 @@ simulacao %&gt;%
                                     <i class="fas fa-tag mr-2"></i>Processos Estocásticos
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f&text=Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f&text=Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f&title=Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f&title=Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f&t=Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f&t=Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f&title=Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2019%2f10%2f28%2freg-esppuria-integracao-perfect%2f&title=Regredindo%20s%c3%a9ries%20temporais%20aleat%c3%b3rias%20para%20quem%20gosta%20de%20regress%c3%a3o">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -272,7 +267,7 @@ simulacao %&gt;%
             <div class="card-text">
                 Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} &#43; \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.
+\[y_t = \beta y_{t-1} &#43; \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.
             </div>
         </div>
     </a>
@@ -287,7 +282,7 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
             <div class="card-text">
                 Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
+Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
             </div>
         </div>
     </a>
@@ -315,7 +310,7 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -356,28 +351,9 @@ Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Va
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

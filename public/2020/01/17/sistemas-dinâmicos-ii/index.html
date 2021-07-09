@@ -9,7 +9,7 @@
      Sistemas dinâmicos II: Expectativas racionais | 
     AZUL
   
-</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="Daniel Coutinho e Pedro Cavalcante">
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,22 +34,18 @@
 
 
 
-<link rel="canonical" href="/2020/01/17/sistemas-din%C3%A2micos-ii/"><meta property="og:title" content="Sistemas dinâmicos II: Expectativas racionais" />
+<link rel="canonical" href="https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/"><meta property="og:title" content="Sistemas dinâmicos II: Expectativas racionais" />
 <meta property="og:description" content="Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2020/01/17/sistemas-din%C3%A2micos-ii/" />
-<meta property="article:published_time" content="2020-01-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2020-01-17T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-01-17T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2020-01-17T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Sistemas dinâmicos II: Expectativas racionais">
-<meta itemprop="description" content="Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.">
-<meta itemprop="datePublished" content="2020-01-17T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2020-01-17T00:00:00+00:00" />
+<meta itemprop="description" content="Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente."><meta itemprop="datePublished" content="2020-01-17T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-01-17T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1488">
-
-
-
-<meta itemprop="keywords" content="Sistemas Dinâmicos,Blanchard Khan,Álgebra Linear," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Sistemas Dinâmicos,Blanchard Khan,Álgebra Linear," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Sistemas dinâmicos II: Expectativas racionais"/>
 <meta name="twitter:description" content="Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
@@ -65,7 +60,7 @@
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -103,14 +98,20 @@
 
                         <h1>Sistemas dinâmicos II: Expectativas racionais</h1>
 
-                        
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
                     </div>
                 </div><div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="content">
                             
-<script src="2020-01-02-sistemas-dinâmicos-ii_files/jquery/jquery.min.js"></script>
-<script src="2020-01-02-sistemas-dinâmicos-ii_files/elevate-section-attrs/elevate-section-attrs.js"></script>
+<script src="2020-01-02-sistemas-dinâmicos-ii_files/header-attrs/header-attrs.js"></script>
+<link href="2020-01-02-sistemas-dinâmicos-ii_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="2020-01-02-sistemas-dinâmicos-ii_files/anchor-sections/anchor-sections.js"></script>
 
 
 <p>Há muito tempo atrás eu escrevi sobre <a href="https://azul.netlify.com/2018/11/06/sistemas-dinamicos-e-algebra-linear/">Álgebra Linear e sistemas dinâmicos</a>. Lá, eu falava de um caso em que o sistema era <span class="math inline">\(x_t = Ax_{t-1}\)</span>, onde <span class="math inline">\(x_t\)</span> era um vetor e <span class="math inline">\(A\)</span> tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com <em>expectativas</em> e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente. Um caso “famoso” de expectativas racionais é a curva de Phillips novo keynesiana:</p>
@@ -184,7 +185,7 @@ i_t\\
 i_{t-1}\\
 \end{bmatrix} + \begin{bmatrix} 0 \\ 0\\ 1\\ \end{bmatrix} \varepsilon_t\]</span></p>
 <p>Se você lembra dos cursos de macro (e aprendeu isso), o princípio de Tayor impõe que <span class="math inline">\(\phi &gt; 1\)</span> para o Banco Central controlar a inflação. Isso se traduz no sistema acima como “para o sistema satisfazer as condições de Blanchard Khan, <span class="math inline">\(\phi &gt; 1\)</span>”. É possível verificar isso analiticamente, mas vamos usar o R para isso. Vamos montar as equações, colocar alguns valores para os parâmetros e checar o número de autovalores maiores que 1. Primeiro, vamos checar que com <span class="math inline">\(\phi &gt; 1\)</span> temos o número de autovalores certos:</p>
-<pre class="r"><code>bet = 0.99
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">bet = 0.99
 sig = 1
 phi = 1.5
 
@@ -193,7 +194,7 @@ C = rbind(c(1,-1,0),c(0,-sig,0),c(phi,0,0))
 
 A = qr.solve(B)%*%C
 eigen(A)</code></pre>
-<pre><code>## eigen() decomposition
+<pre ><code >## eigen() decomposition
 ## $values
 ## [1] -2.165909  1.165909  0.000000
 ## 
@@ -203,7 +204,7 @@ eigen(A)</code></pre>
 ## [2,] -0.9326410  0.0942406    0
 ## [3,]  0.2054227 -0.7860316    1</code></pre>
 <p>Temos dois autovalores maiores que 1 em módulo (um deles é um -2) e um menor que 1 em módulo (0). Logo, o sistema tem uma única solução (“as condições de Blanchard Khan são atentidas” usando os jargões de macro). Um pequeno detalhe: eu usei o comando <code>qr.solve</code> que faz a mesma coisa que o <code>solve</code>, mas é mais estável. Vamos testar vários valores para <span class="math inline">\(\phi\)</span> e recuperar quantos autovalores são maiores que 1 em módulo:</p>
-<pre class="r"><code>bet = 0.99
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">bet = 0.99
 sig = 1
 
 phi_vals = seq(0,1.5, length.out = 100)
@@ -223,7 +224,7 @@ for(i in 1:length(phi_vals)){
 
 library(ggplot2)
 
-dados &lt;- data.frame(&quot;phi_vals&quot; = phi_vals,&quot;eigs&quot; = eigs_maior_que_um)
+dados &lt;- data.frame("phi_vals" = phi_vals,"eigs" = eigs_maior_que_um)
 
 g &lt;- ggplot(dados, aes(phi_vals,eigs))
 g + geom_line() + theme_bw() </code></pre>
@@ -251,7 +252,7 @@ i_t\\
 i_{t-1}\\
 \end{bmatrix} + \begin{bmatrix} 0 \\ 0\\ 1\\ \end{bmatrix} \varepsilon_t\]</span></p>
 <p>Vamos repetir todo o experimento:</p>
-<pre class="r"><code>bet = 0.99
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">bet = 0.99
 sig = 1
 rho = 0.95
 
@@ -270,7 +271,7 @@ for(i in 1:length(phi_vals)){
   eigs_maior_que_um[i] &lt;- sum(abs(eigg$values) &gt; 1)
 }
 
-dados_com_suav &lt;- data.frame(&quot;phi_vals&quot; = phi_vals,&quot;eigs&quot; = eigs_maior_que_um)
+dados_com_suav &lt;- data.frame("phi_vals" = phi_vals,"eigs" = eigs_maior_que_um)
 
 g &lt;- ggplot(dados_com_suav, aes(phi_vals,eigs))
 g + geom_line() + theme_bw() </code></pre>
@@ -293,22 +294,22 @@ g + geom_line() + theme_bw() </code></pre>
                                     <i class="fas fa-tag mr-2"></i>Álgebra Linear
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2020%2f01%2f17%2fsistemas-din%25C3%25A2micos-ii%2f&text=Sistemas%20din%c3%a2micos%20II%3a%20Expectativas%20racionais">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2020%2f01%2f17%2fsistemas-din%25C3%25A2micos-ii%2f&text=Sistemas%20din%c3%a2micos%20II%3a%20Expectativas%20racionais">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2020%2f01%2f17%2fsistemas-din%25C3%25A2micos-ii%2f&title=Sistemas%20din%c3%a2micos%20II%3a%20Expectativas%20racionais">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2020%2f01%2f17%2fsistemas-din%25C3%25A2micos-ii%2f&title=Sistemas%20din%c3%a2micos%20II%3a%20Expectativas%20racionais">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2020%2f01%2f17%2fsistemas-din%25C3%25A2micos-ii%2f&t=Sistemas%20din%c3%a2micos%20II%3a%20Expectativas%20racionais">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2020%2f01%2f17%2fsistemas-din%25C3%25A2micos-ii%2f&t=Sistemas%20din%c3%a2micos%20II%3a%20Expectativas%20racionais">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2020%2f01%2f17%2fsistemas-din%25C3%25A2micos-ii%2f&title=Sistemas%20din%c3%a2micos%20II%3a%20Expectativas%20racionais">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2020%2f01%2f17%2fsistemas-din%25C3%25A2micos-ii%2f&title=Sistemas%20din%c3%a2micos%20II%3a%20Expectativas%20racionais">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -347,7 +348,7 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -388,28 +389,9 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

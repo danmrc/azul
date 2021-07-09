@@ -2,32 +2,28 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cross Validation on AZUL</title>
-    <link>/tags/cross-validation/</link>
+    <link>https://azul.netlify.app/tags/cross-validation/</link>
     <description>Recent content in Cross Validation on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
     <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 07 May 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/cross-validation/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 07 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/cross-validation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Classificando cursos no ProUni com Random Forest</title>
-      <link>/2019/05/07/prouni-rf-classificacao/</link>
+      <link>https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/</link>
       <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/05/07/prouni-rf-classificacao/</guid>
+      <guid>https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/</guid>
       <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
 Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
     </item>
     
     <item>
       <title>Uma introdução à Cross Validation</title>
-      <link>/2019/04/20/cross-validation/</link>
+      <link>https://azul.netlify.app/2019/04/20/cross-validation/</link>
       <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
       
-      <guid>/2019/04/20/cross-validation/</guid>
+      <guid>https://azul.netlify.app/2019/04/20/cross-validation/</guid>
       <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
 A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
     </item>

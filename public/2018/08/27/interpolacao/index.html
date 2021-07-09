@@ -20,8 +20,7 @@
 
 //styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
 
-<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css" rel="stylesheet">
-
+<link href="/css/prism.css" rel="stylesheet" />
 
 
 
@@ -35,24 +34,20 @@
 
 
 
-<link rel="canonical" href="/2018/08/27/interpolacao/"><meta property="og:title" content="Interpolação" />
+<link rel="canonical" href="https://azul.netlify.app/2018/08/27/interpolacao/"><meta property="og:title" content="Interpolação" />
 <meta property="og:description" content="Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/2018/08/27/interpolacao/" />
-<meta property="article:published_time" content="2018-08-27T00:00:00+00:00" />
-<meta property="article:modified_time" content="2018-08-27T00:00:00+00:00" />
+<meta property="og:url" content="https://azul.netlify.app/2018/08/27/interpolacao/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-08-27T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2018-08-27T00:00:00&#43;00:00" />
+
 <meta itemprop="name" content="Interpolação">
 <meta itemprop="description" content="Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
-A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos.">
-<meta itemprop="datePublished" content="2018-08-27T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2018-08-27T00:00:00+00:00" />
+A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos."><meta itemprop="datePublished" content="2018-08-27T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-08-27T00:00:00&#43;00:00" />
 <meta itemprop="wordCount" content="1040">
-
-
-
-<meta itemprop="keywords" content="Interpolação,Julia,R," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Interpolação,Julia,R," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Interpolação"/>
 <meta name="twitter:description" content="Este post vai discutir sobre interpolação. Não é o post mais interessante deste blog. Mas ele é necessário para posts futuros.
 A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunto de pontos, procuramos uma função (ou um conjunto de funções) que passe por todos os pontos. Veja que a ideia é parecida com a de Mínimos Quadrados, mas com a diferença que mínimos quadrados não necessariamente passa por todos os pontos - ou sequer passa por qualquer um dos pontos."/>
@@ -68,7 +63,7 @@ A ideia de interpolação é literalmente “ligar os pontos”: dado um conjunt
     
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
     <div class="container">
-        <a class="navbar-brand font-weight-bold" href="/">AZUL</a>
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -271,22 +266,22 @@ lines(x_aux,f(x_aux), col = 2)</code></pre>
                                     <i class="fas fa-tag mr-2"></i>R
                                 </a></div><ul class="share nav my-3 justify-content-end">
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=%2f2018%2f08%2f27%2finterpolacao%2f&text=Interpola%c3%a7%c3%a3o">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2018%2f08%2f27%2finterpolacao%2f&text=Interpola%c3%a7%c3%a3o">
               <i class="fa-fw fab fa-twitter"></i>
           </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=%2f2018%2f08%2f27%2finterpolacao%2f&title=Interpola%c3%a7%c3%a3o">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2018%2f08%2f27%2finterpolacao%2f&title=Interpola%c3%a7%c3%a3o">
                 <i class="fa-fw fab fa-linkedin-in"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=%2f2018%2f08%2f27%2finterpolacao%2f&t=Interpola%c3%a7%c3%a3o">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2018%2f08%2f27%2finterpolacao%2f&t=Interpola%c3%a7%c3%a3o">
                 <i class="fa-fw fab fa-facebook-f"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=%2f2018%2f08%2f27%2finterpolacao%2f&title=Interpola%c3%a7%c3%a3o">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2018%2f08%2f27%2finterpolacao%2f&title=Interpola%c3%a7%c3%a3o">
                 <i class="fa-fw fab fa-reddit-alien"></i>
             </a>
         </li>
@@ -353,7 +348,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
         <div class="row">
             <div class="col">
                 <ul class="list-inline">
-                    <li class="list-inline-item"><a href="/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
                                     <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -394,28 +389,9 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
 
 
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-
-<script>
-hljs.configure({languages: []});
-hljs.initHighlightingOnLoad();
-</script>
+<script src="/js/prism.js"></script>
 
 
     
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-123754589-1', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
-
 </body>
 </html>

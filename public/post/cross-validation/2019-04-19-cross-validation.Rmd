@@ -9,6 +9,13 @@ categories:
   - Curtas 
 tags:
   - Cross Validation
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
 ---
 
 ```{r,include=FALSE}
