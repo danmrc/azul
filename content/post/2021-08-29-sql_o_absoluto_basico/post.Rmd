@@ -1,0 +1,275 @@
+---
+title: SQL, de zero a alguma coisa em 15 minutos
+author: Pedro Cavalcante
+date: '2021-08-29'
+slug: sql-do-zero-para-r
+categories:
+  - R
+  - Programação
+  - SQL
+images: []
+authors: ["pedrocava"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+Isso aqui é uma corrida por vários assuntos para te dar ferramentas que, quando combinadas, conseguem fazer coisas legais. Eu não tenho educação formal em banco de dados, mas trabalho com isso, então nada aqui é _como deve ser_, está mais para _como eu aprendi a fazer_.
+
+# O que esperar de um banco SQL
+
+SQL significa _Structured Query Language_, é uma linguagem feita para expressar consultas em bancos de dados relacionais. Damos esse adjetivo porque esse tipo de banco armazena uma série de tabelas (imagine um arquivo de excel com várias abas, ou vários dataframes na memória do R) que se relacionam. Cada tabela tem uma chave primária, que identifica unicamente uma observação dentro dela e uma ou mais chaves estrangeiras, que identificam como ela se relaciona com outras tabelas do banco. Vale notar que existem várias implementações do padrão SQL (e.g. mySQL, transact-sql, PostgreSQL, BigQuery), esse post vai sempre se referir ao padrão PostgreSQL. 
+
+Um banco de dados com o Censo Escolar, por exemplo, teria entre outras, a tabela `alunos` e a tabela `escolas`. Podemos relacionar essas duas tabelas porque `alunos` contém uma chave estrangeira para relacionar qualquer aluno a uma escola. Convencionalmente daríamos à essa coluna na tabela `alunos` o nome de `escola_id` / `school_id`. 
+
+Uma chave é apenas uma coluna no banco. É comum usar sequências aleatórias de caracteres como identificadores, mas não é necessário. Cada município brasileiro tem um id numérico único para o IBGE, construído de maneira similar ao CEP/ZIP. Esses identificadores contém informação (os primeiros dígitos identificam a região, depois a subregião, depois a mesorregisão, ...) ao contrário de um id aleatório. Não há certo ou errado aqui, são apenas possibilidades distintas. Cada escolha tem custos de desenvolvimento e vantagens próprias. 
+
+# Definindo o banco de uma aplicação
+
+Imagine um sistema de afazeres bem simples: um usuário pode adicionar itens em uma lista de afazeres com um prazo e um estado (feito, a fazer). Precisamos de duas tabelas para representar o estado da aplicação em algum momento no tempo: `users` contendo informaçÕes pertinentes aos usuários e `todos` contendo informações dos itens.
+
+Vamos fingir que não existe autenticação e só precisamos de um email para registrar o usuário. A função `CREATE TABLE "" ()` recebe a definição da tabela e seu nome. A definição da tabela inclui quais colunas entram, qual o seu tipo (e.g. `VARCHAR(20)` é texto de tamanho variável e até 20 caracteres) e opcionalmente algum tipo de restrição (e.g. `UNIQUE`, `NOT NULL` para impedir entradas novas de terem um NA na coluna, `PRIMARY KEY` para indicar que aquela coluna identifica unicamente cada observação).
+
+```{SQL}
+CREATE TABLE "users" (
+
+    user_id VARCHAR (20) PRIMARY KEY,
+    email VARCHAR (40) NOT NULL,
+    created_at DATETIME
+
+)
+
+CREATE TABLE "items" (
+
+    item_id VARCHAR(20) NOT NULL,
+    user_id VARCHAR(20) NOT NULL,
+    created_at DATETIME,
+    completed_at DATETIME
+
+    PRIMARY KEY (item_id, user_id)
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+
+)
+
+```
+
+Alguns pontos:
+
+* Apesar da aplicação guardar o estado de cada item, ele não tem uma coluna própria. Descobrimos, com esse banco, se um item qualquer está feito ou não conferindo se existe algum valor na entrada `items.completed_at`. Não é um absurdo imaginar um mundo em que essa tabela na verdade tem `item_id`, `user_id`, `state`, `created_at` e `updated_at` em que o estado é explicitamente armazenado em uma coluna própria. O código para decidir se um item está feito é diferente, nesse caso, mas a informação armazenada é a mesma.
+
+* A tabela `items` tem uma chave primária que depende de duas colunas e nesse caso a sintaxe para defini-la é um tanto diferente. "Avisamos" que  a chave primária existe depois de especificar o formato da tabela e quais os tipos de cada coluna.
+
+* Existem trocentos tipos possíveis: datas, timestamps, horarios, json, uuids, inteiros, numeros reais, coordenadas, etc. Alguns padrões têm jeitos especificos de lidar com tipos menos tradicionais. 
+
+* Definir uma chave estrangeira é apenas criar uma relação: essa(s) colunas dessa tabela se relacionam àquela coluna da outra tabela.
+
+* Se você já tem um banco sendo usado e precisa fazer consultas nele, o que acabamos de ver já foi escrito por alguém antes de você e vale procurar esse arquivo para entender como o banco está organizado e como cada entidade nele se relaciona com o resto.
+
+# Fazendo algumas consultas
+
+Uma consulta tem uma anatomia básica e depende de 3 cláusulas informando:
+
+* O que se consulta, `SELECT`
+* De onde se consulta, `FROM`
+* Com quais condições, `WHERE`
+
+Acho melhor dar vários exemplos progressivamente mais complicados do que insistir em explicar Selecionar tudo da tabela usuários:
+
+```{SQL}
+SELECT *
+FROM "users"
+
+```
+Selecionar apenas email e data de registro da tabela de usuários:
+
+```{SQL}
+SELECT
+    users.email,
+    users.created_at
+FROM "users"
+```
+
+Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas:
+
+```{SQL}
+SELECT
+    users.email as "E-mail do Usuário",
+    users.created_at as "Data de Criação"
+FROM "users"
+```
+Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando por criação:
+
+```{SQL}
+SELECT
+    users.email as "E-mail do Usuário",
+    users.created_at as "Data de Criação"
+FROM "users"
+ORDER BY users.created_at
+```
+
+Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando decrescentemente por criação:
+
+```{SQL}
+SELECT
+    users.email as "E-mail do Usuário",
+    users.created_at as "Data de Criação"
+FROM "users"
+ORDER BY users.created_at DESC
+```
+
+Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando decrescentemente por criação, apenas com usuários que se cadastraram hoje:
+
+```{SQL}
+SELECT
+    users.email as "E-mail do Usuário",
+    users.created_at as "Data de Criação"
+FROM "users"
+ORDER BY users.created_at DESC
+WHERE DATE(users.created_at) = CURRENT_DATE
+```
+
+Queremos todos os afazeres do usuário `5s1pn5s9dfs17dv`:
+
+```{SQL}
+SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+```
+
+Queremos todos os afazeres completos do usuário `5s1pn5s9dfs17dv`:
+
+```{SQL}
+SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+AND items.completed_at IS NOT NULL
+```
+
+Queremos todos os afazeres incompletos do usuário `5s1pn5s9dfs17dv`:
+
+```{SQL}
+SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+AND items.completed_at IS NULL
+```
+
+Queremos todos os afazeres incompletos criados nos últimos 7 dias do usuário `5s1pn5s9dfs17dv`:
+
+```{SQL}
+SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+AND items.completed_at IS NULL
+AND items.created_at > now() - interval '7 days'
+```
+
+# Ligando tabelas
+
+E se eu quiser todos os items criados por usuários que criaram a conta nos últimos 3 dias? Essa pergunta introduz uma mecânica nova, joins. Vamos primeiro pegar tudo do banco inteiro:
+
+```{SQL}
+SELECT *
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+```
+
+O que você deve entender aqui é que a cláusula `FROM` espera uma tabela ao lado e que podemos construir tabelas livremente. Uma maneira de fazer isso é com joins. Para o banco, `users LEFT JOIN items ON users.user_id = items.user_id` é uma única tabela, resultado do pareamento de `users` com `items`. 
+
+Tudo no banco vindo de usuários criados nos últimos 3 dias:
+
+```{SQL}
+SELECT *
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at > CURRENT_DATE - interval '3 days'
+```
+
+Todos os itens de usuários criados nos últimos 3 dias:
+
+```{SQL}
+SELECT 
+    items.user_id,
+    items.item_id,
+    items.created_at,
+    items.completed_at
+
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at > CURRENT_DATE - interval '3 days'
+```
+
+Todos os itens *completos* de usuários criados nos últimos 3 dias:
+
+```{SQL}
+SELECT 
+    items.user_id,
+    items.item_id,
+    items.created_at,
+    items.completed_at
+
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at > CURRENT_DATE - interval '3 days'
+AND  items.completed_at IS NOT NULL
+```
+
+# Agregações simples
+
+Quantos itens cada usuário tem? Aqui é preciso adicionar a cláusula `GROUP BY` para definir como agruparemos a agregação.
+
+```{SQL}
+SELECT 
+    users.user_id as "Usuário",
+    COUNT(*) AS "Quantidade"
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+GROUP BY users.user_id
+```
+
+Quantos usuários criados em cada dia? Aqui `DATE_TRUNC` trunca a parte que escolhemos de uma timestamp, um carimbo com data e horário de um acontecimento.
+
+```{SQL}
+SELECT 
+    DATE_TRUNC('day', users.created_at) as "Data de criação"
+    COUNT("user_id") AS "Quantidade de usuários"
+FROM users
+GROUP BY DATE_TRUNC('day', users.created_at)
+```
+
+E a quantidade de itens completos e incompletos por usuário? Aqui vale definir tabelas intermediárias com a cláusula `WITH`:
+
+```{SQL}
+WITH
+ "completos" AS (
+    SELECT 
+        COUNT(*) AS "quantidade_completo",
+        items.user_id
+    FROM items
+    WHERE items.completed_at IS NOT NULL
+    GROUP BY items.user_id
+    ),
+
+ "incompletos" AS (
+    SELECT 
+        COUNT(*) AS "quantidade_incompleto",
+        items.user_id
+    FROM items
+    WHERE items.completed_at IS NULL
+    GROUP BY items.user_id    
+)
+
+SELECT *
+FROM completos LEFT JOIN incompletos
+ON completos.user_id = incompletos.user_id
+```
+
+
+
+
+
+
