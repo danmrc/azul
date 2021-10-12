@@ -132,7 +132,7 @@ simul_various_regs(1,seq(1,5,by=0.5),100,5)
 
 monte_carlo_loss(1,seq(2,6,by=0.5),100,5,3000)
 
-final <- monte_carlo_pars(seq(0,1,by=0.1),seq(1,5,by=1),100,5,1000)
+final <- monte_carlo_pars(seq(0,1,by=0.1),3,100,5,1000)
 
 xx <- seq(0,1,by = 0.1)
 

@@ -1,0 +1,228 @@
+---
+title: SQL, de zero a alguma coisa em 15 minutos
+author: Pedro Cavalcante
+date: '2021-08-29'
+slug: sql-do-zero-para-r
+categories:
+  - R
+  - Programação
+  - SQL
+images: []
+authors: ["pedrocava"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Isso aqui é uma corrida por vários assuntos para te dar ferramentas que, quando combinadas, conseguem fazer coisas legais. Eu não tenho educação formal em banco de dados, mas trabalho com isso, então nada aqui é <em>como deve ser</em>, está mais para <em>como eu aprendi a fazer</em>.</p>
+<div id="o-que-esperar-de-um-banco-sql" class="section level1">
+<h1>O que esperar de um banco SQL</h1>
+<p>SQL significa <em>Structured Query Language</em>, uma linguagem feita para expressar consultas em bancos de dados relacionais. Damos esse adjetivo porque esse tipo de banco armazena uma série de tabelas (imagine um arquivo de excel com várias abas, ou vários dataframes na memória do R) que se relacionam. Cada tabela tem uma chave primária, que identifica unicamente uma observação dentro dela e uma ou mais chaves estrangeiras, que identificam como ela se relaciona com outras tabelas do banco. Vale notar que existem várias implementações do padrão SQL (e.g. mySQL, transact-sql, PostgreSQL, BigQuery), esse post vai sempre se referir ao padrão PostgreSQL. Algumas diferenças de sintaxe existem, mas num geral a maior parte do conhecimento de um padrão transfere para outros sem fricções.</p>
+<p>Um banco de dados com o Censo Escolar, por exemplo, teria entre outras, a tabela <code>alunos</code> e a tabela <code>escolas</code>. Podemos relacionar essas duas tabelas porque <code>alunos</code> contém uma chave estrangeira para relacionar qualquer aluno a uma escola. Convencionalmente daríamos à essa coluna na tabela <code>alunos</code> o nome de <code>escola_id</code> / <code>school_id</code>.</p>
+<p>Uma chave é apenas uma coluna no banco. É comum usar sequências aleatórias de caracteres como identificadores, mas não é necessário ser assim. Cada município brasileiro tem um id numérico único para o IBGE, construído de maneira similar ao CEP/ZIP. Esses identificadores contém informação (os primeiros dígitos identificam a região, depois o estado, depois a subregião, …) ao contrário de um id aleatório. Não há certo ou errado aqui, são apenas possibilidades distintas. Cada escolha tem custos de desenvolvimento e vantagens próprias.</p>
+</div>
+<div id="definindo-o-banco-de-uma-aplicação" class="section level1">
+<h1>Definindo o banco de uma aplicação</h1>
+<p>Imagine um sistema de afazeres bem simples: um usuário pode adicionar itens em uma lista de afazeres com um prazo e um estado (feito, a fazer). Precisamos de duas tabelas para representar o estado da aplicação em algum momento no tempo: <code>users</code> contendo informaçÕes pertinentes aos usuários e <code>todos</code> contendo informações dos itens.</p>
+<p>Vamos fingir que não existe autenticação e só precisamos de um email para registrar o usuário. A função <code>CREATE TABLE "nome_da_tabela" ()</code> recebe a definição da tabela e seu nome. A definição da tabela inclui quais colunas entram, qual o seu tipo (e.g. <code>VARCHAR(20)</code> é texto de tamanho variável e até 20 caracteres) e opcionalmente algum tipo de restrição (e.g. <code>UNIQUE</code>, <code>NOT NULL</code> para impedir entradas novas de terem um NA na coluna, <code>PRIMARY KEY</code> para indicar que aquela coluna identifica unicamente cada observação).</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">CREATE TABLE "users" (
+
+    user_id VARCHAR (20) PRIMARY KEY,
+    email VARCHAR (40) NOT NULL,
+    created_at DATETIME
+
+)
+
+CREATE TABLE "items" (
+
+    item_id VARCHAR(20) NOT NULL,
+    user_id VARCHAR(20) NOT NULL,
+    created_at DATETIME,
+    completed_at DATETIME
+
+    PRIMARY KEY (item_id, user_id)
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+
+)
+</code></pre>
+<p>Alguns pontos:</p>
+<ul>
+<li><p>Apesar da aplicação guardar o estado de cada item, ele não tem uma coluna própria. Descobrimos, com esse banco, se um item qualquer está feito ou não conferindo se existe algum valor na entrada <code>items.completed_at</code>. Não é um absurdo imaginar um mundo em que essa tabela na verdade tem <code>item_id</code>, <code>user_id</code>, <code>state</code>, <code>created_at</code> e <code>updated_at</code> em que o estado é explicitamente armazenado em uma coluna própria. O código para decidir se um item está feito é diferente, nesse caso, mas a informação armazenada é a mesma.</p></li>
+<li><p>A tabela <code>items</code> tem uma chave primária que depende de duas colunas e nesse caso a sintaxe para defini-la é um tanto diferente. “Avisamos” que a chave primária existe depois de especificar o formato da tabela e quais os tipos de cada coluna.</p></li>
+<li><p>Existem trocentos tipos possíveis: datas, timestamps, horarios, json, uuids, inteiros, numeros reais, coordenadas, etc. Alguns padrões têm jeitos especificos de lidar com tipos menos tradicionais. <code>VARCHAR(N)</code> aceita strings de comprimento menor que <code>N</code>, <code>DATETIME</code> aceita um ‘carimbo temporal’, marcando data, hora, minuto, segundo e fuso-horário.</p></li>
+<li><p>Definir uma chave estrangeira é apenas criar uma relação: essa(s) colunas dessa tabela se relacionam àquela coluna da outra tabela.</p></li>
+<li><p>Se você já tem um banco sendo usado e precisa fazer consultas nele, o que acabamos de ver já foi escrito por alguém antes de você e vale procurar esse arquivo para entender como o banco está organizado e como cada entidade nele se relaciona com o resto.</p></li>
+</ul>
+</div>
+<div id="fazendo-algumas-consultas" class="section level1">
+<h1>Fazendo algumas consultas</h1>
+<p>Uma consulta tem uma anatomia básica e consiste de cláusulas informando:</p>
+<ul>
+<li>O que se consulta, <code>SELECT</code> - obrigatória</li>
+<li>De onde se consulta, <code>FROM</code> - obrigatória</li>
+<li>Com quais condições, <code>WHERE</code> e <code>AND</code> / <code>OR</code> para concatenar condições - opcional</li>
+<li>Com que ordem, <code>ORDER BY</code> - opcional</li>
+<li>Com que tabelas intermediárias, <code>WITH</code> - opcional</li>
+</ul>
+<p>Acho melhor dar vários exemplos progressivamente mais complicados do que insistir em explicar em minucioso detalhe. Selecionar tudo da tabela usuários:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "users"</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email,
+    users.created_at
+FROM "users"</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email AS "E-mail do Usuário",
+    users.created_at AS "Data de Criação"
+FROM "users"</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando por criação:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email AS "E-mail do Usuário",
+    users.created_at AS "Data de Criação"
+FROM "users"
+ORDER BY users.created_at</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando decrescentemente por criação:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email AS "E-mail do Usuário",
+    users.created_at AS "Data de Criação"
+FROM "users"
+ORDER BY users.created_at DESC</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando decrescentemente por criação, apenas com usuários que se cadastraram hoje:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email as "E-mail do Usuário",
+    users.created_at as "Data de Criação"
+FROM "users"
+ORDER BY users.created_at DESC
+WHERE DATE(users.created_at) = CURRENT_DATE</code></pre>
+<p>Queremos todos os afazeres do usuário <code>5s1pn5s9dfs17dv</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"</code></pre>
+<p>Queremos todos os afazeres completos do usuário <code>5s1pn5s9dfs17dv</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+    AND items.completed_at IS NOT NULL</code></pre>
+<p>Queremos todos os afazeres incompletos do usuário <code>5s1pn5s9dfs17dv</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+    AND items.completed_at IS NULL</code></pre>
+<p>Queremos todos os afazeres incompletos criados nos últimos 7 dias do usuário <code>5s1pn5s9dfs17dv</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+    AND items.completed_at IS NULL
+    AND items.created_at &gt; now() - interval '7 days'</code></pre>
+</div>
+<div id="ligando-tabelas" class="section level1">
+<h1>Ligando tabelas</h1>
+<p>E se eu quiser todos os items criados por usuários que criaram a conta nos últimos 3 dias? Essa pergunta introduz uma mecânica nova, joins. Vamos primeiro pegar tudo do banco inteiro:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id</code></pre>
+<p>O que você deve entender aqui é que a cláusula <code>FROM</code> espera uma tabela ao lado e que podemos construir tabelas livremente. Uma maneira de fazer isso é com joins. Para o banco, <code>users LEFT JOIN items ON users.user_id = items.user_id</code> é uma única tabela, resultado do pareamento de <code>users</code> com <code>items</code>.</p>
+<p>Tudo no banco vindo de usuários criados nos últimos 3 dias:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at &gt; CURRENT_DATE - interval '3 days'</code></pre>
+<p>Todos os itens de usuários criados nos últimos 3 dias:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT 
+    items.user_id,
+    items.item_id,
+    items.created_at,
+    items.completed_at
+
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at &gt; CURRENT_DATE - interval '3 days'</code></pre>
+<p>Todos os itens <em>completos</em> de usuários criados nos últimos 3 dias:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT 
+    items.user_id,
+    items.item_id,
+    items.created_at,
+    items.completed_at
+
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at &gt; CURRENT_DATE - interval '3 days'
+AND  items.completed_at IS NOT NULL</code></pre>
+</div>
+<div id="agregações-simples" class="section level1">
+<h1>Agregações simples</h1>
+<p>Quantos itens cada usuário tem? Aqui é preciso adicionar a cláusula <code>GROUP BY</code> para definir como agruparemos a agregação.</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT 
+    users.user_id as "Usuário",
+    COUNT(*) AS "Quantidade"
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+GROUP BY users.user_id</code></pre>
+<p>Quantos usuários criados em cada dia? Aqui <code>DATE_TRUNC</code> trunca a parte que escolhemos de uma timestamp, um carimbo com data e horário de um acontecimento.</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT 
+    DATE_TRUNC('day', users.created_at) as "Data de criação"
+    COUNT("user_id") AS "Quantidade de usuários"
+FROM users
+GROUP BY DATE_TRUNC('day', users.created_at)</code></pre>
+<p>E a quantidade de itens completos e incompletos por usuário? Aqui vale definir tabelas intermediárias com a cláusula <code>WITH</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">WITH
+ "completos" AS (
+    SELECT 
+        COUNT(*) AS "quantidade_completo",
+        items.user_id
+    FROM items
+    WHERE items.completed_at IS NOT NULL
+    GROUP BY items.user_id
+    ),
+
+ "incompletos" AS (
+    SELECT 
+        COUNT(*) AS "quantidade_incompleto",
+        items.user_id
+    FROM items
+    WHERE items.completed_at IS NULL
+    GROUP BY items.user_id    
+)
+
+SELECT *
+FROM completos FULL JOIN incompletos
+ON completos.user_id = incompletos.user_id</code></pre>
+<p>Note que eu usei <code>FULL JOIN</code> ao contrário de <code>LEFT JOIN</code>. Usuários do <code>dplyr</code> devem entender isso sem problema, apenas transpondo para esse contexto o comportamento de <code>dplyr::left_join</code> e <code>dplyr::full_join</code>. O <code>dplyr</code> tem um design fortemente influenciado por SQL.</p>
+</div>
+<div id="uma-aplicação" class="section level1">
+<h1>Uma aplicação</h1>
+<p>O pacote ~que eu escrevi e mantenho~ <code>basedosdados</code> disponibliza um canal para rodar consultas em SQL no datalake do <a href="https://basedosdados.github.io/mais/">Base dos Dados +</a>.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(basedosdados)</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## ── Base dos Dados ──────────────────────────────────────────────────────────────</code></pre>
+<pre ><code >## • Website: https://basedosdados.org/</code></pre>
+<pre ><code >## • Docs: https://basedosdados.github.io/mais/</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## ── Contatos ──</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## • Discord: discord.gg/tuaFbAPeq5</code></pre>
+<pre ><code >## • Twitter: @basedosdados</code></pre>
+<pre ><code >## • Email: contato@basedosdados.org</code></pre>
+<pre ><code >## • Telegram: t.me/joinchat/OKWc3RnClXnq2hq-8o0h_w</code></pre>
+<pre ><code >## • Github: github.com/basedosdados</code></pre>
+<pre ><code >## • LinkedIn: linkedin.com/company/base-dos-dados</code></pre>
+<pre ><code >## • Newsletter:
+## https://basedosdados.hubspotpagebuilder.com/assine-a-newsletter-da-base-dos-dados</code></pre>
+<pre ><code >## • WhatsApp: https://chat.whatsapp.com/HXWgdFc1RmwCoblly5KPBZ</code></pre>
+<pre ><code >## • YouTube: https://www.youtube.com/c/BasedosDados</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## ── Somos um projeto open-source e gratuito. Para nos mantermos e crescermos precisamos do seu apoio. Quanto valem as horas do seu trabalho que poupamos?
+## 
+## Nos apoie em https://apoia.se/basedosdados.</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## ── Usando o pacote para produzir um trabalho? Para nos citar basta rodar citation('basedosdados').</code></pre>
+</div>

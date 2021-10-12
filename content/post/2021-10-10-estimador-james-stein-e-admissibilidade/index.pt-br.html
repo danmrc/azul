@@ -56,8 +56,8 @@ E[(\hat{\theta} - \theta_0)^2] = (E[\hat{\theta}] - \theta_0)^2 + Var(\hat{\thet
 <li><p>O estimador James-Stein realmente garante que o estimador de OLS não é admissível</p></li>
 <li><p><span class="math inline">\(p-2\)</span> é o valor ótimo para <span class="math inline">\(c\)</span>.</p></li>
 </ol>
-<p>Eu vou implementar três funções que vão fazer as simulações necessárias. Todos os parâmetros do modelo vão ter o mesmo valor em cada simulação.</p>
-<p>A primeira delas pega um valor pro parâmetro verdadeiro, um conjunto de valores para o parâmetro <span class="math inline">\(c\)</span> (que eu chamei, talvez confusamente, de <code>regs</code>, para regularização), o tamanho da amostra <span class="math inline">\(n\)</span> e a quantidade de variáveis (além do intercepto) <span class="math inline">\(k\)</span>:</p>
+<p>Eu vou implementar três funções que vão fazer as simulações necessárias. Todos os parâmetros do modelo vão ter o mesmo valor em cada simulação - exceto o intercepto, que é sempre zero.</p>
+<p>A primeira função pega um valor pro parâmetro verdadeiro, um conjunto de valores para o parâmetro <span class="math inline">\(c\)</span> (que eu chamei, talvez confusamente, de <code>regs</code>, para regularização), o tamanho da amostra <span class="math inline">\(n\)</span> e a quantidade de variáveis (além do intercepto) <span class="math inline">\(k\)</span>:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simul_various_regs &lt;- function(true_par,regs,n,k){
   
   x &lt;- matrix(rnorm(n*k),ncol = k)
@@ -90,7 +90,7 @@ c_1 \\ c_2
 \hat{\beta}_1 &amp; \hat{\beta_2}
 \end{bmatrix}
 \]</span></p>
-<p>Novamente, <span class="math inline">\(\hat{\beta}^T X^T X \hat{\beta}\)</span> é um escalar. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o <code>glmnet</code> também não encolhe o intercepto).</p>
+<p>A conta acima gera uma matriz com dois candidatos a estimador, um com constante <span class="math inline">\(c_1\)</span> e outro com constante <span class="math inline">\(c_2\)</span>. Novamente, <span class="math inline">\(\hat{\beta}^T X^T X \hat{\beta}\)</span> é um escalar. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o <code>glmnet</code> também não encolhe o intercepto).</p>
 <p>O próximo passo é simular o EQM para um valor do parâmetro. Nós vamos computar o valor esperado do EQM simplesmente simulando um número <span class="math inline">\(p\)</span> de modelos e tirando a média - noutras palavras, um Monte Carlo:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">monte_carlo_loss &lt;- function(true_par,regs,n,k,p){
   
@@ -108,7 +108,7 @@ c_1 \\ c_2
   return(loss)
   
 }</code></pre>
-<p>Eu uso o <code>map</code> no lugar de um for por motivos que <a href="https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/">o Pedro já expôs</a>. O primeiro <code>map</code>chama a função anterior para simular uma replicação do Monte Carlo. Cada simulação vai retornar uma matriz que tem o número de valores para <span class="math inline">\(c\)</span> mais uma linhas e <span class="math inline">\(k+1\)</span> colunas. O segundo <code>map</code> calcula a função perda para cada simulação. Como o resultado de cada simulação é uma matriz, eu garanto que o valor do parâmetro verdadeiro também é uma matriz (o <code>true_par_mat</code>).</p>
+<p>Eu uso o <code>map</code> no lugar de um for por motivos que <a href="https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/">o Pedro já expôs</a>. O primeiro <code>map</code>chama a função anterior para simular uma replicação do Monte Carlo. Cada simulação vai retornar uma matriz que tem o número de valores para <span class="math inline">\(c\)</span> mais uma linhas e <span class="math inline">\(k+1\)</span> colunas. O segundo <code>map</code> calcula a função perda para cada simulação. Como o resultado de cada simulação é uma matriz, eu crio a variável <code>true_par_mat</code>que arruma os valores verdadeiros do parâmetro em uma matriz.</p>
 <p>A última função calcula o EQM para vários valores do parâmetro usando a função acima:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">monte_carlo_pars &lt;- function(true_pars,regs,n,k,p){
   
@@ -153,8 +153,10 @@ ggplot(tidy_teste,aes(x=params,y=value,color=name)) +
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">params &lt;- seq(0,1,by=0.1)
 regs &lt;- seq(1,5,by=1)
 
-teste &lt;- monte_carlo_pars(params,regs,100,5,1000)</code></pre>
-<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tidy_teste &lt;- as_tibble(teste) %&gt;% 
+teste &lt;- monte_carlo_pars(params,regs,100,5,1000)
+
+
+tidy_teste &lt;- as_tibble(teste) %&gt;% 
   rename("MQO" = ols) %&gt;% 
   rename_with(.fn = ~(paste0("c=",.)),.cols = matches("[[:digit:]]")) %&gt;% 
   bind_cols(params = params) %&gt;% pivot_longer(!params)
@@ -163,7 +165,7 @@ ggplot(tidy_teste,aes(x=params,y=value,color=name)) +
   geom_line() + labs(x = "Parâmetro", y = "EQM", color = "Estimador") + 
   theme_light() + 
   scale_color_brewer(palette = "Dark2")</code></pre>
-<p><img src="/post/2021-10-10-estimador-james-stein-e-admissibilidade/index.pt-br_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2021-10-10-estimador-james-stein-e-admissibilidade/index.pt-br_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>A linha mais embaixo - e portanto com menor EQM - é a associada com <span class="math inline">\(c=3\)</span>, como a teoria manda.</p>
 <p>Este é um destes posts que começam com um tema meio abstrato (teoria da decisão) e desaguam em um resultado completamente maluco (MQO nunca deveria ser usado, dependendo do seu objetivo). A gente nem precisou fazer conta nenhuma, o computador fez tudo. Eu não fiz essas contas para o LASSO porque senão o post ia se esticar ainda mais.</p>
 <hr />

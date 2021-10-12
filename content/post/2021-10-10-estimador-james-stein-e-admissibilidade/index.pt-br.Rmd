@@ -76,9 +76,9 @@ O paper obteve os resultados analíticos, mas eu vou fazer simulações para mos
 
 2. $p-2$ é o valor ótimo para $c$. 
 
-Eu vou implementar três funções que vão fazer as simulações necessárias. Todos os parâmetros do modelo vão ter o mesmo valor em cada simulação.
+Eu vou implementar três funções que vão fazer as simulações necessárias. Todos os parâmetros do modelo vão ter o mesmo valor em cada simulação - exceto o intercepto, que é sempre zero.
 
-A primeira delas pega um valor pro parâmetro verdadeiro, um conjunto de valores para o parâmetro $c$ (que eu chamei, talvez confusamente, de `regs`, para regularização), o tamanho da amostra $n$ e a quantidade de variáveis (além do intercepto) $k$:
+A primeira função pega um valor pro parâmetro verdadeiro, um conjunto de valores para o parâmetro $c$ (que eu chamei, talvez confusamente, de `regs`, para regularização), o tamanho da amostra $n$ e a quantidade de variáveis (além do intercepto) $k$:
 
 ```{r}
 
@@ -121,7 +121,7 @@ c_1 \\ c_2
 $$
 
 
-Novamente, $\hat{\beta}^T X^T X \hat{\beta}$ é um escalar. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o `glmnet` também não encolhe o intercepto). 
+A conta acima gera uma matriz com dois candidatos a estimador, um com constante $c_1$ e outro com constante $c_2$. Novamente, $\hat{\beta}^T X^T X \hat{\beta}$ é um escalar. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o `glmnet` também não encolhe o intercepto). 
 
 O próximo passo é simular o EQM para um valor do parâmetro. Nós vamos computar o valor esperado do EQM simplesmente simulando um número $p$ de modelos e tirando a média - noutras palavras, um Monte Carlo:
 
@@ -147,7 +147,7 @@ monte_carlo_loss <- function(true_par,regs,n,k,p){
 
 ```
 
-Eu uso o `map` no lugar de um for por motivos que [o Pedro já expôs](https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/). O primeiro `map`chama a função anterior para simular uma replicação do Monte Carlo. Cada simulação vai retornar uma matriz que tem o número de valores para $c$ mais uma linhas e $k+1$ colunas. O segundo `map` calcula a função perda para cada simulação. Como o resultado de cada simulação é uma matriz, eu garanto que o valor do parâmetro verdadeiro também é uma matriz (o `true_par_mat`).  
+Eu uso o `map` no lugar de um for por motivos que [o Pedro já expôs](https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/). O primeiro `map`chama a função anterior para simular uma replicação do Monte Carlo. Cada simulação vai retornar uma matriz que tem o número de valores para $c$ mais uma linhas e $k+1$ colunas. O segundo `map` calcula a função perda para cada simulação. Como o resultado de cada simulação é uma matriz, eu crio a variável `true_par_mat`que arruma os valores verdadeiros do parâmetro em uma matriz.  
 
 A última função calcula o EQM para vários valores do parâmetro usando a função acima:
 
@@ -221,10 +221,6 @@ regs <- seq(1,5,by=1)
 
 teste <- monte_carlo_pars(params,regs,100,5,1000)
 
-```
-
-
-```{r}
 
 tidy_teste <- as_tibble(teste) %>% 
   rename("MQO" = ols) %>% 
