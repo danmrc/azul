@@ -69,7 +69,7 @@ O superescrito $T$ é a transposta da matriz. O termo $\hat{\beta}^T X^T X \hat{
 
 # Simulando
 
-O paper obteve os resultados analíticos, mas eu vou fazer simulações para mostrar que o estimador James Stein realmente tem um EQM menor que o estimador de MQO. Eu vou querer mostrar duas coisas, na verdade:
+O paper obteve os resultados analíticos, mas eu vou fazer simulações para mostrar que o estimador James Stein realmente tem um EQM menor que o estimador de MQO. Eu vou querer mostrar duas coisas:
 
 1. O estimador James-Stein realmente garante que o estimador de OLS é inadmissível
 
@@ -120,7 +120,7 @@ c_1 \\ c_2
 $$
 
 
-A conta acima gera uma matriz com dois candidatos a estimador, um com constante $c_1$ e outro com constante $c_2$. Novamente, $\hat{\beta}^T X^T X \hat{\beta}$ é um escalar. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o `glmnet` também não encolhe o intercepto). 
+A conta acima gera uma matriz com dois candidatos a estimador, um com constante $c_1$ e outro com constante $c_2$. Novamente, $\hat{\beta}^T X^T X \hat{\beta}$ é um número, não uma matriz. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o `glmnet` também não encolhe o intercepto). 
 
 O próximo passo é simular o EQM para um valor do parâmetro. Nós vamos computar o valor esperado do EQM simplesmente simulando um número $p$ de modelos e tirando a média - noutras palavras, um Monte Carlo:
 
@@ -242,4 +242,4 @@ Este é um destes posts que começam com um tema meio abstrato (teoria da decis�
 
 # Bibliografia
 
-O capítulo 7 do [Computer Age Statistical Inference](https://web.stanford.edu/~hastie/CASI/) discute exatamente o estimador James-Stein, dando uma motivação Bayesiana. A fórmula que eu usei no post pro estimador James- Stein veio de lá. A discussão está mais próxima do Econometric Foundations, apesar de eu ter sérias dúvidas sobre a fórmula que do livro para oblgo estimador James-Stein. 
+O capítulo 7 do [Computer Age Statistical Inference](https://web.stanford.edu/~hastie/CASI/) discute exatamente o estimador James-Stein, dando uma motivação Bayesiana. A fórmula que eu usei no post pro estimador James-Stein veio de lá. A discussão está mais próxima do Econometric Foundations, apesar de eu ter sérias dúvidas sobre a fórmula do estimador James-Stein que está no livro. 

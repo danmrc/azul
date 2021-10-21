@@ -50,7 +50,7 @@ E[(\hat{\theta} - \theta_0)^2] = (E[\hat{\theta}] - \theta_0)^2 + Var(\hat{\thet
 </div>
 <div id="simulando" class="section level1">
 <h1>Simulando</h1>
-<p>O paper obteve os resultados analíticos, mas eu vou fazer simulações para mostrar que o estimador James Stein realmente tem um EQM menor que o estimador de MQO. Eu vou querer mostrar duas coisas, na verdade:</p>
+<p>O paper obteve os resultados analíticos, mas eu vou fazer simulações para mostrar que o estimador James Stein realmente tem um EQM menor que o estimador de MQO. Eu vou querer mostrar duas coisas:</p>
 <ol style="list-style-type: decimal">
 <li><p>O estimador James-Stein realmente garante que o estimador de OLS é inadmissível</p></li>
 <li><p>Se os erros são normais, <span class="math inline">\(p-2\)</span> é o valor ótimo para <span class="math inline">\(c\)</span>.</p></li>
@@ -89,7 +89,7 @@ c_1 \\ c_2
 \hat{\beta}_1 &amp; \hat{\beta_2}
 \end{bmatrix}
 \]</span></p>
-<p>A conta acima gera uma matriz com dois candidatos a estimador, um com constante <span class="math inline">\(c_1\)</span> e outro com constante <span class="math inline">\(c_2\)</span>. Novamente, <span class="math inline">\(\hat{\beta}^T X^T X \hat{\beta}\)</span> é um escalar. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o <code>glmnet</code> também não encolhe o intercepto).</p>
+<p>A conta acima gera uma matriz com dois candidatos a estimador, um com constante <span class="math inline">\(c_1\)</span> e outro com constante <span class="math inline">\(c_2\)</span>. Novamente, <span class="math inline">\(\hat{\beta}^T X^T X \hat{\beta}\)</span> é um número, não uma matriz. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o <code>glmnet</code> também não encolhe o intercepto).</p>
 <p>O próximo passo é simular o EQM para um valor do parâmetro. Nós vamos computar o valor esperado do EQM simplesmente simulando um número <span class="math inline">\(p\)</span> de modelos e tirando a média - noutras palavras, um Monte Carlo:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">monte_carlo_loss &lt;- function(true_par,regs,n,k,p){
   
@@ -171,7 +171,7 @@ ggplot(tidy_teste,aes(x=params,y=value,color=name)) +
 </div>
 <div id="bibliografia" class="section level1">
 <h1>Bibliografia</h1>
-<p>O capítulo 7 do <a href="https://web.stanford.edu/~hastie/CASI/">Computer Age Statistical Inference</a> discute exatamente o estimador James-Stein, dando uma motivação Bayesiana. A fórmula que eu usei no post pro estimador James- Stein veio de lá. A discussão está mais próxima do Econometric Foundations, apesar de eu ter sérias dúvidas sobre a fórmula que do livro para o estimador James-Stein.</p>
+<p>O capítulo 7 do <a href="https://web.stanford.edu/~hastie/CASI/">Computer Age Statistical Inference</a> discute exatamente o estimador James-Stein, dando uma motivação Bayesiana. A fórmula que eu usei no post pro estimador James-Stein veio de lá. A discussão está mais próxima do Econometric Foundations, apesar de eu ter sérias dúvidas sobre a fórmula do estimador James-Stein que está no livro.</p>
 </div>
 <div class="footnotes">
 <hr />
