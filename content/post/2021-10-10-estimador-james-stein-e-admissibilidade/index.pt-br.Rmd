@@ -1,7 +1,7 @@
 ---
 title: Estimador James-Stein e admissibilidade
 author: Daniel Coutinho
-date: '2021-10-10'
+date: '2021-10-14'
 slug: james-stein-e-admissibilidade
 categories:
   - Alta Dimensão
@@ -19,7 +19,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true
 ---
 
 ```{r, echo=FALSE,include=FALSE}
