@@ -1,0 +1,98 @@
+---
+title: Bayesianismo e regularização
+author: Daniel Coutinho
+date: '2021-10-17'
+slug: index.pt-br
+categories:
+  - Econometria
+  - Alta Dimensão
+  - Machine Learning
+  - Matemática
+tags:
+  - Bayesiana
+  - LASSO
+  - Ridge
+  - Regularização
+images: []
+authors: ["danielc"]
+---
+
+Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.
+
+# Regularização
+
+Muita gente conhece métodos de regularização em _machine learning_, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear. Nós todos sabemos que o estimador de mínimos quadrados faz:
+
+$$
+\hat{\beta}_{MQO} = \arg\min \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2
+$$
+
+E $x_i$ é $1 \times p$ e $\beta$ é $p \times 1$. Os estimadores de regularização fazem:
+
+$$
+\hat{\beta} = \arg\min \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \lambda p(\mathbf{\beta})
+$$
+
+Onde $\lambda$ é um parâmetro e $p(.)$ é uma função de penalização. Estimadores dessa família incluem o _ridge_:
+
+$$
+\hat{\beta}_{Ridge} = \arg\min \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \lambda \sum_{j=1}^p \beta_j^2
+$$
+E o LASSO:
+
+$$
+\hat{\beta}_{LASSO} = \arg\min \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \lambda \sum_{j=1}^p |\beta_j|
+$$
+
+# Bayesianismo
+
+Já apareceu aqui no blog "como" os bayesianos pensam, mas vai uma revisão: bayesianos tratam o parâmetro como uma variável aleatória. Nós temos alguma crença _a priori_ como a variável se distribui e nós combinamos a informação a priori com a informação vinda da verossimelhança do modelo, e obtemos uma distribuição dos valores do parâmetro depois de vermos os dados, a _posterior_. Essa distribuição advém da regra de Bayes:
+
+$$
+P(\theta|x) = \frac{L(x|\theta)\pi(\theta)}{P(x)}
+$$
+
+No qual $L(x|\theta)$ é a função verossimelhança e $\pi(\theta)$ é a _prior_ e $P(x)$ é a distribuição marginal dos dados. Se nós não quisermos a distribuição de $\theta$, mas só o ponto que maximiza a _posterior_, nós podemos nos preocupar só com $L(\theta|x)\pi(\theta)$ - o $P(x)$ não é afetado pelo parâmetro, por ser a distribuição marginal. No resto do post eu vou ignorar $P(x)$, que só existe de fato para garantir que $P(\theta|x)$ integra 1. Nossa _posterior_ é **proporcional** a $L(x|\theta)\pi(\theta)$
+
+# O modelo linear e bayesianismo
+
+Vamos continuar como bayesianos e considerar o modelo linear. Vamos impor que os erros do modelo linear são normais, então a verossimelhança do modelo é a normal^[1: Veja que pro modelo linear $y_i = x_i \beta + \epsilon_i$, então $y_i - x_i \beta = \epsilon_i$. Eu estou condicionando tudo a $x$]:
+
+$$
+L(y,x|\theta) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta}_i)^2\right)
+$$
+
+Eu sou bayesiano (até o fim do post, pelo menos), então eu preciso de uma _prior_ pros meus parâmetros. Eu vou ignorar solenemente $\sigma^2$ e supor que eu só vou estimar $\mathbf{\beta}$. Eu vou colocar uma _prior_ normal com média zero e variância $\tau^2$:
+
+$$
+\pi(\theta) = \frac{1}{\sqrt{2\pi}\tau} \exp \left(-\frac{1}{2\tau^2} \sum_{j=1}^p \beta_j^2 \right)
+$$
+
+Vamos calcular $L(\theta|x)\pi(\theta)$:
+
+$$
+L(\theta|y,x)\pi(\theta) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2\right)\frac{1}{\sqrt{2\pi}\tau} \exp \left(-\frac{1}{2\tau^2} \sum_{j=1}^p \beta_j^2 \right) = \\
+\frac{1}{2\pi \sigma \tau}\exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 - \frac{1}{2\tau^2} \sum_{j=1}^p \beta^2_j \right)
+$$
+
+Tire o log da expressão acima: 
+
+$$
+\log(L(y,x|\theta)\pi(\theta)) = -\log(2\pi\sigma\tau) - \left(\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \frac{1}{2\tau^2} \sum_{j=1}^p \beta_j^2\right)
+$$
+
+Lembre que $\log(2\pi \sigma \tau)$ não depende de $\beta$ e compare a expressão acima com a expressão que eu escrevi pro Ridge. Lá o parâmetro de regularização é $\lambda$, e aqui o parâmetro é $\frac{1}{2\tau^2}$. 
+
+Noutras palavras, ridge é o que um bayesiano chamaria de um modelo linear normal com uma prior normal. 
+
+E se a gente trocar a prior para $\pi(\beta) = \frac{1}{2\tau} \exp\left(-\frac{|\beta|}{\tau}\right)$, a [distribuição de Laplace](https://en.wikipedia.org/wiki/Laplace_distribution) com média zero e variância $2\tau^2$? As mesmas contas:
+
+$$
+L(\theta|x,y)\pi(\theta) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2\right)\frac{1}{2\tau} \exp\left(-\sum_{j=1}^p\frac{|\beta_j|}{\tau}\right) = \\ =\frac{1}{\sqrt{2\pi}\sigma{}2\tau}\exp \left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 - \frac{1}{\tau} \sum_{j=1}^p |\beta_j|\right)\\
+\log(L(\theta|x,y)\pi(\theta)) = -\frac{1}{2}\log(4\pi\sigma^2\tau^2) - \left(\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \frac{1}{\tau} \sum_{j=1}^p|\beta_j|\right)
+$$
+
+Se você comparar com a expressão do LASSO,lá nós usamos $\lambda$ como parâmetro de regularização e  aqui o parâmetro de regularização é $1/\tau$. 
+
+No caso mais geral $\log(L(\theta|x,y)\pi(\theta)) = \ell(\theta|x,y) + \log(\pi(\theta))$, e $\ell(\theta|x,y)$ é a velha conhecida log verossimelhança. A função de regularização aqui seria $\log(\pi(\theta))$. Isso sugere que existem várias penalizações malucas por ai, que são logs das funções densidade.
+

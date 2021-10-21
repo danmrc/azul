@@ -44,7 +44,7 @@ Existe uma outra motivação para métodos de encolhimento, que data da década 
 
 Se você já fez um curso de estatística, uma das perguntas é como analisar um estimador qualquer. Existem várias maneiras de avaliar estimadores: nós podemos querer considerar só estimadores não viesados, e dentre eles os com menor variância; nós podemos querer apenas os estimador não viesados _e_ lineares. etc. Um critério muito comum para avaliar o estimador $\hat{\theta}$ é o erro quadrático médio (EQM): $E[(\hat{\theta} - \theta_0)^2]$, no qual $\theta_0$ é o valor verdadeiro do parâmetro. Nós precisamos usar o valor esperdo porque $\hat{\theta}$ é uma variável aleatória que depende dos dados. Eu vou representar o EQM por $\mathcal{R}(\theta,\hat{\theta})$. 
 
-Veja que do erro quadrático médio pode ser decomposto em duas parte, uma sendo a variância do estimador e outra que é o viés:
+Veja que o erro quadrático médio pode ser decomposto em duas partes, uma sendo a variância do estimador e outra que é o viés:
 
 $$
 E[(\hat{\theta} - \theta_0)^2] = (E[\hat{\theta}] - \theta_0)^2 + Var(\hat{\theta})
@@ -52,7 +52,7 @@ $$
 
 Veja que o EQM depende do valor verdadeiro do parâmetro. Em geral, nós poderíamos esperar que se temos dois estimadores, $\hat{\theta}_1$ e $\hat{\theta}_2$ e dois valores do parâmetro, $\theta_1$ e $\theta_2$, então pode acontecer de $\mathcal{R}(\theta_1,\hat{\theta}_1) < \mathcal{R}(\theta_1,\hat{\theta}_2)$ **e** $\mathcal{R}(\theta_2,\hat{\theta}_2) < \mathcal{R}(\theta_2,\hat{\theta}_1)$.
 
-Veja que, se existirem dois estimadores $\hat{\theta}$ e $\tilde{\theta}$ e para todos os valores possíveis do parâmetro $\theta$ nós temos $\mathcal{R}(\theta,\hat{\theta}) \leq \mathcal{R}(\theta,\tilde{\theta})$ e para pelo menos um valor do parâmetro^[ou um intervalo, se você estiver preocupado com mensurabilidade] a desigualdade for estrita, então alguém pode argumentar que nós não deveríamos considerar o estimador $\tilde{\theta}$: em qualquer situação, existe um estimador que nunca é pior do que ele. Nesse caso, nós dizemos que o estimador $\tilde{\theta}$ é _inadmissível_. 
+Se existirem dois estimadores $\hat{\theta}$ e $\tilde{\theta}$ e para todos os valores possíveis do parâmetro $\theta$ nós temos $\mathcal{R}(\theta,\hat{\theta}) \leq \mathcal{R}(\theta,\tilde{\theta})$ e para pelo menos um valor do parâmetro^[ou um intervalo, se você estiver preocupado com mensurabilidade] a desigualdade for estrita, então alguém pode argumentar que nós não deveríamos considerar o estimador $\tilde{\theta}$: em qualquer situação, existe um estimador que nunca é pior do que ele. Nesse caso, nós dizemos que o estimador $\tilde{\theta}$ é _inadmissível_. 
 
 Se nós estamos trabalhando apenas com o estimadores não viesados, então minimizar o erro quadrático médio é equivalente a buscar o estimador com menor variância. Por exemplo, para o modelo linear, o estimador de mínimos quadrados é o melhor estimador linear não viesado.
 
@@ -72,9 +72,9 @@ O superescrito $T$ é a transposta da matriz. O termo $\hat{\beta}^T X^T X \hat{
 
 O paper obteve os resultados analíticos, mas eu vou fazer simulações para mostrar que o estimador James Stein realmente tem um EQM menor que o estimador de MQO. Eu vou querer mostrar duas coisas, na verdade:
 
-1. O estimador James-Stein realmente garante que o estimador de OLS não é admissível
+1. O estimador James-Stein realmente garante que o estimador de OLS é inadmissível
 
-2. $p-2$ é o valor ótimo para $c$. 
+2. Se os erros são normais, $p-2$ é o valor ótimo para $c$. 
 
 Eu vou implementar três funções que vão fazer as simulações necessárias. Todos os parâmetros do modelo vão ter o mesmo valor em cada simulação - exceto o intercepto, que é sempre zero.
 
@@ -202,7 +202,7 @@ Isso significa que o estimador de MQO é inadmissível. Mas:
 1. O estimador James-Stein é viesado
 2. Ele depende de uma forma quadrática dos parâmetros de mínimos quadrados ($\hat{\beta}^t X^t X \hat{\beta}$)
 
-Veja que o ponto 2 não é nenhum problema (computacional, pelo menos). O ponto 1 é um pouco mais preocupante, especialmente se seu interesse é interpretar o coeficiente como um efeito de tratamento. Mas isso ilustra que, para previsão, mínimos quadrados não necessariamente é ótimo. 
+Veja que o ponto 2 não é nenhum problema (computacional, pelo menos). O ponto 1 é um pouco mais preocupante, especialmente se seu interesse é interpretar o coeficiente como um efeito de tratamento. Mas isso ilustra que, para previsão, mínimos quadrados não é necessariamente ótimo. 
 
 Veja que isso é uma motivação para estimadores de encolhimento em geral porque o estimador James-Stein faz encolhimento. Veja a fórmula:
 
@@ -237,10 +237,10 @@ ggplot(tidy_teste,aes(x=params,y=value,color=name)) +
 
 A linha mais embaixo - e portanto com menor EQM - é a associada com $c=3$, como a teoria manda. 
 
-Este é um destes posts que começam com um tema meio abstrato (teoria da decisão) e desaguam em um resultado completamente maluco (MQO nunca deveria ser usado, dependendo do seu objetivo). A gente nem precisou fazer conta nenhuma, o computador fez tudo. Eu não fiz essas contas para o LASSO porque senão o post ia se esticar ainda mais.
+Este é um destes posts que começam com um tema meio abstrato (teoria da decisão) e desaguam em um resultado completamente maluco (MQO é inadmissível). A gente nem precisou fazer conta nenhuma, o computador fez tudo. Eu não fiz essas contas para o LASSO porque senão o post ia se esticar ainda mais.
 
 --- 
 
 # Bibliografia
 
-O capítulo 7 do [Computer Age Statistical Inference](https://web.stanford.edu/~hastie/CASI/) discute exatamente o estimador James-Stein, dando uma motivação Bayesiana. A fórmula que eu usei no post pro James- Stein veio de lá. A discussão está mais próxima do Econometric Foundations, apesar de eu ter sérias dúvidas sobre a fórmula que eles colocam para o estimador James-Stein. 
+O capítulo 7 do [Computer Age Statistical Inference](https://web.stanford.edu/~hastie/CASI/) discute exatamente o estimador James-Stein, dando uma motivação Bayesiana. A fórmula que eu usei no post pro estimador James- Stein veio de lá. A discussão está mais próxima do Econometric Foundations, apesar de eu ter sérias dúvidas sobre a fórmula que do livro para oblgo estimador James-Stein. 

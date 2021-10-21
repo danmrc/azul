@@ -18,31 +18,22 @@ tags:
 <<<<<<< Updated upstream
 authors: ["danielc"]
 draft: true
-=======
->>>>>>> Stashed changes
-katex: true
 ---
 
 ```{r, message=FALSE,echo=FALSE}
-<<<<<<< Updated upstream
-JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
-=======
-JuliaCall::julia_setup()
->>>>>>> Stashed changes
+
+#JuliaCall::julia_setup()
+
 
 ```
 
 No [post passado](https://azul.netlify.com/2018/09/08/programacao-dinamica-i/) eu falei sobre programação dinâmica para o caso com tempo finito. Se você não leu, leia: o resto do post não faz sentido sem ler a primeira parte. Vamos finalmente tratar de programação dinâmica em tempo infinito. Relembrando o nosso exemplo é o caso de um consumidor que tem que escolher quanto poupar. Formalmente, queremos resolver um problema do tipo:
 
-$$Max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t $$
+$$\max \sum_{t=1}^{\infty} \beta^t u(c_t) \text{ sujeito a } k_{t+1} = (1-\delta)k_t + f(k_t) - c_t $$
 
 A nossa estratégia no post passado era, para cada $t$, resolver o problema:
 
-<<<<<<< Updated upstream
-$$V_t(k_t) = max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) $$
-=======
-$$V_t(k_t) = Max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) $$
->>>>>>> Stashed changes
+$$V_t(k_t) = \max_{c_t}{} u(c_t) + \beta{} V_{t+1}((1-\delta{}) k_{t})+f(k_t)-c_t) $$
 
 Onde nós sabiamos que o $V_T(k_T)$ era igual a função utilidade avaliada em $k_T$. Ou seja, o agente consumia todo o estoque de capital no último período. Usavamos esse fato para computar $V_{T-1}$, e dai $V_{T-2}$...
 
@@ -50,11 +41,8 @@ Mas agora, somos apresentados a um problema em que não temos um último períod
 
 $$ V(k_t) = \max_{c_t} u(c_t)+ \beta{} V((1-\delta)k_{t}+f(k_t)-c_t)) $$
 
-<<<<<<< Updated upstream
-A beleza de resolver esse problema é que, apesar de não sabermos o valor de V, podemos iterar no computador e encontrar uma aproximação. Isso se deve ao fato de que o problema acima é uma contração, então vale o Teorema do Ponto Fixo de Banach, que o Pedro apresentou aqui. Nosso pseudo-código seria:
-=======
+
 A beleza de resolver esse problema é que, apesar de não sabermos o valor de $V$, podemos iterar no computador e encontrar uma aproximação. Isso se deve ao fato de que o problema acima é uma contração, então vale o Teorema do Ponto Fixo de Banach, que o Pedro apresentou [aqui](https://azul.netlify.com/2018/10/31/banach/). Nosso pseudo-código seria:
->>>>>>> Stashed changes
 
 * Dê algum chute inicial para $V$. Vamos chamar de $V_0$.
 * Resolva $\max_c u(c) + \beta{}V_0((1-\delta)k_{t}+f(k_t)-c))$. Salve isso como $V_1$
@@ -97,11 +85,8 @@ end
 
 ```
 
-<<<<<<< Updated upstream
-A solução verdadeira é $c^*(k) = (1-\alpha \beta)k$. Vamos plotar a solução verdadeira contra a estimada:
-=======
+
 A solução verdadeira é $c^*(y) = (1-\alpha \beta)y$. Vamos plotar a solução verdadeira contra a estimada:
->>>>>>> Stashed changes
 
 ```{julia}
 
@@ -112,11 +97,10 @@ plot!(y,sol(y), lab = "Solução verdadeira", linestyle = :dash, lw = 2)
 
 ```
 
-<<<<<<< Updated upstream
+
 ![](/post/Prog_dinamica/img1_2a.png)
-=======
+
 ![](/post/Prog_dinamica/img1_2b.png)
->>>>>>> Stashed changes
 
 A linha da solução computada parece muito próxima da solução verdadeira, mas um pouco menos suave. A diferença parece ficar pior no final. Vamos fazer um gráfico com a diferença entre as duas soluções:
 
@@ -128,13 +112,13 @@ plot(y,dif, legend = :none, lw = 2)
 
 ```
 
-<<<<<<< Updated upstream
+
 ![](/post/Prog_dinamica/img2_2a.png)
 
 O gráfico deixa bem claro que a solução difere mais na ponta direita. Mas mesmo assim a diferença é pequena. 
 
 Este post encerra a série de posts sobre programação dinâmica. Esse tipo de ferramenta é importante em diversas aplicações em economia, tanto macro quanto em desenvolvimento. Muitas variações do problema não são resolvidas de maneira analítica: veja que mesmo no caso acima, em que a função de produção é Cobb Douglas e a utilidade é log, precisamos que o capital se deprecie totalmente; caso contrário, não temos solução analítica.
-=======
+
 ![](/post/Prog_dinamica/img2_2b.png)
 
 O gráfico deixa bem claro que a solução difere mais na ponta direita. Mas mesmo assim a diferença é pequena, apenas na segunda casa decimal. 
@@ -142,4 +126,3 @@ O gráfico deixa bem claro que a solução difere mais na ponta direita. Mas mes
 Este post encerra a série de posts (introdutórios) sobre programação dinâmica. Esse tipo de ferramenta é importante em diversas aplicações em economia, tanto macro, desenvolvimento, e organização ondustrial. Muitas variações do problema não são resolvidas de maneira analítica: veja que mesmo no caso acima, em que a função de produção é Cobb Douglas e a utilidade é logarítmica, precisamos que o capital se deprecie totalmente; caso contrário, não temos solução analítica. Esse caso é interessante e pode ser obtido alterando o código acima minimamente.  
 
 _Este post é, basicamente, uma adaptção [deste post](https://lectures.quantecon.org/jl/optgrowth.html#), do quant-econ, do Sargent e Stachurski_
->>>>>>> Stashed changes
