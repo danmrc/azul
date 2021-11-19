@@ -17,7 +17,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
@@ -57,14 +56,8 @@ iv_pr &lt;- ivreg(y ~ x|new_z)</code></pre>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tabela &lt;- c(coef(mqo)[2],coef(iv)[2],coef(iv1)[2],coef(iv_pr)[2])
 names(tabela) &lt;- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
 
-knitr::kable(tabela)</code></pre>
+knitr::kable(tabela,col.names =" ")</code></pre>
 <table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">x</th>
-</tr>
-</thead>
 <tbody>
 <tr class="odd">
 <td align="left">MQO</td>
@@ -119,14 +112,8 @@ output &lt;- do.call(rbind,output)
 
 colnames(output) &lt;- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
 
-knitr::kable(colMeans(output))</code></pre>
+knitr::kable(colMeans(output),col.names =" ")</code></pre>
 <table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">x</th>
-</tr>
-</thead>
 <tbody>
 <tr class="odd">
 <td align="left">MQO</td>
@@ -146,10 +133,10 @@ knitr::kable(colMeans(output))</code></pre>
 </tr>
 </tbody>
 </table>
-<p>O IV com um único instrumento sofreu um sério problema nessa simulação. O IV com 10 componentes principais é só marginalmente melhor que todos os instrumentos. Vamos olhar a distribuição de cada estimador usando o <strong>ggplot</strong>, e isso vai exigir arrumar os dados:</p>
+<p>O IV com um único instrumento sofreu um sério problema nessa simulação. O IV com 10 componentes principais é só marginalmente melhor que todos os instrumentos. Vamos olhar a distribuição de cada estimador usando o <strong>ggplot</strong>, e isso vai exigir arrumar os dados usando o <code>tidyr</code>. A gente vai colocar uma linha vertical no valor verdadeiro do coeficiente:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">output_tidy &lt;- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
 
-ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + theme_minimal()</code></pre>
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free")+ geom_vline(aes(xintercept = 1.5)) + theme_minimal()</code></pre>
 <pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2021-11-18-componentes-principais-e-variáveis-instrumentais/index.pt-br_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Vamos realmente aloprar e criar um exemplo com 90 instrumentos. Dessa vez, eu vou usar apenas um componente principal:</p>
@@ -161,14 +148,8 @@ output &lt;- do.call(rbind,output)
 
 colnames(output) &lt;- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
 
-knitr::kable(colMeans(output))</code></pre>
+knitr::kable(colMeans(output),col.names =" ")</code></pre>
 <table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">x</th>
-</tr>
-</thead>
 <tbody>
 <tr class="odd">
 <td align="left">MQO</td>
@@ -191,7 +172,7 @@ knitr::kable(colMeans(output))</code></pre>
 <p>Vamos fazer o histograma das estimações:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">output_tidy &lt;- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
 
-ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + theme_minimal()</code></pre>
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + geom_vline(aes(xintercept =1.5)) + theme_minimal()</code></pre>
 <pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2021-11-18-componentes-principais-e-variáveis-instrumentais/index.pt-br_files/figure-html/unnamed-chunk-11-1.png" width="672" />
 As distribuições de um instrumento é incrivelmente mal comportada e a distribuição usando componentes principais tem distribuição bem menos concentrada que Mínimos Quadrados ou usando todos os instrumentos.</p>
@@ -204,14 +185,8 @@ output &lt;- do.call(rbind,output)
 
 colnames(output) &lt;- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
 
-knitr::kable(colMeans(output))</code></pre>
+knitr::kable(colMeans(output),col.names =" ")</code></pre>
 <table>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">x</th>
-</tr>
-</thead>
 <tbody>
 <tr class="odd">
 <td align="left">MQO</td>
@@ -233,9 +208,10 @@ knitr::kable(colMeans(output))</code></pre>
 </table>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">output_tidy &lt;- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
 
-ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + theme_minimal()</code></pre>
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + geom_vline(aes(xintercept =1.5)) + theme_minimal()</code></pre>
 <pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="/post/2021-11-18-componentes-principais-e-variáveis-instrumentais/index.pt-br_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Diminuir o número de componentes parece ser uma faca de dois gumes: o viés cai, mas a variância aumenta.</p>
+<p>Essas simulações mostram que usar IV pode gerar tanto viés quanto MQO, mas este post já tá grande demais.</p>
 <hr />
 <p><a href="http://www.columbia.edu/~jb3064/papers/2010_Instrumental_variable_estimation_in_a_data_rich_environment.pdf">Paper do Bai e Ng com o mesmo tema</a></p>

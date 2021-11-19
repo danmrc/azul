@@ -17,7 +17,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true
 ---
 
 Eu já falei de variáveis instrumentais e de componentes principais. Eu nunca misturei os dois, apesar da ideia deste post ter me ocorrido a muito tempo. 
@@ -89,7 +88,7 @@ Vamos ver os resultados:
 tabela <- c(coef(mqo)[2],coef(iv)[2],coef(iv1)[2],coef(iv_pr)[2])
 names(tabela) <- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
 
-knitr::kable(tabela)
+knitr::kable(tabela,col.names =" ")
 
 ```
 
@@ -138,17 +137,17 @@ output <- do.call(rbind,output)
 
 colnames(output) <- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
 
-knitr::kable(colMeans(output))
+knitr::kable(colMeans(output),col.names =" ")
 
 ```
 
-O IV com um único instrumento sofreu um sério problema nessa simulação. O IV com 10 componentes principais é só marginalmente melhor que todos os instrumentos. Vamos olhar a distribuição de cada estimador usando o **ggplot**, e isso vai exigir arrumar os dados:
+O IV com um único instrumento sofreu um sério problema nessa simulação. O IV com 10 componentes principais é só marginalmente melhor que todos os instrumentos. Vamos olhar a distribuição de cada estimador usando o **ggplot**, e isso vai exigir arrumar os dados usando o `tidyr`. A gente vai colocar uma linha vertical no valor verdadeiro do coeficiente:
 
 ```{r}
 
 output_tidy <- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
 
-ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + theme_minimal()
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free")+ geom_vline(aes(xintercept = 1.5)) + theme_minimal()
 
 ```
 
@@ -165,7 +164,7 @@ output <- do.call(rbind,output)
 
 colnames(output) <- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
 
-knitr::kable(colMeans(output))
+knitr::kable(colMeans(output),col.names =" ")
 
 ```
 
@@ -176,7 +175,7 @@ Vamos fazer o histograma das estimações:
 
 output_tidy <- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
 
-ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + theme_minimal()
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + geom_vline(aes(xintercept =1.5)) + theme_minimal()
 
 ```
 As distribuições de um instrumento é incrivelmente mal comportada e a distribuição usando componentes principais tem distribuição bem menos concentrada que Mínimos Quadrados ou usando todos os instrumentos. 
@@ -193,7 +192,7 @@ output <- do.call(rbind,output)
 
 colnames(output) <- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
 
-knitr::kable(colMeans(output))
+knitr::kable(colMeans(output),col.names =" ")
 
 ```
 
@@ -201,11 +200,13 @@ knitr::kable(colMeans(output))
 
 output_tidy <- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
 
-ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + theme_minimal()
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + geom_vline(aes(xintercept =1.5)) + theme_minimal()
 
 ```
 
 Diminuir o número de componentes parece ser uma faca de dois gumes: o viés cai, mas a variância aumenta. 
+
+Essas simulações mostram que usar IV pode gerar tanto viés quanto MQO, mas este post já tá grande demais. 
 
 ---
 
