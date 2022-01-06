@@ -1,0 +1,110 @@
+---
+title: "Tratamento Sequencial I"
+date: 2022-01-06
+author: Daniel Coutinho
+date: '2021-11-18'
+slug: tratamento-sequencial-i
+categories:
+  - Econometria
+  - Machine Learning
+tags:
+  - Tratamento Sequencial
+  - Bandits Problem
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+Neste post, eu vou fingir que eu sou um microeconomista aplicado ou um médico e a minha pergunta é se um dado tratamento - no sentido literal se você for um médico - é mais eficiente que o outro.
+
+Nós estamos acostumados a pensar testes de hipótese da seguinte forma: nós temos $N$ observações, e algumas foram tratadas - talvez aleatoriamente, talvez selecionado em observáveis ou não observáveis. Nós então formulamos o teste de hipótese e buscamos cometer um erro do tipo I com uma probabilidade no máximo $\alpha$. 
+
+Mas nós podemos ter um outro cenário: primeiro, uma unidade chega na nossa mão e nós escolhemos se alocamos essa unidade para o tratamento A ou B (o tratamento B pode muito bem ser um placebo). Nós observamos o resultado da unidade. Chega uma nova unidade e nós precisamos decidir se alocamos ela para tratamento A e B. 
+
+Além de médicos e microeconomistas, esse cenário é interessante em vários outros contextos: você é dono de um site que faz vendas online e precisa decidir onde vai colocar o botão de comprar de forma a maximizar a chance do usuário comprar o produto. 
+
+Este post não vai ser nada estruturado, eu vou simplesmente fazer umas simulações com ideias razoáveis e deixar qualquer formalização da solução do problema pro post seguinte.
+
+# O problema
+
+Dada a ideia geral, vamos definir os detalhes. Eu vou simplificar a vida colocando muita estrutura:
+
+1. Existem dois tratamentos possíveis, tratamento zero e tratamento 1
+2. Cada tratamento tem distribuição binomial - ou o tratamento é um sucesso ou é um fracasso - com probabilidade de sucesso $p_0$ e $p_1$, respectivamente 
+3. As probabilidades são desconhecidas por quem vai escolher o tratamento
+4. O objetivo de quem escolhe o tratamento é meramente maximizar o valor esperado
+5. Nós vamos ter $N$ observações
+6. Em cada período, a gente pode escolher entre alocar o sujeito pro tratamento 0 ou pro tratamento 1
+
+Segue uma descrição da solução mais simples que eu consigo pensar pro problema: durante $n < N$ períodos, aloque alternadamente entre tratamento 0 ou tratamento 1. Calcule a média de sucessos de cada tratamento. Para períodos depois de $n$, aloque todo mundo para o tratamento com maior média.
+
+Eu vou escrever uma função que implementa isso. A função retorna pra qual dos tratamentos o sujeito deve ser alocado:
+
+```{r}
+
+simple_rule1 <- function(periodo,cutoff,media0,media1){
+  
+  if (periodo < cutoff){
+    if(periodo %% 2 == 0){
+      return(0)
+    } else{
+      return(1)
+    }
+    
+  } else {
+    if(media1 > media0){
+      return(1)
+    } else{
+      return(0)
+    }
+  }
+}
+  
+
+
+```
+
+Veja que `periodo %% 2` testa se o período é par (`%%` é a operação módulo, ou resto da divisão). Isso faz com que nos períodos par, a gente aloque para o tratamento zero e nos períodos ímpares a gente aloque pro tratamento um. 
+
+Agora, vamos escrever a função que retorna uma simulação dado uma regra. Ela vai me retornar o payoff obtido pelo agente:
+
+```{r}
+
+simulacao <- function(N,prob0,prob1,rule,...){
+  
+  media0 <- 0
+  media1 <- 0
+  n0 <- 0
+  n1 <- 0
+  
+  for(i in 1:N){
+    
+    decision <- rule(periodo = i,media0 = media0,media1 = media1,...)
+    
+    if(decision == 0){
+      
+      trat <- rbinom(1,1,prob0)
+      n0 <- n0 +1
+      media0 <- ((n0-1)*media0 + trat)/n0
+        
+    } else if(decision == 1){
+      
+      trat <- rbinom(1,1,prob1)
+      n1 <- n1 +1
+      media1 <- ((n1-1)*media1 + trat)/n1
+      
+    } else{
+      stop("Decisão deve ser 0 ou 1")
+    }
+    
+  }
+  return(n0*media0 + n1*media1)
+}
+
+```
+
