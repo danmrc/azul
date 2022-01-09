@@ -88,6 +88,20 @@ author = "authors"
 
   [services.twitter]
     disableInlineCSS = true
+    
+[security]
+  enableInlineShortcodes = true
+  [security.exec]
+    allow = ['^dart-sass-embedded$', '^go$', '^npx$', '^postcss$']
+    osEnv = ['(?i)^(PATH|PATHEXT|APPDATA|TMP|TEMP|TERM)$']
+
+  [security.funcs]
+    getenv = ['^HUGO_','^BLOGDOWN_']
+
+  [security.http]
+    methods = ['(?i)GET|POST']
+    urls = ['.*']
+
   
 
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]

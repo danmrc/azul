@@ -1,0 +1,364 @@
+---
+title: "Tratamento Sequencial I"
+date: '2022-01-06'
+author: Daniel Coutinho
+slug: tratamento-sequencial-i
+categories:
+  - Econometria
+  - Machine Learning
+tags:
+  - Tratamento Sequencial
+  - Bandits Problem
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true      
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Neste post, eu vou fingir que eu sou um microeconomista aplicado ou um médico e a minha pergunta é se um dado tratamento - no sentido literal se você for um médico - é mais eficiente que o outro.</p>
+<p>Nós estamos acostumados a pensar testes de hipótese da seguinte forma: nós temos <span class="math inline">\(N\)</span> observações, e algumas foram tratadas - talvez aleatoriamente, talvez selecionado em observáveis ou não observáveis. Nós então formulamos o teste de hipótese e buscamos cometer um erro do tipo I com uma probabilidade no máximo <span class="math inline">\(\alpha\)</span>.</p>
+<p>Mas nós podemos ter um outro cenário: primeiro, uma unidade chega na nossa mão e nós escolhemos se alocamos essa unidade para o tratamento A ou B (o tratamento B pode muito bem ser um placebo). Nós observamos o resultado da unidade. Chega uma nova unidade e nós precisamos decidir se alocamos ela para tratamento A e B.</p>
+<p>Além de médicos e microeconomistas, esse cenário é interessante em vários outros contextos. Por exemplo, você é dono de um site que faz vendas online e precisa decidir onde vai colocar o botão de comprar de forma a maximizar a chance do usuário comprar o produto.</p>
+<p>Este post não vai ser nada estruturado, eu vou simplesmente fazer umas simulações com ideias razoáveis e deixar qualquer formalização da solução do problema pro post seguinte.</p>
+<div id="o-problema" class="section level1">
+<h1>O problema</h1>
+<p>Dada a ideia geral, vamos definir os detalhes. Eu vou simplificar a vida colocando muita estrutura:</p>
+<ol style="list-style-type: decimal">
+<li>Existem dois tratamentos possíveis, tratamento zero e tratamento um</li>
+<li>Cada tratamento tem distribuição binomial - ou o tratamento é um sucesso ou é um fracasso - com probabilidade de sucesso <span class="math inline">\(p_0\)</span> e <span class="math inline">\(p_1\)</span>, respectivamente</li>
+<li>As probabilidades são desconhecidas por quem vai escolher o tratamento</li>
+<li>O objetivo de quem escolhe o tratamento é meramente maximizar o valor esperado</li>
+<li>Nós vamos ter <span class="math inline">\(N\)</span> observações</li>
+<li>Em cada período, a gente pode escolher entre alocar o sujeito pro tratamento 0 ou pro tratamento 1</li>
+</ol>
+</div>
+<div id="soluções" class="section level1">
+<h1>Soluções?</h1>
+<p>Segue uma descrição da solução mais simples que eu consigo pensar pro problema: durante <span class="math inline">\(n &lt; N\)</span> períodos, aloque alternadamente entre tratamento 0 ou tratamento 1. Calcule a média de sucessos de cada tratamento. Para períodos depois de <span class="math inline">\(n\)</span>, aloque todo mundo para o tratamento com maior média.</p>
+<p>Eu vou escrever uma função que implementa isso. A função retorna pra qual dos tratamentos o sujeito deve ser alocado:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">set.seed(06012022)
+
+simple_rule1 &lt;- function(periodo,cutoff,media0,media1){
+  
+  if (periodo &lt; cutoff){
+    if(periodo %% 2 == 0){
+      return(c(0,TRUE))
+    } else{
+      return(c(1,TRUE))
+    }
+    
+  } else {
+    if(media1 &gt; media0){
+      return(c(1,FALSE))
+    } else{
+      return(c(0,FALSE))
+    }
+  }
+}</code></pre>
+<p>Veja que <code>periodo %% 2</code> testa se o período é par (<code>%%</code> é a operação módulo, ou resto da divisão). Isso faz com que nos períodos par, a gente aloque para o tratamento zero e nos períodos ímpares a gente aloque pro tratamento um. A função retorna qual é o tratamento escolhido e também um <code>TRUE</code> ou <code>FALSE</code>. O motivo: eu quero que, uma vez que a função tome a decisão de qual é o melhor tratamento, ela nunca mais mude o valor da média. Isso não é necessariamente realista: você poderia sempre atualizar a sua média depois de tomar a decisão e no caso improvável que a média do tratamento que você escolheu fique pior que a média do outro tratamento, você muda o tratamento. Eu vou criar uma função é que o processo gerador de dados e nos dá tanto o sucesso ou fracasso nesta rodada quanto faz todas as atualizações de média necessárias:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">dgp &lt;- function(prob0,prob1,n0,n1,media0,media1,decision,update){
+  
+  if(decision == 0){
+    
+    suc &lt;- rbinom(1,1,prob0)
+    
+    if(update){
+    
+      media0 &lt;- (n0*media0 + suc)/(n0+1)
+      n0 &lt;- n0 + 1
+    }
+    
+    return(c(suc,n0,n1,media0,media1))
+    
+  } else if(decision == 1){
+    
+    suc &lt;- rbinom(1,1,prob1)
+    
+    if(update){
+      
+      media1 &lt;- (n1*media1 + suc)/(n1+1)
+      n1 &lt;- n1 + 1
+    }
+    
+    return(c(suc,n0,n1,media0,media1))
+    
+  }
+  
+}</code></pre>
+<p>Agora, vamos escrever a função que retorna uma simulação dado uma regra. Ela vai me retornar o payoff obtido pelo agente e qual é a decisão dele no último período:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simulacao &lt;- function(N,prob0,prob1,rule,...){
+  
+  media0 &lt;- 0
+  media1 &lt;- 0
+  n0 &lt;- 0
+  n1 &lt;- 0
+  payoff &lt;- 0
+  
+  for(i in 1:N){
+    
+    decision &lt;- rule(periodo = i, media0 = media0, media1 = media1,...)
+    
+    if(decision[1] == 0){
+      
+      result &lt;- dgp(prob0,prob1,n0,n1,media0,media1,decision[1],decision[2])
+      n0 &lt;- result[2]
+      media0 &lt;- result[4]
+      payoff &lt;- result[1] + payoff
+      
+    } else if(decision[1] == 1){
+      
+      result &lt;- dgp(prob0,prob1,n0,n1,media0,media1,decision[1],decision[2])
+      n1 &lt;- result[3]
+      media1 &lt;- result[5]
+      payoff &lt;- result[1] + payoff
+      
+    } else{
+      stop("Decisão deve ser 0 ou 1")
+    }
+    
+  }
+  return(c(payoff,decision[1]))
+}</code></pre>
+<p>Vamos simular umas mil observações do nosso experimento e com a regra que nós temos. Eu vou deixar a probabilidade de sucesso do experimento 0 ser 0.5 e a probabilidade de sucesso do experimento 1 ser 0.7 e deixar ele alternar por metade dos 30 períodos:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(purrr)
+
+input &lt;- replicate(1000,30,simplify = FALSE)
+
+output &lt;- map(input,simulacao, prob0 = 0.5,prob1 = 0.7,simple_rule1, cutoff = 15)
+
+output &lt;- do.call(rbind,output)
+colnames(output) &lt;- c("Payoff","Proporção de decisões 1")
+
+colMeans(output)</code></pre>
+<pre ><code >##                  Payoff Proporção de decisões 1 
+##                  18.589                   0.689</code></pre>
+<p>O próximo passo, naturalmente, é se perguntar quanto tempo você deveria alternar durante os dois tratamentos disponíveis. A próxima função vai permitir que a gente simule a regra simples com diferentes valores pro tempo que a gente passa testando as alternativas - ou explorando elas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simulacao_cutoff &lt;- function(N,prob0,prob1,cutoffs){
+  
+  cutoffs_list &lt;- as.list(cutoffs)
+  foo &lt;- function(x){simulacao(N,prob0,prob1,simple_rule1,cutoff = x)}
+  output &lt;- map(cutoffs_list,foo)
+  
+  output &lt;- do.call(rbind,output)
+  
+  return(output)
+  
+}</code></pre>
+<p>A simulação, eu vou testar apenas 10 períodos de teste, 15 períodos de teste e 20 períodos de teste:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">input2 &lt;- replicate(1000,c(10,15,20),simplify = FALSE)
+
+output &lt;- map(input2,simulacao_cutoff, prob0 = 0.5,prob1 = 0.7, N = 30)</code></pre>
+<p>O código a seguir só organiza a lista em um array com linhas, colunas e uma dimensão a mais e tira a média entre as 1000 simulações:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(abind)
+
+output &lt;- do.call(abind,list(output,along = 3))
+
+result &lt;- apply(output,c(1,2),mean)
+result &lt;- cbind(c("10","15","20"),result)
+
+colnames(result) &lt;- c("n","Payoff","Proporção tratamento 1")
+
+knitr::kable(result)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">n</th>
+<th align="left">Payoff</th>
+<th align="left">Proporção tratamento 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">10</td>
+<td align="left">19.035</td>
+<td align="left">0.759</td>
+</tr>
+<tr class="even">
+<td align="left">15</td>
+<td align="left">18.525</td>
+<td align="left">0.675</td>
+</tr>
+<tr class="odd">
+<td align="left">20</td>
+<td align="left">18.682</td>
+<td align="left">0.837</td>
+</tr>
+</tbody>
+</table>
+<p>Esse resultado é bem interessante: note que o maior payoff, na média, é quando nós só gastamos 10 períodos explorando. Veja que a nossa taxa de escolher o tratamento com maior probabilidade é um pouco maior com 20 observações. Isso é totalmente natural, uma vez que a gente tem o dobro de observações. Mas isso também requer que a gente passe muito mais tempo jogando a alternativa ruim, o que reduz o payoff que a gente recebe.</p>
+<p>Veja que a gente não explorou muita a estrutura de ser capaz de de decidir parar arbitrariamente os testes. De fato, a gente fez basicamente o que um <em>Randomized Controlled Trial</em> faria.</p>
+<p>Uma regra simples que me ocorre que explora a possibilidade de parar a qualquer momento do tempo é a seguinte: alterne os tratamentos por <span class="math inline">\(t_1\)</span> períodos; de <span class="math inline">\(t_1\)</span> a <span class="math inline">\(t_2\)</span> continue alternando <strong>exceto</strong> se a diferença de probabilidades ultrapassar um limiar. Depois de <span class="math inline">\(t_2\)</span> <strong>ou</strong> de ultrapassar o limiar, jogue a estratégia com maior média.</p>
+<p>Vamos escrever a regra como uma função no R. Dessa vez a função retorna tanto a decisão (como a primeira posição no vetor), se nós estamos atualizando a média ou não, e se nós paramos antes da hora::</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simple_rule2 &lt;- function(periodo,t_1,t_2,threshold,media0,media1){
+  
+  if(periodo &lt; t_1){
+    
+    if(periodo %% 2 == 0){
+      return(c(0,TRUE,FALSE))
+    } else{
+      return(c(1,TRUE,FALSE))
+    }
+    
+  } else if (periodo &lt; t_2){
+    
+    if(abs(media0 - media1) &lt; threshold){
+      
+      if(periodo %% 2 == 0){
+        return(c(0,TRUE,FALSE))
+      } else{
+        return(c(1,TRUE,FALSE))
+      }
+     
+    } else{
+      
+      if(media0 &gt; media1){
+        return(c(0,FALSE,TRUE))
+      } else{
+        return(c(1,FALSE,TRUE))
+      }
+      
+    }
+    
+    
+  } else{
+    
+    if(media0 &gt; media1){
+      return(c(0,FALSE,FALSE))
+    } else{
+      return(c(1,FALSE,FALSE))
+    }
+  }
+  
+}</code></pre>
+<p>Eu vou querer saber quantas vezes eu paro antes de <span class="math inline">\(n_2\)</span>, então eu vou escrever uma função de simulação nova (desculpa, <em>don’t repeat yourself</em>):</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simulacao2 &lt;- function(N,prob0,prob1,t_1,t_2,threshold){
+  
+  media0 &lt;- 0
+  media1 &lt;- 0
+  n0 &lt;- 0
+  n1 &lt;- 0
+  payoff &lt;- 0
+  early_stop &lt;- FALSE
+  
+  for(i in 1:N){
+    
+    decision &lt;- simple_rule2(i,t_1,t_2,threshold,media0,media1)
+    
+    if(decision[1] == 0){
+      
+      result &lt;- dgp(prob0,prob1,n0,n1,media0,media1,decision[1],decision[2])
+      n0 &lt;- result[2]
+      media0 &lt;- result[4]
+      payoff &lt;- result[1] + payoff
+      
+      early_stop &lt;- ifelse(early_stop,TRUE,ifelse(decision[3],TRUE,FALSE))
+        
+    } else if(decision[1] == 1){
+      
+      result &lt;- dgp(prob0,prob1,n0,n1,media0,media1,decision[1],decision[2])
+      n1 &lt;- result[3]
+      media1 &lt;- result[5]
+      payoff &lt;- result[1] + payoff
+      
+      early_stop &lt;- ifelse(early_stop,TRUE,ifelse(decision[3],TRUE,FALSE))
+      
+    } else{
+      stop("Decisão deve ser 0 ou 1")
+    }
+    
+  }
+  return(c(payoff,decision[1],early_stop))
+}</code></pre>
+<p>Vamos simular o caso em que nós observamos pelo menos 10 observações, e se a diferença não for grande o bastante, nós observamos até 15 períodos. Eu vou colocar o threshold em 0.5, o que é relativamente alto:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">input &lt;- replicate(1000,30,simplify = FALSE)
+
+output &lt;- map(input,simulacao2, prob0 = 0.5,prob1 = 0.7,t_1 = 10, t_2 = 15, threshold = 0.5)
+
+output &lt;- do.call(rbind,output)
+
+colnames(output) &lt;- c("Payoff","Proporção decisão 1", "Proporção Early Stop")
+
+knitr::kable(colMeans(output))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Payoff</td>
+<td align="right">19.391</td>
+</tr>
+<tr class="even">
+<td align="left">Proporção decisão 1</td>
+<td align="right">0.854</td>
+</tr>
+<tr class="odd">
+<td align="left">Proporção Early Stop</td>
+<td align="right">0.341</td>
+</tr>
+</tbody>
+</table>
+<p>Nós temos agora uns três parâmetros livres: quantas observações nós fazemos no mínimo antes de tomar a decisão, quantas observações nós fazemos no máximo antes de tomar a decisão, e qual a diferença mínima que nós exigimos para tomar uma decisão antes de ver o máximo de observações. Eu vou brincar de mudar só esse último parâmetro. Primeiro, uma função que permite a gente simular, para vários limiares, a escolha que a regra faria:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simulacao_threshold &lt;- function(N,prob0,prob1,t_1,t_2,thresholds){
+  
+  thresholds_list &lt;- as.list(thresholds)
+  results &lt;- map(thresholds_list,simulacao2,N = N,prob0 = prob0,prob1 = prob1,t_1 = t_1,t_2 = t_2)
+  results &lt;- do.call(rbind,results)
+  rownames(results) &lt;- thresholds
+  colnames(results) &lt;- c("Payoff","Proporção Tratamento 1","Proporção Early Stop")
+  
+  return(results)
+  
+}</code></pre>
+<p>A simulação em si. EU to mantendo tudo como nos problemas anteriores:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">input &lt;- replicate(1000,c(0.2,0.5,0.7),simplify = FALSE)
+output &lt;- map(input,simulacao_threshold,N = 30,prob0 = 0.5,prob1 = 0.7, t_1 = 10,t_2 = 15)
+
+output &lt;- do.call(abind,list(output,along = 3))
+result &lt;- apply(output,c(1,2),mean)
+
+knitr::kable(result)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Payoff</th>
+<th align="right">Proporção Tratamento 1</th>
+<th align="right">Proporção Early Stop</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0.2</td>
+<td align="right">19.407</td>
+<td align="right">0.820</td>
+<td align="right">0.832</td>
+</tr>
+<tr class="even">
+<td align="left">0.5</td>
+<td align="right">19.330</td>
+<td align="right">0.848</td>
+<td align="right">0.317</td>
+</tr>
+<tr class="odd">
+<td align="left">0.7</td>
+<td align="right">18.988</td>
+<td align="right">0.840</td>
+<td align="right">0.075</td>
+</tr>
+</tbody>
+</table>
+<p>O resultado sugere que, depois de dez observações, mesmo se a diferença entre as probabilidades for só 0.2, o nosso payoff já é maior que com regras que exigem mais evidência de que um tratamento é melhor que o outro. Com 5 simulações em cada tratamento, isso significa que se um tratamento tiver um sucesso a mais que o outro, nós já deveríamos parar e escolher o tratamento com mais sucessos. A diferença de payoff entre a diferença de probabilidade ser 0.2 ou 0.5 ser tão pequena <em>sugere</em> que talvez algum valor intermediário seja melhor que 0.2 e 0.5.</p>
+<p>Existem um milhão de maneiras de brincar com esse problema. No próximo post, eu vou tentar formular isso como um problema de otimização.</p>
+</div>
