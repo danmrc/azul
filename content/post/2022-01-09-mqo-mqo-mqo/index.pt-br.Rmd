@@ -1,0 +1,211 @@
+---
+title: "MQO, MQO, MQO"
+date: '2022-01-09'
+author: Daniel Coutinho
+slug: mqo-mqo-mqo
+categories:
+  - Econometria
+  - Machine Learning
+tags:
+  - Mínimos Quadrados
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true      
+---
+
+Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca. 
+
+No post inteiro, eu vou utilizar o modelo linear $y = X\beta + u$, onde $u$ é o erro aleatório, $X$ é o regressor e $y$ é o regressando. Às vezes $X$ vai ser um único regressando, às vezes $X$ vai ser uma matriz de variáveis. Eu terei $n$ observações e $p$ variáveis - então $X$ é a matriz $n \times p$. Se você não quiser pensar em $X^T\beta$ como uma multiplicação de uma matriz e um vetor, você pode pensar como $x_1 \beta_1 + \ldots x_p \beta_p$. 
+
+# Do começo
+
+No curso de econometria I da graduação, a gente aprende que o estimador de mínimos quadrados para o caso univariado é:
+
+$$
+\hat{\beta}_{MQO} = \frac{\sum_{i=1}^n (y_i - \bar{y})(x_i - \bar{x})}{\sum_{i=1}^n (x_i - \bar{x})^2}
+$$
+
+Estabelecendo $\bar{x}$ como a média de $x$ e $\bar{y}$ como a média de y
+
+# Álgebra linear I
+
+A versão "de gente grande" do estimador de mínimos quadrados é:
+
+$$
+\hat{\beta}_{MQO} = (X^TX)^{-1}X^Ty
+$$
+
+Onde $X$ é uma matriz $n \times p$, e o superescrito $T$ significa que estamos tomando a transposta da matriz $X$. Isso é exatamente a mesma coisa que a versão acima, mas como agora tem mais de uma variável nós usamos matrizes. $X^TX$ é só a variância de $X$ e $X^Ty$ a covariância entre $X$ e $y$. 
+
+Para essa fórmula funcionar, $X^TX$ tem que ser inversível, e portanto tem que ter posto cheio. Nós usualmente pensamos isso como $X$ não pode ter duas variáveis que são funções afim uma da outra. 
+
+# A origem
+
+Existem várias maneiras de introduzir o estimador de mínimos quadrados. A primeira advém da condição de momentos $E[u|X] = 0$, ou mais fraco, a covariância de $X$ e $u$ é zero. 
+
+Outra maneira é pensar no problema de minimização:
+
+$$
+\min_{\beta} \frac{1}{n}\sum_{i=1}^n (y_i - X_i^T \beta)^2
+$$
+
+Eu serei muito chique e vou usar a seguinte representação:
+
+$$
+\|Y - X\beta\|_2^2 = \sum_{i=1}^n (y_i - X_i^T\beta)^2
+$$
+
+**Não se desespere, é só uma representação**. Eu poderia passar o resto do post escrevendo o somatório, mas isso é chatíssimo. 
+
+# Ortogonalização
+
+Ainda existe outra maneira de motivar mínimos quadrados: suponha que $y$ e $x$ são dois vetores no $\R^n$ e vamos usar $\left<x,y \right>$ como o produto interno ($\left<x,y\right> = \sum_i x_i y_i$). Como nós podemos transformar $y$ de maneira que $\left<y - cx,x\right> = 0$? Noutras palavras, nós queremos deixar os dois vetores ortogonais. EM $\R^2$, isso significa formar um ângulo reto. De volta as contas:
+
+$$
+\left< y - cx,x \right> = 0 \therefore \sum_i (y_i -cx_i)x_i = \sum_i y_i x_i - c \sum_i x_i^2 = 0 \therefore\\
+\sum_i x_i y_i = c \sum_i x_i^2 \\
+c = \frac{\sum_i x_i y_i}{\sum_i x_i^2}
+$$
+
+Sob a hipótese de média zero para $x$ e $y$, isso é exatamente a primeira expressão que escrevemos.
+
+# Ausência de viés
+
+Com a hipótese de $E[u|X] = 0$, o estimador de Mínimos Quadrados não tem viés. Isso é uma hipótese bem padrão e que todo mundo chama de exogenidade.
+
+# Analisando MQO de uma maneira pouco usual
+
+Eu vou analisar MQO de uma maneira que ninguém discute em curso de econometria nenhum, mas vai ser divertido e eu vou indicar a utilidade no fim do post. Pra isso, eu vou ter que construir uns blocos essenciais:
+
+## Os blocos
+
+1. O primeiro bloco é só uma definição de norma euclidiana:
+
+$$
+\|X\|_2^2 = X^TX = \sum_i x_i^2
+$$
+
+Nós vamos usar o formato de multiplicação de matriz ($X^TX$) para facilitar as contas. 
+
+2. Nós vamos usar o seguinte resultado: se uma matriz é de rank cheio, então nenhum autovalor é zero
+
+3. Nós vamos usar um resultado mais forte. Seja $\lambda_{\min}$ o menor autovalor da matriz $X^TX$. Então:
+
+$$
+\lambda_{\min} \leq \frac{\|Xv\|_2^2}{\|v\|_2^2}
+$$
+
+Este resultado já apareceu em um post sobre [componentes principais](https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/)
+
+4. Nós vamos trabalhar com normas Seja $x \in \mathbb{R}^n$, então a norma $p$ é representada por $\|x\|_ p$ e $\|x\|_p = \left(\sum_i |x_i|^p \right)^{1/p}$. Veja que nós podemos pensar a norma do vetor $x$ como a distância entre o vetor $x$ e a origem. A norma euclidiana é o caso $p=2$.    
+
+Em particular, nós definimos a "norma sup" como o máximo do módulo do vetor e representamos por $\|x\|_{\infty}$:
+
+$$
+\|X\|_{\infty} = \max_{i=1,\ldots,n} |x_i|
+$$
+
+5. Nós vamos usar uma coisa chamado **desigualdade de Hölder**, que diz que se $p,q$ são tais que $\frac{1}{p} + \frac{1}{q} = 1$, então:
+
+$$
+|\left<x,y\right>| \leq \|x\|_p \|y\|_q
+$$
+Lembre que $\left<x,y \right>$ representa o produto interno. A Desigualdade de Hölder vale para $p = 1$ e $q = \infty$:
+
+$$
+| \left<x,y\right>| \leq \|x\|_1 \|y\|_{\infty}
+$$
+
+Um caso particular de Hölder é a Deisgualdade de Cauchy Schwartz:
+
+$$
+| \left<x,y \right>| \leq \|x\|_2 \|y\|_2
+$$
+
+Uma aplicação que vai ser útil de Cauchy Schwartz é a seguinte desigualdade de normas $\|x\|_1 \leq \sqrt{n} \|x\|_2$. Veja que $\|x\|_1 = \sum_i |x_i|$. Nós podemos representar o módulo como a multiplicação de $x_i$ pela função sinal de $x_i$:
+
+$$
+sinal(x_i) = \begin{cases}
+1 \text{ se } x_i \geq 0\\
+-1 \text{ se } x_i < 0
+\end{cases}
+$$
+
+Se $x_i$ é positivo, então $sinal(x_i)x_i = 1x_i = x_i$ e se $x_i$ é negativo, $sinal(x_i)x_i = -x_i$. Logo:
+
+$$
+\|x\|_1 = \left<sinal(x),x\right> \leq \|sinal(x)\|_2 \|x\|_2
+$$
+Onde $sinal(x)$ é só um vetor $(sinal(x_1),\ldots,sinal(x_n))$. Agora use a definição de $\|.\|_2$:
+
+$$
+\|sinal(x)\|_2 = \left(\sum_{i=1}^n (sinal(x_i))^2\right)^{1/2}
+$$
+
+Como o sinal é sempre 1 ou -1, então o quadrado é sempre 1 e nós temos:
+
+$$
+\|sinal(x)\|_2 = \left(\sum_{i=1}^n (sinal(x_i))^2\right)^{1/2} = \left(\sum_{i=1}^n 1\right)^{1/2} = (n)^{1/2}
+$$
+
+Obtendo exatamente o que queríamos!
+
+## A análise
+
+Sejam $y$ e $X$ os dados. Eu vou supor que os dados não são aleatórios e que o ruído $u$ é [subgaussiano](https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/) com parâmetro $\sigma$. Daqui por diante, nós representamos o estimador de Mínimos Quadrados por $\hat{\beta}$. Como o estimador de mínimos quadrados resolve um problema de minimização de $\sum_i (y_i - X\beta)^2$ (que eu volto a lembrar, nós representamos como $\|Y - X\beta\|_2^2$), então para qualquer outro vetor $\beta$:
+
+$$
+\frac{1}{n}\|Y - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|Y - X\beta\|_2^2
+$$
+
+Como isso é verdade para qualquer outro vetor $\beta$, isso também é verdade para o vetor $\beta_0$, de parâmetros verdadeiros:
+
+$$
+\frac{1}{n}\|Y - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|Y - X\beta_0\|_2^2
+$$
+
+Nós sabemos que $Y = X\beta_0 + u$. Vamos substituir isso no resultado acima:
+
+$$
+\frac{1}{n}\|X\beta_0 + u - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|X\beta_0 + u X\beta_0\|_2^2 \therefore
+\frac{1}{n}\|X(\beta_0 - \hat{\beta}) + u \|_2^2 \leq \frac{1}{n}\|u\|_2^2
+$$
+
+Hora de usar o ponto 1 da listinha acima no termo $\|X(\beta_0 - \hat{\beta}) + u\|_2^2$:
+
+$$
+\|X(\beta_0 - \hat{\beta}) + u\|_2^2 = (X(\beta_0 - \hat{\beta}) + u)^T(X(\beta_0 - \hat{\beta}) + u) = \\
+((\beta_0 - \hat{\beta})^TX^T + u^T)(X(\beta_0 - \hat{\beta}) + u) = (\beta_0 - \hat{\beta})^T X^T X(\beta_0 - \hat{\beta}) + (\beta_0 - \hat{\beta})^T X^T u + u^TX(\beta_0 - \hat{\beta}) + u^Tu = \\
+= \|X(\beta_0 - \hat{\beta})\|_2^2 + 2u^TX(\beta_0 - \hat{\beta}) + \|u\|_2^2
+$$
+
+Acredite em mim que $u^TX(\beta_0 - \hat{\beta}) = (\beta_0 - \hat{\beta})^TX^T u$. Então nós temos:
+
+$$
+\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{n}u^TX(\beta_0 - \hat{\beta}) + \frac{1}{n}\|u\|_2^2 \leq \frac{1}{n}\|u\|_2^2
+$$
+
+Nós podemos cancelar $\|u\|_2^2$ dos dois lados e obter:
+
+$$
+\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{n}u^T X(\beta_0 - \hat{\beta}) \leq 0 \therefore \\
+\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n}u^T X(\hat{\beta} - \beta_0)
+$$
+
+Agora, $u^TX(\hat{\beta} - \beta_0)$ é um escalar e nós podemos ver isso como o produto interno de $u$ e $X(\hat{\beta} - \beta_0)$.. Nós podemos usar Hölder:
+
+$$
+\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq |\left<u^TX,(\hat{\beta} - \beta_0)\right>| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
+$$
+
+Vamos sair pela tangente aqui para tratar de $\|u^TX\|_{\infty}$. Veja que isso é a norma de uma variável aleatória (já que $u$ é aleatório). Mas pelo ponto seis da listinha acima, e faça $X_i$ representar a iésima coluna de $X$:
+
+$$
+P\left(\max_i \frac{|u^Tx_i|}{n} > t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
+$$

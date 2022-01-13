@@ -1,6 +1,6 @@
 ---
 title: "Tratamento Sequencial I"
-date: '2022-01-06'
+date: '2022-01-13'
 author: Daniel Coutinho
 slug: tratamento-sequencial-i
 categories:
@@ -17,7 +17,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true      
 ---
 
 <script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
@@ -152,17 +151,17 @@ colMeans(output)</code></pre>
   return(output)
   
 }</code></pre>
-<p>A simulação, eu vou testar apenas 10 períodos de teste, 15 períodos de teste e 20 períodos de teste:</p>
-<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">input2 &lt;- replicate(1000,c(10,15,20),simplify = FALSE)
+<p>O código que faz a simulação, eu vou testar apenas 12 períodos de teste, 14 períodos de teste e 20 períodos de teste. É importante que o número de períodos de teste seja par para grantir que nós vamos ter o mesmo número de observações para cada tratamento. Eu vou fazer duas mil replicações:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">input2 &lt;- replicate(2000,c(12,14,20),simplify = FALSE)
 
 output &lt;- map(input2,simulacao_cutoff, prob0 = 0.5,prob1 = 0.7, N = 30)</code></pre>
-<p>O código a seguir só organiza a lista em um array com linhas, colunas e uma dimensão a mais e tira a média entre as 1000 simulações:</p>
+<p>O código a seguir só organiza a lista em um array com linhas, colunas e uma dimensão a mais e tira a média entre as 2000 simulações:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(abind)
 
 output &lt;- do.call(abind,list(output,along = 3))
 
 result &lt;- apply(output,c(1,2),mean)
-result &lt;- cbind(c("10","15","20"),result)
+result &lt;- cbind(c("12","14","20"),result)
 
 colnames(result) &lt;- c("n","Payoff","Proporção tratamento 1")
 
@@ -177,23 +176,23 @@ knitr::kable(result)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">10</td>
-<td align="left">19.035</td>
-<td align="left">0.759</td>
+<td align="left">12</td>
+<td align="left">19.1205</td>
+<td align="left">0.77</td>
 </tr>
 <tr class="even">
-<td align="left">15</td>
-<td align="left">18.525</td>
-<td align="left">0.675</td>
+<td align="left">14</td>
+<td align="left">19.0655</td>
+<td align="left">0.7875</td>
 </tr>
 <tr class="odd">
 <td align="left">20</td>
-<td align="left">18.682</td>
-<td align="left">0.837</td>
+<td align="left">18.8195</td>
+<td align="left">0.8385</td>
 </tr>
 </tbody>
 </table>
-<p>Esse resultado é bem interessante: note que o maior payoff, na média, é quando nós só gastamos 10 períodos explorando. Veja que a nossa taxa de escolher o tratamento com maior probabilidade é um pouco maior com 20 observações. Isso é totalmente natural, uma vez que a gente tem o dobro de observações. Mas isso também requer que a gente passe muito mais tempo jogando a alternativa ruim, o que reduz o payoff que a gente recebe.</p>
+<p>Esse resultado é bem interessante: note que o maior payoff, na média, é quando nós só gastamos 12 períodos explorando. Veja que a nossa taxa de escolher o tratamento com maior probabilidade é um pouco maior com 20 observações. Isso é totalmente natural, uma vez que a gente tem quase o dobro de observações. Mas isso também requer que a gente passe muito mais tempo jogando a alternativa ruim, o que reduz o payoff que a gente recebe.</p>
 <p>Veja que a gente não explorou muita a estrutura de ser capaz de de decidir parar arbitrariamente os testes. De fato, a gente fez basicamente o que um <em>Randomized Controlled Trial</em> faria.</p>
 <p>Uma regra simples que me ocorre que explora a possibilidade de parar a qualquer momento do tempo é a seguinte: alterne os tratamentos por <span class="math inline">\(t_1\)</span> períodos; de <span class="math inline">\(t_1\)</span> a <span class="math inline">\(t_2\)</span> continue alternando <strong>exceto</strong> se a diferença de probabilidades ultrapassar um limiar. Depois de <span class="math inline">\(t_2\)</span> <strong>ou</strong> de ultrapassar o limiar, jogue a estratégia com maior média.</p>
 <p>Vamos escrever a regra como uma função no R. Dessa vez a função retorna tanto a decisão (como a primeira posição no vetor), se nós estamos atualizando a média ou não, e se nós paramos antes da hora::</p>
@@ -297,15 +296,15 @@ knitr::kable(colMeans(output))</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">Payoff</td>
-<td align="right">19.391</td>
+<td align="right">19.306</td>
 </tr>
 <tr class="even">
 <td align="left">Proporção decisão 1</td>
-<td align="right">0.854</td>
+<td align="right">0.836</td>
 </tr>
 <tr class="odd">
 <td align="left">Proporção Early Stop</td>
-<td align="right">0.341</td>
+<td align="right">0.310</td>
 </tr>
 </tbody>
 </table>
@@ -322,7 +321,7 @@ knitr::kable(colMeans(output))</code></pre>
   
 }</code></pre>
 <p>A simulação em si. EU to mantendo tudo como nos problemas anteriores:</p>
-<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">input &lt;- replicate(1000,c(0.2,0.5,0.7),simplify = FALSE)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">input &lt;- replicate(2000,c(0.2,0.5,0.7),simplify = FALSE)
 output &lt;- map(input,simulacao_threshold,N = 30,prob0 = 0.5,prob1 = 0.7, t_1 = 10,t_2 = 15)
 
 output &lt;- do.call(abind,list(output,along = 3))
@@ -341,21 +340,21 @@ knitr::kable(result)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">0.2</td>
-<td align="right">19.407</td>
-<td align="right">0.820</td>
-<td align="right">0.832</td>
+<td align="right">19.2420</td>
+<td align="right">0.8205</td>
+<td align="right">0.8075</td>
 </tr>
 <tr class="even">
 <td align="left">0.5</td>
-<td align="right">19.330</td>
-<td align="right">0.848</td>
-<td align="right">0.317</td>
+<td align="right">19.3550</td>
+<td align="right">0.8525</td>
+<td align="right">0.3395</td>
 </tr>
 <tr class="odd">
 <td align="left">0.7</td>
-<td align="right">18.988</td>
-<td align="right">0.840</td>
-<td align="right">0.075</td>
+<td align="right">19.2185</td>
+<td align="right">0.8510</td>
+<td align="right">0.0710</td>
 </tr>
 </tbody>
 </table>

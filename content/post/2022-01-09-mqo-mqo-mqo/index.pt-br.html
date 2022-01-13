@@ -1,0 +1,172 @@
+---
+title: "MQO, MQO, MQO"
+date: '2022-01-09'
+author: Daniel Coutinho
+slug: mqo-mqo-mqo
+categories:
+  - Econometria
+  - Machine Learning
+tags:
+  - Mínimos Quadrados
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true      
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca.</p>
+<p>No post inteiro, eu vou utilizar o modelo linear <span class="math inline">\(y = X\beta + u\)</span>, onde <span class="math inline">\(u\)</span> é o erro aleatório, <span class="math inline">\(X\)</span> é o regressor e <span class="math inline">\(y\)</span> é o regressando. Às vezes <span class="math inline">\(X\)</span> vai ser um único regressando, às vezes <span class="math inline">\(X\)</span> vai ser uma matriz de variáveis. Eu terei <span class="math inline">\(n\)</span> observações e <span class="math inline">\(p\)</span> variáveis - então <span class="math inline">\(X\)</span> é a matriz <span class="math inline">\(n \times p\)</span>. Se você não quiser pensar em <span class="math inline">\(X^T\beta\)</span> como uma multiplicação de uma matriz e um vetor, você pode pensar como <span class="math inline">\(x_1 \beta_1 + \ldots x_p \beta_p\)</span>.</p>
+<div id="do-começo" class="section level1">
+<h1>Do começo</h1>
+<p>No curso de econometria I da graduação, a gente aprende que o estimador de mínimos quadrados para o caso univariado é:</p>
+<p><span class="math display">\[
+\hat{\beta}_{MQO} = \frac{\sum_{i=1}^n (y_i - \bar{y})(x_i - \bar{x})}{\sum_{i=1}^n (x_i - \bar{x})^2}
+\]</span></p>
+<p>Estabelecendo <span class="math inline">\(\bar{x}\)</span> como a média de <span class="math inline">\(x\)</span> e <span class="math inline">\(\bar{y}\)</span> como a média de y</p>
+</div>
+<div id="álgebra-linear-i" class="section level1">
+<h1>Álgebra linear I</h1>
+<p>A versão “de gente grande” do estimador de mínimos quadrados é:</p>
+<p><span class="math display">\[
+\hat{\beta}_{MQO} = (X^TX)^{-1}X^Ty
+\]</span></p>
+<p>Onde <span class="math inline">\(X\)</span> é uma matriz <span class="math inline">\(n \times p\)</span>, e o superescrito <span class="math inline">\(T\)</span> significa que estamos tomando a transposta da matriz <span class="math inline">\(X\)</span>. Isso é exatamente a mesma coisa que a versão acima, mas como agora tem mais de uma variável nós usamos matrizes. <span class="math inline">\(X^TX\)</span> é só a variância de <span class="math inline">\(X\)</span> e <span class="math inline">\(X^Ty\)</span> a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(y\)</span>.</p>
+<p>Para essa fórmula funcionar, <span class="math inline">\(X^TX\)</span> tem que ser inversível, e portanto tem que ter posto cheio. Nós usualmente pensamos isso como <span class="math inline">\(X\)</span> não pode ter duas variáveis que são funções afim uma da outra.</p>
+</div>
+<div id="a-origem" class="section level1">
+<h1>A origem</h1>
+<p>Existem várias maneiras de introduzir o estimador de mínimos quadrados. A primeira advém da condição de momentos <span class="math inline">\(E[u|X] = 0\)</span>, ou mais fraco, a covariância de <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span> é zero.</p>
+<p>Outra maneira é pensar no problema de minimização:</p>
+<p><span class="math display">\[
+\min_{\beta} \frac{1}{n}\sum_{i=1}^n (y_i - X_i^T \beta)^2
+\]</span></p>
+<p>Eu serei muito chique e vou usar a seguinte representação:</p>
+<p><span class="math display">\[
+\|Y - X\beta\|_2^2 = \sum_{i=1}^n (y_i - X_i^T\beta)^2
+\]</span></p>
+<p><strong>Não se desespere, é só uma representação</strong>. Eu poderia passar o resto do post escrevendo o somatório, mas isso é chatíssimo.</p>
+</div>
+<div id="ortogonalização" class="section level1">
+<h1>Ortogonalização</h1>
+<p>Ainda existe outra maneira de motivar mínimos quadrados: suponha que <span class="math inline">\(y\)</span> e <span class="math inline">\(x\)</span> são dois vetores no <span class="math inline">\(\R^n\)</span> e vamos usar <span class="math inline">\(\left&lt;x,y \right&gt;\)</span> como o produto interno (<span class="math inline">\(\left&lt;x,y\right&gt; = \sum_i x_i y_i\)</span>). Como nós podemos transformar <span class="math inline">\(y\)</span> de maneira que <span class="math inline">\(\left&lt;y - cx,x\right&gt; = 0\)</span>? Noutras palavras, nós queremos deixar os dois vetores ortogonais. EM <span class="math inline">\(\R^2\)</span>, isso significa formar um ângulo reto. De volta as contas:</p>
+<p><span class="math display">\[
+\left&lt; y - cx,x \right&gt; = 0 \therefore \sum_i (y_i -cx_i)x_i = \sum_i y_i x_i - c \sum_i x_i^2 = 0 \therefore\\
+\sum_i x_i y_i = c \sum_i x_i^2 \\
+c = \frac{\sum_i x_i y_i}{\sum_i x_i^2}
+\]</span></p>
+<p>Sob a hipótese de média zero para <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>, isso é exatamente a primeira expressão que escrevemos.</p>
+</div>
+<div id="ausência-de-viés" class="section level1">
+<h1>Ausência de viés</h1>
+<p>Com a hipótese de <span class="math inline">\(E[u|X] = 0\)</span>, o estimador de Mínimos Quadrados não tem viés. Isso é uma hipótese bem padrão e que todo mundo chama de exogenidade.</p>
+</div>
+<div id="analisando-mqo-de-uma-maneira-pouco-usual" class="section level1">
+<h1>Analisando MQO de uma maneira pouco usual</h1>
+<p>Eu vou analisar MQO de uma maneira que ninguém discute em curso de econometria nenhum, mas vai ser divertido e eu vou indicar a utilidade no fim do post. Pra isso, eu vou ter que construir uns blocos essenciais:</p>
+<div id="os-blocos" class="section level2">
+<h2>Os blocos</h2>
+<ol style="list-style-type: decimal">
+<li>O primeiro bloco é só uma definição de norma euclidiana:</li>
+</ol>
+<p><span class="math display">\[
+\|X\|_2^2 = X^TX = \sum_i x_i^2
+\]</span></p>
+<p>Nós vamos usar o formato de multiplicação de matriz (<span class="math inline">\(X^TX\)</span>) para facilitar as contas.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Nós vamos usar o seguinte resultado: se uma matriz é de rank cheio, então nenhum autovalor é zero</p></li>
+<li><p>Nós vamos usar um resultado mais forte. Seja <span class="math inline">\(\lambda_{\min}\)</span> o menor autovalor da matriz <span class="math inline">\(X^TX\)</span>. Então:</p></li>
+</ol>
+<p><span class="math display">\[
+\lambda_{\min} \leq \frac{\|Xv\|_2^2}{\|v\|_2^2}
+\]</span></p>
+<p>Este resultado já apareceu em um post sobre <a href="https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/">componentes principais</a></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Nós vamos trabalhar com normas Seja <span class="math inline">\(x \in \mathbb{R}^n\)</span>, então a norma <span class="math inline">\(p\)</span> é representada por <span class="math inline">\(\|x\|_ p\)</span> e <span class="math inline">\(\|x\|_p = \left(\sum_i |x_i|^p \right)^{1/p}\)</span>. Veja que nós podemos pensar a norma do vetor <span class="math inline">\(x\)</span> como a distância entre o vetor <span class="math inline">\(x\)</span> e a origem. A norma euclidiana é o caso <span class="math inline">\(p=2\)</span>.</li>
+</ol>
+<p>Em particular, nós definimos a “norma sup” como o máximo do módulo do vetor e representamos por <span class="math inline">\(\|x\|_{\infty}\)</span>:</p>
+<p><span class="math display">\[
+\|X\|_{\infty} = \max_{i=1,\ldots,n} |x_i|
+\]</span></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Nós vamos usar uma coisa chamado <strong>desigualdade de Hölder</strong>, que diz que se <span class="math inline">\(p,q\)</span> são tais que <span class="math inline">\(\frac{1}{p} + \frac{1}{q} = 1\)</span>, então:</li>
+</ol>
+<p><span class="math display">\[
+|\left&lt;x,y\right&gt;| \leq \|x\|_p \|y\|_q
+\]</span>
+Lembre que <span class="math inline">\(\left&lt;x,y \right&gt;\)</span> representa o produto interno. A Desigualdade de Hölder vale para <span class="math inline">\(p = 1\)</span> e <span class="math inline">\(q = \infty\)</span>:</p>
+<p><span class="math display">\[
+| \left&lt;x,y\right&gt;| \leq \|x\|_1 \|y\|_{\infty}
+\]</span></p>
+<p>Um caso particular de Hölder é a Deisgualdade de Cauchy Schwartz:</p>
+<p><span class="math display">\[
+| \left&lt;x,y \right&gt;| \leq \|x\|_2 \|y\|_2
+\]</span></p>
+<p>Uma aplicação que vai ser útil de Cauchy Schwartz é a seguinte desigualdade de normas <span class="math inline">\(\|x\|_1 \leq \sqrt{n} \|x\|_2\)</span>. Veja que <span class="math inline">\(\|x\|_1 = \sum_i |x_i|\)</span>. Nós podemos representar o módulo como a multiplicação de <span class="math inline">\(x_i\)</span> pela função sinal de <span class="math inline">\(x_i\)</span>:</p>
+<p><span class="math display">\[
+sinal(x_i) = \begin{cases}
+1 \text{ se } x_i \geq 0\\
+-1 \text{ se } x_i &lt; 0
+\end{cases}
+\]</span></p>
+<p>Se <span class="math inline">\(x_i\)</span> é positivo, então <span class="math inline">\(sinal(x_i)x_i = 1x_i = x_i\)</span> e se <span class="math inline">\(x_i\)</span> é negativo, <span class="math inline">\(sinal(x_i)x_i = -x_i\)</span>. Logo:</p>
+<p><span class="math display">\[
+\|x\|_1 = \left&lt;sinal(x),x\right&gt; \leq \|sinal(x)\|_2 \|x\|_2
+\]</span>
+Onde <span class="math inline">\(sinal(x)\)</span> é só um vetor <span class="math inline">\((sinal(x_1),\ldots,sinal(x_n))\)</span>. Agora use a definição de <span class="math inline">\(\|.\|_2\)</span>:</p>
+<p><span class="math display">\[
+\|sinal(x)\|_2 = \left(\sum_{i=1}^n (sinal(x_i))^2\right)^{1/2}
+\]</span></p>
+<p>Como o sinal é sempre 1 ou -1, então o quadrado é sempre 1 e nós temos:</p>
+<p><span class="math display">\[
+\|sinal(x)\|_2 = \left(\sum_{i=1}^n (sinal(x_i))^2\right)^{1/2} = \left(\sum_{i=1}^n 1\right)^{1/2} = (n)^{1/2}
+\]</span></p>
+<p>Obtendo exatamente o que queríamos!</p>
+</div>
+<div id="a-análise" class="section level2">
+<h2>A análise</h2>
+<p>Sejam <span class="math inline">\(y\)</span> e <span class="math inline">\(X\)</span> os dados. Eu vou supor que os dados não são aleatórios e que o ruído <span class="math inline">\(u\)</span> é <a href="https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/">subgaussiano</a> com parâmetro <span class="math inline">\(\sigma\)</span>. Daqui por diante, nós representamos o estimador de Mínimos Quadrados por <span class="math inline">\(\hat{\beta}\)</span>. Como o estimador de mínimos quadrados resolve um problema de minimização de <span class="math inline">\(\sum_i (y_i - X\beta)^2\)</span> (que eu volto a lembrar, nós representamos como <span class="math inline">\(\|Y - X\beta\|_2^2\)</span>), então para qualquer outro vetor <span class="math inline">\(\beta\)</span>:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|Y - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|Y - X\beta\|_2^2
+\]</span></p>
+<p>Como isso é verdade para qualquer outro vetor <span class="math inline">\(\beta\)</span>, isso também é verdade para o vetor <span class="math inline">\(\beta_0\)</span>, de parâmetros verdadeiros:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|Y - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|Y - X\beta_0\|_2^2
+\]</span></p>
+<p>Nós sabemos que <span class="math inline">\(Y = X\beta_0 + u\)</span>. Vamos substituir isso no resultado acima:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|X\beta_0 + u - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|X\beta_0 + u X\beta_0\|_2^2 \therefore
+\frac{1}{n}\|X(\beta_0 - \hat{\beta}) + u \|_2^2 \leq \frac{1}{n}\|u\|_2^2
+\]</span></p>
+<p>Hora de usar o ponto 1 da listinha acima no termo <span class="math inline">\(\|X(\beta_0 - \hat{\beta}) + u\|_2^2\)</span>:</p>
+<p><span class="math display">\[
+\|X(\beta_0 - \hat{\beta}) + u\|_2^2 = (X(\beta_0 - \hat{\beta}) + u)^T(X(\beta_0 - \hat{\beta}) + u) = \\
+((\beta_0 - \hat{\beta})^TX^T + u^T)(X(\beta_0 - \hat{\beta}) + u) = (\beta_0 - \hat{\beta})^T X^T X(\beta_0 - \hat{\beta}) + (\beta_0 - \hat{\beta})^T X^T u + u^TX(\beta_0 - \hat{\beta}) + u^Tu = \\
+= \|X(\beta_0 - \hat{\beta})\|_2^2 + 2u^TX(\beta_0 - \hat{\beta}) + \|u\|_2^2
+\]</span></p>
+<p>Acredite em mim que <span class="math inline">\(u^TX(\beta_0 - \hat{\beta}) = (\beta_0 - \hat{\beta})^TX^T u\)</span>. Então nós temos:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{n}u^TX(\beta_0 - \hat{\beta}) + \frac{1}{n}\|u\|_2^2 \leq \frac{1}{n}\|u\|_2^2
+\]</span></p>
+<p>Nós podemos cancelar <span class="math inline">\(\|u\|_2^2\)</span> dos dois lados e obter:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{n}u^T X(\beta_0 - \hat{\beta}) \leq 0 \therefore \\
+\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n}u^T X(\hat{\beta} - \beta_0)
+\]</span></p>
+<p>Agora, <span class="math inline">\(u^TX(\hat{\beta} - \beta_0)\)</span> é um escalar e nós podemos ver isso como o produto interno de <span class="math inline">\(u\)</span> e <span class="math inline">\(X(\hat{\beta} - \beta_0)\)</span>.. Nós podemos usar Hölder:</p>
+<p><span class="math display">\[
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq |\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt;| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
+\]</span></p>
+<p>Vamos sair pela tangente aqui para tratar de <span class="math inline">\(\|u^TX\|_{\infty}\)</span>. Veja que isso é a norma de uma variável aleatória (já que <span class="math inline">\(u\)</span> é aleatório). Mas pelo ponto seis da listinha acima, e faça <span class="math inline">\(X_i\)</span> representar a iésima coluna de <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[
+P\left(\max_i \frac{|u^Tx_i|}{n} &gt; t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
+\]</span></p>
+</div>
+</div>

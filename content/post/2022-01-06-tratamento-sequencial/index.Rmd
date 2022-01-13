@@ -1,6 +1,6 @@
 ---
 title: "Tratamento Sequencial I"
-date: '2022-01-06'
+date: '2022-01-13'
 author: Daniel Coutinho
 slug: tratamento-sequencial-i
 categories:
@@ -17,7 +17,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true      
 ---
 
 Neste post, eu vou fingir que eu sou um microeconomista aplicado ou um médico e a minha pergunta é se um dado tratamento - no sentido literal se você for um médico - é mais eficiente que o outro.
@@ -185,17 +184,17 @@ simulacao_cutoff <- function(N,prob0,prob1,cutoffs){
 
 ```
 
-A simulação, eu vou testar apenas 10 períodos de teste, 15 períodos de teste e 20 períodos de teste:
+O código que faz a simulação, eu vou testar apenas 12 períodos de teste, 14 períodos de teste e 20 períodos de teste. É importante que o número de períodos de teste seja par para grantir que nós vamos ter o mesmo número de observações para cada tratamento. Eu vou fazer duas mil replicações:
 
 ```{r}
 
-input2 <- replicate(1000,c(10,15,20),simplify = FALSE)
+input2 <- replicate(2000,c(12,14,20),simplify = FALSE)
 
 output <- map(input2,simulacao_cutoff, prob0 = 0.5,prob1 = 0.7, N = 30)
 
 ``` 
 
-O código a seguir só organiza a lista em um array com linhas, colunas e uma dimensão a mais e tira a média entre as 1000 simulações: 
+O código a seguir só organiza a lista em um array com linhas, colunas e uma dimensão a mais e tira a média entre as 2000 simulações: 
 
 ```{r}
 
@@ -204,7 +203,7 @@ library(abind)
 output <- do.call(abind,list(output,along = 3))
 
 result <- apply(output,c(1,2),mean)
-result <- cbind(c("10","15","20"),result)
+result <- cbind(c("12","14","20"),result)
 
 colnames(result) <- c("n","Payoff","Proporção tratamento 1")
 
@@ -212,7 +211,7 @@ knitr::kable(result)
 
 ```
 
-Esse resultado é bem interessante: note que o maior payoff, na média, é quando nós só gastamos 10 períodos explorando. Veja que a nossa taxa de escolher o tratamento com maior probabilidade é um pouco maior com 20 observações. Isso é totalmente natural, uma vez que a gente tem o dobro de observações. Mas isso também requer que a gente passe muito mais tempo jogando a alternativa ruim, o que reduz o payoff que a gente recebe. 
+Esse resultado é bem interessante: note que o maior payoff, na média, é quando nós só gastamos 12 períodos explorando. Veja que a nossa taxa de escolher o tratamento com maior probabilidade é um pouco maior com 20 observações. Isso é totalmente natural, uma vez que a gente tem quase o dobro de observações. Mas isso também requer que a gente passe muito mais tempo jogando a alternativa ruim, o que reduz o payoff que a gente recebe. 
 
 Veja que a gente não explorou muita a estrutura de ser capaz de de decidir parar arbitrariamente os testes. De fato, a gente fez basicamente o que um _Randomized Controlled Trial_ faria. 
 
@@ -350,7 +349,7 @@ A simulação em si. EU to mantendo tudo como nos problemas anteriores:
 
 ```{r}
 
-input <- replicate(1000,c(0.2,0.5,0.7),simplify = FALSE)
+input <- replicate(2000,c(0.2,0.5,0.7),simplify = FALSE)
 output <- map(input,simulacao_threshold,N = 30,prob0 = 0.5,prob1 = 0.7, t_1 = 10,t_2 = 15)
 
 output <- do.call(abind,list(output,along = 3))
