@@ -4,6 +4,7 @@ date: '2022-01-09'
 author: Daniel Coutinho
 slug: mqo-mqo-mqo
 categories:
+  - Alta Dimensão
   - Econometria
   - Machine Learning
 tags:
@@ -95,13 +96,13 @@ Nós vamos usar o formato de multiplicação de matriz ($X^TX$) para facilitar a
 
 2. Nós vamos usar o seguinte resultado: se uma matriz é de rank cheio, então nenhum autovalor é zero
 
-3. Nós vamos usar um resultado mais forte. Seja $\lambda_{\min}$ o menor autovalor da matriz $X^TX$. Então:
+3. Nós vamos usar um resultado mais forte que 1. Seja $\lambda_{\min}$ o menor autovalor da matriz $\frac{X^TX}{n}$. Então:
 
 $$
-\lambda_{\min} \leq \frac{\|Xv\|_2^2}{\|v\|_2^2}
+\lambda_{\min} \leq \frac{\frac{1}{n}\|Xv\|_2^2}{\|v\|_2^2}
 $$
 
-Este resultado já apareceu em um post sobre [componentes principais](https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/)
+Para qualquer $v$. Este resultado já apareceu em um post sobre [componentes principais](https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/)
 
 4. Nós vamos trabalhar com normas Seja $x \in \mathbb{R}^n$, então a norma $p$ é representada por $\|x\|_ p$ e $\|x\|_p = \left(\sum_i |x_i|^p \right)^{1/p}$. Veja que nós podemos pensar a norma do vetor $x$ como a distância entre o vetor $x$ e a origem. A norma euclidiana é o caso $p=2$.    
 
@@ -195,10 +196,10 @@ Nós podemos cancelar $\|u\|_2^2$ dos dois lados e obter:
 
 $$
 \frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{n}u^T X(\beta_0 - \hat{\beta}) \leq 0 \therefore \\
-\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n}u^T X(\hat{\beta} - \beta_0)
+\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n}u^T X(\hat{\beta} - \beta_0) \tag{1}
 $$
 
-Agora, $u^TX(\hat{\beta} - \beta_0)$ é um escalar e nós podemos ver isso como o produto interno de $u$ e $X(\hat{\beta} - \beta_0)$.. Nós podemos usar Hölder:
+Agora, $u^TX(\hat{\beta} - \beta_0)$ é um escalar e nós podemos ver isso como o produto interno de $u$ e $X(\hat{\beta} - \beta_0)$. Nós podemos usar Hölder:
 
 $$
 \left<u^TX,(\hat{\beta} - \beta_0)\right> \leq |\left<u^TX,(\hat{\beta} - \beta_0)\right>| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
@@ -207,5 +208,118 @@ $$
 Vamos sair pela tangente aqui para tratar de $\|u^TX\|_{\infty}$. Veja que isso é a norma de uma variável aleatória (já que $u$ é aleatório). Mas pelo ponto seis da listinha acima, e faça $X_i$ representar a iésima coluna de $X$:
 
 $$
-P\left(\max_i \frac{|u^Tx_i|}{n} > t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} > t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
 $$
+
+Eu assumi que a variância da coluna é 1 (ou seja, nós normalizamos a coluna, como a maioria dos pacotes de machine learning faz). Para $t = \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}$, nós temos:
+
+$$
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} > t\right) \leq p\exp \left(-\frac{2\sigma^2/n(\log(p) + \delta)}{2\sigma^2/n}\right) = p\exp \left(-\log(p) - \delta\right) = \exp(-\delta)
+$$
+
+Com alta probabilidade, $\sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}$ é maior que o máximo. Vamos substituir esse valor na nossa cota: 
+
+$$
+\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq |\left<u^TX,(\hat{\beta} - \beta_0)\right>| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1 \\
+\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1
+$$
+
+Lembra que eu argumentei que $\|x\|_1 \leq \sqrt{n}\|x\|_2$ (isso foi o ponto 5)? Vamos usar isso agora com $\|\hat{\beta} - \beta_0\|_1$:
+
+$$
+\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1 \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\sqrt{n}\|\hat{\beta} - \beta_0\|_2
+$$
+
+Vamos jogar isso de volta na equação 1:
+
+$$
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_2
+$$
+
+Multiplique e divida o lado direito por $\|\hat{\beta} - \beta_0\|_2$:
+
+$$
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\frac{\|\hat{\beta} - \beta_0\|_2^2}{\|\hat{\beta} - \beta_0\|_2}
+$$
+
+Reorganizando:
+
+$$
+\frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+$$
+
+Uma boa hora para usar o nosso resultado 3, sobre o autovalor da matriz:
+
+$$
+\lambda_{\min} \leq \frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq \frac{2\sigma}{n}\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+$$
+
+Reorganizando a expressão acima:
+
+$$
+\|\hat{\beta} - \beta_0\|_2 \leq \frac{2\sigma}{n\lambda_{\min}}\sqrt{2(\log(p) + \delta)}
+$$
+
+Isso é bem legal, porque nos diz váriass coisas:
+
+1. Conforme $n$ cresce, a diferença entre a estimativa de MQO e o vetor verdadeiro cai para zero. Isso é consistência.
+2. Quanto mais variáveis nós temos, pior a nossa vida em termos de consistência. Mas veja que o termo em cima piora com a **raiz quadrada de log de p**. Isso é extremamente benevolente, como o gráfico abaixo mostra:
+
+```{r}
+
+library(ggplot2)
+library(latex2exp)
+
+p <- 1:100
+y <- sqrt(log(p))
+
+df <- data.frame(p = p,y = y)
+
+ggplot(df,aes(p,y)) + geom_line() + theme_light() + labs(x = "p", y = TeX("$\\sqrt{\\log(p)}$"))
+
+
+```
+
+Veja que a nossa demonstração não permite $p > n$ porque isso implicaria em um (menor) autovalor zero, o que faria a cota ser infinito.
+
+3. Sobre o autovalor: veja que se $X$ for uma matriz de variáveis descorrelacionadas, então o menor autovalor de $X^TX$ é a menor variância. Já pro caso de variáveis correlacionadas a coisa complica, mas considere três variáveis com a matriz de variância covariância `S1` que eu vou contruir abaixo:
+
+```{r}
+
+library(Matrix)
+
+S1 <- rbind(c(1,0.6,0.4),c(0.6,1,0.5),c(0,0,1))
+S1 <- forceSymmetric(S1)
+
+print(S1)
+
+```
+
+A maior correlação é entre as variáveis 1 e 2, e é de $0.6$ (veja que como as variâncias são todas 1, covariância = correlação)
+
+```{r}
+ 
+eigen(S1)
+
+```
+
+O menor autovalor é $0.3$. Agora eu vou mudar a covariância entre as variáveis 1 e 3 para 0.9:
+
+```{r}
+
+library(Matrix)
+
+S2 <- rbind(c(1,0.6,0.9),c(0.6,1,0.5),c(0,0,1))
+S2 <- forceSymmetric(S2)
+eigen(S2)
+
+```
+
+O pior autovalor agora é $0.09$. Isso parece sugerir que os nossos vetores vão ser mais viesados se as variáveis forem mais correlacionados - a multicolinearidade que aprendemos em econometria I. 
+
+## Pra que todo esse trabalho?
+
+Talvez esse post soe meio gratuito. Eu peguei um estimador com solução fechada e precisei introduzir uma cacetada de novos elementos matemáticos e desigualdades. O que eu ganhei com isso?
+
+1. Veja que, apesar de eu ter assumido que $X$ é constante, eu na verdade posso fazer todas as contas sem a hipótese de ortogonalidade entre $X$ e $u$. Eu tive que braçalmente cotar a covariância entre $X$ e $u$. 
+2. Mais importante: eu posso repetir todas essas contas para métodos regularizados. Isso adiciona algumas hipóteses extras, mas as contas seguem literalmente as mesmas etapas, com a complicação adicional que em ambos os lados precisa aparecer a regularização. Noutras palavras, eu posso obter cotas não assintóticas para a estimação do LASSO, por exemplo. 

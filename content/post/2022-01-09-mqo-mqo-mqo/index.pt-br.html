@@ -4,6 +4,7 @@ date: '2022-01-09'
 author: Daniel Coutinho
 slug: mqo-mqo-mqo
 categories:
+  - Alta Dimensão
   - Econometria
   - Machine Learning
 tags:
@@ -82,12 +83,12 @@ c = \frac{\sum_i x_i y_i}{\sum_i x_i^2}
 <p>Nós vamos usar o formato de multiplicação de matriz (<span class="math inline">\(X^TX\)</span>) para facilitar as contas.</p>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Nós vamos usar o seguinte resultado: se uma matriz é de rank cheio, então nenhum autovalor é zero</p></li>
-<li><p>Nós vamos usar um resultado mais forte. Seja <span class="math inline">\(\lambda_{\min}\)</span> o menor autovalor da matriz <span class="math inline">\(X^TX\)</span>. Então:</p></li>
+<li><p>Nós vamos usar um resultado mais forte que 1. Seja <span class="math inline">\(\lambda_{\min}\)</span> o menor autovalor da matriz <span class="math inline">\(\frac{X^TX}{n}\)</span>. Então:</p></li>
 </ol>
 <p><span class="math display">\[
-\lambda_{\min} \leq \frac{\|Xv\|_2^2}{\|v\|_2^2}
+\lambda_{\min} \leq \frac{\frac{1}{n}\|Xv\|_2^2}{\|v\|_2^2}
 \]</span></p>
-<p>Este resultado já apareceu em um post sobre <a href="https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/">componentes principais</a></p>
+<p>Para qualquer <span class="math inline">\(v\)</span>. Este resultado já apareceu em um post sobre <a href="https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/">componentes principais</a></p>
 <ol start="4" style="list-style-type: decimal">
 <li>Nós vamos trabalhar com normas Seja <span class="math inline">\(x \in \mathbb{R}^n\)</span>, então a norma <span class="math inline">\(p\)</span> é representada por <span class="math inline">\(\|x\|_ p\)</span> e <span class="math inline">\(\|x\|_p = \left(\sum_i |x_i|^p \right)^{1/p}\)</span>. Veja que nós podemos pensar a norma do vetor <span class="math inline">\(x\)</span> como a distância entre o vetor <span class="math inline">\(x\)</span> e a origem. A norma euclidiana é o caso <span class="math inline">\(p=2\)</span>.</li>
 </ol>
@@ -158,15 +159,113 @@ Onde <span class="math inline">\(sinal(x)\)</span> é só um vetor <span class="
 <p>Nós podemos cancelar <span class="math inline">\(\|u\|_2^2\)</span> dos dois lados e obter:</p>
 <p><span class="math display">\[
 \frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{n}u^T X(\beta_0 - \hat{\beta}) \leq 0 \therefore \\
-\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n}u^T X(\hat{\beta} - \beta_0)
+\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n}u^T X(\hat{\beta} - \beta_0) \tag{1}
 \]</span></p>
-<p>Agora, <span class="math inline">\(u^TX(\hat{\beta} - \beta_0)\)</span> é um escalar e nós podemos ver isso como o produto interno de <span class="math inline">\(u\)</span> e <span class="math inline">\(X(\hat{\beta} - \beta_0)\)</span>.. Nós podemos usar Hölder:</p>
+<p>Agora, <span class="math inline">\(u^TX(\hat{\beta} - \beta_0)\)</span> é um escalar e nós podemos ver isso como o produto interno de <span class="math inline">\(u\)</span> e <span class="math inline">\(X(\hat{\beta} - \beta_0)\)</span>. Nós podemos usar Hölder:</p>
 <p><span class="math display">\[
 \left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq |\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt;| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
 \]</span></p>
 <p>Vamos sair pela tangente aqui para tratar de <span class="math inline">\(\|u^TX\|_{\infty}\)</span>. Veja que isso é a norma de uma variável aleatória (já que <span class="math inline">\(u\)</span> é aleatório). Mas pelo ponto seis da listinha acima, e faça <span class="math inline">\(X_i\)</span> representar a iésima coluna de <span class="math inline">\(X\)</span>:</p>
 <p><span class="math display">\[
-P\left(\max_i \frac{|u^Tx_i|}{n} &gt; t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} &gt; t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
 \]</span></p>
+<p>Eu assumi que a variância da coluna é 1 (ou seja, nós normalizamos a coluna, como a maioria dos pacotes de machine learning faz). Para <span class="math inline">\(t = \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\)</span>, nós temos:</p>
+<p><span class="math display">\[
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} &gt; t\right) \leq p\exp \left(-\frac{2\sigma^2/n(\log(p) + \delta)}{2\sigma^2/n}\right) = p\exp \left(-\log(p) - \delta\right) = \exp(-\delta)
+\]</span></p>
+<p>Com alta probabilidade, <span class="math inline">\(\sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\)</span> é maior que o máximo. Vamos substituir esse valor na nossa cota:</p>
+<p><span class="math display">\[
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq |\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt;| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1 \\
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1
+\]</span></p>
+<p>Lembra que eu argumentei que <span class="math inline">\(\|x\|_1 \leq \sqrt{n}\|x\|_2\)</span> (isso foi o ponto 5)? Vamos usar isso agora com <span class="math inline">\(\|\hat{\beta} - \beta_0\|_1\)</span>:</p>
+<p><span class="math display">\[
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1 \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\sqrt{n}\|\hat{\beta} - \beta_0\|_2
+\]</span></p>
+<p>Vamos jogar isso de volta na equação 1:</p>
+<p><span class="math display">\[
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_2
+\]</span></p>
+<p>Multiplique e divida o lado direito por <span class="math inline">\(\|\hat{\beta} - \beta_0\|_2\)</span>:</p>
+<p><span class="math display">\[
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\frac{\|\hat{\beta} - \beta_0\|_2^2}{\|\hat{\beta} - \beta_0\|_2}
+\]</span></p>
+<p>Reorganizando:</p>
+<p><span class="math display">\[
+\frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+\]</span></p>
+<p>Uma boa hora para usar o nosso resultado 3, sobre o autovalor da matriz:</p>
+<p><span class="math display">\[
+\lambda_{\min} \leq \frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq \frac{2\sigma}{n}\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+\]</span></p>
+<p>Reorganizando a expressão acima:</p>
+<p><span class="math display">\[
+\|\hat{\beta} - \beta_0\|_2 \leq \frac{2\sigma}{n\lambda_{\min}}\sqrt{2(\log(p) + \delta)}
+\]</span></p>
+<p>Isso é bem legal, porque nos diz váriass coisas:</p>
+<ol style="list-style-type: decimal">
+<li>Conforme <span class="math inline">\(n\)</span> cresce, a diferença entre a estimativa de MQO e o vetor verdadeiro cai para zero. Isso é consistência.</li>
+<li>Quanto mais variáveis nós temos, pior a nossa vida em termos de consistência. Mas veja que o termo em cima piora com a <strong>raiz quadrada de log de p</strong>. Isso é extremamente benevolente, como o gráfico abaixo mostra:</li>
+</ol>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(ggplot2)
+library(latex2exp)
+
+p &lt;- 1:100
+y &lt;- sqrt(log(p))
+
+df &lt;- data.frame(p = p,y = y)
+
+ggplot(df,aes(p,y)) + geom_line() + theme_light() + labs(x = "p", y = TeX("$\\sqrt{\\log(p)}$"))</code></pre>
+<p><img src="/post/2022-01-09-mqo-mqo-mqo/index.pt-br_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Veja que a nossa demonstração não permite <span class="math inline">\(p &gt; n\)</span> porque isso implicaria em um (menor) autovalor zero, o que faria a cota ser infinito.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Sobre o autovalor: veja que se <span class="math inline">\(X\)</span> for uma matriz de variáveis descorrelacionadas, então o menor autovalor de <span class="math inline">\(X^TX\)</span> é a menor variância. Já pro caso de variáveis correlacionadas a coisa complica, mas considere três variáveis com a matriz de variância covariância <code>S1</code> que eu vou contruir abaixo:</li>
+</ol>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(Matrix)
+
+S1 &lt;- rbind(c(1,0.6,0.4),c(0.6,1,0.5),c(0,0,1))
+S1 &lt;- forceSymmetric(S1)
+
+print(S1)</code></pre>
+<pre ><code >## 3 x 3 Matrix of class "dsyMatrix"
+##      [,1] [,2] [,3]
+## [1,]  1.0  0.6  0.4
+## [2,]  0.6  1.0  0.5
+## [3,]  0.4  0.5  1.0</code></pre>
+<p>A maior correlação é entre as variáveis 1 e 2, e é de <span class="math inline">\(0.6\)</span> (veja que como as variâncias são todas 1, covariância = correlação)</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">eigen(S1)</code></pre>
+<pre ><code >## eigen() decomposition
+## $values
+## [1] 2.0044575 0.6130916 0.3824508
+## 
+## $vectors
+##            [,1]       [,2]       [,3]
+## [1,] -0.5799029 -0.5590696  0.5925823
+## [2,] -0.6133243 -0.1791721 -0.7692403
+## [3,] -0.5362331  0.8095298  0.2389886</code></pre>
+<p>O menor autovalor é <span class="math inline">\(0.3\)</span>. Agora eu vou mudar a covariância entre as variáveis 1 e 3 para 0.9:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(Matrix)
+
+S2 &lt;- rbind(c(1,0.6,0.9),c(0.6,1,0.5),c(0,0,1))
+S2 &lt;- forceSymmetric(S2)
+eigen(S2)</code></pre>
+<pre ><code >## eigen() decomposition
+## $values
+## [1] 2.34916546 0.55954209 0.09129245
+## 
+## $vectors
+##            [,1]       [,2]       [,3]
+## [1,] -0.6233809  0.2585010  0.7379523
+## [2,] -0.5000153 -0.8573728 -0.1220516
+## [3,] -0.6011497  0.4450721 -0.6637242</code></pre>
+<p>O pior autovalor agora é <span class="math inline">\(0.09\)</span>. Isso parece sugerir que os nossos vetores vão ser mais viesados se as variáveis forem mais correlacionados - a multicolinearidade que aprendemos em econometria I.</p>
+</div>
+<div id="pra-que-todo-esse-trabalho" class="section level2">
+<h2>Pra que todo esse trabalho?</h2>
+<p>Talvez esse post soe meio gratuito. Eu peguei um estimador com solução fechada e precisei introduzir uma cacetada de novos elementos matemáticos e desigualdades. O que eu ganhei com isso?</p>
+<ol style="list-style-type: decimal">
+<li>Veja que, apesar de eu ter assumido que <span class="math inline">\(X\)</span> é constante, eu na verdade posso fazer todas as contas sem a hipótese de ortogonalidade entre <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span>. Eu tive que braçalmente cotar a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span>.</li>
+<li>Mais importante: eu posso repetir todas essas contas para métodos regularizados. Isso adiciona algumas hipóteses extras, mas as contas seguem literalmente as mesmas etapas, com a complicação adicional que em ambos os lados precisa aparecer a regularização. Noutras palavras, eu posso obter cotas não assintóticas para a estimação do LASSO, por exemplo.</li>
+</ol>
 </div>
 </div>

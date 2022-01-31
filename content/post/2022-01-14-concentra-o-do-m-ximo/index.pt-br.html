@@ -1,0 +1,103 @@
+---
+title: Concentração do Máximo
+author: Daniel Coutinho
+date: '2022-01-31'
+slug: index.pt-br
+categories:
+  - Alta Dimensão
+  - Econometria
+  - Matemática
+tags:
+  - Econometria
+  - Concentração de Medida
+  - Curtas
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Este post é uma continuação do post sobre <a href="/2020/11/21/concentração-de-medida/">concentração de medida</a>, e vai ser necessário para um post futuro.</p>
+<p>Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:</p>
+<p><span class="math display">\[
+P(|X| &gt; t) \leq e^{-\frac{t^2}{2\sigma^2}}
+\]</span></p>
+<p>Agora suponha que você tem uma <em>coleção</em> de variáveis aleatórias, todas subgaussianas e <em>não</em> necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t.</p>
+<p>Se você precisa de uma motivação pra isso, eu ofereço duas:</p>
+<ol style="list-style-type: decimal">
+<li>Nós frequentemente trabalhamos com estimadores que minimizam ou maximizam alguma função: <em>mínimos</em> quadrados, <em>máxima</em> verossimelhança. É natural que estes estimadores dependam do máximo de uma variável aleatória</li>
+<li>Se você está trabalhando com algum processo aleatório, muitas vezes o máximo pode ser mortal: qual é o máximo que um ativo pode perder se a distribuição dos retornos é subgaussiana, por exemplo?</li>
+</ol>
+<p>O próximo post vai ilustrar uma aplicação dessas desigualdades no caso 1. Para o problema em mãos, nós queremos:</p>
+<p><span class="math display">\[
+P\left(\max_{i=1,\ldots,n} |X| &gt; t\right) \leq \text{?}
+\]</span></p>
+<p>A primeira observação é que se o máximo de uma coleção é maior que <span class="math inline">\(t\)</span>, então pelo menos um dos elementos da coleção é maior que <span class="math inline">\(t\)</span> (duhhh). Logo, o problema <span class="math inline">\(\max_{i=1,\ldots,n} |X| &gt; t\)</span> é equivalente ao problema “pelo menos um dos <span class="math inline">\(|X_i|\)</span> é maior que t”. A gente vai escrever isso como <span class="math inline">\(\bigcup_{i=1,\ldots,n} |X_i| &gt; t\)</span>.</p>
+<p>Qual a vantagem disso? Bom, a seguinte desigualdade vale:</p>
+<p><span class="math display">\[
+P\left(\bigcup_{i=1,\ldots,n} |X_i| &gt; t\right) \leq \sum_{i=1}^n P(|X_i| &gt; t)
+\]</span></p>
+<p>Eu não vou dar uma prova extremamente formal: se <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> são dijuntos - se <span class="math inline">\(A\)</span> acontece, então <span class="math inline">\(B\)</span> nunca acontece - então <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>. Isso pode ser estendido pra qualquer união finita de conjuntos. Suponha o caso mais geral, em que <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> não são dijuntos. Eu posso escrever:</p>
+<p><span class="math display">\[
+A \cup B = (A\cap B^c) \cup (A^c \cap B) \cup (A \cap B)
+\]</span></p>
+<p>O superescrito <span class="math inline">\(c\)</span> significa o evento complementar. Pelo resto do post, <span class="math inline">\(AB\)</span> vai representar <span class="math inline">\(A \cap B\)</span>. Veja que <span class="math inline">\(A \cap B^c\)</span> é dijunto de <span class="math inline">\(A^c \cap B\)</span> e os dois são dijuntos de <span class="math inline">\(A \cap B\)</span>. Logo, eu escrevi a união de dois conjuntos como a união de dijuntos. Então:</p>
+<p><span class="math display">\[
+P(A \cup B) = P(AB^c) + P(A^cB) + P(AB)
+\]</span></p>
+<p>Agora, nós podemos escrever <span class="math inline">\(A = AB^c \cup AB\)</span> (A é a união de A interseção B e A interseção não B). Usando o único resultado que nós temos sobre probabilidade:</p>
+<p><span class="math display">\[
+P(A) = P(AB) + P(AB^c) \therefore P(AB^c) = P(A) - P(AB)
+\]</span></p>
+<p>Eu posso fazer a mesma coisa com <span class="math inline">\(P(B)\)</span>, e nós temos:</p>
+<p><span class="math display">\[
+P(A \cup B) = P(AB^c) + P(A^cB) + P(AB) = P(A) - P(AB) + P(B) - P(AB) + P(AB) = P(A) + P(B) - P(AB)
+\]</span></p>
+<p>Agora, probabilidades são sempre não negativas, então:</p>
+<p><span class="math display">\[
+P(A \cup B) = P(A) + P(B) - P(AB) \leq P(A) + P(B)
+\]</span></p>
+<p>A nossa desigualdade é só é uma generalização para mais dois eventos.</p>
+<p>De volta ao fio da meada, suponha que nós temos uma coleção <span class="math inline">\(x_1,\ldots,x_n\)</span> de variáveis subgaussianas, todas com parâmetro <span class="math inline">\(\sigma\)</span>. Usando o meu argumento:</p>
+<p><span class="math display">\[
+P\left(\max_{j=1,\ldots,n} |X_j| &gt; t\right) = P\left(\bigcup_{j=1}^n |X_j| &gt; t\right) \leq \sum_{j=1}^n P(|X_j| &gt; t)
+\]</span></p>
+<p>Agora, use a cota para uma variável subgaussiana:</p>
+<p><span class="math display">\[
+P\left(\max_{j=1,\ldots,n} |X_j| &gt; t\right) = P\left(\bigcup_{j=1}^n |X_j| &gt; t\right) \leq \sum_{j=1}^n P(|X_j| &gt; t) \leq \sum_{j=1}^ne^{-\frac{t^2}{2\sigma^2}} = ne^{-\frac{t^2}{2\sigma^2}}
+\]</span></p>
+<p>Vamos deixar isso mais bonitinho: Faça <span class="math inline">\(t = \sigma(\sqrt{2\log(n)} + \delta)\)</span>. Então:</p>
+<p><span class="math display">\[
+t^2 = \sigma^2(\sqrt{2\log(n)} + \delta)^2
+\]</span></p>
+<p>Se <span class="math inline">\(a,b &gt; 0\)</span>, então <span class="math inline">\((a+b)^2 \geq a^2 + b^2\)</span>. Considere os termos de t: <span class="math inline">\(\sqrt{2\log(n)}\)</span> é positivo e <span class="math inline">\(\delta\)</span> é sempre positivo, então:</p>
+<p><span class="math display">\[
+t^2 = \sigma^2(\sqrt{2\log(n)} + \delta)^2 \geq \sigma^2(2\log(n) + \delta^2)
+\]</span></p>
+<p>Multiplicando por <span class="math inline">\(-1\)</span> a gente inverte a desigualdade, logo:</p>
+<p><span class="math display">\[
+P \left(\max_{j=1,\ldots,n} |X_j| &gt; \sigma(\sqrt{2\log(n)} + \delta) \right) \leq n\exp \left(-\frac{\delta^2}{2} - \frac{2\log(n)}{2}\right) = e^{-\frac{\delta^2}{2}}
+\]</span></p>
+<p>Na última igualdade, eu usei que <span class="math inline">\(e^{-\log(n)} = \frac{1}{n}\)</span></p>
+<p>O que essas contas todas dizem? Primeiro, mesmo se todas as variáveis tem média zero, o máximo delas não vai estar centrado em zero: a gente ganhou um termo <span class="math inline">\(\sigma\sqrt{2\log(n)}\)</span>. Esse termo é <em>extremamente benevolente</em>: ele cresce a raiz quadrada do log de n. Isso é bastante lento, como a figura abaixo mostra:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(ggplot2)
+library(latex2exp)
+library(tidyr)
+
+n &lt;- 1:50
+y &lt;- sqrt(log(n))
+
+df &lt;- data.frame(n = n,y = y, id = n)
+df &lt;- pivot_longer(df,cols = c(y,id))
+
+ggplot(df,aes(n,value,color = name)) + geom_abline() + geom_line()  + theme_light() + labs(x = "n", y = "", color = "") + scale_color_discrete(labels = c(id = expression(f(x)==x),y = expression(sqrt(log(n))))) </code></pre>
+<p><img src="/post/2022-01-14-concentra-o-do-m-ximo/index.pt-br_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>A segunda observação é que as chances do valor do máximo ser muito maior que <span class="math inline">\(\sigma\sqrt{2\log(n)}\)</span> é muito baixo: a cauda cai com a exponencial do quadrado, ou seja, a mesma velocidade da gaussiana.</p>
+<p>Este post é estupidamente abstrato, mas ele vai ser necessário para um post no futuro que é um pouco menos abstrato.</p>
