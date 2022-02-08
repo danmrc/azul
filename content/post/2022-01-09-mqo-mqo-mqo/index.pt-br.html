@@ -1,6 +1,6 @@
 ---
 title: "MQO, MQO, MQO"
-date: '2022-01-09'
+date: '2022-02-08'
 author: Daniel Coutinho
 slug: mqo-mqo-mqo
 categories:
@@ -17,7 +17,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true      
 ---
 
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
@@ -57,7 +56,7 @@ draft: true
 </div>
 <div id="ortogonalização" class="section level1">
 <h1>Ortogonalização</h1>
-<p>Ainda existe outra maneira de motivar mínimos quadrados: suponha que <span class="math inline">\(y\)</span> e <span class="math inline">\(x\)</span> são dois vetores no <span class="math inline">\(\R^n\)</span> e vamos usar <span class="math inline">\(\left&lt;x,y \right&gt;\)</span> como o produto interno (<span class="math inline">\(\left&lt;x,y\right&gt; = \sum_i x_i y_i\)</span>). Como nós podemos transformar <span class="math inline">\(y\)</span> de maneira que <span class="math inline">\(\left&lt;y - cx,x\right&gt; = 0\)</span>? Noutras palavras, nós queremos deixar os dois vetores ortogonais. EM <span class="math inline">\(\R^2\)</span>, isso significa formar um ângulo reto. De volta as contas:</p>
+<p>Ainda existe outra maneira de motivar mínimos quadrados: suponha que <span class="math inline">\(y\)</span> e <span class="math inline">\(x\)</span> são dois vetores no <span class="math inline">\(\R^n\)</span> e vamos usar <span class="math inline">\(\left&lt;x,y \right&gt;\)</span> como o produto interno (<span class="math inline">\(\left&lt;x,y\right&gt; = \sum_i x_i y_i\)</span>). Como nós podemos transformar <span class="math inline">\(y\)</span> de maneira que <span class="math inline">\(\left&lt;y - cx,x\right&gt; = 0\)</span>? Noutras palavras, nós queremos deixar os dois vetores ortogonais. Em <span class="math inline">\(\R^2\)</span>, isso significa formar um ângulo reto. De volta as contas:</p>
 <p><span class="math display">\[
 \left&lt; y - cx,x \right&gt; = 0 \therefore \sum_i (y_i -cx_i)x_i = \sum_i y_i x_i - c \sum_i x_i^2 = 0 \therefore\\
 \sum_i x_i y_i = c \sum_i x_i^2 \\
@@ -82,8 +81,8 @@ c = \frac{\sum_i x_i y_i}{\sum_i x_i^2}
 \]</span></p>
 <p>Nós vamos usar o formato de multiplicação de matriz (<span class="math inline">\(X^TX\)</span>) para facilitar as contas.</p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Nós vamos usar o seguinte resultado: se uma matriz é de rank cheio, então nenhum autovalor é zero</p></li>
-<li><p>Nós vamos usar um resultado mais forte que 1. Seja <span class="math inline">\(\lambda_{\min}\)</span> o menor autovalor da matriz <span class="math inline">\(\frac{X^TX}{n}\)</span>. Então:</p></li>
+<li><p>Nós vamos usar o seguinte resultado: se uma matriz é de posto cheio, então nenhum autovalor é zero</p></li>
+<li><p>Seja <span class="math inline">\(\lambda_{\min}\)</span> o menor autovalor da matriz <span class="math inline">\(\frac{X^TX}{n}\)</span>. Então:</p></li>
 </ol>
 <p><span class="math display">\[
 \lambda_{\min} \leq \frac{\frac{1}{n}\|Xv\|_2^2}{\|v\|_2^2}
@@ -97,7 +96,7 @@ c = \frac{\sum_i x_i y_i}{\sum_i x_i^2}
 \|X\|_{\infty} = \max_{i=1,\ldots,n} |x_i|
 \]</span></p>
 <ol start="5" style="list-style-type: decimal">
-<li>Nós vamos usar uma coisa chamado <strong>desigualdade de Hölder</strong>, que diz que se <span class="math inline">\(p,q\)</span> são tais que <span class="math inline">\(\frac{1}{p} + \frac{1}{q} = 1\)</span>, então:</li>
+<li>Nós vamos usar a <strong>desigualdade de Hölder</strong>, que diz que se <span class="math inline">\(p,q\)</span> são tais que <span class="math inline">\(\frac{1}{p} + \frac{1}{q} = 1\)</span>, então:</li>
 </ol>
 <p><span class="math display">\[
 |\left&lt;x,y\right&gt;| \leq \|x\|_p \|y\|_q
@@ -106,7 +105,7 @@ Lembre que <span class="math inline">\(\left&lt;x,y \right&gt;\)</span> represen
 <p><span class="math display">\[
 | \left&lt;x,y\right&gt;| \leq \|x\|_1 \|y\|_{\infty}
 \]</span></p>
-<p>Um caso particular de Hölder é a Deisgualdade de Cauchy Schwartz:</p>
+<p>Um caso particular de Hölder é a Desigualdade de Cauchy Schwartz:</p>
 <p><span class="math display">\[
 | \left&lt;x,y \right&gt;| \leq \|x\|_2 \|y\|_2
 \]</span></p>
@@ -130,6 +129,9 @@ Onde <span class="math inline">\(sinal(x)\)</span> é só um vetor <span class="
 \|sinal(x)\|_2 = \left(\sum_{i=1}^n (sinal(x_i))^2\right)^{1/2} = \left(\sum_{i=1}^n 1\right)^{1/2} = (n)^{1/2}
 \]</span></p>
 <p>Obtendo exatamente o que queríamos!</p>
+<ol start="6" style="list-style-type: decimal">
+<li><a href="/2022/01/31/concentracao-do-maximo/">Este post aqui</a></li>
+</ol>
 </div>
 <div id="a-análise" class="section level2">
 <h2>A análise</h2>
@@ -163,46 +165,46 @@ Onde <span class="math inline">\(sinal(x)\)</span> é só um vetor <span class="
 \]</span></p>
 <p>Agora, <span class="math inline">\(u^TX(\hat{\beta} - \beta_0)\)</span> é um escalar e nós podemos ver isso como o produto interno de <span class="math inline">\(u\)</span> e <span class="math inline">\(X(\hat{\beta} - \beta_0)\)</span>. Nós podemos usar Hölder:</p>
 <p><span class="math display">\[
-\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq |\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt;| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
+\frac{1}{n}\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \frac{1}{n}|\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt;| \frac{1}{n} \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
 \]</span></p>
 <p>Vamos sair pela tangente aqui para tratar de <span class="math inline">\(\|u^TX\|_{\infty}\)</span>. Veja que isso é a norma de uma variável aleatória (já que <span class="math inline">\(u\)</span> é aleatório). Mas pelo ponto seis da listinha acima, e faça <span class="math inline">\(X_i\)</span> representar a iésima coluna de <span class="math inline">\(X\)</span>:</p>
 <p><span class="math display">\[
-P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} &gt; t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} &gt; t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n^2}\right)
 \]</span></p>
-<p>Eu assumi que a variância da coluna é 1 (ou seja, nós normalizamos a coluna, como a maioria dos pacotes de machine learning faz). Para <span class="math inline">\(t = \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\)</span>, nós temos:</p>
+<p>Eu assumi que a variância da coluna é 1 (ou seja, nós normalizamos a coluna, como a maioria dos pacotes de machine learning faz). Para <span class="math inline">\(t = \frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}\)</span>, nós temos:</p>
 <p><span class="math display">\[
-P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} &gt; t\right) \leq p\exp \left(-\frac{2\sigma^2/n(\log(p) + \delta)}{2\sigma^2/n}\right) = p\exp \left(-\log(p) - \delta\right) = \exp(-\delta)
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} &gt; t\right) \leq p\exp \left(-\frac{2\sigma^2/n^2(\log(p) + \delta)}{2\sigma^2/n^2}\right) = p\exp \left(-\log(p) - \delta\right) = \exp(-\delta)
 \]</span></p>
-<p>Com alta probabilidade, <span class="math inline">\(\sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\)</span> é maior que o máximo. Vamos substituir esse valor na nossa cota:</p>
+<p>Com alta probabilidade, <span class="math inline">\(\frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}\)</span> é maior que o máximo. Vamos substituir esse valor na nossa cota:</p>
 <p><span class="math display">\[
 \left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq |\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt;| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1 \\
-\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_1
 \]</span></p>
 <p>Lembra que eu argumentei que <span class="math inline">\(\|x\|_1 \leq \sqrt{n}\|x\|_2\)</span> (isso foi o ponto 5)? Vamos usar isso agora com <span class="math inline">\(\|\hat{\beta} - \beta_0\|_1\)</span>:</p>
 <p><span class="math display">\[
-\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1 \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\sqrt{n}\|\hat{\beta} - \beta_0\|_2
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_1 \leq \frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}\sqrt{n}\|\hat{\beta} - \beta_0\|_2
 \]</span></p>
 <p>Vamos jogar isso de volta na equação 1:</p>
 <p><span class="math display">\[
-\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_2
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq 2 \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_2
 \]</span></p>
 <p>Multiplique e divida o lado direito por <span class="math inline">\(\|\hat{\beta} - \beta_0\|_2\)</span>:</p>
 <p><span class="math display">\[
-\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\frac{\|\hat{\beta} - \beta_0\|_2^2}{\|\hat{\beta} - \beta_0\|_2}
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq 2 \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\frac{\|\hat{\beta} - \beta_0\|_2^2}{\|\hat{\beta} - \beta_0\|_2}
 \]</span></p>
 <p>Reorganizando:</p>
 <p><span class="math display">\[
-\frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq \frac{2}{n} \sigma\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+\frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq 2 \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
 \]</span></p>
 <p>Uma boa hora para usar o nosso resultado 3, sobre o autovalor da matriz:</p>
 <p><span class="math display">\[
-\lambda_{\min} \leq \frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq \frac{2\sigma}{n}\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+\lambda_{\min} \leq \frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq 2\sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
 \]</span></p>
 <p>Reorganizando a expressão acima:</p>
 <p><span class="math display">\[
-\|\hat{\beta} - \beta_0\|_2 \leq \frac{2\sigma}{n\lambda_{\min}}\sqrt{2(\log(p) + \delta)}
+\|\hat{\beta} - \beta_0\|_2 \leq \frac{2\sigma}{\lambda_{\min}}\sqrt{\frac{2(\log(p) + \delta)}{n}}
 \]</span></p>
-<p>Isso é bem legal, porque nos diz váriass coisas:</p>
+<p>Isso é bem legal, porque nos diz várias coisas:</p>
 <ol style="list-style-type: decimal">
 <li>Conforme <span class="math inline">\(n\)</span> cresce, a diferença entre a estimativa de MQO e o vetor verdadeiro cai para zero. Isso é consistência.</li>
 <li>Quanto mais variáveis nós temos, pior a nossa vida em termos de consistência. Mas veja que o termo em cima piora com a <strong>raiz quadrada de log de p</strong>. Isso é extremamente benevolente, como o gráfico abaixo mostra:</li>
@@ -219,7 +221,7 @@ ggplot(df,aes(p,y)) + geom_line() + theme_light() + labs(x = "p", y = TeX("$\\sq
 <p><img src="/post/2022-01-09-mqo-mqo-mqo/index.pt-br_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Veja que a nossa demonstração não permite <span class="math inline">\(p &gt; n\)</span> porque isso implicaria em um (menor) autovalor zero, o que faria a cota ser infinito.</p>
 <ol start="3" style="list-style-type: decimal">
-<li>Sobre o autovalor: veja que se <span class="math inline">\(X\)</span> for uma matriz de variáveis descorrelacionadas, então o menor autovalor de <span class="math inline">\(X^TX\)</span> é a menor variância. Já pro caso de variáveis correlacionadas a coisa complica, mas considere três variáveis com a matriz de variância covariância <code>S1</code> que eu vou contruir abaixo:</li>
+<li>Sobre o autovalor: veja que se <span class="math inline">\(X\)</span> for uma matriz de variáveis descorrelacionadas, então o menor autovalor de <span class="math inline">\(X^TX\)</span> é a menor variância das variáveis do lado direito da equação. Já pro caso de variáveis correlacionadas a coisa complica, mas considere três variáveis com a matriz de variância covariância <code>S1</code> que eu vou contruir abaixo:</li>
 </ol>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(Matrix)
 
@@ -262,10 +264,10 @@ eigen(S2)</code></pre>
 </div>
 <div id="pra-que-todo-esse-trabalho" class="section level2">
 <h2>Pra que todo esse trabalho?</h2>
-<p>Talvez esse post soe meio gratuito. Eu peguei um estimador com solução fechada e precisei introduzir uma cacetada de novos elementos matemáticos e desigualdades. O que eu ganhei com isso?</p>
+<p>Talvez esse post soe meio gratuito. Eu peguei um estimador com solução fechada e precisei introduzir uma enorme quantidade de novos elementos matemáticos e desigualdades. O que eu ganhei com isso?</p>
 <ol style="list-style-type: decimal">
-<li>Veja que, apesar de eu ter assumido que <span class="math inline">\(X\)</span> é constante, eu na verdade posso fazer todas as contas sem a hipótese de ortogonalidade entre <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span>. Eu tive que braçalmente cotar a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span>.</li>
-<li>Mais importante: eu posso repetir todas essas contas para métodos regularizados. Isso adiciona algumas hipóteses extras, mas as contas seguem literalmente as mesmas etapas, com a complicação adicional que em ambos os lados precisa aparecer a regularização. Noutras palavras, eu posso obter cotas não assintóticas para a estimação do LASSO, por exemplo.</li>
+<li>Veja que, apesar de eu ter assumido que <span class="math inline">\(X\)</span> é constante, eu na verdade posso fazer todas as contas com <span class="math inline">\(X\)</span> aleatório <strong>e</strong> sem a hipótese de ortogonalidade entre <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span>. Eu tive que braçalmente cotar a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span>.</li>
+<li>Mais importante: eu posso repetir todas essas contas para métodos regularizados. Isso adiciona algumas hipóteses extras, mas as contas seguem literalmente as mesmas etapas, com a complicação adicional que precisa aparecer a regularização. Noutras palavras, eu posso obter cotas não assintóticas para a estimação do LASSO ou adaLASSO, por exemplo.</li>
 </ol>
 </div>
 </div>
