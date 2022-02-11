@@ -326,3 +326,7 @@ Talvez esse post soe meio gratuito. Eu peguei um estimador com solução fechada
 
 1. Veja que, apesar de eu ter assumido que $X$ é constante, eu na verdade posso fazer todas as contas com $X$ aleatório **e** sem a hipótese de ortogonalidade entre $X$ e $u$. Eu tive que braçalmente cotar a covariância entre $X$ e $u$. 
 2. Mais importante: eu posso repetir todas essas contas para métodos regularizados. Isso adiciona algumas hipóteses extras, mas as contas seguem literalmente as mesmas etapas, com a complicação adicional que precisa aparecer a regularização. Noutras palavras, eu posso obter cotas não assintóticas para a estimação do LASSO ou adaLASSO, por exemplo. 
+
+---
+
+_PS.:_ Eu me dei conta que eu não consigo separar o que eu pensei sozinho e o quanto [essas notas de aula](https://ocw.mit.edu/courses/mathematics/18-s997-high-dimensional-statistics-spring-2015/lecture-notes/) me influenciaram. 
