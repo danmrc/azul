@@ -1,0 +1,27 @@
+---
+title: Entropia de Código e um pouco de Programação Funcional
+author: Pedro Cavalcante
+date: '2022-06-22'
+slug: entropia-function-factories
+categories:
+  - Programação
+images: []
+authors: ["pedrocava"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+bibliography: [references.bib]
+link-citations: true
+---
+
+Como sempre, estou falando alto. Não me leve muito a sério.
+
+> *TLDR:* Código tem entropia. Fábricas de Funções comem entropia no café da manhã.
+
+# Entropia de Texto
+
+Tem um teorema bonito em @shannon1948mathematical que vou apresentar sem o caldo e do jeito que eu entendo. Um passo interessante de se dar um dia, mas não agora, é provar com o [linguajar Lebesgue-teórico](https://ncatlab.org/nlab/show/entropy). Entropia tem [generalizações bem curiosas](https://youtu.be/10cVVHKCRWw?t=206), mas vou me ater ao caso de entropia em texto 
+
