@@ -19,6 +19,8 @@ output:
       ]
 ---
 
+_Atualização em junho/2022: Tinha um erro em um dos passos da última seção. Devidamente corrigido. Ele altera algumas conclusões, mas o espírito do post se mantém_
+
 Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca. 
 
 No post inteiro, eu vou utilizar o modelo linear $y = X\beta + u$, onde $u$ é o erro aleatório, $X$ é o regressor e $y$ é o regressando. Às vezes $X$ vai ser um único regressando, às vezes $X$ vai ser uma matriz de variáveis. Eu terei $n$ observações e $p$ variáveis - então $X$ é a matriz $n \times p$. Se você não quiser pensar em $X^T\beta$ como uma multiplicação de uma matriz e um vetor, você pode pensar como $x_1 \beta_1 + \ldots x_p \beta_p$. 
@@ -172,6 +174,12 @@ $$
 \frac{1}{n}\|Y - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|Y - X\beta_0\|_2^2
 $$
 
+Mudança boba de notação, lembre que $\|.\|_2^2$ é só uma soma de quadrados:
+
+$$
+\left\|\frac{Y - X\hat{\beta}}{\sqrt{n}}\right\|_2^2 \leq \left\|\frac{Y - X\beta_0}{\sqrt{n}}\right\|_2^2
+$$
+
 Nós sabemos que $Y = X\beta_0 + u$. Vamos substituir isso no resultado acima:
 
 $$
@@ -190,81 +198,81 @@ $$
 Acredite em mim que $u^TX(\beta_0 - \hat{\beta}) = (\beta_0 - \hat{\beta})^TX^T u$. Então nós temos:
 
 $$
-\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{n}u^TX(\beta_0 - \hat{\beta}) + \frac{1}{n}\|u\|_2^2 \leq \frac{1}{n}\|u\|_2^2
+\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{\sqrt{n}}u^TX(\beta_0 - \hat{\beta}) + \frac{1}{n}\|u\|_2^2 \leq \frac{1}{n}\|u\|_2^2
 $$
 
 Nós podemos cancelar $\|u\|_2^2$ dos dois lados e obter:
 
 $$
-\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{n}u^T X(\beta_0 - \hat{\beta}) \leq 0 \therefore \\
-\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{n}u^T X(\hat{\beta} - \beta_0) \tag{1}
+\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{\sqrt{n}}u^T X(\beta_0 - \hat{\beta}) \leq 0 \therefore \\
+\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{\sqrt{n}}u^T X(\hat{\beta} - \beta_0) \tag{1}
 $$
 
 Agora, $u^TX(\hat{\beta} - \beta_0)$ é um escalar e nós podemos ver isso como o produto interno de $u$ e $X(\hat{\beta} - \beta_0)$. Nós podemos usar Hölder:
 
 $$
-\frac{1}{n}\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq \frac{1}{n}|\left<u^TX,(\hat{\beta} - \beta_0)\right>| \frac{1}{n} \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
+\frac{1}{\sqrt{n}}\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq \frac{1}{\sqrt{n}}|\left<u^TX,(\hat{\beta} - \beta_0)\right>|  \leq \frac{1}{\sqrt{n}}\|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
 $$
 
 Vamos sair pela tangente aqui para tratar de $\|u^TX\|_{\infty}$. Veja que isso é a norma de uma variável aleatória (já que $u$ é aleatório). Mas pelo ponto seis da listinha acima, e faça $X_i$ representar a iésima coluna de $X$:
 
 $$
-P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} > t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n^2}\right)
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{\sqrt{n}} > t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
 $$
 
-Eu assumi que a variância da coluna é 1 (ou seja, nós normalizamos a coluna, como a maioria dos pacotes de machine learning faz). Para $t = \frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}$, nós temos:
+Eu assumi que a variância da coluna é 1 (ou seja, nós normalizamos a coluna, como a maioria dos pacotes de machine learning faz). Para $t = \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}$, nós temos:
 
 $$
-P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{n} > t\right) \leq p\exp \left(-\frac{2\sigma^2/n^2(\log(p) + \delta)}{2\sigma^2/n^2}\right) = p\exp \left(-\log(p) - \delta\right) = \exp(-\delta)
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{\sqrt{n}} > t\right) \leq p\exp \left(-\frac{2\sigma^2/n(\log(p) + \delta)}{2\sigma^2/n}\right) = p\exp \left(-\log(p) - \delta\right) = \exp(-\delta)
 $$
 
-Com alta probabilidade, $\frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}$ é maior que o máximo. Vamos substituir esse valor na nossa cota: 
+Com alta probabilidade, $\sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}$ é maior que o máximo. Vamos substituir esse valor na nossa cota: 
 
 $$
 \left<u^TX,(\hat{\beta} - \beta_0)\right> \leq |\left<u^TX,(\hat{\beta} - \beta_0)\right>| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1 \\
-\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq \frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_1
+\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1
 $$
 
 Lembra que eu argumentei que $\|x\|_1 \leq \sqrt{n}\|x\|_2$ (isso foi o ponto 5)? Vamos usar isso agora com $\|\hat{\beta} - \beta_0\|_1$:
 
 $$
-\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq \frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_1 \leq \frac{\sigma}{n}\sqrt{2(\log(p) + \delta)}\sqrt{n}\|\hat{\beta} - \beta_0\|_2
+\left<u^TX,(\hat{\beta} - \beta_0)\right> \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1 \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\sqrt{p}\|\hat{\beta} - \beta_0\|_2
 $$
 
 Vamos jogar isso de volta na equação 1:
 
 $$
-\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq 2 \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_2
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq 2\sqrt{\frac{p}{n}} \sigma\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_2
 $$
 
 Multiplique e divida o lado direito por $\|\hat{\beta} - \beta_0\|_2$:
 
 $$
-\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq 2 \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\frac{\|\hat{\beta} - \beta_0\|_2^2}{\|\hat{\beta} - \beta_0\|_2}
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq 2\sqrt{\frac{p}{n}} \sigma\sqrt{2(\log(p) + \delta)}\frac{\|\hat{\beta} - \beta_0\|_2^2}{\|\hat{\beta} - \beta_0\|_2}
 $$
 
 Reorganizando:
 
 $$
-\frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq 2 \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+\frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq 2\sqrt{\frac{p}{n}} \sigma\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
 $$
 
 Uma boa hora para usar o nosso resultado 3, sobre o autovalor da matriz:
 
 $$
-\lambda_{\min} \leq \frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq 2\sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+\lambda_{\min} \leq \frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq 2\sqrt{\frac{p}{n}}\sigma\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
 $$
 
 Reorganizando a expressão acima:
 
 $$
-\|\hat{\beta} - \beta_0\|_2 \leq \frac{2\sigma}{\lambda_{\min}}\sqrt{\frac{2(\log(p) + \delta)}{n}}
+\|\hat{\beta} - \beta_0\|_2 \leq \frac{2\sigma}{\lambda_{\min}}\sqrt{\frac{p}{n}}\sqrt{2(\log(p) + \delta)}
 $$
 
 Isso é bem legal, porque nos diz várias coisas:
 
 1. Conforme $n$ cresce, a diferença entre a estimativa de MQO e o vetor verdadeiro cai para zero. Isso é consistência.
-2. Quanto mais variáveis nós temos, pior a nossa vida em termos de consistência. Mas veja que o termo em cima piora com a **raiz quadrada de log de p**. Isso é extremamente benevolente, como o gráfico abaixo mostra:
+2. ~~Quanto mais variáveis nós temos, pior a nossa vida em termos de consistência. Mas veja que o termo em cima piora com a **raiz quadrada de log de p**. Isso é extremamente benevolente, como o gráfico abaixo mostra:~~
 
 ```{r}
 
@@ -281,7 +289,9 @@ ggplot(df,aes(p,y)) + geom_line() + theme_light() + labs(x = "p", y = TeX("$\\sq
 
 ```
 
-Veja que a nossa demonstração não permite $p > n$ porque isso implicaria em um (menor) autovalor zero, o que faria a cota ser infinito.
+~~Veja que a nossa demonstração não permite $p > n$ porque isso implicaria em um (menor) autovalor zero, o que faria a cota ser infinito.~~
+
+Corrigido o erro, fica claro que se $p/n$ for constante, a cota _piora_ com o aumento da dimensão.
 
 3. Sobre o autovalor: veja que se $X$ for uma matriz de variáveis descorrelacionadas, então o menor autovalor de $X^TX$ é a menor variância das variáveis do lado direito da equação. Já pro caso de variáveis correlacionadas a coisa complica, mas considere três variáveis com a matriz de variância covariância `S1` que eu vou contruir abaixo:
 
@@ -318,8 +328,6 @@ eigen(S2)
 
 O pior autovalor agora é $0.09$. Isso parece sugerir que os nossos vetores vão ser mais viesados se as variáveis forem mais correlacionados - a multicolinearidade que aprendemos em econometria I. 
 
-
-
 ## Pra que todo esse trabalho?
 
 Talvez esse post soe meio gratuito. Eu peguei um estimador com solução fechada e precisei introduzir uma enorme quantidade de novos elementos matemáticos e desigualdades. O que eu ganhei com isso?
@@ -329,4 +337,4 @@ Talvez esse post soe meio gratuito. Eu peguei um estimador com solução fechada
 
 ---
 
-_PS.:_ Eu me dei conta que eu não consigo separar o que eu pensei sozinho e o quanto [essas notas de aula](https://ocw.mit.edu/courses/mathematics/18-s997-high-dimensional-statistics-spring-2015/lecture-notes/) me influenciaram. 
+_PS.:_ Eu me dei conta que eu não consigo separar o que eu pensei sozinho e o quanto [essas notas de aula](https://ocw.mit.edu/courses/mathematics/18-s997-high-dimensional-statistics-spring-2015/lecture-notes/) me influenciaram.
