@@ -1,0 +1,18 @@
+---
+title: A Tragédia na Nostalgia
+author: Pedro Cavalcante
+date: '2021-010-22'
+slug: 
+categories:
+  - Handwavy
+images: []
+authors: ["pedrocava"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+*TL;DR:* Nossos referenciais políticos são conceitos legados de um passado com problemas diferentes. As experiências históricas de práticas do nosso receituário não são as fontes de respostas.
