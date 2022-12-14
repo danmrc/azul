@@ -5,6 +5,9 @@ date: '2022-12-14'
 slug: first-class-deliverables
 categories:
   - Handwavy
+tags:
+  - Engenharia de Software
+  - Handwavy
 images: []
 authors: ["pedrocava"]
 output:
@@ -14,10 +17,6 @@ output:
       "--lua-filter=../script_number_and_braces.lua"
       ]
 ---
-
-```{R setup, message = FALSE, warning = FALSE}
-
-```
 
 Data Science em um ambiente de negócios é, em última instância, produzir software e seus entregáveis darão meia volta para te morder na bunda caso esqueça. É apenas um fato incortável do seu ecossistema profissional e o quanto antes fizer as pazes com isso, melhor.
 
