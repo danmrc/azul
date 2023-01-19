@@ -1,6 +1,6 @@
 ---
-title: Todos os Entregáveis Devem Ser de Primeira-Classe
-author: Pedro Cavalcante
+title: 'Todos os Entregáveis Devem Ser de Primeira-Classe'
+author: 'Pedro Cavalcante'
 date: '2022-12-14'
 slug: first-class-deliverables
 categories:
@@ -18,37 +18,39 @@ output:
       ]
 ---
 
-Data Science em um ambiente de negócios é, em última instância, produzir software e seus entregáveis darão meia volta para te morder na bunda caso esqueça. É apenas um fato incortável do seu ecossistema profissional e o quanto antes fizer as pazes com isso, melhor.
+Praticar _Data Science_ em uma organização é, em última instância, produzir software e seus entregáveis darão meia volta para te morder na bunda caso esqueça disso. Não existe maneira extensível de entregar valor sem abordar a empreitada como mais um projeto de software que habita uma certa região de um espaço de requerimentos possíveis. Isso não é um hot take, é algo como uma restrição *hard* desse ecossistema profissional.
 
-_Automatização_ é um gradiente e um script que precisa do seu precioso `ctrl + Enter` não está perto de qualquer extremo em particular. Uma regra de bolso razoável: se precisa dos seus dedinhos no teclado, tem algo obviamente automatizável na sua frente. Digo mais, o esforço gasto nisso se paga.
+Eu não tenho um ponto muito claro, apenas impressões coletadas ao longo de cerca de 4 aninhos nesta indústria vital. Muito vem de um cruzamento de informações, da experiência própria com a estranha consistência entre relatos de colegas, conhecidos e amigos em lugares (muito) diferentes uns dos outros. Nada do que eu criticar se aplica a você, leitor. Você é especial e fluente, incapaz de qualquer antipadrão. Suas escolhas envelhecem como vinho.
 
-"Automatizar", claro, não tem um significado limpo. Pode ser questão de agendar um cronjob no seu sistema, definir um evento no seu `EventWhatever` ou `CloudStuffo`, uma tarefa nova no seu framwork de gestão de workflow (aka. [`airflow`](https://airflow.apache.org/), [`prefect`](https://www.prefect.io/), [`dagster`](https://dagster.io/), etc...), implementar um endpoint novo na sua aplicação construída em cima de um FaaS. De qualquer jeito isso demanda horas humanas domando a máquina.
+# Isso está mesmo automatizado...?
 
-Não, o `databricks` não vai resolver isso para você:
+Não sei você, mas eu aprendi a esperar que a maioria das tarefas está "automatizada" quando existe um arquivo `fulaninho_data/projeto_x/rotina_aquela_mesmo_v5.ipynb`. Não porque me ensinaram, mas porque continuava acontecendo. Isso decorre principalmente da separação comum entre equipes de engenharia e de ciência de dados - que é [um assunto em si](https://flavioclesio.com/muros-dados). Surge a necessidade de equipes de cientistas de dados a costurem soluções ad hoc - por falta de recursos próprios e/ou capacidade de influenciar o roadmap de engenharia de dados.
 
-```{R echo = FALSE}
-tweetrmd::include_tweet(
-  "https://twitter.com/ryxcommar/status/1585099532886372352")
+_Automatização_ é um gradiente e um script que precisa do seu precioso `ctrl + Enter` não está perto de qualquer extremo em particular. É melhor que não ter um script, claro. "Automatizar" não tem um significado limpo. O Problema é que *uma coleção de scripts* tem custos de extensão e manutenção que crescem aceleradamente no número de responsabilidades assumidas pela equipe. Ter como unidade principal de raciocínio o script implica baixa abstração, baixa reproducibilidade (porque veja você, roda no computador do Ciclano) e - como vou argumentar mais à frente - impossibilita a sua representação. 
 
-```
+Em uma Hierarquia da Automação, bem no piso estaria fazer coisas num planilhão de excel. Não muito acima está manter uma coleção de scripts na sua linguagem com tooling para dados relacionais favoritas. Muitos andares acima está o grau de autonomia de um backend. Aplicações muito simples e que atendem números irrisórios de usuários podem ser vastamente mais "automáticas" que uma pilha inerte de arquivos. Para voltar ao primeiro parágrafo, você está fazendo software. Acho que isso passa desapercebido por muita gente.
 
-Esse tempo de engenharia pode ser encarado como _gasto de capital_. O _gasto operacional_ em algum ponto no futuro é uma variável aleatória e o que o CAPex de hoje faz é aumentar a média e diminuir a variância. Se for gasto nas coisas importantes, os efeitos são enormes. Esse take é totalmente baseado nas anedotas que escuto de conhecidos na indústria então tome com a seriedade que ele merece: esses efeitos são _vastamente_ subestimados.
+Sinceramente acredito que toda equipe motivada com n >= 3 pessoas consegue subir um pouco a Hierarquia de Automação e conceber o trabalho em torno de unidades maiores, _serviços_. Sistemas separados com responsabilidades bem-definidas e resultados que podem ser consumidos de maneiras diferentes por clientes diferentes. Ingerir várias fontes de dados e impor alguma padronização e qualidade de dados é uma tarefa grande o suficiente para merecer um serviço próprio. O mesmo vale para a construção de visões consolidadas que concatenam dados de tabelas diferentes, aplicam regras de negócio e entregam dados em um formato com semântica mais clara. Ou cálculo de métricas, _feature store_, servir modelos em produção, etc.
 
-É a única conclusão que consigar tirar do quão comum é o relato de que tem alguma(s) rotina(s) crítica(s) para entrega de valor de negócio que depende(m) de alguém manualmente rodar um script. Se isso acontece no seu navio pare e pense profundamente no jogo que está sendo jogado. O que acontece quando fulaninho tirar férias, ou pegar covid? O que acontece quando algum stakeholder pedir uma alteração importante e ainda poder comparar as duas versões por algum tempo? E quando é preciso fazer um exercício contrafactual? Demissão? Churn de funcionário totalmente esperado?
+Se **não** é assim na sua casa e várias dessas responsabilidades são dispersas em arquivos em disco, pare e pense profundamente no jogo que está sendo jogado. O que acontece quando alguém tirar férias, ou pegar covid? O que acontece quando algum stakeholder pedir uma alteração importante e quer poder comparar as duas versões por algum tempo? E quando é preciso fazer um exercício contrafactual? Demissão? Quanto código você está copiando e colando, não do stack overflow, mas de outros lugares na sua codebase?
+
+# Crie Representações
 
 Desculpe, vou cometer uma citação de [Wikipedia](https://en.wikipedia.org/wiki/First-class_citizen):
 
 > In programming language design, a first-class citizen (also type, object, entity, or value) in a given programming language is an entity which supports all the operations generally available to other entities. These operations typically include being passed as an argument, returned from a function, and assigned to a variable.
 
-Existe um mundo melhor, um mundo onde (quase) todo entregável *é um cidadão de primeira classe*. A computação de uma métrica (ou regra de negócio, gráfico, sumário, relatório, etc) deve, em geral, ser resultado de alguma _função_ que recebe argumentos pertinentes e retorna o resultado esperado. O código típico produzido no dia a dia deveria depender de ferramentas internas que criam um conjunto de convenções pertinentes _ao negócio_. Você deveria usar sua(s) lib(s) interna(s) tanto quanto usa o `dplyr` ou o `pandas`.
+A graça de _cidadania de primeira-classe_ é que ela implica _representação_. Um valor que pode ser representado também pode ser persistido em disco, serializado, enviado por meio de transporte arbitrário para outro sistema, comparado e testado como qualquer outro construto de primeira-classe da linguagem. Entre a linguagem como veio ao mundo e a execução do trabalho, pode existir toda uma camada de representações das entidades pertinentes à organização. Você deveria usar sua(s) lib(s) interna(s) tanto quanto usa o `dplyr` ou o `pandas`.
 
 Você já ouviu esse diálogo:
 
->  _Fulano, como que calcula se o usuário tá funblingado mesmo_?
+>  _Fulano, como que calcula se o usuário tá A mesmo? Preciso para fazer o A no caso em que B = C?_
 > 
 > _Não sei, mas o código tá em algum lugar do_ `pastamaior/pastamenor/pasta_qualquer_coisa/script32.py`
 
-O código para computar isso agora vai precisar ser compreendido para ser replicado em outro arquivo com algumas trocas. Quem copiou perdeu neurônios, não existe mais fonte de verdade na codebase, ninguém sabe o que testar e mesmo que saibam, não _tem_ como testar de maneira automática porque ninguém em sã consciência vai tentar testar uma aplicação usando o texto do código. Se o entregável for (i) retornado por alguma função, (ii) atribuível a um objeto e (iii) passado como argumento (_ie_ de primeira classe), então todas essas propriedades vêm de graça.
+O código para computar isso agora vai precisar ser compreendido para ser replicado em outro arquivo com algumas trocas. Quem copiou perdeu neurônios, não existe mais fonte de verdade na codebase (porque um homem com dois relógios nunca sabe as horas), ninguém sabe o que testar e mesmo que saibam, não _tem_ como testar de maneira automática porque ninguém em sã consciência vai tentar testar uma aplicação usando o texto do código. É sério, não tente isso em casa. Se o entregável for (i) retornado por alguma função, (ii) atribuível a um objeto e (iii) passado como argumento (_ie_ de primeira classe), então todas essas propriedades vêm de graça.
+
+# Criando Representações
 
 Em linguagens moderna de alto-nível como python ou R, se uma função retorna algo, então esse algo é de primeira classe e pode ser tratado de acordo. É de bom tom criar um _predicado_, uma função que retorna verdadeiro/falso, para testar se um objeto arbitrário representa uma certa entidade de negócio como uma métrica, gráfico ou relatório.
 
@@ -104,8 +106,6 @@ support_calls_impl <- function(window) {
 
 Na vida real você vai precisar de mais liberdade de parametrização, e usar algo como `kargs` (python) ou `...` (R). Você talvez queira alguma forma de validação (infelizmente vai ter que ser em tempo de execução) de que ninguém está pedindo uma métrica que não foi definida. Consegue ver como implementar nesse pequeno exemplo? Seria também interessante alguma forma de metadado no resultado para carimbar o resultado com qual entidade de negócio ele é.
 
-_Exercício Inútil_: como contornar a atribuição dentro da implementação de `compute_metric` usando [currying](https://stackoverflow.com/questions/36314/what-is-currying)?
+_Exercício Inútil_: como contornar a atribuição do objeto `metric_fn` dentro da implementação de `compute_metric` usando [currying](https://stackoverflow.com/questions/36314/what-is-currying)?
 
-Relatórios são uma exceção nítida aqui porque são... arquivos no disco. Dito isso, que tal tornar todos os gráficos usados no relatórios cidadãos de primeira classe? E que tal ter uma abstração para renderizar relatórios, algo como `firmalib::render_report("some_report")` que tem como efeito colaterável renderizar o relatório e retorna o endereço dele no disco? Com algumas convenções sobre onde esse relatório pode ser escrito e estrutura de pastas, pelo menos isso pode ser testado.
-
-Com essas ideias, um cronjob e um pouquinho de encanamento dá para cortar horas de trabalho mensal, dor de cabeça, ganhar em testabilidade e confiabilidade. Trate seus entregáveis com carinho.
+Relatórios são uma exceção nítida aqui porque são... arquivos no disco. Dito isso, que tal tornar todos os gráficos usados no relatórios cidadãos de primeira classe? E que tal ter uma abstração para renderizar relatórios, algo como `firmalib::render_report("some_report")` que tem como efeito colateral renderizar o relatório e retorna o endereço dele no disco?
