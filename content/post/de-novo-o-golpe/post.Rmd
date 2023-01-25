@@ -1,0 +1,39 @@
+---
+title: 'O Golpe '
+author: 'Pedro Cavalcante'
+date: '2023-'
+slug: first-class-deliverables
+categories:
+  - Handwavy
+tags:
+  - Política
+  - Handwavy
+images: []
+authors: ["pedrocava"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+# Alô, quem fala?
+
+> Em que eu falo no que consiste esse exercício mental. 
+
+# Não-argumentos
+
+> Em que eu listo não-argumentos "a favor" da visão que, em última instância, é a minha. 
+
+# Relaxamento Semântico
+
+> Em que eu falo um pouco sobre como brincar de semântica é ok I guess, mas nem tanto - SEM CITAR novilíngua
+
+# Racionalidade
+
+> Em que eu elaboro por que é _do interesse de uma coalizão de agentes_ emplacar a leitura do golpe e que aceitar isso acriticamente é preguiçoso
+
+
+
+
