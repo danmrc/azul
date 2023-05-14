@@ -1,0 +1,67 @@
+---
+title: O cérebro, os millenials e a disfunção executiva
+author: Pedro Cavalcante
+date: '2021-09-30'
+slug: millenial-brained
+categories:
+  - Handwavy
+images: []
+authors: 
+bibliography: bibliography.bib
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+Como um bom cidadão terminalmente online tudo que se passa na minha mente é uma reação ao que um estranho disse no twitter:
+
+```{r, echo = FALSE}
+tweetrmd::tweet_embed("https://twitter.com/angelussoares/status/1574371906094043137")
+
+tweetrmd::tweet_embed("https://twitter.com/angelussoares/status/1574376662363676674")
+```
+
+Existe um canto do consciente coletivo das ciências (sociais) que não me parece muito além de engenharia precoce. Memeplexos de [recortes teóricos obtusos](), que foram concebidos e são desenvolvidos para fundamentar um conjunto de recomendações que em algum nível são delegação de responsabilidade. Países pobres serem pobres porque não produzem uma certa classe de eletrônicos, por exemplo. Outra é qualquer ideia que comece com "meu cérebro faz isso" e termina com "como ele tem menos dopamina que um cérebro neurotípico então [_inserir justificativa para comportamento em questão_]".
+
+Esse tipo de raciocínio, a mim parece, funciona como uma espécie de racionalização do status quo. A consequência prática do que foi dito é que enquanto não invertarmos uma classe de remédios mirabolantes que consigam alterar de maneira persistente a sopa neuroquímica das nossas cabeças, a disfunção executiva é apenas um fato, dado como a cor do céu. Não estou convencido.
+
+Claro, me convencer não era a ideia do post original. Esse é um esforço genuíno de gente sofrendo com disfunção executiva para racionalizar o que se passa em termos de algo que é plausivelmente compreendido e eventualmente engenheirado, a neuroquímica. Bem, eu empatizo com isso, porque... se prepare para a surpresa... eu _também_ sofro de disfunção executiva. Então gostaria de apresentar uma ontologia que me parece um tanto mais explicativa.
+
+# Níveis de Marr
+
+Instanciar uma fantasma de carne autoconsciente, dotado de linguagem natural, gostos e poder causal é uma tarefa complicada e qualquer história sobre o que quer que permita o mistério de Ser e Estar Aqui precisa ter uma explicação _fullstack_. É preciso, simultaneamente, explicar quais são as funções que um sistema nervoso realiza, como elas viabilizam as capacidades de alto-nível que usamos a todo momento e também como isso é representado, computado e implementado no substrato biológico.
+
+@marr1979computational oferece uma maneira de quebrar nossas perguntas (e respostas) em caixinhas com isolamento de responsabilidades. Nesse framework, qualquer sistema de processamento de informação pode ser, a princípio, entendido em 3 níveis:
+
+* Funcional/Computacional: Quais são as tarefas que esse sistema realiza? Que tipo de comportamento é implementado, quais são seus modos de falha, quais são as origens evolutivas?
+
+* Algoritmico/Representacional: De que maneira essas funções são representadas, quais são os algoritmos usamos para que elas sejam computadas?
+
+* Implementação: Quais mecanismos físicos são recrutados para persistir a representação e executar os algoritmos em questão?
+
+Para tangibilizar isso um pouco, vamos imaginar um Large Language Model (LLM) treinado em um grande corpus de texto. Ela tem habilidades verbais de um jovem razoavelmente lido, um humor seco, referências literárias e passa em alguma versão fraca do teste de Turing (não que isso seja grandes coisas). Em um nível _funcional_, não existe uma maneira simples de distinguir o que essa rede neural faz do que um humano faz. Descendo um andar, aparecem as distinções. 
+
+As representações e algoritmos de uma rede neural são radicalmenete diferentes das representações e algoritmos que sistemas nervosos usam para funcionar. Isso não demanda mais explicações a menos é claro que você, leitor, tenha uma certa fé na analogia neurônio - Rede Neural. Se tiver, tudo bem, a ciência pop fez inúmeras vítimas.
+
+# Anilhamento
+
+# Disfunção, Autoreconhecimento, Modulação de Comportamento
+
+
+
+
+# Referências
+
+
+
+
+
+
+
+
+
+
+
