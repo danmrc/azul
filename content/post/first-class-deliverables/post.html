@@ -1,0 +1,94 @@
+---
+title: 'Todos os Entregáveis Devem Ser de Primeira-Classe'
+author: 'Pedro Cavalcante'
+date: '2022-12-14'
+slug: first-class-deliverables
+categories:
+  - Handwavy
+tags:
+  - Engenharia de Software
+  - Handwavy
+images: []
+authors: ["pedrocava"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+
+
+<p>Praticar <em>Data Science</em> em uma organização é, em última instância, produzir software e seus entregáveis darão meia volta para te morder na bunda caso esqueça disso. Não existe maneira extensível de entregar valor sem abordar a empreitada como mais um projeto de software que habita uma certa região de um espaço de requerimentos possíveis. Isso não é um hot take, é algo como uma restrição <em>hard</em> desse ecossistema profissional.</p>
+<p>Eu não tenho um ponto muito claro, apenas impressões coletadas ao longo de cerca de 4 aninhos nesta indústria vital. Muito vem de um cruzamento de informações, da experiência própria com a estranha consistência entre relatos de colegas, conhecidos e amigos em lugares (muito) diferentes uns dos outros. Nada do que eu criticar se aplica a você, leitor. Você é especial e fluente, incapaz de qualquer antipadrão. Suas escolhas envelhecem como vinho.</p>
+<div id="isso-está-mesmo-automatizado" class="section level1">
+<h1>Isso está mesmo automatizado…?</h1>
+<p>Não sei você, mas eu aprendi a esperar que a maioria das tarefas está “automatizada” quando existe um arquivo <code>fulaninho_data/projeto_x/rotina_aquela_mesmo_v5.ipynb</code>. Não porque me ensinaram, mas porque continuava acontecendo. Isso decorre principalmente da separação comum entre equipes de engenharia e de ciência de dados - que é <a href="https://flavioclesio.com/muros-dados">um assunto em si</a>. Surge a necessidade de equipes de cientistas de dados a costurem soluções ad hoc - por falta de recursos próprios e/ou capacidade de influenciar o roadmap de engenharia de dados.</p>
+<p><em>Automatização</em> é um gradiente e um script que precisa do seu precioso <code>ctrl + Enter</code> não está perto de qualquer extremo em particular. É melhor que não ter um script, claro. “Automatizar” não tem um significado limpo. O Problema é que <em>uma coleção de scripts</em> tem custos de extensão e manutenção que crescem aceleradamente no número de responsabilidades assumidas pela equipe. Ter como unidade principal de raciocínio o script implica baixa abstração, baixa reproducibilidade (porque veja você, roda no computador do Ciclano) e - como vou argumentar mais à frente - impossibilita a sua representação.</p>
+<p>Em uma Hierarquia da Automação, bem no piso estaria fazer coisas num planilhão de excel. Não muito acima está manter uma coleção de scripts na sua linguagem com tooling para dados relacionais favoritas. Muitos andares acima está o grau de autonomia de um backend. Aplicações muito simples e que atendem números irrisórios de usuários podem ser vastamente mais “automáticas” que uma pilha inerte de arquivos. Para voltar ao primeiro parágrafo, você está fazendo software. Acho que isso passa desapercebido por muita gente.</p>
+<p>Sinceramente acredito que toda equipe motivada com n &gt;= 3 pessoas consegue subir um pouco a Hierarquia de Automação e conceber o trabalho em torno de unidades maiores, <em>serviços</em>. Sistemas separados com responsabilidades bem-definidas e resultados que podem ser consumidos de maneiras diferentes por clientes diferentes. Ingerir várias fontes de dados e impor alguma padronização e qualidade de dados é uma tarefa grande o suficiente para merecer um serviço próprio. O mesmo vale para a construção de visões consolidadas que concatenam dados de tabelas diferentes, aplicam regras de negócio e entregam dados em um formato com semântica mais clara. Ou cálculo de métricas, <em>feature store</em>, servir modelos em produção, etc.</p>
+<p>Se <strong>não</strong> é assim na sua casa e várias dessas responsabilidades são dispersas em arquivos em disco, pare e pense profundamente no jogo que está sendo jogado. O que acontece quando alguém tirar férias, ou pegar covid? O que acontece quando algum stakeholder pedir uma alteração importante e quer poder comparar as duas versões por algum tempo? E quando é preciso fazer um exercício contrafactual? Demissão? Quanto código você está copiando e colando, não do stack overflow, mas de outros lugares na sua codebase?</p>
+</div>
+<div id="crie-representações" class="section level1">
+<h1>Crie Representações</h1>
+<p>Desculpe, vou cometer uma citação de <a href="https://en.wikipedia.org/wiki/First-class_citizen">Wikipedia</a>:</p>
+<blockquote>
+<p>In programming language design, a first-class citizen (also type, object, entity, or value) in a given programming language is an entity which supports all the operations generally available to other entities. These operations typically include being passed as an argument, returned from a function, and assigned to a variable.</p>
+</blockquote>
+<p>A graça de <em>cidadania de primeira-classe</em> é que ela implica <em>representação</em>. Um valor que pode ser representado também pode ser persistido em disco, serializado, enviado por meio de transporte arbitrário para outro sistema, comparado e testado como qualquer outro construto de primeira-classe da linguagem. Entre a linguagem como veio ao mundo e a execução do trabalho, pode existir toda uma camada de representações das entidades pertinentes à organização. Você deveria usar sua(s) lib(s) interna(s) tanto quanto usa o <code>dplyr</code> ou o <code>pandas</code>.</p>
+<p>Você já ouviu esse diálogo:</p>
+<blockquote>
+<p><em>Fulano, como que calcula se o usuário tá A mesmo? Preciso para fazer o A no caso em que B = C?</em></p>
+<p><em>Não sei, mas o código tá em algum lugar do</em> <code>pastamaior/pastamenor/pasta_qualquer_coisa/script32.py</code></p>
+</blockquote>
+<p>O código para computar isso agora vai precisar ser compreendido para ser replicado em outro arquivo com algumas trocas. Quem copiou perdeu neurônios, não existe mais fonte de verdade na codebase (porque um homem com dois relógios nunca sabe as horas), ninguém sabe o que testar e mesmo que saibam, não <em>tem</em> como testar de maneira automática porque ninguém em sã consciência vai tentar testar uma aplicação usando o texto do código. É sério, não tente isso em casa. Se o entregável for (i) retornado por alguma função, (ii) atribuível a um objeto e (iii) passado como argumento (<em>ie</em> de primeira classe), então todas essas propriedades vêm de graça.</p>
+</div>
+<div id="criando-representações" class="section level1">
+<h1>Criando Representações</h1>
+<p>Em linguagens moderna de alto-nível como python ou R, se uma função retorna algo, então esse algo é de primeira classe e pode ser tratado de acordo. É de bom tom criar um <em>predicado</em>, uma função que retorna verdadeiro/falso, para testar se um objeto arbitrário representa uma certa entidade de negócio como uma métrica, gráfico ou relatório.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">some_data &lt;- firmalib::compute_metric(
+  metric = "support_calls",
+  window = "weekly")
+
+firmalib::is_metric(some_data) # TRUE
+
+tibble::tibble(
+  A = 1,
+  B = 2) %&gt;%
+  firmalib::is_metric() # FALSE
+
+some_plot &lt;- firmalib::plot(
+  name = "that_one_graph_about_stuff",
+  start_date = lubridate::dmy("01-01-2022"),
+  end_date = lubridate::today())
+
+firmalib::is_firma_plot(some_plot) # TRUE</code></pre>
+<p>Nas linguagens comuns do ecossistema de data science, funções são cidadãs de primeira classe. Nada está te impedindo de criar uma função que retorna uma estrutura de dados contendo funções responsáveis pela computação de cada entregável, e outra que escolhe dinamicamente qual métrica computar.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">compute_metric &lt;- function(metric, window) {
+  
+  firmalib::metric_implementations() %&gt;%
+    purrr::pluck(metric) -&gt;
+    metric_fn
+  
+  metric_fn(window)
+  
+}
+
+metric_implementations &lt;- function() {
+  
+  list(
+    "support_calls" = firmalib::support_calls_impl,
+    "total_profit" = firmalib::total_profit_impl)
+  
+}
+
+support_calls_impl &lt;- function(window) {
+  
+  ...
+  
+}</code></pre>
+<p>Na vida real você vai precisar de mais liberdade de parametrização, e usar algo como <code>kargs</code> (python) ou <code>...</code> (R). Você talvez queira alguma forma de validação (infelizmente vai ter que ser em tempo de execução) de que ninguém está pedindo uma métrica que não foi definida. Consegue ver como implementar nesse pequeno exemplo? Seria também interessante alguma forma de metadado no resultado para carimbar o resultado com qual entidade de negócio ele é.</p>
+<p><em>Exercício Inútil</em>: como contornar a atribuição do objeto <code>metric_fn</code> dentro da implementação de <code>compute_metric</code> usando <a href="https://stackoverflow.com/questions/36314/what-is-currying">currying</a>?</p>
+<p>Relatórios são uma exceção nítida aqui porque são… arquivos no disco. Dito isso, que tal tornar todos os gráficos usados no relatórios cidadãos de primeira classe? E que tal ter uma abstração para renderizar relatórios, algo como <code>firmalib::render_report("some_report")</code> que tem como efeito colateral renderizar o relatório e retorna o endereço dele no disco?</p>
+</div>
