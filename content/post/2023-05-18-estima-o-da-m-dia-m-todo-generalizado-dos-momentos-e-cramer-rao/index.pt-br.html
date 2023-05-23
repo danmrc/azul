@@ -1,0 +1,126 @@
+---
+title: Estimação da Média, Método Generalizado dos Momentos e Cramer Rao
+author: Daniel Coutinho
+date: '2023-05-18'
+slug: estimacao-da-media-metodo-dos-momentos
+categories:
+  - Estatística
+tags:
+  - Cramer Rao
+  - Método Generalizado dos Momentos
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+
+
+<p>Faz muito tempo que eu não escrevo aqui. O que o primeiro ano do doutorado não faz! Eu trago um post que apresenta um problema que é extremamente simples e com uma solução não óbvia - pelo menos para mim. Eu vou apresentar o problema, discutir o método generalizado dos momentos (<em>Generalized Method of Moments</em>) e resolver o problema. Na sequência, eu vou discutir uma extensão do problema, e usar o limite inferior de Crámer Rao.</p>
+<p>O modelo é bem simples: nós temos duas variáveis aleatórias, <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>. <span class="math inline">\(Y\)</span> tem média 0 e <span class="math inline">\(X\)</span> tem uma média desconhecida, <span class="math inline">\(\mu\)</span>. Nós também sabemos que <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> tem variâncias finitas, <span class="math inline">\(\sigma_x^2\)</span> e <span class="math inline">\(\sigma_y^2\)</span>, respectivamente; e covariância <span class="math inline">\(\sigma_{xy}\)</span>. Nós queremos estimar a média de <span class="math inline">\(X\)</span>, <span class="math inline">\(\mu\)</span>.</p>
+<p>O estimador mais natural é a média amostral, <span class="math inline">\(\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i\)</span>, que tem variância <span class="math inline">\(\sigma_x^2/n\)</span>. A pergunta aqui é: existe um estimador melhor que esse? A intuição é simples, e assuma que a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> é positiva: sabemos que a média de <span class="math inline">\(Y\)</span> é zero. Suponha que nós observamos uma amostra e calculamos a média amostral de <span class="math inline">\(Y\)</span>. Se a média é maior que zero, nós podemos usar a correlação positiva para afirmar que a nossa média amostral de <span class="math inline">\(X\)</span> é maior do que o valor esperado de <span class="math inline">\(X\)</span> e obter um estimador que é mais preciso que a média amostral de <span class="math inline">\(X\)</span> usando a informação obtida com a média amostral de <span class="math inline">\(Y\)</span>.</p>
+<p>Vamos formalizar isso usando o método generalizados dos momentos.</p>
+<div id="o-método-generalizado-dos-momentos" class="section level1">
+<h1>O Método Generalizado dos Momentos</h1>
+<p>Vamos começar com o que a gente já (?) sabe: o método dos momentos é uma técnica de estimação que nos diz para pegar qualquer momento teórico e substituir ele por um momento amostral. Você quer estimar a média, <span class="math inline">\(E[X]\)</span>? O método dos momentos nos diz para usar a média amostral, <span class="math inline">\(\frac{1}{n} \sum_{i=1}^n X_i\)</span>. E a variância, <span class="math inline">\(E[X^2] - E[X]^2\)</span>? Bom, use <span class="math inline">\(\frac{1}{n} \sum_{i=1}^n X_i^2 - \bar{X}^2\)</span> - lembre que <span class="math inline">\(\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i\)</span>.</p>
+<p>Para motivar o método generalizado dos momentos, vamos considerar que <span class="math inline">\(X\)</span> tem uma distribuição Poisson, que tem um único parâmetro <span class="math inline">\(\lambda\)</span>. A coisa legal da Poisson é que a média <em>e</em> a variância são iguais a <span class="math inline">\(\lambda\)</span>. Você pode se sentir tentado a usar a média ou a variância para estimar o parâmetro. Mas usar um ou outro parece jogar informação fora e talvez uma combinação dos dois seja o ideal?</p>
+<p>O método generalizado dos momentos faz exatamente isso. Para combinar os momentos, nós minimizamos uma forma quadrática. Me mantendo no exemplo da Poisson, nós poderíamos fazer:</p>
+<p><span class="math display">\[
+\min_{\lambda} \left(\frac{1}{n} \sum_{i=1}^n X_i - \lambda\right)^2 + \left(\frac{1}{n} \sum_{i=1}^n (X_i - \lambda)^2 - \lambda\right)^2
+\]</span>
+Eu posso ser mais geral que isso e colocar alguns pesos! Eu posso colocar até pesos que fazem o termo entre os dois (ou mais) momentos! Eu vou escrever isso em forma matricial: seja <span class="math inline">\(g(X,\theta)\)</span> a nossa função dos momentos e <span class="math inline">\(W\)</span> uma matriz de pesos (ela tem que ser positiva definida - isso vai garantir que a nossa função quadrática tem um mínimo e não um máximo). O que o método generalizado dos momentos faz é:</p>
+<p><span class="math display">\[
+\min_{\theta} g(X,\theta)^T W g(X,\theta)
+\]</span>
+O exemplo com os momentos da Poisson usa <span class="math inline">\(W = I\)</span> e:</p>
+<p><span class="math display">\[
+g(X,\theta) = \begin{bmatrix}
+\frac{1}{n} \sum_{i=1}^n X_i - \lambda\\
+\frac{1}{n} \sum_{i=1}^n (X_i - \lambda)^2 - \lambda
+\end{bmatrix}
+\]</span></p>
+<p>O método generalizado dos momentos é muito próximo de variáveis instrumentais: variáveis instrumentais impõe uma condição de momento, <span class="math inline">\(E[Zu] = 0\)</span>. Se nós temos mais variáveis instrumentais do que regressores, nós temos sobreidentificação. A solução usual é mínimos quadrados em dois estágios, que é o método generalizado dos momentos <span class="math inline">\(G = Z^T(Y - X\beta)\)</span> e <span class="math inline">\(W = (Z^T Z)^{-1}\)</span>.</p>
+</div>
+<div id="de-volta-ao-problema" class="section level1">
+<h1>De volta ao problema</h1>
+<p>Nosso problema é achar um estimador para a média de <span class="math inline">\(X\)</span> quando nós temos uma amostra iid <span class="math inline">\(\{X_i,Y_i\}_{i=1}^n\)</span> tal que a média de <span class="math inline">\(Y_i\)</span> é 0 e nós variâncias finitas e covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
+<p>Nós vamos usar o método generalizado dos momentos. Os momentos que vamos usar são as médias amostrais, então nós temos:</p>
+<p><span class="math display">\[
+\min_{\mu} \begin{bmatrix} \bar{X} - \mu &amp; \bar{Y} \end{bmatrix} W \begin{bmatrix} \bar{X} - \mu \\ \bar{Y} \end{bmatrix} \tag{1}
+\]</span></p>
+<p>E os pesos? Se eu usar <span class="math inline">\(W = I\)</span>, o problema é resolvido com <span class="math inline">\(\hat{\mu} = \bar{X}\)</span>. A matriz “ótima” de pesos - significando que minimiza a variância do estimador - é a inversa da variância dos momentos. O bom desse exemplo é que a variância dos momentos é fácil de calcular: a variância da média amostral é só a variância da variável aleatória dividida pelo tamanho da amostra. Você obtém a covarância usando a mesma ideia (e o fato de que a amostra é iid):</p>
+<p><span class="math display">\[
+W = \begin{bmatrix} \frac{\sigma_x^2}{n} &amp; \frac{\sigma_{xy}}{n}\\
+\frac{\sigma_{xy}}{n} &amp; \frac{\sigma_y^2}{n} \end{bmatrix}^{-1}
+\]</span></p>
+<p>Matriz <span class="math inline">\(2 \times 2\)</span> <a href="https://pt.wikipedia.org/wiki/Matriz_inversa#Invers%C3%A3o_de_matrizes_2%C3%972">é inversível na mão</a> e é fácil o suficiente que nem eu sou capaz de errar:</p>
+<p><span class="math display">\[
+W = \frac{n}{\sigma_x^2 \sigma_y^2 - \sigma_{xy}^2}
+\begin{bmatrix}
+\frac{\sigma_{y}^2}{n} &amp; -\frac{\sigma_{xy}}{n} \\
+- \frac{\sigma_{xy}}{n} &amp; \frac{\sigma_x^2}{n}
+\end{bmatrix} \tag{2}
+\]</span></p>
+<p>O determinante na divisão vai multiplicar a expressão toda, e como ele é positivo, não faz nenhuma diferença pro problema em mãos. Nós iremos minimizar:</p>
+<p><span class="math display">\[
+\min_{\mu} \sigma_y^2(\bar{X} - \mu)^2 - 2\sigma_{xy} (\bar{X} - \mu)\bar{Y} + \sigma_x^2 \bar{Y}^2
+\]</span></p>
+<p>Isso é obtido usando a equação 2 na equação 1 e fazendo todas as multiplicações de matriz. Agora, resta a única coisa que um economista precisa saber: derivar e igualar a zero!:</p>
+<p><span class="math display">\[
+-2\sigma_y^2 (\bar{X} - \mu) + 2\sigma_{xy} \bar{Y} = 0 \therefore \sigma_y^2 (\bar{X} - \mu) - \sigma_{xy} \bar{Y}\\
+\hat{\mu} = \bar{X} - \frac{\sigma_{xy}}{\sigma_y^2} \bar{Y}
+\]</span></p>
+<p>Verificando a nossa intuição lá em cima: suponha que a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> é positiva. Se a média amostral de <span class="math inline">\(Y\)</span> for maior que zero, então a média amostral de <span class="math inline">\(X\)</span> vai ser acima do valor esperado <span class="math inline">\(\mu\)</span>. Sem muito esforço, a gente pode verificar que este estimador tem uma variância mais baixa que a média amostral:</p>
+<p><span class="math display">\[
+\text{Var}(\hat{\mu}) = \text{Var}\left(\bar{X} - \frac{\sigma_{xy}}{\sigma_y^2} \bar{Y}\right) = \text{Var}(\bar{X}) + \frac{\sigma_{xy}^2}{(\sigma_y^2)^2} \text{Var}(\bar{Y}) - 2\frac{\sigma_{xy}}{\sigma_y^2} \text{Cov}(\bar{X},\bar{Y}) = \\
+= \frac{\sigma_{x}^2}{n} + \frac{\sigma_{xy}^2}{(\sigma_y^2)^{\cancel{2}}} \frac{\cancel{\sigma_y^2}}{n} - 2\frac{\sigma_{xy}}{\sigma_y^2}\sigma_{xy} = \frac{\sigma_x^2}{n} - \frac{\sigma_{xy}^2}{n\sigma_y^2}
+\]</span></p>
+<p>É claro que <span class="math inline">\(\frac{\sigma_{xy}^2}{\sigma_y^2}\)</span> é positivo, então a gente está subtraindo alguma coisa da variância da média amostral de <span class="math inline">\(X\)</span> e o nosso estimador tem uma variância menor que a variância da média amostral.</p>
+<p>A estrutura que eu impus no modelo é mínima. O fascinante aqui é que ter uma variável com média conhecida que é correlacionada com a variável cuja média nós desconhecemos permite obter uma estimativa melhor do que a média amostral.</p>
+<p>Esse estimador é não viesado:</p>
+<p><span class="math display">\[
+E[\hat{\mu}] = E[\bar{X} - \sigma_{xy}/\sigma_y^2 \bar{Y}] = \mu - \frac{\sigma_{xy}}{\sigma_y^2} 0 = \mu
+\]</span></p>
+</div>
+<div id="limite-de-crámer-rao" class="section level1">
+<h1>Limite de Crámer Rao</h1>
+<p>Se você teve um excelente curso de estatística, você já ouviu falar do limite de Crámer Rao. A ideia é bem simples: entre todos os estimadores não viesados, qual alcança a menor variância? O limite de Cramer Rao nos diz que, se <span class="math inline">\(\hat{\theta}\)</span> é um estimador não viesado de <span class="math inline">\(\theta\)</span> (para uma amostra i.i.d.) e <span class="math inline">\(f(X|\theta)\)</span> é a densidade de <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[
+\text{Var}(\hat{\theta}) \geq \left(nE\left[\left(\frac{\partial \log(f(X|\theta))}{\partial \theta}\right)^2\right]\right)^{-1}
+\]</span></p>
+<p>Por exemplo, pro caso da normal univariada com média <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\sigma^2\)</span>, nenhum estimador (não viesado) consegue obter uma variância menor que <span class="math inline">\(\frac{\sigma^2}{n}\)</span>. Isso abarca o exemplo acima, mas o univariado está fazendo todo o trabalho aqui.</p>
+<p>Eu não impus nenhuma distribuição no exemplo acima: eu só impus uma média finita e segundo momento finito. Será que existe algum estimador melhor do que o do método generalizado dos momentos no caso bivariado? Crámer Rao pode nos dar uma resposta, mas como depende da distribuição, a gente vai ter que impor uma distribuição. A mais conveniente é a normal. A normal bivariada tem densidade:</p>
+<p><span class="math display">\[
+f(X,Y|\theta) = \frac{1}{\sqrt{2\pi \sigma_x^2 \sigma_y^2 (1 - \rho^2)}} \exp \left(-\frac{(X - \mu)^2}{2\sigma_x^2 (1 - \rho^2)} + \frac{\rho(X-\mu)Y}{\sigma_x \sigma_y (1 - \rho^2)} - \frac{Y^2}{2 \sigma_y^2(1-\rho^2)}\right)
+\]</span></p>
+<p>Eu to usando <span class="math inline">\(\theta = (\mu,\sigma_{x}^2, \sigma_y^2, \rho)\)</span> e <span class="math inline">\(\rho\)</span> é a correlação entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>, logo <span class="math inline">\(\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y}\)</span>. Vamos tirar o log:</p>
+<p><span class="math display">\[
+\log(f(X,Y|\theta)) = -\frac{1}{2}\log(2\pi \sigma_x^2 \sigma_y^2 (1 - \rho^2)) -\frac{(X - \mu)^2}{2\sigma_x^2 (1 - \rho^2)} + \frac{\rho(X-\mu)Y}{\sigma_x \sigma_y (1 - \rho^2)} - \frac{Y^2}{2 \sigma_y^2(1-\rho^2)}
+\]</span></p>
+<p>Vamos tirar a primeira derivada:</p>
+<p><span class="math display">\[
+\frac{\partial \log(f(X,Y|\theta))}{\partial \mu} = \frac{X - \mu}{\sigma_x^2 (1 - \rho^2)} - \frac{\rho Y}{\sigma_x \sigma_y (1 - \rho^2)}
+\]</span></p>
+<p>Eu poderia calcular o quadrado disso e obter uma expressão que depende de <span class="math inline">\((X-\mu)^2\)</span>, <span class="math inline">\(Y^2\)</span> e <span class="math inline">\((X - \mu)Y\)</span>. Honestamente, isso dá muito trabalho! Eu digo, sem fornecer nenhuma prova, que:</p>
+<p><span class="math display">\[
+E\left[\left(\frac{\partial \log(f(X|\theta))}{\partial \theta}\right)^2\right] = - E\left[\frac{\partial^2 \log(f(X|\theta))}{\partial \theta \partial \theta^T}\right]
+\]</span></p>
+<p>Obtendo a segunda derivada:</p>
+<p><span class="math display">\[
+\frac{\partial^2 \log(f(X,Y|\theta))}{\partial \mu^2} = -\frac{1}{\sigma_x^2(1-\rho^2)}
+\]</span></p>
+<p>Então, o limite inferior de Cramer Rao é:</p>
+<p><span class="math display">\[
+\left(-nE\left[\frac{\partial^2 f(X|\theta)}{\partial \mu^2}\right]\right)^{-1} = \frac{\sigma_x^2 (1 - \rho^2)}{n}
+\]</span></p>
+<p>Agora, use a definição de <span class="math inline">\(\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y}\)</span>, para obter:</p>
+<p><span class="math display">\[
+\left(-nE\left[\frac{\partial^2 f(X|\theta)}{\partial \mu^2}\right]\right)^{-1} = \frac{\sigma_x^2 (1 - \rho^2)}{n} = \frac{\sigma_x^2}{n} - \frac{1}{n} \frac{\sigma_x^2 \sigma_{xy}^2}{\sigma_x^2 \sigma_y^2} = \\
+= \frac{\sigma_x^2}{n} - \frac{\sigma_{xy}^2}{n\sigma_y^2}
+\]</span></p>
+<p>Essa é exatamente a variância obtida usando o método dos momentos. O nosso estimador obtido pelo método generalizado dos momentos é o mais eficiente se a distribuição conjunta das variáveis é normal.</p>
+</div>
