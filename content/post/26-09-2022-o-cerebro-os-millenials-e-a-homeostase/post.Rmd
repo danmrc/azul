@@ -38,7 +38,7 @@ glue::glue(
   </center>')
 ```
 
-Então gostaria de apresentar uma ontologia que me parece um tanto mais explicativa. Isso é - na verdade - uma conversa de muitas dezenas de horas, então vou necessariamente deixar (bastante) de fora e passar superficialmente por assuntos importantes. Pretendo apresentar um esqueleto mínimo de como fazer sentido desses problemas _para uma família de teorias_. Nada do que eu falo é original, estou bebendo de muitas fontes e fazendo colagem: [Marvin Minsky](https://en.wikipedia.org/wiki/Marvin_Minsky), [Douglas Hofstadter](https://en.wikipedia.org/wiki/Douglas_Hofstadter), [Don Hoffman](https://sites.socsci.uci.edu/~ddhoff/), [Olivia Guest](https://oliviaguest.com/), [Inês Hipólito](https://scholar.google.com/citations?user=WXSE96YAAAAJ&hl=pt-PT), [Karl Friston](https://www.fil.ion.ucl.ac.uk/~karl/), [Michael Levin](https://wyss.harvard.edu/team/associate-faculty/michael-levin-ph-d/)e as mentes interessantes do [Qualia Research Institute](https://qri.org/) - que tem um vocabulário muito peculiar e antes de conferir vale ler o [Principia Qualia](https://opentheory.net/PrincipiaQualia.pdf), que acredito que no futuro será lido como um clássico. 
+Então gostaria de apresentar uma ontologia que me parece um tanto mais explicativa. Isso é - na verdade - uma conversa de muitas dezenas de horas, então vou necessariamente deixar (bastante) de fora e passar superficialmente por assuntos importantes. Pretendo apresentar um esqueleto mínimo de como fazer sentido desses problemas _para uma família de teorias_. Nada do que eu falo é original, estou bebendo de muitas fontes e fazendo colagem: [Marvin Minsky](https://en.wikipedia.org/wiki/Marvin_Minsky), [Douglas Hofstadter](https://en.wikipedia.org/wiki/Douglas_Hofstadter), [Don Hoffman](https://sites.socsci.uci.edu/~ddhoff/), [Olivia Guest](https://oliviaguest.com/), [Inês Hipólito](https://scholar.google.com/citations?user=WXSE96YAAAAJ&hl=pt-PT), [Karl Friston](https://www.fil.ion.ucl.ac.uk/~karl/), [Michael Levin](https://wyss.harvard.edu/team/associate-faculty/michael-levin-ph-d/)e as mentes interessantes do [Qualia Research Institute](https://qri.org/).
 
 Todas as suas discordâncias são razoáveis, mas vamos combinar de largar o _não, mas_ e trazer uma atitude de _sim, e_. Leia de boa fé, se achar que há detalhes de fora, eles provavelmente estão mesmo, mas está tudo formulado de maneira que basta então _expandir_ o que foi dito, ao invés de demolir em nome do que não foi.
 
@@ -62,7 +62,7 @@ Existe uma linha de argumentação que tenta trivializar esse aparente mistério
 
 Isso, especialmente para muitos biólogos (vou voltar a eles mais tarde) e físicos _parece_ ceticismo bem fundamentado, mas é inconsistente. Se experiência fosse epifenomenal, a evolução não teria como a recrutar em primeiro lugar. Nenhum sistema complexo pode ser reativo, capaz de metacontrole e persistente no tempo sem representações do estado mundo encodadas no seu próprio estado - essa é uma afirmação carregada e voltarei nela mais à frente. Essas representações internas são computacionalmente relevantes e o fenômeno a que alude o termo _qualia_ - outra afirmação carregada, também volto aqui mais à frente. 
 
-Uma história behaviorista radical/ epifenomenalista não exclui essas representações internas, pelo contrário, depende delas também porque afinal precisamos implementar condicionamento clássico de algum jeito. Uma história behaviorista depende apenas de escrita e leitura. A nossa depende de escrita, leitura e composição.
+Uma história behaviorista radical/ epifenomenalista não exclui essas representações internas, pelo contrário, depende delas também porque afinal precisamos implementar condicionamento clássico de algum jeito. Uma história behaviorista depende apenas de escrita e leitura. A nossa depende de escrita, leitura e uma (ou mais) forma(s) de composição.
 
 Uma vez, pedalando na praia, roubaram minha bicicleta com uma faca - _o Rio de Janeiro continua lindo_ - e não precisei de [condicionamento pavloviano](https://en.wikipedia.org/wiki/Classical_conditioning) para que o medo me tomasse por inteiro quando vi a lâmina sendo apontada para mim. Pare por um momento para considerar a sequência de estímulos que culminou na minha experiência de medo.
 
@@ -70,9 +70,11 @@ Luz refletida pelas superfícies no ambiente (a pele do meu assaltante, a lâmin
 
 Até esse momento o estímulo visual foi engatilhando estímulos cada vez mais de [alto nível](https://en.wikipedia.org/wiki/High-_and_low-level), até um ponto crítico, a percepção do perigo. A partir daí o caminho inverte e é desencadeado uma cascata de efeitos de baixo nível. É o famoso [fight or flight](https://en.wikipedia.org/wiki/Fight-or-flight_response): libere adrenalina, aumente a circulação de sangue em algumas partes do corpo, diminua em outros, etc.
 
-Nenhuma dessas mudanças físicas no meu corpo teria ocorrido sem antes o raciocínio de alto nível envolvido em _compreender_ a situação. Minha compreensão do perigo não é um evento irrelevante que surgiu para justificar ad hoc a minha reação e sim o _gatilho_ da reação. Não entrei em fight or flight porque me condicionaram a entrar em pânico me mostrando facas e aplicando alguma forma de reforço negativo até que isso fosse _condicionado_ em mim e muito menos porque humanos vêm de fábrica com a tendência a entrar em pânico ao ver facas. Se o conteúdo da nossa experiência *não* tivesse poder causal, nós sequer poderíamos falar dela em primeiro lugar. É precisamente porque essa "causalidade reversa" - em que um estímulo precisa antes ser processado em alto-nível para ser cascateado em reações mecânicas do corpo - existe que a Evolução pôde recrutar esses processos em primeiro lugar.
+Nenhuma dessas mudanças físicas no meu corpo teria ocorrido sem antes o raciocínio de alto nível envolvido em _compreender_ a situação. Minha compreensão do perigo não é um evento irrelevante que surgiu para justificar ad hoc a minha reação e sim o _gatilho_ da reação. Não entrei em fight or flight porque me condicionaram a entrar em pânico me mostrando facas e aplicando alguma forma de reforço negativo até que isso fosse _condicionado_ em mim e muito menos porque humanos vêm de fábrica com a tendência a entrar em pânico ao ver facas. 
 
-Se você fosse um completo maluco e apontasse uma arma para um gato, ameaçando atirar caso não receba carinho, o gato apenas diria _miau_. Não porque gatos são incapazes de sentir perigo, mas sim incapazes de fazer o raciocínio de alto-nível necessário para compreender o que se passa. Gatos entendem outros gatos querendo brigar muito bem.
+Se o conteúdo da nossa experiência *não* tivesse poder causal, nós sequer poderíamos falar dela em primeiro lugar. É precisamente porque essa "causalidade reversa" - em que um estímulo precisa antes ser processado em alto-nível para ser cascateado em reações mecânicas do corpo - existe que a Evolução pôde recrutar esses processos em primeiro lugar. Isso não entra em contradição com a realidade física ser determinística porque assim que evoluíram estruturas proteicas como [receptores ionotrópicos](https://en.wikipedia.org/wiki/Ligand-gated_ion_channel), a Evolução tem gratuitamente acesso ao espaço platônico de verdades matemáticas e seus habitantes, como tabelas-verdade [@erbas2018molecular] e branching condicional [@ellis2019dynamical]. 
+
+Nossa experiência do mundo não é um acidente de percurso e sim uma interface legível para a orquestração de uma variedade absurda de sistemas especialistas e capacidades. Como usuário de um computador ou telefone, toda a complexidade de como correntes elétricas passeiam por unidades de processamento é oculta de você - é isso que torna a máquina utilizável - e algo similar ocorre aqui. É infinitamente mais barato evoluir uma interface de usuário do que a capacidade de controlar paralelamente trilhões de células e incontáveis mensagens encodadas em proteínas, neurotransmissores e diferenciais de voltagem.
 
 # Computação, Visão & Outras Drogas
 
@@ -90,7 +92,7 @@ glue::glue(
 
 ### Computação
 
-Veja, a imagem final composta a partir dos sinais elétricos que chegam no cortex visual é utilizada por outros subsistemas dentro do cérebro, então necessariamente existe alguma convenção de como representar esse tipo de informação. Mais ainda, para que o caminho compor imagem -> reconhecer arma -> sentir pânico funcionar, necessariamente os outros elos também passam pela mesma interface comum de transmissão de informação. O que permite o sinal enviado pelos olhos ser usado para gerar uma imagem também permite que a informação contida na imagem seja usada para identificar objetos, compreender o perigo (ou a beleza e a semiótica) de uma situação. É computação _all the way down_. 
+Veja, a imagem final composta a partir dos sinais elétricos que chegam no cortex visual é utilizada por outros subsistemas dentro do cérebro, então necessariamente existe alguma convenção de como representar esse tipo de informação. Mais ainda, para que o caminho compor imagem -> reconhecer arma -> sentir pânico funcionar, necessariamente os outros elos também passam pela mesma interface comum de transmissão de informação. O que permite o sinal enviado pelos olhos ser usado para gerar uma imagem também permite que a informação contida na imagem seja usada para identificar objetos, compreender o perigo (ou a beleza e a semiótica) de uma situação. É computação _all the way down_.
 
 Considere o processo de ir até a esquina. É preciso conciliar informação multimodal para produzir um plano de ação e persegui-lo até a sua conclusão. A informação visual informa a posição no espaço, o caminhar depende de propriocepção e planejamento motor, e presumivelmente não se vai até a esquina por nada - existe o planejamento de alto-nível que decorre do desejo de comer o pãozinho francês da padaria na esquina.
 
@@ -109,23 +111,38 @@ glue::glue(
   </center>')
 ```
 
-Nossos cérebros, e sistemas nervosos, são uma coletânea de sistemas semi-especialistas - neuroplasticidade complica esse processo de especialização, mas podemos entrar nisso depois. O conjunto da obra só pode ter alguma ordem se existe (i) uma representação ou estrutura de dados que permita a transmissão de informação entre sistemas especialistas e (ii) um mecanismo de _leitura_, _escrita_ e _composição_ que permita sistemas diferentes enviarem e receberem informação sob demanda.
+Nossos cérebros, e sistemas nervosos, são uma coletânea de sistemas semi-especialistas - neuroplasticidade complica esse processo de especialização, mas podemos entrar nisso depois. O conjunto da obra só pode ter alguma ordem se existe (i) uma representação/ estrutura de dados que permita a concatenação de informação de diferentes sistemas especialistas e (ii) uma álgebra de operações como _leitura_, _escrita_ e _composição_ definida nessas estruturas.
 
 ### Outras Drogas
 
-Quase toda criança já se perguntou se o que todos chamamos de vermelho, ou azul, são vistas como cores diferentes por pessoas diferentes. Esse é o [problema de inversão de Qualia](https://plato.stanford.edu/entries/qualia-inverted/). Bem, ignorando os daltônicos por um momento, é muito fácil induzir algumas formas de inversão de qualia. Uma dose relativamente pequena de LSD pode fazer qualquer pessoa ver cores diferentes ~uma vez achei que o spotify tinha mudado toda a palheta de cores para tons de azul~, ou ver uma certa cor ao ouvir um som, e outras modalidades de sinestesia. 
+Quase toda criança já se perguntou se o que todos chamamos de vermelho, ou azul, são vistas como cores diferentes por pessoas diferentes. Esse é o [problema de inversão de Qualia](https://plato.stanford.edu/entries/qualia-inverted/). Bem, ignorando os daltônicos por um momento, é muito fácil induzir algumas formas de inversão de qualia. Uma dose relativamente pequena de LSD pode fazer qualquer pessoa ver cores diferentes ~uma vez achei que o spotify tinha mudado toda a palheta de cores para tons de azul~, ou ver uma certa cor ao ouvir um som, e outras modalidades de sinestesia.
 
 "Mas Pedro, essas pessoas estão claramente alucinando!". Sim e no que consiste essa alucinação? É uma alteração no processo (no algoritmo, eu ouso dizer) de composição de imagem a partir dos _mesmíssimos_ estímulos visuais que qualquer pessoa sóbria receberia e processaria em uma imagem aproximadamente correta. Estamos _todos_ alucinando, a todo momento - e se me acha doido por dizer isso, [escute o neurocientista Anil Seth](https://lab.cccb.org/en/anil-seth-reality-is-a-controlled-hallucination/). A experiência do vermelho *não* é meramente uma frequência específica de onda estimulando sensores na retina e sim _o resultado do funcionamento do algoritmo de atribuição de cores_. Vermelho é informação encodada nos nossos corpos, não luz.
 
-Nossa interface com a realidade, o que ouvimos, o que vemos, os sabores que sentimos, as texturas que tocamos, está sujeita às mesmas limitações da visão. Captamos estímulos com variados sensores, que os traduzem em sinais elétricos, que são usados por sistemas especialistas no cérebro para compor uma "renderização", feita para ser utilizada por outros sistemas especialistas no cérebro. Vivemos em uma alucinação controlada - isso é resumido no experimento mental do [Cérebro numa Cuba](https://en.wikipedia.org/wiki/Brain_in_a_vat).
+Nossa interface com a realidade, o que ouvimos, o que vemos, os sabores que sentimos, as texturas que tocamos, está sujeita às mesmas limitações da visão. Captamos estímulos com variados sensores, que os traduzem em sinais elétricos, que são usados por sistemas especialistas no cérebro para compor uma "renderização", feita para ser utilizada por outros sistemas especialistas no cérebro. Vivemos em uma alucinação controlada - isso é resumido no experimento mental do [Cérebro numa Cuba](https://plato.stanford.edu/Archives/spr2009/entries/brain-vat/).
 
 Lembra do Fisicalismo e do Qualia-Formalismo lá de cima? Adiciono uma terceira perna:
 
 * Realismo Indireto: Existe uma Realidade comum e nossa percepção dela é mediada por processos computacionais que traduzem estímulos em variadas modalidades. Nunca temos acesso à Realidade, como ela é, e sim a uma reconstrução computacional das migalhas que conseguimos catar.
 
+# Uma Pausa: Origens Evolutivas
+
+As origens evolutivas dessas capacidades computacionais da vida são um problema em aberto.
+
+![](https://64.media.tumblr.com/1b65c7a270ad1aa12f328598d54adc52/578a8a50523eba99-d8/s500x750/0a59e64b2d72f7cf0c47245583337859e0684b35.gifv)
+
+Essa amigável massaroca semi-transparente em formato de lágrima é da espécie _Lacrymaria Olor_. É um [protista ciliado](https://en.wikipedia.org/wiki/Ciliate) que caça extendendo um membro a distâncias de cerca de 5-6 vezes o seu próprio tamanho. Esse "bichinho" não tem um cérebro, mas dá conta de todas as suas necessidades metabólicas caçando. Mais ainda, estamos falando de um ser vivo unicelular. Mesmo nessa configuração extremamente simples existe fino controle motor, alguma capacidade de planejamento, de representação do estado do ambiente com algum grau de precisão (e.g. localização de comida relativa à posição atual). 
+
+Nas menores escalas da vida existe computação acontecendo para viabilizar _tudo_. O comportamento de uma Lacrymaria não é aleatório, ele persegue objetivos sob restrições energéticas. Esse é o espaço de pesquisa do professor da Universidade Tutfs, [Michael Levin](https://www.youtube.com/watch?v=ZmRaIQOlxTY). Isso é um assunto enorme em si, mas em resumo:
+
+* Parte do trabalho envolvido em evoluir o design básico da primeira célula foi antes desenhar o maquinário molecular que permite a implementação de controle de comportamento.
+* A evolução de multicelularidade exigiu também o desenvolvimento de representações de estado em tecidos e não apenas celulas individuais. 
+* A manutenção dos nossos corpos envolve a solução de problemas em modalidades e escalas totalmente diferentes. Muito antes de desenhar subsistemas especialistas no cérebro a Evolução fez isso para resolver questões básicas de metabolismo, homestosase térmica, anatômica... Tecidos têm eles próprios métodos de computação extracelulares.
+* Nossos cérebros não realizam nada de fundamentalmente diferente do que a nossa amiga Lacrymaria faz para funcionar. A capacidade de transmitir e encodar informação com diferenciais de voltagem é usada por ciliados unicelulares e cérebros de mamíferos para solucionar os problemas computacionais inerentes a navegar em um ambiente. 
+
 # Níveis de Marr
 
-Note que no nível mais elementar o seu funcionamento depende de reações químicas e no nível mais abstrato, de processos computacionais. É preciso, simultaneamente, explicar quais são as funções seu corpo realiza, como elas viabilizam as capacidades de alto-nível que usamos a todo momento e também como isso é representado, computado e implementado no substrato biológico.
+Note que no nível mais elementar o seu funcionamento depende de física quântica (como você acha que se formam moléculas?) e no nível mais abstrato, de processos computacionais. Uma Teoria de Consciência precisa, simultaneamente, explicar quais são as funções seu corpo realiza, como elas viabilizam as capacidades de alto-nível que usamos a todo momento e também como isso é representado, computado e implementado no substrato biológico.
 
 @marr1979computational oferece uma maneira de quebrar nossas perguntas (e respostas) em caixinhas com algum isolamento de responsabilidades. Nesse framework, qualquer sistema de processamento de informação pode ser, a princípio, entendido em 3 níveis:
 
@@ -137,13 +154,24 @@ Note que no nível mais elementar o seu funcionamento depende de reações quím
 
 Para tangibilizar isso um pouco, vamos imaginar um Large Language Model (LLM) treinado em um grande corpus de texto. Ela tem habilidades verbais de um jovem razoavelmente lido, um humor seco, referências literárias e passa em alguma versão fraca do teste de Turing (não que isso seja grandes coisas). Em um nível _funcional_, não existe uma maneira simples de distinguir o que essa rede neural faz do que um humano faz. Descendo um andar, aparecem as distinções. 
 
-As representações e algoritmos de uma rede neural são radicalmenete diferentes das representações e algoritmos que sistemas nervosos usam para funcionar. Isso não demanda mais explicações a menos é claro que você, leitor, tenha uma certa fé na analogia Cérebro - Rede Neural. Se tiver, tudo bem, a ciência pop fez inúmeras vítimas.
+As representações e algoritmos de uma rede neural são radicalmenete diferentes das representações e algoritmos que sistemas nervosos usam para funcionar. Isso não demanda mais explicações a menos é claro que você, leitor, tenha uma certa fé na analogia Cérebro - Rede Neural.
 
-# Múltiplas Funcionalidades
+# Anilhamento, Entropia, Criticalidade, Organização
 
-Engenheiros humanos são previsíveis. Quebre um problema grande em problemas menores que podem ser abordados isoladamente - ah, e de maneira que você possa arremessar álgebra linear no problema até ele ceder. A Mãe Natureza tem um gestor de projetos bem heterodoxo, trabalha com restrições orçamentárias e de experimentação muito diferentes. 
+Aqui vale finalmente dar algum enunciado do [Free-Energy Principle](https://en.wikipedia.org/wiki/Free_energy_principle). Um sistema dinâmico que persiste em alguma escala não-trivial de tempo precisa de:
 
-# Anilhamento
+* Uma representação do estado do mundo/ambiente
+* Um modelo do estado futuro do mundo
+* Um mecanismo de atualização das suas representações do mundo a partir de dados novos
+* Algum modelo de como se comportar em função do estado presente do ambiente e das previsões de como serão os estados futuros
+
+A Evolução não tem tempo nem um escopo suficientemente pequeno de problemas para resolver com soluções fechadas. Para dar conta dessas necessidades inerentes à sobrevivência é muito mais plausível então que ela se apoie em princípios de auto-organização. Acho que isso é muito bem articulado [neste texto](https://opentheory.net/2019/11/neural-annealing-toward-a-neural-theory-of-everything/) de Mike Johnson. A citação é grande, mas acredito que vale:
+
+> Traditionally, neuroscience has been concerned with cataloguing the brain, e.g. collecting discrete observations about anatomy, observed cyclic patterns (EEG frequencies), and cell types and neurotransmitters, and trying to match these facts with functional stories. However, it’s increasingly clear that these sorts of neat stories about localized function are artifacts of the tools we’re using to look at the brain, not of the brain’s underlying computational structure. What’s the alternative? Instead of centering our exploration on the sorts of raw data our tools are able to gather, we can approach the brain as a self-organizing system, something which uses a few core principles to both build and regulate itself. As such, if we can reverse-engineer these core principles and use what tools we have to validate these bottom-up models, we can both understand the internal logic of the brain’s algorithms — the how and why the brain does what it does — as well as find more elegant intervention points for altering it. 
+
+
+
+
 # Onde Habita a Ansiedade?
 # O que eu acabei de ler?
 # Referências
