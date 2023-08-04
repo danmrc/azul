@@ -1,0 +1,117 @@
+---
+title: 'Matrizes Esparsas'
+author: Daniel Coutinho
+date: '2023-07-29'
+slug: index.pt-br
+categories:
+  - Computação
+  - Julia
+tags:
+  - Álgebra Linear
+  - Variáveis Instrumentais
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+
+
+<p>Todos vocês estão acostumados com matrizes e como os estimatores usuais de econometria se reduzem a multiplicar e inverter matrizes. Nós usamos operações de matrizes toda vez que rodamos um mínimos quadrados ou variáveis instrumentais no computador, mesmo que você não se dê conta disso. Um truque que nem todo mundo sabe é que existem <em>dois</em> tipos de matrizes no R (e em muitas linguagens de programação): as densas e as esparsas. As matrizes densas são as matrizes usuais. As matrizes esparsas funcionam igualzinho as matrizes densas, mas são matrizes que tem muitos zeros e a gente pode explorar isso para reduzir o tamanho das matrizes na memória e agilizar as operações.</p>
+<p>Imagine que você tem uma matriz <span class="math inline">\(100 \times 100\)</span> que só tem elementos na diagonal. Uma maneira de representar a matriz seria desenhar uma matriz - em um pedaço de cartolina, dada a dimensão - e escrever na primeira linha 1 seguido de 99 zeros, na segunda 0, 2 seguido de 98 zeros etc etc. Uma outra maneira é dizer: “imagine uma matriz que é toda zeros exceto nas posições (1,1), (2,2), …, cujo os valores são 1,2,3,…”. Matrizes esparsas são armazenadas da segunda forma.</p>
+<p>Isso parece um pouco abstrato, e nem toda matriz é esparsa. Uma “categoria” de matrizes que é esparsa e que nos interessa é uma matriz de dummies. O R e outras linguagens de programação permitem a gente, elegantemente, lidar com colunas que são variáveis categóricas (ou fatores, como o R chama), e não se preocupar muito em como lidar com isso numericamente. Mas, como a gente aprende no curso básico de econometria, se você tiver <span class="math inline">\(d\)</span> categorias, isso gera <span class="math inline">\(d\)</span> variáveis dummies (se você tiver um intercepto, você deve jogar uma fora para evitar multicolinearidade). Se você tem <span class="math inline">\(n\)</span> observações e cada observação pertence a uma categoria apenas - pense em ano de nascimento, estado em que nasceu, etc - a sua matriz de dummies tem <span class="math inline">\(1/d\)</span> entradas não zero. Se você tem 4 categorias, 75% da matriz é formada por zeros.</p>
+<p>Só para termos um exemplo do mundo real disso, você pode baixar <a href="https://zenodo.org/record/5652443">aqui</a> os dados do famoso Angrist &amp; Krueger (1991) - o paper que usa trimestre de nascimento como instrumento para medir retorno de escolaridade. O comando <code>makeX</code> do pacote <em>glmnet</em> transforma uma variável categórica em dummies. Ele dá, sabiamente, duas opções para gerar a matriz: esparsa ou não esparsa. Eu vou testar usando a varíavel categórica de lugar onde a pessoa nasceu, que nos dados é <code>pob</code> (place of birth). Nós temos 51 níveis, correspondendo aos 50 estados e Washington DC. Isso significa que menos de 2% da matriz são não zeros.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(foreign)
+library(glmnet)
+library(dplyr)
+
+dd &lt;- read.dta("~/Downloads/data/ak91.dta")
+
+dd &lt;- dd %&gt;% mutate(yob = factor(yob), pob = factor(pob), qob = factor(qob))
+
+x &lt;- makeX(data.frame(dd$qob))
+xs &lt;- makeX(data.frame(dd$pob),sparse = TRUE)</code></pre>
+<p>O R me reporta que a versão não esparsa ocupa 155 mbs e a versão esparsa ocupa 25 mbs.</p>
+<p>As vantagens de usar matrizes esparsas não se limitam a armazenar os dados, mas também a velocidade de todas as computações. Vamos considerar multiplicar as matrizes para obter a matriz de covariância, que é um dos blocos necessários pra mínimos quadrados. Eu vou usar o <code>system.time</code> da base do R porque a gente não precisa mais do que isso:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">system.time(t(x)%*%x)
+system.time(t(xs)%*%xs)</code></pre>
+<p>A versão esparsa demora 0.016 segundos e a versão densa demora 1.1 segundos.</p>
+<p>Se você ainda não está inteiramente satisfeito com isso, lembre que o paper usa a <em>interação entre trimestre de nascimento e lugar de nascimento</em> como instrumento. O trimestre de nascimento é <code>qob</code> (quarter of birth), e o seguinte código gera as matrizes com as dummies:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">dd &lt;- dd %&gt;% mutate(qob_pob = interaction(qob,pob))
+
+x2 &lt;- makeX(data.frame(dd$qob_pob))
+x2s &lt;- makeX(data.frame(dd$qob_pob), sparse = TRUE)</code></pre>
+<p>A versão densa ocupa 556 mbs (sim, 0.5 GB) e a versão esparsa continua ocupando 25mbs. Vamos computar a matriz de variância e covariância:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">system.time(t(x2)%*%x2)
+system.time(t(x2s)%*%x2s)</code></pre>
+<p>A versão densa demora 13 segundos e a versão esparsa demora 0.014 segundos. Todas essas operações são necessárias quando nós computamos um mínimos quadrados ou variáveis instrumentais, então isso significa que usar matrizes esparsas pode gerar ganhos significativos de velocidade e uso de recursos. O pequeno senão desse papo todo é que inversa de matrizes esparsas <strong>não</strong> são necessariamente esparsa, e quase todos os estimadores dependem de tomar inversas de matrizes.</p>
+<p>Isso é problemático, mas na verdade não é tão problemático assim. Pra gente ter um exemplo prático, o estimador de mínimos quadrados é:</p>
+<p><span class="math display">\[
+\beta = (X^T X)^{-1} X^T y
+\]</span></p>
+<p>O estimador vem de um problema de minimização, minimizar o quadrado dos resíduos. As condições de primeira ordem do problema é:</p>
+<p><span class="math display">\[
+\beta^T X^T X - X^T y = 0 \therefore \beta^T X^T X = X^T y
+\]</span></p>
+<p>Como <span class="math inline">\(X\)</span> é <span class="math inline">\(n \times p\)</span> e <span class="math inline">\(y\)</span> é <span class="math inline">\(n \times 1\)</span>, do lado direito a gente tem um vetor e do lado esquerdo a gente tem a matriz <span class="math inline">\(X^T X\)</span> multiplicando um vetor. No fim, nós estamos resolvendo um sistema linear, e apesar da maioria da vezes a gente pensar em resolver usando a inversa, isso não é necessário. Existem algoritmos que exploram a esparsidade do problema e evitam a inversa. O comando <code>solve</code> do R tanto retorna a inversa quanto resolve sistemas lineares, e a gente pode testar os ganhos de velocidade de um mínimos quadrados em duas linhas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">y &lt;- dd$educ
+
+system.time(solve(t(x2)%*%x2,t(x2)%*%y))
+system.time(solve(t(x2s)%*%x2s,t(x2s)%*%y))</code></pre>
+<p>A diferença aqui é de 13 segundos pra versão não esparsa e 0.042 segundos para a versão esparsa. Se eu forçar a usar a inversa, o tempo da versão não esparsa vai pra 28s.</p>
+<p>Os ganhos não são só em tempo, mas também - e talvez mais importante - em tamanho de alocações na memória. Eu vou pular pro Julia porque isso nos dá uma ótima maneira de comparar as coisas, já que o comando que mede tempo de execução do código também nos diz quanta memória foi alocada. O código em Julia é um pouco diferente porque eu uso variáveis instrumentais, então a gente tem as variáveis endógenas e os instrumentos - como no código acima - e os controles. O estimador de mínimos quadrados em dois estágios é:</p>
+<p><span class="math display">\[
+\hat{\beta} = (X^T Z (Z^T Z)^{-1}Z^T X)^{-1} X^T Z(Z^T Z)^{-1} Z^T y
+\]</span>
+A gente pode aplicar o mesmo truque de reescrever o estimador como a solução para <span class="math inline">\(X^T Z (Z^T Z)^{-1}Z^T X) \beta = X^T Z(Z^T Z)^{-1} Z^T y\)</span>, mas a gente ainda tem a inversa de <span class="math inline">\(Z^T Z\)</span>.</p>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+function twosls_sparse(X,Y,Z::SparseMatrixCSC)
+
+    W = inv(Matrix(Z)'*Matrix(Z)) |&gt; sparse
+    lhs = X'*Z*W*Z'*X
+    rhs = X'*Z*W*Z'*Y
+    β = lhs\rhs
+    return β
+end
+
+function twosls_coef(X,Y,Z)
+
+    Pz = Z*inv(Z'Z)*Z'
+    β = inv(X'*Pz*X)*X'*Pz*Y
+
+    return β
+
+end
+</code></pre>
+<p>Eu vou pular a parte de arrumar os dados e só mostrar o cálculo dos estimadores:</p>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+coef_2sls = @time twosls_coef([ones(20_000) X_endo Matrix(X_exo)],Y,[ones(20_000) Matrix(Z) Matrix(X_exo)])
+coef_2sls_spar = @time twosls_sparse([ones(20_000) X_endo X_exo],Y,[ones(20_000) Z X_exo]) 
+</code></pre>
+<p>A versão não esparsa demora uns 30s e a versão esparsa demora 1.3s. A inversa ali consome um tempo. As alocações são: 3.5 GB para a versão não esparsa e 556 MB (unidade diferentes) para a versão esparsa. Ou seja, a gente reduziu a necessidade de memória em 1/7.</p>
+<p>Enquanto eu escrevia o post, eu me dei conta que existe uma maneira ainda mais eficiente de proceder. O estimador se chama mínimos quadrados em dois estágios porque você faz, bom, o mínimos quadrados do primeiro estágio - a variável endógena sobre os instrumentos - e depois usa o valor <span class="math inline">\(Z\beta_1\)</span> como o regressor na regressão sobre <span class="math inline">\(y\)</span>. Essa maneira gera um total de zero inversas, e é facilmente implementável:</p>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+ols_coef(X,Y) = (X'*X)\(X'*Y)
+
+function twosls_fast(X_endo,X_exo,Y,Z::SparseMatrixCSC)
+
+    n = size(Z,1)
+    β1 = ols_coef(Z,X_endo)
+    X̂ = Z*β1
+
+    X = [ones(n) X̂ X_exo]
+
+    β = ols_coef(X,Y)
+    return β
+end
+</code></pre>
+<p>Aqui, eu separo o que é variável endógena de variável exógena. E eu posso rodar isso:</p>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+twosls_fast(X_endo, X_exo, Y, Z)
+</code></pre>
+<p>Essa versão demora 0.01s e aloca apenas 11 MBs. O fato de que a gente faz dois mínimos quadrados em menos tempo que o R faz um é o motivo que eu rodei o código de variáveis instrumentais no Julia e não no R.</p>
+<p>Nem tudo são flores: se a gente quiser obter a variância dos estimadores, a inversa é quase inevitável. Uma maneira “simples” de burlar a inversa é usar bootstrap. Mas isso pode ser bem mais lento do que a inversa.</p>
