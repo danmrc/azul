@@ -155,6 +155,17 @@ As representações e algoritmos de uma rede neural são radicalmenete diferente
 
 # Anilhamento, Entropia, Criticalidade, Organização
 
+*Pausa dramática*. Eu sou um músico amador. _Como músico amador_, é difícil articular que diferença faz aprender a tocar "piano instrumental". E por isso quero dizer o tipo de coisa que cobrariam em vestibular de física na UERJ, se estudar música fosse obrigatório no ensino médio. O mínimo que um físico precisa saber de música. Algo análogo a teoria de conjuntos, geometria euclidiana e probabilidade de ensino médio. A escala maior e os arpeggios dos acordes diatônicos da escala maior. Nada demais, tenho certeza que os músicos lendo isso concordam.
+
+E é inacreditável o quanto dá para "enganar" apenas sabendo a escala maior em alguns tons diferentes e os arpeggios dos acordes diatônicos. Um mundo de possibilidades e sons se abre, o inefável da música se torne legível. Acho que isso acontece porque (i) são dados nomes à fenômenos complicados e (ii) o piano é o resultado de quase um milênio de P&D em instrumentos musicais para o *estudo* da música. Quem toca guitarra, baixo, saxofone, bateria, etc, faz porque ama o timbre. A maioria das pessoas que tocam piano fazem não pelo piano em si, mas pelo seu design. Apenas baseado na interface do piano, você deve achar que Dó Bemol e Si são a mesma nota. Essa é uma simplificação útil. 
+
+Bem, até agora eu me ative a o que julgo serem _fatos incontroversos_ da ciência aplicada, e um pouco de bom gosto (que se aplicado com rigor o suficiente dá para chamar de filosofia). Apenas fiz uma colagem deles. Agora vou dar um passo além e argumentar algo mais forte. Me chame de louco, mas a Evolução não teria chegado em desenhos não-triviais e interessantes se ela precisa, em paralelo, resolver problemas em escalas diferentes. Me parece que a evolução, muito antes de Turing, descobriu que com algum truques matemáticos como descida de gradiente, tabelas-verdade, branching condicional, era possível representar o processo de _navegar espaços de problemas_. Uma previsão que vem daqui então é que: cérebros e sistemas nervosos provavelmente dependem de alguns poucos princípios de auto-organização, que são aplicados universalmente em problemas diferentes.
+
+
+
+
+
+
 Aqui vale finalmente dar algum enunciado do [Free-Energy Principle](https://en.wikipedia.org/wiki/Free_energy_principle). Um sistema dinâmico que persiste em alguma escala não-trivial de tempo precisa de:
 
 * Uma representação do estado do mundo/ambiente
