@@ -151,7 +151,7 @@ Note que estamos rapidamente transitando entre escalas diferente, quase que por 
 
 Para tangibilizar isso um pouco, vamos imaginar um Large Language Model (LLM) treinado em um grande corpus de texto. Ela tem habilidades verbais de um jovem razoavelmente lido, um humor seco, referências literárias e passa em alguma versão fraca do teste de Turing (não que isso seja grandes coisas). Em um nível _funcional_, não existe uma maneira simples de distinguir o que essa rede neural faz do que um humano faz. Descendo um andar, aparecem as distinções. 
 
-As representações e algoritmos de uma rede neural são radicalmenete diferentes das representações e algoritmos que sistemas nervosos usam para funcionar. Isso não demanda mais explicações a menos é claro que você, leitor, tenha uma certa fé na analogia Cérebro - Rede Neural.
+As representações e algoritmos de uma rede neural são radicalmenete diferentes das representações e algoritmos que sistemas nervosos usam para funcionar. Isso não demanda mais explicações a menos é claro que você, leitor, tenha uma certa fé na analogia Cérebro - Rede Neural. As distinções de implementação mais ainda, rodamos redes neurais em circuitos digitais, nossos cérebros se aproveitam de várias propriedades do campo eletromagnético par encodar informação na topologia de rede do sistema nervoso.
 
 # Anilhamento, Entropia, Criticalidade, Organização
 
