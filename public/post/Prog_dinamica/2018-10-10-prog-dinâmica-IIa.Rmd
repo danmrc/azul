@@ -6,10 +6,7 @@ slug: prog-dinâmica-2a
 categories:
   - Julia
   - Matemática
-<<<<<<< Updated upstream
-=======
   - Programação dinâmica
->>>>>>> Stashed changes
 tags:
     - Programação dinâmica
     - Suavização do consumo
@@ -19,11 +16,8 @@ katex: true
 ---
 
 ```{r, message=FALSE,echo=FALSE}
-<<<<<<< Updated upstream
-JuliaCall::julia_setup("/Applications/Julia-1.0.app/Contents/Resources/julia/bin")
-=======
+
 JuliaCall::julia_setup()
->>>>>>> Stashed changes
 
 ```
 

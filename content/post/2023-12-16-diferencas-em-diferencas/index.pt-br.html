@@ -1,7 +1,7 @@
 ---
 title: Viés em Diferenças em Diferenças
 author: Daniel Coutinho
-date: '2023-12-16'
+date: '2023-12-29'
 slug: diferencas-em-diferencas
 categories:
   - Econometria
@@ -16,7 +16,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true
 ---
 
 
@@ -30,7 +29,17 @@ draft: true
 Y = DY(1) + (1-D)Y(0)
 \]</span></p>
 <p>O efeito de tratamento é <span class="math inline">\(Y(1) - Y(0)\)</span> e a gente só observa <span class="math inline">\(Y\)</span>. Como a gente está simulando, a gente pode salvar o efeito do tratamento salvando <span class="math inline">\(Y(1)\)</span> e <span class="math inline">\(Y(0)\)</span>. Dos muitos efeitos de tratamento possíveis, diferenças em diferenças recupera o efeito de tratamento sobre os tratados.</p>
-<p>A gente vai usar o R pra aproveitar o pacote plm:</p>
+<p>A gente vai usar o R pra aproveitar o pacote plm e eu vou usar paralelização porque eu sou impaciente:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(plm)
+library(purrr)
+library(dplyr)
+library(ggplot2)
+library(furrr)
+library(tidyr)
+
+plan(multisession,workers = 8)
+
+set.seed(25122023)</code></pre>
 <p>Eu nunca tinha feito nenhuma simulação gerando dados em painel - mentira, eu fiz <em>uma vez</em> na graduação, então não conta. Eu pensei bastante em como estruturar isso e achei melhor quebrar em uma função que gera dados pra um indíviduo e uma função que gera o painel a partir dessa função. Primeiro, a função que gera dados pra um indivíduo. A função vai ter vários inputs: um <code>id</code>, que diz qual o número que identifica o indvíduo; <code>t</code> me diz quantos períodos eu observo; <code>common shock</code> é só um choque em comum pra todos os indvíduos na hora que eu gerar o painel, e que vai ser responsabilidade do efeito fixo de tempo de remover; <code>cohort</code> é a coisa crítica aqui e me diz <em>quando</em> o indivíduo vai ser tratado <em>se</em> ele for tratado; <code>treat_effect</code> é o tamanho do efeito de tratamento, que é o que nos interessa; <code>thres</code> requer um pouquinho mais de explicação. A gente vai adotar o seguinte esquema: se uma variável aleatória <span class="math inline">\(u\)</span> estiver acima de <code>thres</code>, a unidade é tratada; senão, a unidade não é tratada. A gente assume que <span class="math inline">\(u\)</span> não é observado:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">one_indv &lt;- function(id,t,common_shock,cohort,treat_effect,thres){
   if(cohort &gt; t){
@@ -60,7 +69,7 @@ Y = DY(1) + (1-D)Y(0)
 <p>Da maneira que o código está escrito, tem duas maneiras de não ser tratado: ou a sua <code>cohort</code> é zero ou a sua variável <span class="math inline">\(u\)</span> está abaixo do limiar. Eu vou escrever a função que gera o painel de maneira que ninguém nunca tem <code>cohort = 0</code>:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">panel1 &lt;- function(t,n,thres,treat_effect){
   
-  v &lt;- rnorm(t+1)
+  v &lt;- 0:t
   cohort &lt;- sample(1:t,n,replace = TRUE)
   panel_list &lt;- map(1:n,\(x)one_indv(x,t,v,cohort[x],1,thres))
   panel &lt;- do.call(rbind,panel_list)
@@ -69,36 +78,35 @@ Y = DY(1) + (1-D)Y(0)
   return(panel)
   
 }</code></pre>
-<p>Da maneira que painel1 está escrito, todo mundo tem o mesmo <code>thres</code> e o mesmo efeito de tratamento. Isso não é ruim porque tira uma variação e permite a gente focar na variação de ter vários períodos. Vamos olhar o que acontece quando a gente roda isso uma vez, com 4 períodos e 500 indivíduos:</p>
+<p>Da maneira que <code>painel1</code> está escrito, todo mundo tem o mesmo <code>thres</code> e o mesmo efeito de tratamento. Isso não é ruim porque tira uma variação e permite a gente focar na variação de ter vários períodos. Vamos olhar o que acontece quando a gente roda isso uma vez, com 4 períodos e 500 indivíduos:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">data &lt;- panel1(3,500,0,1)
-mod &lt;- plm(Y ~ D,data = data, index = c("id","T"))
-data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(any(D == 1))
+mod &lt;- plm(Y ~ D,data = data, index = c("id","T"),effects = "twoways")
+data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
 ATT &lt;- data_treated$Y1 - data_treated$Y0</code></pre>
-<p>O efeito de tratamento é a média da variável ATT, que é 0.9088279 e é bem perto do que a gente colocou no código. O efeito de tratamento estimado é 2.1627203, que é o dobro do valor verdadeiro.</p>
-<p>Vamos fazer umas mil simulações pra ver o que acontece. Eu vou escrever uma função que me retorna o efeito de tratamento e o coeficiente estimado e a gente vai fazer um histograma disso:</p>
+<p>O efeito de tratamento é a média da variável ATT, que é 1.1543809 e é bem perto do que a gente colocou no código. O efeito de tratamento estimado é 3.1549142, que é o dobro do valor verdadeiro.</p>
+<p>Vamos fazer umas mil simulações pra ver o que acontece. Eu vou escrever uma função que me retorna o efeito de tratamento e o coeficiente estimado e ai eu vou usar o map paralelizado, <code>future_map</code> pra fazer as simulações multicore (no ano 2023, quem tem tempo para rodar as simulações sem ser em paralelo?):</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simul1 &lt;- function(t,n,thres,treat_effect){
   data &lt;- panel1(t,n,thres,treat_effect)
-  mod &lt;- plm(Y ~ D,data = data, index = c("id","T"))
-  data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(any(D == 1))
+  mod &lt;- plm(Y ~ D,data = data, index = c("id","T"),effects = "twoways")
+  data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
   ATT &lt;- data_treated$Y1 - data_treated$Y0
   
   return(c(coef(mod),mean(ATT)))
 }
 
-resul &lt;- map(1:1000,\(x)simul1(3,500,0,1))
+resul &lt;- future_map(1:1000,\(x)simul1(3,500,0,1), .options = furrr_options(seed = TRUE))
 resul &lt;- do.call(rbind,resul)
 
 diff &lt;- resul[,1] - resul[,2]</code></pre>
 <p>Vamos fazer um histograma disso:</p>
-<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(data.frame(var = diff),aes(var)) + geom_histogram() + theme_light()</code></pre>
-<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(data.frame(var = diff),aes(var)) + geom_histogram() + theme_light() + labs(x = "Diferença entre estimado e ATT")</code></pre>
 <p><img src="/post/2023-12-16-diferencas-em-diferencas/index.pt-br_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Tudo parece bem aqui: o histograma está centrado em zero e parece ter só uma pequena assimetria. O problema maior é quando a gente tem efeitos de tratamento que mudam conforme a data que o indivíduo é tratado. A gente vai alterar um pouquinho a função <code>painel1</code> pra permitir diferentes efeitos de tratamento em cada período e diferentes probabilidades de ser alocado a cada período (é pra isso que a gente tem um novo argumento na função, <code>prob</code>):</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">panel2 &lt;- function(t,n,thres,treat_effect,prob){
   
-  v &lt;- rnorm(t+1)
-  cohort &lt;- sample(0:t,n,replace = TRUE,prob = prob)
-  treat_effect_n &lt;- treat_effect[cohort+1]
+  v &lt;- 0:t
+  cohort &lt;- sample(1:t,n,replace = TRUE,prob = prob)
+  treat_effect_n &lt;- treat_effect[cohort]
   panel_list &lt;- map(1:n,\(x)one_indv(x,t,v,cohort[x],treat_effect_n[x],thres))
   panel &lt;- do.call(rbind,panel_list)
   panel &lt;- as.data.frame(panel)
@@ -107,29 +115,60 @@ diff &lt;- resul[,1] - resul[,2]</code></pre>
   
 }</code></pre>
 <p>Vamos fazer igualzinho acima:</p>
-<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">treatment_effects &lt;- c(0,1,0.7,0.5)
-data &lt;- panel2(3,5000,0,treatment_effects,c(0,1/4,1/4,3/8))
-mod &lt;- plm(Y ~ D,data = data, index = c("id","T"))
-data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(any(D == 1))
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">treatment_effects &lt;- c(1,2,3)
+data &lt;- panel2(3,5000,0,treatment_effects,c(1/4,1/4,3/8))
+mod &lt;- plm(Y ~ D,data = data, index = c("id","T"),effects = "twoways")
+data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
 ATT &lt;- mean(data_treated$Y1 - data_treated$Y0)</code></pre>
-<p>O efeito de tratamento é a média da variável ATT, que é 0.7102029, enquanto o efeito de tratamento estimado é 1.3398041. Vamos criar outra função que faz a simulação:</p>
+<p>O efeito de tratamento é a média da variável ATT, que é 1.7545035, enquanto o efeito de tratamento estimado é 4.1412855. Vamos criar outra função que faz a simulação:</p>
 <pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simul2 &lt;- function(t,n,thres,treat_effect,prob){
   
   data &lt;- panel2(t,n,thres,treat_effect,prob)
-  mod &lt;- plm(Y ~ D,data = data, index = c("id","T"))
-  data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(any(D == 1))
+  mod &lt;- plm(Y ~ D,data = data, index = c("id","T"), effect = "twoways")
+  data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
   ATT &lt;- mean(data_treated$Y1 - data_treated$Y0)
   
   return(c(coef(mod),mean(ATT)))
   
 }</code></pre>
-<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">treatment_effects &lt;- c(0,1,0.7,0.5)
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">treatment_effects &lt;- c(3,2,1)
 
-resul2 &lt;- map(1:1000,\(x)simul2(3,500,0,treatment_effects,c(0,1/4,1/4,3/8)))
+resul2 &lt;- future_map(1:1000,\(x)simul2(3,500,0,treatment_effects,c(1/4,1/4,3/8)), .options = furrr_options(seed = TRUE))
 resul2 &lt;- do.call(rbind,resul2)
 
 diff2 &lt;- resul2[,1] - resul2[,2]
 
-ggplot(data.frame(var = diff2),aes(var)) + geom_histogram() + theme_light()</code></pre>
-<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+ggplot(data.frame(var = diff2),aes(var)) + geom_histogram() + theme_light() + labs(x = "Diferença entre estimado e ATT")</code></pre>
 <p><img src="/post/2023-12-16-diferencas-em-diferencas/index.pt-br_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>O efeito de tratamento estimado não está centrado em 0. Na média o nosso viés é negativo, então a gente está subestimando o efeito de tratamento verdadeiro.</p>
+<p>Como resolver isso? O problema é que a gente está trabalhando com as variáveis erradas. Na regressão, a gente está definindo um único efeito de tratamento. Mas, o código que simula usa diferentes efeitos de tratamento. Então, até do ponto de vista de recuperar os efeitos de tratamento, nós gostaríamos de recuperar o efeito de tratamento para quem é tratado no período 1 em diante, do período 2 em diante etc. O que acontece é que o estimador de diferenças em diferenças usual faz uma combinação linear desses efeitos de tratamento que não necessariamente somam um nem são positivas, então a gente obtém um estimador que não faz sentido:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simul3 &lt;- function(t,n,thres,treat_effect,prob){
+  
+  data &lt;- panel2(t,n,thres,treat_effect,prob)
+  data &lt;- data  %&gt;% group_by(id) %&gt;% mutate(cohort = (t+1) - sum(D),Dd = cohort*D) %&gt;% mutate(cohort = as.factor(cohort),T = as.factor(T), Dd = as.factor(Dd)) %&gt;% mutate(cohort = relevel(cohort,"4"))
+  mod &lt;- lm(Y ~ Dd + cohort +T,data = data)
+  data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
+  ATT &lt;- mean(data_treated$Y1 - data_treated$Y0)
+  
+  return(c(coef(mod)[c("Dd1","Dd2","Dd3")],mean(ATT)))
+  
+}</code></pre>
+<p>Vamos fazer a simulação:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">resul3 &lt;- future_map(1:1000,\(x)simul3(3,500,0,treatment_effects,c(3/8,3/8,2/8)), .options = furrr_options(seed = TRUE))</code></pre>
+<p>Agora a gente tem três efeitos de tratamento, vamos ver qual a média:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">resul3 &lt;- do.call(rbind,resul3)
+colMeans(resul3[,1:3])</code></pre>
+<pre ><code >##       Dd1       Dd2       Dd3 
+## 2.9996215 1.9975379 0.9994349</code></pre>
+<p>Vamos fazer um histograma, e pra ficar fácil de vizualizar eu vou plottar desvios do efeito de tratamento estimados dos efeitos de tratamento que a gente estabeleceu no código:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">true_effect &lt;- matrix(treatment_effects,nrow=1000,ncol=3,byrow = TRUE)
+
+est &lt;- resul3[,1:3] - true_effect %&gt;% as.data.frame()
+est &lt;- pivot_longer(est,everything())
+
+ggplot(est,aes(value)) + geom_histogram() + facet_grid(.~name) + theme_light()</code></pre>
+<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2023-12-16-diferencas-em-diferencas/index.pt-br_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>A média dos efeitos de tratamento pra cada coorte é bem próximo do que a gente estabeleceu e os histogramas são bem comportados. É fácil a gente construir qualquer estimador a partir disso,por exemplo, a gente pode fazer uma média ponderada pela probabilidade de pertencer a cada coorte. Isso exigira reescrever o código um pouquinho porque nenhuma das funções entrega a proporção em cada coorte. Esse post já está longo o bastante e então fica como exercício para o leitor.</p>
+<p>É claro, nada desse post é original: o problema é do paper do Chaisemartin (Two-Way Fixed Effects Estimators with
+Heterogeneous Treatment Effects) e a solução veio de um paper do Wooldridge.</p>

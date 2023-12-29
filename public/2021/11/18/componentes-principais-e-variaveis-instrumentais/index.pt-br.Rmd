@@ -1,0 +1,213 @@
+---
+title: Componentes Principais e Variáveis Instrumentais
+author: Daniel Coutinho
+date: '2021-11-18'
+slug: componentes-principais-e-variaveis-instrumentais
+categories:
+  - Econometria
+  - Machine Learning
+tags:
+  - Variáveis Instrumentais
+  - Componentes Principais
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+Eu já falei de variáveis instrumentais e de componentes principais. Eu nunca misturei os dois, apesar da ideia deste post ter me ocorrido a muito tempo. 
+
+Eu já falei como [muitos instrumentos causam viés](https://azul.netlify.app/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/) e como [componentes principais podem ser usados para resumir muitas variáveis](https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/). Naturalmente, alguém poderia se perguntar se a gente poderia passar componentes principais em um conjunto de instrumentos e usar apenas alguns poucos instrumentos que resumem a maior parte da variabilidade dos dados. 
+
+Vamos fazer um pequeno exemplo com 100 observações e cinquenta variáveis instrumentais. As variáveis instrumentais são `z` e a variável omitida vai ser `u`:
+
+```{r,message=FALSE}
+
+set.seed(181121)
+
+library(AER)
+
+n <- 100
+q <- 50
+
+
+z <- matrix(rnorm(n*q),ncol=q)
+u <- rnorm(n)
+
+```
+
+Os coeficientes do instrumento são aleatórios mas relativamente baixos. Isso faz com que os instrumentos expliquem muito da variação, mas cada instrumento explica muito pouco da variação pra ser usado como um instrumento sozinho:
+
+```{r}
+
+cofs <- runif(q,-0.8,0.8)
+
+```
+
+Eu vou criar as variáveis `x` e `y` que são o regressor e a variável dependente, respectivamente:
+
+```{r}
+
+x <- 0.1 + z%*%cofs + u + rnorm(n)
+
+y <- 1.5*x + 2*u + rnorm(n)
+
+```
+
+Veja que o coeficiente da variável $x$ é 1.5. Eu vou iniciar estimando por Mínimos Quadrados, por Variável Instrumental usando os 50 instrumentos, e por variável instrumental usando o primeiro instrumento - não há nada de especial no primeiro instrumento, eu poderia ter escolhido aleatoriamente um instrumento:
+
+```{r}
+
+mqo <- lm(y ~ x)
+iv <- ivreg(y ~ x|z)
+iv1 <- ivreg(y ~ x|z[,1])
+
+```
+
+Agora eu vou usar o `prcomp` para estimar os componentes principais de $z$. A variável `q_prime` me diz quantos componentes principais eu vou usar (10):
+
+```{r}
+
+q_prime <- 10
+
+new_z <- prcomp(z,center = TRUE,scale. = TRUE)
+new_z <- new_z$x[,1:q_prime]
+
+iv_pr <- ivreg(y ~ x|new_z)
+
+```
+
+Vamos ver os resultados:
+
+```{r}
+
+tabela <- c(coef(mqo)[2],coef(iv)[2],coef(iv1)[2],coef(iv_pr)[2])
+names(tabela) <- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
+
+knitr::kable(tabela,col.names =" ")
+
+```
+
+Isso sugere que a gente está em um bom caminho. Mas, uma única simulação não adianta de muita coisa, então vamos amarrar o código acima em uma função e fazer umas mil repetições. Eu vou permitir alterar o tamanho da amostra, o número de instrumentos, o número de fatores usados e o coeficiente do instrumento em relação a variável `x`:
+
+```{r,message = FALSE,warning=FALSE}
+
+library(purrr)
+library(ggplot2)
+library(tidyr)
+
+
+```
+
+
+```{r,cache=TRUE}
+
+uma_simul <- function(n,q,q_prime,coef_prim = 0.8){
+
+  z <- matrix(rnorm(n*q),ncol=q)
+  u <- rnorm(n)
+  
+  cofs <- runif(q,-coef_prim,coef_prim)
+  
+  x <- 0.1 + z%*%cofs + u + rnorm(n)
+  
+  y <- 1.5*x + 2*u + rnorm(n)
+  
+  mqo <- lm(y ~ x)
+  iv <- ivreg(y ~ x|z)
+  
+  new_z <- prcomp(z,center = TRUE,scale. = TRUE)
+  new_z <- new_z$x[,1:q_prime]
+  
+  iv_pr <- ivreg(y ~ x|new_z)
+  iv1 <- ivreg(y ~ x|z[,1])
+  
+  return(c(coef(mqo)[2],coef(iv)[2],coef(iv1)[2],coef(iv_pr)[2]))
+}
+
+input <- replicate(1000,100,simplify = FALSE)
+
+output <- map(input, uma_simul, q = 50,q_prime = 10)
+
+output <- do.call(rbind,output)
+
+colnames(output) <- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
+
+knitr::kable(colMeans(output),col.names =" ")
+
+```
+
+O IV com um único instrumento sofreu um sério problema nessa simulação. O IV com 10 componentes principais é só marginalmente melhor que todos os instrumentos. Vamos olhar a distribuição de cada estimador usando o **ggplot**, e isso vai exigir arrumar os dados usando o `tidyr`. A gente vai colocar uma linha vertical no valor verdadeiro do coeficiente:
+
+```{r}
+
+output_tidy <- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
+
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free")+ geom_vline(aes(xintercept = 1.5)) + theme_minimal()
+
+```
+
+
+Vamos realmente aloprar e criar um exemplo com 90 instrumentos. Dessa vez, eu vou usar apenas um componente principal:
+
+```{r,cache=TRUE}
+
+input <- replicate(1000,100,simplify = FALSE)
+
+output <- map(input, uma_simul, q = 90,q_prime = 10,coef_prim = 0.1)
+
+output <- do.call(rbind,output)
+
+colnames(output) <- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
+
+knitr::kable(colMeans(output),col.names =" ")
+
+```
+
+Vamos fazer o histograma das estimações:
+
+
+```{r}
+
+output_tidy <- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
+
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + geom_vline(aes(xintercept =1.5)) + theme_minimal()
+
+```
+As distribuições de um instrumento é incrivelmente mal comportada e a distribuição usando componentes principais tem distribuição bem menos concentrada que Mínimos Quadrados ou usando todos os instrumentos. 
+
+Nós podemos brincar um pouquinho e reduzir a quantidade de componentes principais. Vamos testar dois:
+
+```{r,cache=TRUE}
+
+input <- replicate(1000,100,simplify = FALSE)
+
+output <- map(input, uma_simul, q = 90,q_prime = 5,coef_prim = 0.1)
+
+output <- do.call(rbind,output)
+
+colnames(output) <- c("MQO","IV-Todos","IV-1º Instrumento","IV-Componentes Principais")
+
+knitr::kable(colMeans(output),col.names =" ")
+
+```
+
+```{r}
+
+output_tidy <- pivot_longer(as.data.frame(output),cols = everything(), names_to = "Estimador", values_to = "Valor")
+
+ggplot(output_tidy,aes(Valor)) + geom_histogram() + facet_wrap(vars(Estimador),scales = "free") + geom_vline(aes(xintercept =1.5)) + theme_minimal()
+
+```
+
+Diminuir o número de componentes parece ser uma faca de dois gumes: o viés cai, mas a variância aumenta. 
+
+Essas simulações mostram que usar IV pode gerar tanto viés quanto MQO, mas este post já tá grande demais. 
+
+---
+
+[Paper do Bai e Ng com o mesmo tema](http://www.columbia.edu/~jb3064/papers/2010_Instrumental_variable_estimation_in_a_data_rich_environment.pdf)
