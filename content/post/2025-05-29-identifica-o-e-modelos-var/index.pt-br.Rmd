@@ -1,0 +1,90 @@
+---
+title: Identificação e modelos VAR
+author: Daniel Coutinho
+date: '2025-05-29'
+slug: index.pt-br
+categories:
+  - Econometria
+  - Séries Temporais
+tags:
+  - VAR
+  - Identificação
+  - Modelos estruturais
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true
+---
+
+Faz muito tempo (pré pandemia) eu falei sobre VAR (Vector Autoregression) e como se obtinha respostas ao impulso (IRF) impondo restrições no modelo. O post tratou só do mais básico, a identificação recursiva, também conhecida por Cholesky ou restrições de curto prazo. Essa é a forma de identificação mais conhecida, a ponto das pessoas acreditarem que modelos VAR são identificados assim.
+
+Os mais de cinco anos que se passaram entre esse post e o post original se devem, não só aos inúmeros compromissos profissionais, mas especialmente ao _rabbit hole_ que a pergunta me levou. Esse post (e os próximos) vão explorar toda a questão em detalhes.
+
+Esse post vai tratar do que são Structural VAR (SVAR) e como ele se relaciona ao VAR estimado e falar sobre identificação. O próximo post vai tratar de identificação - como definido nesse post - em um setup mais geral e depois nós vamos falar sobre SVAR em detalhes. A rota parece um pouco complicada, mas esse é um dos vários momentos em matemática que alcançar o nível de generalidade certo ajuda.
+
+# VAR e SVAR
+
+O VAR é uma auto regressão em vetor. Se $y$ é um vetor de variáveis de dimensão $p$ e $A$ é uma matriz $p \times p$ e $u_t$ são os erros (ou inovação, pra usar a língua de séries temporais), então o VAR é:
+
+$$
+y_t = A y_{t-1} + u_t 
+$$
+
+Pra ninguém ter medo disso, a primeira linha desse modelo explica a primeira variável - que a gente vai chamar de $y_{1t}$ - em termos de valores passados dessa variável e de todas as outras variáveis do sistema:
+
+$$
+y_{1t} = a_{11} y_{1t-1} + a_{12} y_{2t-1} + \ldots + a_{1p} y_{pt-1} + u_{1t} 
+$$
+
+Visto dessa maneira, cada equação que compõe o sistema é uma auto regressão e pode ser estimado por mínimos quadrados.
+
+Só pra deixar a discussão um pouco menos abstrata, considerem o VAR que tem três variáveis: PIB, Inflação e Juros. Então o nosso modelo explica PIB usando lags do PIB, da inflação e dos juros; explica inflação usando os mesmos lags. Etc. Isso é o que o modelinho macro mais simples usa. Nota aos navegantes: DSGEs usam as mesmas ideias, e as técnicas mais simples de resolver DSGE reduzem tudo ao caso de um VAR.
+
+Até aqui nada é muito problemático. O problema é que, posto dessa maneira, o error $u_t$ tem uma matriz de covariância $\Sigma_u$ que só obedece as restrições usuais impostas sobre matrizes de covariância (ser semi positiva definida). A pergunta que interessa a muitos economistas é o que acontece se a gente tivesse um aumento dos juros que não é explicado por _lags_ das variáveis. O erro $u_t$ é incapaz de responder essa pergunta se a matriz não for diagonal - nesse caso os erros são correlacionados. 
+
+## Exemplinho
+
+Vamos pegar um exemplo bobo em que $\pi_t$ é a inflação e $i_t$ é a taxa de juros. Vamos fingir que a inflação só responde a taxa de juros com _lag_ (o pessoal de macro chamaria isso de _sticky prices_), mas o banco central responde a inflação no mesmo período. Os choques nesse caso são $\varepsilon_pi$ para a inflação e $\varepsilon_i$ para os juros e a gente vai assumir que esses choques são independentes.
+
+Escrevendo as duas equações:
+
+$$
+\pi_t = \gamma i_{t-1} + \rho \pi_{t-1} + \varepsilon_{\pi,t}  \quad \quad {(1.1)}\\
+i_t = \beta \pi_t + \varepsilon_{i,t} \quad \quad {(1.2)}
+$$
+
+Substitua a primeira equação na segunda e a gente vai obter:
+
+$$
+i_t = \beta \gamma i_{t-1} + \beta \rho \pi_{t-1} + \beta \varepsilon_{\pi,t} + \varepsilon_{i,t}
+$$
+
+Essa última equação é no formato do VAR acima, e o erro $u_t$ dela seria composto da soma dos dois choques $\varepsilon_{i,t}$ e $\varepsilon_{\pi,t}$. Se o economista está interessado no efeito de $\varepsilon_{\pi,t}$ sobre $i_t$, o VAR acima contém parte da resposta.
+
+Economistas enxergam as equações 1.1 e 1.2 como mais fundamentais que as equações obtidas pelo VAR. Essa literatura chamaria o meu modelo de **forma estrutural** e o VAR de **forma reduzida**. 
+
+## SVARs
+
+SVARs, os modelos VARs estruturais, são tentativas de passar da forma reduzida pra forma estrutural. Se toda forma reduzida fosse correspondente a uma única forma estrutural, não valeria a pena considerar a distinção.
+
+Se a gente realmente acredita que os nossos choques estruturais são independentes (ou pelo menos não correlacionados), então a gente pode reduzir a questão acima, que é excessivamente abstrata, para:
+
+**Como nós podemos diagonalizar uma matriz $\Sigma_u$?**
+
+Infelizmente nós não temos uma única respota. Pra entender por que, você precisa de dois fatos de álgebra linear:
+
+1) Toda matriz simétrica admite uma decomposição em autovalores e autovetores, e os autovetores formam uma base ortogonal
+2) Os autovetores não são unicamente determinados 
+
+Como os autovetores formam uma base ortogonal - então a matriz que tem autovetores nas colunas é ortonormal - multiplicar ela por _outra_ matriz ortonormal te dá uma nova coleção de autovetores. 
+
+A pergunta seguinte a ser feita é:
+
+**Quais são as restrições que nós devemos impor sobre o modelo estrutural de maneira a recuperar os parâmetros estruturais da forma reduzida?**
+
+# Identificação

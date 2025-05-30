@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Bayesianismo e regularização | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2021/10/17/index.pt-br/"><meta property="og:title" content="Bayesianismo e regularização" />
+<meta property="og:description" content="Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.
+Regularização Muita gente conhece métodos de regularização em machine learning, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2021/10/17/index.pt-br/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-10-17T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-10-17T00:00:00+00:00" />
+
+<meta itemprop="name" content="Bayesianismo e regularização">
+<meta itemprop="description" content="Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.
+Regularização Muita gente conhece métodos de regularização em machine learning, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear."><meta itemprop="datePublished" content="2021-10-17T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-10-17T00:00:00+00:00" />
+<meta itemprop="wordCount" content="678">
+<meta itemprop="keywords" content="Bayesiana,LASSO,Ridge,Regularização," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Bayesianismo e regularização"/>
+<meta name="twitter:description" content="Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.
+Regularização Muita gente conhece métodos de regularização em machine learning, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">October 17, 2021</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>678 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>4 mins</span>
+                        </div>
+
+                        <h1>Bayesianismo e regularização</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.</p>
+<div id="regularização" class="section level1">
+<h1>Regularização</h1>
+<p>Muita gente conhece métodos de regularização em <em>machine learning</em>, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear. Nós todos sabemos que o estimador de mínimos quadrados faz:</p>
+<p><span class="math display">\[
+\hat{\beta}_{MQO} = \arg\min \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2
+\]</span></p>
+<p>E <span class="math inline">\(x_i\)</span> é <span class="math inline">\(1 \times p\)</span> e <span class="math inline">\(\beta\)</span> é <span class="math inline">\(p \times 1\)</span>. Os estimadores de regularização fazem:</p>
+<p><span class="math display">\[
+\hat{\beta} = \arg\min \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \lambda p(\mathbf{\beta})
+\]</span></p>
+<p>Onde <span class="math inline">\(\lambda\)</span> é um parâmetro e <span class="math inline">\(p(.)\)</span> é uma função de penalização. Estimadores dessa família incluem o <em>ridge</em>:</p>
+<p><span class="math display">\[
+\hat{\beta}_{Ridge} = \arg\min \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \lambda \sum_{j=1}^p \beta_j^2
+\]</span>
+E o LASSO:</p>
+<p><span class="math display">\[
+\hat{\beta}_{LASSO} = \arg\min \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \lambda \sum_{j=1}^p |\beta_j|
+\]</span></p>
+</div>
+<div id="bayesianismo" class="section level1">
+<h1>Bayesianismo</h1>
+<p>Já apareceu aqui no blog “como” os bayesianos pensam, mas vai uma revisão: bayesianos tratam o parâmetro como uma variável aleatória. Nós temos alguma crença <em>a priori</em> como a variável se distribui e nós combinamos a informação a priori com a informação vinda da verossimelhança do modelo, e obtemos uma distribuição dos valores do parâmetro depois de vermos os dados, a <em>posterior</em>. Essa distribuição advém da regra de Bayes:</p>
+<p><span class="math display">\[
+P(\theta|x) = \frac{L(x|\theta)\pi(\theta)}{P(x)}
+\]</span></p>
+<p>No qual <span class="math inline">\(L(x|\theta)\)</span> é a função verossimelhança e <span class="math inline">\(\pi(\theta)\)</span> é a <em>prior</em> e <span class="math inline">\(P(x)\)</span> é a distribuição marginal dos dados. Se nós não quisermos a distribuição de <span class="math inline">\(\theta\)</span>, mas só o ponto que maximiza a <em>posterior</em>, nós podemos nos preocupar só com <span class="math inline">\(L(\theta|x)\pi(\theta)\)</span> - o <span class="math inline">\(P(x)\)</span> não é afetado pelo parâmetro, por ser a distribuição marginal. No resto do post eu vou ignorar <span class="math inline">\(P(x)\)</span>, que só existe de fato para garantir que <span class="math inline">\(P(\theta|x)\)</span> integra 1. Nossa <em>posterior</em> é <strong>proporcional</strong> a <span class="math inline">\(L(x|\theta)\pi(\theta)\)</span></p>
+</div>
+<div id="o-modelo-linear-e-bayesianismo" class="section level1">
+<h1>O modelo linear e bayesianismo</h1>
+<p>Vamos continuar como bayesianos e considerar o modelo linear. Vamos impor que os erros do modelo linear são normais, então a verossimelhança do modelo é a normal<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
+<p><span class="math display">\[
+L(y,x|\theta) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta}_i)^2\right)
+\]</span></p>
+<p>Eu sou bayesiano (até o fim do post, pelo menos), então eu preciso de uma <em>prior</em> pros meus parâmetros. Eu vou ignorar solenemente <span class="math inline">\(\sigma^2\)</span> e supor que eu só vou estimar <span class="math inline">\(\mathbf{\beta}\)</span>. Eu vou colocar uma <em>prior</em> normal com média zero e variância <span class="math inline">\(\tau^2\)</span>:</p>
+<p><span class="math display">\[
+\pi(\theta) = \frac{1}{\sqrt{2\pi}\tau} \exp \left(-\frac{1}{2\tau^2} \sum_{j=1}^p \beta_j^2 \right)
+\]</span></p>
+<p>Vamos calcular <span class="math inline">\(L(\theta|x)\pi(\theta)\)</span>:</p>
+<p><span class="math display">\[
+L(\theta|y,x)\pi(\theta) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2\right)\frac{1}{\sqrt{2\pi}\tau} \exp \left(-\frac{1}{2\tau^2} \sum_{j=1}^p \beta_j^2 \right) = \\
+\frac{1}{2\pi \sigma \tau}\exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 - \frac{1}{2\tau^2} \sum_{j=1}^p \beta^2_j \right)
+\]</span></p>
+<p>Tire o log da expressão acima:</p>
+<p><span class="math display">\[
+\log(L(y,x|\theta)\pi(\theta)) = -\log(2\pi\sigma\tau) - \left(\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \frac{1}{2\tau^2} \sum_{j=1}^p \beta_j^2\right)
+\]</span></p>
+<p>Lembre que <span class="math inline">\(\log(2\pi \sigma \tau)\)</span> não depende de <span class="math inline">\(\beta\)</span> e compare a expressão acima com a expressão que eu escrevi pro Ridge. Lá o parâmetro de regularização é <span class="math inline">\(\lambda\)</span>, e aqui o parâmetro é <span class="math inline">\(\frac{1}{2\tau^2}\)</span>.</p>
+<p>Noutras palavras, ridge é o que um bayesiano chamaria de um modelo linear normal com uma prior normal.</p>
+<p>E se a gente trocar a prior para <span class="math inline">\(\pi(\beta) = \frac{1}{2\tau} \exp\left(-\frac{|\beta|}{\tau}\right)\)</span>, a <a href="https://en.wikipedia.org/wiki/Laplace_distribution">distribuição de Laplace</a> com média zero e variância <span class="math inline">\(2\tau^2\)</span>? As mesmas contas:</p>
+<p><span class="math display">\[
+L(\theta|x,y)\pi(\theta) = \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2\right)\frac{1}{2\tau} \exp\left(-\sum_{j=1}^p\frac{|\beta_j|}{\tau}\right) = \\ =\frac{1}{\sqrt{2\pi}\sigma{}2\tau}\exp \left(-\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 - \frac{1}{\tau} \sum_{j=1}^p |\beta_j|\right)\\
+\log(L(\theta|x,y)\pi(\theta)) = -\frac{1}{2}\log(4\pi\sigma^2\tau^2) - \left(\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - \mathbf{x}_i \mathbf{\beta})^2 + \frac{1}{\tau} \sum_{j=1}^p|\beta_j|\right)
+\]</span></p>
+<p>Se você comparar com a expressão do LASSO,lá nós usamos <span class="math inline">\(\lambda\)</span> como parâmetro de regularização e aqui o parâmetro de regularização é <span class="math inline">\(1/\tau\)</span>.</p>
+<p>No caso mais geral <span class="math inline">\(\log(L(\theta|x,y)\pi(\theta)) = \ell(\theta|x,y) + \log(\pi(\theta))\)</span>, e <span class="math inline">\(\ell(\theta|x,y)\)</span> é a velha conhecida log verossimelhança. A função de regularização aqui seria <span class="math inline">\(\log(\pi(\theta))\)</span>. Isso sugere que existem várias penalizações malucas por ai, que são logs das funções densidade.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>1: Veja que pro modelo linear <span class="math inline">\(y_i = x_i \beta + \epsilon_i\)</span>, então <span class="math inline">\(y_i - x_i \beta = \epsilon_i\)</span>. Eu estou condicionando tudo a <span class="math inline">\(x\)</span><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/bayesiana">
+                                    <i class="fas fa-tag mr-2"></i>Bayesiana
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/lasso">
+                                    <i class="fas fa-tag mr-2"></i>LASSO
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/ridge">
+                                    <i class="fas fa-tag mr-2"></i>Ridge
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/regulariza%C3%A7%C3%A3o">
+                                    <i class="fas fa-tag mr-2"></i>Regularização
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2021%2f10%2f17%2findex.pt-br%2f&text=Bayesianismo%20e%20regulariza%c3%a7%c3%a3o">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2021%2f10%2f17%2findex.pt-br%2f&title=Bayesianismo%20e%20regulariza%c3%a7%c3%a3o">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2021%2f10%2f17%2findex.pt-br%2f&t=Bayesianismo%20e%20regulariza%c3%a7%c3%a3o">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2021%2f10%2f17%2findex.pt-br%2f&title=Bayesianismo%20e%20regulariza%c3%a7%c3%a3o">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2021/04/25/calculando-graus-de-liberdade-do-ridge/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Calculando graus de liberdade do Ridge</h4>
+            <p class="card-text text-muted text-uppercase">April 25, 2021</p>
+            <div class="card-text">
+                Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/06/22/hamiltonian-monte-carlo/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Hamiltonian Monte Carlo</h4>
+            <p class="card-text text-muted text-uppercase">June 22, 2020</p>
+            <div class="card-text">
+                Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
+No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/02/08/markov-chain-monte-carlo/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Amostrando de distribuições difíceis: o Markov Chain Monte Carlo</h4>
+            <p class="card-text text-muted text-uppercase">February 8, 2020</p>
+            <div class="card-text">
+                Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

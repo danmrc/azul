@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bandits Problem on AZUL</title>
+    <link>https://azul.netlify.app/tags/bandits-problem/</link>
+    <description>Recent content in Bandits Problem on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 13 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/bandits-problem/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tratamento Sequencial I</title>
+      <link>https://azul.netlify.app/2022/01/13/tratamento-sequencial-i/</link>
+      <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2022/01/13/tratamento-sequencial-i/</guid>
+      <description>Neste post, eu vou fingir que eu sou um microeconomista aplicado ou um médico e a minha pergunta é se um dado tratamento - no sentido literal se você for um médico - é mais eficiente que o outro.&#xA;Nós estamos acostumados a pensar testes de hipótese da seguinte forma: nós temos \(N\) observações, e algumas foram tratadas - talvez aleatoriamente, talvez selecionado em observáveis ou não observáveis. Nós então formulamos o teste de hipótese e buscamos cometer um erro do tipo I com uma probabilidade no máximo \(\alpha\).</description>
+    </item>
+  </channel>
+</rss>

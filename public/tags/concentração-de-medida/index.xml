@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Concentração de Medida on AZUL</title>
+    <link>https://azul.netlify.app/tags/concentra%C3%A7%C3%A3o-de-medida/</link>
+    <description>Recent content in Concentração de Medida on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Mon, 31 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/concentra%C3%A7%C3%A3o-de-medida/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Concentração do Máximo</title>
+      <link>https://azul.netlify.app/2022/01/31/concentracao-do-maximo/</link>
+      <pubDate>Mon, 31 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2022/01/31/concentracao-do-maximo/</guid>
+      <description>Este post é uma continuação do post sobre concentração de medida, e vai ser necessário para um post futuro.&#xA;Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:&#xA;\[ P(|X| &amp;gt; t) \leq e^{-\frac{t^2}{2\sigma^2}} \]&#xA;Agora suponha que você tem uma coleção de variáveis aleatórias, todas subgaussianas e não necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t.</description>
+    </item>
+  </channel>
+</rss>

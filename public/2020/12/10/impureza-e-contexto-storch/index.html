@@ -36,21 +36,20 @@
 
 <link rel="canonical" href="https://azul.netlify.app/2020/12/10/impureza-e-contexto-storch/"><meta property="og:title" content="{tidyverse}, Simulações e Processamento de Séries Temporais" />
 <meta property="og:description" content="Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
-foo1 &lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória." />
+foo1 &lt;- function(x) { lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1)) } foo1(1) ## [1] &#34;2020-12-11 07:03:25 -03&#34; foo1(1) ## [1] &#34;2020-12-11 07:03:22 -03&#34; foo1(1) ## [1] &#34;2020-12-11 07:03:40 -03&#34; Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azul.netlify.app/2020/12/10/impureza-e-contexto-storch/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2020-12-10T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2020-12-10T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2020-12-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-12-10T00:00:00+00:00" />
 
 <meta itemprop="name" content="{tidyverse}, Simulações e Processamento de Séries Temporais">
 <meta itemprop="description" content="Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
-foo1 &lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória."><meta itemprop="datePublished" content="2020-12-10T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-12-10T00:00:00&#43;00:00" />
+foo1 &lt;- function(x) { lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1)) } foo1(1) ## [1] &#34;2020-12-11 07:03:25 -03&#34; foo1(1) ## [1] &#34;2020-12-11 07:03:22 -03&#34; foo1(1) ## [1] &#34;2020-12-11 07:03:40 -03&#34; Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória."><meta itemprop="datePublished" content="2020-12-10T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-12-10T00:00:00+00:00" />
 <meta itemprop="wordCount" content="762">
-<meta itemprop="keywords" content="Computação,Programação,R," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="{tidyverse}, Simulações e Processamento de Séries Temporais"/>
+<meta itemprop="keywords" content="Computação,Programação,R," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="{tidyverse}, Simulações e Processamento de Séries Temporais"/>
 <meta name="twitter:description" content="Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
-foo1 &lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória."/>
+foo1 &lt;- function(x) { lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1)) } foo1(1) ## [1] &#34;2020-12-11 07:03:25 -03&#34; foo1(1) ## [1] &#34;2020-12-11 07:03:22 -03&#34; foo1(1) ## [1] &#34;2020-12-11 07:03:40 -03&#34; Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
@@ -329,7 +328,7 @@ tibble(t = 1:1000) %&gt;%
             <p class="card-text text-muted text-uppercase">November 29, 2020</p>
             <div class="card-text">
                 Esse é a continuação de um post que ainda não foi publicado sobre como usar o Blogdown, porque o primeiro post é bem mais complicado e esse post interessa alguns leitores do post que já tem um blog. O problema é que o highlight.js, como explicado no guia do blogdown, fala pra você colocar alguma coisa como isso no head.html do blog:
-&amp;lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&amp;gt;Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!
+&amp;lt;link href=&#34;//YOUR-CDN-LINK/styles/github.min.css&#34; rel=&#34;stylesheet&#34;&amp;gt; Mas o problema é que isso adiciona apenas algumas linguagens, o que é totalmente justo: imagine hostear um script com todas as linguagens possíveis!
             </div>
         </div>
     </a>
@@ -393,7 +392,7 @@ Não queria me alongar muito nem falar de corona então vou só fazer um gráfic
 
                 <p class="text-muted">
                     
-                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
                     
                 </p>
 

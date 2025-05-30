@@ -1,0 +1,23 @@
+---
+title: Identificação e modelos VAR
+author: Daniel Coutinho
+date: '2025-05-29'
+slug: index.pt-br
+categories:
+  - Econometria
+  - Séries Temporais
+tags:
+  - VAR
+  - Identificação
+  - Modelos estruturais
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+

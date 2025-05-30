@@ -6,117 +6,99 @@
     <description>Recent content in Matemática on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/matem%C3%A1tica/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Mon, 31 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/categories/matem%C3%A1tica/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Concentração do Máximo</title>
+      <link>https://azul.netlify.app/2022/01/31/concentracao-do-maximo/</link>
+      <pubDate>Mon, 31 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2022/01/31/concentracao-do-maximo/</guid>
+      <description>Este post é uma continuação do post sobre concentração de medida, e vai ser necessário para um post futuro.&#xA;Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:&#xA;\[ P(|X| &amp;gt; t) \leq e^{-\frac{t^2}{2\sigma^2}} \]&#xA;Agora suponha que você tem uma coleção de variáveis aleatórias, todas subgaussianas e não necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t.</description>
+    </item>
+    <item>
+      <title>Bayesianismo e regularização</title>
+      <link>https://azul.netlify.app/2021/10/17/index.pt-br/</link>
+      <pubDate>Sun, 17 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/10/17/index.pt-br/</guid>
+      <description>Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.&#xA;Regularização Muita gente conhece métodos de regularização em machine learning, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear.</description>
+    </item>
     <item>
       <title>Método de Perturbação: linerizando modelos sem mistério</title>
       <link>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</link>
       <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2021/03/23/metodo-de-perturbacao/</guid>
-      <description>(Este é mais um post completamente maluco)
-Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de programação dinâmica. Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive “para sempre” e pode acumular um ativo. Matematicamente:
-\[\max_{\{C\}_{t=1}^{\infty}, \{k_{t+1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\\text{sujeito a}\\k_{t+1} + C_t = A_tk_t^{\alpha} + (1-\delta)k_t\]
-Nesse caso o agente acumula capital, que se deprecia a taxa \(\delta\) e pode ser usada para produzir bens com uma função de produção \(A_tk_t^{\alpha}\).</description>
+      <description>(Este é mais um post completamente maluco)&#xA;Eu já discuti (várias vezes) aqui no blog sobre resolver problemas de programação dinâmica. Por exemplo, um problema que interessa frequentemente os economistas é maximizar a utilidade de um agente que vive “para sempre” e pode acumular um ativo. Matematicamente:&#xA;\[ \max_{\{C\}_{t=1}^{\infty}, \{k_{t+1}\}_{t=1}^{\infty}} \sum_{t=1}^{\infty} \beta^t u(C_t) \\ \text{sujeito a}\\ k_{t+1} + C_t = A_tk_t^{\alpha} + (1-\delta)k_t \]&#xA;Nesse caso o agente acumula capital, que se deprecia a taxa \(\delta\) e pode ser usada para produzir bens com uma função de produção \(A_tk_t^{\alpha}\).</description>
     </item>
-    
     <item>
       <title>Remastered: Interpolação</title>
       <link>https://azul.netlify.app/2020/12/13/remastered-interpola%C3%A7%C3%A3o/</link>
       <pubDate>Sun, 13 Dec 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/12/13/remastered-interpola%C3%A7%C3%A3o/</guid>
-      <description>Este é mais um post que já foi feito faz tempo, mas eu quero repetir mais pra mostrar um truque que eu aprendi, além de deixar a programação mais clara (com um pouco de sorte).
-Imagina que você conhece a função em alguns pontos. A gente teve um exemplo disso no post passado de programação dinâmica: a gente calcula o valor da função valor ou da função política em alguns pontos.</description>
+      <description>Este é mais um post que já foi feito faz tempo, mas eu quero repetir mais pra mostrar um truque que eu aprendi, além de deixar a programação mais clara (com um pouco de sorte).&#xA;Imagina que você conhece a função em alguns pontos. A gente teve um exemplo disso no post passado de programação dinâmica: a gente calcula o valor da função valor ou da função política em alguns pontos.</description>
     </item>
-    
     <item>
       <title>Gerando um padrão de difusão com soma de um termo gaussiano</title>
       <link>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</link>
       <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/02/09/difusao-gaussiana/</guid>
-      <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).
-Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
+      <description>Dia desses eu fui informado por um amigo de que um padrão bonitinho de difusão acontece somando um termo gaussiano acumuladamente a um conjunto. O que o amigo versado em Física me relatou como um “padrão de difusão”, na minha intuição mais econométrica vem como uma random walk no \(\mathbb{R}^2\).&#xA;Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto para ser passado ao ggplot2.</description>
     </item>
-    
     <item>
       <title>Sistemas dinâmicos II: Expectativas racionais</title>
       <link>https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/</link>
       <pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/01/17/sistemas-din%C3%A2micos-ii/</guid>
       <description>Há muito tempo atrás eu escrevi sobre Álgebra Linear e sistemas dinâmicos. Lá, eu falava de um caso em que o sistema era \(x_t = Ax_{t-1}\), onde \(x_t\) era um vetor e \(A\) tinha que ter autovalores menores que 1 em módulo para garantir a estabilidade do sistema. Apesar de ser um caso bem interessante, muitas vezes em economia nós temos que lidar com expectativas e assumimos expectativas racionais - que pode ser definida de várias maneiras, mas a mais intuitiva é pensar que agentes não cometem erros sistematicamente.</description>
     </item>
-    
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</title>
       <link>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-1/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
+      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
     </item>
-    
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</title>
       <link>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-2/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
-Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.&#xA;Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo. Depois de verificar que é relativamente simples encontrar pontos fixos em funções afins, percebemos que a tarefa fica bem complexa em pouco tempo e que por isso é interessante usar Teoremas de Ponto Fixo para garantir a existência destes objetos para certas funções que atendem a determinados critérios.</description>
     </item>
-    
     <item>
       <title>Prog Dinâmica IIA</title>
       <link>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</guid>
-      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.&#xA;Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
-    
     <item>
       <title>Prog Dinâmica IIA</title>
       <link>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</link>
       <pubDate>Wed, 14 Nov 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/11/14/prog-din%C3%A2mica-2a/</guid>
-      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.
-Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
+      <description>Em um post anterior, eu falei sobre a ideia básica de programação dinâmica, e como usamos ela para resolver problemas de otimização no tempo. Naquele post, eu tratei o caso sem incerteza. Este post vai tratar do caso com incerteza.&#xA;Vamos mudar um pouco o cenário: o nosso agente continua a maximizar a utilidade, mas dessa vez ele pode investir em um ativo que paga uma taxa de juros \(r\).</description>
     </item>
-    
     <item>
       <title>Sistemas Dinâmicos e Álgebra Linear</title>
       <link>https://azul.netlify.app/2018/11/06/sistemas-dinamicos-e-algebra-linear/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/11/06/sistemas-dinamicos-e-algebra-linear/</guid>
-      <description>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.
-Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo.</description>
+      <description>Este é mais um post na linha de “como eu gostaria de ter sido apresentado à”. O tema de hoje é Algebra Linear. Este é um dos cursos que muitos alunos acham excessivamente abstrato, e portanto, inútil. De fato, eu tive um pouco desta sensação quando eu fiz o curso. A verdade está muito distante disso.&#xA;Suponha que nós temos um sistema de equações (lineares), e este sistema evolui ao longo do tempo.</description>
     </item>
-    
     <item>
       <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
       <link>https://azul.netlify.app/2018/10/31/banach/</link>
       <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/10/31/banach/</guid>
-      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.&#xA;O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
-    
     <item>
       <title>O Teorema do Ponto Fixo de Banach e uma visualização no R</title>
       <link>https://azul.netlify.app/2018/10/31/banach/</link>
       <pubDate>Wed, 31 Oct 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/10/31/banach/</guid>
-      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
+      <description>Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.&#xA;O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.</description>
     </item>
-    
   </channel>
 </rss>

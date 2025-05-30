@@ -6,84 +6,64 @@
     <description>Recent content in Monte Carlo on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 08 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/monte-carlo/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 08 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/monte-carlo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Amostrando de distribuições difíceis: o Markov Chain Monte Carlo</title>
       <link>https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/</link>
       <pubDate>Sat, 08 Feb 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/02/08/markov-chain-monte-carlo/</guid>
       <description>Eu recentemente tive a chance de brincar com o Markov Chain Monte Carlo (MCMC daqui por diante) no contexto de DSGE - e quando eu digo brincar eu não quero dizer que usei o Dynare, por sinal. O algoritmo é bastante esperto e funciona surpreendentemente bem. Eu não vou me atrever a entrar nos detalhes de porque funciona, mas eu vou descrever o algoritmo com algum detalhe e mostrar um exemplozinhho de regressão Bayesiana.</description>
     </item>
-    
     <item>
       <title>Visualizando um critério de estacionariedade em Processos AR</title>
       <link>https://azul.netlify.app/2019/08/20/viz-estacionariedade-gganim/</link>
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/08/20/viz-estacionariedade-gganim/</guid>
-      <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
-Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} + \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
+      <description>Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.&#xA;Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:&#xA;\[y_t = \beta y_{t-1} + \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.</description>
     </item>
-    
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</title>
       <link>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-1/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-1/</guid>
-      <description>Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
+      <description>Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.</description>
     </item>
-    
     <item>
       <title>A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</title>
       <link>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-2/</link>
       <pubDate>Mon, 12 Aug 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/08/12/perron-frobenius-verificando-comp-2/</guid>
-      <description>Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
-Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.</description>
+      <description>Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.&#xA;Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo. Depois de verificar que é relativamente simples encontrar pontos fixos em funções afins, percebemos que a tarefa fica bem complexa em pouco tempo e que por isso é interessante usar Teoremas de Ponto Fixo para garantir a existência destes objetos para certas funções que atendem a determinados critérios.</description>
     </item>
-    
     <item>
       <title>Testes de raiz unitária</title>
       <link>https://azul.netlify.app/2018/10/19/testes-de-raiz-unit%C3%A1ria/</link>
       <pubDate>Fri, 19 Oct 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/10/19/testes-de-raiz-unit%C3%A1ria/</guid>
-      <description>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?
-Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.</description>
+      <description>Os autores deste blog foram confrontados com uma pergunta sobre o uso de testes de raiz unitária. Em linhas gerais, a pessoa já tinha passado o filtro Hodrick Prescott e o teste continuava indicando a presença de raiz unitária. Deveria este economista sentar e chorar? Ou continuar diferenciando a série?&#xA;Neste post vamos mostrar que o teste Dickey-Fuller (ADF) - padrão para testar presença de raiz unitária - tem poder baixo se (1) o processo tem uma raiz próxima de unitária e (2) a amostra é pequena.</description>
     </item>
-    
     <item>
       <title>Viés de variáveis instrumentais</title>
       <link>https://azul.netlify.app/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
-      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
-Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.&#xA;Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
     </item>
-    
     <item>
       <title>Monte Carlo 101</title>
       <link>https://azul.netlify.app/2018/07/18/monte-carlo-101/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/07/18/monte-carlo-101/</guid>
       <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
-    
     <item>
       <title>Monte Carlo 101</title>
       <link>https://azul.netlify.app/2018/07/18/monte-carlo-101/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/07/18/monte-carlo-101/</guid>
       <description>Simulações Monte Carlo são uma excelente maneira de entender um novo conceito, bem como explorar propriedades de estimadores. Quando queremos entender as propriedades não assintóticas dos estimadores, são raros os casos em que temos soluções analíticas: Mínimos Quadrados Ordinários é um dos casos, que parcialmente justifica a popularidade do método. Em muitos casos, usamos simulações para entender as características de um estimador em amostras finitas. Esse post tenta prover uma ilustração de como criar simulações e usa-las.</description>
     </item>
-    
   </channel>
 </rss>

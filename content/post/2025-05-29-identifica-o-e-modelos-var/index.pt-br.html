@@ -1,0 +1,74 @@
+---
+title: Identificação e modelos VAR
+author: Daniel Coutinho
+date: '2025-05-29'
+slug: index.pt-br
+categories:
+  - Econometria
+  - Séries Temporais
+tags:
+  - VAR
+  - Identificação
+  - Modelos estruturais
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true
+---
+
+
+
+<p>Faz muito tempo (pré pandemia) eu falei sobre VAR (Vector Autoregression) e como se obtinha respostas ao impulso (IRF) impondo restrições no modelo. O post tratou só do mais básico, a identificação recursiva, também conhecida por Cholesky ou restrições de curto prazo. Essa é a forma de identificação mais conhecida, a ponto das pessoas acreditarem que modelos VAR são identificados assim.</p>
+<p>Os mais de cinco anos que se passaram entre esse post e o post original se devem, não só aos inúmeros compromissos profissionais, mas especialmente ao <em>rabbit hole</em> que a pergunta me levou. Esse post (e os próximos) vão explorar toda a questão em detalhes.</p>
+<p>Esse post vai tratar do que são Structural VAR (SVAR) e como ele se relaciona ao VAR estimado e falar sobre identificação. O próximo post vai tratar de identificação - como definido nesse post - em um setup mais geral e depois nós vamos falar sobre SVAR em detalhes. A rota parece um pouco complicada, mas esse é um dos vários momentos em matemática que alcançar o nível de generalidade certo ajuda.</p>
+<div id="var-e-svar" class="section level1">
+<h1>VAR e SVAR</h1>
+<p>O VAR é uma auto regressão em vetor. Se <span class="math inline">\(y\)</span> é um vetor de variáveis de dimensão <span class="math inline">\(p\)</span> e <span class="math inline">\(A\)</span> é uma matriz <span class="math inline">\(p \times p\)</span> e <span class="math inline">\(u_t\)</span> são os erros (ou inovação, pra usar a língua de séries temporais), então o VAR é:</p>
+<p><span class="math display">\[
+y_t = A y_{t-1} + u_t
+\]</span></p>
+<p>Pra ninguém ter medo disso, a primeira linha desse modelo explica a primeira variável - que a gente vai chamar de <span class="math inline">\(y_{1t}\)</span> - em termos de valores passados dessa variável e de todas as outras variáveis do sistema:</p>
+<p><span class="math display">\[
+y_{1t} = a_{11} y_{1t-1} + a_{12} y_{2t-1} + \ldots + a_{1p} y_{pt-1} + u_{1t}
+\]</span></p>
+<p>Visto dessa maneira, cada equação que compõe o sistema é uma auto regressão e pode ser estimado por mínimos quadrados.</p>
+<p>Só pra deixar a discussão um pouco menos abstrata, considerem o VAR que tem três variáveis: PIB, Inflação e Juros. Então o nosso modelo explica PIB usando lags do PIB, da inflação e dos juros; explica inflação usando os mesmos lags. Etc. Isso é o que o modelinho macro mais simples usa. Nota aos navegantes: DSGEs usam as mesmas ideias, e as técnicas mais simples de resolver DSGE reduzem tudo ao caso de um VAR.</p>
+<p>Até aqui nada é muito problemático. O problema é que, posto dessa maneira, o error <span class="math inline">\(u_t\)</span> tem uma matriz de covariância <span class="math inline">\(\Sigma_u\)</span> que só obedece as restrições usuais impostas sobre matrizes de covariância (ser semi positiva definida). A pergunta que interessa a muitos economistas é o que acontece se a gente tivesse um aumento dos juros que não é explicado por <em>lags</em> das variáveis. O erro <span class="math inline">\(u_t\)</span> é incapaz de responder essa pergunta se a matriz não for diagonal - nesse caso os erros são correlacionados.</p>
+<div id="exemplinho" class="section level2">
+<h2>Exemplinho</h2>
+<p>Vamos pegar um exemplo bobo em que <span class="math inline">\(\pi_t\)</span> é a inflação e <span class="math inline">\(i_t\)</span> é a taxa de juros. Vamos fingir que a inflação só responde a taxa de juros com <em>lag</em> (o pessoal de macro chamaria isso de <em>sticky prices</em>), mas o banco central responde a inflação no mesmo período. Os choques nesse caso são <span class="math inline">\(\varepsilon_pi\)</span> para a inflação e <span class="math inline">\(\varepsilon_i\)</span> para os juros e a gente vai assumir que esses choques são independentes.</p>
+<p>Escrevendo as duas equações:</p>
+<p><span class="math display">\[
+\pi_t = \gamma i_{t-1} + \rho \pi_{t-1} + \varepsilon_{\pi,t}  \quad \quad {(1.1)}\\
+i_t = \beta \pi_t + \varepsilon_{i,t} \quad \quad {(1.2)}
+\]</span></p>
+<p>Substitua a primeira equação na segunda e a gente vai obter:</p>
+<p><span class="math display">\[
+i_t = \beta \gamma i_{t-1} + \beta \rho \pi_{t-1} + \beta \varepsilon_{\pi,t} + \varepsilon_{i,t}
+\]</span></p>
+<p>Essa última equação é no formato do VAR acima, e o erro <span class="math inline">\(u_t\)</span> dela seria composto da soma dos dois choques <span class="math inline">\(\varepsilon_{i,t}\)</span> e <span class="math inline">\(\varepsilon_{\pi,t}\)</span>. Se o economista está interessado no efeito de <span class="math inline">\(\varepsilon_{\pi,t}\)</span> sobre <span class="math inline">\(i_t\)</span>, o VAR acima contém parte da resposta.</p>
+<p>Economistas enxergam as equações 1.1 e 1.2 como mais fundamentais que as equações obtidas pelo VAR. Essa literatura chamaria o meu modelo de <strong>forma estrutural</strong> e o VAR de <strong>forma reduzida</strong>.</p>
+</div>
+<div id="svars" class="section level2">
+<h2>SVARs</h2>
+<p>SVARs, os modelos VARs estruturais, são tentativas de passar da forma reduzida pra forma estrutural. Se toda forma reduzida fosse correspondente a uma única forma estrutural, não valeria a pena considerar a distinção.</p>
+<p>Se a gente realmente acredita que os nossos choques estruturais são independentes (ou pelo menos não correlacionados), então a gente pode reduzir a questão acima, que é excessivamente abstrata, para:</p>
+<p><strong>Como nós podemos diagonalizar uma matriz <span class="math inline">\(\Sigma_u\)</span>?</strong></p>
+<p>Infelizmente nós não temos uma única respota. Pra entender por que, você precisa de dois fatos de álgebra linear:</p>
+<ol style="list-style-type: decimal">
+<li>Toda matriz simétrica admite uma decomposição em autovalores e autovetores, e os autovetores formam uma base ortogonal</li>
+<li>Os autovetores não são unicamente determinados</li>
+</ol>
+<p>Como os autovetores formam uma base ortogonal - então a matriz que tem autovetores nas colunas é ortonormal - multiplicar ela por <em>outra</em> matriz ortonormal te dá uma nova coleção de autovetores.</p>
+<p>A pergunta seguinte a ser feita é:</p>
+<p><strong>Quais são as restrições que nós devemos impor sobre o modelo estrutural de maneira a recuperar os parâmetros estruturais da forma reduzida?</strong></p>
+</div>
+</div>
+<div id="identificação" class="section level1">
+<h1>Identificação</h1>
+</div>

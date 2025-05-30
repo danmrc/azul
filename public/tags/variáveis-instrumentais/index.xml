@@ -6,46 +6,50 @@
     <description>Recent content in Variáveis Instrumentais on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Fri, 24 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/vari%C3%A1veis-instrumentais/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Sat, 29 Jul 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/vari%C3%A1veis-instrumentais/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Matrizes Esparsas</title>
+      <link>https://azul.netlify.app/2023/07/29/index.pt-br/</link>
+      <pubDate>Sat, 29 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2023/07/29/index.pt-br/</guid>
+      <description>Todos vocês estão acostumados com matrizes e como os estimatores usuais de econometria se reduzem a multiplicar e inverter matrizes. Nós usamos operações de matrizes toda vez que rodamos um mínimos quadrados ou variáveis instrumentais no computador, mesmo que você não se dê conta disso. Um truque que nem todo mundo sabe é que existem dois tipos de matrizes no R (e em muitas linguagens de programação): as densas e as esparsas.</description>
+    </item>
+    <item>
+      <title>Componentes Principais e Variáveis Instrumentais</title>
+      <link>https://azul.netlify.app/2021/11/18/componentes-principais-e-variaveis-instrumentais/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/11/18/componentes-principais-e-variaveis-instrumentais/</guid>
+      <description>Eu já falei de variáveis instrumentais e de componentes principais. Eu nunca misturei os dois, apesar da ideia deste post ter me ocorrido a muito tempo.&#xA;Eu já falei como muitos instrumentos causam viés e como componentes principais podem ser usados para resumir muitas variáveis. Naturalmente, alguém poderia se perguntar se a gente poderia passar componentes principais em um conjunto de instrumentos e usar apenas alguns poucos instrumentos que resumem a maior parte da variabilidade dos dados.</description>
+    </item>
     <item>
       <title>Viés de Atenuação</title>
       <link>https://azul.netlify.app/2020/04/24/vi%C3%A9s-de-atenuacao/</link>
       <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/04/24/vi%C3%A9s-de-atenuacao/</guid>
       <description>Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.</description>
     </item>
-    
     <item>
       <title>Stranger things: Distribuição exata de IV em um exemplo extremamente simples</title>
       <link>https://azul.netlify.app/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</link>
       <pubDate>Sat, 15 Jun 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/06/15/stranger-things-distribui%C3%A7%C3%A3o-exata-de-iv/</guid>
-      <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência
-Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
+      <description>Esse post é uma consequência direta de um paper citado pelo Marcelo Medeiros em aula. Agradeço a referência&#xA;Variáveis instrumentais (IV) são bastante utilizadas em economia para resolver o problema de endogenidade. Nós temos teoria assintótica para IV, que mostra que em condições bastante gerais IV converge. Mas a experiência mostra que IV pode ter um comportamento absolutamente aberrante, especialmente se você tem muitos instrumentos - curiosamente, um dos meus primeiros posts do blog foi sobre viés de IV com muitos instrumentos.</description>
     </item>
-    
     <item>
       <title>I Can&#39;t Get No Instruments: quando instrumentos são fracos</title>
       <link>https://azul.netlify.app/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</link>
       <pubDate>Wed, 19 Dec 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/12/19/i-can-t-get-no-instruments-quando-instrumentos-s%C3%A3o-fracos/</guid>
-      <description>(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)
-Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
+      <description>(O título desse post é uma piada com o título do capítulo do Mostly Harmless Econometrics sobre instrumentos)&#xA;Variáveis instrumentais são amplamente usadas em econometria, por n motivos: erros nas variáveis, simultaneidade, viés de variável omitida, outras violações da hipótese usual de MQO \(E(u|\textbf{X}) = 0\), em uma regressão \(\textbf{y} = \textbf{X}\beta + \textbf{u}\). Encontrar bons instrumentos é notávelmente difícil, porque os instrumentos precisam obedecer a duas hipóteses: exogenidade e relevância.</description>
     </item>
-    
     <item>
       <title>Viés de variáveis instrumentais</title>
       <link>https://azul.netlify.app/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/08/19/vi%C3%A9s-de-vari%C3%A1veis-instrumentais/</guid>
-      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.
-Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
+      <description>Como prometido no post anterior, vamos usar simulação para testar algumas coisas. A primeira delas é um problema curioso e (relativamente) pouco explorado: o viés ao usarmos muitos instrumentos em variáveis instrumentais. O excelente Mostly Harmless Econometrics, de Angrist e Pischke, conta com uma discussão sobre o tema na seção 4.6.4 - não surpreendentemente chamada de Bias of 2SLS.&#xA;Antes, uma recapitulação sobre variáveis instrumentais (se você não aprendeu sobre variáveis instrumentais, qualquer livro básico de econometria vai falar sobre o tópico): suponha que você tem o modelo \(y =x\beta+e\) e você sabe que \(E(ex) \neq 0\) - ou seja, temos um problema de endogenidade.</description>
     </item>
-    
   </channel>
 </rss>

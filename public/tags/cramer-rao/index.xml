@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cramer Rao on AZUL</title>
+    <link>https://azul.netlify.app/tags/cramer-rao/</link>
+    <description>Recent content in Cramer Rao on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 18 May 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/cramer-rao/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Estimação da Média, Método Generalizado dos Momentos e Cramer Rao</title>
+      <link>https://azul.netlify.app/2023/05/18/estimacao-da-media-metodo-dos-momentos/</link>
+      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2023/05/18/estimacao-da-media-metodo-dos-momentos/</guid>
+      <description>Faz muito tempo que eu não escrevo aqui. O que o primeiro ano do doutorado não faz! Eu trago um post que apresenta um problema que é extremamente simples e com uma solução não óbvia - pelo menos para mim. Eu vou apresentar o problema, discutir o método generalizado dos momentos (Generalized Method of Moments) e resolver o problema. Na sequência, eu vou discutir uma extensão do problema, e usar o limite inferior de Crámer Rao.</description>
+    </item>
+  </channel>
+</rss>

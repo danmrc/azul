@@ -6,17 +6,22 @@
     <description>Recent content in Componentes Principais on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Mon, 07 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/componentes-principais/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 18 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/componentes-principais/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Componentes Principais e Variáveis Instrumentais</title>
+      <link>https://azul.netlify.app/2021/11/18/componentes-principais-e-variaveis-instrumentais/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/11/18/componentes-principais-e-variaveis-instrumentais/</guid>
+      <description>Eu já falei de variáveis instrumentais e de componentes principais. Eu nunca misturei os dois, apesar da ideia deste post ter me ocorrido a muito tempo.&#xA;Eu já falei como muitos instrumentos causam viés e como componentes principais podem ser usados para resumir muitas variáveis. Naturalmente, alguém poderia se perguntar se a gente poderia passar componentes principais em um conjunto de instrumentos e usar apenas alguns poucos instrumentos que resumem a maior parte da variabilidade dos dados.</description>
+    </item>
     <item>
       <title>Componentes Principais e decomposição de matrizes</title>
       <link>https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</link>
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</guid>
-      <description>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
-Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
+      <description>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.&#xA;Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
     </item>
-    
   </channel>
 </rss>

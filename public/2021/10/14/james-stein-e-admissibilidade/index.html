@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Estimador James-Stein e admissibilidade | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2021/10/14/james-stein-e-admissibilidade/"><meta property="og:title" content="Estimador James-Stein e admissibilidade" />
+<meta property="og:description" content="Antes do post: eu (e o Pedro, pelo jeito) andei sem tempo. O último post foi em junho. Julho, agosto e setembro foram enrolados, mas por um bom motivo. Com um pouco de sorte eu serei capaz de fazer posts com mais regularidade no resto do ano
+Eu já escrevi posts no blog sobre o LASSO, um método de estimação de modelos lineares que induz esparsidade. A motivação daquele post - e do meu interesse inicial no LASSO - era que o LASSO é uma maneira de selecionar variáveis automaticamente." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2021/10/14/james-stein-e-admissibilidade/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-10-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-10-14T00:00:00+00:00" />
+
+<meta itemprop="name" content="Estimador James-Stein e admissibilidade">
+<meta itemprop="description" content="Antes do post: eu (e o Pedro, pelo jeito) andei sem tempo. O último post foi em junho. Julho, agosto e setembro foram enrolados, mas por um bom motivo. Com um pouco de sorte eu serei capaz de fazer posts com mais regularidade no resto do ano
+Eu já escrevi posts no blog sobre o LASSO, um método de estimação de modelos lineares que induz esparsidade. A motivação daquele post - e do meu interesse inicial no LASSO - era que o LASSO é uma maneira de selecionar variáveis automaticamente."><meta itemprop="datePublished" content="2021-10-14T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-10-14T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1684">
+<meta itemprop="keywords" content="James-Stein,Shrinkage,Teoria da Decisão," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Estimador James-Stein e admissibilidade"/>
+<meta name="twitter:description" content="Antes do post: eu (e o Pedro, pelo jeito) andei sem tempo. O último post foi em junho. Julho, agosto e setembro foram enrolados, mas por um bom motivo. Com um pouco de sorte eu serei capaz de fazer posts com mais regularidade no resto do ano
+Eu já escrevi posts no blog sobre o LASSO, um método de estimação de modelos lineares que induz esparsidade. A motivação daquele post - e do meu interesse inicial no LASSO - era que o LASSO é uma maneira de selecionar variáveis automaticamente."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">October 14, 2021</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1684 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>8 mins</span>
+                        </div>
+
+                        <h1>Estimador James-Stein e admissibilidade</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><em>Antes do post: eu (e o Pedro, pelo jeito) andei sem tempo. O último post foi em junho. Julho, agosto e setembro foram enrolados, mas por um bom motivo. Com um pouco de sorte eu serei capaz de fazer posts com mais regularidade no resto do ano</em></p>
+<hr />
+<p>Eu já escrevi posts no blog sobre o LASSO, um método de estimação de modelos lineares que induz esparsidade. A motivação daquele post - e do meu interesse inicial no LASSO - era que o LASSO é uma maneira de selecionar variáveis automaticamente.</p>
+<p>Existe uma outra motivação para métodos de encolhimento, que data da década de 60. Ela depende de teoria da decisão, mas é extremamente razoável e explicável. Eu vou discutir a ideia e mostrar o estimador que foi criado a partir que surgiu da discussão, chamado de estimador <em>James-Stein</em>.</p>
+<div id="teoria-da-decisão-admissibilidade" class="section level1">
+<h1>Teoria da decisão, admissibilidade</h1>
+<p>Se você já fez um curso de estatística, uma das perguntas é como analisar um estimador qualquer. Existem várias maneiras de avaliar estimadores: nós podemos querer considerar só estimadores não viesados, e dentre eles os com menor variância; nós podemos querer apenas os estimador não viesados <em>e</em> lineares. etc. Um critério muito comum para avaliar o estimador <span class="math inline">\(\hat{\theta}\)</span> é o erro quadrático médio (EQM): <span class="math inline">\(E[(\hat{\theta} - \theta_0)^2]\)</span>, no qual <span class="math inline">\(\theta_0\)</span> é o valor verdadeiro do parâmetro. Nós precisamos usar o valor esperdo porque <span class="math inline">\(\hat{\theta}\)</span> é uma variável aleatória que depende dos dados. Eu vou representar o EQM por <span class="math inline">\(\mathcal{R}(\theta,\hat{\theta})\)</span>.</p>
+<p>Veja que o erro quadrático médio pode ser decomposto em duas partes, uma sendo a variância do estimador e outra que é o viés:</p>
+<p><span class="math display">\[
+E[(\hat{\theta} - \theta_0)^2] = (E[\hat{\theta}] - \theta_0)^2 + Var(\hat{\theta})
+\]</span></p>
+<p>Veja que o EQM depende do valor verdadeiro do parâmetro. Em geral, nós poderíamos esperar que se temos dois estimadores, <span class="math inline">\(\hat{\theta}_1\)</span> e <span class="math inline">\(\hat{\theta}_2\)</span> e dois valores do parâmetro, <span class="math inline">\(\theta_1\)</span> e <span class="math inline">\(\theta_2\)</span>, então pode acontecer de <span class="math inline">\(\mathcal{R}(\theta_1,\hat{\theta}_1) &lt; \mathcal{R}(\theta_1,\hat{\theta}_2)\)</span> <strong>e</strong> <span class="math inline">\(\mathcal{R}(\theta_2,\hat{\theta}_2) &lt; \mathcal{R}(\theta_2,\hat{\theta}_1)\)</span>.</p>
+<p>Se existirem dois estimadores <span class="math inline">\(\hat{\theta}\)</span> e <span class="math inline">\(\tilde{\theta}\)</span> e para todos os valores possíveis do parâmetro <span class="math inline">\(\theta\)</span> nós temos <span class="math inline">\(\mathcal{R}(\theta,\hat{\theta}) \leq \mathcal{R}(\theta,\tilde{\theta})\)</span> e para pelo menos um valor do parâmetro<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> a desigualdade for estrita, então alguém pode argumentar que nós não deveríamos considerar o estimador <span class="math inline">\(\tilde{\theta}\)</span>: em qualquer situação, existe um estimador que nunca é pior do que ele. Nesse caso, nós dizemos que o estimador <span class="math inline">\(\tilde{\theta}\)</span> é <em>inadmissível</em>.</p>
+<p>Se nós estamos trabalhando apenas com o estimadores não viesados, então minimizar o erro quadrático médio é equivalente a buscar o estimador com menor variância. Por exemplo, para o modelo linear, o estimador de mínimos quadrados é o melhor estimador linear não viesado.</p>
+</div>
+<div id="estimador-james-stein" class="section level1">
+<h1>Estimador <em>James-Stein</em></h1>
+<p>O parágrafo anterior deixa em aberto se existe um estimador, possivelmente não linear e possivelmente viesado, que tenha EQM menor que o estimador de mínimos quadrados. Veja que, pela decomposição do EQM em viés e variância, é possível imaginar que introduzir um pouquinho de viés reduza o EQM se esse viés reduzir muito a variância.</p>
+<p>Foi exatamente este tipo de consideração que fez o Stein procurar um estimador que fizesse o estimador de MQO ser inadmissível: é o estimador <em>James-Stein</em>, os nomes dos autores do paper que introduz o estimador. O estimador James-Stein para o modelo linear é uma função do estimador de mínimos quadrados. Eu vou representar o estimador James-Stein por <span class="math inline">\(\hat{\beta}_{JS}\)</span> e o de mínimos quadrados por <span class="math inline">\(\hat{\beta}_{MQO}\)</span></p>
+<p><span class="math display">\[
+\hat{\beta}_{JS} = \hat{\beta}_{MQO} - \frac{c\sigma^2}{\hat{\beta}_{MQO}^T X^{T} X \hat{\beta}_{MQO}} \hat{\beta}_{MQO}
+\]</span></p>
+<p>O superescrito <span class="math inline">\(T\)</span> é a transposta da matriz. O termo <span class="math inline">\(\hat{\beta}^T X^T X \hat{\beta}\)</span> é um escalar. Os parâmetros acima que não foram discutidos anteriormente são <span class="math inline">\(\sigma^2\)</span>, que é a variância do erro, e <span class="math inline">\(c\)</span>, que é uma constante. Para o modelo linear com erros com distribuição normal, o estimador James-Stein minimiza o EQM quando <span class="math inline">\(c = p-2\)</span> e <span class="math inline">\(p\)</span> é o número de variáveis (e nós só podemos considerar modelos com <span class="math inline">\(p &gt; 2\)</span>, ou seja, mais de duas variáveis).</p>
+</div>
+<div id="simulando" class="section level1">
+<h1>Simulando</h1>
+<p>O paper obteve os resultados analíticos, mas eu vou fazer simulações para mostrar que o estimador James Stein realmente tem um EQM menor que o estimador de MQO. Eu vou querer mostrar duas coisas:</p>
+<ol style="list-style-type: decimal">
+<li><p>O estimador James-Stein realmente garante que o estimador de OLS é inadmissível</p></li>
+<li><p>Se os erros são normais, <span class="math inline">\(p-2\)</span> é o valor ótimo para <span class="math inline">\(c\)</span>.</p></li>
+</ol>
+<p>Eu vou implementar três funções que vão fazer as simulações necessárias. Todos os parâmetros do modelo vão ter o mesmo valor em cada simulação - exceto o intercepto, que é sempre zero.</p>
+<p>A primeira função pega um valor pro parâmetro verdadeiro, um conjunto de valores para o parâmetro <span class="math inline">\(c\)</span> (que eu chamei, talvez confusamente, de <code>regs</code>, para regularização), o tamanho da amostra <span class="math inline">\(n\)</span> e a quantidade de variáveis (além do intercepto) <span class="math inline">\(k\)</span>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simul_various_regs &lt;- function(true_par,regs,n,k){
+  
+  x &lt;- matrix(rnorm(n*k),ncol = k)
+  y &lt;- x%*%rep(true_par,k) + rnorm(n)
+  
+  res &lt;- lm(y ~ x)
+  
+  ols &lt;- coef(res)
+  shrink_js &lt;- n*as.vector(t(ols[-1])%*%cov(x)%*%ols[-1])
+  ols_mat &lt;- t(replicate(length(regs),ols[-1]))
+  
+  stein &lt;- ols_mat - as.matrix(regs)%*%ols[-1]/shrink_js
+  stein &lt;- cbind(ols[1],stein)
+  
+  rownames(stein) &lt;- regs
+  
+  return(rbind(ols,stein))
+  
+}</code></pre>
+<p>A função retorna os valores do estimador de mínimos quadrados (OLS) e as várias versões do estimador James-Stein. Eu implementei o estimador James-Stein como uma multiplicação de matriz, e pro benefício do leitor eu vou colocar a conta com as matrizes pro caso de duas variáveis (todos os <span class="math inline">\(\hat{\beta}\)</span> são estimadores de mínimos quadrados) e dois possíveis valores para <span class="math inline">\(c\)</span>, <span class="math inline">\(c_1\)</span> e <span class="math inline">\(c_2\)</span>:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+\hat{\beta}_1 &amp; \hat{\beta}_2\\
+\hat{\beta}_1 &amp; \hat{\beta}_2\\
+\end{bmatrix} - 
+\frac{1}{\hat{\beta}^T X^T X \hat{\beta}}\begin{bmatrix}
+c_1 \\ c_2
+\end{bmatrix}
+\begin{bmatrix}
+\hat{\beta}_1 &amp; \hat{\beta_2}
+\end{bmatrix}
+\]</span></p>
+<p>A conta acima gera uma matriz com dois candidatos a estimador, um com constante <span class="math inline">\(c_1\)</span> e outro com constante <span class="math inline">\(c_2\)</span>. Novamente, <span class="math inline">\(\hat{\beta}^T X^T X \hat{\beta}\)</span> é um número, não uma matriz. O estimador não faz encolhimento do intercepto (eu não vou dar nenhuma explicação para isso, mas o <code>glmnet</code> também não encolhe o intercepto).</p>
+<p>O próximo passo é simular o EQM para um valor do parâmetro. Nós vamos computar o valor esperado do EQM simplesmente simulando um número <span class="math inline">\(p\)</span> de modelos e tirando a média - noutras palavras, um Monte Carlo:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">monte_carlo_loss &lt;- function(true_par,regs,n,k,p){
+  
+  input &lt;- replicate(p,true_par,simplify = F)
+  output &lt;- map(input,simul_various_regs,regs = regs,n = n,k = k)
+  
+  cofs &lt;- c(0,rep(true_par,k))
+  
+  true_par_mat &lt;- t(replicate(length(regs)+1,c(cofs)))
+  
+  loss &lt;- map(output,function(x){(x-true_par_mat)^2 %&gt;% rowSums()})
+  
+  loss &lt;- do.call(rbind,loss) %&gt;% colMeans()
+  
+  return(loss)
+  
+}</code></pre>
+<p>Eu uso o <code>map</code> no lugar de um for por motivos que <a href="https://azul.netlify.app/2020/06/06/cuide-da-sa%C3%BAde-pare-de-fazer-loops/">o Pedro já expôs</a>. O primeiro <code>map</code>chama a função anterior para simular uma replicação do Monte Carlo. Cada simulação vai retornar uma matriz que tem o número de valores para <span class="math inline">\(c\)</span> mais uma linhas e <span class="math inline">\(k+1\)</span> colunas. O segundo <code>map</code> calcula a função perda para cada simulação. Como o resultado de cada simulação é uma matriz, eu crio a variável <code>true_par_mat</code>que arruma os valores verdadeiros do parâmetro em uma matriz.</p>
+<p>A última função calcula o EQM para vários valores do parâmetro usando a função acima:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">monte_carlo_pars &lt;- function(true_pars,regs,n,k,p){
+  
+  input &lt;- as.list(true_pars)
+  output &lt;- map(input,monte_carlo_loss,regs = regs,n=n,k=k,p=p)
+  
+  result &lt;- do.call(rbind,output)
+  rownames(result) &lt;- true_pars
+  
+  
+  return(result)
+  
+}</code></pre>
+<p>Vamos começar testando com <span class="math inline">\(k=5\)</span> e <span class="math inline">\(c = 5-2 = 3\)</span> e parâmetros de 0 a 4:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">params &lt;- seq(0,4,by=0.1)
+
+teste &lt;- monte_carlo_pars(params,3,100,5,1000)</code></pre>
+<p>Cada coluna é a função perda para um estimador e cada linha varia o valor do parâmetro verdadeiro. Eu vou usar o <code>pivot_longer</code> do tidyr para deixar isso organizado como o ggplot precisa:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">tidy_teste &lt;- as_tibble(teste) %&gt;% 
+  rename("James-Stein"="3", "MQO" = ols) %&gt;% 
+  bind_cols(params = params) %&gt;% 
+  pivot_longer(!params)
+
+ggplot(tidy_teste,aes(x=params,y=value,color=name)) + 
+  geom_line() + 
+  labs(x = "Parâmetro", y = "EQM", color = "Estimador") + 
+  theme_light()</code></pre>
+<p><img src="/post/2021-10-10-estimador-james-stein-e-admissibilidade/index.pt-br_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>O estimador faz <em>exatamente</em> o prometido: ele nunca tem um EQM pior que os mínimos quadrados e é melhor que o estimador de MQO para um intervalo.</p>
+<p>Isso significa que o estimador de MQO é inadmissível. Mas:</p>
+<ol style="list-style-type: decimal">
+<li>O estimador James-Stein é viesado</li>
+<li>Ele depende de uma forma quadrática dos parâmetros de mínimos quadrados (<span class="math inline">\(\hat{\beta}^t X^t X \hat{\beta}\)</span>)</li>
+</ol>
+<p>Veja que o ponto 2 não é nenhum problema (computacional, pelo menos). O ponto 1 é um pouco mais preocupante, especialmente se seu interesse é interpretar o coeficiente como um efeito de tratamento. Mas isso ilustra que, para previsão, mínimos quadrados não é necessariamente ótimo.</p>
+<p>Veja que isso é uma motivação para estimadores de encolhimento em geral porque o estimador James-Stein faz encolhimento. Veja a fórmula:</p>
+<p><span class="math display">\[
+\hat{\beta}_{JS} = \hat{\beta}_{MQO} - \frac{c\sigma^2}{\hat{\beta}_{MQO}^T X^{T} X \hat{\beta}_{MQO}} \hat{\beta}_{MQO}
+\]</span></p>
+<p>Se o estimador é positivo, você está subtraindo um valor dele; se o estimador é negativo, você está somando (porque <span class="math inline">\(\hat{\beta}_{MQO}\)</span> é negativo). Qualquer que seja o valor estimado, o estimador James-Stein aproxima ele de zero… O que é extremamente parecido com que LASSO, Ridge, adaLASSO fazem.</p>
+<p>Agora vamos ver o ponto 2, que para o modelo com erros normais, nós temos que <span class="math inline">\(k-2\)</span> é o melhor valor para <span class="math inline">\(c\)</span>. Eu vou focar em <span class="math inline">\(k=5\)</span> porque cada simulação demora um tempo. Neste caso, o ótimo é <span class="math inline">\(c=3\)</span> Eu vou focar só nos valores do parâmetro pertos de 0 porque a simulação anterior mostrou que para valores grandes o parâmetro converge para o valor de MQO<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">params &lt;- seq(0,1,by=0.1)
+regs &lt;- seq(1,5,by=1)
+
+teste &lt;- monte_carlo_pars(params,regs,100,5,1000)
+
+
+tidy_teste &lt;- as_tibble(teste) %&gt;% 
+  rename("MQO" = ols) %&gt;% 
+  rename_with(.fn = ~(paste0("c=",.)),.cols = matches("[[:digit:]]")) %&gt;% 
+  bind_cols(params = params) %&gt;% pivot_longer(!params)
+
+ggplot(tidy_teste,aes(x=params,y=value,color=name)) + 
+  geom_line() + labs(x = "Parâmetro", y = "EQM", color = "Estimador") + 
+  theme_light() + 
+  scale_color_brewer(palette = "Dark2")</code></pre>
+<p><img src="/post/2021-10-10-estimador-james-stein-e-admissibilidade/index.pt-br_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>A linha mais embaixo - e portanto com menor EQM - é a associada com <span class="math inline">\(c=3\)</span>, como a teoria manda.</p>
+<p>Este é um destes posts que começam com um tema meio abstrato (teoria da decisão) e desaguam em um resultado completamente maluco (MQO é inadmissível). A gente nem precisou fazer conta nenhuma, o computador fez tudo. Eu não fiz essas contas para o LASSO porque senão o post ia se esticar ainda mais.</p>
+<hr />
+</div>
+<div id="bibliografia" class="section level1">
+<h1>Bibliografia</h1>
+<p>O capítulo 7 do <a href="https://web.stanford.edu/~hastie/CASI/">Computer Age Statistical Inference</a> discute exatamente o estimador James-Stein, dando uma motivação Bayesiana. A fórmula que eu usei no post pro estimador James-Stein veio de lá. A discussão está mais próxima do Econometric Foundations, apesar de eu ter sérias dúvidas sobre a fórmula do estimador James-Stein que está no livro.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>ou um intervalo, se você estiver preocupado com mensurabilidade<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>O que faz sentido: nesse caso <span class="math inline">\(\hat{\beta}^T X^T X \hat{\beta}\)</span> é grande e o valor que a gente subtrai do estimador é menor<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/james-stein">
+                                    <i class="fas fa-tag mr-2"></i>James-Stein
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/shrinkage">
+                                    <i class="fas fa-tag mr-2"></i>Shrinkage
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/teoria-da-decis%C3%A3o">
+                                    <i class="fas fa-tag mr-2"></i>Teoria da Decisão
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2021%2f10%2f14%2fjames-stein-e-admissibilidade%2f&text=Estimador%20James-Stein%20e%20admissibilidade">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2021%2f10%2f14%2fjames-stein-e-admissibilidade%2f&title=Estimador%20James-Stein%20e%20admissibilidade">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2021%2f10%2f14%2fjames-stein-e-admissibilidade%2f&t=Estimador%20James-Stein%20e%20admissibilidade">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2021%2f10%2f14%2fjames-stein-e-admissibilidade%2f&title=Estimador%20James-Stein%20e%20admissibilidade">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

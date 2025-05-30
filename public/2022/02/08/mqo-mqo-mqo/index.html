@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     MQO, MQO, MQO | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2022/02/08/mqo-mqo-mqo/"><meta property="og:title" content="MQO, MQO, MQO" />
+<meta property="og:description" content="Atualização em junho/2022: Tinha um erro em um dos passos da última seção. Devidamente corrigido. Ele altera algumas conclusões, mas o espírito do post se mantém
+Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca.
+No post inteiro, eu vou utilizar o modelo linear \(y = X\beta &#43; u\), onde \(u\) é o erro aleatório, \(X\) é o regressor e \(y\) é o regressando." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2022/02/08/mqo-mqo-mqo/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-02-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-02-08T00:00:00+00:00" />
+
+<meta itemprop="name" content="MQO, MQO, MQO">
+<meta itemprop="description" content="Atualização em junho/2022: Tinha um erro em um dos passos da última seção. Devidamente corrigido. Ele altera algumas conclusões, mas o espírito do post se mantém
+Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca.
+No post inteiro, eu vou utilizar o modelo linear \(y = X\beta &#43; u\), onde \(u\) é o erro aleatório, \(X\) é o regressor e \(y\) é o regressando."><meta itemprop="datePublished" content="2022-02-08T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-02-08T00:00:00+00:00" />
+<meta itemprop="wordCount" content="2113">
+<meta itemprop="keywords" content="Mínimos Quadrados," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="MQO, MQO, MQO"/>
+<meta name="twitter:description" content="Atualização em junho/2022: Tinha um erro em um dos passos da última seção. Devidamente corrigido. Ele altera algumas conclusões, mas o espírito do post se mantém
+Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca.
+No post inteiro, eu vou utilizar o modelo linear \(y = X\beta &#43; u\), onde \(u\) é o erro aleatório, \(X\) é o regressor e \(y\) é o regressando."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">February 8, 2022</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>2113 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>10 mins</span>
+                        </div>
+
+                        <h1>MQO, MQO, MQO</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+
+
+<p><em>Atualização em junho/2022: Tinha um erro em um dos passos da última seção. Devidamente corrigido. Ele altera algumas conclusões, mas o espírito do post se mantém</em></p>
+<p>Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca.</p>
+<p>No post inteiro, eu vou utilizar o modelo linear <span class="math inline">\(y = X\beta + u\)</span>, onde <span class="math inline">\(u\)</span> é o erro aleatório, <span class="math inline">\(X\)</span> é o regressor e <span class="math inline">\(y\)</span> é o regressando. Às vezes <span class="math inline">\(X\)</span> vai ser um único regressando, às vezes <span class="math inline">\(X\)</span> vai ser uma matriz de variáveis. Eu terei <span class="math inline">\(n\)</span> observações e <span class="math inline">\(p\)</span> variáveis - então <span class="math inline">\(X\)</span> é a matriz <span class="math inline">\(n \times p\)</span>. Se você não quiser pensar em <span class="math inline">\(X^T\beta\)</span> como uma multiplicação de uma matriz e um vetor, você pode pensar como <span class="math inline">\(x_1 \beta_1 + \ldots x_p \beta_p\)</span>.</p>
+<div id="do-começo" class="section level1">
+<h1>Do começo</h1>
+<p>No curso de econometria I da graduação, a gente aprende que o estimador de mínimos quadrados para o caso univariado é:</p>
+<p><span class="math display">\[
+\hat{\beta}_{MQO} = \frac{\sum_{i=1}^n (y_i - \bar{y})(x_i - \bar{x})}{\sum_{i=1}^n (x_i - \bar{x})^2}
+\]</span></p>
+<p>Estabelecendo <span class="math inline">\(\bar{x}\)</span> como a média de <span class="math inline">\(x\)</span> e <span class="math inline">\(\bar{y}\)</span> como a média de y</p>
+</div>
+<div id="álgebra-linear-i" class="section level1">
+<h1>Álgebra linear I</h1>
+<p>A versão “de gente grande” do estimador de mínimos quadrados é:</p>
+<p><span class="math display">\[
+\hat{\beta}_{MQO} = (X^TX)^{-1}X^Ty
+\]</span></p>
+<p>Onde <span class="math inline">\(X\)</span> é uma matriz <span class="math inline">\(n \times p\)</span>, e o superescrito <span class="math inline">\(T\)</span> significa que estamos tomando a transposta da matriz <span class="math inline">\(X\)</span>. Isso é exatamente a mesma coisa que a versão acima, mas como agora tem mais de uma variável nós usamos matrizes. <span class="math inline">\(X^TX\)</span> é só a variância de <span class="math inline">\(X\)</span> e <span class="math inline">\(X^Ty\)</span> a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(y\)</span>.</p>
+<p>Para essa fórmula funcionar, <span class="math inline">\(X^TX\)</span> tem que ser inversível, e portanto tem que ter posto cheio. Nós usualmente pensamos isso como <span class="math inline">\(X\)</span> não pode ter duas variáveis que são funções afim uma da outra.</p>
+</div>
+<div id="a-origem" class="section level1">
+<h1>A origem</h1>
+<p>Existem várias maneiras de introduzir o estimador de mínimos quadrados. A primeira advém da condição de momentos <span class="math inline">\(E[u|X] = 0\)</span>, ou mais fraco, a covariância de <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span> é zero.</p>
+<p>Outra maneira é pensar no problema de minimização:</p>
+<p><span class="math display">\[
+\min_{\beta} \frac{1}{n}\sum_{i=1}^n (y_i - X_i^T \beta)^2
+\]</span></p>
+<p>Eu serei muito chique e vou usar a seguinte representação:</p>
+<p><span class="math display">\[
+\|Y - X\beta\|_2^2 = \sum_{i=1}^n (y_i - X_i^T\beta)^2
+\]</span></p>
+<p><strong>Não se desespere, é só uma representação</strong>. Eu poderia passar o resto do post escrevendo o somatório, mas isso é chatíssimo.</p>
+</div>
+<div id="ortogonalização" class="section level1">
+<h1>Ortogonalização</h1>
+<p>Ainda existe outra maneira de motivar mínimos quadrados: suponha que <span class="math inline">\(y\)</span> e <span class="math inline">\(x\)</span> são dois vetores no <span class="math inline">\(\R^n\)</span> e vamos usar <span class="math inline">\(\left&lt;x,y \right&gt;\)</span> como o produto interno (<span class="math inline">\(\left&lt;x,y\right&gt; = \sum_i x_i y_i\)</span>). Como nós podemos transformar <span class="math inline">\(y\)</span> de maneira que <span class="math inline">\(\left&lt;y - cx,x\right&gt; = 0\)</span>? Noutras palavras, nós queremos deixar os dois vetores ortogonais. Em <span class="math inline">\(\R^2\)</span>, isso significa formar um ângulo reto. De volta as contas:</p>
+<p><span class="math display">\[
+\left&lt; y - cx,x \right&gt; = 0 \therefore \sum_i (y_i -cx_i)x_i = \sum_i y_i x_i - c \sum_i x_i^2 = 0 \therefore\\
+\sum_i x_i y_i = c \sum_i x_i^2 \\
+c = \frac{\sum_i x_i y_i}{\sum_i x_i^2}
+\]</span></p>
+<p>Sob a hipótese de média zero para <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span>, isso é exatamente a primeira expressão que escrevemos.</p>
+</div>
+<div id="ausência-de-viés" class="section level1">
+<h1>Ausência de viés</h1>
+<p>Com a hipótese de <span class="math inline">\(E[u|X] = 0\)</span>, o estimador de Mínimos Quadrados não tem viés. Isso é uma hipótese bem padrão e que todo mundo chama de exogenidade.</p>
+</div>
+<div id="analisando-mqo-de-uma-maneira-pouco-usual" class="section level1">
+<h1>Analisando MQO de uma maneira pouco usual</h1>
+<p>Eu vou analisar MQO de uma maneira que ninguém discute em curso de econometria nenhum, mas vai ser divertido e eu vou indicar a utilidade no fim do post. Pra isso, eu vou ter que construir uns blocos essenciais:</p>
+<div id="os-blocos" class="section level2">
+<h2>Os blocos</h2>
+<ol style="list-style-type: decimal">
+<li>O primeiro bloco é só uma definição de norma euclidiana:</li>
+</ol>
+<p><span class="math display">\[
+\|X\|_2^2 = X^TX = \sum_i x_i^2
+\]</span></p>
+<p>Nós vamos usar o formato de multiplicação de matriz (<span class="math inline">\(X^TX\)</span>) para facilitar as contas.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Nós vamos usar o seguinte resultado: se uma matriz é de posto cheio, então nenhum autovalor é zero</p></li>
+<li><p>Seja <span class="math inline">\(\lambda_{\min}\)</span> o menor autovalor da matriz <span class="math inline">\(\frac{X^TX}{n}\)</span>. Então:</p></li>
+</ol>
+<p><span class="math display">\[
+\lambda_{\min} \leq \frac{\frac{1}{n}\|Xv\|_2^2}{\|v\|_2^2}
+\]</span></p>
+<p>Para qualquer <span class="math inline">\(v\)</span>. Este resultado já apareceu em um post sobre <a href="https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/">componentes principais</a></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Nós vamos trabalhar com normas Seja <span class="math inline">\(x \in \mathbb{R}^n\)</span>, então a norma <span class="math inline">\(p\)</span> é representada por <span class="math inline">\(\|x\|_ p\)</span> e <span class="math inline">\(\|x\|_p = \left(\sum_i |x_i|^p \right)^{1/p}\)</span>. Veja que nós podemos pensar a norma do vetor <span class="math inline">\(x\)</span> como a distância entre o vetor <span class="math inline">\(x\)</span> e a origem. A norma euclidiana é o caso <span class="math inline">\(p=2\)</span>.</li>
+</ol>
+<p>Em particular, nós definimos a “norma sup” como o máximo do módulo do vetor e representamos por <span class="math inline">\(\|x\|_{\infty}\)</span>:</p>
+<p><span class="math display">\[
+\|X\|_{\infty} = \max_{i=1,\ldots,n} |x_i|
+\]</span></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Nós vamos usar a <strong>desigualdade de Hölder</strong>, que diz que se <span class="math inline">\(p,q\)</span> são tais que <span class="math inline">\(\frac{1}{p} + \frac{1}{q} = 1\)</span>, então:</li>
+</ol>
+<p><span class="math display">\[
+|\left&lt;x,y\right&gt;| \leq \|x\|_p \|y\|_q
+\]</span>
+Lembre que <span class="math inline">\(\left&lt;x,y \right&gt;\)</span> representa o produto interno. A Desigualdade de Hölder vale para <span class="math inline">\(p = 1\)</span> e <span class="math inline">\(q = \infty\)</span>:</p>
+<p><span class="math display">\[
+| \left&lt;x,y\right&gt;| \leq \|x\|_1 \|y\|_{\infty}
+\]</span></p>
+<p>Um caso particular de Hölder é a Desigualdade de Cauchy Schwartz:</p>
+<p><span class="math display">\[
+| \left&lt;x,y \right&gt;| \leq \|x\|_2 \|y\|_2
+\]</span></p>
+<p>Uma aplicação que vai ser útil de Cauchy Schwartz é a seguinte desigualdade de normas <span class="math inline">\(\|x\|_1 \leq \sqrt{n} \|x\|_2\)</span>. Veja que <span class="math inline">\(\|x\|_1 = \sum_i |x_i|\)</span>. Nós podemos representar o módulo como a multiplicação de <span class="math inline">\(x_i\)</span> pela função sinal de <span class="math inline">\(x_i\)</span>:</p>
+<p><span class="math display">\[
+sinal(x_i) = \begin{cases}
+1 \text{ se } x_i \geq 0\\
+-1 \text{ se } x_i &lt; 0
+\end{cases}
+\]</span></p>
+<p>Se <span class="math inline">\(x_i\)</span> é positivo, então <span class="math inline">\(sinal(x_i)x_i = 1x_i = x_i\)</span> e se <span class="math inline">\(x_i\)</span> é negativo, <span class="math inline">\(sinal(x_i)x_i = -x_i\)</span>. Logo:</p>
+<p><span class="math display">\[
+\|x\|_1 = \left&lt;sinal(x),x\right&gt; \leq \|sinal(x)\|_2 \|x\|_2
+\]</span>
+Onde <span class="math inline">\(sinal(x)\)</span> é só um vetor <span class="math inline">\((sinal(x_1),\ldots,sinal(x_n))\)</span>. Agora use a definição de <span class="math inline">\(\|.\|_2\)</span>:</p>
+<p><span class="math display">\[
+\|sinal(x)\|_2 = \left(\sum_{i=1}^n (sinal(x_i))^2\right)^{1/2}
+\]</span></p>
+<p>Como o sinal é sempre 1 ou -1, então o quadrado é sempre 1 e nós temos:</p>
+<p><span class="math display">\[
+\|sinal(x)\|_2 = \left(\sum_{i=1}^n (sinal(x_i))^2\right)^{1/2} = \left(\sum_{i=1}^n 1\right)^{1/2} = (n)^{1/2}
+\]</span></p>
+<p>Obtendo exatamente o que queríamos!</p>
+<ol start="6" style="list-style-type: decimal">
+<li><a href="/2022/01/31/concentracao-do-maximo/">Este post aqui</a></li>
+</ol>
+</div>
+<div id="a-análise" class="section level2">
+<h2>A análise</h2>
+<p>Sejam <span class="math inline">\(y\)</span> e <span class="math inline">\(X\)</span> os dados. Eu vou supor que os dados não são aleatórios e que o ruído <span class="math inline">\(u\)</span> é <a href="https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/">subgaussiano</a> com parâmetro <span class="math inline">\(\sigma\)</span>. Daqui por diante, nós representamos o estimador de Mínimos Quadrados por <span class="math inline">\(\hat{\beta}\)</span>. Como o estimador de mínimos quadrados resolve um problema de minimização de <span class="math inline">\(\sum_i (y_i - X\beta)^2\)</span> (que eu volto a lembrar, nós representamos como <span class="math inline">\(\|Y - X\beta\|_2^2\)</span>), então para qualquer outro vetor <span class="math inline">\(\beta\)</span>:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|Y - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|Y - X\beta\|_2^2
+\]</span></p>
+<p>Como isso é verdade para qualquer outro vetor <span class="math inline">\(\beta\)</span>, isso também é verdade para o vetor <span class="math inline">\(\beta_0\)</span>, de parâmetros verdadeiros:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|Y - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|Y - X\beta_0\|_2^2
+\]</span></p>
+<p>Mudança boba de notação, lembre que <span class="math inline">\(\|.\|_2^2\)</span> é só uma soma de quadrados:</p>
+<p><span class="math display">\[
+\left\|\frac{Y - X\hat{\beta}}{\sqrt{n}}\right\|_2^2 \leq \left\|\frac{Y - X\beta_0}{\sqrt{n}}\right\|_2^2
+\]</span></p>
+<p>Nós sabemos que <span class="math inline">\(Y = X\beta_0 + u\)</span>. Vamos substituir isso no resultado acima:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|X\beta_0 + u - X\hat{\beta}\|_2^2 \leq \frac{1}{n}\|X\beta_0 + u X\beta_0\|_2^2 \therefore
+\frac{1}{n}\|X(\beta_0 - \hat{\beta}) + u \|_2^2 \leq \frac{1}{n}\|u\|_2^2
+\]</span></p>
+<p>Hora de usar o ponto 1 da listinha acima no termo <span class="math inline">\(\|X(\beta_0 - \hat{\beta}) + u\|_2^2\)</span>:</p>
+<p><span class="math display">\[
+\|X(\beta_0 - \hat{\beta}) + u\|_2^2 = (X(\beta_0 - \hat{\beta}) + u)^T(X(\beta_0 - \hat{\beta}) + u) = \\
+((\beta_0 - \hat{\beta})^TX^T + u^T)(X(\beta_0 - \hat{\beta}) + u) = (\beta_0 - \hat{\beta})^T X^T X(\beta_0 - \hat{\beta}) + (\beta_0 - \hat{\beta})^T X^T u + u^TX(\beta_0 - \hat{\beta}) + u^Tu = \\
+= \|X(\beta_0 - \hat{\beta})\|_2^2 + 2u^TX(\beta_0 - \hat{\beta}) + \|u\|_2^2
+\]</span></p>
+<p>Acredite em mim que <span class="math inline">\(u^TX(\beta_0 - \hat{\beta}) = (\beta_0 - \hat{\beta})^TX^T u\)</span>. Então nós temos:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{\sqrt{n}}u^TX(\beta_0 - \hat{\beta}) + \frac{1}{n}\|u\|_2^2 \leq \frac{1}{n}\|u\|_2^2
+\]</span></p>
+<p>Nós podemos cancelar <span class="math inline">\(\|u\|_2^2\)</span> dos dois lados e obter:</p>
+<p><span class="math display">\[
+\frac{1}{n}\|X(\beta_0 - \hat{\beta})\|_2^2 + \frac{2}{\sqrt{n}}u^T X(\beta_0 - \hat{\beta}) \leq 0 \therefore \\
+\frac{1}{n}\|X(\hat{\beta} - \beta_0)\|_2^2 \leq \frac{2}{\sqrt{n}}u^T X(\hat{\beta} - \beta_0) \tag{1}
+\]</span></p>
+<p>Agora, <span class="math inline">\(u^TX(\hat{\beta} - \beta_0)\)</span> é um escalar e nós podemos ver isso como o produto interno de <span class="math inline">\(u\)</span> e <span class="math inline">\(X(\hat{\beta} - \beta_0)\)</span>. Nós podemos usar Hölder:</p>
+<p><span class="math display">\[
+\frac{1}{\sqrt{n}}\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \frac{1}{\sqrt{n}}|\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt;|  \leq \frac{1}{\sqrt{n}}\|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1
+\]</span></p>
+<p>Vamos sair pela tangente aqui para tratar de <span class="math inline">\(\|u^TX\|_{\infty}\)</span>. Veja que isso é a norma de uma variável aleatória (já que <span class="math inline">\(u\)</span> é aleatório). Mas pelo ponto seis da listinha acima, e faça <span class="math inline">\(X_i\)</span> representar a iésima coluna de <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{\sqrt{n}} &gt; t\right) \leq p\exp \left(-\frac{t^2}{2\sigma^2/n}\right)
+\]</span></p>
+<p>Eu assumi que a variância da coluna é 1 (ou seja, nós normalizamos a coluna, como a maioria dos pacotes de machine learning faz). Para <span class="math inline">\(t = \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\)</span>, nós temos:</p>
+<p><span class="math display">\[
+P\left(\max_{i=1,\ldots,p} \frac{|u^Tx_i|}{\sqrt{n}} &gt; t\right) \leq p\exp \left(-\frac{2\sigma^2/n(\log(p) + \delta)}{2\sigma^2/n}\right) = p\exp \left(-\log(p) - \delta\right) = \exp(-\delta)
+\]</span></p>
+<p>Com alta probabilidade, <span class="math inline">\(\sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\)</span> é maior que o máximo. Vamos substituir esse valor na nossa cota:</p>
+<p><span class="math display">\[
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq |\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt;| \leq \|u^TX\|_{\infty} \|\hat{\beta} - \beta_0\|_1 \\
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1
+\]</span></p>
+<p>Lembra que eu argumentei que <span class="math inline">\(\|x\|_1 \leq \sqrt{n}\|x\|_2\)</span> (isso foi o ponto 5)? Vamos usar isso agora com <span class="math inline">\(\|\hat{\beta} - \beta_0\|_1\)</span>:</p>
+<p><span class="math display">\[
+\left&lt;u^TX,(\hat{\beta} - \beta_0)\right&gt; \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\|\hat{\beta} - \beta_0\|_1 \leq \sigma\sqrt{\frac{2(\log(p) + \delta)}{n}}\sqrt{p}\|\hat{\beta} - \beta_0\|_2
+\]</span></p>
+<p>Vamos jogar isso de volta na equação 1:</p>
+<p><span class="math display">\[
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq 2\sqrt{\frac{p}{n}} \sigma\sqrt{2(\log(p) + \delta)}\|\hat{\beta} - \beta_0\|_2
+\]</span></p>
+<p>Multiplique e divida o lado direito por <span class="math inline">\(\|\hat{\beta} - \beta_0\|_2\)</span>:</p>
+<p><span class="math display">\[
+\frac{1}{n} \|X(\hat{\beta} - \beta_0)\|_2^2 \leq 2\sqrt{\frac{p}{n}} \sigma\sqrt{2(\log(p) + \delta)}\frac{\|\hat{\beta} - \beta_0\|_2^2}{\|\hat{\beta} - \beta_0\|_2}
+\]</span></p>
+<p>Reorganizando:</p>
+<p><span class="math display">\[
+\frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq 2\sqrt{\frac{p}{n}} \sigma\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+\]</span></p>
+<p>Uma boa hora para usar o nosso resultado 3, sobre o autovalor da matriz:</p>
+<p><span class="math display">\[
+\lambda_{\min} \leq \frac{1}{n} \frac{\|X(\hat{\beta} - \beta_0)\|_2^2}{\|\hat{\beta} - \beta_0\|_2^2} \leq 2\sqrt{\frac{p}{n}}\sigma\sqrt{2(\log(p) + \delta)}\frac{1}{\|\hat{\beta} - \beta_0\|_2}
+\]</span></p>
+<p>Reorganizando a expressão acima:</p>
+<p><span class="math display">\[
+\|\hat{\beta} - \beta_0\|_2 \leq \frac{2\sigma}{\lambda_{\min}}\sqrt{\frac{p}{n}}\sqrt{2(\log(p) + \delta)}
+\]</span></p>
+<p>Isso é bem legal, porque nos diz várias coisas:</p>
+<ol style="list-style-type: decimal">
+<li>Conforme <span class="math inline">\(n\)</span> cresce, a diferença entre a estimativa de MQO e o vetor verdadeiro cai para zero. Isso é consistência.</li>
+<li><del>Quanto mais variáveis nós temos, pior a nossa vida em termos de consistência. Mas veja que o termo em cima piora com a <strong>raiz quadrada de log de p</strong>. Isso é extremamente benevolente, como o gráfico abaixo mostra:</del></li>
+</ol>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(ggplot2)
+library(latex2exp)
+
+p &lt;- 1:100
+y &lt;- sqrt(log(p))
+
+df &lt;- data.frame(p = p,y = y)
+
+ggplot(df,aes(p,y)) + geom_line() + theme_light() + labs(x = "p", y = TeX("$\\sqrt{\\log(p)}$"))</code></pre>
+<p><img src="/post/2022-01-09-mqo-mqo-mqo/index.pt-br_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><del>Veja que a nossa demonstração não permite <span class="math inline">\(p &gt; n\)</span> porque isso implicaria em um (menor) autovalor zero, o que faria a cota ser infinito.</del></p>
+<p>Corrigido o erro, fica claro que se <span class="math inline">\(p/n\)</span> for constante, a cota <em>piora</em> com o aumento da dimensão.</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Sobre o autovalor: veja que se <span class="math inline">\(X\)</span> for uma matriz de variáveis descorrelacionadas, então o menor autovalor de <span class="math inline">\(X^TX\)</span> é a menor variância das variáveis do lado direito da equação. Já pro caso de variáveis correlacionadas a coisa complica, mas considere três variáveis com a matriz de variância covariância <code>S1</code> que eu vou contruir abaixo:</li>
+</ol>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(Matrix)
+
+S1 &lt;- rbind(c(1,0.6,0.4),c(0.6,1,0.5),c(0,0,1))
+S1 &lt;- forceSymmetric(S1)
+
+print(S1)</code></pre>
+<pre ><code >## 3 x 3 Matrix of class "dsyMatrix"
+##      [,1] [,2] [,3]
+## [1,]  1.0  0.6  0.4
+## [2,]  0.6  1.0  0.5
+## [3,]  0.4  0.5  1.0</code></pre>
+<p>A maior correlação é entre as variáveis 1 e 2, e é de <span class="math inline">\(0.6\)</span> (veja que como as variâncias são todas 1, covariância = correlação)</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">eigen(S1)</code></pre>
+<pre ><code >## eigen() decomposition
+## $values
+## [1] 2.0044575 0.6130916 0.3824508
+## 
+## $vectors
+##            [,1]       [,2]       [,3]
+## [1,] -0.5799029 -0.5590696  0.5925823
+## [2,] -0.6133243 -0.1791721 -0.7692403
+## [3,] -0.5362331  0.8095298  0.2389886</code></pre>
+<p>O menor autovalor é <span class="math inline">\(0.3\)</span>. Agora eu vou mudar a covariância entre as variáveis 1 e 3 para 0.9:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(Matrix)
+
+S2 &lt;- rbind(c(1,0.6,0.9),c(0.6,1,0.5),c(0,0,1))
+S2 &lt;- forceSymmetric(S2)
+eigen(S2)</code></pre>
+<pre ><code >## eigen() decomposition
+## $values
+## [1] 2.34916546 0.55954209 0.09129245
+## 
+## $vectors
+##            [,1]       [,2]       [,3]
+## [1,] -0.6233809  0.2585010  0.7379523
+## [2,] -0.5000153 -0.8573728 -0.1220516
+## [3,] -0.6011497  0.4450721 -0.6637242</code></pre>
+<p>O pior autovalor agora é <span class="math inline">\(0.09\)</span>. Isso parece sugerir que os nossos vetores vão ser mais viesados se as variáveis forem mais correlacionados - a multicolinearidade que aprendemos em econometria I.</p>
+</div>
+<div id="pra-que-todo-esse-trabalho" class="section level2">
+<h2>Pra que todo esse trabalho?</h2>
+<p>Talvez esse post soe meio gratuito. Eu peguei um estimador com solução fechada e precisei introduzir uma enorme quantidade de novos elementos matemáticos e desigualdades. O que eu ganhei com isso?</p>
+<ol style="list-style-type: decimal">
+<li>Veja que, apesar de eu ter assumido que <span class="math inline">\(X\)</span> é constante, eu na verdade posso fazer todas as contas com <span class="math inline">\(X\)</span> aleatório <strong>e</strong> sem a hipótese de ortogonalidade entre <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span>. Eu tive que braçalmente cotar a covariância entre <span class="math inline">\(X\)</span> e <span class="math inline">\(u\)</span>.</li>
+<li>Mais importante: eu posso repetir todas essas contas para métodos regularizados. Isso adiciona algumas hipóteses extras, mas as contas seguem literalmente as mesmas etapas, com a complicação adicional que precisa aparecer a regularização. Noutras palavras, eu posso obter cotas não assintóticas para a estimação do LASSO ou adaLASSO, por exemplo.</li>
+</ol>
+<hr />
+<p><em>PS.:</em> Eu me dei conta que eu não consigo separar o que eu pensei sozinho e o quanto <a href="https://ocw.mit.edu/courses/mathematics/18-s997-high-dimensional-statistics-spring-2015/lecture-notes/">essas notas de aula</a> me influenciaram.</p>
+</div>
+</div>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/m%C3%ADnimos-quadrados">
+                                    <i class="fas fa-tag mr-2"></i>Mínimos Quadrados
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2022%2f02%2f08%2fmqo-mqo-mqo%2f&text=MQO%2c%20MQO%2c%20MQO">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2022%2f02%2f08%2fmqo-mqo-mqo%2f&title=MQO%2c%20MQO%2c%20MQO">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2022%2f02%2f08%2fmqo-mqo-mqo%2f&t=MQO%2c%20MQO%2c%20MQO">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2022%2f02%2f08%2fmqo-mqo-mqo%2f&title=MQO%2c%20MQO%2c%20MQO">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

@@ -38,15 +38,14 @@
 <meta property="og:description" content="Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2021-04-25T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2021-04-25T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2021-04-25T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-04-25T00:00:00+00:00" />
 
 <meta itemprop="name" content="Calculando graus de liberdade do Ridge">
-<meta itemprop="description" content="Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes."><meta itemprop="datePublished" content="2021-04-25T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2021-04-25T00:00:00&#43;00:00" />
+<meta itemprop="description" content="Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes."><meta itemprop="datePublished" content="2021-04-25T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-04-25T00:00:00+00:00" />
 <meta itemprop="wordCount" content="841">
-<meta itemprop="keywords" content="SVD,Ridge," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Calculando graus de liberdade do Ridge"/>
+<meta itemprop="keywords" content="SVD,Ridge," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Calculando graus de liberdade do Ridge"/>
 <meta name="twitter:description" content="Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
@@ -290,7 +289,7 @@ res2 &lt;- microbenchmark(df2(x,lamb))</code></pre>
             <p class="card-text text-muted text-uppercase">September 7, 2020</p>
             <div class="card-text">
                 Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
-Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
+Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
             </div>
         </div>
     </a>
@@ -322,7 +321,7 @@ Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ide
 
                 <p class="text-muted">
                     
-                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
                     
                 </p>
 

@@ -42,8 +42,7 @@
 <meta property="og:url" content="https://azul.netlify.app/categories/r/" />
 
 <meta itemprop="name" content="R">
-<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="R"/>
+<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="R"/>
 <meta name="twitter:description" content="Economia, Estatística, Programação"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
@@ -88,6 +87,22 @@
             <div class="col mb-3">
                 <div class="card h-100">
     
+    <a href="/2021/08/29/sql-do-zero-para-r/" class="d-block"><div class="card-body">
+            <h4 class="card-title">SQL, de zero a alguma coisa em 15 minutos</h4>
+            <p class="card-text text-muted text-uppercase">August 29, 2021</p>
+            <div class="card-text">
+                Isso aqui é uma corrida por vários assuntos para te dar ferramentas que, quando combinadas, conseguem fazer coisas legais. Eu não tenho educação formal em banco de dados, mas trabalho com isso, então nada aqui é como deve ser, está mais para como eu aprendi a fazer.
+O que esperar de um banco SQL SQL significa Structured Query Language, uma linguagem feita para expressar consultas em bancos de dados relacionais.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
     <a href="/2021/04/25/calculando-graus-de-liberdade-do-ridge/" class="d-block"><div class="card-body">
             <h4 class="card-title">Calculando graus de liberdade do Ridge</h4>
             <p class="card-text text-muted text-uppercase">April 25, 2021</p>
@@ -108,7 +123,7 @@
             <p class="card-text text-muted text-uppercase">December 10, 2020</p>
             <div class="card-text">
                 Só para deixar tudo bem claro quanto ao que eu quero dizer quando falo em uma função impura: se fornecida os mesmos argumentos devolverá o mesmo resultado. É simples construir alguns exemplos.
-foo1 &amp;lt;- function(x) {lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1))} foo1(1)## [1] &#34;2020-12-11 07:03:25 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:22 -03&#34;foo1(1)## [1] &#34;2020-12-11 07:03:40 -03&#34;Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.
+foo1 &amp;lt;- function(x) { lubridate::now() &#43; lubridate::dseconds(x &#43; sample(-10:10, size = 1)) } foo1(1) ## [1] &#34;2020-12-11 07:03:25 -03&#34; foo1(1) ## [1] &#34;2020-12-11 07:03:22 -03&#34; foo1(1) ## [1] &#34;2020-12-11 07:03:40 -03&#34; Funções impuras também podem assim ser porque desencadeiam efeitos colaterais, como por exemplo escrever algum arquivo na memória.
             </div>
         </div>
     </a>
@@ -193,6 +208,7 @@ Existem várias iniciativas para acelerar o R. Uma das mais famosas é o R da Mi
             <div class="card-text">
                 Disclaimer: eu tenho a formação em ciência da computação de uma batata, não me leve muito a sério
 O querido Daniel Duque trouxe um problema para o meu colo e eu gostei tanto da simplicidade da solução em relação à abordagem mais óbvia de montar loops dentro de loops que decidi aproveitar para espalhar a palavra da programação funcional. Não por inteiro, apenas outra concepção de operações repetidas.
+Antes do problema interessante do Daniel, um problema comum de simulações estatísticas como motivação.
             </div>
         </div>
     </a>
@@ -315,7 +331,7 @@ Bem, vamos usar o purrr e o dplyr para gerar de maneira concisa um tibble pronto
             <div class="card-text">
                 Eu volto ao mesmo tema, processos AR, com certa regularidade porque Séries Temporais são um excelente playground para brincar de fazer gifs. Animações e o componente da passagem do tempo inerente ao estudo de processos estocásticos combinam muito bem.
 Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão:
-\[y_t = \beta y_{t-1} &#43; \mu_t\]Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.
+\[y_t = \beta y_{t-1} &#43; \mu_t\] Dizemos que \(y_t\) é \(n\)-estacionário se no limite quando \(t\) tende a infinito seu \(n\)-ésimo momento incondicional converge1.
             </div>
         </div>
     </a>
@@ -330,7 +346,7 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
             <h4 class="card-title">A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte I: Dois Resultados Importantes</h4>
             <p class="card-text text-muted text-uppercase">August 12, 2019</p>
             <div class="card-text">
-                Um Pequeno AvisoEste post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
+                Um Pequeno Aviso Este post é um pouco diferente do comum no blog. É definitivamente o mais longo até agora e provavelmente manterá esse título por um bom tempo porque ele foi lentamente concebido e escrito ao longo de 5 semanas de férias da faculdade. Nas minhas últimas férias optei por postar mais posts curtos e apesar de ter gostado da experiência de imersão que esse me proporcionou, não pretendo repeti-la tão cedo.
             </div>
         </div>
     </a>
@@ -345,8 +361,8 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
             <h4 class="card-title">A Abordagem de Ponto Fixo para o Teorema de Perron-Frobenius Parte II: Demonstração e Verificação Computacional</h4>
             <p class="card-text text-muted text-uppercase">August 12, 2019</p>
             <div class="card-text">
-                Um Pequeno AvisoEste post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
-Plano de VooNa primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo.
+                Um Pequeno Aviso Este post é - como o nome indica - uma continuação de outro. Sua leitura solitária pode fazer pouco ou nenhum sentido se o leitor não está familiarizado com os conceitos introduzidos na primeira parte.
+Plano de Voo Na primeira parte fomos apresentados a muita coisa então vale a pena refresca-las um pouco antes de entender para onde vamos. Primeiro conhecemos o conceito de ponto fixo. Depois de verificar que é relativamente simples encontrar pontos fixos em funções afins, percebemos que a tarefa fica bem complexa em pouco tempo e que por isso é interessante usar Teoremas de Ponto Fixo para garantir a existência destes objetos para certas funções que atendem a determinados critérios.
             </div>
         </div>
     </a>
@@ -363,7 +379,7 @@ Indo direto ao ponto, vamos lembrar do novo velho amigo o AR(1) em uma dimensão
             <div class="card-text">
                 Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
+Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
             </div>
         </div>
     </a>
@@ -502,8 +518,8 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
             <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
             <p class="card-text text-muted text-uppercase">November 29, 2018</p>
             <div class="card-text">
-                Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
-O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
+                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
             </div>
         </div>
     </a>
@@ -518,8 +534,8 @@ Variáveis instrumentais são amplamente usadas em econometria, por n motivos: e
             <h4 class="card-title">Como eu rodei Stata dentro do R para replicar um paper</h4>
             <p class="card-text text-muted text-uppercase">November 29, 2018</p>
             <div class="card-text">
-                Nota prévia de leituraAntes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
-O paperDia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
+                Nota prévia de leitura Antes que você comece a ler essa minha pequena aventura, acho que é muito importante ressaltar que todos os posts aqui no blog são escritos diretamente no R, usando o pacote RMarkdown - mesmo quando usamos algo de python, Julia ou, nesse caso, Stata. O Daniel tem um post bom explicando o nosso workflow de maneira detalhada disponível preeliminarmente aqui.
+O paper Dia desses saiu a edição de Novembro da American Economic Review e nela um paper me chamou muito à atenção: The Costs of Patronage: Evidence from the British Empire, de Guo Xu.
             </div>
         </div>
     </a>
@@ -551,7 +567,7 @@ Suponha que nós temos um sistema de equações (lineares), e este sistema evolu
             <p class="card-text text-muted text-uppercase">October 31, 2018</p>
             <div class="card-text">
                 Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
             </div>
         </div>
     </a>
@@ -567,7 +583,7 @@ O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegan
             <p class="card-text text-muted text-uppercase">October 31, 2018</p>
             <div class="card-text">
                 Esse é meu primeiro post que se atreve a falar de matemática de maneira mais pura, não mais como uma língua que deixa mais fácil falar de modelos pra descrever economias e pessoas. Pode ser horrível, fiquei avisado desde já. Eu espero que qualquer aluno suficientemente motivado de Cálculo I consiga entender o assunto - mas não sei se sou bom professor, então fique de novo avisado.
-O Teorema do Ponto Fixo de BanachAntes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
+O Teorema do Ponto Fixo de Banach Antes de entrar no enunciado do teorema elegante de que vou falar aqui, vamos começar com um exercício.
             </div>
         </div>
     </a>
@@ -793,7 +809,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
             <div class="card-text">
                 Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
             </div>
         </div>
     </a>
@@ -810,7 +826,7 @@ ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em qu
             <div class="card-text">
                 Você acha que homens traem mais? Eu sei que existe toda uma literatura empírica sobre o tema (ou seriam comédias românticas? nunca lembro), mas acho interessante trazer alguns dados. A fonte dos que vou usar hoje é Fair (JPE 1978), compilado no incrível manual de econometria introdutória do professor Jeffrey Wooldridge (MSU).
 Vamos rodar um modelo probabilístico para ver se podemos dar nossos dois centavos nessa questão.
-ProbitsProbits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
+Probits Probits são, essencialmente, modelos lineares generalizados (GLM) em que a variável de resposta assume valores binários.
             </div>
         </div>
     </a>
@@ -890,7 +906,7 @@ Vou expor brevemente a matemática por trás do processo de Clustering k-means, 
 
                 <p class="text-muted">
                     
-                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
                     
                 </p>
 

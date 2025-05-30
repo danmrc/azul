@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SQL on AZUL</title>
+    <link>https://azul.netlify.app/categories/sql/</link>
+    <description>Recent content in SQL on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Sun, 29 Aug 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/categories/sql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SQL, de zero a alguma coisa em 15 minutos</title>
+      <link>https://azul.netlify.app/2021/08/29/sql-do-zero-para-r/</link>
+      <pubDate>Sun, 29 Aug 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/08/29/sql-do-zero-para-r/</guid>
+      <description>Isso aqui é uma corrida por vários assuntos para te dar ferramentas que, quando combinadas, conseguem fazer coisas legais. Eu não tenho educação formal em banco de dados, mas trabalho com isso, então nada aqui é como deve ser, está mais para como eu aprendi a fazer.&#xA;O que esperar de um banco SQL SQL significa Structured Query Language, uma linguagem feita para expressar consultas em bancos de dados relacionais.</description>
+    </item>
+  </channel>
+</rss>

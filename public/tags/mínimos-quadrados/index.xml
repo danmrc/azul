@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mínimos Quadrados on AZUL</title>
+    <link>https://azul.netlify.app/tags/m%C3%ADnimos-quadrados/</link>
+    <description>Recent content in Mínimos Quadrados on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Tue, 08 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/m%C3%ADnimos-quadrados/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MQO, MQO, MQO</title>
+      <link>https://azul.netlify.app/2022/02/08/mqo-mqo-mqo/</link>
+      <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2022/02/08/mqo-mqo-mqo/</guid>
+      <description>Atualização em junho/2022: Tinha um erro em um dos passos da última seção. Devidamente corrigido. Ele altera algumas conclusões, mas o espírito do post se mantém&#xA;Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca.&#xA;No post inteiro, eu vou utilizar o modelo linear \(y = X\beta + u\), onde \(u\) é o erro aleatório, \(X\) é o regressor e \(y\) é o regressando.</description>
+    </item>
+  </channel>
+</rss>

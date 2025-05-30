@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Matrizes Esparsas | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2023/07/29/index.pt-br/"><meta property="og:title" content="Matrizes Esparsas" />
+<meta property="og:description" content="Todos vocês estão acostumados com matrizes e como os estimatores usuais de econometria se reduzem a multiplicar e inverter matrizes. Nós usamos operações de matrizes toda vez que rodamos um mínimos quadrados ou variáveis instrumentais no computador, mesmo que você não se dê conta disso. Um truque que nem todo mundo sabe é que existem dois tipos de matrizes no R (e em muitas linguagens de programação): as densas e as esparsas." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2023/07/29/index.pt-br/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-07-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-07-29T00:00:00+00:00" />
+
+<meta itemprop="name" content="Matrizes Esparsas">
+<meta itemprop="description" content="Todos vocês estão acostumados com matrizes e como os estimatores usuais de econometria se reduzem a multiplicar e inverter matrizes. Nós usamos operações de matrizes toda vez que rodamos um mínimos quadrados ou variáveis instrumentais no computador, mesmo que você não se dê conta disso. Um truque que nem todo mundo sabe é que existem dois tipos de matrizes no R (e em muitas linguagens de programação): as densas e as esparsas."><meta itemprop="datePublished" content="2023-07-29T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-07-29T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1386">
+<meta itemprop="keywords" content="Álgebra Linear,Variáveis Instrumentais," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Matrizes Esparsas"/>
+<meta name="twitter:description" content="Todos vocês estão acostumados com matrizes e como os estimatores usuais de econometria se reduzem a multiplicar e inverter matrizes. Nós usamos operações de matrizes toda vez que rodamos um mínimos quadrados ou variáveis instrumentais no computador, mesmo que você não se dê conta disso. Um truque que nem todo mundo sabe é que existem dois tipos de matrizes no R (e em muitas linguagens de programação): as densas e as esparsas."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">July 29, 2023</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1386 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>7 mins</span>
+                        </div>
+
+                        <h1>Matrizes Esparsas</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+
+
+<p>Todos vocês estão acostumados com matrizes e como os estimatores usuais de econometria se reduzem a multiplicar e inverter matrizes. Nós usamos operações de matrizes toda vez que rodamos um mínimos quadrados ou variáveis instrumentais no computador, mesmo que você não se dê conta disso. Um truque que nem todo mundo sabe é que existem <em>dois</em> tipos de matrizes no R (e em muitas linguagens de programação): as densas e as esparsas. As matrizes densas são as matrizes usuais. As matrizes esparsas funcionam igualzinho as matrizes densas, mas são matrizes que tem muitos zeros e a gente pode explorar isso para reduzir o tamanho das matrizes na memória e agilizar as operações.</p>
+<p>Imagine que você tem uma matriz <span class="math inline">\(100 \times 100\)</span> que só tem elementos na diagonal. Uma maneira de representar a matriz seria desenhar uma matriz - em um pedaço de cartolina, dada a dimensão - e escrever na primeira linha 1 seguido de 99 zeros, na segunda 0, 2 seguido de 98 zeros etc etc. Uma outra maneira é dizer: “imagine uma matriz que é toda zeros exceto nas posições (1,1), (2,2), …, cujo os valores são 1,2,3,…”. Matrizes esparsas são armazenadas da segunda forma.</p>
+<p>Isso parece um pouco abstrato, e nem toda matriz é esparsa. Uma “categoria” de matrizes que é esparsa e que nos interessa é uma matriz de dummies. O R e outras linguagens de programação permitem a gente, elegantemente, lidar com colunas que são variáveis categóricas (ou fatores, como o R chama), e não se preocupar muito em como lidar com isso numericamente. Mas, como a gente aprende no curso básico de econometria, se você tiver <span class="math inline">\(d\)</span> categorias, isso gera <span class="math inline">\(d\)</span> variáveis dummies (se você tiver um intercepto, você deve jogar uma fora para evitar multicolinearidade). Se você tem <span class="math inline">\(n\)</span> observações e cada observação pertence a uma categoria apenas - pense em ano de nascimento, estado em que nasceu, etc - a sua matriz de dummies tem <span class="math inline">\(1/d\)</span> entradas não zero. Se você tem 4 categorias, 75% da matriz é formada por zeros.</p>
+<p>Só para termos um exemplo do mundo real disso, você pode baixar <a href="https://zenodo.org/record/5652443">aqui</a> os dados do famoso Angrist &amp; Krueger (1991) - o paper que usa trimestre de nascimento como instrumento para medir retorno de escolaridade. O comando <code>makeX</code> do pacote <em>glmnet</em> transforma uma variável categórica em dummies. Ele dá, sabiamente, duas opções para gerar a matriz: esparsa ou não esparsa. Eu vou testar usando a varíavel categórica de lugar onde a pessoa nasceu, que nos dados é <code>pob</code> (place of birth). Nós temos 51 níveis, correspondendo aos 50 estados e Washington DC. Isso significa que menos de 2% da matriz são não zeros.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(foreign)
+library(glmnet)
+library(dplyr)
+
+dd &lt;- read.dta("~/Downloads/data/ak91.dta")
+
+dd &lt;- dd %&gt;% mutate(yob = factor(yob), pob = factor(pob), qob = factor(qob))
+
+x &lt;- makeX(data.frame(dd$qob))
+xs &lt;- makeX(data.frame(dd$pob),sparse = TRUE)</code></pre>
+<p>O R me reporta que a versão não esparsa ocupa 155 mbs e a versão esparsa ocupa 25 mbs.</p>
+<p>As vantagens de usar matrizes esparsas não se limitam a armazenar os dados, mas também a velocidade de todas as computações. Vamos considerar multiplicar as matrizes para obter a matriz de covariância, que é um dos blocos necessários pra mínimos quadrados. Eu vou usar o <code>system.time</code> da base do R porque a gente não precisa mais do que isso:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">system.time(t(x)%*%x)
+system.time(t(xs)%*%xs)</code></pre>
+<p>A versão esparsa demora 0.016 segundos e a versão densa demora 1.1 segundos.</p>
+<p>Se você ainda não está inteiramente satisfeito com isso, lembre que o paper usa a <em>interação entre trimestre de nascimento e lugar de nascimento</em> como instrumento. O trimestre de nascimento é <code>qob</code> (quarter of birth), e o seguinte código gera as matrizes com as dummies:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">dd &lt;- dd %&gt;% mutate(qob_pob = interaction(qob,pob))
+
+x2 &lt;- makeX(data.frame(dd$qob_pob))
+x2s &lt;- makeX(data.frame(dd$qob_pob), sparse = TRUE)</code></pre>
+<p>A versão densa ocupa 556 mbs (sim, 0.5 GB) e a versão esparsa continua ocupando 25mbs. Vamos computar a matriz de variância e covariância:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">system.time(t(x2)%*%x2)
+system.time(t(x2s)%*%x2s)</code></pre>
+<p>A versão densa demora 13 segundos e a versão esparsa demora 0.014 segundos. Todas essas operações são necessárias quando nós computamos um mínimos quadrados ou variáveis instrumentais, então isso significa que usar matrizes esparsas pode gerar ganhos significativos de velocidade e uso de recursos. O pequeno senão desse papo todo é que inversa de matrizes esparsas <strong>não</strong> são necessariamente esparsa, e quase todos os estimadores dependem de tomar inversas de matrizes.</p>
+<p>Isso é problemático, mas na verdade não é tão problemático assim. Pra gente ter um exemplo prático, o estimador de mínimos quadrados é:</p>
+<p><span class="math display">\[
+\beta = (X^T X)^{-1} X^T y
+\]</span></p>
+<p>O estimador vem de um problema de minimização, minimizar o quadrado dos resíduos. As condições de primeira ordem do problema é:</p>
+<p><span class="math display">\[
+\beta^T X^T X - X^T y = 0 \therefore \beta^T X^T X = X^T y
+\]</span></p>
+<p>Como <span class="math inline">\(X\)</span> é <span class="math inline">\(n \times p\)</span> e <span class="math inline">\(y\)</span> é <span class="math inline">\(n \times 1\)</span>, do lado direito a gente tem um vetor e do lado esquerdo a gente tem a matriz <span class="math inline">\(X^T X\)</span> multiplicando um vetor. No fim, nós estamos resolvendo um sistema linear, e apesar da maioria da vezes a gente pensar em resolver usando a inversa, isso não é necessário. Existem algoritmos que exploram a esparsidade do problema e evitam a inversa. O comando <code>solve</code> do R tanto retorna a inversa quanto resolve sistemas lineares, e a gente pode testar os ganhos de velocidade de um mínimos quadrados em duas linhas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">y &lt;- dd$educ
+
+system.time(solve(t(x2)%*%x2,t(x2)%*%y))
+system.time(solve(t(x2s)%*%x2s,t(x2s)%*%y))</code></pre>
+<p>A diferença aqui é de 13 segundos pra versão não esparsa e 0.042 segundos para a versão esparsa. Se eu forçar a usar a inversa, o tempo da versão não esparsa vai pra 28s.</p>
+<p>Os ganhos não são só em tempo, mas também - e talvez mais importante - em tamanho de alocações na memória. Eu vou pular pro Julia porque isso nos dá uma ótima maneira de comparar as coisas, já que o comando que mede tempo de execução do código também nos diz quanta memória foi alocada. O código em Julia é um pouco diferente porque eu uso variáveis instrumentais, então a gente tem as variáveis endógenas e os instrumentos - como no código acima - e os controles. O estimador de mínimos quadrados em dois estágios é:</p>
+<p><span class="math display">\[
+\hat{\beta} = (X^T Z (Z^T Z)^{-1}Z^T X)^{-1} X^T Z(Z^T Z)^{-1} Z^T y
+\]</span>
+A gente pode aplicar o mesmo truque de reescrever o estimador como a solução para <span class="math inline">\(X^T Z (Z^T Z)^{-1}Z^T X) \beta = X^T Z(Z^T Z)^{-1} Z^T y\)</span>, mas a gente ainda tem a inversa de <span class="math inline">\(Z^T Z\)</span>.</p>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+function twosls_sparse(X,Y,Z::SparseMatrixCSC)
+
+    W = inv(Matrix(Z)'*Matrix(Z)) |&gt; sparse
+    lhs = X'*Z*W*Z'*X
+    rhs = X'*Z*W*Z'*Y
+    β = lhs\rhs
+    return β
+end
+
+function twosls_coef(X,Y,Z)
+
+    Pz = Z*inv(Z'Z)*Z'
+    β = inv(X'*Pz*X)*X'*Pz*Y
+
+    return β
+
+end
+</code></pre>
+<p>Eu vou pular a parte de arrumar os dados e só mostrar o cálculo dos estimadores:</p>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+coef_2sls = @time twosls_coef([ones(20_000) X_endo Matrix(X_exo)],Y,[ones(20_000) Matrix(Z) Matrix(X_exo)])
+coef_2sls_spar = @time twosls_sparse([ones(20_000) X_endo X_exo],Y,[ones(20_000) Z X_exo]) 
+</code></pre>
+<p>A versão não esparsa demora uns 30s e a versão esparsa demora 1.3s. A inversa ali consome um tempo. As alocações são: 3.5 GB para a versão não esparsa e 556 MB (unidade diferentes) para a versão esparsa. Ou seja, a gente reduziu a necessidade de memória em 1/7.</p>
+<p>Enquanto eu escrevia o post, eu me dei conta que existe uma maneira ainda mais eficiente de proceder. O estimador se chama mínimos quadrados em dois estágios porque você faz, bom, o mínimos quadrados do primeiro estágio - a variável endógena sobre os instrumentos - e depois usa o valor <span class="math inline">\(Z\beta_1\)</span> como o regressor na regressão sobre <span class="math inline">\(y\)</span>. Essa maneira gera um total de zero inversas, e é facilmente implementável:</p>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+ols_coef(X,Y) = (X'*X)\(X'*Y)
+
+function twosls_fast(X_endo,X_exo,Y,Z::SparseMatrixCSC)
+
+    n = size(Z,1)
+    β1 = ols_coef(Z,X_endo)
+    X̂ = Z*β1
+
+    X = [ones(n) X̂ X_exo]
+
+    β = ols_coef(X,Y)
+    return β
+end
+</code></pre>
+<p>Aqui, eu separo o que é variável endógena de variável exógena. E eu posso rodar isso:</p>
+<pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
+twosls_fast(X_endo, X_exo, Y, Z)
+</code></pre>
+<p>Essa versão demora 0.01s e aloca apenas 11 MBs. O fato de que a gente faz dois mínimos quadrados em menos tempo que o R faz um é o motivo que eu rodei o código de variáveis instrumentais no Julia e não no R.</p>
+<p>Nem tudo são flores: se a gente quiser obter a variância dos estimadores, a inversa é quase inevitável. Uma maneira “simples” de burlar a inversa é usar bootstrap. Mas isso pode ser bem mais lento do que a inversa.</p>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/%C3%A1lgebra-linear">
+                                    <i class="fas fa-tag mr-2"></i>Álgebra Linear
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/vari%C3%A1veis-instrumentais">
+                                    <i class="fas fa-tag mr-2"></i>Variáveis Instrumentais
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2023%2f07%2f29%2findex.pt-br%2f&text=Matrizes%20Esparsas">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2023%2f07%2f29%2findex.pt-br%2f&title=Matrizes%20Esparsas">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2023%2f07%2f29%2findex.pt-br%2f&t=Matrizes%20Esparsas">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2023%2f07%2f29%2findex.pt-br%2f&title=Matrizes%20Esparsas">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2021/11/18/componentes-principais-e-variaveis-instrumentais/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Componentes Principais e Variáveis Instrumentais</h4>
+            <p class="card-text text-muted text-uppercase">November 18, 2021</p>
+            <div class="card-text">
+                Eu já falei de variáveis instrumentais e de componentes principais. Eu nunca misturei os dois, apesar da ideia deste post ter me ocorrido a muito tempo.
+Eu já falei como muitos instrumentos causam viés e como componentes principais podem ser usados para resumir muitas variáveis. Naturalmente, alguém poderia se perguntar se a gente poderia passar componentes principais em um conjunto de instrumentos e usar apenas alguns poucos instrumentos que resumem a maior parte da variabilidade dos dados.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Componentes Principais e decomposição de matrizes</h4>
+            <p class="card-text text-muted text-uppercase">September 7, 2020</p>
+            <div class="card-text">
+                Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
+Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/04/24/vi%C3%A9s-de-atenuacao/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Viés de Atenuação</h4>
+            <p class="card-text text-muted text-uppercase">April 24, 2020</p>
+            <div class="card-text">
+                Esse é um desses posts curtos e simples, mas legalzinho. Surgiu de uma conversa minha com o Pedro e alguns de vocês já devem saber. É bem simples: suponha que você acha que na sua regressão x afeta y. O catch: você observa x com um erro, que é independente de x e do erro da regressão. A sua regressão vai sofrer com viés de atenuação. O parâmetro estimado vai ficar mais pŕoximo de zero, independente se ele é positivo ou negativo.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     SQL, de zero a alguma coisa em 15 minutos | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="pedrocava">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2021/08/29/sql-do-zero-para-r/"><meta property="og:title" content="SQL, de zero a alguma coisa em 15 minutos" />
+<meta property="og:description" content="Isso aqui é uma corrida por vários assuntos para te dar ferramentas que, quando combinadas, conseguem fazer coisas legais. Eu não tenho educação formal em banco de dados, mas trabalho com isso, então nada aqui é como deve ser, está mais para como eu aprendi a fazer.
+O que esperar de um banco SQL SQL significa Structured Query Language, uma linguagem feita para expressar consultas em bancos de dados relacionais." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2021/08/29/sql-do-zero-para-r/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-08-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-08-29T00:00:00+00:00" />
+
+<meta itemprop="name" content="SQL, de zero a alguma coisa em 15 minutos">
+<meta itemprop="description" content="Isso aqui é uma corrida por vários assuntos para te dar ferramentas que, quando combinadas, conseguem fazer coisas legais. Eu não tenho educação formal em banco de dados, mas trabalho com isso, então nada aqui é como deve ser, está mais para como eu aprendi a fazer.
+O que esperar de um banco SQL SQL significa Structured Query Language, uma linguagem feita para expressar consultas em bancos de dados relacionais."><meta itemprop="datePublished" content="2021-08-29T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-08-29T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1597">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="SQL, de zero a alguma coisa em 15 minutos"/>
+<meta name="twitter:description" content="Isso aqui é uma corrida por vários assuntos para te dar ferramentas que, quando combinadas, conseguem fazer coisas legais. Eu não tenho educação formal em banco de dados, mas trabalho com isso, então nada aqui é como deve ser, está mais para como eu aprendi a fazer.
+O que esperar de um banco SQL SQL significa Structured Query Language, uma linguagem feita para expressar consultas em bancos de dados relacionais."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">August 29, 2021</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1597 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>8 mins</span>
+                        </div>
+
+                        <h1>SQL, de zero a alguma coisa em 15 minutos</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/pedrocava/" class="small">Pedro Cavalcante</a>
+                            </h5><p class="social small text-muted">
+                                    <a href="https://twitter.com/@pedroocava">@PedrooCava</a>
+                                </p></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Isso aqui é uma corrida por vários assuntos para te dar ferramentas que, quando combinadas, conseguem fazer coisas legais. Eu não tenho educação formal em banco de dados, mas trabalho com isso, então nada aqui é <em>como deve ser</em>, está mais para <em>como eu aprendi a fazer</em>.</p>
+<div id="o-que-esperar-de-um-banco-sql" class="section level1">
+<h1>O que esperar de um banco SQL</h1>
+<p>SQL significa <em>Structured Query Language</em>, uma linguagem feita para expressar consultas em bancos de dados relacionais. Damos esse adjetivo porque esse tipo de banco armazena uma série de tabelas (imagine um arquivo de excel com várias abas, ou vários dataframes na memória do R) que se relacionam. Cada tabela tem uma chave primária, que identifica unicamente uma observação dentro dela e uma ou mais chaves estrangeiras, que identificam como ela se relaciona com outras tabelas do banco. Vale notar que existem várias implementações do padrão SQL (e.g. mySQL, transact-sql, PostgreSQL, BigQuery), esse post vai sempre se referir ao padrão PostgreSQL. Algumas diferenças de sintaxe existem, mas num geral a maior parte do conhecimento de um padrão transfere para outros sem fricções.</p>
+<p>Um banco de dados com o Censo Escolar, por exemplo, teria entre outras, a tabela <code>alunos</code> e a tabela <code>escolas</code>. Podemos relacionar essas duas tabelas porque <code>alunos</code> contém uma chave estrangeira para relacionar qualquer aluno a uma escola. Convencionalmente daríamos à essa coluna na tabela <code>alunos</code> o nome de <code>escola_id</code> / <code>school_id</code>.</p>
+<p>Uma chave é apenas uma coluna no banco. É comum usar sequências aleatórias de caracteres como identificadores, mas não é necessário ser assim. Cada município brasileiro tem um id numérico único para o IBGE, construído de maneira similar ao CEP/ZIP. Esses identificadores contém informação (os primeiros dígitos identificam a região, depois o estado, depois a subregião, …) ao contrário de um id aleatório. Não há certo ou errado aqui, são apenas possibilidades distintas. Cada escolha tem custos de desenvolvimento e vantagens próprias.</p>
+</div>
+<div id="definindo-o-banco-de-uma-aplicação" class="section level1">
+<h1>Definindo o banco de uma aplicação</h1>
+<p>Imagine um sistema de afazeres bem simples: um usuário pode adicionar itens em uma lista de afazeres com um prazo e um estado (feito, a fazer). Precisamos de duas tabelas para representar o estado da aplicação em algum momento no tempo: <code>users</code> contendo informaçÕes pertinentes aos usuários e <code>todos</code> contendo informações dos itens.</p>
+<p>Vamos fingir que não existe autenticação e só precisamos de um email para registrar o usuário. A função <code>CREATE TABLE "nome_da_tabela" ()</code> recebe a definição da tabela e seu nome. A definição da tabela inclui quais colunas entram, qual o seu tipo (e.g. <code>VARCHAR(20)</code> é texto de tamanho variável e até 20 caracteres) e opcionalmente algum tipo de restrição (e.g. <code>UNIQUE</code>, <code>NOT NULL</code> para impedir entradas novas de terem um NA na coluna, <code>PRIMARY KEY</code> para indicar que aquela coluna identifica unicamente cada observação).</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">CREATE TABLE "users" (
+
+    user_id VARCHAR (20) PRIMARY KEY,
+    email VARCHAR (40) NOT NULL,
+    created_at DATETIME
+
+)
+
+CREATE TABLE "items" (
+
+    item_id VARCHAR(20) NOT NULL,
+    user_id VARCHAR(20) NOT NULL,
+    created_at DATETIME,
+    completed_at DATETIME
+
+    PRIMARY KEY (item_id, user_id)
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+
+)
+</code></pre>
+<p>Alguns pontos:</p>
+<ul>
+<li><p>Apesar da aplicação guardar o estado de cada item, ele não tem uma coluna própria. Descobrimos, com esse banco, se um item qualquer está feito ou não conferindo se existe algum valor na entrada <code>items.completed_at</code>. Não é um absurdo imaginar um mundo em que essa tabela na verdade tem <code>item_id</code>, <code>user_id</code>, <code>state</code>, <code>created_at</code> e <code>updated_at</code> em que o estado é explicitamente armazenado em uma coluna própria. O código para decidir se um item está feito é diferente, nesse caso, mas a informação armazenada é a mesma.</p></li>
+<li><p>A tabela <code>items</code> tem uma chave primária que depende de duas colunas e nesse caso a sintaxe para defini-la é um tanto diferente. “Avisamos” que a chave primária existe depois de especificar o formato da tabela e quais os tipos de cada coluna.</p></li>
+<li><p>Existem trocentos tipos possíveis: datas, timestamps, horarios, json, uuids, inteiros, numeros reais, coordenadas, etc. Alguns padrões têm jeitos especificos de lidar com tipos menos tradicionais. <code>VARCHAR(N)</code> aceita strings de comprimento menor que <code>N</code>, <code>DATETIME</code> aceita um ‘carimbo temporal’, marcando data, hora, minuto, segundo e fuso-horário.</p></li>
+<li><p>Definir uma chave estrangeira é apenas criar uma relação: essa(s) colunas dessa tabela se relacionam àquela coluna da outra tabela.</p></li>
+<li><p>Se você já tem um banco sendo usado e precisa fazer consultas nele, o que acabamos de ver já foi escrito por alguém antes de você e vale procurar esse arquivo para entender como o banco está organizado e como cada entidade nele se relaciona com o resto.</p></li>
+</ul>
+</div>
+<div id="fazendo-algumas-consultas" class="section level1">
+<h1>Fazendo algumas consultas</h1>
+<p>Uma consulta tem uma anatomia básica e consiste de cláusulas informando:</p>
+<ul>
+<li>O que se consulta, <code>SELECT</code> - obrigatória</li>
+<li>De onde se consulta, <code>FROM</code> - obrigatória</li>
+<li>Com quais condições, <code>WHERE</code> e <code>AND</code> / <code>OR</code> para concatenar condições - opcional</li>
+<li>Com que ordem, <code>ORDER BY</code> - opcional</li>
+<li>Com que tabelas intermediárias, <code>WITH</code> - opcional</li>
+</ul>
+<p>Acho melhor dar vários exemplos progressivamente mais complicados do que insistir em explicar em minucioso detalhe. Selecionar tudo da tabela usuários:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "users"</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email,
+    users.created_at
+FROM "users"</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email AS "E-mail do Usuário",
+    users.created_at AS "Data de Criação"
+FROM "users"</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando por criação:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email AS "E-mail do Usuário",
+    users.created_at AS "Data de Criação"
+FROM "users"
+ORDER BY users.created_at</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando decrescentemente por criação:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email AS "E-mail do Usuário",
+    users.created_at AS "Data de Criação"
+FROM "users"
+ORDER BY users.created_at DESC</code></pre>
+<p>Selecionar apenas email e data de registro da tabela de usuários, mudando os nomes das colunas e ordenando decrescentemente por criação, apenas com usuários que se cadastraram hoje:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT
+    users.email as "E-mail do Usuário",
+    users.created_at as "Data de Criação"
+FROM "users"
+ORDER BY users.created_at DESC
+WHERE DATE(users.created_at) = CURRENT_DATE</code></pre>
+<p>Queremos todos os afazeres do usuário <code>5s1pn5s9dfs17dv</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"</code></pre>
+<p>Queremos todos os afazeres completos do usuário <code>5s1pn5s9dfs17dv</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+    AND items.completed_at IS NOT NULL</code></pre>
+<p>Queremos todos os afazeres incompletos do usuário <code>5s1pn5s9dfs17dv</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+    AND items.completed_at IS NULL</code></pre>
+<p>Queremos todos os afazeres incompletos criados nos últimos 7 dias do usuário <code>5s1pn5s9dfs17dv</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM "items"
+WHERE items.user_id = "5s1pn5s9dfs17dv"
+    AND items.completed_at IS NULL
+    AND items.created_at &gt; now() - interval '7 days'</code></pre>
+</div>
+<div id="ligando-tabelas" class="section level1">
+<h1>Ligando tabelas</h1>
+<p>E se eu quiser todos os items criados por usuários que criaram a conta nos últimos 3 dias? Essa pergunta introduz uma mecânica nova, joins. Vamos primeiro pegar tudo do banco inteiro:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id</code></pre>
+<p>O que você deve entender aqui é que a cláusula <code>FROM</code> espera uma tabela ao lado e que podemos construir tabelas livremente. Uma maneira de fazer isso é com joins. Para o banco, <code>users LEFT JOIN items ON users.user_id = items.user_id</code> é uma única tabela, resultado do pareamento de <code>users</code> com <code>items</code>.</p>
+<p>Tudo no banco vindo de usuários criados nos últimos 3 dias:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT *
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at &gt; CURRENT_DATE - interval '3 days'</code></pre>
+<p>Todos os itens de usuários criados nos últimos 3 dias:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT 
+    items.user_id,
+    items.item_id,
+    items.created_at,
+    items.completed_at
+
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at &gt; CURRENT_DATE - interval '3 days'</code></pre>
+<p>Todos os itens <em>completos</em> de usuários criados nos últimos 3 dias:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT 
+    items.user_id,
+    items.item_id,
+    items.created_at,
+    items.completed_at
+
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+WHERE users.created_at &gt; CURRENT_DATE - interval '3 days'
+AND  items.completed_at IS NOT NULL</code></pre>
+</div>
+<div id="agregações-simples" class="section level1">
+<h1>Agregações simples</h1>
+<p>Quantos itens cada usuário tem? Aqui é preciso adicionar a cláusula <code>GROUP BY</code> para definir como agruparemos a agregação.</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT 
+    users.user_id as "Usuário",
+    COUNT(*) AS "Quantidade"
+FROM users LEFT JOIN items
+ON users.user_id = items.user_id
+GROUP BY users.user_id</code></pre>
+<p>Quantos usuários criados em cada dia? Aqui <code>DATE_TRUNC</code> trunca a parte que escolhemos de uma timestamp, um carimbo com data e horário de um acontecimento.</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">SELECT 
+    DATE_TRUNC('day', users.created_at) as "Data de criação"
+    COUNT("user_id") AS "Quantidade de usuários"
+FROM users
+GROUP BY DATE_TRUNC('day', users.created_at)</code></pre>
+<p>E a quantidade de itens completos e incompletos por usuário? Aqui vale definir tabelas intermediárias com a cláusula <code>WITH</code>:</p>
+<pre class = "line-numbers"><code class="language-sql match-braces rainbow-braces">WITH
+ "completos" AS (
+    SELECT 
+        COUNT(*) AS "quantidade_completo",
+        items.user_id
+    FROM items
+    WHERE items.completed_at IS NOT NULL
+    GROUP BY items.user_id
+    ),
+
+ "incompletos" AS (
+    SELECT 
+        COUNT(*) AS "quantidade_incompleto",
+        items.user_id
+    FROM items
+    WHERE items.completed_at IS NULL
+    GROUP BY items.user_id    
+)
+
+SELECT *
+FROM completos FULL JOIN incompletos
+ON completos.user_id = incompletos.user_id</code></pre>
+<p>Note que eu usei <code>FULL JOIN</code> ao contrário de <code>LEFT JOIN</code>. Usuários do <code>dplyr</code> devem entender isso sem problema, apenas transpondo para esse contexto o comportamento de <code>dplyr::left_join</code> e <code>dplyr::full_join</code>. O <code>dplyr</code> tem um design fortemente influenciado por SQL.</p>
+</div>
+<div id="uma-aplicação" class="section level1">
+<h1>Uma aplicação</h1>
+<p>O pacote ~que eu escrevi e mantenho~ <code>basedosdados</code> disponibliza um canal para rodar consultas em SQL no datalake do <a href="https://basedosdados.github.io/mais/">Base dos Dados +</a>.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(basedosdados)</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## ── Base dos Dados ──────────────────────────────────────────────────────────────</code></pre>
+<pre ><code >## • Website: https://basedosdados.org/</code></pre>
+<pre ><code >## • Docs: https://basedosdados.github.io/mais/</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## ── Contatos ──</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## • Discord: discord.gg/tuaFbAPeq5</code></pre>
+<pre ><code >## • Twitter: @basedosdados</code></pre>
+<pre ><code >## • Email: contato@basedosdados.org</code></pre>
+<pre ><code >## • Telegram: t.me/joinchat/OKWc3RnClXnq2hq-8o0h_w</code></pre>
+<pre ><code >## • Github: github.com/basedosdados</code></pre>
+<pre ><code >## • LinkedIn: linkedin.com/company/base-dos-dados</code></pre>
+<pre ><code >## • Newsletter:
+## https://basedosdados.hubspotpagebuilder.com/assine-a-newsletter-da-base-dos-dados</code></pre>
+<pre ><code >## • WhatsApp: https://chat.whatsapp.com/HXWgdFc1RmwCoblly5KPBZ</code></pre>
+<pre ><code >## • YouTube: https://www.youtube.com/c/BasedosDados</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## ── Somos um projeto open-source e gratuito. Para nos mantermos e crescermos precisamos do seu apoio. Quanto valem as horas do seu trabalho que poupamos?
+## 
+## Nos apoie em https://apoia.se/basedosdados.</code></pre>
+<pre ><code >## </code></pre>
+<pre ><code >## ── Usando o pacote para produzir um trabalho? Para nos citar basta rodar citation('basedosdados').</code></pre>
+</div>
+
+                        </div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2021%2f08%2f29%2fsql-do-zero-para-r%2f&text=SQL%2c%20de%20zero%20a%20alguma%20coisa%20em%2015%20minutos">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2021%2f08%2f29%2fsql-do-zero-para-r%2f&title=SQL%2c%20de%20zero%20a%20alguma%20coisa%20em%2015%20minutos">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2021%2f08%2f29%2fsql-do-zero-para-r%2f&t=SQL%2c%20de%20zero%20a%20alguma%20coisa%20em%2015%20minutos">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2021%2f08%2f29%2fsql-do-zero-para-r%2f&title=SQL%2c%20de%20zero%20a%20alguma%20coisa%20em%2015%20minutos">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

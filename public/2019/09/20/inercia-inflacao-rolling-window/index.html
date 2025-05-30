@@ -38,15 +38,14 @@
 <meta property="og:description" content="Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azul.netlify.app/2019/09/20/inercia-inflacao-rolling-window/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2019-09-20T00:00:00&#43;00:00" />
-<meta property="article:modified_time" content="2019-09-20T00:00:00&#43;00:00" />
+<meta property="article:published_time" content="2019-09-20T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-09-20T00:00:00+00:00" />
 
 <meta itemprop="name" content="Medindo a inércia da inflação brasileira com Rolling Window Regression">
-<meta itemprop="description" content="Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias."><meta itemprop="datePublished" content="2019-09-20T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-09-20T00:00:00&#43;00:00" />
+<meta itemprop="description" content="Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias."><meta itemprop="datePublished" content="2019-09-20T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2019-09-20T00:00:00+00:00" />
 <meta itemprop="wordCount" content="302">
-<meta itemprop="keywords" content="OLS,Processos Autogressivos," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Medindo a inércia da inflação brasileira com Rolling Window Regression"/>
+<meta itemprop="keywords" content="OLS,Processos Autogressivos," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Medindo a inércia da inflação brasileira com Rolling Window Regression"/>
 <meta name="twitter:description" content="Eu confesso que tenho certa preguiça de macroeconomia, mas gosto bastante de econometria e programar exercícios de estimação. Dia desses me veio à mente Rolling Window Regression. Estimamos coeficientes de um modelo dentro de uma subamostra dos dados, movemos a subamostra em paralalo para um momento posterior no tempo e reestimamos o modelo. O que sai daí é uma série temporal de coeficientes estimados - efetivamente um processo estocástico porque é uma sequência de variáveis aleatórias."/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
@@ -211,7 +210,7 @@ coeficientes %&gt;%
             <div class="card-text">
                 Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
+Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
             </div>
         </div>
     </a>
@@ -256,7 +255,7 @@ Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Va
 
                 <p class="text-muted">
                     
-                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
                     
                 </p>
 

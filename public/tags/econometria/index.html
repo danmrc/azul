@@ -42,8 +42,7 @@
 <meta property="og:url" content="https://azul.netlify.app/tags/econometria/" />
 
 <meta itemprop="name" content="Econometria">
-<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Econometria"/>
+<meta itemprop="description" content="Economia, Estatística, Programação"><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Econometria"/>
 <meta name="twitter:description" content="Economia, Estatística, Programação"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
@@ -84,6 +83,40 @@
         <div class="col">
             <h3 class="display-4">Econometria</h3></div>
     </div><div class="row row-cols-1 row-cols-lg-3">
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2023/12/29/diferencas-em-diferencas/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Viés em Diferenças em Diferenças</h4>
+            <p class="card-text text-muted text-uppercase">December 29, 2023</p>
+            <div class="card-text">
+                Sim, eu nunca achei que eu ia chegar a isso. Mas cá estamos: um post sobre viés em diferenças em diferenças. Esse é um tópico relativamente falado em econometria e com uns exemplos legais, então eu decidi fazer esse post.
+Sempre que a gente tem dados em painel, a reação pavloviana é dizer “efeitos fixos”. A ideia é que efeitos fixos capturam a heterogenidade não observada e isso potencialmente resolve problemas de viés de seleção.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
+        
+            <div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2022/01/31/concentracao-do-maximo/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Concentração do Máximo</h4>
+            <p class="card-text text-muted text-uppercase">January 31, 2022</p>
+            <div class="card-text">
+                Este post é uma continuação do post sobre concentração de medida, e vai ser necessário para um post futuro.
+Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:
+\[ P(|X| &amp;gt; t) \leq e^{-\frac{t^2}{2\sigma^2}} \]
+Agora suponha que você tem uma coleção de variáveis aleatórias, todas subgaussianas e não necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div>
         
             <div class="col mb-3">
                 <div class="card h-100">
@@ -142,7 +175,7 @@ Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “pro
             <div class="card-text">
                 Um processo estocástico autoregressivo com \(1\) lag, doravante chamado de AR1, é, no caso simplificado em uma dimensão que eu abordarei aqui, descrito como:
 \[y_t = \beta y_{t-1} &#43; \mu_t\] Para algum \(y_o = c\) e, no caso com que lidaremos hoje, \(\beta \in \mathbb{R}\) e \(\mu_t \sim N(0, \sigma^2)\), logo vale que $[_t] = 0 $.
-Variância e Esperança do Processo AR1EsperançaVamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
+Variância e Esperança do Processo AR1 Esperança Vamos agora caracterizar o Valor Esperado e a Variância desse processo, assim como caracterizaríamos os dois primeiros momentos centrais de uma distribuição.
             </div>
         </div>
     </a>
@@ -207,7 +240,7 @@ Antes, uma recapitulação sobre variáveis instrumentais (se você não aprende
 
                 <p class="text-muted">
                     
-                        Copyright © 2008–2020, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
                     
                 </p>
 

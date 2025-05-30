@@ -6,27 +6,29 @@
     <description>Recent content in LASSO on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Thu, 02 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/tags/lasso/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Sun, 17 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/lasso/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bayesianismo e regularização</title>
+      <link>https://azul.netlify.app/2021/10/17/index.pt-br/</link>
+      <pubDate>Sun, 17 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/10/17/index.pt-br/</guid>
+      <description>Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.&#xA;Regularização Muita gente conhece métodos de regularização em machine learning, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear.</description>
+    </item>
     <item>
       <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
       <link>https://azul.netlify.app/2019/05/02/lasso-adaptativo/</link>
       <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/05/02/lasso-adaptativo/</guid>
-      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
-\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
-(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
+      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:&#xA;\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]&#xA;(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
     </item>
-    
     <item>
       <title>O LASSO</title>
       <link>https://azul.netlify.app/2018/09/16/lasso/</link>
       <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2018/09/16/lasso/</guid>
       <description>Este post vai tratar de um método de machine learning muito interessante e relativamente simples: o LASSO. LASSO significa Least Absolute Shrinkage and Select Operator. Como o nome sugere, o LASSO seleciona quais regressores são relevantes e quais não são. Ou seja, suponha que você é um pesquisador que tem 50 variáveis que são possíveis candidatos a variáveis explicativas de uma variável de interesse. O LASSO permite que você dê os 50 regressores para o computador e ele escolha quais são os relevantes.</description>
     </item>
-    
   </channel>
 </rss>

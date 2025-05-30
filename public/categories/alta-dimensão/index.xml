@@ -6,19 +6,43 @@
     <description>Recent content in Alta Dimensão on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sat, 21 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/alta-dimens%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Tue, 08 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/categories/alta-dimens%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MQO, MQO, MQO</title>
+      <link>https://azul.netlify.app/2022/02/08/mqo-mqo-mqo/</link>
+      <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2022/02/08/mqo-mqo-mqo/</guid>
+      <description>Atualização em junho/2022: Tinha um erro em um dos passos da última seção. Devidamente corrigido. Ele altera algumas conclusões, mas o espírito do post se mantém&#xA;Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca.&#xA;No post inteiro, eu vou utilizar o modelo linear \(y = X\beta + u\), onde \(u\) é o erro aleatório, \(X\) é o regressor e \(y\) é o regressando.</description>
+    </item>
+    <item>
+      <title>Concentração do Máximo</title>
+      <link>https://azul.netlify.app/2022/01/31/concentracao-do-maximo/</link>
+      <pubDate>Mon, 31 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2022/01/31/concentracao-do-maximo/</guid>
+      <description>Este post é uma continuação do post sobre concentração de medida, e vai ser necessário para um post futuro.&#xA;Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:&#xA;\[ P(|X| &amp;gt; t) \leq e^{-\frac{t^2}{2\sigma^2}} \]&#xA;Agora suponha que você tem uma coleção de variáveis aleatórias, todas subgaussianas e não necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t.</description>
+    </item>
+    <item>
+      <title>Bayesianismo e regularização</title>
+      <link>https://azul.netlify.app/2021/10/17/index.pt-br/</link>
+      <pubDate>Sun, 17 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/10/17/index.pt-br/</guid>
+      <description>Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.&#xA;Regularização Muita gente conhece métodos de regularização em machine learning, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear.</description>
+    </item>
+    <item>
+      <title>Estimador James-Stein e admissibilidade</title>
+      <link>https://azul.netlify.app/2021/10/14/james-stein-e-admissibilidade/</link>
+      <pubDate>Thu, 14 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/10/14/james-stein-e-admissibilidade/</guid>
+      <description>Antes do post: eu (e o Pedro, pelo jeito) andei sem tempo. O último post foi em junho. Julho, agosto e setembro foram enrolados, mas por um bom motivo. Com um pouco de sorte eu serei capaz de fazer posts com mais regularidade no resto do ano&#xA;Eu já escrevi posts no blog sobre o LASSO, um método de estimação de modelos lineares que induz esparsidade. A motivação daquele post - e do meu interesse inicial no LASSO - era que o LASSO é uma maneira de selecionar variáveis automaticamente.</description>
+    </item>
     <item>
       <title>Concentração de Medida</title>
       <link>https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/</link>
       <pubDate>Sat, 21 Nov 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/</guid>
-      <description>Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
-Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
-\[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]
-Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “provar” que a média amostral é um estimador consistente: a variância da média de um processo i.</description>
+      <description>Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.&#xA;Vamos começar com um velho conhecido, a desigualdade de Chebyschev:&#xA;\[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]&#xA;Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “provar” que a média amostral é um estimador consistente: a variância da média de um processo i.</description>
     </item>
-    
   </channel>
 </rss>

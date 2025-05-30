@@ -6,87 +6,99 @@
     <description>Recent content in Machine Learning on AZUL</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pt-br</language>
-    <copyright>Copyright © 2008–2020, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
-    <lastBuildDate>Sun, 25 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://azul.netlify.app/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Tue, 08 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/categories/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MQO, MQO, MQO</title>
+      <link>https://azul.netlify.app/2022/02/08/mqo-mqo-mqo/</link>
+      <pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2022/02/08/mqo-mqo-mqo/</guid>
+      <description>Atualização em junho/2022: Tinha um erro em um dos passos da última seção. Devidamente corrigido. Ele altera algumas conclusões, mas o espírito do post se mantém&#xA;Nós todos amamos Mínimos Quadrados Ordinários. Este post vai tratar exclusivamente de MQO, de umas cinco maneiras diferentes e uma delas é bem maluca.&#xA;No post inteiro, eu vou utilizar o modelo linear \(y = X\beta + u\), onde \(u\) é o erro aleatório, \(X\) é o regressor e \(y\) é o regressando.</description>
+    </item>
+    <item>
+      <title>Tratamento Sequencial I</title>
+      <link>https://azul.netlify.app/2022/01/13/tratamento-sequencial-i/</link>
+      <pubDate>Thu, 13 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2022/01/13/tratamento-sequencial-i/</guid>
+      <description>Neste post, eu vou fingir que eu sou um microeconomista aplicado ou um médico e a minha pergunta é se um dado tratamento - no sentido literal se você for um médico - é mais eficiente que o outro.&#xA;Nós estamos acostumados a pensar testes de hipótese da seguinte forma: nós temos \(N\) observações, e algumas foram tratadas - talvez aleatoriamente, talvez selecionado em observáveis ou não observáveis. Nós então formulamos o teste de hipótese e buscamos cometer um erro do tipo I com uma probabilidade no máximo \(\alpha\).</description>
+    </item>
+    <item>
+      <title>Componentes Principais e Variáveis Instrumentais</title>
+      <link>https://azul.netlify.app/2021/11/18/componentes-principais-e-variaveis-instrumentais/</link>
+      <pubDate>Thu, 18 Nov 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/11/18/componentes-principais-e-variaveis-instrumentais/</guid>
+      <description>Eu já falei de variáveis instrumentais e de componentes principais. Eu nunca misturei os dois, apesar da ideia deste post ter me ocorrido a muito tempo.&#xA;Eu já falei como muitos instrumentos causam viés e como componentes principais podem ser usados para resumir muitas variáveis. Naturalmente, alguém poderia se perguntar se a gente poderia passar componentes principais em um conjunto de instrumentos e usar apenas alguns poucos instrumentos que resumem a maior parte da variabilidade dos dados.</description>
+    </item>
+    <item>
+      <title>Bayesianismo e regularização</title>
+      <link>https://azul.netlify.app/2021/10/17/index.pt-br/</link>
+      <pubDate>Sun, 17 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/10/17/index.pt-br/</guid>
+      <description>Este é um post de coisas que todo mundo deveria saber e não tem nada novo. Mas eu já vi gente falando bobagem sobre o tema - bobagem que eu já pensei. Infelizmente, este post só tem matemática e zero computação. Felizmente, a matemática é bem básica.&#xA;Regularização Muita gente conhece métodos de regularização em machine learning, e eles já foram discutidos no blog. Vamos ficar no mundo de regressão linear.</description>
+    </item>
+    <item>
+      <title>Estimador James-Stein e admissibilidade</title>
+      <link>https://azul.netlify.app/2021/10/14/james-stein-e-admissibilidade/</link>
+      <pubDate>Thu, 14 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/10/14/james-stein-e-admissibilidade/</guid>
+      <description>Antes do post: eu (e o Pedro, pelo jeito) andei sem tempo. O último post foi em junho. Julho, agosto e setembro foram enrolados, mas por um bom motivo. Com um pouco de sorte eu serei capaz de fazer posts com mais regularidade no resto do ano&#xA;Eu já escrevi posts no blog sobre o LASSO, um método de estimação de modelos lineares que induz esparsidade. A motivação daquele post - e do meu interesse inicial no LASSO - era que o LASSO é uma maneira de selecionar variáveis automaticamente.</description>
+    </item>
     <item>
       <title>Calculando graus de liberdade do Ridge</title>
       <link>https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/</link>
       <pubDate>Sun, 25 Apr 2021 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2021/04/25/calculando-graus-de-liberdade-do-ridge/</guid>
       <description>Não faz muito tempo, vieram me perguntar como acelerar um código em R que estava muito lento. A pessoa queria estimar vários modelos regularizados, entre eles LASSO, adaLASSO e Ridge. LASSO e adaLASSO já foram discutidos no blog, e o Ridge é um primo deles: no lugar de uma penalidade na forma \(\sum_j |\beta_j|\), nós temos uma penalidade na forma \(\sum_j \beta_j^2\). Eu não vou adentrar nos detalhes de ridge, mas é importante saber que ridge não induz esparsidade, ele simplesmente encolhe os coeficientes.</description>
     </item>
-    
     <item>
       <title>Componentes Principais e decomposição de matrizes</title>
       <link>https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</link>
       <pubDate>Mon, 07 Sep 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/09/07/componentes-principais-e-decomposi%C3%A7%C3%A3o-de-matrizes/</guid>
-      <description>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.
-Componentes PrincipaisEu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
+      <description>Em geral muitas coisas de Machine Learning são apenas truques de Algébra Linear. Isso nem sempre é explorado o suficiente, e então álgebra linear parece um mundo de abstrações em espaços vetoriais. No caso de Componentes Principais, o método se resume a Álgebra Linear, como eu pretendo explorar nesse post.&#xA;Componentes Principais Eu vou trabalhar no \(\mathbb{R}^2\) pra facilitar. A ideia de encontrar componentes principais é encontrar uma rotação dos dados que resuma melhor a variação deles em menos variáveis.</description>
     </item>
-    
     <item>
       <title>Hamiltonian Monte Carlo</title>
       <link>https://azul.netlify.app/2020/06/22/hamiltonian-monte-carlo/</link>
       <pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/06/22/hamiltonian-monte-carlo/</guid>
-      <description>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia
-No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.</description>
+      <description>Nota: por um typo esse post saiu no blog antes de ficar completo, infelizmente. Essa versão conta com correções e bibliografia&#xA;No milênio passado (ou seja, antes de maio), eu falei sobre MCMC, que é um método muito usado pela galera de bayesiana para amostrar a posterior de uma distribuição. O Random Walk Metropolis Hasting (RWMH), o algoritmo que eu apresentei naquele post, sempre me causou sentimentos contraditórios: a correção para amostrar a distribuição é simples e muito esperta.</description>
     </item>
-    
     <item>
       <title>Double Selection</title>
       <link>https://azul.netlify.app/2020/05/01/double-selection/</link>
       <pubDate>Fri, 01 May 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/05/01/double-selection/</guid>
-      <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.
-Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.
-Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
+      <description>Esse é um post de um tema bem importante que eu não vejo muita gente dando atenção - de repente é ignorância minha. O problema é bem simples: você vai estimar um efeito de tratamento. Você tem uma infinidade de controles. Você decide selecionar os controles usando algum método.&#xA;Isso gera uma distribuição bimodal do parâmetro de tratamento se a variável excluída afeta o tratamento.&#xA;Eu não sei se posto dessa maneira é extremamente surpreendente: soa como viés de variável omitida.</description>
     </item>
-    
     <item>
       <title>Jogo da Velha com Q-Learning</title>
       <link>https://azul.netlify.app/2020/04/21/jogo-da-velha-com-q-learning/</link>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2020/04/21/jogo-da-velha-com-q-learning/</guid>
       <description>Aqui no blog já abordamos várias vezes técnicas que podemos colocar na caixinha do Aprendizado Supervisionado - onde praticamente todo o ferramental da Econometria está. Também abordamos Aprendizado Não-Supervisionado quando falamos de clustering k-means. Acho que vale agora por o dedinho na água do Aprendizado por Reforço. Deixo o aviso de que apesar de falarmos que abordamos o conteúdo aqui da maneira como gostaríamos de ao assunto ter sido apresentados, definitivamente não é assim que eu gostaria de ter sido introduzido a Aprendizado por Reforço porque, bem, eu não fui introduzido a esse mundo, não de verdade.</description>
     </item>
-    
     <item>
       <title>Classificando cursos no ProUni com Random Forest</title>
       <link>https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/</link>
       <pubDate>Tue, 07 May 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/05/07/prouni-rf-classificacao/</guid>
-      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.
-Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
+      <description>Meu primeiro post aqui no blog foi um exercício de classificação. Como, com clustering \(k\)-means, poderíamos classificar cursos no ProUni? Aqui eu vou responder a mesma pergunta com uma ferramenta diferente, Random Forests. Vou explicar breve e simplesmente o que são/ como funcionam e depois estimar tudo.&#xA;Já aviso de antemão que a explicaçõe será muito superficial. É um assunto razoavelmente complicado então prefiro assim porque posso (i) evitar erros, (ii) não assustar alguns leitores e (iii) pular para a parte que mais me interessa que é a mão na massa.</description>
     </item>
-    
     <item>
       <title>LASSO Adaptativo e Critérios de Informação para LASSO</title>
       <link>https://azul.netlify.app/2019/05/02/lasso-adaptativo/</link>
       <pubDate>Thu, 02 May 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/05/02/lasso-adaptativo/</guid>
-      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:
-\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]
-(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
+      <description>Em um post anterior, eu falei do LASSO (Least Absolute Shrinkage and Select Operator). Como vamos explorar uma variação do LASSO hoje, eu vou repetir o problema que o LASSO resolvia:&#xA;\[\hat{\beta}_{LASSO} \in \arg \min_{\beta} \displaystyle \sum_{i=1}^n (y_i - x_i \beta)^2 + \lambda \sum_{k=0}^p |\beta_k|\]&#xA;(Onde \(|.|\) é o valor absoluto do termo). E como eu já disse, o LASSO nos fornece uma maneira de selecionar quais variáveis entram no modelo ou não.</description>
     </item>
-    
     <item>
       <title>Uma introdução à Cross Validation</title>
       <link>https://azul.netlify.app/2019/04/20/cross-validation/</link>
       <pubDate>Sat, 20 Apr 2019 00:00:00 +0000</pubDate>
-      
       <guid>https://azul.netlify.app/2019/04/20/cross-validation/</guid>
-      <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).
-A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
+      <description>Cross Validation (traduzido as vezes como Validação Cruzado e abreviado como CV) é um método bastante comum em Machine Learning para selecionar parâmetros ou hiperparâmetros. Eu já usei em outro post para o blog em que eu falei de LASSO, onde tinhamos que selecionar o parâmetro de penalização \(\lambda\).&#xA;A ideia do Cross Validation é simples: pegue seu conjunto de dados e divida em k blocos de tamanho igual (ou o mais igual possível se o número de observações não for um múltiplo de k).</description>
     </item>
-    
   </channel>
 </rss>

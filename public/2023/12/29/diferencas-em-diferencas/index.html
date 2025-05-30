@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Viés em Diferenças em Diferenças | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2023/12/29/diferencas-em-diferencas/"><meta property="og:title" content="Viés em Diferenças em Diferenças" />
+<meta property="og:description" content="Sim, eu nunca achei que eu ia chegar a isso. Mas cá estamos: um post sobre viés em diferenças em diferenças. Esse é um tópico relativamente falado em econometria e com uns exemplos legais, então eu decidi fazer esse post.
+Sempre que a gente tem dados em painel, a reação pavloviana é dizer “efeitos fixos”. A ideia é que efeitos fixos capturam a heterogenidade não observada e isso potencialmente resolve problemas de viés de seleção." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2023/12/29/diferencas-em-diferencas/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-12-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2023-12-29T00:00:00+00:00" />
+
+<meta itemprop="name" content="Viés em Diferenças em Diferenças">
+<meta itemprop="description" content="Sim, eu nunca achei que eu ia chegar a isso. Mas cá estamos: um post sobre viés em diferenças em diferenças. Esse é um tópico relativamente falado em econometria e com uns exemplos legais, então eu decidi fazer esse post.
+Sempre que a gente tem dados em painel, a reação pavloviana é dizer “efeitos fixos”. A ideia é que efeitos fixos capturam a heterogenidade não observada e isso potencialmente resolve problemas de viés de seleção."><meta itemprop="datePublished" content="2023-12-29T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2023-12-29T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1524">
+<meta itemprop="keywords" content="Econometria,Diferenças em Diferenças," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Viés em Diferenças em Diferenças"/>
+<meta name="twitter:description" content="Sim, eu nunca achei que eu ia chegar a isso. Mas cá estamos: um post sobre viés em diferenças em diferenças. Esse é um tópico relativamente falado em econometria e com uns exemplos legais, então eu decidi fazer esse post.
+Sempre que a gente tem dados em painel, a reação pavloviana é dizer “efeitos fixos”. A ideia é que efeitos fixos capturam a heterogenidade não observada e isso potencialmente resolve problemas de viés de seleção."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">December 29, 2023</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>1524 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>8 mins</span>
+                        </div>
+
+                        <h1>Viés em Diferenças em Diferenças</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+
+
+<p>Sim, eu nunca achei que eu ia chegar a isso. Mas cá estamos: um post sobre viés em diferenças em diferenças. Esse é um tópico relativamente falado em econometria e com uns exemplos legais, então eu decidi fazer esse post.</p>
+<p>Sempre que a gente tem dados em painel, a reação pavloviana é dizer “efeitos fixos”. A ideia é que efeitos fixos capturam a heterogenidade não observada e isso potencialmente resolve problemas de viés de seleção.</p>
+<p>O problema é quando nem todo mundo é tratado ao mesmo tempo. Curiosamente, o efeito fixo usual não funciona nesse caso - ou seja, o estimador é viesado. Mas a solução é extremamente simples e nos lembra que nem sempre o estimador usual funciona, mas uma pequena variação pode funcionar.</p>
+<p>Se você precisa de um exemplo de tratamento que não é todo mundo ao mesmo tempo, talvez o melhor exemplo seja vacinação de covid: primeiro, os mais idosos foram vacinados e os mais jovens foram vacinados meses depois.</p>
+<p>Para entender o problema, a gente vai fazer simulações - previsivelmente. A gente vai usar a linguagem de <em>potential outcome</em> aqui e então seja a variável de tratado ou não <span class="math inline">\(D\)</span>, o resultado se for tratado <span class="math inline">\(Y(1)\)</span> e se não for tratado <span class="math inline">\(Y(0)\)</span> e a gente observa:</p>
+<p><span class="math display">\[
+Y = DY(1) + (1-D)Y(0)
+\]</span></p>
+<p>O efeito de tratamento é <span class="math inline">\(Y(1) - Y(0)\)</span> e a gente só observa <span class="math inline">\(Y\)</span>. Como a gente está simulando, a gente pode salvar o efeito do tratamento salvando <span class="math inline">\(Y(1)\)</span> e <span class="math inline">\(Y(0)\)</span>. Dos muitos efeitos de tratamento possíveis, diferenças em diferenças recupera o efeito de tratamento sobre os tratados.</p>
+<p>A gente vai usar o R pra aproveitar o pacote plm e eu vou usar paralelização porque eu sou impaciente:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(plm)
+library(purrr)
+library(dplyr)
+library(ggplot2)
+library(furrr)
+library(tidyr)
+
+plan(multisession,workers = 8)
+
+set.seed(25122023)</code></pre>
+<p>Eu nunca tinha feito nenhuma simulação gerando dados em painel - mentira, eu fiz <em>uma vez</em> na graduação, então não conta. Eu pensei bastante em como estruturar isso e achei melhor quebrar em uma função que gera dados pra um indíviduo e uma função que gera o painel a partir dessa função. Primeiro, a função que gera dados pra um indivíduo. A função vai ter vários inputs: um <code>id</code>, que diz qual o número que identifica o indvíduo; <code>t</code> me diz quantos períodos eu observo; <code>common shock</code> é só um choque em comum pra todos os indvíduos na hora que eu gerar o painel, e que vai ser responsabilidade do efeito fixo de tempo de remover; <code>cohort</code> é a coisa crítica aqui e me diz <em>quando</em> o indivíduo vai ser tratado <em>se</em> ele for tratado; <code>treat_effect</code> é o tamanho do efeito de tratamento, que é o que nos interessa; <code>thres</code> requer um pouquinho mais de explicação. A gente vai adotar o seguinte esquema: se uma variável aleatória <span class="math inline">\(u\)</span> estiver acima de <code>thres</code>, a unidade é tratada; senão, a unidade não é tratada. A gente assume que <span class="math inline">\(u\)</span> não é observado:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">one_indv &lt;- function(id,t,common_shock,cohort,treat_effect,thres){
+  if(cohort &gt; t){
+    stop("Cohort higher than number of periods")
+  }
+  
+  if(cohort == 0){
+    cohort &lt;- t + 1
+  }
+  
+  u &lt;- rnorm(1)
+  
+  treat &lt;- u &gt; thres
+  
+  y0 &lt;- common_shock + rep(u,t+1) + rnorm(t+1)
+  y1 &lt;- rep(treat_effect,t+1) + rep(u,t+1) + rnorm(t+1) + common_shock
+  
+  time_grid &lt;- 0:t
+  treated &lt;- (time_grid &gt;= cohort)*treat
+  y &lt;- y0*(1-treated) + y1*treated
+  
+  dataframe &lt;- data.frame("id" = rep(id,t+1), "T" = time_grid, "D" = treated, "Y" = y, "Y0" = y0, "Y1" = y1)
+  
+  return(dataframe)
+  
+}</code></pre>
+<p>Da maneira que o código está escrito, tem duas maneiras de não ser tratado: ou a sua <code>cohort</code> é zero ou a sua variável <span class="math inline">\(u\)</span> está abaixo do limiar. Eu vou escrever a função que gera o painel de maneira que ninguém nunca tem <code>cohort = 0</code>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">panel1 &lt;- function(t,n,thres,treat_effect){
+  
+  v &lt;- 0:t
+  cohort &lt;- sample(1:t,n,replace = TRUE)
+  panel_list &lt;- map(1:n,\(x)one_indv(x,t,v,cohort[x],1,thres))
+  panel &lt;- do.call(rbind,panel_list)
+  panel &lt;- as.data.frame(panel)
+  
+  return(panel)
+  
+}</code></pre>
+<p>Da maneira que <code>painel1</code> está escrito, todo mundo tem o mesmo <code>thres</code> e o mesmo efeito de tratamento. Isso não é ruim porque tira uma variação e permite a gente focar na variação de ter vários períodos. Vamos olhar o que acontece quando a gente roda isso uma vez, com 4 períodos e 500 indivíduos:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">data &lt;- panel1(3,500,0,1)
+mod &lt;- plm(Y ~ D,data = data, index = c("id","T"),effects = "twoways")
+data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
+ATT &lt;- data_treated$Y1 - data_treated$Y0</code></pre>
+<p>O efeito de tratamento é a média da variável ATT, que é 1.1543809 e é bem perto do que a gente colocou no código. O efeito de tratamento estimado é 3.1549142, que é o dobro do valor verdadeiro.</p>
+<p>Vamos fazer umas mil simulações pra ver o que acontece. Eu vou escrever uma função que me retorna o efeito de tratamento e o coeficiente estimado e ai eu vou usar o map paralelizado, <code>future_map</code> pra fazer as simulações multicore (no ano 2023, quem tem tempo para rodar as simulações sem ser em paralelo?):</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simul1 &lt;- function(t,n,thres,treat_effect){
+  data &lt;- panel1(t,n,thres,treat_effect)
+  mod &lt;- plm(Y ~ D,data = data, index = c("id","T"),effects = "twoways")
+  data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
+  ATT &lt;- data_treated$Y1 - data_treated$Y0
+  
+  return(c(coef(mod),mean(ATT)))
+}
+
+resul &lt;- future_map(1:1000,\(x)simul1(3,500,0,1), .options = furrr_options(seed = TRUE))
+resul &lt;- do.call(rbind,resul)
+
+diff &lt;- resul[,1] - resul[,2]</code></pre>
+<p>Vamos fazer um histograma disso:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(data.frame(var = diff),aes(var)) + geom_histogram() + theme_light() + labs(x = "Diferença entre estimado e ATT")</code></pre>
+<p><img src="/post/2023-12-16-diferencas-em-diferencas/index.pt-br_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Tudo parece bem aqui: o histograma está centrado em zero e parece ter só uma pequena assimetria. O problema maior é quando a gente tem efeitos de tratamento que mudam conforme a data que o indivíduo é tratado. A gente vai alterar um pouquinho a função <code>painel1</code> pra permitir diferentes efeitos de tratamento em cada período e diferentes probabilidades de ser alocado a cada período (é pra isso que a gente tem um novo argumento na função, <code>prob</code>):</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">panel2 &lt;- function(t,n,thres,treat_effect,prob){
+  
+  v &lt;- 0:t
+  cohort &lt;- sample(1:t,n,replace = TRUE,prob = prob)
+  treat_effect_n &lt;- treat_effect[cohort]
+  panel_list &lt;- map(1:n,\(x)one_indv(x,t,v,cohort[x],treat_effect_n[x],thres))
+  panel &lt;- do.call(rbind,panel_list)
+  panel &lt;- as.data.frame(panel)
+  
+  return(panel)
+  
+}</code></pre>
+<p>Vamos fazer igualzinho acima:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">treatment_effects &lt;- c(1,2,3)
+data &lt;- panel2(3,5000,0,treatment_effects,c(1/4,1/4,3/8))
+mod &lt;- plm(Y ~ D,data = data, index = c("id","T"),effects = "twoways")
+data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
+ATT &lt;- mean(data_treated$Y1 - data_treated$Y0)</code></pre>
+<p>O efeito de tratamento é a média da variável ATT, que é 1.7545035, enquanto o efeito de tratamento estimado é 4.1412855. Vamos criar outra função que faz a simulação:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simul2 &lt;- function(t,n,thres,treat_effect,prob){
+  
+  data &lt;- panel2(t,n,thres,treat_effect,prob)
+  mod &lt;- plm(Y ~ D,data = data, index = c("id","T"), effect = "twoways")
+  data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
+  ATT &lt;- mean(data_treated$Y1 - data_treated$Y0)
+  
+  return(c(coef(mod),mean(ATT)))
+  
+}</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">treatment_effects &lt;- c(3,2,1)
+
+resul2 &lt;- future_map(1:1000,\(x)simul2(3,500,0,treatment_effects,c(1/4,1/4,3/8)), .options = furrr_options(seed = TRUE))
+resul2 &lt;- do.call(rbind,resul2)
+
+diff2 &lt;- resul2[,1] - resul2[,2]
+
+ggplot(data.frame(var = diff2),aes(var)) + geom_histogram() + theme_light() + labs(x = "Diferença entre estimado e ATT")</code></pre>
+<p><img src="/post/2023-12-16-diferencas-em-diferencas/index.pt-br_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>O efeito de tratamento estimado não está centrado em 0. Na média o nosso viés é negativo, então a gente está subestimando o efeito de tratamento verdadeiro.</p>
+<p>Como resolver isso? O problema é que a gente está trabalhando com as variáveis erradas. Na regressão, a gente está definindo um único efeito de tratamento. Mas, o código que simula usa diferentes efeitos de tratamento. Então, até do ponto de vista de recuperar os efeitos de tratamento, nós gostaríamos de recuperar o efeito de tratamento para quem é tratado no período 1 em diante, do período 2 em diante etc. O que acontece é que o estimador de diferenças em diferenças usual faz uma combinação linear desses efeitos de tratamento que não necessariamente somam um nem são positivas, então a gente obtém um estimador que não faz sentido:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">simul3 &lt;- function(t,n,thres,treat_effect,prob){
+  
+  data &lt;- panel2(t,n,thres,treat_effect,prob)
+  data &lt;- data  %&gt;% group_by(id) %&gt;% mutate(cohort = (t+1) - sum(D),Dd = cohort*D) %&gt;% mutate(cohort = as.factor(cohort),T = as.factor(T), Dd = as.factor(Dd)) %&gt;% mutate(cohort = relevel(cohort,"4"))
+  mod &lt;- lm(Y ~ Dd + cohort +T,data = data)
+  data_treated &lt;- data %&gt;% group_by(id) %&gt;% filter(D == 1)
+  ATT &lt;- mean(data_treated$Y1 - data_treated$Y0)
+  
+  return(c(coef(mod)[c("Dd1","Dd2","Dd3")],mean(ATT)))
+  
+}</code></pre>
+<p>Vamos fazer a simulação:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">resul3 &lt;- future_map(1:1000,\(x)simul3(3,500,0,treatment_effects,c(3/8,3/8,2/8)), .options = furrr_options(seed = TRUE))</code></pre>
+<p>Agora a gente tem três efeitos de tratamento, vamos ver qual a média:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">resul3 &lt;- do.call(rbind,resul3)
+colMeans(resul3[,1:3])</code></pre>
+<pre ><code >##       Dd1       Dd2       Dd3 
+## 2.9996215 1.9975379 0.9994349</code></pre>
+<p>Vamos fazer um histograma, e pra ficar fácil de vizualizar eu vou plottar desvios do efeito de tratamento estimados dos efeitos de tratamento que a gente estabeleceu no código:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">true_effect &lt;- matrix(treatment_effects,nrow=1000,ncol=3,byrow = TRUE)
+
+est &lt;- resul3[,1:3] - true_effect %&gt;% as.data.frame()
+est &lt;- pivot_longer(est,everything())
+
+ggplot(est,aes(value)) + geom_histogram() + facet_grid(.~name) + theme_light()</code></pre>
+<pre ><code >## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2023-12-16-diferencas-em-diferencas/index.pt-br_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>A média dos efeitos de tratamento pra cada coorte é bem próximo do que a gente estabeleceu e os histogramas são bem comportados. É fácil a gente construir qualquer estimador a partir disso,por exemplo, a gente pode fazer uma média ponderada pela probabilidade de pertencer a cada coorte. Isso exigira reescrever o código um pouquinho porque nenhuma das funções entrega a proporção em cada coorte. Esse post já está longo o bastante e então fica como exercício para o leitor.</p>
+<p>É claro, nada desse post é original: o problema é do paper do Chaisemartin (Two-Way Fixed Effects Estimators with
+Heterogeneous Treatment Effects) e a solução veio de um paper do Wooldridge.</p>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/econometria">
+                                    <i class="fas fa-tag mr-2"></i>Econometria
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/diferen%C3%A7as-em-diferen%C3%A7as">
+                                    <i class="fas fa-tag mr-2"></i>Diferenças em Diferenças
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2023%2f12%2f29%2fdiferencas-em-diferencas%2f&text=Vi%c3%a9s%20em%20Diferen%c3%a7as%20em%20Diferen%c3%a7as">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2023%2f12%2f29%2fdiferencas-em-diferencas%2f&title=Vi%c3%a9s%20em%20Diferen%c3%a7as%20em%20Diferen%c3%a7as">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2023%2f12%2f29%2fdiferencas-em-diferencas%2f&t=Vi%c3%a9s%20em%20Diferen%c3%a7as%20em%20Diferen%c3%a7as">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2023%2f12%2f29%2fdiferencas-em-diferencas%2f&title=Vi%c3%a9s%20em%20Diferen%c3%a7as%20em%20Diferen%c3%a7as">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2022/01/31/concentracao-do-maximo/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Concentração do Máximo</h4>
+            <p class="card-text text-muted text-uppercase">January 31, 2022</p>
+            <div class="card-text">
+                Este post é uma continuação do post sobre concentração de medida, e vai ser necessário para um post futuro.
+Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:
+\[ P(|X| &amp;gt; t) \leq e^{-\frac{t^2}{2\sigma^2}} \]
+Agora suponha que você tem uma coleção de variáveis aleatórias, todas subgaussianas e não necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Concentração de Medida</h4>
+            <p class="card-text text-muted text-uppercase">November 21, 2020</p>
+            <div class="card-text">
+                Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
+Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
+\[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]
+Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “provar” que a média amostral é um estimador consistente: a variância da média de um processo i.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2019/11/03/central-limit-theorem-r/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Simulando o Teorema Central do Limite no R</h4>
+            <p class="card-text text-muted text-uppercase">November 3, 2019</p>
+            <div class="card-text">
+                O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shrinkage on AZUL</title>
+    <link>https://azul.netlify.app/tags/shrinkage/</link>
+    <description>Recent content in Shrinkage on AZUL</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>pt-br</language>
+    <copyright>Copyright © 2008–202?, Pedro Cavalcante &amp; Daniel Coutinho; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 14 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://azul.netlify.app/tags/shrinkage/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Estimador James-Stein e admissibilidade</title>
+      <link>https://azul.netlify.app/2021/10/14/james-stein-e-admissibilidade/</link>
+      <pubDate>Thu, 14 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://azul.netlify.app/2021/10/14/james-stein-e-admissibilidade/</guid>
+      <description>Antes do post: eu (e o Pedro, pelo jeito) andei sem tempo. O último post foi em junho. Julho, agosto e setembro foram enrolados, mas por um bom motivo. Com um pouco de sorte eu serei capaz de fazer posts com mais regularidade no resto do ano&#xA;Eu já escrevi posts no blog sobre o LASSO, um método de estimação de modelos lineares que induz esparsidade. A motivação daquele post - e do meu interesse inicial no LASSO - era que o LASSO é uma maneira de selecionar variáveis automaticamente.</description>
+    </item>
+  </channel>
+</rss>

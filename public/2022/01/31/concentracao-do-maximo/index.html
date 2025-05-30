@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Concentração do Máximo | 
+    AZUL
+  
+</title><meta name="description" content="Economia, Estatística, Programação"><meta name="author" content="danielc">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/favicon-32x32.png " sizes="32x32" type="image/png">
+<link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0c344b">
+<link rel="icon" href="/favicon.ico">
+
+//styles, look here: https://cdnjs.com/libraries/highlight.js/9.12.0
+
+<link href="/css/prism.css" rel="stylesheet" />
+
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+
+
+<link rel="canonical" href="https://azul.netlify.app/2022/01/31/concentracao-do-maximo/"><meta property="og:title" content="Concentração do Máximo" />
+<meta property="og:description" content="Este post é uma continuação do post sobre concentração de medida, e vai ser necessário para um post futuro.
+Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:
+\[ P(|X| &gt; t) \leq e^{-\frac{t^2}{2\sigma^2}} \]
+Agora suponha que você tem uma coleção de variáveis aleatórias, todas subgaussianas e não necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azul.netlify.app/2022/01/31/concentracao-do-maximo/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-01-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-01-31T00:00:00+00:00" />
+
+<meta itemprop="name" content="Concentração do Máximo">
+<meta itemprop="description" content="Este post é uma continuação do post sobre concentração de medida, e vai ser necessário para um post futuro.
+Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:
+\[ P(|X| &gt; t) \leq e^{-\frac{t^2}{2\sigma^2}} \]
+Agora suponha que você tem uma coleção de variáveis aleatórias, todas subgaussianas e não necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t."><meta itemprop="datePublished" content="2022-01-31T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-01-31T00:00:00+00:00" />
+<meta itemprop="wordCount" content="815">
+<meta itemprop="keywords" content="Econometria,Concentração de Medida,Curtas," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Concentração do Máximo"/>
+<meta name="twitter:description" content="Este post é uma continuação do post sobre concentração de medida, e vai ser necessário para um post futuro.
+Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:
+\[ P(|X| &gt; t) \leq e^{-\frac{t^2}{2\sigma^2}} \]
+Agora suponha que você tem uma coleção de variáveis aleatórias, todas subgaussianas e não necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t."/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="https://azul.netlify.app/">AZUL</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/categories/">Categorias</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Sobre</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/tags/">Tags</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">January 31, 2022</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i>815 palavras</span>
+                            <span><i class="fas fa-clock mr-2"></i>4 mins</span>
+                        </div>
+
+                        <h1>Concentração do Máximo</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/danielc/" class="small">Daniel Coutinho</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Este post é uma continuação do post sobre <a href="/2020/11/21/concentração-de-medida/">concentração de medida</a>, e vai ser necessário para um post futuro.</p>
+<p>Naquele post eu falei sobre variáveis subgaussianas, para as quais a seguinte desigualdade vale:</p>
+<p><span class="math display">\[
+P(|X| &gt; t) \leq e^{-\frac{t^2}{2\sigma^2}}
+\]</span></p>
+<p>Agora suponha que você tem uma <em>coleção</em> de variáveis aleatórias, todas subgaussianas e <em>não</em> necessariamente independentes. Neste post, nós vamos cotar a probabilidade do máximo delas ser maior que um valor t.</p>
+<p>Se você precisa de uma motivação pra isso, eu ofereço duas:</p>
+<ol style="list-style-type: decimal">
+<li>Nós frequentemente trabalhamos com estimadores que minimizam ou maximizam alguma função: <em>mínimos</em> quadrados, <em>máxima</em> verossimelhança. É natural que estes estimadores dependam do máximo de uma variável aleatória</li>
+<li>Se você está trabalhando com algum processo aleatório, muitas vezes o máximo pode ser mortal: qual é o máximo que um ativo pode perder se a distribuição dos retornos é subgaussiana, por exemplo?</li>
+</ol>
+<p>O próximo post vai ilustrar uma aplicação dessas desigualdades no caso 1. Para o problema em mãos, nós queremos:</p>
+<p><span class="math display">\[
+P\left(\max_{i=1,\ldots,n} |X| &gt; t\right) \leq \text{?}
+\]</span></p>
+<p>A primeira observação é que se o máximo de uma coleção é maior que <span class="math inline">\(t\)</span>, então pelo menos um dos elementos da coleção é maior que <span class="math inline">\(t\)</span> (duhhh). Logo, o problema <span class="math inline">\(\max_{i=1,\ldots,n} |X| &gt; t\)</span> é equivalente ao problema “pelo menos um dos <span class="math inline">\(|X_i|\)</span> é maior que t”. A gente vai escrever isso como <span class="math inline">\(\bigcup_{i=1,\ldots,n} |X_i| &gt; t\)</span>.</p>
+<p>Qual a vantagem disso? Bom, a seguinte desigualdade vale:</p>
+<p><span class="math display">\[
+P\left(\bigcup_{i=1,\ldots,n} |X_i| &gt; t\right) \leq \sum_{i=1}^n P(|X_i| &gt; t)
+\]</span></p>
+<p>Eu não vou dar uma prova extremamente formal: se <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> são dijuntos - se <span class="math inline">\(A\)</span> acontece, então <span class="math inline">\(B\)</span> nunca acontece - então <span class="math inline">\(P(A \cup B) = P(A) + P(B)\)</span>. Isso pode ser estendido pra qualquer união finita de conjuntos. Suponha o caso mais geral, em que <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> não são dijuntos. Eu posso escrever:</p>
+<p><span class="math display">\[
+A \cup B = (A\cap B^c) \cup (A^c \cap B) \cup (A \cap B)
+\]</span></p>
+<p>O superescrito <span class="math inline">\(c\)</span> significa o evento complementar. Pelo resto do post, <span class="math inline">\(AB\)</span> vai representar <span class="math inline">\(A \cap B\)</span>. Veja que <span class="math inline">\(A \cap B^c\)</span> é dijunto de <span class="math inline">\(A^c \cap B\)</span> e os dois são dijuntos de <span class="math inline">\(A \cap B\)</span>. Logo, eu escrevi a união de dois conjuntos como a união de dijuntos. Então:</p>
+<p><span class="math display">\[
+P(A \cup B) = P(AB^c) + P(A^cB) + P(AB)
+\]</span></p>
+<p>Agora, nós podemos escrever <span class="math inline">\(A = AB^c \cup AB\)</span> (A é a união de A interseção B e A interseção não B). Usando o único resultado que nós temos sobre probabilidade:</p>
+<p><span class="math display">\[
+P(A) = P(AB) + P(AB^c) \therefore P(AB^c) = P(A) - P(AB)
+\]</span></p>
+<p>Eu posso fazer a mesma coisa com <span class="math inline">\(P(B)\)</span>, e nós temos:</p>
+<p><span class="math display">\[
+P(A \cup B) = P(AB^c) + P(A^cB) + P(AB) = P(A) - P(AB) + P(B) - P(AB) + P(AB) = P(A) + P(B) - P(AB)
+\]</span></p>
+<p>Agora, probabilidades são sempre não negativas, então:</p>
+<p><span class="math display">\[
+P(A \cup B) = P(A) + P(B) - P(AB) \leq P(A) + P(B)
+\]</span></p>
+<p>A nossa desigualdade é só é uma generalização para mais dois eventos.</p>
+<p>De volta ao fio da meada, suponha que nós temos uma coleção <span class="math inline">\(x_1,\ldots,x_n\)</span> de variáveis subgaussianas, todas com parâmetro <span class="math inline">\(\sigma\)</span>. Usando o meu argumento:</p>
+<p><span class="math display">\[
+P\left(\max_{j=1,\ldots,n} |X_j| &gt; t\right) = P\left(\bigcup_{j=1}^n |X_j| &gt; t\right) \leq \sum_{j=1}^n P(|X_j| &gt; t)
+\]</span></p>
+<p>Agora, use a cota para uma variável subgaussiana:</p>
+<p><span class="math display">\[
+P\left(\max_{j=1,\ldots,n} |X_j| &gt; t\right) = P\left(\bigcup_{j=1}^n |X_j| &gt; t\right) \leq \sum_{j=1}^n P(|X_j| &gt; t) \leq \sum_{j=1}^ne^{-\frac{t^2}{2\sigma^2}} = ne^{-\frac{t^2}{2\sigma^2}}
+\]</span></p>
+<p>Vamos deixar isso mais bonitinho: Faça <span class="math inline">\(t = \sigma(\sqrt{2\log(n)} + \delta)\)</span>. Então:</p>
+<p><span class="math display">\[
+t^2 = \sigma^2(\sqrt{2\log(n)} + \delta)^2
+\]</span></p>
+<p>Se <span class="math inline">\(a,b &gt; 0\)</span>, então <span class="math inline">\((a+b)^2 \geq a^2 + b^2\)</span>. Considere os termos de t: <span class="math inline">\(\sqrt{2\log(n)}\)</span> é positivo e <span class="math inline">\(\delta\)</span> é sempre positivo, então:</p>
+<p><span class="math display">\[
+t^2 = \sigma^2(\sqrt{2\log(n)} + \delta)^2 \geq \sigma^2(2\log(n) + \delta^2)
+\]</span></p>
+<p>Multiplicando por <span class="math inline">\(-1\)</span> a gente inverte a desigualdade, logo:</p>
+<p><span class="math display">\[
+P \left(\max_{j=1,\ldots,n} |X_j| &gt; \sigma(\sqrt{2\log(n)} + \delta) \right) \leq n\exp \left(-\frac{\delta^2}{2} - \frac{2\log(n)}{2}\right) = e^{-\frac{\delta^2}{2}}
+\]</span></p>
+<p>Na última igualdade, eu usei que <span class="math inline">\(e^{-\log(n)} = \frac{1}{n}\)</span></p>
+<p>O que essas contas todas dizem? Primeiro, mesmo se todas as variáveis tem média zero, o máximo delas não vai estar centrado em zero: a gente ganhou um termo <span class="math inline">\(\sigma\sqrt{2\log(n)}\)</span>. Esse termo é <em>extremamente benevolente</em>: ele cresce a raiz quadrada do log de n. Isso é bastante lento, como a figura abaixo mostra:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(ggplot2)
+library(latex2exp)
+library(tidyr)
+
+n &lt;- 1:50
+y &lt;- sqrt(log(n))
+
+df &lt;- data.frame(n = n,y = y, id = n)
+df &lt;- pivot_longer(df,cols = c(y,id))
+
+ggplot(df,aes(n,value,color = name)) + geom_abline() + geom_line()  + theme_light() + labs(x = "n", y = "", color = "") + scale_color_discrete(labels = c(id = expression(f(x)==x),y = expression(sqrt(log(n))))) </code></pre>
+<p><img src="/post/2022-01-14-concentra-o-do-m-ximo/index.pt-br_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>A segunda observação é que as chances do valor do máximo ser muito maior que <span class="math inline">\(\sigma\sqrt{2\log(n)}\)</span> é muito baixo: a cauda cai com a exponencial do quadrado, ou seja, a mesma velocidade da gaussiana.</p>
+<p>Este post é estupidamente abstrato, mas ele vai ser necessário para um post no futuro que é um pouco menos abstrato.</p>
+
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/econometria">
+                                    <i class="fas fa-tag mr-2"></i>Econometria
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/concentra%C3%A7%C3%A3o-de-medida">
+                                    <i class="fas fa-tag mr-2"></i>Concentração de Medida
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/curtas">
+                                    <i class="fas fa-tag mr-2"></i>Curtas
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=https%3a%2f%2fazul.netlify.app%2f2022%2f01%2f31%2fconcentracao-do-maximo%2f&text=Concentra%c3%a7%c3%a3o%20do%20M%c3%a1ximo">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=https%3a%2f%2fazul.netlify.app%2f2022%2f01%2f31%2fconcentracao-do-maximo%2f&title=Concentra%c3%a7%c3%a3o%20do%20M%c3%a1ximo">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fazul.netlify.app%2f2022%2f01%2f31%2fconcentracao-do-maximo%2f&t=Concentra%c3%a7%c3%a3o%20do%20M%c3%a1ximo">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=https%3a%2f%2fazul.netlify.app%2f2022%2f01%2f31%2fconcentracao-do-maximo%2f&title=Concentra%c3%a7%c3%a3o%20do%20M%c3%a1ximo">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    <div class="related-content row mt-5 row-cols-1 row-cols-lg-3"><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2020/11/21/concentra%C3%A7%C3%A3o-de-medida/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Concentração de Medida</h4>
+            <p class="card-text text-muted text-uppercase">November 21, 2020</p>
+            <div class="card-text">
+                Este é um post meio maluco, porque é absolutamente específico a coisas de machine learning e não é nem de perto uma aplicação prática. Mas é um tópico que é muito interessante e que eu acho que é bastante acessível.
+Vamos começar com um velho conhecido, a desigualdade de Chebyschev:
+\[P(|X-\mu| &amp;gt; t) \leq \frac{Var(x)}{t^2}\]
+Nós todos conhecemos essa desigualdade, que é usada como uma maneira de “provar” que a média amostral é um estimador consistente: a variância da média de um processo i.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2019/11/03/central-limit-theorem-r/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Simulando o Teorema Central do Limite no R</h4>
+            <p class="card-text text-muted text-uppercase">November 3, 2019</p>
+            <div class="card-text">
+                O Teorema do Limite Central é um dos resultados mais importantes de toda a estatística. Como de praxe, a esmagadora maioria dos leitores foi apresenteado a esse belo resultado como uma sequência de manipulações de equações, quando não simplesmente ouviu seu enunciado sem mais explicações sobre sua importância e consequências. Como também é de praxe, a serventia da casa é falar de um assunto da maneira como gostaríamos de ter sido a ele introduzidos.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div><div class="col mb-3">
+                <div class="card h-100">
+    
+    <a href="/2019/10/28/reg-esppuria-integracao-perfect/" class="d-block"><div class="card-body">
+            <h4 class="card-title">Regredindo séries temporais aleatórias para quem gosta de regressão</h4>
+            <p class="card-text text-muted text-uppercase">October 28, 2019</p>
+            <div class="card-text">
+                Para você que gosta de regressão eu pensei em um exercício bem boboca sobre séries temporais que ilustra muito bem o motivo por trás de perguntar: “essa série é estacionária?” ao ver uma regressão com dados observados ao longo do tempo. Se você não sabe o que são séries temporais ou processos estacionários este post talvez seja um tanto quanto etéreo para você e eu seriamente recomendo que você leia esse aqui ou este outro no lugar.
+            </div>
+        </div>
+    </a>
+</div>
+
+            </div></div>
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://azul.netlify.app/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                            <a href="https://github.com/danmrc/azul/tree/master/C%C3%B3digos" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–202?, Pedro Cavalcante & Daniel Coutinho; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.d608eadfe5ac0688902e.min.js"></script>
+        
+    
+
+
+
+
+
+
+<script src="/js/prism.js"></script>
+
+
+    
+</body>
+</html>
