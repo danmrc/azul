@@ -88,3 +88,9 @@ A pergunta seguinte a ser feita é:
 **Quais são as restrições que nós devemos impor sobre o modelo estrutural de maneira a recuperar os parâmetros estruturais da forma reduzida?**
 
 # Identificação
+
+Passar de "forma reduzida" para "forma estrutural" é o que às vezes é chamado de identificação. A palavra identificação é uma das palavras mais frequentemente usadas entre economistas. Mas reuna dez economistas e nenhum deles vai concordar com a definição. A turma de efeitos de tratamento usa a palavra de maneira similar, mas diferente o bastante para causar confusão - o que certamente encheria o Wittgenstein de orgulho.
+
+Esse post não tem nenhuma pretensão de resolver o conflito sobre o uso da palavra "identificação". O máximo que eu vou fazer é definir identificação para efeitos dessa sequência de posts: os parâmetros de um modelo (estrutural) estão _identificado_ se, para qualquer VAR em forma reduzida, existe apenas um conjunto de valores dos parâmetros estruturais que correspondem ao modelo em forma reduzida.
+
+Defina a função $h(.)$ que mapeia dos parâmetros estruturais para os parâmetros em forma reduzida. 
