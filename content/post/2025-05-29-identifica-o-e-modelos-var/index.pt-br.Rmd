@@ -103,4 +103,6 @@ $$
 
 Os parâmetros $a_1$ e $a_2$ são os parâmetros os valores da forma reduzida, que nós obteríamos estimando essa equação por OLS. Os parâmetros $\beta$, $\rho$ e $\gamma$ não estão identificados usando só essa equação. Para ver isso, deixe $\beta$ ser qualquer valor e faça $\gamma = a_1/\beta$ e $\rho = a_2/\beta$. 
 
+Enquanto o modelo não está identificado usando só essa equação, usando as duas equações nós recuperamos os parâmetros estruturais: a regressão de $i_t$ em $\pi_t$ te dá $\beta$ e ai nós resolvemos o problema do parágrafo acima. Isso só acontece porque eu assumi que a inflação só depende de _lags_ da taxa de juros. Essa é uma retrição de curto prazo que frequentemente vista como **a** maneira de obter identificação em VARs.
+
 O plano para o próximo post é explicar como a gente pode garantir que $h(\theta)$ tem restrições o suficiente para obter os parâmetros da forma estrutural a partir da forma reduzida. 
