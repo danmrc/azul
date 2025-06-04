@@ -1,0 +1,24 @@
+---
+title: O Modelo VAR Estrutural
+author: Daniel Coutinho
+date: '2025-06-04'
+slug: index.pt-br
+categories:
+  - Econometria
+  - Séries Temporais
+tags:
+  - VAR
+  - Identificação
+  - Modelos estruturais
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true
+---
+
+O [último post](./content/post/2025-05-31-formalizando-identifica-o-old-school) explicou como nós podemos garantir que os parâmetros estruturais podem ser recuperados da forma reduzida. 
