@@ -1,0 +1,254 @@
+---
+title: O Modelo VAR Estrutural
+author: Daniel Coutinho
+date: '2025-06-04'
+slug: index.pt-br
+categories:
+  - Econometria
+  - Séries Temporais
+tags:
+  - VAR
+  - Identificação
+  - Modelos estruturais
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true
+---
+
+
+
+<p>O <a href="/2025/05/31/index.pt-br/">último post</a> explicou como nós podemos garantir que os parâmetros estruturais podem ser recuperados da forma reduzida. Aqui a gente vai usar o último post pra entender quais as restrições necessárias em um modelo estrutural para recuperar os parâmetros estruturais da forma reduzida.</p>
+<p>Um pouquinho de notação: a transposta da matriz <span class="math inline">\(A\)</span> vai ser denotada <span class="math inline">\(A^{\top}\)</span>. A matriz identidade <span class="math inline">\(m \times m\)</span> vai ser denotada por <span class="math inline">\(I\)</span> ou <span class="math inline">\(I_{m \times m}\)</span>, dependendo se eu quero reforçar a dimensão ou não.</p>
+<p>Vamos começar com o essencial, que é estabelecer uma notação pra forma reduzida e outra pra forma estrutural. A forma reduzida vai ser escrita como:</p>
+<p><span class="math display">\[
+y_t = A y_{t-1} + u_t
+\]</span></p>
+<p>E <span class="math inline">\(u_t\)</span> tem média zero e uma matriz de variância <span class="math inline">\(\Sigma_u\)</span> que só requer as restrições impostas sobre uma matriz de covariância, ser positiva definida. Os parâmetros da forma reduzida são <span class="math inline">\(A\)</span> e <span class="math inline">\(\Sigma_u\)</span>. Isso é um pequeno abuso de linguagem: os parâmetros são os elementos dessa matriz. Por favor, leitor, perdoe esse abuso, que vai ocorrer durante o texto inteiro.</p>
+<p>A forma estrutural vai ser escrita usando letras gregas:</p>
+<p><span class="math display">\[
+\Phi y_t = \Gamma y_{t-1} + \Xi \varepsilon_t
+\]</span></p>
+<p>E <span class="math inline">\(\varepsilon_t\)</span> tem média zero e uma matriz de covariância <span class="math inline">\(D\)</span> que é diagonal. Os choques são descorrelacionados e seriam chamados nessa literatura de “estruturais”. Os parâmetros da forma estrutural são as matrizes <span class="math inline">\(\Phi\)</span>, <span class="math inline">\(\Gamma\)</span> e <span class="math inline">\(D\)</span>.</p>
+<p>Assumindo que <span class="math inline">\(\Phi\)</span> tem inversa, então a gente obtém o modelo em forma reduzida da forma estrutural:</p>
+<p><span class="math display">\[
+y_t = \Phi^{-1} \Gamma y_{t-1} + \Phi^{-1} \Xi \varepsilon_t
+\]</span></p>
+<p>É fácil escrever a função que mapeia forma estrutural em forma reduzida, que a gente chamou de <span class="math inline">\(h\)</span> no post passado:</p>
+<p><span class="math display">\[
+h(\Phi,\Gamma,\Xi,D) = [\underbrace{\Phi^{-1}\Gamma}_{A} \underbrace{\Phi^{-1} \Xi D \Xi^{\top} (\Phi^{-1})^{\top}}_{\Sigma_u}]
+\]</span>
+A igualdade <span class="math inline">\(\Sigma_u = \Phi^{-1} \Xi D \Xi^{\top} (\Phi^{-1})^{\top}\)</span> sai da versão matricial que se <span class="math inline">\(a\)</span> é uma constante e <span class="math inline">\(X\)</span> é uma variável aleatória, <span class="math inline">\(\text{Var}(aX) = a^2\text{Var}(X)\)</span>.</p>
+<p>O modelo acima é extremamente geral, e o livro do Lütkepohl chamaria esse modelo de AB. Eu vou seguir a mesma nomeclatura, mesmo usando letras diferentes. A gente pode restringir pra usar o modelo em que <span class="math inline">\(\Xi = I\)</span> (modelo A) ou <span class="math inline">\(\Phi = I\)</span> (modelo B). O modelo A é o básico de VARs estruturais, e a gente vai começar por ele.</p>
+<p>Só um pequeno a parte pra gente ligar isso com algo menos abstrato: a identificação com restrição de curto prazo/Chosleksy/recursiva é o modelo A com a matriz <span class="math inline">\(\Phi\)</span> sendo triangular inferior:</p>
+<p><span class="math display">\[
+\Phi = \begin{bmatrix}
+1 &amp; 0 &amp; 0\\
+a_{21} &amp; 1 &amp; 0 \\
+a_{31} &amp; a_{32} &amp; 1
+\end{bmatrix}
+\]</span></p>
+<p>Eu estou impondo a restrição de que os elementos na diagonal de <span class="math inline">\(\Phi\)</span> são iguais a 1. Isso é sem perda de generalidade, porque eu tenho a matriz <span class="math inline">\(D\)</span> sendo diagonal.</p>
+<p>Focando no modelo A, a gente obtém uma simplificação no mapa de parâmetros estruturais para parâmetros em forma reduzida:</p>
+<p><span class="math display">\[
+h(\Phi,\Gamma,D) = [\underbrace{\Phi^{-1}\Gamma}_{A} \; \underbrace{\Phi^{-1} D (\Phi^{-1})^{\top}}_{\Sigma_u}]
+\]</span>
+No post anterior, eu expliquei que a identificação depende da derivada dessa função. Essa função, escrita assim, é meio desajeitada. Ela mapeia matrizes em matrizes. A vida seria mais fácil se essa função mapeasse vetores em vetores…</p>
+<div id="vec-e-derivadas" class="section level2">
+<h2>vec e derivadas</h2>
+<p>A gente vai introduzir a função <span class="math inline">\(\text{vec}\)</span>, que transforma uma matriz <span class="math inline">\(n \times m\)</span> num vetor <span class="math inline">\(nm\)</span>. <span class="math inline">\(\text{vec}(A)\)</span> empilha as colunas de <span class="math inline">\(A\)</span>. Numa linguagem de programação, <span class="math inline">\(\text{vec}\)</span> seria equivalente a redimensionar uma matriz em um vetor.</p>
+<p>O que acontece se você fizer <span class="math inline">\(\text{vec}(ABC)\)</span>, ou seja, o vec do produto de três matrizes? Isso é conhecido como o <em>vec trick</em>:</p>
+<p><span class="math display">\[
+\text{vec}(ABC) = (C^{\top} \otimes A)\text{vec}(B)
+\]</span></p>
+<p><span class="math inline">\(\otimes\)</span> é o produto de Kronecker:</p>
+<p><span class="math display">\[
+A \otimes B = \begin{bmatrix}
+a_{11}B &amp; a_{12}B &amp; \ldots&amp;  a_{1m}B \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+a_{n1}B &amp; a_{n2}B &amp; \ldots &amp; a_{nm}B
+\end{bmatrix}
+\]</span></p>
+<p>Isso parece um excesso de novidades, mas se a gente tem a matriz <span class="math inline">\(B\)</span> que depende do parâmetro <span class="math inline">\(\theta\)</span> e quer a derivada do produto <span class="math inline">\(AB(\theta)C\)</span> com respeito a <span class="math inline">\(\theta\)</span>, o <em>vec trick</em> permite obter isso razoavelmente fácil:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(ABC)}{d\theta} = (C^{\top} \otimes A) \frac{d\text{vec}(B)}{d\theta}
+\]</span></p>
+<p>O que acontece se a gente tiver <span class="math inline">\(B(\theta)C\)</span>? Isso é igual a <span class="math inline">\(IB(\theta)C\)</span>, então:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(BC)}{d\theta} = (C^{\top} \otimes I) \frac{d\text{vec}(B)}{d\theta}
+\]</span></p>
+<p>Veja que a regra usual de derivada de produtos funciona aqui. Se <span class="math inline">\(A\)</span> e <span class="math inline">\(B\)</span> dependem de <span class="math inline">\(\theta\)</span>:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(ABC)}{d\theta} = ((BC)^{\top} \otimes I) \frac{d\text{vec}(A)}{d\theta}(C^{\top} \otimes A) \frac{d\text{vec}(B)}{d\theta}
+\]</span></p>
+<p>Uma vez que o <em>vec trick</em> é internalizado, todas as regras de derivada usuais funcionam. As opções a isso são piores, tipo trabalhar com tensores.</p>
+<p>O mais importante é que tudo isso é facilmente progrmável em linguagens de programação que lidam com matrizes. R, Julia, Matlab, e Numpy fazem reshape e produto de Kronecker.</p>
+<p>Pra ver o quão versátil é essa maneira de proceder, vamos achar uma derivada relativamente simples, mas interessante: como uma mudança nas entradas de uma matriz <span class="math inline">\(A\)</span>, que é, <span class="math inline">\(n \times n\)</span> afetam a inversa, i.e. <span class="math inline">\(\frac{d\text{vec}(A^{-1})}{d\text{vec}(A)}\)</span>?</p>
+<p>A gente sabe que <span class="math inline">\(A^{-1} = A^{-1}A A^{-1}\)</span>, e naturalmente <span class="math inline">\(\frac{d\text{vec}(A)}{d\text{vec}(A)} = I_{n^2 \times n^2}\)</span>. Usando o vec trick:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(A^{-1}AA^{-1})}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) \frac{d\text{vec}(A)}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) I_{n^2 \times n^2} = ((A^{-1})^{\top} \otimes A^{-1})
+\]</span></p>
+</div>
+<div id="vech" class="section level2">
+<h2>vech</h2>
+<p>O <em>vec</em> tem um primo irmão <em>vech</em>. Para entender o <em>vech</em> - e porque ele é importante - pense numa matriz simétrica, como todas as matrizes de covariância são. Um exemplinho <span class="math inline">\(2 \times 2\)</span>:</p>
+<p><span class="math display">\[
+S = \begin{bmatrix} s_{11} &amp; s_{12} \\ s_{12} &amp; s_{22} \end{bmatrix}
+\]</span>
+O valor <span class="math inline">\(s_{12}\)</span> aparece duas vezes, então fazer o vec disso gera um vetor que tem elementos redundates. O vech elimina esses valores redundantes. Veja que, para matrizes simétricas, esses dois vetores carregam a mesma informação. Deveria ser possível converter um no outro, e de fato é. Não só é possível como existe uma matriz que faz isso. Essa matriz é conhecida como matriz de duplicação, que a gente vai denotar por <span class="math inline">\(D_m\)</span>, em que <span class="math inline">\(m\)</span> é o número de linhas, e também de colunas, da matriz sob a qual nós estamos aplicando o vec ou vech. Se <span class="math inline">\(\Sigma\)</span> é uma matriz simétrica <span class="math inline">\(m \times m\)</span>, <span class="math inline">\(D_m\)</span> é a matriz que faz:</p>
+<p><span class="math display">\[
+\text{vec}(\Sigma) = D_m \text{vech}(\Sigma)
+\]</span></p>
+<p>No caso da matriz <span class="math inline">\(S\)</span> acima:</p>
+<p><span class="math display">\[
+\text{vec}(S) = [s_{11} \, s_{12} \, s_{12} \, s_{22}]\\
+\text{vech}(S) = [s_{11} \, s_{12} \, s_{12} \, s_{22}]
+\]</span></p>
+<p>A matriz de duplicação pode ser escrita no braço pra esse exemplo:</p>
+<p><span class="math display">\[
+D_2 = \begin{bmatrix}
+1 &amp; 0 &amp; 0\\
+0 &amp; 1 &amp; 0\\
+0 &amp; 1 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\]</span></p>
+<p>Não se preocupe muito em escrever essa matriz, porque é outro caso em que nós vamos apenas usar a versão númerica disso. Tanto Julia quanto R tiveram boas almas que implementaram a matriz de duplicação.</p>
+<p>Essa matriz admite uma <em>pseudo</em> inversa i.e. uma maneira de desduplicar, ou eliminar os elementos redundantes. Várias matrizes vão satisfazer isso e novamente a gente vai usar o que outras pessoas implementaram sem pensar muito. Eu vou denotar a matriz que desfaz a duplicação por <span class="math inline">\(D^{+}_m\)</span>.</p>
+<p>A beleza do vech é que a gente não precisa se preocupar com os elementos repetidos de uma matriz simétrica. Se a gente precisar derivar uma matriz simétrica, a gente usa a matriz de duplicação para converter o vech num vec e usa as regras acima.</p>
+</div>
+<div id="o-vec-da-transposta" class="section level2">
+<h2>O vec da transposta</h2>
+<p>Veja que <span class="math inline">\(\text{vec}(A)\)</span> contém os mesmos elementos de <span class="math inline">\(\text{vec}(A^{\top})\)</span>, mas em ordem diferente. A matriz que reordena esses elementos e converte o vec da transposta no vec da matriz é conhecido como <em>matriz de comutação</em> e vai ser representada por <span class="math inline">\(K_{nm}\)</span> (porque ele opera sobre uma matriz <span class="math inline">\(n \times m\)</span>):</p>
+<p><span class="math display">\[
+\text{vec}(A) = K_{nm} \text{vec}(A^{\top})
+\]</span>
+Essa matriz é ortohonormal, então <span class="math inline">\(K_{nm}^{\top} K_{nm} = I\)</span>.</p>
+</div>
+<div id="de-volta-a-identificação" class="section level2">
+<h2>De volta a identificação</h2>
+<p>Com o maquinário acima, a gente vai converter a nossa função que mapeia de matrizes estruturais para matrizes da forma reduzida para uma função que mapeia vetores em vetores:</p>
+<p><span class="math display">\[
+h(\text{vec}(\Phi),\text{vec}(\Gamma),\text{vec}(D)) = [\underbrace{\text{vec}(\Phi^{-1}\Gamma)}_{\text{vec}(A)} \; \underbrace{\text{vech}(\Phi^{-1} D (\Phi^{-1})^{\top})}_{\text{vech}(\Sigma_u)}]
+\]</span></p>
+<p>Como nosso interesse é em ortogonalizar os choques, a gente na verdade pode focar exclusivamente na matriz <span class="math inline">\(\Sigma_u\)</span>:</p>
+<p><span class="math display">\[
+h(\text{vec}(\Phi),\text{vec}(\Gamma),\text{vec}(D)) = \text{vech}(\Phi^{-1} D (\Phi^{-1})^{\top})
+\]</span></p>
+<p>A primeira etapa é converter o vech em vec usando a matriz de duplicação:</p>
+<p><span class="math display">\[
+h(\text{vec}(\Phi),\text{vec}(\Gamma),\text{vec}(D)) = \text{vech}(\Phi^{-1} D (\Phi^{-1})^{\top}) = D_m \text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})
+\]</span></p>
+<p>Agora a gente pode diferenciar isso usando o <em>vec trick</em>. Eu vou diferenciar <span class="math inline">\(\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})\)</span> com respeito a <span class="math inline">\(D\)</span> e <span class="math inline">\(\Phi^{-1}\)</span>, apesar do nosso interesse ser diferenciar isso com respeito a <span class="math inline">\(D\)</span> e a <span class="math inline">\(\Phi\)</span>:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{dD} = (\Phi^{-1} \otimes \Phi^{-1}) I_{m^2 \times m^2}\\
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi^{-1})} = (\Phi^{-1} D^{\top} \otimes I) \frac{d\text{vec}(\Phi^{-1})}{d\text{vec}(\Phi^{-1})} + (I \otimes \Phi^{-1} D) K_{m^2} \frac{d\text{vec}(\Phi^{-1})}{d\text{vec}(\Phi^{-1})} = (\Phi^{-1} D^{\top} \otimes I) + (I \otimes \Phi^{-1} D) K_{m^2}
+\]</span></p>
+<p>Eu usei a matriz de comutação pra transformar <span class="math inline">\(\frac{d\text{vec}((\Phi^{-1})^{\top}}{d\text{vec}(\Phi^{-1})}\)</span> em <span class="math inline">\(\frac{d\text{vec}(\Phi^{-1})}{d\text{vec}(\Phi^{-1})}\)</span>. Agora, a gente vai usar a regra da cadeia para obter:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = \frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi^{-1})} \frac{d\text{vec}(\Phi^{-1})}{d\text{vec}(\Phi)}
+\]</span></p>
+<p>Lá no fim da sessão sobre o vec a gente calculou a derivada da inversa, que eu repito aqui:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(A^{-1}AA^{-1})}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) \frac{d\text{vec}(A)}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) I_{n^2 \times n^2} = ((A^{-1})^{\top} \otimes A^{-1})
+\]</span></p>
+<p>Combinando os dois:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = [(\Phi^{-1} D^{\top} \otimes I) + (I \otimes \Phi^{-1} D) K_{m^2}] ((\Phi^{-1})^{\top} \otimes \Phi^{-1})
+\]</span></p>
+<p>Uma miscelânea de resultados sobre matrizes de comutação e produtos de Kronecker (veja o fim do post para a referência bibliográfica) permite rescrever isso:</p>
+<p><span class="math display">\[
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = 2[(\Phi^{-1} D^{\top} \Phi^{-1}^{\top} \otimes \Phi^{-1})
+\]</span>
+Por definição, <span class="math inline">\(\Phi^{-1} D^{\top} \Phi^{-1}^{\top} = \Sigma_u\)</span>. A gente queria escrever as coisas dependendo do vech e não vec, e a gente sabe que <span class="math inline">\(D_{m^2}^{+}\)</span> converte um no outro:</p>
+<p><span class="math display">\[
+\frac{d\text{vech}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = D_{m^2}^{+} \frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = 2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1})
+\]</span>
+A gente finalmente pode escrever o jacobiano de <span class="math inline">\(h\)</span>:</p>
+<p><span class="math display">\[
+J_h(\text{vec}(\Phi),\text{vec}(D)) = [2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1}) \; D_{m^2}^{+}(\Phi^{-1} \otimes \Phi^{-1})]
+\]</span>
+Eu não culpo o leitor se a atitude, neste ponto do texto, é de absoluto cinismo. Sim, nós obtemos alguns resultados sobre quando um modelo está identificado. Mas os resultados dependem de produtos de Kronecker, matrizes de duplicação e pseudo inversas. É difícil conceber como a gente poderia computar essas quantidades. E o problema não termina ai, uma vez que a gente tem que computar o posto do jacobiano. Pra resolver isso, a gente vai usar o computador.</p>
+</div>
+<div id="computando-o-posto" class="section level2">
+<h2>Computando o posto</h2>
+<p>A gente pode proceder de duas maneiras:</p>
+<ol style="list-style-type: decimal">
+<li><p>Numericamente. Implemente todas essas contas e calcule isso para um conjunto de parâmetros. A gente poderia testar vários parâmetros, selecionados aleatoriamente, e computar o posto do jacobiano numericamente. Se todos os sorteios de parâmetro retornarem o mesmo posto, a gente chega a conclusão que esse é o posto da matriz. A beleza disso é que qualquer software que lida com matrizes seria capaz de fazer isso. Mas é uma solução pouco elegante. Matemática é também uma questão estética.</p></li>
+<li><p>Usar um sistema de computação álgebrica que faça todas as contas necessárias - incluindo calcular o posto simbolicamente - e obter tudo simbolicamente. Isso requer um bom sistema de computação álgebrica que inclua as matrizes de duplicação e a habilidade de fazer pseudo inversa. Computações simbólicas são mais lentas que numéricas. Computacionalmente, essa é uma maneira mais difícil de proceder.</p></li>
+</ol>
+<p>Obviamente, nós vamos usar a maneira 2. Demorou um tempo, mas eu descobri que o sympy faz tudo que a gente precisa e, melhor ainda, é facilmente acessível via R usando o <em>reticulate</em> e o <em>caracas</em>. O pacote <em>matrixcalc</em> implementa a inversa da matriz de duplicação, que é chamada de matriz de eliminação.</p>
+<p>Vamos começar com as restrições de curto prazo, que são incorretamente vistas como <em>a</em> maneira de fazer identificação nesses modelos. Eu vou olhar um caso de 5 variáveis.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">reticulate::use_condaenv("base")
+
+library(caracas)</code></pre>
+<pre ><code >## 
+## Attaching package: 'caracas'</code></pre>
+<pre ><code >## The following objects are masked from 'package:base':
+## 
+##     %*%, det, diag, diag&lt;-</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(Matrix)</code></pre>
+<pre ><code >## 
+## Attaching package: 'Matrix'</code></pre>
+<pre ><code >## The following objects are masked from 'package:caracas':
+## 
+##     det, expand</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(matrixcalc)
+
+# A model
+
+p &lt;- expand.grid(1:5,1:5)
+
+Phi &lt;- matrix_(paste0("a_",p[,1],p[,2]),5,5)
+
+for(i in 1:5){
+  for(j in i:5){
+    Phi[i,j] &lt;- 0
+  }
+}
+
+diag(Phi) &lt;- 1
+
+D &lt;- matrix_sym_diag(5)</code></pre>
+<p>Veja que nesse caso, nós temos 10 parâmetros em <span class="math inline">\(\Phi\)</span> (por ser triangular inferior e os componentes da diagonal serem iguais a 1) e 5 em <span class="math inline">\(D\)</span> (os elementos da diagonal), para um total de 15 parâmetros. Vamos ver <span class="math inline">\(\Phi\)</span> e <span class="math inline">\(D\)</span>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">print(Phi)</code></pre>
+<pre ><code >## c: ⎡ 1    0    0    0   0⎤
+##    ⎢                     ⎥
+##    ⎢a₂₁   1    0    0   0⎥
+##    ⎢                     ⎥
+##    ⎢a₃₁  a₃₂   1    0   0⎥
+##    ⎢                     ⎥
+##    ⎢a₄₁  a₄₂  a₄₃   1   0⎥
+##    ⎢                     ⎥
+##    ⎣a₅₁  a₅₂  a₅₃  a₅₄  1⎦</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">print(D)</code></pre>
+<pre ><code >## c: ⎡v₁  0   0   0   0 ⎤
+##    ⎢                  ⎥
+##    ⎢0   v₂  0   0   0 ⎥
+##    ⎢                  ⎥
+##    ⎢0   0   v₃  0   0 ⎥
+##    ⎢                  ⎥
+##    ⎢0   0   0   v₄  0 ⎥
+##    ⎢                  ⎥
+##    ⎣0   0   0   0   v₅⎦</code></pre>
+<p>A gente precisa da inversa (simbólica) de <span class="math inline">\(\Phi\)</span> e construir o jacobiano:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">Phi_inv &lt;- inv(Phi)
+
+J_b1 &lt;- 2*as_sym(elimination.matrix(5))%*%kronecker(Phi_inv%*%D%*%Phi_inv,Phi_inv)
+J_b2 &lt;- as_sym(elimination.matrix(5))%*%kronecker(Phi_inv,Phi_inv)
+
+J &lt;- cbind(J_b1,J_b2)</code></pre>
+<p>Agora vamos calcular o posto dessa matriz:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">do_la(J,"rank")</code></pre>
+<pre ><code >## c: 15</code></pre>
+<p>Isso checa o que a gente já sabia: restrições de curto prazo permitem a gente recuperar a forma estrutural. É claro que isso não significa que essas restrições são satisfeitas na prática.</p>
+<p>O sucesso dessa maneira de proceder é que é muito fácil obter a identificação estrutural: existe uma única matriz triangular inferior <span class="math inline">\(P\)</span> que satisfaz <span class="math inline">\(P P^{\top} = \Sigma_u\)</span>. Essa decomposição é conhecida como <em>decomposição de Choslesky</em>. Como a inversa de uma matriz triangular inferior é triangular inferior, <span class="math inline">\(\Phi = P^{-1}\)</span>. Qualquer pacote que acesse o LAPACK - ou seja, todas as linguagens de programação usadas na academia - faz a decomposição de Cholesky. O fato de que essa é uma escolha numéric conveniente não significa que essa é uma maneira razoável de fazer ciência.</p>
+<hr />
+<p>O resultado central de identificação nesse post é muito parecido com o resultado no livro do Lütkepohl, <em>New Introduction to Multiple Time Series</em>. A diferença, além da escolha de letras pro VAR, é que ele escreve as restrições sobre a forma estrutural como <span class="math inline">\(C_{\Phi} \text{vec}(\Phi) = c_{\Phi}\)</span> em que <span class="math inline">\(C_{\phi}\)</span> é uma matriz e <span class="math inline">\(c_{\Phi}\)</span> é um vetor. A decisão de não fazer assim é basicamente estética. Eu simplesmente coloquei as restrições direto na matriz. Certas restrições são mais fáceis de escrever da maneira do livro do Lütkepohl.</p>
+<p>A miscelânea de resultados sobre vec, vech, produtos de Kronecker, matrizes de duplicação e comutação, saem diretamente do livro do Magnus e Neudecker, <em>Matrix differential calculus with applications in statistics and econometrics</em>. Como o nome diz, o livro tem as regras de derivada para matrizes.</p>
+</div>

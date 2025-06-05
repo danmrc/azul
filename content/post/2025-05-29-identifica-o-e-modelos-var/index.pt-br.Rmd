@@ -89,7 +89,7 @@ A pergunta seguinte a ser feita é:
 
 # Identificação
 
-Passar de "forma reduzida" para "forma estrutural" é o que às vezes é chamado de identificação. Identificação é uma das palavras mais frequentemente usadas entre economistas. Mas reuna dez economistas e nenhum deles vai concordar com a definição. A turma de efeitos de tratamento usa a palavra de maneira similar, mas diferente o bastante para causar confusão - o que certamente encheria o Wittgenstein de orgulho.
+Passar de "forma reduzida" para "forma estrutural" é o que às vezes é chamado de identificação. Identificação é uma das palavras mais frequentemente usadas entre economistas. Mas reúna dez economistas e nenhum deles vai concordar com a definição. A turma de efeitos de tratamento usa a palavra de maneira similar, mas diferente o bastante para causar confusão - o que certamente encheria o Wittgenstein de orgulho.
 
 Esse post não tem nenhuma pretensão de resolver o conflito sobre o uso da palavra "identificação". O máximo que eu vou fazer é definir identificação para efeitos dessa sequência de posts: os parâmetros de um modelo (estrutural) estão _identificado_ se, para qualquer VAR em forma reduzida, existe apenas um conjunto de valores dos parâmetros estruturais que correspondem ao modelo em forma reduzida.
 
@@ -106,3 +106,21 @@ Os parâmetros $a_1$ e $a_2$ são os parâmetros os valores da forma reduzida, q
 Enquanto o modelo não está identificado usando só essa equação, usando as duas equações nós recuperamos os parâmetros estruturais: a regressão de $i_t$ em $\pi_t$ te dá $\beta$ e ai nós resolvemos o problema do parágrafo acima. Isso só acontece porque eu assumi que a inflação só depende de _lags_ da taxa de juros. Essa é uma retrição de curto prazo que frequentemente vista como **a** maneira de obter identificação em VARs.
 
 O plano para o próximo post é explicar como a gente pode garantir que $h(\theta)$ tem restrições o suficiente para obter os parâmetros da forma estrutural a partir da forma reduzida. 
+
+# Mais sobre respostas a impulso
+
+A resposta ao impulso (IRF) responde a pergunta de como a variável $x$ muda dado um choque na variável $y$. Por exemplo, qual o efeito de um aumento de juros na inflação?
+
+Parte da resposta disso sai da forma reduzida: se eu sei o efeito de um choque no período $t$ e quero saber o efeito em $t+h$, então substitutindo várias vezes, a gente obtém:
+
+$$
+y_{t+h} = A^{h+1} y_{t-1} + u_{t+h} + A u_{t+h-1} + \ldots + A^{h} u_{t}
+$$
+
+O problema é que essa resposta a impulso é a um impulso ao choque na forma reduzida, e como a gente mostrou acima, esses choques podem não ter uma interpretação estrutural. A gente precisa de uma maneira de separar os choques. Para qualquer matriz $\Xi$ e matriz diagonal $D$ que faz $\Sigma_u = \Xi D \Xi^{\top}$, a gente obtém:
+
+$$
+y_{t+h} = A^{h+1} y_{t-1} + u_{t+h} + A u_{t+h-1} + \ldots + A^{h} \Xi \varepsilon_t
+$$
+
+Na qual os choques $\varepsilon_t$ são descorrelacionados e portanto são candidatos a choques estruturais. Como dito acima, o problema é que existem várias matrizes $\Xi$ que fazem isso e geram a mesma matriz $\Sigma_u$. O mais importante é que a resposta a impulso é dada pela sequência $\{A^h \Xi\}_{h=0}^{H}$. A escolha de $\Xi$ é central para obter a resposta a impulso estrutural. 

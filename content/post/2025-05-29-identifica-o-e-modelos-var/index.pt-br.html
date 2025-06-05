@@ -71,7 +71,27 @@ i_t = \beta \gamma i_{t-1} + \beta \rho \pi_{t-1} + \beta \varepsilon_{\pi,t} + 
 </div>
 <div id="identificação" class="section level1">
 <h1>Identificação</h1>
-<p>Passar de “forma reduzida” para “forma estrutural” é o que às vezes é chamado de identificação. A palavra identificação é uma das palavras mais frequentemente usadas entre economistas. Mas reuna dez economistas e nenhum deles vai concordar com a definição. A turma de efeitos de tratamento usa a palavra de maneira similar, mas diferente o bastante para causar confusão - o que certamente encheria o Wittgenstein de orgulho.</p>
+<p>Passar de “forma reduzida” para “forma estrutural” é o que às vezes é chamado de identificação. Identificação é uma das palavras mais frequentemente usadas entre economistas. Mas reúna dez economistas e nenhum deles vai concordar com a definição. A turma de efeitos de tratamento usa a palavra de maneira similar, mas diferente o bastante para causar confusão - o que certamente encheria o Wittgenstein de orgulho.</p>
 <p>Esse post não tem nenhuma pretensão de resolver o conflito sobre o uso da palavra “identificação”. O máximo que eu vou fazer é definir identificação para efeitos dessa sequência de posts: os parâmetros de um modelo (estrutural) estão <em>identificado</em> se, para qualquer VAR em forma reduzida, existe apenas um conjunto de valores dos parâmetros estruturais que correspondem ao modelo em forma reduzida.</p>
-<p>Defina a função <span class="math inline">\(h(.)\)</span> que mapeia dos parâmetros estruturais para os parâmetros em forma reduzida.</p>
+<p>Defina a função <span class="math inline">\(h(.)\)</span> que mapeia dos parâmetros estruturais para os parâmetros em forma reduzida. Um modelo está identificado se a distribuição dos dados <span class="math inline">\(y\)</span> muda com uma mudança no valor dos parâmetros estruturais, ou seja, <span class="math inline">\(\forall \theta_1 \neq \theta_2 \implies p(y|h(\theta_1)) \neq p(y|h(\theta_2))\)</span>.</p>
+<p>Olhe de novo para a forma reduzida do nosso modelo:</p>
+<p><span class="math display">\[
+i_t = \underbrace{\beta \gamma}_{a_1} i_{t-1} + \underbrace{\beta \rho}_{a_2} \pi_{t-1} + \beta \varepsilon_{\pi,t} + \varepsilon_{i,t}
+\]</span></p>
+<p>Os parâmetros <span class="math inline">\(a_1\)</span> e <span class="math inline">\(a_2\)</span> são os parâmetros os valores da forma reduzida, que nós obteríamos estimando essa equação por OLS. Os parâmetros <span class="math inline">\(\beta\)</span>, <span class="math inline">\(\rho\)</span> e <span class="math inline">\(\gamma\)</span> não estão identificados usando só essa equação. Para ver isso, deixe <span class="math inline">\(\beta\)</span> ser qualquer valor e faça <span class="math inline">\(\gamma = a_1/\beta\)</span> e <span class="math inline">\(\rho = a_2/\beta\)</span>.</p>
+<p>Enquanto o modelo não está identificado usando só essa equação, usando as duas equações nós recuperamos os parâmetros estruturais: a regressão de <span class="math inline">\(i_t\)</span> em <span class="math inline">\(\pi_t\)</span> te dá <span class="math inline">\(\beta\)</span> e ai nós resolvemos o problema do parágrafo acima. Isso só acontece porque eu assumi que a inflação só depende de <em>lags</em> da taxa de juros. Essa é uma retrição de curto prazo que frequentemente vista como <strong>a</strong> maneira de obter identificação em VARs.</p>
+<p>O plano para o próximo post é explicar como a gente pode garantir que <span class="math inline">\(h(\theta)\)</span> tem restrições o suficiente para obter os parâmetros da forma estrutural a partir da forma reduzida.</p>
+</div>
+<div id="mais-sobre-respostas-a-impulso" class="section level1">
+<h1>Mais sobre respostas a impulso</h1>
+<p>A resposta ao impulso (IRF) responde a pergunta de como a variável <span class="math inline">\(x\)</span> muda dado um choque na variável <span class="math inline">\(y\)</span>. Por exemplo, qual o efeito de um aumento de juros na inflação?</p>
+<p>Parte da resposta disso sai da forma reduzida: se eu sei o efeito de um choque no período <span class="math inline">\(t\)</span> e quero saber o efeito em <span class="math inline">\(t+h\)</span>, então substitutindo várias vezes, a gente obtém:</p>
+<p><span class="math display">\[
+y_{t+h} = A^{h+1} y_{t-1} + u_{t+h} + A u_{t+h-1} + \ldots + A^{h} u_{t}
+\]</span></p>
+<p>O problema é que essa resposta a impulso é a um impulso ao choque na forma reduzida, e como a gente mostrou acima, esses choques podem não ter uma interpretação estrutural. A gente precisa de uma maneira de separar os choques. Para qualquer matriz <span class="math inline">\(\Xi\)</span> e matriz diagonal <span class="math inline">\(D\)</span> que faz <span class="math inline">\(\Sigma_u = \Xi D \Xi^{\top}\)</span>, a gente obtém:</p>
+<p><span class="math display">\[
+y_{t+h} = A^{h+1} y_{t-1} + u_{t+h} + A u_{t+h-1} + \ldots + A^{h} \Xi \varespilon_t
+\]</span></p>
+<p>Na qual os choques <span class="math inline">\(\varepsilon_t\)</span> são descorrelacionados e portanto são candidatos a choques estruturais. O problema é que existem várias matrizes <span class="math inline">\(\Xi\)</span> que fazem isso e geram a mesma matriz <span class="math inline">\(\Sigma_u\)</span>.</p>
 </div>

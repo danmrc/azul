@@ -21,7 +21,7 @@ output:
 draft: true
 ---
 
-Esse post é uma continuação do [post sobre VAR](./content/post/2025-05-29-identifica-o-e-modelos-var/index.pt-br.Rmd). Esse post vai focar no problema de identificação, e como eu adiantei, a gente vai tomar uma visão mais geral do que a da VARs e depois especializar o maquinário para os modelos vetoriais auto regressivos. Eu vou colocar algumas definições e tecnicalidades no fim do post. 
+Esse post é uma continuação do [post sobre VAR](/2025/05/29/index.pt-br.Rmd). Esse post vai focar no problema de identificação, e como eu adiantei, a gente vai tomar uma visão mais geral do que a da VARs e depois especializar o maquinário para os modelos vetoriais auto regressivos. Eu vou colocar algumas definições e tecnicalidades no fim do post. 
 
 A gente vai ter um conjunto de parâmetros estruturais de dimensão $k$ e o nosso modelo em forma reduzida vai ter parâmetros $\beta$, de dimensão $p$. $h: \R^k \rightarrow \R^p$ mapeia dos parâmetros estruturais para os parâmetros da forma reduzida. Pra ter qualquer esperança de obter uma inversa de $h$, que é necessário para obter os parâmetros estruturais da forma reduzida, a gente exige que $k \leq p$. Mas isso não é suficiente, e aqui vai um exemplo muito bobo, em que a gente tem um único parâmetro estrutural e um parâmetro em forma reduzida, mas:
 

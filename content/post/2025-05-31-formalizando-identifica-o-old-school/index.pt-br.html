@@ -23,7 +23,7 @@ draft: true
 
 
 
-<p>Esse post é uma continuação do <a href="./content/post/2025-05-29-identifica-o-e-modelos-var/index.pt-br.Rmd">post sobre VAR</a>. Esse post vai focar no problema de identificação, e como eu adiantei, a gente vai tomar uma visão mais geral do que a da VARs e depois especializar o maquinário para os modelos vetoriais auto regressivos. Eu vou colocar algumas definições e tecnicalidades no fim do post.</p>
+<p>Esse post é uma continuação do <a href="/2025/05/29/index.pt-br.Rmd">post sobre VAR</a>. Esse post vai focar no problema de identificação, e como eu adiantei, a gente vai tomar uma visão mais geral do que a da VARs e depois especializar o maquinário para os modelos vetoriais auto regressivos. Eu vou colocar algumas definições e tecnicalidades no fim do post.</p>
 <p>A gente vai ter um conjunto de parâmetros estruturais de dimensão <span class="math inline">\(k\)</span> e o nosso modelo em forma reduzida vai ter parâmetros <span class="math inline">\(\beta\)</span>, de dimensão <span class="math inline">\(p\)</span>. <span class="math inline">\(h: \R^k \rightarrow \R^p\)</span> mapeia dos parâmetros estruturais para os parâmetros da forma reduzida. Pra ter qualquer esperança de obter uma inversa de <span class="math inline">\(h\)</span>, que é necessário para obter os parâmetros estruturais da forma reduzida, a gente exige que <span class="math inline">\(k \leq p\)</span>. Mas isso não é suficiente, e aqui vai um exemplo muito bobo, em que a gente tem um único parâmetro estrutural e um parâmetro em forma reduzida, mas:</p>
 <p><span class="math display">\[
 h(\theta) = \cos(\theta)
