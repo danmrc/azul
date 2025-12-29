@@ -25,11 +25,11 @@ Faz muito tempo (pré pandemia) eu falei sobre VAR (Vector Autoregression) e com
 
 Os mais de cinco anos que se passaram entre esse post e o post original se devem, não só aos inúmeros compromissos profissionais, mas especialmente ao _rabbit hole_ que a pergunta me levou. Esse post (e os próximos) vão explorar toda a questão em detalhes.
 
-Esse post vai tratar do que são Structural VAR (SVAR) e como ele se relaciona ao VAR estimado e falar sobre identificação. O próximo post vai tratar de identificação - como definido nesse post - em um setup mais geral e depois nós vamos falar sobre SVAR em detalhes. A rota parece um pouco complicada, mas esse é um dos vários momentos em matemática que alcançar o nível de generalidade certo ajuda.
+Esse post vai tratar do que são Structural VAR (SVAR) e como ele se relaciona ao VAR estimado e falar sobre identificação. O próximo post vai tratar de identificação - como definido nesse post - em um setup mais geral e depois nós vamos falar sobre SVAR em detalhes. A rota parece um pouco complicada, mas esse é um dos vários momentos em matemática nos quais alcançar o nível de generalidade certo ajuda.
 
 # VAR e SVAR
 
-O VAR é uma auto regressão em vetor. Se $y$ é um vetor de variáveis de dimensão $p$ e $A$ é uma matriz $p \times p$ e $u_t$ são os erros (ou inovação, pra usar a língua de séries temporais), então o VAR é:
+O VAR é uma auto regressão em vetor. Se $y_t$ é um vetor de variáveis de dimensão $p$ e $A$ é uma matriz $p \times p$ e $u_t$ são os erros (ou inovação, pra usar a língua de séries temporais), então o VAR é:
 
 $$
 y_t = A y_{t-1} + u_t 
@@ -49,7 +49,7 @@ Até aqui nada é muito problemático. O problema é que, posto dessa maneira, o
 
 ## Exemplinho
 
-Vamos pegar um exemplo bobo em que $\pi_t$ é a inflação e $i_t$ é a taxa de juros. Vamos fingir que a inflação só responde a taxa de juros com _lag_ (o pessoal de macro chamaria isso de _sticky prices_), mas o banco central responde a inflação no mesmo período. Os choques nesse caso são $\varepsilon_pi$ para a inflação e $\varepsilon_i$ para os juros e a gente vai assumir que esses choques são independentes.
+Vamos pegar um exemplo bobo em que $\pi_t$ é a inflação e $i_t$ é a taxa de juros. Vamos fingir que a inflação só responde a taxa de juros com _lag_ (o pessoal de macro chamaria isso de _sticky prices_), mas o banco central responde a inflação no mesmo período. Os choques nesse caso são $\varepsilon_{\pi}$ para a inflação e $\varepsilon_i$ para os juros e a gente vai assumir que esses choques são independentes.
 
 Escrevendo as duas equações:
 

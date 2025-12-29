@@ -21,9 +21,9 @@ output:
 draft: true
 ---
 
-Esse post é uma continuação do [post sobre VAR](/2025/05/29/index.pt-br.Rmd). Esse post vai focar no problema de identificação, e como eu adiantei, a gente vai tomar uma visão mais geral do que a da VARs e depois especializar o maquinário para os modelos vetoriais auto regressivos. Eu vou colocar algumas definições e tecnicalidades no fim do post. 
+Esse post é uma continuação do [post sobre VAR](/2025/05/29/index.pt-br). Esse post vai focar no problema de identificação, e como eu adiantei, a gente vai tomar uma visão mais geral do que a da VARs e depois especializar o maquinário para os modelos vetoriais auto regressivos. Eu vou colocar algumas definições e tecnicalidades no fim do post. 
 
-A gente vai ter um conjunto de parâmetros estruturais de dimensão $k$ e o nosso modelo em forma reduzida vai ter parâmetros $\beta$, de dimensão $p$. $h: \R^k \rightarrow \R^p$ mapeia dos parâmetros estruturais para os parâmetros da forma reduzida. Pra ter qualquer esperança de obter uma inversa de $h$, que é necessário para obter os parâmetros estruturais da forma reduzida, a gente exige que $k \leq p$. Mas isso não é suficiente, e aqui vai um exemplo muito bobo, em que a gente tem um único parâmetro estrutural e um parâmetro em forma reduzida, mas:
+Nós temos um conjunto de parâmetros estruturais de dimensão $k$ e o nosso modelo em forma reduzida vai ter parâmetros $\beta$, de dimensão $p$. $h: \R^k \rightarrow \R^p$ mapeia dos parâmetros estruturais para os parâmetros da forma reduzida. Pra ter qualquer esperança de obter uma inversa de $h$, que é necessário para obter os parâmetros estruturais da forma reduzida, a gente exige que $k \leq p$. Mas isso não é suficiente, e aqui vai um exemplo muito bobo, em que a gente tem um único parâmetro estrutural e um parâmetro em forma reduzida, mas:
 
 $$
 h(\theta) = \cos(\theta)
@@ -47,7 +47,7 @@ $$
 KL(p(y|\beta_1)||p(y|\beta_2)) = \int \log \left(\frac{p(y|\beta_2)}{p(y|\beta_1)}\right) p(y|\beta_2) \, dy
 $$
 
-Veja que essa não é uma distância no sentido que um matemático fala em distância: ela viola simetria ($KL(p(y|\beta_1)||p(y|\beta_2)) \neq KL(p(y|\beta_2)||p(y|\beta_1))$) nem satisfaz a desigualdade triangular. Mas ela vai ser muito útil no que segue! (Eu vou ignorar a necessidade de que ambas tenham o mesmo suporte. Isso impede a gente discutir identificação de modelos que o suporte varia com o parâmetro. Esses modelos são enjoados). No fim do dia, essa divergência é uma expectância, em que a gente toma uma das densidades como a densidade cuja a gente está usando na expectância. Pra gente não perder isso de vista, eu vou adotar a seguinte notação:
+Veja que essa não é uma distância no sentido que um matemático fala em distância: ela viola simetria ($KL(p(y|\beta_1)||p(y|\beta_2)) \neq KL(p(y|\beta_2)||p(y|\beta_1))$) nem satisfaz a desigualdade triangular. Mas ela vai ser muito útil no que segue! (Eu vou ignorar a necessidade de que ambas tenham o mesmo suporte. Isso impede a gente discutir identificação de modelos que o suporte varia com o parâmetro. Esses modelos são enjoados). No fim do dia, essa divergência é uma expectância, em que a gente toma uma das densidades como a densidade cuja a gente está usando na expectância. Pra gente não esquecer disso, eu vou adotar a seguinte notação:
 
 $$
 KL(p(y|\beta_1)||p(y|\beta_2)) = E_{\beta_2} \left[\log\left(\frac{p(y|\beta_2)}{p(y|\beta_1)}\right)\right]
@@ -71,17 +71,17 @@ $$
 
 Tem várias coisas acontecendo nessa expansão e eu quero observar que tem uma regra da cadeia sendo usada aqui: a distribuição é função dos parâmetros da forma reduzida e a forma reduzida depende da forma estrutural via $h$. A expressão $\frac{\partial \log(p(y|h(\theta_2)))}{\partial h(\theta_2)}\frac{\partial h(\theta_2)}{\partial \theta_2}$ é apenas a regra da cadeia. O $\bigg \lvert_{\theta_1 = \theta_2}$ significa que eu estou avaliando essas derivadas no valor $\theta_2$. Eu to sendo bastante desleixado com as dimensões: no fundo $\frac{\partial h(\theta_1)}{\partial \theta_1}$ é o jacobiano, que é só a matriz de derivadas parciais. Minha sugestão é que o leitor não se preocupe muito com as dimensões nesse momento.
 
-É fácil mostrar que $E_{\theta_2}\left[\frac{\partial \log(p(y|h(\theta_1)))}{\partial h(\theta_1)}\frac{\partial h(\theta_1)}{\partial \theta_1} \right]$ é igual a zero: tome a derivada $\frac{\partial \log(p(y|h(\theta_1)))}{\partial h(\theta_1)}$ e use a definição da expectância (você vai ter que mover a derivada de dentro pra fora da derivada!). Isso simplifica bastante a expressão (e é o motivo pelo qual a gente fez uma expansão de segunda ordem em primeiro lugar):
+É fácil mostrar que $E_{\theta_2}\left[\frac{\partial \log(p(y|h(\theta_1)))}{\partial h(\theta_1)}\frac{\partial h(\theta_1)}{\partial \theta_1} \right]$ é igual a zero: tome a derivada $\frac{\partial \log(p(y|h(\theta_1)))}{\partial h(\theta_1)}$ e use a definição da expectância - você vai ter que mover a derivada de dentro pra fora da integral! A gente faz a expansão de segunda ordem porque a derivada é zero. Usar esse fato simplifica bastante a expressão:
 
 $$
 KL(p(y|h(\theta_1))||p(y|h(\theta_2))) \approx -E_{\theta_2}[\log(p(y|h(\theta_2)))] - \frac{1}{2} (\theta_2 - \theta_1)^{\top} E_{\theta_2}\left[\frac{\partial h(\theta_2)}{\partial \theta_2} \frac{\partial^2 \log(p(y|h(\theta_1)))}{\partial h(\theta_1) \partial h(\theta_1)}\frac{\partial h(\theta_1)}{\partial \theta_1} \right]\bigg \lvert_{\theta_1 = \theta_2}(\theta_2 - \theta_1) 
 $$
 
-Agora vem a parte legal da brincadeira: $E_{\theta_2}\left[\frac{\partial h(\theta_2)}{\partial \theta_2} \frac{\partial^2 \log(p(y|h(\theta_1)))}{\partial h(\theta_1) \partial h(\theta_1)}\frac{\partial h(\theta_1)}{\partial \theta_1} \right]$ é uma matriz que é $k \times k$. Veja que essa matriz é uma forma quadrática e a única maneira de isso ser zero sem ser $\theta_1 = \theta_2$ é se um dos autovalores da matriz for 0. Isso significa que desde que a matriz tenha posto $k$, tudo funciona. 
+Agora vem a parte legal da brincadeira: $E_{\theta_2}\left[\frac{\partial h(\theta_2)}{\partial \theta_2} \frac{\partial^2 \log(p(y|h(\theta_1)))}{\partial h(\theta_1) \partial h(\theta_1)}\frac{\partial h(\theta_1)}{\partial \theta_1} \right]$ é uma matriz que é $k \times k$. Veja que essa matriz é uma forma quadrática e a única maneira de isso ser zero sem ser $\theta_1 = \theta_2$ é se um dos autovalores da matriz for 0. Isso significa que desde que a matriz tenha posto $k$, a única maneira de divergência ser igual a zero é se $\theta_1 = \theta_2$. 
 
 Se a gente assumir que a forma reduzida tem posto cheio, então $\frac{\partial^2 \log(p(y|h(\theta_1)))}{\partial h(\theta_1) \partial h(\theta_1)}$, que é uma matriz $p \times p$, é posto cheio, isso significa que o jacobiano $\frac{\partial h(\theta_1)}{\partial \theta_1}$ tem que ter posto igual ao número de parâmetros da forma estrutural. 
 
-Esse é um bom momento pra gente parar no topo do edifício que a gente construiu: a gente começou com um problema bastante abstrato (quais restrições devem ser impostas em uma forma reduzida para obter parâmetros estruturais?) e usando ferramentas relativamente simples caímos em um problema de álgebra linear. Veja que problemas de álgebra linear são solúveis usando computadores. 
+Esse é um bom momento pra gente parar no topo do edifício que a gente construiu: começamos com um problema bastante abstrato (quais restrições devem ser impostas em uma forma reduzida para obter parâmetros estruturais?) e usando ferramentas relativamente simples caímos em um problema de álgebra linear. Problemas de álgebra linear são solúveis usando computadores. 
 
 ---
 
@@ -91,7 +91,7 @@ $$
 h(\theta) = \begin{bmatrix} h_1(\theta) \\ h_2(\theta) \\ \vdots \\ h_p(\theta) \end{bmatrix}
 $$
 
-A derivada com o respeito aos parâmetros é uma matriz, cuja as linhas são o gradiente de $h_1$, $h_2$ etc:
+A derivada com o respeito aos parâmetros é uma matriz, cuja as linhas são os gradientes de $h_1$, $h_2$ etc:
 
 $$
 \frac{\partial h}{\partial \theta} = \begin{bmatrix}
@@ -102,7 +102,9 @@ $$
 \end{bmatrix} 
 $$
 
-Um detalhe que eu to ignorando é que a identificação que a gente está tratando aqui é identificação _local_, i.e. se existe um parâmetro estrutural "próximo" do parâmetro em questão que gera o mesmo valor do parâmetro na forma reduzida. Se existirem dois valores distantes que geram o mesmo valor da forma reduzida é um problema _global_. Esse é mais difícil de responder.  
+Um detalhe que eu ignoro é que a identificação que a gente está tratando aqui é identificação _local_, i.e. se existe um parâmetro estrutural "próximo" do parâmetro em questão que gera o mesmo valor do parâmetro na forma reduzida. Se existirem dois valores distantes que geram o mesmo valor da forma reduzida é um problema _global_. Esse é mais difícil de responder.  
+
+O próximo post vai tratar sobre como obter o jacobiano de um modelo VAR e olhar pro caso de restrições de curto prazo. 
 
 ---
 

@@ -25,10 +25,10 @@ draft: true
 
 <p>Faz muito tempo (pré pandemia) eu falei sobre VAR (Vector Autoregression) e como se obtinha respostas ao impulso (IRF) impondo restrições no modelo. O post tratou só do mais básico, a identificação recursiva, também conhecida por Cholesky ou restrições de curto prazo. Essa é a forma de identificação mais conhecida, a ponto das pessoas acreditarem que modelos VAR são identificados assim.</p>
 <p>Os mais de cinco anos que se passaram entre esse post e o post original se devem, não só aos inúmeros compromissos profissionais, mas especialmente ao <em>rabbit hole</em> que a pergunta me levou. Esse post (e os próximos) vão explorar toda a questão em detalhes.</p>
-<p>Esse post vai tratar do que são Structural VAR (SVAR) e como ele se relaciona ao VAR estimado e falar sobre identificação. O próximo post vai tratar de identificação - como definido nesse post - em um setup mais geral e depois nós vamos falar sobre SVAR em detalhes. A rota parece um pouco complicada, mas esse é um dos vários momentos em matemática que alcançar o nível de generalidade certo ajuda.</p>
+<p>Esse post vai tratar do que são Structural VAR (SVAR) e como ele se relaciona ao VAR estimado e falar sobre identificação. O próximo post vai tratar de identificação - como definido nesse post - em um setup mais geral e depois nós vamos falar sobre SVAR em detalhes. A rota parece um pouco complicada, mas esse é um dos vários momentos em matemática nos quais alcançar o nível de generalidade certo ajuda.</p>
 <div id="var-e-svar" class="section level1">
 <h1>VAR e SVAR</h1>
-<p>O VAR é uma auto regressão em vetor. Se <span class="math inline">\(y\)</span> é um vetor de variáveis de dimensão <span class="math inline">\(p\)</span> e <span class="math inline">\(A\)</span> é uma matriz <span class="math inline">\(p \times p\)</span> e <span class="math inline">\(u_t\)</span> são os erros (ou inovação, pra usar a língua de séries temporais), então o VAR é:</p>
+<p>O VAR é uma auto regressão em vetor. Se <span class="math inline">\(y_t\)</span> é um vetor de variáveis de dimensão <span class="math inline">\(p\)</span> e <span class="math inline">\(A\)</span> é uma matriz <span class="math inline">\(p \times p\)</span> e <span class="math inline">\(u_t\)</span> são os erros (ou inovação, pra usar a língua de séries temporais), então o VAR é:</p>
 <p><span class="math display">\[
 y_t = A y_{t-1} + u_t
 \]</span></p>
@@ -41,7 +41,7 @@ y_{1t} = a_{11} y_{1t-1} + a_{12} y_{2t-1} + \ldots + a_{1p} y_{pt-1} + u_{1t}
 <p>Até aqui nada é muito problemático. O problema é que, posto dessa maneira, o error <span class="math inline">\(u_t\)</span> tem uma matriz de covariância <span class="math inline">\(\Sigma_u\)</span> que só obedece as restrições usuais impostas sobre matrizes de covariância (ser semi positiva definida). A pergunta que interessa a muitos economistas é o que acontece se a gente tivesse um aumento dos juros que não é explicado por <em>lags</em> das variáveis. O erro <span class="math inline">\(u_t\)</span> é incapaz de responder essa pergunta se a matriz não for diagonal - nesse caso os erros são correlacionados.</p>
 <div id="exemplinho" class="section level2">
 <h2>Exemplinho</h2>
-<p>Vamos pegar um exemplo bobo em que <span class="math inline">\(\pi_t\)</span> é a inflação e <span class="math inline">\(i_t\)</span> é a taxa de juros. Vamos fingir que a inflação só responde a taxa de juros com <em>lag</em> (o pessoal de macro chamaria isso de <em>sticky prices</em>), mas o banco central responde a inflação no mesmo período. Os choques nesse caso são <span class="math inline">\(\varepsilon_pi\)</span> para a inflação e <span class="math inline">\(\varepsilon_i\)</span> para os juros e a gente vai assumir que esses choques são independentes.</p>
+<p>Vamos pegar um exemplo bobo em que <span class="math inline">\(\pi_t\)</span> é a inflação e <span class="math inline">\(i_t\)</span> é a taxa de juros. Vamos fingir que a inflação só responde a taxa de juros com <em>lag</em> (o pessoal de macro chamaria isso de <em>sticky prices</em>), mas o banco central responde a inflação no mesmo período. Os choques nesse caso são <span class="math inline">\(\varepsilon_{\pi}\)</span> para a inflação e <span class="math inline">\(\varepsilon_i\)</span> para os juros e a gente vai assumir que esses choques são independentes.</p>
 <p>Escrevendo as duas equações:</p>
 <p><span class="math display">\[
 \pi_t = \gamma i_{t-1} + \rho \pi_{t-1} + \varepsilon_{\pi,t}  \quad \quad {(1.1)}\\
@@ -91,7 +91,7 @@ y_{t+h} = A^{h+1} y_{t-1} + u_{t+h} + A u_{t+h-1} + \ldots + A^{h} u_{t}
 \]</span></p>
 <p>O problema é que essa resposta a impulso é a um impulso ao choque na forma reduzida, e como a gente mostrou acima, esses choques podem não ter uma interpretação estrutural. A gente precisa de uma maneira de separar os choques. Para qualquer matriz <span class="math inline">\(\Xi\)</span> e matriz diagonal <span class="math inline">\(D\)</span> que faz <span class="math inline">\(\Sigma_u = \Xi D \Xi^{\top}\)</span>, a gente obtém:</p>
 <p><span class="math display">\[
-y_{t+h} = A^{h+1} y_{t-1} + u_{t+h} + A u_{t+h-1} + \ldots + A^{h} \Xi \varespilon_t
+y_{t+h} = A^{h+1} y_{t-1} + u_{t+h} + A u_{t+h-1} + \ldots + A^{h} \Xi \varepsilon_t
 \]</span></p>
-<p>Na qual os choques <span class="math inline">\(\varepsilon_t\)</span> são descorrelacionados e portanto são candidatos a choques estruturais. O problema é que existem várias matrizes <span class="math inline">\(\Xi\)</span> que fazem isso e geram a mesma matriz <span class="math inline">\(\Sigma_u\)</span>.</p>
+<p>Na qual os choques <span class="math inline">\(\varepsilon_t\)</span> são descorrelacionados e portanto são candidatos a choques estruturais. Como dito acima, o problema é que existem várias matrizes <span class="math inline">\(\Xi\)</span> que fazem isso e geram a mesma matriz <span class="math inline">\(\Sigma_u\)</span>. O mais importante é que a resposta a impulso é dada pela sequência <span class="math inline">\(\{A^h \Xi\}_{h=0}^{H}\)</span>. A escolha de <span class="math inline">\(\Xi\)</span> é central para obter a resposta a impulso estrutural.</p>
 </div>

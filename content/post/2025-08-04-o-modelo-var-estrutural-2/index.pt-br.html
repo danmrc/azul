@@ -1,0 +1,326 @@
+---
+title: 'O modelo VAR Estrutural: Restrições de Longo Prazo'
+author: Daniel Coutinho
+date: '2025-08-04'
+slug: index.pt-br
+categories:
+  - Econometria
+  - Séries Temporais
+tags:
+  - VAR
+  - Identificação
+  - Modelos estruturais
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true
+---
+
+
+
+<p>O <a href="/2025/06/04/index.pt-br/">post anterior dessa longa série</a> discutiu restrições de curto prazo, também chamadas de Cholesky ou recursivas. Essas restrições são polêmicas porque elas impõe que se <span class="math inline">\(x_{1t}\)</span> aparece na equação de <span class="math inline">\(x_{2t}\)</span>, então <span class="math inline">\(x_{2t}\)</span> não pode afetar <span class="math inline">\(x_{1t}\)</span>. Um exemplo mais concreto disso é que se a inflação num trimestre afeta a taxa de juros naquele trimestre, então a taxa de juros só pode afetar a inflação com uma defasagem. Essa restrição parece irrealista: muitos modelos macro/DSGE não estabelecem essa restrição! Mas um modelo irrestrito não permite a gente identificar os parâmetros.</p>
+<p>Os próximos posts vão explorar outras restrições que também permitem a gente identificar parâmetros. A gente começa com a mais comum: as restrições de longo prazo.</p>
+<p>O <em>setup</em> perde um pouco a generalidade por um motivo simples: o efeito de longo prazo de um choque em uma série estacionária, mesmo se ela tiver uma tendência determinística, é zero. Isso é uma consequência de estacionaridade, em qualquer sabor (fraco ou forte). Então a gente precisa de pelo menos uma série que tenha raiz unitária. Felizmente, muitos dos dados em economia apresentam raiz unitária.</p>
+<p>A gente tem que ser cuidadoso aqui, porque regressão espúria é um problema (já discutido no blog!) e se existissem 10 mandamentos das séries temporais, um deles seria “Não misturais dados não estacionários e estacionários em uma regressão”. A gente vai denotar uma série com raiz unitária dizendo que <span class="math inline">\(x_t \sim I(1)\)</span> (integrada de ordem 1); uma série estacionária é <span class="math inline">\(x_t \sim I(0)\)</span> (integrada de ordem 0). A maneira clássica de retirar uma raiz unitária é diferenciando então se <span class="math inline">\(x_t \sim I(1)\)</span>, <span class="math inline">\(\Delta x_t \sim I(0)\)</span>.</p>
+<p>Eu vou começar com o exemplo de duas séries, uma <span class="math inline">\(y_t \sim I(1)\)</span> e outra <span class="math inline">\(x_t \sim I(0)\)</span>. Como a gente vai misturar as duas, então o nosso VAR vai ser:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+\Delta y_t\\ x_t
+\end{bmatrix} = \begin{bmatrix}
+a_{11} &amp; a_{12}\\
+a_{21} &amp; a_{22}
+\end{bmatrix} \begin{bmatrix}
+\Delta y_{t-1}\\ x_{t-1}
+\end{bmatrix} + \begin{bmatrix}
+v_{1t} \\ v_{2t}
+\end{bmatrix}
+\]</span></p>
+<p>A gente vai escrever isso sumariamente como <span class="math inline">\(\mathbf{y}_t = A \mathbf{y}_{t-1} + \mathbf{v}_t\)</span>. Esse VAR é estacionário, portanto o efeito de longo prazo sobre as variáveis é zero. Mas o nosso interesse é nos efeitos de longo prazo de um choque em <span class="math inline">\(y_t\)</span>, não <span class="math inline">\(\Delta y_t\)</span>. Um pouquinho de soma telescópica:</p>
+<p><span class="math display">\[
+y_{T} = y_T - y_{T-1} + y_{T-1} - y_{T-2} + \ldots + y_1 - y_0 = \sum_{t=1}^T \Delta y_t
+\]</span></p>
+<p>Se a gente tem um choque no período 0, o efeito disso pode ser recuperado substitutindo <span class="math inline">\(\mathbf{y}_{t-1}\)</span> pela expressão <span class="math inline">\(A \mathbf{y}_{t-2} + \mathbf{v}_{t-1}\)</span>:</p>
+<p><span class="math display">\[
+\mathbf{y}_t = A^{t} \mathbf{v}_0
+\]</span></p>
+<p>Quando a gente colocar isso de volta na soma telescópica (com um pouquinho de abuso de notação):</p>
+<p><span class="math display">\[
+y_T = \sum_{t=0}^T A^t \mathbf{v}_0
+\]</span></p>
+<p>O abuso de notação é que a gente está interessado <em>só</em> no efeito em níveis na primeira variável, então a gente deveria focar no efeito dela.</p>
+<p>Se <span class="math inline">\(A\)</span> fosse um escalar, então para <span class="math inline">\(T \rightarrow \infty\)</span> isso seria uma soma de PG com solução <span class="math inline">\((1-A)^{-1}\)</span>. A mesma coisa vale para matrizes, desde que o maior autovalor (em valor absoluto) seja menor que 1. Isso é garantido porque nossas variáveis no VAR são <span class="math inline">\(I(0)\)</span>. A gente pode escrever o efeito de longo prazo de um choque <span class="math inline">\(\mathbf{v}_0\)</span> como:</p>
+<p><span class="math display">\[
+(I - A)^{-1} \mathbf{v}_0
+\]</span></p>
+<p>A ideia aqui é impor restrições que valham para qualquer choque. Por enquanto, a gente está trabalhando com a forma reduzida em que <span class="math inline">\(\mathbf{v}_t\)</span>, que podem ter uma matriz de variância <span class="math inline">\(\Sigma_v\)</span>. Vamos fatorar isso como <span class="math inline">\(\Sigma_v = B B^{\top}\)</span> - isso é o modelo <span class="math inline">\(B\)</span> no livro do Lütkepohl. Então, se <span class="math inline">\(\boldsymbol{\varepsilon}_t\)</span> são os erros estruturais:</p>
+<p><span class="math display">\[
+\mathbf{v}_t = B \boldsymbol{\varepsilon}_t
+\]</span></p>
+<p>Então a nossa restrição vai ser sobre <span class="math inline">\((I - A)^{-1} B\)</span>. A matriz <span class="math inline">\(A\)</span> vem da forma reduzida, e não tem nada que a gente possa fazer sobre isso. <span class="math inline">\(B\)</span> são os parâmetros que nós queremos identificar. Vamos colocar as restrições na matrix <span class="math inline">\(R\)</span>, então <span class="math inline">\(B\)</span> é definido por duas condições:</p>
+<p><span class="math display">\[
+B B^{\top} = \Sigma_v\\
+(I - A)^{-1} B = R
+\]</span></p>
+<p><span class="math inline">\(R\)</span> em geral vai ser uma matriz de zeros e elementos desconhecidos. No nosso exemplo <span class="math inline">\(\begin{bmatrix} \Delta y_t \\ x_t \end{bmatrix}\)</span>, a gente precisa impor restrições sobre a matriz sobre o comportamento de longo prazo de <span class="math inline">\(y_t\)</span>. Se a gente impuser que os choques estruturais em <span class="math inline">\(x_t\)</span> não tem nenhum efeito de longo prazo sobre <span class="math inline">\(y_t\)</span>, então:</p>
+<p><span class="math display">\[
+R = \begin{bmatrix}
+r_{11} &amp; 0\\
+r_{21} &amp; r_{22}
+\end{bmatrix}
+\]</span></p>
+<p>A nossa discussão anterior sobre ausência de efeitos de longo prazo sobre <span class="math inline">\(x_t\)</span> pode levar a ilusão de que a segunda linha de <span class="math inline">\(R\)</span> deveria ser toda 0. Mas lembre que esse é o efeito acumulado de um choque sobre <span class="math inline">\(x_t\)</span>, não os efeitos sobre o choque em <span class="math inline">\(x_t\)</span>. Não há nenhuma interpretação clara sobre esse efeito. Logo, nós devemos manter essa linha irrestrita.</p>
+<div id="um-exemplo" class="section level2">
+<h2>Um exemplo</h2>
+<p>Vamos criar um exemplo em que todas essas ideias apareçam. A gente vai definir um VAR em forma reduzida que é estacionário com duas variáveis. Eu vou considerar que a primeira é a variável <span class="math inline">\(I(1)\)</span> e a segunda é a variável <span class="math inline">\(I(0)\)</span>. A nossa matriz <span class="math inline">\(A\)</span> vai ser:</p>
+<p><span class="math display">\[
+A = \begin{bmatrix}
+0.4 &amp; -0.6\\
+0.4 &amp; -0.2
+\end{bmatrix}
+\]</span></p>
+<p>Pra criar a matriz <span class="math inline">\(B\)</span>, a gente vai criar uma matriz de restrições, <span class="math inline">\(R_0\)</span>, que vai impor que o efeito da segunda variável na primeira variável é zero. Eu escolhi o resto dos efeitos sem pensar muito. O importante é que eles são não zero:</p>
+<p><span class="math display">\[
+R_0 = \begin{bmatrix}
+0.5 &amp; 0\\
+0.8 &amp; 0.7
+\end{bmatrix}
+\]</span></p>
+<p>As contas anteriores nos dizem como recuperar <span class="math inline">\(B\)</span> a partir desses ingredientes: faça <span class="math inline">\(B = (I-A) R_0\)</span>. Escrevendo o código em R:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">A &lt;- rbind(c(0.4,-0.6),c(0.4,-0.2))
+R0 &lt;- rbind(c(0.5,0),c(0.8,0.7)) 
+B0 &lt;- (diag(2) - A)%*%R0</code></pre>
+<p>É instrutivo mostrar o resultado de <span class="math inline">\(B0\)</span>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">latexMatrix(B0,matrix = "bmatrix")</code></pre>
+<span class="math display">\[\begin{bmatrix}
+0.78 &amp; 0.42 \\
+0.76 &amp; 0.84 \\
+\end{bmatrix}\]</span>
+<p>Essa matriz não é triangular! Aplicar identificação de curto prazo aqui geraria problemas - mais sobre isso abaixo.</p>
+<p>Agora nós podemos gerar as séries:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">y &lt;- matrix(0,nrow=1500,ncol=2)
+
+for(t in 2:1500){
+  
+  y[t,] = A%*%y[t-1,] + B0%*%rnorm(2)
+  
+}
+
+y &lt;- cbind(y[501:1500,1],y[501:1500,2])</code></pre>
+<p>Vamos plotar essas séries:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">y_plots &lt;- cbind(1:1000,cumsum(y[,1]),y[,2])
+y_plots &lt;- as.data.frame(y_plots)
+names(y_plots) &lt;- c("t","y1","y2")
+
+y_plots &lt;- pivot_longer(y_plots, cols = c("y1","y2"))
+
+ggplot(y_plots, aes(t,value, color = name)) + geom_line() + theme_light()</code></pre>
+<p><img src="/post/2025-08-04-o-modelo-var-estrutural-2/index.pt-br_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Note que eu plottei os níveis das séries, logo a primeira série domina o gráfico porque ela é não estacionária.</p>
+<p>Eu vou usar o pacote <em>vars</em> pra estimar o modelo em forma reduzida:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">mod &lt;- VAR(y)</code></pre>
+<pre ><code >## Warning in VAR(y): No column names supplied in y, using: y1, y2 , instead.</code></pre>
+<p>O objeto <code>mod</code> vai conter os coeficientes e variâncias que a gente precisa. Eu vou armar a matriz <span class="math inline">\(\hat{A}\)</span> e a matriz com a estimativa das variâncias dos resíduos (de forma reduzida):</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">A_hat &lt;- rbind(coef(mod)$y1[1:2,1],coef(mod)$y2[1:2,1])
+SigmaV &lt;- cov(resid(mod))</code></pre>
+<p>Veja que ambos os objetos são estimados, então eu deveria chamar de <code>SigmaV_hat</code>, mas tem letra demais nesse nome de variável (e não tem nenhum ambiguidade no código).</p>
+<p>A parte central agora é escrever uma função que retorna uma estimativa de <span class="math inline">\(B_0\)</span>, <span class="math inline">\(\hat{B}_0\)</span>. Logo antes dessa seção eu disse que a matriz <span class="math inline">\(B_0\)</span> deveria satisfazer duas restrições. Então, eu poderia usar um algoritmo que resolve sistemas não lineares pra resolver isso. O sistema é não linear porque uma das restrições é <span class="math inline">\(B B^{\top}\)</span>.</p>
+<p>Eu vou tomar uma rota alternativa e escrever isso como um problema de otimização. Nosso objetivo é minimizar a diferença entre a função de <span class="math inline">\(B_0\)</span> e as quantidades que surgem da forma reduzida, i.e. para alguma norma <span class="math inline">\(\|.\|\)</span>:</p>
+<p><span class="math display">\[
+\min_{B} \|B B^{\top} - \hat{\Sigma}_v\| + \|(I-\hat{A})^{-1}B - \hat{R}\|  
+\]</span></p>
+<p>A gente precisa da norma porque todos esses elementos são matrizes. A gente sempre quer minimizar uma função que é escalar e que é uma distância. Normas são ideais para isso.</p>
+<p>O outro desafio é que <span class="math inline">\(\hat{R}\)</span> é uma quantidade desconhecida. Tudo que a gente sabe é que:</p>
+<p><span class="math display">\[
+\hat{R} = \begin{bmatrix}
+\hat{r}_{11} &amp; 0\\
+\hat{r}_{21} &amp; \hat{r}_{22}
+\end{bmatrix}
+\]</span></p>
+<p>As quantidades <span class="math inline">\(\hat{r}_{11}\)</span>, <span class="math inline">\(\hat{r}_{21}\)</span> e <span class="math inline">\(\hat{r}_{22}\)</span> são desconhecidas. Então, no fim, a única restrição que importa é:</p>
+<p><span class="math display">\[
+\min_{B} \|B B^{\top} - \hat{\Sigma}_v\| + \|((I-\hat{A})^{-1}B)_{12}\|  
+\]</span></p>
+<p>E por <span class="math inline">\(()_{12}\)</span>, eu quero dizer que nós devemos pegar o elemento da primeira linha, segunda coluna, da matriz dentro dos parênteses. Isso agora é um escalar. Eu preciso definir duas normas, uma para um espaço de matrizes e uma para os escalares. Pro escalar, o tradicional <span class="math inline">\(x^2\)</span> funciona bem. Para o espaço de matrizes, nós vamos usar uma norma que toma o quadrado de cada elemento e soma todos os elementos da matriz. Isso é basicamente reinterpretar a matriz como um vetor e usar a norma euclidiana.</p>
+<p>A função que faz isso tem 4 linhas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">objc_b &lt;- function(b,m,SigmaV,A_hat){
+  
+  B &lt;- matrix(b,nrow = m,ncol = m)
+  
+  crit1 &lt;- B%*%t(B) - SigmaV
+  crit2 &lt;- (solve(diag(m) - A_hat)%*%B)[1,2]
+    
+  return(sum(crit1^2) + crit2^2)
+}</code></pre>
+<p>A função recebe um vetor <span class="math inline">\(b\)</span>, e vetores são usados pela rotina de otimização. Nós construímos as matrizes e então calculamos as diferenças. Por último, a gente calcula a função objetivo. Uma solução exata retornaria tanto <code>crit1</code> quanto <code>crit2</code> 0. Essa maneira permite a gente balancear quanto cada desvio deve ser punido adicionando pesos <span class="math inline">\(\omega_1\)</span> e <span class="math inline">\(\omega_2\)</span>. Nós poderíamos fazer:</p>
+<p><span class="math display">\[
+\min_{B} \omega_1 \|B B^{\top} - \hat{\Sigma}_v\| + \omega_2\|((I-\hat{A})^{-1}B)_{12}\|  
+\]</span></p>
+<p>Mas isso só complica a vida. Vamos otimizar essa função:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">obj_sol &lt;- optim(c(1,0,0,1),function(b){objc_b(b,2,SigmaV,A_hat)})</code></pre>
+<p>Vamos ver a matriz que isso retorna:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">latexMatrix(matrix(obj_sol$par,nrow=2),matrix = "bmatrix")</code></pre>
+<span class="math display">\[\begin{bmatrix}
+0.76333 &amp; 0.41987 \\
+0.73430 &amp; 0.83428 \\
+\end{bmatrix}\]</span>
+<p>Incrivelmente próximo do valor verdadeiro.</p>
+</div>
+<div id="o-posto" class="section level1">
+<h1>O posto</h1>
+<p>A pergunta é como formalizar isso como no <a href="/2025/06/04/index.pt-br/">post anterior</a>. O desafio aqui é que as restrições são bem mais difíceis que no caso de restrições de curto prazo. Elas não são restrições explícitas, como todos os elementos acima da diagonal de <span class="math inline">\(B\)</span> são zero. As restrições são implícitas, na forma <span class="math inline">\((I - A)^{-1}B = R\)</span>.</p>
+<p>Curiosamente, se a gente fechar os olhos e proceder de maneira similar a anterior tudo vai dar certo. Como a gente está usando o modelo B, a nossas matrizes estruturais são <span class="math inline">\(B\)</span> e a matriz de restrições <span class="math inline">\(R\)</span>; os parâmetros em forma reduzida, <span class="math inline">\(A\)</span> e <span class="math inline">\(\Sigma_v\)</span>, vão aparecer na conta e a gente vai colocar eles como um argumento da função. Pra ajudar a gente a lembrar que <span class="math inline">\(B\)</span>, <span class="math inline">\(R\)</span> e <span class="math inline">\(A\)</span>, <span class="math inline">\(\Sigma_v\)</span> tem pápeis diferentes, eu vou escrever <span class="math inline">\(h(B,R;A,\Sigma_v)\)</span>:</p>
+<p><span class="math display">\[
+h(B,R;A,\Sigma_v) = \left[B B^{\top} - \Sigma_v \quad (I-A)^{-1} B - R \right]
+\]</span></p>
+<p>A forma estrutural são valores de <span class="math inline">\(B\)</span> e <span class="math inline">\(R\)</span> que satisfazem <span class="math inline">\(h(B,R;A,\Sigma_v) = 0\)</span>.</p>
+<p>O leitor tem o direito - talvez até o dever - de se indignar. Afinal, nos posts anteriores, a função <span class="math inline">\(h\)</span> mapeava da forma estrutural para a forma reduzida. Agora, <span class="math inline">\(h\)</span> mistura tudo! Como nós podemos garantir que a nossa construção da hessiana com o jacobiano e regra da cadeia ainda funciona? A resposta é o <a href="https://en.wikipedia.org/wiki/Implicit_function_theorem">teorema da função implícita</a>: a forma reduzida é uma função implícita de <span class="math inline">\(h\)</span>, <span class="math inline">\(h(B,R;A(B,R),\Sigma_v(B,R)) = 0\)</span>. Usando o teorema da função implícita, a condição é exatamente que o jacobiano de <span class="math inline">\(h\)</span> com respeito aos parâmetros estruturais tenha posto igual ao número de parâmetros estruturais. A prova funciona exatamente como no <a href="/2025/05/31/index.pt-br/">post em que a gente discutiu isso</a>, mas usando o teorema da função implícita para obter o jacobiano; o jacobiano vai depender de uma inversa da derivada de <span class="math inline">\(h\)</span> com respeito aos parâmetros da forma reduzida e da derivada de <span class="math inline">\(h\)</span> com respeito aos parâmetros da forma estrutural. Para a inversa existir, a matriz tem que ter posto cheio. Segue que o que determina o posto da derivada da forma reduzida com respeito a forma estrutural é a derivada da função <span class="math inline">\(h\)</span> com respeito a forma estrutural.</p>
+<p>Fazendo a versão vec das coisas, a gente obtém:</p>
+<p><span class="math display">\[
+h(\text{vec}(B),\text{vec}(R);\text{vec}(A),\text{vech}(\Sigma_v)) = \left[\text{vech}(B B^{\top} - \Sigma_v) \quad \text{vec}((I-A)^{-1} B - R) \right]
+\]</span></p>
+<p>Pra obter as derivadas:</p>
+<p><span class="math display">\[
+\frac{dh(\text{vec}(B),\text{vec}(R);\text{vec}(A),\text{vech}(\Sigma_v))}{d \text{vec}(B)} = [D_m^{+}(B \otimes I_m + (I_m \otimes B)K_{m^2}) \quad (I_m - A)^{-1}]\\
+\frac{dh(\text{vec}(B),\text{vec}(R);\text{vec}(A),\text{vech}(\Sigma_v))}{d\text{vec}(R)} = [0_{m(m+1)/2 \times m^2} \quad -I_{m^2}]
+\]</span></p>
+<p>Usando uns truques de matrizes, a gente obtém:</p>
+<p><span class="math display">\[
+\frac{dh(\text{vec}(B),\text{vec}(R);\text{vec}(A),\text{vech}(\Sigma_v))}{d \text{vec}(B)} = [2D_m^{+}(B \otimes I_m) \quad (I_m - A)^{-1}]\\
+\frac{dh(\text{vec}(B),\text{vec}(R);\text{vec}(A),\text{vech}(\Sigma_v))}{d\text{vec}(R)} = [0_{m(m+1)/2 \times m^2} \quad -I_{m^2}]
+\]</span></p>
+<p>Juntando as duas derivadas, a gente obtém o jacobiano:</p>
+<p><span class="math display">\[
+J = \begin{bmatrix}
+2D_m^{+}(B \otimes I_m) &amp; 0_{m(m+1)/2 \times m^2} \\
+(I_m - A)^{-1} &amp; -I_{m^2}
+\end{bmatrix}
+\]</span></p>
+<p>Igual no post anterior, a gente vai usar o caracas no R pra calcular o posto simbolicamente. Vamos criar as matrizes estruturais e, como no exemplo acima, focar no caso <span class="math inline">\(2 \times 2\)</span>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">m &lt;- 2
+
+p &lt;- expand.grid(1:m,1:m)
+B &lt;- matrix_(paste0("b_",p[,1],p[,2]),m,m)
+R_0 &lt;- matrix_(paste0("r_",p[,1],p[,2]),m,m)</code></pre>
+<p>Como no exemplo acima, a minha restrição de identificação vai ser que choques na segunda variável não tem efeitos de longo prazo na primeira variável:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">R_0[1,2] &lt;- 0</code></pre>
+<p>Logo, a matriz <span class="math inline">\(R_0\)</span>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">R_0</code></pre>
+<pre ><code >## c: ⎡r₁₁   0 ⎤
+##    ⎢        ⎥
+##    ⎣r₂₁  r₂₂⎦</code></pre>
+<p>Já a matriz <span class="math inline">\(B\)</span>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">B</code></pre>
+<pre ><code >## c: ⎡b₁₁  b₁₂⎤
+##    ⎢        ⎥
+##    ⎣b₂₁  b₂₂⎦</code></pre>
+<p>A matriz da forma reduzida não tem nenhuma restrição:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">A_red &lt;- matrix_(paste0("a_",p[,1],p[,2]),m,m)</code></pre>
+<p>A gente vai construir as matrizes que formam o jacobiano e amarrar elas juntas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">J_11 &lt;- 2*as_sym(elimination.matrix(m))%*%kronecker(B,diag_(1,m))
+J_12 &lt;- zeros_sym(m*(m+1)/2,m^2)
+J_21 &lt;- kronecker(diag_(1,m),inv(diag_(1,m) - A_red))
+J_22 &lt;- -diag_(1,m^2)
+J &lt;- rbind(cbind(J_11,J_12),cbind(J_21,J_22))</code></pre>
+<p>Contando rapidamente, a gente observa que existem 4 parâmetros em <span class="math inline">\(B\)</span> e 3 em <span class="math inline">\(R\)</span>, pra um total de 7 parâmetros. Logo, pros parâmetros serem identificados, a gente tem que obter que o posto de <code>J</code> é 7. Vamos calcular o posto:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">do_la(J,"rank")</code></pre>
+<pre ><code >## c: 7</code></pre>
+<p>Faz sentido que, sem nenhuma restrição, a gente não consiga obter identificação. Vamos omitir a restrição que <span class="math inline">\(r_{12} = 0\)</span>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">B &lt;- matrix_(paste0("b_",p[,1],p[,2]),m,m)
+R_0 &lt;- matrix(paste0("r_",p[,1],p[,2]),m,m)
+
+A_red &lt;- matrix_(paste0("a_",p[,1],p[,2]),m,m)
+
+J_11 &lt;- 2*as_sym(elimination.matrix(m))%*%kronecker(B,diag_(1,m))
+J_12 &lt;- zeros_sym(m*(m+1)/2,m^2)
+J_21 &lt;- kronecker(diag_(1,m),inv(diag_(1,m) - A_red))
+J_22 &lt;- -diag_(1,m^2)
+J &lt;- rbind(cbind(J_11,J_12),cbind(J_21,J_22))
+
+do_la(J,"rank")</code></pre>
+<pre ><code >## c: 7</code></pre>
+<p>O posto ainda é 7, mas nós agora temos 8 parâmetros para identificar.</p>
+<p>Vamos crescer o exemplo mais um pouquinho, agora com três variáveis:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">m &lt;- 3
+
+p &lt;- expand.grid(1:m,1:m)
+B &lt;- matrix_(paste0("b_",p[,1],p[,2]),m,m)
+R_0 &lt;- matrix_(paste0("r_",p[,1],p[,2]),m,m)</code></pre>
+<p>Vamos estabelecer que nós acreditamos que a primeira variável não tem efeitos contemporâneos das outras duas:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">B[1,2] &lt;- 0
+B[1,3] &lt;- 0</code></pre>
+<p>Outra inspeção em <span class="math inline">\(B\)</span>:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">B</code></pre>
+<pre ><code >## c: ⎡b₁₁   0    0 ⎤
+##    ⎢             ⎥
+##    ⎢b₂₁  b₂₂  b₂₃⎥
+##    ⎢             ⎥
+##    ⎣b₃₁  b₃₂  b₃₃⎦</code></pre>
+<p>Isso é quase um Cholesky, exceto pela última linha. Logo, nós não deveríamos obter identificação. É fácil checar isso:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">A_red &lt;- matrix_(paste0("a_",p[,1],p[,2]),m,m)
+
+J_11 &lt;- 2*as_sym(elimination.matrix(m))%*%kronecker(B,diag_(1,m))
+J_12 &lt;- zeros_sym(m*(m+1)/2,m^2)
+J_21 &lt;- kronecker(diag_(1,m),inv(diag_(1,m) - A_red))
+J_22 &lt;- -diag_(1,m^2)
+J &lt;- rbind(cbind(J_11,J_12),cbind(J_21,J_22))
+
+do_la(J,"rank")</code></pre>
+<pre ><code >## c: 15</code></pre>
+<p>O posto é 15, mas nós temos 7 parâmetros em <span class="math inline">\(B\)</span> e 9 em <span class="math inline">\(R_0\)</span>, para um total de 16 parâmetros. Se a segunda variável for não estacionária e nós acreditamos que a terceira variável não tem nenhum impacto de longo prazo nela, nós podemos fazer:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">R_0[2,3] &lt;- 0
+R_0</code></pre>
+<pre ><code >## c: ⎡r₁₁  r₁₂  r₁₃⎤
+##    ⎢             ⎥
+##    ⎢r₂₁  r₂₂   0 ⎥
+##    ⎢             ⎥
+##    ⎣r₃₁  r₃₂  r₃₃⎦</code></pre>
+<p>Rechecando o posto:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">J_11 &lt;- 2*as_sym(elimination.matrix(m))%*%kronecker(B,diag_(1,m))
+J_12 &lt;- zeros_sym(m*(m+1)/2,m^2)
+J_21 &lt;- kronecker(diag_(1,m),inv(diag_(1,m) - A_red))
+J_22 &lt;- -diag_(1,m^2)
+J &lt;- rbind(cbind(J_11,J_12),cbind(J_21,J_22))
+
+do_la(J,"rank")</code></pre>
+<pre ><code >## c: 15</code></pre>
+<p>Então essa mistura permite a gente obter identificação. Essa mistura é usada em pelo menos <a href="https://www.sciencedirect.com/science/article/abs/pii/S0304393208001748">um paper</a> estudando efeitos do mercado sobre política monetária e vice versa. A maneira que eles mostram que todos os parâmetros estão identificados é bem diferente da maneira que esse post faz!</p>
+</div>
+<div id="os-efeitos-da-identificação-incorreta" class="section level1">
+<h1>Os efeitos da identificação incorreta</h1>
+<p>Pra concluir esse (longo) post, vamos ver o efeito sobre a resposta a impulso de usar a matriz <span class="math inline">\(B\)</span> errada. Nós vamos comparar a identificação de longo prazo com o benchmark de identificação de curto prazo. A identificação de curto prazo pode ser obtido como a decomposição de Chosleky da matriz <span class="math inline">\(\Sigma_v\)</span> (daí o nome Cholesky) e nós temos a matriz corretamente identificada:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">B_hat &lt;- matrix(obj_sol$par,nrow = 2,ncol = 2)
+B_chol &lt;- chol(SigmaV)</code></pre>
+<p>Essa matriz é triangular inferior e a gente quer que a decomposição seja triangular superior. Felizmente, a decomposição de Choslesky no R é tal que <span class="math inline">\(B_{chol}^{\top} B_{chol} = \Sigma_v\)</span>. Nós estamos usando <span class="math inline">\(B B^{\top} = \Sigma_v\)</span>. No fim, os dois problemas se cancelam!</p>
+<p>Vamos dar um choque na <em>segunda</em> variável:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">shock &lt;- rep(0,dim(A)[1])
+shock[2] &lt;- 1</code></pre>
+<p>A função que calcula a resposta ao impulso precisa da matriz <span class="math inline">\(A\)</span>, da matriz <span class="math inline">\(B\)</span>, qual o choque e quantos períodos a gente quer calcular:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">irf &lt;- function(A,B,t,shock){
+  
+  irf &lt;- map(0:t,\(x) A%^%x%*%solve(B)%*%shock)
+  irf &lt;- do.call(cbind,irf)
+  irf &lt;- t(irf)
+  
+  return(irf)
+  
+}</code></pre>
+<p>Vamos criar duas respostas ao impulso, uma com a matriz certa e a outra com a matriz errada. A única diferença entre elas é a identificação:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">irf_1 &lt;- irf(A_hat,B_hat,20,shock)
+
+B_chol &lt;- chol(SigmaV)
+
+irf_w &lt;- irf(A_hat,solve(t(B_chol)),20,shock)</code></pre>
+<p>A gente vai criar um <em>dataframe</em> com o que a gente precisa e usar o <em>tidyr</em> pra botar no formato que o ggplot quer:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">irfs_df &lt;- data.frame("T" = 0:20,"Correto" = irf_1[,1], "Cholesky" = irf_w[,1])
+irfs_df &lt;- pivot_longer(irfs_df,cols = c("Correto","Cholesky"))
+names(irfs_df) &lt;- c("Período", "Identificação", "Valor")</code></pre>
+<p>Finalmente:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(irfs_df,aes(Período,Valor,color = Identificação)) + geom_line() + theme_light()</code></pre>
+<p><img src="/post/2025-08-04-o-modelo-var-estrutural-2/index.pt-br_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>Usar a estratégia incorreta de identificação causa sérios problemas na resposta a impulso, em todos os horizontes. Usando Cholesky, nós recuperaríamos um efeito muito menor do que o verdadeiro efeito!</p>
+</div>

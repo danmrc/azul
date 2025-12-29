@@ -1,5 +1,5 @@
 ---
-title: O Modelo VAR Estrutural
+title: 'O Modelo VAR Estrutural: Restrições de curto prazo'
 author: Daniel Coutinho
 date: '2025-06-04'
 slug: index.pt-br
@@ -89,9 +89,23 @@ a_{n1}B &amp; a_{n2}B &amp; \ldots &amp; a_{nm}B
 <p>Uma vez que o <em>vec trick</em> é internalizado, todas as regras de derivada usuais funcionam. As opções a isso são piores, tipo trabalhar com tensores.</p>
 <p>O mais importante é que tudo isso é facilmente progrmável em linguagens de programação que lidam com matrizes. R, Julia, Matlab, e Numpy fazem reshape e produto de Kronecker.</p>
 <p>Pra ver o quão versátil é essa maneira de proceder, vamos achar uma derivada relativamente simples, mas interessante: como uma mudança nas entradas de uma matriz <span class="math inline">\(A\)</span>, que é, <span class="math inline">\(n \times n\)</span> afetam a inversa, i.e. <span class="math inline">\(\frac{d\text{vec}(A^{-1})}{d\text{vec}(A)}\)</span>?</p>
-<p>A gente sabe que <span class="math inline">\(A^{-1} = A^{-1}A A^{-1}\)</span>, e naturalmente <span class="math inline">\(\frac{d\text{vec}(A)}{d\text{vec}(A)} = I_{n^2 \times n^2}\)</span>. Usando o vec trick:</p>
+<p>A gente sabe que <span class="math inline">\(A^{-1}A = I\)</span>, e naturalmente <span class="math inline">\(\frac{d\text{vec}(A)}{d\text{vec}(A)} = I_{n^2 \times n^2}\)</span>. Usando o vec trick:</p>
 <p><span class="math display">\[
-\frac{d\text{vec}(A^{-1}AA^{-1})}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) \frac{d\text{vec}(A)}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) I_{n^2 \times n^2} = ((A^{-1})^{\top} \otimes A^{-1})
+\frac{d\text{vec}(A^{-1}A)}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes I) \frac{d\text{vec}(A)}{d\text{vec}(A)} + (I \otimes A) \frac{d \text{vec}(A^{-1})}{d \text{vec}(A)} = ((A^{-1})^{\top} \otimes I) I_{n^2 \times n^2} +  (I \otimes A) \frac{d \text{vec}(A^{-1})}{d \text{vec}(A)}
+\]</span>
+Como <span class="math inline">\(A^{-1}A = I\)</span>, a derivada com respeito a <span class="math inline">\(A\)</span> do lado direito é claramente zero. A gente pode fazer:</p>
+<p><span class="math display">\[
+((A^{-1})^{\top} \otimes I) I_{n^2 \times n^2} +  (I \otimes A) \frac{d \text{vec}(A^{-1})}{d \text{vec}(A)} = 0 \therefore\\
+\frac{d \text{vec}(A^{-1})}{d \text{vec}(A)} = -(I \otimes A)^{-1} ((A^{-1})^{\top} \otimes I)
+\]</span>
+Hora de usar duas propriedades do produtos de Kronecker:</p>
+<ul>
+<li><span class="math inline">\((A \otimes B)(C \otimes D) = (AC \otimes BD)\)</span>;</li>
+<li><span class="math inline">\((A \otimes B)^{-1} = (A^{-1} \otimes B^{-1})\)</span></li>
+</ul>
+<p>Isso permite a gente simplificar a expressão <span class="math inline">\(\frac{d \text{vec}(A^{-1})}{d \text{vec}(A)}\)</span>:</p>
+<p><span class="math display">\[
+\frac{d \text{vec}(A^{-1})}{d\text{vec}(A)} = -((A^{-1})^{\top} \otimes A^{-1})
 \]</span></p>
 </div>
 <div id="vech" class="section level2">
@@ -155,23 +169,23 @@ h(\text{vec}(\Phi),\text{vec}(\Gamma),\text{vec}(D)) = \text{vech}(\Phi^{-1} D (
 \]</span></p>
 <p>Lá no fim da sessão sobre o vec a gente calculou a derivada da inversa, que eu repito aqui:</p>
 <p><span class="math display">\[
-\frac{d\text{vec}(A^{-1}AA^{-1})}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) \frac{d\text{vec}(A)}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) I_{n^2 \times n^2} = ((A^{-1})^{\top} \otimes A^{-1})
+\frac{d\text{vec}(A^{-1}AA^{-1})}{d\text{vec}(A)} = -((A^{-1})^{\top} \otimes A^{-1}) \frac{d\text{vec}(A)}{d\text{vec}(A)} = -((A^{-1})^{\top} \otimes A^{-1}) I_{n^2 \times n^2} = ((A^{-1})^{\top} \otimes A^{-1})
 \]</span></p>
 <p>Combinando os dois:</p>
 <p><span class="math display">\[
-\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = [(\Phi^{-1} D^{\top} \otimes I) + (I \otimes \Phi^{-1} D) K_{m^2}] ((\Phi^{-1})^{\top} \otimes \Phi^{-1})
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = -[(\Phi^{-1} D^{\top} \otimes I) + (I \otimes \Phi^{-1} D) K_{m^2}] ((\Phi^{-1})^{\top} \otimes \Phi^{-1})
 \]</span></p>
 <p>Uma miscelânea de resultados sobre matrizes de comutação e produtos de Kronecker (veja o fim do post para a referência bibliográfica) permite rescrever isso:</p>
 <p><span class="math display">\[
-\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = 2[(\Phi^{-1} D^{\top} \Phi^{-1}^{\top} \otimes \Phi^{-1})
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = -2[(\Phi^{-1} D^{\top} (\Phi^{-1})^{\top} \otimes \Phi^{-1})
 \]</span>
 Por definição, <span class="math inline">\(\Phi^{-1} D^{\top} \Phi^{-1}^{\top} = \Sigma_u\)</span>. A gente queria escrever as coisas dependendo do vech e não vec, e a gente sabe que <span class="math inline">\(D_{m^2}^{+}\)</span> converte um no outro:</p>
 <p><span class="math display">\[
-\frac{d\text{vech}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = D_{m^2}^{+} \frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = 2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1})
+\frac{d\text{vech}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = -D_{m^2}^{+} \frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = 2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1})
 \]</span>
 A gente finalmente pode escrever o jacobiano de <span class="math inline">\(h\)</span>:</p>
 <p><span class="math display">\[
-J_h(\text{vec}(\Phi),\text{vec}(D)) = [2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1}) \; D_{m^2}^{+}(\Phi^{-1} \otimes \Phi^{-1})]
+J_h(\text{vec}(\Phi),\text{vec}(D)) = -[2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1}) \; D_{m^2}^{+}(\Phi^{-1} \otimes \Phi^{-1})]
 \]</span>
 Eu não culpo o leitor se a atitude, neste ponto do texto, é de absoluto cinismo. Sim, nós obtemos alguns resultados sobre quando um modelo está identificado. Mas os resultados dependem de produtos de Kronecker, matrizes de duplicação e pseudo inversas. É difícil conceber como a gente poderia computar essas quantidades. E o problema não termina ai, uma vez que a gente tem que computar o posto do jacobiano. Pra resolver isso, a gente vai usar o computador.</p>
 </div>
@@ -184,9 +198,7 @@ Eu não culpo o leitor se a atitude, neste ponto do texto, é de absoluto cinism
 </ol>
 <p>Obviamente, nós vamos usar a maneira 2. Demorou um tempo, mas eu descobri que o sympy faz tudo que a gente precisa e, melhor ainda, é facilmente acessível via R usando o <em>reticulate</em> e o <em>caracas</em>. O pacote <em>matrixcalc</em> implementa a inversa da matriz de duplicação, que é chamada de matriz de eliminação.</p>
 <p>Vamos começar com as restrições de curto prazo, que são incorretamente vistas como <em>a</em> maneira de fazer identificação nesses modelos. Eu vou olhar um caso de 5 variáveis.</p>
-<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">reticulate::use_condaenv("base")
-
-library(caracas)</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">library(caracas)</code></pre>
 <pre ><code >## 
 ## Attaching package: 'caracas'</code></pre>
 <pre ><code >## The following objects are masked from 'package:base':

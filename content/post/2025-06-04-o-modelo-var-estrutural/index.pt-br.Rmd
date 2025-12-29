@@ -1,5 +1,5 @@
 ---
-title: O Modelo VAR Estrutural
+title: 'O Modelo VAR Estrutural: Restrições de curto prazo'
 author: Daniel Coutinho
 date: '2025-06-04'
 slug: index.pt-br
@@ -119,10 +119,26 @@ O mais importante é que tudo isso é facilmente progrmável em linguagens de pr
 
 Pra ver o quão versátil é essa maneira de proceder, vamos achar uma derivada relativamente simples, mas interessante: como uma mudança nas entradas de uma matriz $A$, que é, $n \times n$ afetam a inversa, i.e. $\frac{d\text{vec}(A^{-1})}{d\text{vec}(A)}$?
 
-A gente sabe que $A^{-1} = A^{-1}A A^{-1}$, e naturalmente $\frac{d\text{vec}(A)}{d\text{vec}(A)} = I_{n^2 \times n^2}$. Usando o vec trick:
+A gente sabe que $A^{-1}A = I$, e naturalmente $\frac{d\text{vec}(A)}{d\text{vec}(A)} = I_{n^2 \times n^2}$. Usando o vec trick:
 
 $$
-\frac{d\text{vec}(A^{-1}AA^{-1})}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) \frac{d\text{vec}(A)}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) I_{n^2 \times n^2} = ((A^{-1})^{\top} \otimes A^{-1})
+\frac{d\text{vec}(A^{-1}A)}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes I) \frac{d\text{vec}(A)}{d\text{vec}(A)} + (I \otimes A) \frac{d \text{vec}(A^{-1})}{d \text{vec}(A)} = ((A^{-1})^{\top} \otimes I) I_{n^2 \times n^2} +  (I \otimes A) \frac{d \text{vec}(A^{-1})}{d \text{vec}(A)}
+$$
+Como $A^{-1}A = I$, a derivada com respeito a $A$ do lado direito é claramente zero. A gente pode fazer:
+
+$$
+((A^{-1})^{\top} \otimes I) I_{n^2 \times n^2} +  (I \otimes A) \frac{d \text{vec}(A^{-1})}{d \text{vec}(A)} = 0 \therefore\\
+\frac{d \text{vec}(A^{-1})}{d \text{vec}(A)} = -(I \otimes A)^{-1} ((A^{-1})^{\top} \otimes I)
+$$
+Hora de usar duas propriedades do produtos de Kronecker:
+
+* $(A \otimes B)(C \otimes D) = (AC \otimes BD)$;
+* $(A \otimes B)^{-1} = (A^{-1} \otimes B^{-1})$
+
+Isso permite a gente simplificar a expressão $\frac{d \text{vec}(A^{-1})}{d \text{vec}(A)}$:
+
+$$
+\frac{d \text{vec}(A^{-1})}{d\text{vec}(A)} = -((A^{-1})^{\top} \otimes A^{-1})
 $$
 
 ## vech
@@ -207,30 +223,30 @@ $$
 Lá no fim da sessão sobre o vec a gente calculou a derivada da inversa, que eu repito aqui:
 
 $$
-\frac{d\text{vec}(A^{-1}AA^{-1})}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) \frac{d\text{vec}(A)}{d\text{vec}(A)} = ((A^{-1})^{\top} \otimes A^{-1}) I_{n^2 \times n^2} = ((A^{-1})^{\top} \otimes A^{-1})
+\frac{d\text{vec}(A^{-1}AA^{-1})}{d\text{vec}(A)} = -((A^{-1})^{\top} \otimes A^{-1}) \frac{d\text{vec}(A)}{d\text{vec}(A)} = -((A^{-1})^{\top} \otimes A^{-1}) I_{n^2 \times n^2} = ((A^{-1})^{\top} \otimes A^{-1})
 $$
 
 Combinando os dois:
 
 $$
-\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = [(\Phi^{-1} D^{\top} \otimes I) + (I \otimes \Phi^{-1} D) K_{m^2}] ((\Phi^{-1})^{\top} \otimes \Phi^{-1})
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = -[(\Phi^{-1} D^{\top} \otimes I) + (I \otimes \Phi^{-1} D) K_{m^2}] ((\Phi^{-1})^{\top} \otimes \Phi^{-1})
 $$
 
 
 Uma miscelânea de resultados sobre matrizes de comutação e produtos de Kronecker (veja o fim do post para a referência bibliográfica) permite rescrever isso:
 
 $$
-\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = 2[(\Phi^{-1} D^{\top} \Phi^{-1}^{\top} \otimes \Phi^{-1})
+\frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = -2[(\Phi^{-1} D^{\top} (\Phi^{-1})^{\top} \otimes \Phi^{-1})
 $$
 Por definição, $\Phi^{-1} D^{\top} \Phi^{-1}^{\top} = \Sigma_u$. A gente queria escrever as coisas dependendo do vech e não vec, e a gente sabe que $D_{m^2}^{+}$ converte um no outro:
 
 $$
-\frac{d\text{vech}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = D_{m^2}^{+} \frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = 2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1})
+\frac{d\text{vech}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = -D_{m^2}^{+} \frac{d\text{vec}(\Phi^{-1} D (\Phi^{-1})^{\top})}{d\text{vec}(\Phi)} = 2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1})
 $$
 A gente finalmente pode escrever o jacobiano de $h$:
 
 $$
-J_h(\text{vec}(\Phi),\text{vec}(D)) = [2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1}) \; D_{m^2}^{+}(\Phi^{-1} \otimes \Phi^{-1})]
+J_h(\text{vec}(\Phi),\text{vec}(D)) = -[2D_{m^2}^{+}[(\Sigma_u \otimes \Phi^{-1}) \; D_{m^2}^{+}(\Phi^{-1} \otimes \Phi^{-1})]
 $$
 Eu não culpo o leitor se a atitude, neste ponto do texto, é de absoluto cinismo. Sim, nós obtemos alguns resultados sobre quando um modelo está identificado. Mas os resultados dependem de produtos de Kronecker, matrizes de duplicação e pseudo inversas. É difícil conceber como a gente poderia computar essas quantidades. E o problema não termina ai, uma vez que a gente tem que computar o posto do jacobiano. Pra resolver isso, a gente vai usar o computador. 
 
@@ -247,8 +263,6 @@ Obviamente, nós vamos usar a maneira 2. Demorou um tempo, mas eu descobri que o
 Vamos começar com as restrições de curto prazo, que são incorretamente vistas como _a_ maneira de fazer identificação nesses modelos. Eu vou olhar um caso de 5 variáveis.
 
 ```{r}
-
-reticulate::use_condaenv("base")
 
 library(caracas)
 library(Matrix)
