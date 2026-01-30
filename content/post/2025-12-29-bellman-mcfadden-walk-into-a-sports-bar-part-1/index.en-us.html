@@ -1,0 +1,202 @@
+---
+title: Bellman and McFadden walk into a sports bar... (Part 1)
+author: Daniel Coutinho
+date: '2026-01-29'
+slug: index.en-us
+categories:
+  - Programação Dinâmica
+  - Dynamic Programming
+tags: []
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+---
+
+
+
+<p>The title sounds like the beginning of a joke. However, a while back, I was taught about dynamic discrete choice models. The idea is simple: there is a discrete choice to be done, but these choices impact the future. Example: you choose today if you are going to study more (say, going to college, a MBA or a PhD) or go to get a job. The idea of studying is that it doesn’t pay great, but increases your pay when you try to get a job next period.</p>
+<p>This is a fun category of models, because solving the value function is fairly easy: there are a few choices (2?3?) and so solving the value function is easy to code and fast. It also yields an interesting class of non linear models to be estimated.</p>
+<p>Of course, living in the USA, I am following American sports. My favorite - and this is a personal weakness - is American Football. I am not going to bother the reader with the rules, but if you are unfamiliar, <a href="https://en.wikipedia.org/wiki/American_football">here is the Wikipedia page</a>. The thing is, it is a game that is very amenable to be modeled by dynamic discrete choice models. This got me thinking…</p>
+<p>What if we estimated a discrete dynamic model for the data on teams in the NFL?</p>
+<p>I am going to translate first the game in terms of a discrete choice model and discuss the many simplifications I am doing.</p>
+<div id="modeling-a-drive" class="section level2">
+<h2>Modeling a drive</h2>
+<p>I am going to model the offensive side of the game. At each snap we have three possible actions:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Punt</strong>: This gives the ball back to your opponent. The advantage is that they are farther away from your endzone and so they have a lower chance to score. Punt is almost exclusively done on fourth downs in your own territory. But you could be at 1 and goal and choose to punt.</li>
+<li><strong>Field Goal Attempt</strong>: At any point, you can try to kick a field goal attempt. This is done when a drive stalls. Field Goal attempts require to be a bit close to the opponents goal - although they are happening at even longer ranges. The downside of it is that you give the ball back to the opposing team in any case. If you miss, the opposing team gets the ball at the attempt yard. Field goals are worth 3 points.</li>
+<li><strong>Go for it/Touchdown</strong>: The team takes the snap and tries to score a touchdown/get a first down/go forward. This is really the only part that the continuation value plays a role: the play can end in a touchdown or in a gain or loss of yards. There is also a possibility that the team throws a pick or fumbles. I will simplify things and say that a touchdown is worth 7 points. Sure, plenty of teams miss the extra points. Sure, teams go for two.</li>
+</ol>
+<p>These three choices make this situation ideal for a dynamic discrete choice model. In any sport, there are many candidates for state variables. I am going to shrink it down to three:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Yardline</strong>: playing deep in your own territory is very different from your opponent’s red zone. For starters, a field goal is rarely attempted from more than 50 yards from your opponents end zone. Very few teams would go for a 4th and 5 yards on their own territory (the Bears did this on the playoff, though); many teams would not go for a 4th and 5 yards on the 11 yards away from the opponents end zone.<br />
+</li>
+<li><strong>Yards to go</strong>: How many yards until a new set of downs. This is another crucial aspect of the game: you lose possession in the end of the fourth down if you don’t get a fresh set of downs. A second down and 10 in the middle of the field is a creature that is completely different than a second and 20 in the middle of the field.</li>
+<li><strong>Downs</strong>: Most teams punt or attempt a field goal in the fourth down. This is by far the most important state variable.</li>
+</ol>
+<p>There is a very important aspect to all these state variables: they are discrete and very easy to create a grid for. The yardage data is integer (no half yards in the data), so the first one is a grid from 100 (your own end zone) to 0 (your opponent end zone). Due to sacks and penalties, yards to go can be anything between 0 (inches) and a very large number. We rarely see a case of more than 30 yards to go. Apparently there was a 63 yards to go in 1971. In any way, these long yards to go plays are so rare that bunching them at the end of the scale seems harmless. Downs are counted in one hand: 1 to 4.</p>
+<p>One could be tempted to use downs as time and do good old backward induction on that. I don’t think it would work because downs are not like time: go ten yards and you get a new first down. In this sense, downs are a state variable like any other. It is exactly because the decision is taken at each down that makes american football super good to work in this framework.</p>
+<p>The beauty of this selection of state variables is that there is no need to worry about the grid, how thin the grid should be etc.</p>
+<p>I will take some time to point to other candidates for state variables:</p>
+<ul>
+<li><strong>Time:</strong> With 5 seconds to the end of the half, even if there are inches for the first down, most teams would attempt a field goal. But time is a very big grid, since seconds matter. This matters for one or two drive in every game, towards the end of each half. I am going to pretend that this is not a big deal</li>
+<li><strong>Score differential</strong>: If you are two points behind your opponent in the fourth quarter with 30s left in the clock, a field goal will do. The same situation for a 4 points differential would make most coaches go for it. This matters mostly for end of the game drives, and I will adopt the same position as above.</li>
+<li><strong>Time outs</strong>: Teams have 3 time outs per half. With three time outs and a minute in the clock, a quarterback can go down the whole field if needed. Same situation with no time outs is much more challenging. This again only matters towards the end of the half.</li>
+</ul>
+<p>I am also disregarding roster considerations. In a sense, this is a much more interesting model: who should you hire? And this of course, matters: if you are using your third quarterback, and not Mahomes, you are much less willing to extend drives. However, we see so few observations of the <em>exact</em> same people on the field that this would require a lot of thinking to model.</p>
+<p>The selection of state variables reflect one thing that we should keep in mind: deep understanding of the subject you are modelling is key. Some people seem to deny this, and they are wrong. Simplify along the wrong lines and your model is meaningless. Simplify along the right dimension and your model is meaningfull and easy to run.</p>
+</div>
+<div id="what-is-there-to-estimate" class="section level2">
+<h2>What is there to estimate?</h2>
+<p>Given we <em>know</em> how much each alternative is worth, one can ask what is there to estimate? The probabilities of converting a field goal and running to a touchdown in any yardage should be fairly easy to obtain from the NFL data. Sure, we won’t see decisions for some yards on the data, but if they are between two data points we can interpolate; and if it is beyond our data, then one could think that the probability is zero. First impressions are that there is nothing to estimate.</p>
+<p>However, by observing the decisions, we could see what are the <em>implied</em> probabilities by the coaches. Assume that, 40 yards away from the end zone, the coach estimates that he can get a first down with 60% of chance, a touchdown with 10% of chance and a field goal with 20% of chance. He may attempt very few field goals, and depending on their luck, you could have all attempted field goals to be sucessful or all of them to be failures. Looking at the data, we would be overconfident or underconfident. Finance people might also feel compeled to compare these probabilities to risk-neutral probabilities, and I encourage this parallel. In other words, the probabilities from head coaches reflect not only the probability of success but also their risk aversion.</p>
+<p>If we decided to recover the probabilies that the coaches have in mind, we would need to estimate three objects: the probability of getting a touchdown at any yardage; the probability of geting a field goal at any yardage; transitions probabilities at any yardage. Without any structure, these objects are of dimensions 100,100, and a 100 x 100 matrix. Even if we use the NFL data to get the latter, we would still be talking about 200 parameters, in a non linear model. Not exactly a fun day.</p>
+<p>I am going to start with a even simpler problem to estimate:</p>
+<p><strong>What if we estimated the implied value of a field goal and a touchdown?</strong></p>
+<p>This reduces the problem to estimating two parameters, and can be interpreted as what score values would justify seeing the decisions we observe. Teams that have a touchdown valued above 7 see touchdowns as more valuable than they are; teams that have a touchdown valued below 7 see touchdowns as less valuable. There is a probability interpretation here: above 7, the coaches have more confidence on their teams ability to convert a touchdown than implied by the data; below 7, the coaches have less confidence than the data warrants. The same argument goes for field goals.</p>
+<p>A small reminder about discrete choice models: one option needs to be the “outside” option, which we assume yields the baseline utility, 0. We choose the punt to be this outside option. In a sense, our estimates will mean how many points above a punt a field goal and a touchdown yield.</p>
+<p>These interpretations are muddled by the misspecification in the model. The misspecification comes from the many simplifications we have done so far, and the ones we are going to make further when cleaning the data and writing the model.</p>
+<p>At this point, it is healthy to look at the data and see what we can get.</p>
+</div>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<pre ><code >## 
+## Attaching package: 'dplyr'</code></pre>
+<pre ><code >## The following objects are masked from 'package:stats':
+## 
+##     filter, lag</code></pre>
+<pre ><code >## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<p>I am going to use the excellent <code>nflfastR</code> to download the data. The data is at the play by play level, which is the granuality we need. We are going to spend a massive amount of time to get some key quantities we are going to use to estimate the model. The data transformation will be done with <code>dplyr</code>. I will write the code to work with the San Francisco 49ers and then worry about making the alterations so I can estimate the model for any team.</p>
+<p>I am going to focus on the 2024 season:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">pbp &lt;- load_pbp(2024)</code></pre>
+<p>Lets start with two easy quantites: the probability of converting a field goal at any given yard and the probability of getting a touchdown at any yards:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">pbp_team &lt;- pbp %&gt;% filter(posteam == "SF")  %&gt;% group_by(yardline_100)
+
+field_goal_prob &lt;- pbp_team %&gt;% ungroup() %&gt;% filter(field_goal_attempt == 1) %&gt;% mutate(encoded_resul_fg = case_when(
+  field_goal_result == "made" ~ 1,
+  field_goal_result == "missed" ~ 0,
+  .default = NA
+)) %&gt;% group_by(yardline_100) %&gt;%  summarise(prob = mean(encoded_resul_fg == 1))</code></pre>
+<p>Lets plot this:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(field_goal_prob,aes(yardline_100,prob)) + geom_col() + theme_light() + labs(x = "Yards to Opponent End Zone", y = "Field Goal Probability")</code></pre>
+<p><img src="/post/2025-12-29-bellman-mcfadden-walk-into-a-sports-bar-part-1/index.en-us_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
+<p>This shows a few problems we are going to face: many of the probabilities are one - every field goal at that yardline was succesful - which is slightly absurd; a few yards have no field goal attempts, so we will be forced to fill in somehow. We also need to define what is the probability of a field goal beyond 35 yards. This is more challenging.</p>
+<p>We can also do the same thing for touchdowns:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">probs_td &lt;- pbp_team %&gt;% summarise(prob_td = mean(touchdown,na.rm = TRUE))
+ggplot(probs_td,aes(yardline_100,prob_td)) + geom_col() + theme_light() + labs(x = "Yards to Opponent End Zone", y = "Touchdown Probability")</code></pre>
+<pre ><code >## Warning: Removed 1 row containing missing values or values outside the scale range
+## (`geom_col()`).</code></pre>
+<p><img src="/post/2025-12-29-bellman-mcfadden-walk-into-a-sports-bar-part-1/index.en-us_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
+<p>We have similar issues here as we had with field goals. Fortunately, at no yardage we have probability 1 of touchdowns. But we have plenty of missing yards and the problem of extrapolation remains.</p>
+<p>Interpolation is a huge topic, and we could do linear interpolation, splines, etc. I will do a “nearest neighboors” approach: find the <span class="math inline">\(k\)</span> nearest yards and the probability is an average of these <span class="math inline">\(k\)</span> values. Here is a very simple code that does this:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">nearest_neigh &lt;- function(x,y,k,new_x){
+  
+  new_y &lt;- rep(NA,length(new_x))
+  
+  for (i in 1:length(new_x)) {
+    dist &lt;- (x - new_x[i])^2
+    indx &lt;- order(dist)
+    indx_sel &lt;- indx[1:k]
+    new_y[i] &lt;- mean(y[indx_sel])
+  }
+  
+  return(new_y)
+  
+}</code></pre>
+<p>Here are our probabilities for the field goal:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">fg_prob &lt;- nearest_neigh(field_goal_prob$yardline_100,field_goal_prob$prob,4,1:100)
+fg_prob_est &lt;- tibble(yards = 1:100, prob = fg_prob)
+
+ggplot(fg_prob_est,aes(yards,prob)) + geom_col() + theme_light() + labs(x = "Yards to Opponent End Zone", y = "Field Goal Probability")</code></pre>
+<p><img src="/post/2025-12-29-bellman-mcfadden-walk-into-a-sports-bar-part-1/index.en-us_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
+<p>This fills in every value nicely, but for sections that have many probabilities 1, it keeps the probabilities at 1.</p>
+<p>The next thing to get are the transition probabilities. Those of us trained in recursive macroeconomics would think of this as a matrix. A matrix is also nice from the computational point of view since software and hardware are optimized for matrix operations. I am going to do things slightly different: I am going to keep the dataframe structure intact. My reasons for this is that constructing the matrix is going to be complicated. Any gains in speed in execution are lost in the time needed to create the code for creating the matrix. Moreover, complicated code means bugs in the code. Bugs in the code means time spent debugging.</p>
+<p>By keeping the dataframe structure, everything can be done using <code>dplyr</code>. There are many ways of doing this. I am going to keep it relatively simple by considering data around the yards to go and the yards line. This is a sort of kernel estimator with a kernel with weight one if its inside the bandwidth and zero otherwise. This is not the greatest kernel ever. The function will allow me to choose how big the “window” is for each of these statistics:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">kernalized_est_map &lt;-function(data,yards,yds_to_go,hy,hytg){
+  
+  if(is.na(yards) || is.na(yds_to_go)){
+    return(NA)
+  }
+  
+  half_hytg_int &lt;- floor(hytg/2)
+  half_hy_int &lt;- floor(hy/2)
+  
+  allowed_yds_to_go &lt;- (yds_to_go-half_hytg_int):(yds_to_go+half_hytg_int)
+  allowed_yds &lt;- (yards-half_hy_int):(yards+half_hy_int)
+  
+  filtered_data &lt;- data %&gt;%  filter(between(yardline_100,yards-half_hy_int,yards+half_hy_int),between(ydstogo,yds_to_go-half_hytg_int,yds_to_go+half_hytg_int)) %&gt;% group_by(new_yards) %&gt;% summarise(prob_ker2 = mean(prob)) %&gt;% ungroup() %&gt;% mutate(prob_ker2 = prob_ker2/sum(prob_ker2)) %&gt;% mutate(ydstogo = yds_to_go, yardline_100 = yards) %&gt;% select(ydstogo,yardline_100,new_yards,prob_ker2)
+  
+  return(filtered_data)
+}</code></pre>
+<p>We have two versions of the same function, for two different purposes:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">kernalized_est &lt;- function(data,yards,yds_to_go,hy,hytg){
+  
+  if(is.na(yards) || is.na(yds_to_go)){
+    return(NA)
+  }
+  
+  half_hytg_int &lt;- floor(hytg/2)
+  half_hy_int &lt;- floor(hy/2)
+  
+  allowed_yds_to_go &lt;- (yds_to_go-half_hytg_int):(yds_to_go+half_hytg_int)
+  allowed_yds &lt;- (yards-half_hy_int):(yards+half_hy_int)
+  
+  filtered_data &lt;- data %&gt;% filter(between(yardline_100,yards-half_hy_int,yards+half_hy_int),between(ydstogo,yds_to_go-half_hytg_int,yds_to_go+half_hytg_int))
+  
+  return(mean(filtered_data$prob))
+  
+}</code></pre>
+<p>In many cases, there are not enough data points to fill every yard. Running it twice solves the problem. First, since you could have any yardage to go (due to penalties), we have to construct a grid that takes that into acount. I require at least 5 plays with that given yards to go to still count it in. So, if there is one play with 19 yards to go, we won’t try to get a transition probability for this situation. We also create a grid to apply the function above over all pairs of yards and yards to go:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">prob_yds &lt;- pbp_team %&gt;% ungroup() %&gt;% group_by(yardline_100,ydstogo) %&gt;% count(yards_gained) %&gt;% mutate(new_yards = yardline_100 - yards_gained,prob = n/sum(n))
+
+prob_yds &lt;- prob_yds %&gt;% rowwise() %&gt;% mutate(prob_ker = kernalized_est(prob_yds,yardline_100,ydstogo,6,2))
+
+tab_ytg &lt;- table(prob_yds$ydstogo)
+tab_ytg &lt;- tab_ytg[as.numeric(names(tab_ytg)) &gt; 12]
+find_max_ytg &lt;- which.max(tab_ytg &lt; 5)
+
+grid_yards &lt;- expand.grid(1:100,min(prob_yds$ydstogo):as.numeric(names(find_max_ytg)))
+names(grid_yards) &lt;- c("Yards", "Yards to Go")</code></pre>
+<p>Many of you might be wondering what are the effects of running it twice. It should create extremely smooth estimates. We now do the estimation:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">prob_yds_all &lt;- map2(grid_yards[,1],grid_yards[,2],\(x,y)kernalized_est_map(prob_yds,x,y,10,2))
+
+prob_yds_all &lt;- do.call(rbind,prob_yds_all)
+
+prob_yds_aux &lt;- rename(prob_yds_all, prob = prob_ker2)
+
+## Running a second time seems to fill the cases in which we have only one possible yard transiiton. This means that at that point, we have very few observations. 
+
+prob_yds_all2 &lt;- map2(grid_yards[,1],grid_yards[,2],\(x,y)kernalized_est_map(prob_yds_aux,x,y,10,2))
+prob_yds_all2 &lt;- do.call(rbind,prob_yds_all2)</code></pre>
+<p>Lets do some plotting of the quantities we obtained:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">prob_yds_all_plot &lt;- prob_yds_all %&gt;% group_by(yardline_100,new_yards) %&gt;% summarize(prob_ker = mean(prob_ker2)) %&gt;% ungroup() %&gt;% mutate(prob_ker = prob_ker/sum(prob_ker),.by = yardline_100)</code></pre>
+<pre ><code >## `summarise()` has grouped output by 'yardline_100'. You can override using the
+## `.groups` argument.</code></pre>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(prob_yds_all_plot,aes(yardline_100,new_yards,fill = prob_ker)) + geom_tile() + theme_bw() + labs(x = "Yards",y = "New Yards", fill = "Probability")</code></pre>
+<p><img src="/post/2025-12-29-bellman-mcfadden-walk-into-a-sports-bar-part-1/index.en-us_files/figure-html/unnamed-chunk-12-1.png" alt="" width="672" /></p>
+<p>This is interesting: it shows an almost uniform probability around the current yard. This is probably a consequence of our (double!) kernel estimates. It is not the greatest estimate ever, but it is useful.</p>
+<p>The final data is required to justify punting. Punts only happen because they decrease the probability the other team scores. I will use the data from all plays across all teams to get the expected number of points for returning the ball at each yard. This is another simplification, but its only here to make punt reasonable.</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">team_def &lt;- pbp %&gt;% filter(defteam == "SF") %&gt;% mutate(encoded_resul = case_when(
+    fixed_drive_result == "Touchdown" ~ 2,
+    fixed_drive_result == "Field goal" ~ 1,
+    .default =  0 
+  )) %&gt;% group_by(yardline_100) %&gt;% count(encoded_resul) %&gt;% mutate(prob = n/sum(n)) %&gt;% mutate(points = case_when(
+    encoded_resul == 0 ~ 0,
+    encoded_resul == 1 ~ 3,
+    encoded_resul == 2 ~ 7
+  )) %&gt;% mutate(expected_points = sum(prob*points)) %&gt;% mutate(yardline_100 = 100 - yardline_100)</code></pre>
+<p>Now lets plot the results:</p>
+<pre class = "line-numbers"><code class="language-r match-braces rainbow-braces">ggplot(team_def,aes(yardline_100,expected_points)) + geom_col() + theme_light()</code></pre>
+<pre ><code >## Warning: Removed 3 rows containing missing values or values outside the scale range
+## (`geom_col()`).</code></pre>
+<p><img src="/post/2025-12-29-bellman-mcfadden-walk-into-a-sports-bar-part-1/index.en-us_files/figure-html/unnamed-chunk-14-1.png" alt="" width="672" /></p>
+<p>The farther your opponent is from your endzone, the lower the number of points he is expected to get. This is very reasonable. And is the reason why teams punt.</p>
+<p>The next post will use this data to estimate the model. The model will be written in Julia, so estimation is fast. I export all this data in (many) CSV files. There are certainly smarter, more efficient ways of doing this. But honestly, I couldn’t be bothered.</p>
+</div>

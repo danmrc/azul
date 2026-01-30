@@ -1,0 +1,428 @@
+---
+title: Bellman and McFadden walk into a sports bar... (Part 3)
+author: Daniel Coutinho
+date: '2026-01-18'
+slug: index.en-us
+categories: []
+tags: []
+images: []
+authors: ["danielc"]
+output:
+  blogdown::html_page:
+    pandoc_args: 
+      [
+      "--lua-filter=../script_number_and_braces.lua"
+      ]
+draft: true
+---
+
+The [previous post](../post/2026-01-11-bellman-mcfadden-part-2/index.en-us.Rmd) we attempted to estimate the value of a touchdown and a field goal for each franchise. That yielded interesting but hard to interpret results, among them negative field goal value. 
+
+This time, we are going to estimate the probabilities of getting a touchdown and field goals. One way to do it is to estimate a probability at each yard line. This gives 200 parameters, and we have a non linear model to estimate, with a few observations per team. 
+
+To avoid this, we are going to give a parametrized curve and estimate its parameters. Probabilities are, of course, non negative and smaller than one. I am also going to impose that the closer to the opponent end zone, the higher the probability of a field goal or a touchdown. This makes sense, but some pundits might disagree, with arguments like "this team has a problem in the red zone". Sure, they might. But this is a convenient approximation and quite frankly, a team that has a red zone problem is probably not scoring that many touchdowns from fifty yards away.
+
+There are many curves that will satisfy this. One of the easiest is the logit function, $\frac{1}{1+\exp(-s(x-c))}$. These are all called, and one can argue about the corrctness of the label, sigmoids. Lets take a look at it:
+
+```{julia}
+
+using Plots
+
+logit(x,s,c) = 1/(1+exp(-s*(x-c)))
+
+yards = 1:100
+
+plot(yards,logit.(yards,1,50))
+
+```
+
+This is what we want. And I tried to running the model with this. The issue is that some distances have absolutely no attempts for field goals and some very occasional touchdowns. To fit the data, the parameters need to be crazy, so the curve has a huge slope. So the reader understand the issue, here are some sigmoids, centered at the same place but with different slopes:
+
+```{julia}
+
+plot(yards,logit.(yards,-0.5,50), label = "Shape = 0.5")
+plot!(yards,logit.(yards,-1,50), label = "Shape = 1")
+plot!(yards,logit.(yards,-6,50), label = "Shape = 6")
+
+```
+
+There are tiny differences at the inflection points. This, and the centering, is all that the estimation has to work. The ultimate simplicity. Actually, too simple. So, I decided to set a "sigmoid with cutoff": if the argument is big enough, then the probability is zero:
+
+```{julia}
+
+sigmoid_w_cutoff(x,s,c,cut_off) = x > cut_off ? 0 : 1/(1+exp(-s*(x-c)))
+
+```
+
+This looks like this, with a somewhat dramatic parametrization:
+
+```{julia}
+
+plot(yards,sigmoid_w_cutoff.(yards,-0.08,20,50), label = "Sigmoid with cutoff")
+
+```
+
+Some cases will create an identification problem. To see these, compare the two:
+
+```{julia}
+
+plot(yards,sigmoid_w_cutoff.(yards,-0.8,20,80), label = "Sigmoid with cutoff")
+plot!(yards,sigmoid_w_cutoff.(yards,-0.8,20,100), label = "Sigmoid without cutoff")
+
+```
+
+Both lines are indistinguishable. This might haunt us for some examples. But I have reduced a problem with 200 parameters to 6. A miracle of shrinkage.
+
+The rest is very similar to what we have seen before. The only function that will change is the likelihood, that will now take two shape parameters, two centering parameters, and two cutoff parameters. I am going to add every function except the likelihood:
+
+```{julia}
+
+function nearest_neigh(x,y,new_x,nh, weights)
+
+    new_y = zeros(length(new_x))
+
+    for i = 1:length(new_x)
+
+        dists = abs.(x .- new_x[i])
+        nearest_neighboors = sortperm(dists) |> z->z[1:nh]
+
+        if weights == :uniform
+            ws = fill(1/nh,nh)
+        elseif weights == :prop
+            ws = 1 ./(1 .+ dists[1:nh])
+        elseif weights == :prop2
+            ws = 1 ./(1 .+ dists[1:nh])
+            ws = ws/sum(ws)
+        else
+            error("Weights unimplemented:")
+        end
+
+        new_y[i] = sum(ws.*y[nearest_neighboors])
+    end
+
+    return new_y
+end
+
+function nice_V(yards,yards_to_first,downs,probs,Vprime)
+
+    V2 = DiffCache(zeros(100)) |> x-> get_tmp(x,Vprime)
+
+    p_temp = subset(probs, :ydstogo => ByRow(x->x==yards_to_first)) |> x->subset(x, :yardline_100 => ByRow(x->x==yards))
+
+    if nrow(p_temp) == 0
+        return 0
+    elseif nrow(p_temp) == 1
+        y_prime = p_temp.new_yards[1]
+        if y_prime <= yards - yards_to_first #first down case
+            V2_aux = Vprime[y_prime,11,1]
+        else #not a first down
+            Δ = y_prime - yards
+            if yards_to_first + Δ <= size(Vprime,2)
+                V2_aux = Vprime[y_prime,yards_to_first + Δ,downs+1]
+            else
+                V2_aux = 0
+            end
+        end #if yards_to_first + Δ <=
+
+        return V2_aux
+    end
+
+    num_nei = min(ceil((nrow(p_temp)-1)/2),4) |> Int
+    prob_foo = nearest_neigh(p_temp.new_yards,p_temp.prob_ker2,1:100,num_nei,:uniform)
+    prob_foo = prob_foo ./ sum(prob_foo) #guarantees the probabilities sum 1
+
+    for y_prime = 1:100
+        if y_prime <= yards - yards_to_first #first down case
+            V_temp = Vprime[y_prime,11,1]
+            V2[y_prime] = prob_foo[y_prime]*V_temp
+        else #not a first down
+            Δ = y_prime - yards
+            if yards_to_first + Δ <= size(Vprime,2)
+                V_temp = Vprime[y_prime,yards_to_first + Δ,downs+1]
+                V2[y_prime] = prob_foo[y_prime]*V_temp
+            else
+                V2[y_prime] = 0
+            end
+        end #if yards_to_first + Δ <=
+    end #for
+
+    return sum(V2)
+
+end
+
+function punt_foo(yards,expected_points_foo)
+
+    new_yards = yards - 40 # hard coding 40 yards, we can change it in the future
+
+    if new_yards <= 0 # Touchback, complicated rule, lets focus on 2024
+        new_yards = 30
+    end
+
+    return -expected_points_foo[new_yards]
+
+end
+
+
+## Array to store the value function: yards to opponent endzone, yards to 1st down and downs
+
+function value_function(choice,τ1,τ2,yards,yards_to_first,downs,probs_trans,prob_fieldgoal_foo,prob_td_foo,expected_points_foo,Vprime,ρ = 1)
+
+    if downs == 5 #loss on downs
+        return expected_points_foo[yards]
+    end
+
+    if choice == 0 # choice zero: punts
+        return punt_foo(yards,expected_points_foo)
+    end
+
+    if yards < 0
+        return τ2
+    end
+
+    if choice == 1 #attempts a field goal
+        return τ1*prob_fieldgoal_foo[yards]-(1 - prob_fieldgoal_foo[yards])*expected_points_foo[yards]
+
+    end
+
+    if choice == 2 #continue playing
+        V = nice_V(yards,yards_to_first,downs,probs_trans,Vprime)
+        return ρ*τ2*prob_td_foo[yards] + (1-prob_td_foo[yards])*ρ*V - (1 - ρ)*expected_points_foo[yards]
+    end
+end
+
+prob_clm(vs) = exp.(vs)/sum(exp.(vs))
+
+# Needs to add dimension over choices
+# Now value function array is
+## First dimension: yards
+## Second dimension: choice
+## Third dimension: Yards to first down
+## Fourth dimension: Downs
+
+function max_value2(τ1,τ2,yards,yards_to_first,downs,probs_trans,prob_fieldgoal_foo,prob_td_foo,expected_points_foo,Vprime,ρ=1)
+
+    utilities = map(c->value_function(c,τ1,τ2,yards,yards_to_first,downs,probs_trans,prob_fieldgoal_foo,prob_td_foo,expected_points_foo,Vprime,ρ),0:2)
+    choice_prob = prob_clm(utilities)
+
+    return choice_prob, utilities
+
+end
+
+function solve_value2(τ1,τ2,probs_trans,prob_fg_foo,prob_td_foo,expected_points_foo,V0,ρ;maxiter = 1000)
+
+    V = DiffCache(V0) |> x-> get_tmp(x,τ1)
+    choice = copy(V0)
+    γ = MathConstants.eulergamma
+
+    j = 0
+    err = 1
+
+    while j < maxiter && err > 1e-9
+        V_old = copy(V)
+        R = log.(sum(V_old,dims=2)) .+ γ |> x->dropdims(x,dims=2)
+        for k = 1:size(V,2),l = 1:4
+            aux = ThreadsX.map(y->max_value2(τ1,τ2,y,k,l,probs_trans,prob_fg_foo,prob_td_foo,expected_points_foo,R,ρ),1:100)
+            V[:,:,k,l] = permutedims(mapreduce(i->exp.(aux[i][2]),hcat,1:100))
+            choice[:,:,k,l] = permutedims(mapreduce(i->aux[i][1],hcat,1:100))
+        end
+        j+= 1
+        err = maximum(abs.(log.(sum(V,dims=2)) - log.(sum(V_old,dims=2))))
+        #println(string("Iteration: ",j,"\n Error: ", err))
+    end
+    return choice, V
+
+end
+
+
+```
+
+Now, the new likelihood. The main difference is that we will fix the value of field goals and touchdowns, $\tau_1$ and $\tau_2$, in the functions above, and now the probabilities of scoring are given by functions that are logits with unknonwn parameters. The probabilities of transitions remain unchanged from before.  
+
+```{julia}
+
+function loglikehood_prob(τ1,τ2,shape_fg,shape_td,c_fg,c_td,cutoff_fg,cutoff_td,data,probs_trans,expected_points_foo,ρ)
+
+    V_zero = DiffCache(ones(100,3,17,5)) |>x-> get_tmp(x,τ1)
+
+    for i = 1:100
+
+        V_zero[i,:,:,5] .= exp(-expected_points_foo[100-i+1])
+
+    end
+
+    prob_fg_foo = sigmoid_w_cutoff.(1:100,shape_fg,c_fg,cutoff_fg)
+    prob_td_foo = sigmoid_w_cutoff.(1:100,shape_td,c_td,cutoff_td)
+
+    γ = MathConstants.eulergamma
+    choice, value = solve_value2(τ1,τ2,probs_trans,prob_fg_foo,prob_td_foo,expected_points_foo,V_zero,ρ)
+    R = log.(sum(value,dims=2)) .+ γ |> x->dropdims(x,dims=2)
+
+    p = DiffCache(zeros(nrow(data))) |> x->get_tmp(x,τ1)
+
+    for i = 1:nrow(data)
+        u = value_function(data.decision[i],τ1,τ2,data.yardline_100[i],data.ydstogo[i],data.down[i],probs_trans,prob_fg_foo,prob_td_foo,expected_points_foo,R,ρ)
+        probs, vals = max_value2(τ1,τ2,data.yardline_100[i],data.ydstogo[i],data.down[i],probs_trans,prob_fg_foo,prob_td_foo,expected_points_foo,R,ρ)
+
+        p[i] = max(min(exp(u)/sum(exp.(vals)),1),0.0001)
+
+    end
+
+    return mean(log.(p))
+
+end
+
+
+```
+
+I kept the argument for the field goal and touchdown, but I am going to fix it. The next function receive the name of the team, gets all the data, run the maximum likelihood estimation
+
+```{julia}
+
+function estimate(team;td_thres = 0.1,fg_thres = 0)
+
+    prob_fg_data = CSV.read(string("./data/field_goal_probs_",team,".csv"), DataFrame, missingstring = ["NA"])
+    dropmissing!(prob_fg_data)
+
+    longest_fg_index = findlast(prob_fg_data.prob .> fg_thres)
+    longest_yard_fg = prob_fg_data.yardline_100[longest_fg_index]
+
+    prob_td_data = CSV.read(string("./data/touchdown_probs_",team,".csv"), DataFrame, missingstring = ["NA"])
+    dropmissing!(prob_td_data)
+    longest_td_index = findlast(prob_td_data.prob_td .> td_thres)
+    longest_td = prob_td_data.yardline_100[longest_td_index]
+
+    probs_cont = CSV.read(string("./data/prob_trans_",team,".csv"), DataFrame, missingstring = ["NA"])
+
+    dropmissing!(probs_cont)
+
+    data = CSV.read(string("./data/pbp_data_",team,".csv"), DataFrame, missingstring = ["NA"])
+
+    dropmissing!(data)
+
+    def_data = CSV.read(string("./data/defense_data_",team,".csv"), DataFrame, missingstring = ["NA"])
+
+    dropmissing!(def_data)
+    unique!(def_data, :yardline_100)
+
+    expected_points_foo = nearest_neigh(def_data[:,2],def_data.expected_points,1:100,6,:prop2)
+
+    ρ_hat = subset(data, :decision => ByRow(x->x==2)) |> d->mean(d.fumble + d.interception) |> z-> 1-z
+
+    op = optimize(θ->- loglikehood_prob(3,7,θ[1],θ[2],θ[3],θ[4],longest_yard_fg,longest_td,data,probs_cont,expected_points_foo,ρ_hat),[-1.0;-1.0;5;5])
+
+    return DataFrame(team = fill(team,7),what = ["ρ","Shape_FG","Shape_TD","Center_FG","Center_TD","Cut-Off_FG","Cut-Off_TD"], values = [ρ_hat;op.minimizer;longest_yard_fg;longest_td])
+
+end
+
+
+```
+
+Now, the model has 6 parameters to estimate and takes a while longer. A few hours. So I have pre estimated them beforehand, and I will just load the results:
+
+```{julia}
+
+using JLD2, NFLData, DataFrames
+
+data = load("probs_est.jld2")
+values = data["Data"]
+
+```
+
+Now, we have a harder time visualizing the results because the parameters are harder to interpret and there are way more of them. I am going to plot the implied probabilities for field goals and touchdowns for all teams. It took me a while, but we can do it programatically. First, a function that takes the parameters and return the probabilities:
+
+```{julia}
+
+function construct_probabilities(estimates,team)
+
+    subset_data = subset(estimates, :team => ByRow(x->x==team))
+
+    prob_td = sigmoid_w_cutoff.(1:100,subset_data.values[3],subset_data.values[5],subset_data.values[7])
+    prob_fg = sigmoid_w_cutoff.(1:100,subset_data.values[2],subset_data.values[4],subset_data.values[6])
+
+    return DataFrame(FG = prob_fg, TD= prob_td)
+end
+
+```
+
+Run it over all teams:
+
+```{julia}
+
+data_teams = load_teams()
+subset!(data_teams, :team_abbr => ByRow(x->x != "STL"))
+subset!(data_teams, :team_abbr => ByRow(x->x != "OAK"))
+subset!(data_teams, :team_abbr => ByRow(x->x != "LAR"))
+subset!(data_teams, :team_abbr => ByRow(x->x != "SD"))
+
+team_abbrv = data_teams.team_abbr
+
+
+
+prob_curves = map(x->construct_probabilities(values,x),team_abbrv)
+
+
+```
+
+We are going to construct a huge object with all the plots:
+
+```{julia}
+
+pps = map(1:32) do i
+
+    p1 = plot(1:100,prob_curves[i].FG, label = "Field Goal Probability")
+    plot!(p1,1:100,prob_curves[i].TD, label = "Touchdown Probability")
+    xlabel!(p1,"Yards")
+    title!(p1,data_teams.team_name[i])
+    p1
+
+end
+
+
+```
+
+Finally:
+
+```{julia}
+
+pps[1]
+pps[2]
+pps[3]
+pps[4]
+pps[5]
+pps[6]
+pps[7]
+pps[8]
+pps[9]
+pps[10]
+pps[11]
+pps[12]
+pps[13]
+pps[14]
+pps[15]
+pps[16]
+pps[17]
+pps[18]
+pps[19]
+pps[20]
+pps[21]
+pps[22]
+pps[23]
+pps[24]
+pps[25]
+pps[26]
+pps[27]
+pps[28]
+pps[29]
+pps[30]
+pps[31]
+pps[32]
+
+```
+
+The identification problem I commented a few lines ago is very bad for the Buffalo Bills, Chicago Bears, Bengals, Broncos, Lions and Vikings. All of these yield a model which treats the probability of a field goal to be zero at any distance, which is not true. 
+
+There are some interesting findings: from the teams we can estimate the field goal probabilities well, the Ravens seem to have the highest probability from the farther away. This makes sense, since in 2024 they had the best kicker in the league. 
+
+The Bills estimation is broken: the probability of touchdown implied by the decision is 0.25. They lead the division and were second seeded. It could be a sign of bad offense and very good defense, but given they scored a franchise record number of points and had a MVP winning quarterback, it is just hard to understand this. Recall that this is an estimation of the probabilities that justify the decisions observed. Bills' Mafia members might see this as enough reason to justify the firing of Sean McDermott. 
+
+In the previous post, the Lions had the craziest value for a touchdown (worth 40 points). The touchdown probability seems relatively tame here. Note that comparing these are sort of tricky. At the 1 yard line, the probability of a touchdown for the Lions is rovering above 40%; but very few teams seem _that_ optimistic about scoring a touchdown deep in their own territory. Packers and Colts are the only other respectable teams that seem to be in the same category. 
