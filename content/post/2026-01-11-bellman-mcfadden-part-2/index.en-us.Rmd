@@ -1,7 +1,7 @@
 ---
 title: Bellman and McFadden walk into a sports bar... (Part 2)
 author: Daniel Coutinho
-date: '2026-01-17'
+date: '2026-02-15'
 slug: index.en-us
 categories:
   - Programação Dinâmica
@@ -15,7 +15,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true
 ---
 
 ```{r,echo=FALSE,results='hide'}
@@ -32,7 +31,20 @@ $$
 P(\text{Touchdown}) \tau_2 + \rho E[V(\text{yards}',\text{yards to go}',\text{downs}')] + (1-\rho)E(\text{yards})
 $$
 
+
+
 $\rho$ is the probability of a turnover (fumble or intercept) and $E(\text{yards})$ is the expected number of points by an opponent in case of a turnover. It is very convenient to have $\rho$ because it works just like a discount rate in the usual problems we see with value functions. We are taking the expectation because the number of yards next play, $\text{yards}^{\prime}$, is unknown, and so are yards to go and if we have a new set of downs. These are all determined by the new yards, and this was saved in the previous post.
+
+Since we are going to set 0 as a punt, 1 as a field goal attempt and 2 as going for it, we can write:
+
+$$
+V(\text{yards},\text{yards to go},\text{downs}) = \begin{cases}
+E(\text{yards}-40) & \text{if } \text{choice} = 0\\
+P(\text{Field goal at Yards})\tau_1 + (1 - P(\text{Field goal at Yards}))E(\text{yards}) & \text{if } \text{choice} = 1\\
+P(\text{Touchdown}) \tau_2 + \rho E[V(\text{yards}',\text{yards to go}',\text{downs}')] + (1-\rho)E(\text{yards}) & \text{if } \text{choice} = 2\\
+\end{cases}
+$$
+The minus 40 yards has two aspects: 40 yards was selected as a calibrated value - we could estimate it from the data, but anyway. The minus is since the 0 yards is the opponent's end zone from our point of view. Of course, the head coach chooses the option that yields the most points for him.
 
 The value function turns out to be a bit complicated. The problem is acessing the values: once yards to go get to 0, two things happen: one, we now need 10 yards to go; two, we get a fresh set of downs. There is a function that only deals with this access:
 
@@ -87,7 +99,7 @@ end
 
 ```
 
-Another detail of the game that requires some care is the punting. I am going to assume that every punt achieves 40 yards, and we need to be careful about the touchback rule:
+Another detail of the game that requires some care is the punting. Again, I am going to assume that every punt achieves 40 yards, and we need to be careful about the touchback rule:
 
 ```{julia}
 
@@ -138,7 +150,7 @@ end
 
 ```
 
-I am going to do use the usual multinomial logit that can be justified as each shock comming from the Generalized Extreme Value distribution. This yields closed form for the estimator and frees us from simulating shocks to get the solution: the value function solution is easy and everything is really fast.
+I am going to do use the usual multinomial logit that can be justified as each shock comming from the Generalized Extreme Value distribution. This yields a "closed form" estimator (a closed form of the integral needed, actually) and frees us from simulating shocks to get the solution: the value function solution is easy and everything is really fast.
 
 It is very easy to create the probabilities of selection of each option:
 
@@ -149,7 +161,7 @@ prob_clm(vs) = exp.(vs)/sum(exp.(vs))
 
 ```
 
-There are now two crucial functions: one will yield the probability of each choice and the other will yield the solution of the value function by iteration. We are only able to get the probability of the choice because it depends on a (unobserved) shock. One could think of doing a grid of the shocks and so on, but we never observe it and it would increase the number of states and make the problem a mess! We solve for the three state variables, and I use the ThreadsX package to run the largest grid (yards) in parallel.
+There are now two crucial functions: one will yield the probability of the head coach taking either of the three options available to him; and the other will yield the solution of the value function by iteration. We are only able to get the probability of the choice because it depends on an unobserved shock. One could think of doing a grid of the values each of the shocks can take and add them to the state variables. But we never observe these shocks and it would increase the number of states and make the problem a mess! In the end, we don't need it - bear with me for a moment. We solve for the three state variables, and I use the ThreadsX package to run the largest grid (yards) in parallel.
 
 ```{julia}
 
@@ -190,7 +202,7 @@ end
 
 ```
 
-All of this is to create the utility and value functions we need. We are finally in place to write the likelihood. It takes the play by play data and all our inputs from the previous post and estimates $\tau_1$ - the value of a field goal - and $\tau_2$ - the value of a touchdown. To start the value function iteration, we start everything in 1 _except_ the "fifth" down, in which we used the expected points from turning the ball over at that yardage. 
+All of this is to create the utility and value functions we need. We are finally ready to write the likelihood. It takes the play by play data and all our inputs from the previous post and estimates $\tau_1$ - the value of a field goal - and $\tau_2$ - the value of a touchdown. To start the value function iteration, we start everything in 1 _except_ the "fifth" down, in which we used the expected points from turning the ball over at that yardage. 
 
 ```{julia}
 
@@ -261,7 +273,7 @@ end
 ```
 
 
-We have a ton of files to load, some strategies to deal with extrapolation and to solve some probabilities that are one. These will all be wrap in a function that receives a three letter code of the team, which is standarized in the original dataset, and load the files and run the maximum likelihood:
+We have a ton of files to load, some strategies to deal with extrapolation and we still have some problems with the data: for some teams and some yards, all field goals are converted. However, it is unrealistic to believe that a field goal is a certainty at that distance. All of these will all be wrap in a function that receives a three letter code of the team, which is standarized in the original dataset, and load the files, do the interpolations and run the maximum likelihood:
 
 ```{julia}
 
@@ -315,7 +327,7 @@ end
 
 ```
 
-The field goal probabilities are thinkered. First of all, the probabilities that are equal to 1 are (arbitrarily) reduced to 0.98; the decay of the probability for a distance farther than the longest field goal decays hyperbolically:  
+The field goal probabilities are thinkered. First of all, the probabilities that are equal to 1 are (arbitrarily) reduced to 0.98; the probability of a field goal for a distance farther than the longest field goal in the data decays hyperbolically:  
 
 ```{julia}
 

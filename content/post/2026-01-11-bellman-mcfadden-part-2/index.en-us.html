@@ -1,7 +1,7 @@
 ---
 title: Bellman and McFadden walk into a sports bar... (Part 2)
 author: Daniel Coutinho
-date: '2026-01-17'
+date: '2026-02-15'
 slug: index.en-us
 categories:
   - Programação Dinâmica
@@ -15,7 +15,6 @@ output:
       [
       "--lua-filter=../script_number_and_braces.lua"
       ]
-draft: true
 ---
 
 
@@ -23,10 +22,19 @@ draft: true
 <p><a href="../post/2025-12-29-bellman-mcfadden-walk-into-a-sports-bar-part-1/index.en-us.Rmd">Last post</a> we talked about all the data cleaning I did to get some key statistics to estimate the model. Now we are going to deal with the model itself.</p>
 <p>Recall that there are three choice: punting, kicking a field goal and going for it. We are going to estimate how much each team values field goals (we will call this value <span class="math inline">\(\tau_1\)</span>) and how much they value touchdowns (<span class="math inline">\(\tau_2\)</span>). Only going for it requires we think about the value function, and I will model this simply as:</p>
 <p><span class="math display">\[
-P(\text{Touchdown}) \tau_2 + \rho V(\text{yards}&#39;,\text{yards to go}&#39;,\text{downs}&#39;) + (1-\rho)E(\text{yards})
+P(\text{Touchdown}) \tau_2 + \rho E[V(\text{yards}&#39;,\text{yards to go}&#39;,\text{downs}&#39;)] + (1-\rho)E(\text{yards})
 \]</span></p>
-<p><span class="math inline">\(\rho\)</span> is the probability of a turnover (fumble or intercept) and <span class="math inline">\(E(\text{yards})\)</span> is the expected number of points by an opponent in case of a turnover. It is very convenient to have <span class="math inline">\(\rho\)</span> because it works just like a discount rate in the usual problems we see with value functions.</p>
-<p>The value function turns out to be a bit complicated from acessing the values: once yards to go get to 0, two things happen: one, we now need 10 yards to go; two, we get a fresh set of downs. There is a function that only deals with this access:</p>
+<p><span class="math inline">\(\rho\)</span> is the probability of a turnover (fumble or intercept) and <span class="math inline">\(E(\text{yards})\)</span> is the expected number of points by an opponent in case of a turnover. It is very convenient to have <span class="math inline">\(\rho\)</span> because it works just like a discount rate in the usual problems we see with value functions. We are taking the expectation because the number of yards next play, <span class="math inline">\(\text{yards}^{\prime}\)</span>, is unknown, and so are yards to go and if we have a new set of downs. These are all determined by the new yards, and this was saved in the previous post.</p>
+<p>Since we are going to set 0 as a punt, 1 as a field goal attempt and 2 as going for it, we can write:</p>
+<p><span class="math display">\[
+V(\text{yards},\text{yards to go},\text{downs}) = \begin{cases}
+E(\text{yards}-40) &amp; \text{if } \text{choice} = 0\\
+P(\text{Field goal at Yards})\tau_1 + (1 - P(\text{Field goal at Yards}))E(\text{yards}) &amp; \text{if } \text{choice} = 1\\
+P(\text{Touchdown}) \tau_2 + \rho E[V(\text{yards}&#39;,\text{yards to go}&#39;,\text{downs}&#39;)] + (1-\rho)E(\text{yards}) &amp; \text{if } \text{choice} = 2\\
+\end{cases}
+\]</span>
+The minus 40 yards has two aspects: 40 yards was selected as a calibrated value - we could estimate it from the data, but anyway. The minus is since the 0 yards is the opponent’s end zone from our point of view. Of course, the head coach chooses the option that yields the most points for him.</p>
+<p>The value function turns out to be a bit complicated. The problem is acessing the values: once yards to go get to 0, two things happen: one, we now need 10 yards to go; two, we get a fresh set of downs. There is a function that only deals with this access:</p>
 <pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 function nice_V(yards,yards_to_first,downs,probs,Vprime)
 
@@ -75,7 +83,7 @@ function nice_V(yards,yards_to_first,downs,probs,Vprime)
 
 end</code></pre>
 <pre ><code >## nice_V (generic function with 1 method)</code></pre>
-<p>Another detail of the game that requires some care is the punting. I am going to assume that every punt achieves 40 yards, and we need to be careful about the touchback rule:</p>
+<p>Another detail of the game that requires some care is the punting. Again, I am going to assume that every punt achieves 40 yards, and we need to be careful about the touchback rule:</p>
 <pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 function punt_foo(yards,expected_points_foo)
 
@@ -116,12 +124,12 @@ function value_function(choice,τ1,τ2,yards,yards_to_first,downs,probs_trans,pr
     end
 end</code></pre>
 <pre ><code >## value_function (generic function with 2 methods)</code></pre>
-<p>I am going to do use the usual multinomial logit that can be justified as each shock comming from the Generalized Extreme Value distribution. This yields closed form for the estimator and frees us from simulating shocks to get the solution: the value function solution is easy and everything is really fast.</p>
+<p>I am going to do use the usual multinomial logit that can be justified as each shock comming from the Generalized Extreme Value distribution. This yields a “closed form” estimator (a closed form of the integral needed, actually) and frees us from simulating shocks to get the solution: the value function solution is easy and everything is really fast.</p>
 <p>It is very easy to create the probabilities of selection of each option:</p>
 <pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 prob_clm(vs) = exp.(vs)/sum(exp.(vs))</code></pre>
 <pre ><code >## prob_clm (generic function with 1 method)</code></pre>
-<p>There are now two crucial functions: one will yield the probability of each choice and the other will yield the solution of the value function by iteration. We are only able to get the probability of the choice because it depends on a (unobserved) shock. One could think of doing a grid of the shocks and so on, but we never observe it and it would increase the number of states and make the problem a mess! We solve for the three state variables, and I use the ThreadsX package to run the largest grid (yards) in parallel.</p>
+<p>There are now two crucial functions: one will yield the probability of the head coach taking either of the three options available to him; and the other will yield the solution of the value function by iteration. We are only able to get the probability of the choice because it depends on an unobserved shock. One could think of doing a grid of the values each of the shocks can take and add them to the state variables. But we never observe these shocks and it would increase the number of states and make the problem a mess! In the end, we don’t need it - bear with me for a moment. We solve for the three state variables, and I use the ThreadsX package to run the largest grid (yards) in parallel.</p>
 <pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 function max_value2(τ1,τ2,yards,yards_to_first,downs,probs_trans,prob_fieldgoal_foo,prob_td_foo,expected_points_foo,Vprime,ρ=1)
 
@@ -158,7 +166,7 @@ function solve_value2(τ1,τ2,probs_trans,prob_fg_foo,prob_td_foo,expected_point
 
 end</code></pre>
 <pre ><code >## solve_value2 (generic function with 1 method)</code></pre>
-<p>All of this is to create the utility and value functions we need. We are finally in place to write the likelihood. It takes the play by play data and all our inputs from the previous post and estimates <span class="math inline">\(\tau_1\)</span> - the value of a field goal - and <span class="math inline">\(\tau_2\)</span> - the value of a touchdown. To start the value function iteration, we start everything in 1 <em>except</em> the “fifth” down, in which we used the expected points from turning the ball over at that yardage.</p>
+<p>All of this is to create the utility and value functions we need. We are finally ready to write the likelihood. It takes the play by play data and all our inputs from the previous post and estimates <span class="math inline">\(\tau_1\)</span> - the value of a field goal - and <span class="math inline">\(\tau_2\)</span> - the value of a touchdown. To start the value function iteration, we start everything in 1 <em>except</em> the “fifth” down, in which we used the expected points from turning the ball over at that yardage.</p>
 <pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 function loglikehood(τ1,τ2,data,probs_trans,prob_fg_foo,prob_td_foo,expected_points_foo,ρ)
 
@@ -217,7 +225,7 @@ function nearest_neigh(x,y,new_x,nh, weights)
     return new_y
 end</code></pre>
 <pre ><code >## nearest_neigh (generic function with 1 method)</code></pre>
-<p>We have a ton of files to load, some strategies to deal with extrapolation and to solve some probabilities that are one. These will all be wrap in a function that receives a three letter code of the team, which is standarized in the original dataset, and load the files and run the maximum likelihood:</p>
+<p>We have a ton of files to load, some strategies to deal with extrapolation and we still have some problems with the data: for some teams and some yards, all field goals are converted. However, it is unrealistic to believe that a field goal is a certainty at that distance. All of these will all be wrap in a function that receives a three letter code of the team, which is standarized in the original dataset, and load the files, do the interpolations and run the maximum likelihood:</p>
 <pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 function estimate(team)
 
@@ -266,7 +274,7 @@ function estimate(team)
 
 end</code></pre>
 <pre ><code >## estimate (generic function with 1 method)</code></pre>
-<p>The field goal probabilities are thinkered. First of all, the probabilities that are equal to 1 are (arbitrarily) reduced to 0.98; the decay of the probability for a distance farther than the longest field goal decays hyperbolically:</p>
+<p>The field goal probabilities are thinkered. First of all, the probabilities that are equal to 1 are (arbitrarily) reduced to 0.98; the probability of a field goal for a distance farther than the longest field goal in the data decays hyperbolically:</p>
 <pre class = "line-numbers"><code class="language-julia match-braces rainbow-braces">
 using Plots, CSV, DataFrames
 
